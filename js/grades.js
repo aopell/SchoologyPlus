@@ -1,9 +1,5 @@
-// color the title bar
-let a = document.getElementById("home").firstElementChild;
-a.textContent = "Schoology";
-a.setAttribute('style', 'font-family: sourcesansproregular, sans-serif !important; font-size: 25px !important; font-weight: 600 !important;');
-
 document.body.onload = () => {
+    document.getElementById("home").innerHTML = svg;
     if (document.location.pathname === "/grades/grades") {
         let inner = document.getElementById("main-inner");
         let courses = inner.getElementsByClassName("gradebook-course");

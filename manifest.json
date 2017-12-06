@@ -14,11 +14,19 @@
             "matches": [
                 "https://lms.lausd.net/*"
             ],
+            "css": [
+                "css/all.css"
+            ],
+            "js": [
+                "js/all.js"
+            ]
+        },
+        {
+            "matches":[
+                "https://lms.lausd.net/grades/grades"
+            ],
             "js": [
                 "js/grades.js"
-            ],
-            "css": [
-                "css/grades.css"
             ]
         }
     ]
