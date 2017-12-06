@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "Schoology Plus",
+    "description": "Provides some enhancements to your LAUSD Schoology experience",
+    "version": "1.0",
+    "browser_action": {
+        "default_icon": "icon.png"
+    },
+    "permissions": [
+        "activeTab"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://lms.lausd.net/*"
+            ],
+            "js": [
+                "js/grades.js"
+            ],
+            "css": [
+                "css/grades.css"
+            ]
+        }
+    ]
+}
