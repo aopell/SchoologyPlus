@@ -41,6 +41,7 @@ for (let course of courses) {
 
     let classPoints = 0;
     let classTotal = 0;
+    let addMoreClassTotal = true;
 
     for (let category of categories) {
         let assignments = rows.filter(x => category.dataset.id == x.dataset.parentId);
@@ -58,7 +59,7 @@ for (let course of courses) {
                 let newGrade = document.createElement("span");
                 newGrade.textContent += assignmentMax === 0 ? "EC" : `${Math.round(assignmentScore * 100 / assignmentMax)}%`;
                 newGrade.classList.add("max-grade");
-                
+
                 // td-content-wrapper
                 maxGrade.parentElement.appendChild(document.createElement("br"));
                 maxGrade.parentElement.appendChild(newGrade);
@@ -76,13 +77,24 @@ for (let course of courses) {
             //assignment.style.padding = "7px 30px 5px";
             //assignment.style.textAlign = "center";
         }
-        
+
         let gradeText = category.getElementsByClassName("awarded-grade")[0];
         setGradeText(gradeText, sum, max, category);
         let weightText = category.getElementsByClassName("percentage-contrib")[0];
-        if (!weightText) {
-            classPoints += sum;
-            classTotal += max;
+        if (addMoreClassTotal) {
+            if (!weightText) {
+                classPoints += sum;
+                classTotal += max;
+            } else if (weightText.textContent == "(100%)") {
+                classPoints = sum;
+                classTotal = max;
+                addMoreClassTotal = false;
+            } else {
+                // there are weighted categories that aren't 100%, abandon our calculation
+                classPoints = 0;
+                classTotal = 0;
+                addMoreClassTotal = false;
+            }
         }
     }
 
