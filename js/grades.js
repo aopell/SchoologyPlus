@@ -36,16 +36,14 @@ document.body.onload = () => {
                 }
             }
 
-            if (courseGrade) {
-                let grade = document.createElement("span");
-                grade.classList.add("awarded-grade");
-                grade.style.cssFloat = "right";
-                grade.style.color = "#3aa406";
-                grade.style.fontWeight = "bold";
-                grade.style.fontSize = "14px";
-                grade.textContent = courseGrade.textContent;
-                title.appendChild(grade);
-            }
+            let grade = document.createElement("span");
+            grade.classList.add("awarded-grade");
+            grade.style.cssFloat = "right";
+            grade.style.color = courseGrade ? "#3aa406" : "#767676";
+            grade.style.fontWeight = "bold";
+            grade.style.fontSize = "14px";
+            grade.textContent = courseGrade ? courseGrade.textContent : "—";
+            title.appendChild(grade);
 
             let period = course.getElementsByClassName("period-row")[0];
             gradeText = period.getElementsByClassName("awarded-grade")[0];
