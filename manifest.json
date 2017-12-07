@@ -37,7 +37,8 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/grades/grades*"
+                "https://lms.lausd.net/grades/grades*",
+                "https://lms.lausd.net/course/*/student_grades"
             ],
             "js": [
                 "js/grades.js"
