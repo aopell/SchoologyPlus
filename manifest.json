@@ -31,9 +31,16 @@
             "css": [
                 "css/all.css"
             ],
+            "run_at": "document_start"
+        },
+        {
+            "matches": [
+                "https://lms.lausd.net/*"
+            ],
             "js": [
                 "js/all.js"
-            ]
+            ],
+            "run_at": "document_end"
         },
         {
             "matches": [
@@ -42,7 +49,8 @@
             ],
             "js": [
                 "js/grades.js"
-            ]
+            ],
+            "run_at": "document_end"
         }
     ]
 }
