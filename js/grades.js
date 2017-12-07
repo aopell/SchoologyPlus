@@ -66,9 +66,12 @@ document.body.onload = () => {
             grade.textContent = courseGrade ? courseGrade.textContent : "—";
             title.appendChild(grade);
 
-            let period = course.getElementsByClassName("period-row")[0];
-            gradeText = period.getElementsByClassName("awarded-grade")[0];
-            setGradeText(gradeText, classPoints, classTotal, period, classTotal === 0);
+            let periods = course.getElementsByClassName("period-row");
+            gradeText = periods[0].getElementsByClassName("awarded-grade")[0];
+            setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
+            for(let i = 1; i < periods.length; i++) {
+                periods[i].remove();
+            }
         }
     }
 };
