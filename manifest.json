@@ -3,8 +3,8 @@
     "name": "Schoology Plus",
     "description": "Provides some enhancements to your LAUSD Schoology experience",
     "version": "1.0",
-    "browser_action": {
-        "default_icon": "icon.png"
+    "icons": {
+        "200": "icon.png"
     },
     "permissions": [
         "activeTab"
