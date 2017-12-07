@@ -1,0 +1,33 @@
+.gradebook-course-title span.injected-title-grade {
+    float: right;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.grade-active-color {
+    color: #3aa406;
+}
+
+.grade-none-color {
+    color: #767676;
+}
+
+tr.item-row td.grade-column div.td-content-wrapper {
+    padding: 7px 30px 5px !important;
+    text-align: center;
+}
+
+div.tier-injected-score {
+    text-align: center;
+    padding-right: 30px;
+}
+
+.gradebook-course.hierarchical-grading-report .grade-column-right .td-content-wrapper {
+    padding: 15px 0px !important;
+    text-align: right;
+}
+
+.grade-column-center {
+    text-align: center;
+    padding-right: 30px !important;
+}

@@ -47,6 +47,9 @@
                 "https://lms.lausd.net/grades/grades*",
                 "https://lms.lausd.net/course/*/student_grades"
             ],
+            "css": [
+                "css/grades.css"
+            ],
             "js": [
                 "js/grades.js"
             ],

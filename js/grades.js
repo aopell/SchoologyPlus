@@ -1,9 +1,12 @@
 function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
     if (gradeElement) {
-        let text = gradeElement.textContent;
+        // currently there exists a letter grade here, we want to put a point score here and move the letter grade
+        let text = gradeElement.parentElement.innerHTML;
+        gradeElement.parentElement.classList.add("grade-column-center");
+        //gradeElement.parentElement.style.textAlign = "center";
+        //gradeElement.parentElement.style.paddingRight = "30px";
         gradeElement.innerHTML = "";
-        gradeElement.parentElement.style.textAlign = "center";
-        gradeElement.parentElement.style.paddingRight = "30px";
+        // create the elements for our point score
         let span = document.createElement("span");
         span.textContent = doNotDisplay ? "" : Math.round(sum * 100) / 100;
         span.classList.add("rounded-grade");
@@ -12,17 +15,20 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         span.textContent = doNotDisplay ? "" : ` / ${Math.round(max * 100) / 100}`;
         span.classList.add("max-grade");
         gradeElement.appendChild(span);
-        span = row.getElementsByClassName("comment-column")[0].firstChild.firstChild;
-        span.textContent = text;
-        span.classList.add("rounded-grade");
-        span.classList.remove("visually-hidden");
-        span.style.cssFloat = "right"; //maybe remove
-        span.style.color = "#3aa406";
-        span.style.fontWeight = "bold";
+        // move the letter grade over to the right
+        span = row.getElementsByClassName("comment-column")[0].firstChild;
+        span.innerHTML = text;
+        // restyle the right hand side
+        span.parentElement.classList.remove("comment-column");
+        span.parentElement.classList.add("grade-column");
+        span.parentElement.classList.add("grade-column-right");
+        //span.style.cssFloat = "right"; //maybe remove
+        //span.style.color = "#3aa406";
+        //span.style.fontWeight = "bold";
     }
 }
 
-console.log("Running Schoology Plus grades page improvement script");
+console.debug("Running Schoology Plus grades page improvement script");
 let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
 let courses = inner.getElementsByClassName("gradebook-course");
 for (let course of courses) {
@@ -52,23 +58,25 @@ for (let course of courses) {
                 let newGrade = document.createElement("span");
                 newGrade.textContent += assignmentMax === 0 ? "EC" : `${Math.round(assignmentScore * 100 / assignmentMax)}%`;
                 newGrade.classList.add("max-grade");
+                
+                // td-content-wrapper
                 maxGrade.parentElement.appendChild(document.createElement("br"));
                 maxGrade.parentElement.appendChild(newGrade);
-                maxGrade.parentElement.style.padding = "7px 30px 5px";
-                maxGrade.parentElement.style.textAlign = "center";
             }
             else {
                 let noGrade = assignment.getElementsByClassName("no-grade")[0];
-                noGrade.parentElement.style.textAlign = "center";
                 let newGrade = document.createElement("span");
                 newGrade.textContent += "N/A";
                 newGrade.classList.add("max-grade");
+
+                // td-content-wrapper
                 noGrade.parentElement.appendChild(document.createElement("br"));
                 noGrade.parentElement.appendChild(newGrade);
-                noGrade.parentElement.style.padding = "7px 30px 5px";
-                noGrade.parentElement.style.textAlign = "center";
             }
+            //assignment.style.padding = "7px 30px 5px";
+            //assignment.style.textAlign = "center";
         }
+        
         let gradeText = category.getElementsByClassName("awarded-grade")[0];
         setGradeText(gradeText, sum, max, category);
         let weightText = category.getElementsByClassName("percentage-contrib")[0];
@@ -80,10 +88,8 @@ for (let course of courses) {
 
     let grade = document.createElement("span");
     grade.classList.add("awarded-grade");
-    grade.style.cssFloat = "right";
-    grade.style.color = courseGrade ? "#3aa406" : "#767676";
-    grade.style.fontWeight = "bold";
-    grade.style.fontSize = "14px";
+    grade.classList.add("injected-title-grade");
+    grade.classList.add(courseGrade ? "grade-active-color" : "grade-none-color");
     grade.textContent = courseGrade ? courseGrade.textContent : "—";
     title.appendChild(grade);
 
