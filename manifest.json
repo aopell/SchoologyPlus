@@ -4,7 +4,21 @@
     "description": "Provides some enhancements to your LAUSD Schoology experience",
     "version": "1.0",
     "icons": {
-        "200": "icon.png"
+        "128": "imgs/icon@128.png",
+        "64": "imgs/icon@64.png",
+        "48": "imgs/icon@48.png",
+        "32": "imgs/icon@32.png",
+        "16": "imgs/icon@16.png"
+    },
+    "browser_action": {
+        "default_icon": {
+            "16": "imgs/icon@16.png",
+            "32": "imgs/icon@32.png",
+            "48": "imgs/icon@48.png",
+            "64": "imgs/icon@64.png",
+            "128": "imgs/icon@128.png"
+        },
+        "default_title": "Schoology Plus"
     },
     "permissions": [
         "activeTab"
@@ -22,7 +36,7 @@
             ]
         },
         {
-            "matches":[
+            "matches": [
                 "https://lms.lausd.net/grades/grades*"
             ],
             "js": [
