@@ -23,7 +23,7 @@
         },
         {
             "matches":[
-                "https://lms.lausd.net/grades/grades"
+                "https://lms.lausd.net/grades/grades*"
             ],
             "js": [
                 "js/grades.js"

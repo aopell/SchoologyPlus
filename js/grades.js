@@ -12,6 +12,9 @@ document.body.onload = () => {
             let categories = grades.getElementsByClassName("category-row");
             let rows = Array.from(grades.children);
 
+            let weightedScore = 0;
+            let weightedTotal = 0;
+
             for (let category of categories) {
                 let assignments = rows.filter(x => category.dataset.id == x.dataset.parentId);
                 let sum = 0;
@@ -25,27 +28,16 @@ document.body.onload = () => {
                     }
                 }
                 let gradeText = category.getElementsByClassName("awarded-grade")[0];
-                if (gradeText) {
-                    let text = gradeText.textContent;
-                    gradeText.innerHTML = "";
-
-                    let span = document.createElement("span");
-                    span.textContent = sum;
-                    span.classList.add("rounded-grade");
-                    gradeText.appendChild(span);
-
-                    span = document.createElement("span");
-                    span.textContent = ` / ${max} `;
-                    span.classList.add("max-grade");
-                    gradeText.appendChild(span);
-
-                    span = category.getElementsByClassName("comment-column")[0].firstChild.firstChild;
-                    span.textContent = text;
-                    span.classList.add("rounded-grade");
-                    span.classList.remove("visually-hidden");
-                    span.style.cssFloat = "right"; //maybe remove
-                    span.style.color = "#3aa406";
-                    span.style.fontWeight = "bold";
+                setGradeText(gradeText, sum, max, category);
+                let weightText = category.getElementsByClassName("percentage-contrib")[0];
+                if(weightText) {
+                    let weight = Number.parseFloat(weightText.textContent.substring(1,weightText.textContent.length - 2)) / 100;
+                    weightedScore += weight * sum;
+                    weightedTotal += weight * max;
+                }
+                else {
+                    weightedScore += sum;
+                    weightedTotal += max;
                 }
             }
 
@@ -59,6 +51,32 @@ document.body.onload = () => {
                 grade.textContent = courseGrade.textContent;
                 title.appendChild(grade);
             }
+
+            let period = course.getElementsByClassName("period-row")[0];
+            gradeText = period.getElementsByClassName("awarded-grade")[0];
+            setGradeText(gradeText, weightedScore, weightedTotal, period);
         }
     }
 };
+
+function setGradeText(gradeElement, sum, max, row) {
+    if (gradeElement) {
+        let text = gradeElement.textContent;
+        gradeElement.innerHTML = "";
+        let span = document.createElement("span");
+        span.textContent = Math.round(sum * 100) / 100;
+        span.classList.add("rounded-grade");
+        gradeElement.appendChild(span);
+        span = document.createElement("span");
+        span.textContent = ` / ${Math.round(max * 100) / 100} `;
+        span.classList.add("max-grade");
+        gradeElement.appendChild(span);
+        span = row.getElementsByClassName("comment-column")[0].firstChild.firstChild;
+        span.textContent = text;
+        span.classList.add("rounded-grade");
+        span.classList.remove("visually-hidden");
+        span.style.cssFloat = "right"; //maybe remove
+        span.style.color = "#3aa406";
+        span.style.fontWeight = "bold";
+    }
+}
