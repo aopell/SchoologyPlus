@@ -78,6 +78,7 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         let text = gradeElement.textContent;
         gradeElement.innerHTML = "";
         gradeElement.parentElement.style.textAlign = "center";
+        gradeElement.parentElement.style.paddingRight = "30px";
         let span = document.createElement("span");
         span.textContent = doNotDisplay ? "" : Math.round(sum * 100) / 100;
         span.classList.add("rounded-grade");
