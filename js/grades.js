@@ -20,11 +20,32 @@ document.body.onload = () => {
                 let sum = 0;
                 let max = 0;
                 for (let assignment of assignments) {
-                    if (assignment.classList.contains("dropped")) continue;
+                    let maxGrade = assignment.getElementsByClassName("max-grade")[0];
                     let score = assignment.getElementsByClassName("rounded-grade")[0];
                     if (score) {
-                        sum += Number.parseFloat(score.textContent);
-                        max += Number.parseFloat(assignment.getElementsByClassName("max-grade")[0].textContent.substring(3));
+                        let assignmentScore = Number.parseFloat(score.textContent);
+                        let assignmentMax = Number.parseFloat(maxGrade.textContent.substring(3));
+                        sum += assignmentScore;
+                        max += assignmentMax;
+
+                        let newGrade = document.createElement("span");
+                        newGrade.textContent += assignmentMax === 0 ? "EC" : `${Math.round(assignmentScore * 100 / assignmentMax)}%`;
+                        newGrade.classList.add("max-grade");
+                        maxGrade.parentElement.appendChild(document.createElement("br"));
+                        maxGrade.parentElement.appendChild(newGrade);
+                        maxGrade.parentElement.style.padding = "7px 30px 5px";
+                        maxGrade.parentElement.style.textAlign = "center";
+                    }
+                    else {
+                        let noGrade = assignment.getElementsByClassName("no-grade")[0];
+                        noGrade.parentElement.style.textAlign = "center";
+                        let newGrade = document.createElement("span");
+                        newGrade.textContent += "N/A";
+                        newGrade.classList.add("max-grade");
+                        noGrade.parentElement.appendChild(document.createElement("br"));
+                        noGrade.parentElement.appendChild(newGrade);
+                        noGrade.parentElement.style.padding = "7px 30px 5px";
+                        noGrade.parentElement.style.textAlign = "center";
                     }
                 }
                 let gradeText = category.getElementsByClassName("awarded-grade")[0];
@@ -56,12 +77,13 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
     if (gradeElement) {
         let text = gradeElement.textContent;
         gradeElement.innerHTML = "";
+        gradeElement.parentElement.style.textAlign = "center";
         let span = document.createElement("span");
-        span.textContent = doNotDisplay ? '' : Math.round(sum * 100) / 100;
+        span.textContent = doNotDisplay ? "" : Math.round(sum * 100) / 100;
         span.classList.add("rounded-grade");
         gradeElement.appendChild(span);
         span = document.createElement("span");
-        span.textContent = doNotDisplay ? '' : ` / ${Math.round(max * 100) / 100} `;
+        span.textContent = doNotDisplay ? "" : ` / ${Math.round(max * 100) / 100} `;
         span.classList.add("max-grade");
         gradeElement.appendChild(span);
         span = row.getElementsByClassName("comment-column")[0].firstChild.firstChild;
