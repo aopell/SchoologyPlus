@@ -36,8 +36,11 @@ for (let course of courses) {
             if (score) {
                 let assignmentScore = Number.parseFloat(score.textContent);
                 let assignmentMax = Number.parseFloat(maxGrade.textContent.substring(3));
-                sum += assignmentScore;
-                max += assignmentMax;
+
+                if (!assignment.classList.contains("dropped")) {
+                    sum += assignmentScore;
+                    max += assignmentMax;
+                }
 
                 let newGrade = document.createElement("span");
                 newGrade.textContent += assignmentMax === 0 ? "EC" : `${Math.round(assignmentScore * 100 / assignmentMax)}%`;
@@ -66,7 +69,7 @@ for (let course of courses) {
             //assignment.style.textAlign = "center";
         }
 
-        if(assignments.length === 0) {
+        if (assignments.length === 0) {
             category.getElementsByClassName("grade-column")[0].classList.add("grade-column-center");
         }
 
