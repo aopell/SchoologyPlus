@@ -29,7 +29,7 @@ div.tier-injected-score {
 }
 
 .grade-column-center {
-    text-align: center;
+    text-align: center !important;
     padding-right: 10px !important;
     padding-left: 10px !important;
 }

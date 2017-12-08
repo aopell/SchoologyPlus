@@ -66,6 +66,10 @@ for (let course of courses) {
             //assignment.style.textAlign = "center";
         }
 
+        if(assignments.length === 0) {
+            category.getElementsByClassName("grade-column")[0].classList.add("grade-column-center");
+        }
+
         let gradeText = category.getElementsByClassName("awarded-grade")[0];
         setGradeText(gradeText, sum, max, category);
         let weightText = category.getElementsByClassName("percentage-contrib")[0];
