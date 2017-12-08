@@ -1,4 +1,4 @@
-console.debug("Running Schoology Plus grades page improvement script");
+console.log("Running Schoology Plus grades page improvement script");
 let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
 let courses = inner.getElementsByClassName("gradebook-course");
 for (let course of courses) {
