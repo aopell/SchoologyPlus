@@ -98,6 +98,12 @@ for (let course of courses) {
     grade.classList.add("injected-title-grade");
     grade.classList.add(courseGrade ? "grade-active-color" : "grade-none-color");
     grade.textContent = courseGrade ? courseGrade.textContent : "—";
+    if (grade.textContent.match(/^\d+\.?\d*%/) !== null) {
+        let percent = Number.parseFloat(grade.textContent.substr(0, grade.textContent.length - 1));
+        let letterGrade = percent >= 90 ? "A" : (percent >= 80 ? "B" : (percent >= 70 ? "C" : (percent >= 60 ? "D" : "F")));
+        grade.textContent = `${letterGrade} (${percent}%)`;
+        grade.title = "Letter grade calculated assuming 10% grading scale";        
+    }
     title.appendChild(grade);
 
     let periods = course.getElementsByClassName("period-row");
@@ -111,7 +117,8 @@ for (let course of courses) {
 function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
     if (gradeElement) {
         // currently there exists a letter grade here, we want to put a point score here and move the letter grade
-        let text = gradeElement.parentElement.innerHTML;
+        let text = gradeElement.parentElement.textContent;
+        let textContent = gradeElement.parentElement.textContent;
         gradeElement.parentElement.classList.add("grade-column-center");
         //gradeElement.parentElement.style.textAlign = "center";
         //gradeElement.parentElement.style.paddingRight = "30px";
@@ -125,9 +132,16 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         span.textContent = doNotDisplay ? "" : ` / ${Math.round(max * 100) / 100}`;
         span.classList.add("max-grade");
         gradeElement.appendChild(span);
+
         // move the letter grade over to the right
         span = row.getElementsByClassName("comment-column")[0].firstChild;
-        span.innerHTML = text;
+        span.textContent = text;
+        if (span.textContent.match(/^\d+\.?\d*%/) !== null) {
+            let percent = Number.parseFloat(span.textContent.substr(0, span.textContent.length - 1));
+            let letterGrade = percent >= 90 ? "A" : (percent >= 80 ? "B" : (percent >= 70 ? "C" : (percent >= 60 ? "D" : "F")));
+            span.textContent = `${letterGrade} (${percent}%)`;
+            span.title = "Letter grade calculated assuming 10% grading scale";
+        }
         // restyle the right hand side
         span.parentElement.classList.remove("comment-column");
         span.parentElement.classList.add("grade-column");
