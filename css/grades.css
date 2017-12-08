@@ -13,13 +13,14 @@
 }
 
 tr.item-row td.grade-column div.td-content-wrapper {
-    padding: 7px 30px 5px !important;
+    padding: 7px 10px 5px !important;
     text-align: center;
 }
 
 div.tier-injected-score {
     text-align: center;
-    padding-right: 30px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .gradebook-course.hierarchical-grading-report .grade-column-right .td-content-wrapper {
@@ -29,5 +30,22 @@ div.tier-injected-score {
 
 .grade-column-center {
     text-align: center;
-    padding-right: 30px !important;
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+
+.gradebook-course-grades table {
+    table-layout: fixed;
+}
+
+col.assignment-colum {
+    width: 50%;
+}
+
+col.points-column {
+    width: 20%;
+}
+
+col.comments-column {
+    width: 30%;
 }
