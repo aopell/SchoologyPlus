@@ -12,7 +12,7 @@ video.onended = () => {
 };
 document.body.appendChild(video);
 document.body.onkeydown = (data) => {
-    if (data.altKey && data.key === 'c') {
+    if (data.altKey && data.code === "KeyC") {
         video.style.visibility = "visible";
         video.currentTime = 0;
         video.play();

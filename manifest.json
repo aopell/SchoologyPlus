@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Schoology Plus",
     "description": "Provides some enhancements to your LAUSD Schoology experience",
-    "version": "1.2",
+    "version": "1.2.2",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
