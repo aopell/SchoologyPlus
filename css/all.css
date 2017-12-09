@@ -1,18 +1,47 @@
-body #header, .s-enable-course-dashboard.is-home #nav ul #primary-home a, .s-enable-course-dashboard.is-home #nav ul #primary-home {
+html,
+body {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+}
+
+body #header,
+.s-enable-course-dashboard.is-home #nav ul #primary-home a,
+.s-enable-course-dashboard.is-home #nav ul #primary-home {
     background-color: #3c83ce !important;
 }
 
-#nav #nav_left li#primary-home:hover, .s-enable-course-dashboard.is-home #nav ul #primary-home a:hover, #nav #nav_left li.primary-activities:hover, #nav #nav_left li.primary-activities.active, .s-enable-course-dashboard.is-home #nav ul #primary-home:hover {
+#nav #nav_left li#primary-home:hover,
+.s-enable-course-dashboard.is-home #nav ul #primary-home a:hover,
+#nav #nav_left li.primary-activities:hover,
+#nav #nav_left li.primary-activities.active,
+.s-enable-course-dashboard.is-home #nav ul #primary-home:hover {
     background-color: #2d659c !important;
-    color: white;    
+    color: white;
 }
 
-body #nav #primary-home a:hover, body #nav #profile a:hover, body .primary-activities .clickable:hover, body .primary-activities .active, body #nav ul li.active-trail a, body .ac_results ul .ac_over .ac-top, body .schoology:hover, body .ac_over .schoology, body .action-links a:hover, body .action-links span:hover, body .edit-profile-picture-hover:hover, body .edit-profile-picture-hover.active, body #sidebar-left .action-links a:hover, .component-add-link:hover, body .search-toggle:hover, body #primary-settings .unfold:hover {
+body #nav #primary-home a:hover,
+body #nav #profile a:hover,
+body .primary-activities .clickable:hover,
+body .primary-activities .active,
+body #nav ul li.active-trail a,
+body .ac_results ul .ac_over .ac-top,
+body .schoology:hover,
+body .ac_over .schoology,
+body .action-links a:hover,
+body .action-links span:hover,
+body .edit-profile-picture-hover:hover,
+body .edit-profile-picture-hover.active,
+body #sidebar-left .action-links a:hover,
+.component-add-link:hover,
+body .search-toggle:hover,
+body #primary-settings .unfold:hover {
     background-color: #2d659c !important;
     color: white !important;
 }
 
-body .search-toggle, body #primary-settings .unfold {
+body .search-toggle,
+body #primary-settings .unfold {
     background-color: #3c83ce !important;
     border-color: #5fa2e4 !important;
 }
@@ -21,7 +50,25 @@ body #nav ul #home a {
     background: unset !important;
 }
 
-body .submit-span-wrapper, body .click-submit, body .submit-btn, body .popups-body .submit-span-wrapper, body #nav .s-notifications-mini .requester-links a:hover {
+body .submit-span-wrapper,
+body .click-submit,
+body .submit-btn,
+body .popups-body .submit-span-wrapper,
+body #nav .s-notifications-mini .requester-links a:hover {
     background-color: #3c83ce !important;
     border-color: #0f80e9 !important;
+}
+
+video.easter-egg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 1000;
+    overflow: hidden;
 }
