@@ -2,6 +2,7 @@ let svg = '<a href="/home"><svg id="logo" viewBox="0 -2 220 31" width="174" heig
 document.getElementById("home").innerHTML = svg;
 
 let video = document.createElement("video");
+video.id = "easter-egg-video";
 let source = document.createElement("source");
 source.src = "https://drive.google.com/uc?export=download&id=1OGgMPYFeh2NOaE1fDkJX-6pCDW0XZfdD";
 source.type = "video/webm";
@@ -10,9 +11,11 @@ video.classList.add("easter-egg");
 video.onended = () => {
     video.style.visibility = "hidden";
 };
-document.body.appendChild(video);
 document.body.onkeydown = (data) => {
     if (data.altKey && data.code === "KeyC") {
+        if (!document.getElementById("easter-egg-video")) {
+            document.body.appendChild(video);
+        }
         video.style.visibility = "visible";
         video.currentTime = 0;
         video.play();
@@ -21,4 +24,5 @@ document.body.onkeydown = (data) => {
         video.style.visibility = "hidden";
         video.pause();
     }
+    data.preventDefault = false;
 }
