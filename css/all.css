@@ -71,4 +71,5 @@ video.easter-egg {
     height: auto;
     z-index: 1000;
     overflow: hidden;
+    pointer-events: none;
 }
