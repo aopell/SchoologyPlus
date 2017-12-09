@@ -49,3 +49,59 @@ col.points-column {
 col.comments-column {
     width: 30%;
 }
+
+.grade-edit-indicator {
+    vertical-align: top;
+    position: absolute;
+    bottom: 0px;
+}
+
+/* to allow "absolute" position of edit icon" */
+.item-row .grade-column .grade-wrapper{
+    position: relative;
+}
+
+.grade-column .student-editable {
+    padding: 1px;
+    border-width: 1px;
+    border-style: solid;
+    border-color:#767676;
+}
+
+/* to compensate for the added edit icon */
+/*
+.injected-assignment-percent {
+    padding-right: 6px;
+}
+*/
+
+.modified-score-percent-warning {
+    vertical-align: middle;
+    position: absolute;
+}
+
+.item-row img.modified-score-percent-warning {
+    width: 11px;
+}
+
+.category-row img.modified-score-percent-warning {
+    width: 12px;
+}
+
+.period-row img.modified-score-percent-warning {
+    width: 13px;
+}
+
+.relative-span-contain {
+    position: relative;
+}
+
+.grade-column-right .modified-score-percent-warning {
+    position: static;
+    padding-right: 2px;
+    padding-bottom: 1px;
+}
+
+.grade-column-center .modified-score-percent-warning {
+    padding-top: 1px;
+}
