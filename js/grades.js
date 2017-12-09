@@ -1,6 +1,7 @@
 console.log("Running Schoology Plus grades page improvement script");
 let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
 let courses = inner.getElementsByClassName("gradebook-course");
+let coursesByPeriod = [];
 for (let course of courses) {
     let title = course.getElementsByClassName("gradebook-course-title")[0];
     let summary = course.getElementsByClassName("summary-course")[0];
@@ -14,6 +15,9 @@ for (let course of courses) {
     let classTotal = 0;
     let addMoreClassTotal = true;
 
+    coursesByPeriod[Number.parseInt(title.textContent.match(/PERIOD (\d)/)[1])] = course;
+
+    // Fix width of assignment columns
     let colGroup = document.createElement("colgroup");
     let col = document.createElement("col");
     col.classList.add("assignment-column");
@@ -102,7 +106,7 @@ for (let course of courses) {
         let percent = Number.parseFloat(grade.textContent.substr(0, grade.textContent.length - 1));
         let letterGrade = percent >= 90 ? "A" : (percent >= 80 ? "B" : (percent >= 70 ? "C" : (percent >= 60 ? "D" : "F")));
         grade.textContent = `${letterGrade} (${percent}%)`;
-        grade.title = "Letter grade calculated assuming 10% grading scale";        
+        grade.title = "Letter grade calculated assuming 10% grading scale";
     }
     title.appendChild(grade);
 
@@ -111,6 +115,12 @@ for (let course of courses) {
     setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
     for (let i = 1; i < periods.length; i++) {
         periods[i].remove();
+    }
+}
+
+for (let course of coursesByPeriod) {
+    if (course) {
+        course.parentElement.appendChild(course);
     }
 }
 
