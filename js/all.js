@@ -7,14 +7,15 @@ let sourceSet = false;
 source.src = "https://gist.github.com/aopell/0fe2408cffbab2b6fadb18ebaa28808f/raw/77853f137329c042c34bdb5be38c1930357c0531/cut.webm";
 source.type = "video/webm";
 video.classList.add("easter-egg");
+document.body.appendChild(video);
 video.onended = () => {
     video.style.visibility = "hidden";
 };
 document.body.onkeydown = (data) => {
     if (data.altKey && data.code === "KeyC") {
-        if(!sourceSet) {
+        if (!sourceSet) {
             video.appendChild(source);
-            sourceSet = true;            
+            sourceSet = true;
         }
         video.style.visibility = "visible";
         video.currentTime = 0;
