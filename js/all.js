@@ -4,13 +4,12 @@ document.getElementById("home").innerHTML = svg;
 let video = document.createElement("video");
 let source = document.createElement("source");
 let sourceSet = false;
-source.src = "https://gist.githubusercontent.com/ld-cd/788f64121f0cd4e60da2458383b11efe/raw/7121b595ed9eab61c444b4bd0782a1047c2124c1/cut.webm";
+source.src = "https://gist.github.com/aopell/0fe2408cffbab2b6fadb18ebaa28808f/raw/77853f137329c042c34bdb5be38c1930357c0531/cut.webm";
 source.type = "video/webm";
 video.classList.add("easter-egg");
 video.onended = () => {
     video.style.visibility = "hidden";
 };
-document.body.appendChild(video);
 document.body.onkeydown = (data) => {
     if (data.altKey && data.code === "KeyC") {
         if(!sourceSet) {
@@ -25,4 +24,5 @@ document.body.onkeydown = (data) => {
         video.style.visibility = "hidden";
         video.pause();
     }
+    data.preventDefault = false;
 }

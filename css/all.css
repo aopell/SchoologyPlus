@@ -1,9 +1,11 @@
+/*
 html,
 body {
     width: 100% !important;
     height: 100% !important;
     overflow: hidden !important;
 }
+*/
 
 body #header,
 .s-enable-course-dashboard.is-home #nav ul #primary-home a,
@@ -60,7 +62,7 @@ body #nav .s-notifications-mini .requester-links a:hover {
 }
 
 video.easter-egg {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     -webkit-transform: translateX(-50%) translateY(-50%);
