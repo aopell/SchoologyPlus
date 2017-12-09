@@ -2,12 +2,13 @@ console.log("Running Schoology Plus grades page improvement script");
 let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
 let courses = inner.getElementsByClassName("gradebook-course");
 let coursesByPeriod = [];
+let gradesModified = false;
 
 for (let course of courses) {
-    let title = course.getElementsByClassName("gradebook-course-title")[0];
-    let summary = course.getElementsByClassName("summary-course")[0];
-    let courseGrade = summary.getElementsByClassName("awarded-grade")[0];
-    let table = course.getElementsByClassName("gradebook-course-grades")[0].firstElementChild;
+    let title = course.querySelector(".gradebook-course-title");
+    let summary = course.querySelector(".summary-course");
+    let courseGrade = summary.querySelector(".awarded-grade");
+    let table = course.querySelector(".gradebook-course-grades").firstElementChild;
     let grades = table.firstElementChild;
     let categories = grades.getElementsByClassName("category-row");
     let rows = Array.from(grades.children);
@@ -37,8 +38,8 @@ for (let course of courses) {
         let sum = 0;
         let max = 0;
         for (let assignment of assignments) {
-            let maxGrade = assignment.getElementsByClassName("max-grade")[0];
-            let score = assignment.getElementsByClassName("rounded-grade")[0] || assignment.getElementsByClassName("rubric-grade-value")[0];
+            let maxGrade = assignment.querySelector(".max-grade");
+            let score = assignment.querySelector(".rounded-grade") || assignment.querySelector(".rubric-grade-value");
             if (score) {
                 let assignmentScore = Number.parseFloat(score.textContent);
                 let assignmentMax = Number.parseFloat(maxGrade.textContent.substring(3));
@@ -56,7 +57,7 @@ for (let course of courses) {
                 maxGrade.parentElement.appendChild(newGrade);
             }
             else {
-                let noGrade = assignment.getElementsByClassName("no-grade")[0];
+                let noGrade = assignment.querySelector(".no-grade");
                 let newGrade = document.createElement("span");
                 newGrade.textContent += "N/A";
                 newGrade.classList.add("max-grade");
@@ -74,7 +75,7 @@ for (let course of courses) {
             //assignment.style.textAlign = "center";
 
             // add UI for grade virtual editing
-            let gradeWrapper = assignment.getElementsByClassName("grade-wrapper")[0];
+            let gradeWrapper = assignment.querySelector(".grade-wrapper");
             // FIXME correct behavior for editing dropped assignments
             if (!assignment.classList.contains("dropped")) {
                 let editGradeImg = document.createElement("img");
@@ -88,12 +89,12 @@ for (let course of courses) {
         }
 
         if (assignments.length === 0) {
-            category.getElementsByClassName("grade-column")[0].classList.add("grade-column-center");
+            category.querySelector(".grade-column").classList.add("grade-column-center");
         }
 
-        let gradeText = category.getElementsByClassName("awarded-grade")[0];
+        let gradeText = category.querySelector(".awarded-grade");
         setGradeText(gradeText, sum, max, category);
-        let weightText = category.getElementsByClassName("percentage-contrib")[0];
+        let weightText = category.querySelector(".percentage-contrib");
         if (addMoreClassTotal) {
             if (!weightText) {
                 classPoints += sum;
@@ -124,7 +125,7 @@ for (let course of courses) {
     }
     title.appendChild(grade);
 
-    gradeText = periods[0].getElementsByClassName("awarded-grade")[0];
+    gradeText = periods[0].querySelector(".awarded-grade");
     setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
     for (let i = 1; i < periods.length; i++) {
         periods[i].remove();
@@ -137,6 +138,32 @@ if (!document.location.search.includes("past") || document.location.search.split
             course.parentElement.appendChild(course);
         }
     }
+
+    let timeRow = document.getElementById("past-selector") || document.querySelector(".content-top-upper").insertAdjacentElement('afterend', document.createElement("div"));
+
+    let label = document.createElement("label");
+    label.textContent = "Enable grade modification";
+    label.htmlFor = "enable-modify";
+    label.classList.add("modify-label");
+    timeRow.appendChild(label);
+
+    let checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    checkBox.id = "enable-modify";
+    checkBox.onclick = () => {
+        if (document.getElementById("enable-modify").checked) {
+            for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
+                edit.style.display = "unset";
+            }
+        } else if (!gradesModified) {
+            for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
+                edit.style.display = "none";
+            }
+        } else {
+            document.location.reload();
+        }
+    };
+    timeRow.appendChild(checkBox);
 }
 
 function prepareScoredAssignmentGrade(spanPercent, score, max) {
@@ -169,7 +196,7 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         span.classList.add("max-grade");
         gradeElement.appendChild(span);
         // move the letter grade over to the right
-        span = row.getElementsByClassName("comment-column")[0].firstChild;
+        span = row.querySelector(".comment-column").firstChild;
         span.textContent = text;
         if (span.textContent.match(/^\d+\.?\d*%/) !== null) {
             let percent = Number.parseFloat(span.textContent.substr(0, span.textContent.length - 1));
@@ -198,10 +225,10 @@ function generateScoreModifyWarning() {
 
 function createEditListener(gradeColContentWrap, catRow, perRow) {
     return function () {
-        let noGrade = gradeColContentWrap.getElementsByClassName("no-grade")[0];
-        let score = gradeColContentWrap.getElementsByClassName("rounded-grade")[0] || gradeColContentWrap.getElementsByClassName("rubric-grade-value")[0];
+        let noGrade = gradeColContentWrap.querySelector(".no-grade");
+        let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
         // note that this will always return (for our injected percentage element)
-        let maxGrade = gradeColContentWrap.getElementsByClassName("max-grade")[0];
+        let maxGrade = gradeColContentWrap.querySelector(".max-grade");
         let editElem;
         let initPts;
         let initMax;
@@ -290,28 +317,29 @@ function createEditListener(gradeColContentWrap, catRow, perRow) {
                 }
             }
             // update the assignment percentage
-            prepareScoredAssignmentGrade(gradeColContentWrap.getElementsByClassName("injected-assignment-percent")[0], userScore, userMax);
-            if (!gradeColContentWrap.getElementsByClassName("modified-score-percent-warning")[0]) {
+            prepareScoredAssignmentGrade(gradeColContentWrap.querySelector(".injected-assignment-percent"), userScore, userMax);
+            if (!gradeColContentWrap.querySelector(".modified-score-percent-warning")) {
                 //gradeColContentWrap.getElementsByClassName("injected-assignment-percent")[0].style.paddingRight = "0";
                 gradeColContentWrap.appendChild(generateScoreModifyWarning());
+                gradesModified = true;
             }
             // now category
             // category always has a numeric score, unlike period
             // awarded grade in our constructed element contains both rounded and max
-            let awardedCategoryPoints = catRow.getElementsByClassName("rounded-grade")[0].parentNode;
-            let catScoreElem = awardedCategoryPoints.getElementsByClassName("rounded-grade")[0];
-            let catMaxElem = awardedCategoryPoints.getElementsByClassName("max-grade")[0];
+            let awardedCategoryPoints = catRow.querySelector(".rounded-grade").parentNode;
+            let catScoreElem = awardedCategoryPoints.querySelector(".rounded-grade");
+            let catMaxElem = awardedCategoryPoints.querySelector(".max-grade");
             let newCatScore = Number.parseFloat(catScoreElem.textContent) + deltaPoints;
             let newCatMax = Number.parseFloat(catMaxElem.textContent.substring(3)) + deltaMax;
             catScoreElem.textContent = newCatScore;
             catMaxElem.textContent = " / " + newCatMax;
-            if (!awardedCategoryPoints.getElementsByClassName("modified-score-percent-warning")[0]) {
+            if (!awardedCategoryPoints.querySelector(".modified-score-percent-warning")) {
                 awardedCategoryPoints.appendChild(generateScoreModifyWarning());
             }
             // category percentage
             // need to recalculate
             // content wrapper in right grade col
-            let awardedCategoryPercentContainer = catRow.getElementsByClassName("grade-column-right")[0].firstElementChild;
+            let awardedCategoryPercentContainer = catRow.querySelector(".grade-column-right").firstElementChild;
             let awardedCategoryPercent = awardedCategoryPercentContainer;
             // clear existing percentage indicator
             while (awardedCategoryPercent.firstChild) {
@@ -332,11 +360,11 @@ function createEditListener(gradeColContentWrap, catRow, perRow) {
             awardedCategoryPercent.title = newCatPercent + "%";
             awardedCategoryPercent.textContent = (Math.round(newCatPercent * 100) / 100) + "%";
 
-            if (!awardedCategoryPercentContainer.getElementsByClassName("modified-score-percent-warning")[0]) {
+            if (!awardedCategoryPercentContainer.querySelector(".modified-score-percent-warning")) {
                 awardedCategoryPercentContainer.prepend(generateScoreModifyWarning());
             }
 
-            let awardedPeriodPercentContainer = perRow.getElementsByClassName("grade-column-right")[0].firstElementChild;
+            let awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right").firstElementChild;
             let awardedPeriodPercent = awardedPeriodPercentContainer;
             // clear existing percentage indicator
             while (awardedPeriodPercent.firstChild) {
@@ -355,16 +383,16 @@ function createEditListener(gradeColContentWrap, catRow, perRow) {
 
             // now period (semester)
             // might have a numeric score (weighting => no numeric, meaning we can assume unweighted if present)
-            let awardedPeriodPoints = perRow.getElementsByClassName("grade-column-center")[0];
+            let awardedPeriodPoints = perRow.querySelector(".grade-column-center");
             if (awardedPeriodPoints && awardedPeriodPoints.textContent.trim().length !== 0) {
                 // awarded grade in our constructed element contains both rounded and max
-                let perScoreElem = awardedPeriodPoints.getElementsByClassName("rounded-grade")[0];
-                let perMaxElem = awardedPeriodPoints.getElementsByClassName("max-grade")[0];
+                let perScoreElem = awardedPeriodPoints.querySelector(".rounded-grade");
+                let perMaxElem = awardedPeriodPoints.querySelector(".max-grade");
                 let newPerScore = Number.parseFloat(perScoreElem.textContent) + deltaPoints;
                 let newPerMax = Number.parseFloat(perMaxElem.textContent.substring(3)) + deltaMax;
                 perScoreElem.textContent = newPerScore;
                 perMaxElem.textContent = " / " + newPerMax;
-                if (!awardedPeriodPoints.getElementsByClassName("modified-score-percent-warning")[0]) {
+                if (!awardedPeriodPoints.querySelector(".modified-score-percent-warning")) {
                     awardedPeriodPoints.appendChild(generateScoreModifyWarning());
                 }
 
@@ -372,9 +400,21 @@ function createEditListener(gradeColContentWrap, catRow, perRow) {
                 let newPerPercent = (newPerScore / newPerMax) * 100;
                 awardedPeriodPercent.title = newPerPercent + "%";
                 awardedPeriodPercent.textContent = (Math.round(newPerPercent * 100) / 100) + "%";
+            } else {
+                let total = 0;
+                for (let category of perRow.parentElement.getElementsByClassName("category-row")) {
+                    let weightPercent = category.querySelector(".percentage-contrib").textContent;
+                    let col = category.querySelector(".grade-column-right");
+                    if (col) {
+                        let scorePercent = Number.parseFloat(col.textContent.match(/(\d+\.?\d*)%/)[1]);
+                        total += (weightPercent.slice(1, -2) / 100) * scorePercent;
+                        awardedPeriodPercent.title = total + "%";
+                        awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
+                    }
+                }
             }
 
-            if (!awardedPeriodPercentContainer.getElementsByClassName("modified-score-percent-warning")[0]) {
+            if (!awardedPeriodPercentContainer.querySelector(".modified-score-percent-warning")) {
                 awardedPeriodPercentContainer.prepend(generateScoreModifyWarning());
             }
 
@@ -395,6 +435,14 @@ function createEditListener(gradeColContentWrap, catRow, perRow) {
         let blurFunc = function (event) {
             if (submitFunc()) {
                 cleanupFunc();
+                var sel = window.getSelection ? window.getSelection() : document.selection;
+                if (sel) {
+                    if (sel.removeAllRanges) {
+                        sel.removeAllRanges();
+                    } else if (sel.empty) {
+                        sel.empty();
+                    }
+                }
             } else {
                 editElem.focus();
             }
@@ -403,5 +451,6 @@ function createEditListener(gradeColContentWrap, catRow, perRow) {
         editElem.addEventListener("blur", blurFunc);
         editElem.addEventListener("keydown", keyFunc);
         editElem.focus();
+        document.execCommand('selectAll', false, null);
     };
 }

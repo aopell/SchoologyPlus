@@ -54,6 +54,7 @@ col.comments-column {
     vertical-align: top;
     position: absolute;
     bottom: 0px;
+    display: none;
 }
 
 /* to allow "absolute" position of edit icon" */
@@ -104,4 +105,14 @@ col.comments-column {
 
 .grade-column-center .modified-score-percent-warning {
     padding-top: 1px;
+}
+
+input#enable-modify {
+    float: right;
+    margin: 8px 5px;
+}
+
+.modify-label {
+    float: right;
+    padding: 8px 0;
 }

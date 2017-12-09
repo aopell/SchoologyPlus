@@ -75,3 +75,7 @@ video.easter-egg {
     overflow: hidden;
     pointer-events: none;
 }
+
+#nav_left > li {
+    padding-bottom: 3px !important;
+}
