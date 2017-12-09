@@ -3,9 +3,9 @@ document.getElementById("home").innerHTML = svg;
 
 let video = document.createElement("video");
 let source = document.createElement("source");
-source.src = "https://drive.google.com/uc?export=download&id=1OGgMPYFeh2NOaE1fDkJX-6pCDW0XZfdD";
+let sourceSet = false;
+source.src = "https://gist.githubusercontent.com/ld-cd/788f64121f0cd4e60da2458383b11efe/raw/7121b595ed9eab61c444b4bd0782a1047c2124c1/cut.webm";
 source.type = "video/webm";
-video.appendChild(source);
 video.classList.add("easter-egg");
 video.onended = () => {
     video.style.visibility = "hidden";
@@ -13,6 +13,10 @@ video.onended = () => {
 document.body.appendChild(video);
 document.body.onkeydown = (data) => {
     if (data.altKey && data.code === "KeyC") {
+        if(!sourceSet) {
+            video.appendChild(source);
+            sourceSet = true;            
+        }
         video.style.visibility = "visible";
         video.currentTime = 0;
         video.play();
