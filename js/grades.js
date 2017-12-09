@@ -118,9 +118,11 @@ for (let course of courses) {
     }
 }
 
-for (let course of coursesByPeriod) {
-    if (course) {
-        course.parentElement.appendChild(course);
+if (!document.location.search.includes("past") || document.location.search.split("past=")[1] != 1) {
+    for (let course of coursesByPeriod) {
+        if (course) {
+            course.parentElement.appendChild(course);
+        }
     }
 }
 
