@@ -21,8 +21,17 @@
         "default_title": "Schoology Plus"
     },
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "storage",
+        "alarms",
+        "notifications"
     ],
+    "background": {
+        "scripts": [
+            "js/background.js"
+        ],
+        "persistent": false
+    },
     "content_scripts": [
         {
             "matches": [
