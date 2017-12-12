@@ -12,6 +12,15 @@ console.log("Adding notification listener");
 chrome.notifications.onClicked.addListener(function () {
     console.log("Notification clicked");
     window.open("https://lms.lausd.net", "_blank");
+    chrome.browserAction.setBadgeText({ text: "" });
+});
+chrome.browserAction.setBadgeBackgroundColor({ color: [217, 0, 0, 255] });
+chrome.browserAction.setBadgeText({ text: "" });
+console.log("Adding browser action listener");
+chrome.browserAction.onClicked.addListener(function () {
+    console.log("Browser action clicked");
+    window.open("https://lms.lausd.net", "_blank");
+    chrome.browserAction.setBadgeText({ text: "" });
 });
 
 function onAlarm(alarm) {
@@ -65,6 +74,9 @@ function onAlarm(alarm) {
                                     isClickable: true
                                 };
                                 console.dir(n);
+                                chrome.browserAction.getBadgeText({}, x => {
+                                    chrome.browserAction.setBadgeText({ text: (Number.parseInt(x) + assignments.length + count).toString() });
+                                });
                                 chrome.notifications.create("gradeNotification", n, null);
                             }
                         }
