@@ -8,6 +8,11 @@ chrome.runtime.onInstalled.addListener(function () {
 });
 console.log("Adding alarm listener");
 chrome.alarms.onAlarm.addListener(onAlarm);
+console.log("Adding notification listener");
+chrome.notifications.onClicked.addListener(function () {
+    console.log("Notification clicked");
+    window.open("https://lms.lausd.net", "_blank");
+});
 
 function onAlarm(alarm) {
     if (alarm && alarm.name === "notification") {
@@ -50,14 +55,17 @@ function onAlarm(alarm) {
                                     count = +extraTextElement.textContent.match(/\d+/)[0];
                                 }
                                 console.warn("New notification!");
-                                console.warn(notification);
-                                chrome.notifications.create("gradeNotification",{
+                                console.dir(notification);
+                                let n = {
                                     type: "basic",
                                     iconUrl: "imgs/icon@128.png",
                                     title: "New grade posted",
                                     message: `${assignments.length + count} new assignment${assignments.length + count === 1 ? " has a grade" : "s have grades"}`,
-                                    eventTime: Date.now()
-                                }, null);
+                                    eventTime: Date.now(),
+                                    isClickable: true
+                                };
+                                console.dir(n);
+                                chrome.notifications.create("gradeNotification", n, null);
                             }
                         }
                     }
