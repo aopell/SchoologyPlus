@@ -21,17 +21,11 @@ for (let course of courses) {
     coursesByPeriod[Number.parseInt(title.textContent.match(/PERIOD (\d)/)[1])] = course;
 
     // Fix width of assignment columns
-    let colGroup = document.createElement("colgroup");
-    let col = document.createElement("col");
-    col.classList.add("assignment-column");
-    colGroup.appendChild(col);
-    col = document.createElement("col");
-    col.classList.add("points-column");
-    colGroup.appendChild(col);
-    col = document.createElement("col");
-    col.classList.add("comments-column");
-    colGroup.appendChild(col);
-    table.appendChild(colGroup);
+    table.appendChild(createElement("colgroup", [], {}, [
+        createElement("col", ["assignment-column"]),
+        createElement("col", ["points-column"]),
+        createElement("col", ["comments-column"])
+    ]));
 
     for (let category of categories) {
         let assignments = rows.filter(x => category.dataset.id == x.dataset.parentId);
@@ -64,11 +58,7 @@ for (let course of courses) {
 
             let createAddAssignmentUi = function () {
                 //.insertAdjacentElement('afterend', document.createElement("div"))
-                let addAssignmentThing = document.createElement("tr");
-                addAssignmentThing.classList.add("report-row");
-                addAssignmentThing.classList.add("item-row");
-                addAssignmentThing.classList.add("last-row-of-tier");
-                addAssignmentThing.classList.add("grade-add-indicator");
+                let addAssignmentThing = createElement("tr", ["report-row", "item-row", "last-row-of-tier", "grade-add-indicator"]);
                 addAssignmentThing.dataset.parentId = category.dataset.id;
                 // to avoid a hugely annoying DOM construction
                 // edit indicator will be added later
@@ -92,10 +82,10 @@ for (let course of courses) {
             let gradeWrapper = assignment.querySelector(".grade-wrapper");
             // FIXME correct behavior for editing dropped assignments
             if (!assignment.classList.contains("dropped")) {
-                let editGradeImg = document.createElement("img");
-                editGradeImg.src = "https://www.iconninja.com/files/727/965/72/edit-draw-pencile-write-icon.svg";
-                editGradeImg.width = 12;
-                editGradeImg.classList.add("grade-edit-indicator");
+                let editGradeImg = createElement("img", ["grade-edit-indicator"], {
+                    src: "https://www.iconninja.com/files/727/965/72/edit-draw-pencile-write-icon.svg",
+                    width: 12
+                });
                 let gradeAddEditHandler = null;
                 if (assignment.classList.contains("grade-add-indicator")) {
                     // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
@@ -156,10 +146,7 @@ for (let course of courses) {
         }
     }
 
-    let grade = document.createElement("span");
-    grade.classList.add("awarded-grade");
-    grade.classList.add("injected-title-grade");
-    grade.classList.add(courseGrade ? "grade-active-color" : "grade-none-color");
+    let grade = createElement("span",["awarded-grade","injected-title-grade",courseGrade ? "grade-active-color" : "grade-none-color"]);
     grade.textContent = courseGrade ? courseGrade.textContent : "—";
     if (grade.textContent.match(/^\d+\.?\d*%/) !== null) {
         let percent = Number.parseFloat(grade.textContent.substr(0, grade.textContent.length - 1));
@@ -185,53 +172,48 @@ if (!document.location.search.includes("past") || document.location.search.split
 
     let timeRow = document.getElementById("past-selector") || document.querySelector(".content-top-upper").insertAdjacentElement('afterend', document.createElement("div"));
 
-    let label = document.createElement("label");
-    label.textContent = "Enable grade modification";
-    label.htmlFor = "enable-modify";
-    label.classList.add("modify-label");
-    timeRow.appendChild(label);
+    timeRow.appendChild(createElement("label", ["modify-label"], {
+        textContent: "Enable grade modification",
+        htmlFor: "enable-modify"
+    }));
 
-    let checkBox = document.createElement("input");
-    checkBox.type = "checkbox";
-    checkBox.id = "enable-modify";
-    checkBox.onclick = () => {
-        if (document.getElementById("enable-modify").checked) {
-            for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
-            edit.style.display = "unset";
-        }
-        for (let edit of document.getElementsByClassName("grade-add-indicator")) {
-            edit.style.display = "table-row";
-            if (edit.previousElementSibling.classList.contains("item-row") && edit.previousElementSibling.classList.contains("last-row-of-tier")) {
-                edit.previousElementSibling.classList.remove("last-row-of-tier");
+    timeRow.appendChild(createElement("input", [], {
+        type: "checkbox",
+        id: "enable-modify",
+        onclick: function () {
+            if (document.getElementById("enable-modify").checked) {
+                for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
+                    edit.style.display = "unset";
+                }
+                for (let edit of document.getElementsByClassName("grade-add-indicator")) {
+                    edit.style.display = "table-row";
+                    if (edit.previousElementSibling.classList.contains("item-row") && edit.previousElementSibling.classList.contains("last-row-of-tier")) {
+                        edit.previousElementSibling.classList.remove("last-row-of-tier");
+                    }
+                }
+            } else if (!gradesModified) {
+                for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
+                    edit.style.display = "none";
+                }
+                for (let edit of document.getElementsByClassName("grade-add-indicator")) {
+                    edit.style.display = "none";
+                    if (edit.previousElementSibling.classList.contains("item-row") && !edit.previousElementSibling.classList.contains("last-row-of-tier")) {
+                        edit.previousElementSibling.classList.add("last-row-of-tier");
+                    }
+                }
+            } else {
+                document.location.reload();
             }
         }
-    } else if (!gradesModified) {
-        for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
-            edit.style.display = "none";
-        }
-        for (let edit of document.getElementsByClassName("grade-add-indicator")) {
-            edit.style.display = "none";
-            if (edit.previousElementSibling.classList.contains("item-row") && !edit.previousElementSibling.classList.contains("last-row-of-tier")) {
-                edit.previousElementSibling.classList.add("last-row-of-tier");
-            }
-        }
-    } else {
-        document.location.reload();
-    }
-    };
-    timeRow.appendChild(checkBox);
+    }));
 }
 
 function processNonenteredAssignment(assignment) {
     let noGrade = assignment.getElementsByClassName("no-grade")[0];
-    let newGrade = document.createElement("span");
-    newGrade.textContent += "N/A";
-    newGrade.classList.add("max-grade");
-    newGrade.classList.add("injected-assignment-percent");
 
     // td-content-wrapper
     noGrade.parentElement.appendChild(document.createElement("br"));
-    noGrade.parentElement.appendChild(newGrade);
+    noGrade.parentElement.appendChild(createElement("span", ["max-grade", "injected-assignment-percent"], { textContent: "N/A" }));
 
     if (noGrade.parentElement.classList.contains("exception-grade-wrapper")) {
         noGrade.remove();
@@ -259,14 +241,8 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         //gradeElement.parentElement.style.paddingRight = "30px";
         gradeElement.innerHTML = "";
         // create the elements for our point score
-        let span = document.createElement("span");
-        span.textContent = doNotDisplay ? "" : Math.round(sum * 100) / 100;
-        span.classList.add("rounded-grade");
-        gradeElement.appendChild(span);
-        span = document.createElement("span");
-        span.textContent = doNotDisplay ? "" : ` / ${Math.round(max * 100) / 100}`;
-        span.classList.add("max-grade");
-        gradeElement.appendChild(span);
+        gradeElement.appendChild(createElement("span", ["rounded-grade"], { textContent: doNotDisplay ? "" : Math.round(sum * 100) / 100 }));
+        gradeElement.appendChild(createElement("span", ["max-grade"], { textContent: doNotDisplay ? "" : ` / ${Math.round(max * 100) / 100}`}));
         // move the letter grade over to the right
         span = row.querySelector(".comment-column").firstChild;
         span.textContent = text;
@@ -287,12 +263,10 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
 }
 
 function generateScoreModifyWarning() {
-    let modAssignWarning = document.createElement("img");
-    modAssignWarning.src = "https://image.flaticon.com/icons/svg/179/179386.svg";
-    //modAssignWarning.width = genSize;
-    modAssignWarning.title = "This grade has been modified from its true value.";
-    modAssignWarning.classList.add("modified-score-percent-warning");
-    return modAssignWarning;
+    return createElement("img",["modified-score-percent-warning"],{
+        src: "https://image.flaticon.com/icons/svg/179/179386.svg",
+        title: "This grade has been modified from its true value."
+    });
 }
 
 function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallback) {
@@ -360,16 +334,10 @@ function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallbac
             let deltaMax = userMax - initMax;
             // first, replace no grades
             if (noGrade) {
-                maxGrade = document.createElement("span");
-                maxGrade.classList.add("max-grade");
-                maxGrade.textContent = " / " + userMax;
+                maxGrade = createElement("span",["max-grade"],{textContent: " / " + userMax});
                 gradeColContentWrap.prepend(maxGrade);
-                let awardedGrade = document.createElement("span");
-                awardedGrade.classList.add("awarded-grade");
-                score = document.createElement("span");
-                score.classList.add("rounded-grade");
-                score.title = userScore;
-                score.textContent = userScore;
+                let awardedGrade = createElement("span",["awarded-grade"]);
+                score = createElement("span", ["rounded-grade"],{title: userScore, textContent: userScore});
                 awardedGrade.appendChild(score);
                 gradeColContentWrap.prepend(score);
                 noGrade.remove();
