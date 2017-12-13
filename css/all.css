@@ -8,9 +8,12 @@ body {
 */
 
 body #header,
-.s-enable-course-dashboard.is-home #nav ul #primary-home a,
 .s-enable-course-dashboard.is-home #nav ul #primary-home {
     background-color: #3c83ce !important;
+}
+
+.s-enable-course-dashboard.is-home #nav ul #primary-home a {
+    background-color: unset !important;
 }
 
 #nav #nav_left li#primary-home:hover,
@@ -77,5 +80,5 @@ video.easter-egg {
 }
 
 #nav_left > li {
-    padding-bottom: 3px !important;
+    padding-bottom: 2px !important;
 }
