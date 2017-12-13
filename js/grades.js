@@ -445,7 +445,9 @@ function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallbac
                 for (let category of perRow.parentElement.getElementsByClassName("category-row")) {
                     let weightPercent = category.querySelector(".percentage-contrib").textContent;
                     let col = category.querySelector(".grade-column-right");
-                    if (col) {
+                    let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
+                    if (colMatch) {
+                        let scorePercent = Number.parseFloat(colMatch[1]);
                         let scorePercent = Number.parseFloat(col.textContent.match(/(\d+\.?\d*)%/)[1]);
                         total += (weightPercent.slice(1, -2) / 100) * scorePercent;
                         awardedPeriodPercent.title = total + "%";
