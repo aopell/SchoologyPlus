@@ -69,8 +69,10 @@ col.comments-column {
     width: 12px;
 }
 
+
 /* to allow "absolute" position of edit icon" */
-.item-row .grade-column .grade-wrapper{
+
+.item-row .grade-column .grade-wrapper {
     position: relative;
 }
 
@@ -78,10 +80,13 @@ col.comments-column {
     padding: 1px;
     border-width: 1px;
     border-style: solid;
-    border-color:#767676;
+    border-color: #767676;
 }
 
+
 /* to compensate for the added edit icon */
+
+
 /*
 .injected-assignment-percent {
     padding-right: 6px;
@@ -127,4 +132,9 @@ input#enable-modify {
 .modify-label {
     float: right;
     padding: 8px 0;
+}
+
+.grade-add-indicator.hidden,
+.report-row.item-row.hidden {
+    display: none !important;
 }
