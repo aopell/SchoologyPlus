@@ -36,8 +36,13 @@ function onAlarm(alarm) {
                 throw new Error("Error loading notifications: " + response);
             }).then(function (response) {
                 chrome.storage.sync.get("lastTime", function (value) {
-                    let time = value.lastTime || Date.now();
+                    console.log(value);
+                    let time = value.lastTime;
                     let timeModified = false;
+                    if (!time) {
+                        time = Date.now();
+                        timeModified = true;
+                    }
                     let div = document.querySelector("div") || document.body.appendChild(document.createElement("div"));
                     div.innerHTML = response.output;
                     let notifications = div.querySelectorAll(".edge-sentence");
@@ -75,7 +80,8 @@ function onAlarm(alarm) {
                                 };
                                 console.dir(n);
                                 chrome.browserAction.getBadgeText({}, x => {
-                                    chrome.browserAction.setBadgeText({ text: (Number.parseInt(x) + assignments.length + count).toString() });
+                                    let n = Number.parseInt(x);
+                                    chrome.browserAction.setBadgeText({ text: (n ? n + assignments.length + count : assignments.length + count).toString() });
                                 });
                                 chrome.notifications.create("gradeNotification", n, null);
                             }
