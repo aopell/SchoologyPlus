@@ -77,6 +77,11 @@ for (let course of courses) {
                 addAssignmentThing.getElementsByClassName("title")[0].firstElementChild.addEventListener("click", function () {
                     addAssignmentThing.querySelector("img.grade-edit-indicator").click();
                 });
+
+                if (assignment.classList.contains("hidden")) {
+                    addAssignmentThing.classList.add("hidden");
+                }
+
                 assignment.insertAdjacentElement('afterend', addAssignmentThing);
                 processAssignment(addAssignmentThing);
 
