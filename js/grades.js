@@ -448,7 +448,6 @@ function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallbac
                     let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
                     if (colMatch) {
                         let scorePercent = Number.parseFloat(colMatch[1]);
-                        let scorePercent = Number.parseFloat(col.textContent.match(/(\d+\.?\d*)%/)[1]);
                         total += (weightPercent.slice(1, -2) / 100) * scorePercent;
                         awardedPeriodPercent.title = total + "%";
                         awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
