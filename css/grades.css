@@ -57,6 +57,18 @@ col.comments-column {
     display: none;
 }
 
+.grade-add-indicator {
+    display: none;
+}
+
+.grade-add-indicator span.title {
+    font-style: italic;
+}
+
+.grade-add-indicator img.add-assignment-icon {
+    width: 12px;
+}
+
 /* to allow "absolute" position of edit icon" */
 .item-row .grade-column .grade-wrapper{
     position: relative;

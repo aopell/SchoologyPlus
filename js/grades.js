@@ -37,7 +37,7 @@ for (let course of courses) {
         let assignments = rows.filter(x => category.dataset.id == x.dataset.parentId);
         let sum = 0;
         let max = 0;
-        for (let assignment of assignments) {
+        let processAssignment = function (assignment) {
             let maxGrade = assignment.querySelector(".max-grade");
             let score = assignment.querySelector(".rounded-grade") || assignment.querySelector(".rubric-grade-value");
             if (score) {
@@ -57,22 +57,31 @@ for (let course of courses) {
                 maxGrade.parentElement.appendChild(newGrade);
             }
             else {
-                let noGrade = assignment.querySelector(".no-grade");
-                let newGrade = document.createElement("span");
-                newGrade.textContent += "N/A";
-                newGrade.classList.add("max-grade");
-                newGrade.classList.add("injected-assignment-percent");
-
-                // td-content-wrapper
-                noGrade.parentElement.appendChild(document.createElement("br"));
-                noGrade.parentElement.appendChild(newGrade);
-
-                if (noGrade.parentElement.classList.contains("exception-grade-wrapper")) {
-                    noGrade.remove();
-                }
+                processNonenteredAssignment(assignment);
             }
             //assignment.style.padding = "7px 30px 5px";
             //assignment.style.textAlign = "center";
+
+            let createAddAssignmentUi = function () {
+                //.insertAdjacentElement('afterend', document.createElement("div"))
+                let addAssignmentThing = document.createElement("tr");
+                addAssignmentThing.classList.add("report-row");
+                addAssignmentThing.classList.add("item-row");
+                addAssignmentThing.classList.add("last-row-of-tier");
+                addAssignmentThing.classList.add("grade-add-indicator");
+                addAssignmentThing.dataset.parentId = category.dataset.id;
+                // to avoid a hugely annoying DOM construction
+                // edit indicator will be added later
+                // FIXME add little plus icon
+                addAssignmentThing.innerHTML = '<th scope="row" class="title-column clickable"><div class="reportSpacer-3"><div class="td-content-wrapper"><span class="title"><a class="sExtlink-processed">Add Assignment</a></span></div></div></th><td class="grade-column"><div class="td-content-wrapper"><span class="no-grade">—</span><div class="grade-wrapper"></div></div></td><td class="comment-column"><div class="td-content-wrapper"><span class="visually-hidden">No comment</span></div></td>';
+                addAssignmentThing.getElementsByClassName("title")[0].firstElementChild.addEventListener("click", function () {
+                    addAssignmentThing.querySelector("img.grade-edit-indicator").click();
+                });
+                assignment.insertAdjacentElement('afterend', addAssignmentThing);
+                processAssignment(addAssignmentThing);
+
+                return addAssignmentThing;
+            };
 
             // add UI for grade virtual editing
             let gradeWrapper = assignment.querySelector(".grade-wrapper");
@@ -82,10 +91,37 @@ for (let course of courses) {
                 editGradeImg.src = "https://www.iconninja.com/files/727/965/72/edit-draw-pencile-write-icon.svg";
                 editGradeImg.width = 12;
                 editGradeImg.classList.add("grade-edit-indicator");
-                // we only keep one period anyway
-                editGradeImg.addEventListener("click", createEditListener(gradeWrapper.parentElement, category, periods[0]));
+                let gradeAddEditHandler = null;
+                if (assignment.classList.contains("grade-add-indicator")) {
+                    // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
+                    // the reversal takes the form of a page refresh once grades have been changed
+                    let hasHandledGradeEdit = false;
+                    gradeAddEditHandler = function () {
+                        if (hasHandledGradeEdit) {
+                            return;
+                        }
+
+                        assignment.classList.remove("grade-add-indicator");
+                        assignment.classList.remove("last-row-of-tier");
+
+                        assignment.getElementsByClassName("title")[0].firstElementChild.textContent = "Added Assignment";
+
+                        let newAddAssignmentPlaceholder = createAddAssignmentUi();
+                        newAddAssignmentPlaceholder.style.display = "table-row";
+
+                        hasHandledGradeEdit = true;
+                    };
+                }
+                editGradeImg.addEventListener("click", createEditListener(gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
                 gradeWrapper.appendChild(editGradeImg);
             }
+            if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
+                createAddAssignmentUi();
+            }
+        };
+
+        for (let assignment of assignments) {
+            processAssignment(assignment);
         }
 
         if (assignments.length === 0) {
@@ -153,17 +189,45 @@ if (!document.location.search.includes("past") || document.location.search.split
     checkBox.onclick = () => {
         if (document.getElementById("enable-modify").checked) {
             for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
-                edit.style.display = "unset";
-            }
-        } else if (!gradesModified) {
-            for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
-                edit.style.display = "none";
-            }
-        } else {
-            document.location.reload();
+            edit.style.display = "unset";
         }
+        for (let edit of document.getElementsByClassName("grade-add-indicator")) {
+            edit.style.display = "table-row";
+            if (edit.previousElementSibling.classList.contains("item-row") && edit.previousElementSibling.classList.contains("last-row-of-tier")) {
+                edit.previousElementSibling.classList.remove("last-row-of-tier");
+            }
+        }
+    } else if (!gradesModified) {
+        for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
+            edit.style.display = "none";
+        }
+        for (let edit of document.getElementsByClassName("grade-add-indicator")) {
+            edit.style.display = "none";
+            if (edit.previousElementSibling.classList.contains("item-row") && !edit.previousElementSibling.classList.contains("last-row-of-tier")) {
+                edit.previousElementSibling.classList.add("last-row-of-tier");
+            }
+        }
+    } else {
+        document.location.reload();
+    }
     };
     timeRow.appendChild(checkBox);
+}
+
+function processNonenteredAssignment(assignment) {
+    let noGrade = assignment.getElementsByClassName("no-grade")[0];
+    let newGrade = document.createElement("span");
+    newGrade.textContent += "N/A";
+    newGrade.classList.add("max-grade");
+    newGrade.classList.add("injected-assignment-percent");
+
+    // td-content-wrapper
+    noGrade.parentElement.appendChild(document.createElement("br"));
+    noGrade.parentElement.appendChild(newGrade);
+
+    if (noGrade.parentElement.classList.contains("exception-grade-wrapper")) {
+        noGrade.remove();
+    }
 }
 
 function prepareScoredAssignmentGrade(spanPercent, score, max) {
@@ -223,7 +287,7 @@ function generateScoreModifyWarning() {
     return modAssignWarning;
 }
 
-function createEditListener(gradeColContentWrap, catRow, perRow) {
+function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallback) {
     return function () {
         let noGrade = gradeColContentWrap.querySelector(".no-grade");
         let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
@@ -418,6 +482,9 @@ function createEditListener(gradeColContentWrap, catRow, perRow) {
                 awardedPeriodPercentContainer.prepend(generateScoreModifyWarning());
             }
 
+            if (finishedCallback) {
+                finishedCallback();
+            }
 
             return true;
         };
