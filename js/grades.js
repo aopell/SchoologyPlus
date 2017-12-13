@@ -128,8 +128,11 @@ for (let course of courses) {
             category.querySelector(".grade-column").classList.add("grade-column-center");
         }
 
-        let gradeText = category.querySelector(".awarded-grade");
+        let gradeText = category.querySelector(".awarded-grade") || category.querySelector(".no-grade");
         setGradeText(gradeText, sum, max, category);
+        gradeText.classList.remove("no-grade");
+        gradeText.classList.add("awarded-grade");
+
         let weightText = category.querySelector(".percentage-contrib");
         if (addMoreClassTotal) {
             if (!weightText) {
