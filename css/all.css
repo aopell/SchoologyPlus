@@ -79,6 +79,10 @@ video.easter-egg {
     pointer-events: none;
 }
 
-#nav_left > li {
+#nav_left > li.primary-activities {
     padding-bottom: 2px !important;
+}
+
+#nav_left > li#primary-home {
+    padding-bottom: 3px !important;
 }
