@@ -7,12 +7,12 @@ body {
 }
 */
 
-body #header,
-.s-enable-course-dashboard.is-home #nav ul #primary-home {
+body #header {
     background-color: #3c83ce !important;
 }
 
-.s-enable-course-dashboard.is-home #nav ul #primary-home a {
+.s-enable-course-dashboard.is-home #nav ul #primary-home a,
+.s-enable-course-dashboard.is-home #nav ul #primary-home {
     background-color: unset !important;
 }
 
@@ -79,10 +79,11 @@ video.easter-egg {
     pointer-events: none;
 }
 
-#nav_left > li.primary-activities {
+#nav_left>li.primary-activities {
     padding-bottom: 2px !important;
 }
 
-#nav_left > li#primary-home {
-    padding-bottom: 3px !important;
+#nav_left>li#primary-home {
+    padding-bottom: 2px !important;
+    height: 37px !important;
 }
