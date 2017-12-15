@@ -52,13 +52,17 @@ function onAlarm(alarm) {
                             let assignments = notification.getElementsByTagName("a");
                             let extraTextElement = notification.querySelector(".other-items-link");
                             let timeText = notification.querySelector(".edge-time").textContent;
-                            let monthDay = timeText.split(" at ")[0];
+                            let splitDate = timeText.split(" at ");
+                            let monthDay = splitDate[0];
+                            let hourMinute = splitDate[1];
                             let now = new Date();
                             let monthDayYear = monthDay + ` ${now.getFullYear()}`;
                             let today = `${months[now.getMonth()]} ${now.getDate()} ${now.getFullYear()}`;
                             let notificationDate = Date.parse(monthDayYear);
                             if (notificationDate > Date.parse(today)) {
-                                notificationDate = Date.parse(monthDay + ` ${now.getFullYear() - 1}`);
+                                notificationDate = Date.parse(monthDay + ` ${now.getFullYear() - 1} ${hourMinute}`);
+                            } else {
+                                notificationDate = Date.parse(`${monthDayYear} ${hourMinute}`);
                             }
 
                             if (notificationDate > time) {
