@@ -31,10 +31,16 @@ document.body.onkeydown = (data) => {
     data.preventDefault = false;
 };
 
+document.querySelector(".user-menu").prepend(createElement("li", ["schoology-plus-icon"], undefined, [
+    createElement("a", ["nav-icon-button"], { href: "#" }, [
+        createElement("img", ["icon-unread-requests"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 24 })
+    ])
+]));
+
 function createElement(tag, classList, properties, children) {
     let element = document.createElement(tag);
     if (classList) {
-        for(let c of classList) {
+        for (let c of classList) {
             element.classList.add(c);
         }
     }

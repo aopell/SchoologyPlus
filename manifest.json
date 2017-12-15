@@ -26,6 +26,9 @@
         "alarms",
         "notifications"
     ],
+    "web_accessible_resources": [
+        "imgs/plus-icon.png"
+    ],
     "background": {
         "scripts": [
             "js/background.js"

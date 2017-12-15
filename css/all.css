@@ -87,3 +87,13 @@ video.easter-egg {
     padding-bottom: 2px !important;
     height: 37px !important;
 }
+
+.schoology-plus-icon {
+    margin-right: 10px !important;
+    padding-top: 10px !important;
+    opacity: 0.8 !important;
+}
+
+.schoology-plus-icon:hover {
+    opacity: 1.0 !important;
+}
