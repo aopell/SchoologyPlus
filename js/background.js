@@ -19,8 +19,12 @@ chrome.browserAction.setBadgeText({ text: "" });
 console.log("Adding browser action listener");
 chrome.browserAction.onClicked.addListener(function () {
     console.log("Browser action clicked");
-    window.open("https://lms.lausd.net/home/notifications", "_blank");
-    chrome.browserAction.setBadgeText({ text: "" });
+    chrome.browserAction.getBadgeText({}, x => {
+        let n = Number.parseInt(x);
+        if (n) window.open("https://lms.lausd.net/home/notifications", "_blank");
+        else window.open("https://lms.lausd.net", "_blank");
+        chrome.browserAction.setBadgeText({ text: "" });
+    });
 });
 
 function onAlarm(alarm) {
