@@ -11,7 +11,7 @@ chrome.alarms.onAlarm.addListener(onAlarm);
 console.log("Adding notification listener");
 chrome.notifications.onClicked.addListener(function () {
     console.log("Notification clicked");
-    window.open("https://lms.lausd.net", "_blank");
+    window.open("https://lms.lausd.net/home/notifications", "_blank");
     chrome.browserAction.setBadgeText({ text: "" });
 });
 chrome.browserAction.setBadgeBackgroundColor({ color: [217, 0, 0, 255] });
@@ -19,7 +19,7 @@ chrome.browserAction.setBadgeText({ text: "" });
 console.log("Adding browser action listener");
 chrome.browserAction.onClicked.addListener(function () {
     console.log("Browser action clicked");
-    window.open("https://lms.lausd.net", "_blank");
+    window.open("https://lms.lausd.net/home/notifications", "_blank");
     chrome.browserAction.setBadgeText({ text: "" });
 });
 
@@ -27,7 +27,7 @@ function onAlarm(alarm) {
     if (alarm && alarm.name === "notification") {
         try {
             console.log(`[${new Date()}] Checking for new notifications`);
-            fetch("https://lms.lausd.net/notifications/ajax", {
+            fetch("https://lms.lausd.net/home/notifications?filter=all", {
                 credentials: "same-origin"
             }).then(function (response) {
                 if (response.ok) {
