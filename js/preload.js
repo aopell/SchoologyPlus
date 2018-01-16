@@ -66,7 +66,7 @@ function updateSettings() {
                 { min: 0, max: 359, value: 210 },
                 (value, element) => {
                     document.documentElement.style.setProperty("--color-hue", value || value === 0 ? value : 210);
-                    element.value = value;
+                    element.value = value || value === 0 ? value : 210;
                 },
                 event => document.documentElement.style.setProperty("--color-hue", event.target.value),
                 element => Number.parseInt(element.value)
@@ -90,7 +90,7 @@ function updateSettings() {
                 },
                 (value, element) => {
                     rainbowMode(value);
-                    element.value = value;
+                    element.value = value || false;
                 },
                 event => {
                     if (event.target.value === "true") {
