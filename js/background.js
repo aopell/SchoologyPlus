@@ -51,6 +51,7 @@ function onAlarm(alarm) {
                     div.innerHTML = response.output;
                     let notifications = div.querySelectorAll(".edge-sentence");
                     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    let totalAssignments = 0;
                     for (let notification of Array.from(notifications).reverse()) {
                         if (notification.textContent.includes("new grade")) {
                             let assignments = notification.getElementsByTagName("a");
@@ -76,25 +77,30 @@ function onAlarm(alarm) {
                                 if (extraTextElement) {
                                     count = +extraTextElement.textContent.match(/\d+/)[0];
                                 }
-                                console.warn("New notification!");
+                                totalAssignments += count + assignments.length;
                                 console.dir(notification);
-                                let n = {
-                                    type: "basic",
-                                    iconUrl: "imgs/icon@128.png",
-                                    title: "New grade posted",
-                                    message: `${assignments.length + count} new assignment${assignments.length + count === 1 ? " has a grade" : "s have grades"}`,
-                                    eventTime: Date.now(),
-                                    isClickable: true
-                                };
-                                console.dir(n);
-                                chrome.browserAction.getBadgeText({}, x => {
-                                    let n = Number.parseInt(x);
-                                    chrome.browserAction.setBadgeText({ text: (n ? n + assignments.length + count : assignments.length + count).toString() });
-                                });
-                                chrome.notifications.create("gradeNotification", n, null);
                             }
                         }
                     }
+
+                    if (totalAssignments > 0) {
+                        console.warn("New notification!");
+                        let n = {
+                            type: "basic",
+                            iconUrl: "imgs/icon@128.png",
+                            title: "New grade posted",
+                            message: `${totalAssignments} new assignment${totalAssignments === 1 ? " has a grade" : "s have grades"}`,
+                            eventTime: Date.now(),
+                            isClickable: true
+                        };
+                        console.dir(n);
+                        chrome.browserAction.getBadgeText({}, x => {
+                            let num = Number.parseInt(x);
+                            chrome.browserAction.setBadgeText({ text: (num ? num + totalAssignments : totalAssignments).toString() });
+                        });
+                        chrome.notifications.create("gradeNotification", n, null);
+                    }
+
                     if (timeModified) {
                         chrome.storage.sync.set({ lastTime: time }, () => { console.log("Set new time " + new Date(time)) });
                     } else {
