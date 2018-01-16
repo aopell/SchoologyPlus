@@ -15,7 +15,7 @@ function openOptionsMenu() {
 let rainbowInterval = undefined;
 let rainbowColor = 0;
 function colorLoop() {
-    document.documentElement.style.setProperty("--color-hue", rainbowColor > 359 ? 0 : rainbowColor++);
+    document.documentElement.style.setProperty("--color-hue", rainbowColor > 359 ? (rainbowColor = 0) : rainbowColor++);
 }
 
 function rainbowMode(enable) {
