@@ -78,6 +78,10 @@ video.easter-egg {
     pointer-events: none;
 }
 
+.activities-dropdown-wrapper ul {
+    max-height: unset !important;
+}
+
 #nav_left>li.primary-activities {
     padding-bottom: 2px !important;
 }
@@ -193,7 +197,8 @@ video.easter-egg {
     margin-top: 8px;
 }
 
-.modal-body input[type=text], .modal-body input[type=number] {
+.modal-body input[type=text],
+.modal-body input[type=number] {
     color: #333;
     border: 1px solid #c7c7c7;
     font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
