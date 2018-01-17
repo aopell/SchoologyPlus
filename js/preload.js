@@ -8,10 +8,6 @@ function getModalContents() {
     return modalContents;
 }
 
-function openOptionsMenu() {
-    document.getElementById("settings-modal").style.display = "block";
-}
-
 let rainbowInterval = undefined;
 let rainbowColor = 0;
 function colorLoop() {
@@ -102,6 +98,35 @@ function updateSettings() {
                 },
                 element => element.value === "true"
             ),
+            createSetting(
+                "notifications",
+                "Desktop Notifications",
+                "Displays desktop notifications and a number badge on the extension button when new grades are entered",
+                "select",
+                {
+                    options: [
+                        {
+                            text: "Number Badge and Desktop Notifications",
+                            value: "enabled"
+                        },
+                        {
+                            text: "Number Badge Only",
+                            value: "badge"
+                        },
+                        {
+                            text: "Desktop Notifications Only",
+                            value: "popup"
+                        },
+                        {
+                            text: "Disabled",
+                            value: "disabled"
+                        }
+                    ]
+                },
+                (value, element) => element.value = value || "enabled",
+                undefined,
+                element => element.value
+            ),
             createElement("span", ["submit-span-wrapper", "modal-button"], { onclick: saveSettings }, [createElement("input", ["form-submit"], { type: "button", value: "Save Settings", id: "save-settings" })])
         ]);
     });
@@ -174,7 +199,7 @@ function settingModified(event) {
     let element = event.target || event;
     let parent = element.parentElement;
     if (parent && !parent.querySelector(".setting-modified")) {
-        parent.appendChild(createElement("span", ["setting-modified"], { textContent: " *" }));
+        parent.appendChild(createElement("span", ["setting-modified"], { textContent: " *", title: "This setting has been modified from its saved value" }));
     }
     let setting = settings[element.dataset.settingName];
     setting.modified = true;
@@ -182,8 +207,8 @@ function settingModified(event) {
 }
 
 function anySettingsModified() {
-    for(let setting in settings) {
-        if(settings[setting].modified) {
+    for (let setting in settings) {
+        if (settings[setting].modified) {
             return true;
         }
     }

@@ -181,7 +181,7 @@ video.easter-egg {
 }
 
 .setting-entry {
-    padding-bottom: 4px;
+    margin-bottom: 8px;
 }
 
 .setting-modified {
@@ -190,5 +190,12 @@ video.easter-egg {
 
 .modal-button {
     margin-left: 0 !important;
-    margin-top: 4px;
+    margin-top: 8px;
+}
+
+.modal-body input[type=text], .modal-body input[type=number] {
+    color: #333;
+    border: 1px solid #c7c7c7;
+    font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+    padding: 4px;
 }

@@ -28,19 +28,19 @@ chrome.browserAction.onClicked.addListener(function () {
 });
 
 function onAlarm(alarm) {
-    if (alarm && alarm.name === "notification") {
-        try {
-            console.log(`[${new Date()}] Checking for new notifications`);
-            fetch("https://lms.lausd.net/home/notifications?filter=all", {
-                credentials: "same-origin"
-            }).then(function (response) {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error("Error loading notifications: " + response);
-            }).then(function (response) {
-                chrome.storage.sync.get("lastTime", function (value) {
-                    console.log(value);
+    chrome.storage.sync.get(null, function (value) {
+        if (alarm && alarm.name === "notification" && value.notifications != "disabled") {
+            try {
+                console.log(`[${new Date()}] Checking for new notifications`);
+                fetch("https://lms.lausd.net/home/notifications?filter=all", {
+                    credentials: "same-origin"
+                }).then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error("Error loading notifications: " + response);
+                }).then(function (response) {
+                    console.log("Last new grade: " + new Date(value.lastTime).toString());
                     let time = value.lastTime;
                     let timeModified = false;
                     if (!time) {
@@ -94,11 +94,19 @@ function onAlarm(alarm) {
                             isClickable: true
                         };
                         console.dir(n);
-                        chrome.browserAction.getBadgeText({}, x => {
-                            let num = Number.parseInt(x);
-                            chrome.browserAction.setBadgeText({ text: (num ? num + totalAssignments : totalAssignments).toString() });
-                        });
-                        chrome.notifications.create("gradeNotification", n, null);
+                        if (!value.notifications || value.notifications == "enabled" || value.notifications == "badge") {
+                            chrome.browserAction.getBadgeText({}, x => {
+                                let num = Number.parseInt(x);
+                                chrome.browserAction.setBadgeText({ text: (num ? num + totalAssignments : totalAssignments).toString() });
+                            });
+                        } else {
+                            console.log("Number badge is disabled");
+                        }
+                        if (!value.notifications || value.notifications == "enabled" || value.notifications == "popup") {
+                            chrome.notifications.create("gradeNotification", n, null);
+                        } else {
+                            console.log("Popup notifications are disabled");
+                        }
                     }
 
                     if (timeModified) {
@@ -106,10 +114,14 @@ function onAlarm(alarm) {
                     } else {
                         console.log("No new notifications");
                     }
+
                 });
-            });
-        } catch (error) {
-            console.error(error);
+            } catch (error) {
+                console.error(error);
+            }
         }
-    }
+        else if (value.notifications === "disabled") {
+            console.log("Notifications are disabled");
+        }
+    });
 }
