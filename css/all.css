@@ -94,11 +94,20 @@ video.easter-egg {
 .schoology-plus-icon {
     margin-right: 10px !important;
     padding-top: 10px !important;
-    opacity: 0.8 !important;
+    --image-opacity: 0.8 !important;
 }
 
 .schoology-plus-icon:hover {
-    opacity: 1.0 !important;
+    --image-opacity: 1.0 !important;
+}
+
+.schoology-plus-icon .icon-unread-requests {
+    opacity: var(--image-opacity);
+}
+
+.schoology-plus-icon .notifier {
+    top: 4px !important;
+    right: -4px !important;
 }
 
 .modal {
@@ -203,4 +212,9 @@ video.easter-egg {
     border: 1px solid #c7c7c7;
     font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
     padding: 4px;
+}
+
+.modal-content .modal-footer .modal-footer-text a {
+    color: white !important;
+    font-weight: normal !important;
 }
