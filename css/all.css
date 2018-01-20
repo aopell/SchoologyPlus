@@ -218,3 +218,8 @@ video.easter-egg {
     color: white !important;
     font-weight: normal !important;
 }
+
+.modal-body iframe {
+    width: 100%;
+    height: 400px;
+}
