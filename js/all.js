@@ -5,7 +5,7 @@ document.getElementById("primary-home").insertAdjacentElement("afterEnd", create
 document.getElementById("home").innerHTML = svg;
 document.body.appendChild(createElement("script", undefined, { src: "https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.7.1/gist-embed.min.js" }));
 
-let footerText = `&copy; Aaron Opell 2018 | <a href="https://chrome.google.com/webstore/detail/${chrome.runtime.id}">Schoology Plus v${chrome.runtime.getManifest().version}${chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://github.com/aopell/SchoologyPlus">View Source and Contribute</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog">Changelog</a>`;
+let footerText = `&copy; Aaron Opell 2018 | <a href="https://chrome.google.com/webstore/detail/${chrome.runtime.id}">Schoology Plus v${chrome.runtime.getManifest().version}${chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://github.com/aopell/SchoologyPlus">View Source and Contribute</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog"> Changelog</a>`;
 
 let frame = document.createElement("iframe");
 frame.src = "data:text/html;charset=utf-8,<script src='https://gist.github.com/aopell/2cc6e752ee4dcee9b2f44fa3862f2886.js'></script>";
@@ -16,7 +16,14 @@ let modals = [
         "changelog-modal",
         "Schoology Plus Changelog",
         frame,
-        "&copy; Aaron Opell 2018"
+        "&copy; Aaron Opell 2018",
+        () => {
+            let updateText = document.querySelector(".new-update");
+            if (updateText) updateText.outerHTML = "";
+            let notifier = document.querySelector(".schoology-plus-icon .nav-icon-button .notifier");
+            if (notifier) notifier.outerHTML = "";
+            chrome.storage.sync.set({ newVersion: chrome.runtime.getManifest().version });
+        }
     ),
     new Modal(
         "contributors-modal",
@@ -43,6 +50,25 @@ let modals = [
         "&copy; Aaron Opell 2018"
     )
 ];
+
+chrome.storage.sync.get("newVersion", s => {
+    if (!s.newVersion || s.newVersion != chrome.runtime.getManifest().version) {
+        document.getElementById("open-changelog")
+            .insertAdjacentElement(
+            "afterbegin",
+            createElement(
+                "span",
+                ["new-update"],
+                { textContent: "New Update" }
+            ));
+        document.querySelector(".schoology-plus-icon .nav-icon-button")
+            .appendChild(createElement(
+                "span",
+                ["notifier"],
+                { textContent: "!!" }
+            ));
+    }
+});
 
 let video = document.body.appendChild(createElement("video", ["easter-egg"], {
     onended: function () {

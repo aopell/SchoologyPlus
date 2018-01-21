@@ -108,6 +108,7 @@ video.easter-egg {
 .schoology-plus-icon .notifier {
     top: 4px !important;
     right: -4px !important;
+    border-radius: 5pxl
 }
 
 .modal {
@@ -215,11 +216,28 @@ video.easter-egg {
 }
 
 .modal-content .modal-footer .modal-footer-text a {
-    color: white !important;
+    color: white;
     font-weight: normal !important;
 }
 
 .modal-body iframe {
     width: 100%;
     height: 400px;
+}
+
+.new-update {
+    background: red;
+    border: 1px solid white;
+    padding: 1px 4px;
+    font-weight: bold;
+    border-radius: 3px;
+    animation: newupdate 2s linear infinite;
+}
+
+@keyframes newupdate {
+    0% { opacity: 0.4; }
+    25% { opacity: 0.9; }
+    50% { opacity: 1; }
+    75% { opacity: 0.9; }
+    100% { opacity: 0.4; }
 }
