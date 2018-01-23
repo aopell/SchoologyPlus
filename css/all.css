@@ -235,9 +235,31 @@ video.easter-egg {
 }
 
 @keyframes newupdate {
-    0% { opacity: 0.4; }
-    25% { opacity: 0.9; }
-    50% { opacity: 1; }
-    75% { opacity: 0.9; }
-    100% { opacity: 0.4; }
+    0% {
+        opacity: 0.4;
+    }
+    25% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 0.4;
+    }
+}
+
+.settings-buttons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.restore-defaults {
+    color: red;
+    margin-top: 10px;
+    font-weight: normal;
 }

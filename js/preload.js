@@ -8,17 +8,6 @@ function getModalContents() {
     return modalContents;
 }
 
-let rainbowInterval = undefined;
-let rainbowColor = 0;
-function colorLoop() {
-    document.documentElement.style.setProperty("--color-hue", rainbowColor > 359 ? (rainbowColor = 0) : rainbowColor++);
-}
-
-function rainbowMode(enable) {
-    if (rainbowInterval) clearInterval(rainbowInterval);
-    if (enable) rainbowInterval = setInterval(colorLoop, 100);
-}
-
 /**
  * Creates a DOM element
  * @returns {HTMLElement} A DOM element
@@ -55,48 +44,38 @@ function updateSettings() {
 
         modalContents = createElement("div", ["modal-contents"], undefined, [
             createSetting(
+                "theme",
+                "Theme",
+                "Set a color theme for the schoology website",
+                "select",
+                {
+                    options: themes.map(x => ({ text: x.name, value: x.name }))
+                },
+                (value, element) => {
+                    tempTheme = undefined;
+                    element.value = value || "Custom";
+                    Theme.active.onapply(storage);
+                },
+                event => {
+                    tempTheme = event.target.value;
+                    Theme.byName(event.target.value).onapply(storage)
+                },
+                element => element.value
+            ),
+            createSetting(
                 "color",
                 "Color Hue",
-                "A HSL hue to be used as the color for the navigation bar (0-359)",
+                "[Custom theme only] An HSL hue to be used as the color for the navigation bar (0-359)",
                 "number",
                 { min: 0, max: 359, value: 210 },
                 (value, element) => {
-                    document.documentElement.style.setProperty("--color-hue", value || value === 0 ? value : 210);
+                    if (Theme.active.name == "Custom") {
+                        Theme.setBackgroundHue(value || value === 0 ? value : 210);
+                    }
                     element.value = value || value === 0 ? value : 210;
                 },
-                event => document.documentElement.style.setProperty("--color-hue", event.target.value),
+                event => Theme.setBackgroundHue(event.target.value),
                 element => Number.parseInt(element.value)
-            ),
-            createSetting(
-                "rainbow",
-                "Rainbow Mode",
-                "Slowly cycles through all possible color hues (overrides Color Hue preference)",
-                "select",
-                {
-                    options: [
-                        {
-                            text: "Disabled",
-                            value: false
-                        },
-                        {
-                            text: "Enabled",
-                            value: true
-                        }
-                    ]
-                },
-                (value, element) => {
-                    rainbowMode(value);
-                    element.value = value || false;
-                },
-                event => {
-                    if (event.target.value === "true") {
-                        rainbowMode(true);
-                    } else {
-                        rainbowMode(false);
-                        document.documentElement.style.setProperty("--color-hue", storage["color"] || 210);
-                    }
-                },
-                element => element.value === "true"
             ),
             createSetting(
                 "notifications",
@@ -127,7 +106,10 @@ function updateSettings() {
                 undefined,
                 element => element.value
             ),
-            createElement("span", ["submit-span-wrapper", "modal-button"], { onclick: saveSettings }, [createElement("input", ["form-submit"], { type: "button", value: "Save Settings", id: "save-settings" })])
+            createElement("div", ["settings-buttons-wrapper"], undefined, [
+                createElement("span", ["submit-span-wrapper", "modal-button"], { onclick: saveSettings }, [createElement("input", ["form-submit"], { type: "button", value: "Save Settings", id: "save-settings" })]),
+                createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreDefaults, href: "#" })
+            ])
         ]);
     });
 }
@@ -146,6 +128,7 @@ let settings = {};
  * - **select**: *options* property on ***options*** object should be an array of objects containing *text* and *value* properties
  * @param {function(any,HTMLElement):void} onLoad Called with the setting's current value and the element used to display the setting value when the page is loaded and when the setting is changed
  * - *This function should update the setting's display element appropriately so that the setting value is displayed*
+ * - *This function should return the default value of the setting when the first argument is undefined*
  * @param {function(any):void} previewCallback Function called when setting value is changed
  * - *Should be used to show how changing the setting affects the page if applicable*
  * @param {function(HTMLElement):any} saveCallback Function called when setting is saved
@@ -203,7 +186,9 @@ function settingModified(event) {
     }
     let setting = settings[element.dataset.settingName];
     setting.modified = true;
-    setting.onmodify(event);
+    if (setting.onmodify) {
+        setting.onmodify(event);
+    }
 }
 
 function anySettingsModified() {
@@ -222,12 +207,12 @@ function saveSettings() {
         if (v.modified) {
             let value = v.onsave(v.element);
             newValues[setting] = value;
+            storage[setting] = value;
             v.onload(value, v.element);
             v.modified = false;
         }
     }
     chrome.storage.sync.set(newValues, () => {
-        Object.assign(storage, newValues);
         for (let element of document.querySelectorAll(".setting-modified")) {
             element.parentElement.removeChild(element);
         }
@@ -238,4 +223,14 @@ function saveSettings() {
     setTimeout(() => {
         settingsSaved.value = "Save Settings";
     }, 2000);
+}
+
+function restoreDefaults() {
+    if (confirm("Are you sure you want to delete all settings?\nTHIS CANNOT BE UNDONE")) {
+        for (let setting in settings) {
+            delete storage[setting];
+            chrome.storage.sync.remove(setting);
+            settings[setting].onload(undefined, settings[setting].element);
+        }
+    }
 }

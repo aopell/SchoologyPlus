@@ -1,8 +1,9 @@
 {
     "manifest_version": 2,
     "name": "Schoology Plus",
+    "short_name": "Schoology+",
     "description": "Provides some enhancements to your LAUSD Schoology experience",
-    "version": "3.2",
+    "version": "3.3",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -44,6 +45,7 @@
                 "css/all.css"
             ],
             "js": [
+                "js/theme.js",
                 "js/preload.js"
             ],
             "run_at": "document_start"
