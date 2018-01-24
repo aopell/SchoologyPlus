@@ -4,6 +4,8 @@
     --primary-light: hsl(var(--color-hue), 70%, 60%);
     --primary-dark: hsl(var(--color-hue), 55%, 40%);
     --primary-very-dark: hsl(var(--color-hue), 90%, 50%);
+    --cursor: auto;
+    cursor: var(--cursor);
 }
 
 body #header {
@@ -50,8 +52,20 @@ body #primary-settings .unfold {
     border-color: var(--primary-light) !important;
 }
 
-body #nav ul #home a {
-    background: unset !important;
+#home a[role=menuitem] {
+    background-image: none !important;
+}
+
+#home a.hide-background-image {
+    background: none !important;
+}
+
+#home a.hide-background-image svg {
+    visibility: visible !important;
+}
+
+#home a svg {
+    visibility: hidden !important;
 }
 
 body .submit-span-wrapper,

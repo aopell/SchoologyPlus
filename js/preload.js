@@ -54,11 +54,11 @@ function updateSettings() {
                 (value, element) => {
                     tempTheme = undefined;
                     element.value = value || "Custom";
-                    Theme.active.onapply(storage);
+                    Theme.apply(Theme.active);
                 },
                 event => {
                     tempTheme = event.target.value;
-                    Theme.byName(event.target.value).onapply(storage)
+                    Theme.apply(Theme.active);
                 },
                 element => element.value
             ),
