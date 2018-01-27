@@ -4,7 +4,7 @@
 
 [![Download](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 
-[View Changelog](https://gist.github.com/aopell/2cc6e752ee4dcee9b2f44fa3862f2886)
+[Download](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef) | [View Changelog](https://gist.github.com/aopell/2cc6e752ee4dcee9b2f44fa3862f2886)
 
 # Features
 
