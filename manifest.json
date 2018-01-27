@@ -3,7 +3,7 @@
     "name": "Schoology Plus",
     "short_name": "Schoology+",
     "description": "Provides some enhancements to your LAUSD Schoology experience",
-    "version": "3.5",
+    "version": "3.5.1",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",

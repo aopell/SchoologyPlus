@@ -146,7 +146,7 @@ for (let course of courses) {
         }
     }
 
-    let grade = createElement("span",["awarded-grade","injected-title-grade",courseGrade ? "grade-active-color" : "grade-none-color"]);
+    let grade = createElement("span", ["awarded-grade", "injected-title-grade", courseGrade ? "grade-active-color" : "grade-none-color"]);
     grade.textContent = courseGrade ? courseGrade.textContent : "—";
     if (storage["assumeScale"] != "disabled" && grade.textContent.match(/^\d+\.?\d*%/) !== null) {
         let percent = Number.parseFloat(grade.textContent.substr(0, grade.textContent.length - 1));
@@ -242,7 +242,7 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         gradeElement.innerHTML = "";
         // create the elements for our point score
         gradeElement.appendChild(createElement("span", ["rounded-grade"], { textContent: doNotDisplay ? "" : Math.round(sum * 100) / 100 }));
-        gradeElement.appendChild(createElement("span", ["max-grade"], { textContent: doNotDisplay ? "" : ` / ${Math.round(max * 100) / 100}`}));
+        gradeElement.appendChild(createElement("span", ["max-grade"], { textContent: doNotDisplay ? "" : ` / ${Math.round(max * 100) / 100}` }));
         // move the letter grade over to the right
         span = row.querySelector(".comment-column").firstChild;
         span.textContent = text;
@@ -263,7 +263,7 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
 }
 
 function generateScoreModifyWarning() {
-    return createElement("img",["modified-score-percent-warning"],{
+    return createElement("img", ["modified-score-percent-warning"], {
         src: "https://image.flaticon.com/icons/svg/179/179386.svg",
         title: "This grade has been modified from its true value."
     });
@@ -334,10 +334,10 @@ function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallbac
             let deltaMax = userMax - initMax;
             // first, replace no grades
             if (noGrade) {
-                maxGrade = createElement("span",["max-grade"],{textContent: " / " + userMax});
+                maxGrade = createElement("span", ["max-grade"], { textContent: " / " + userMax });
                 gradeColContentWrap.prepend(maxGrade);
-                let awardedGrade = createElement("span",["awarded-grade"]);
-                score = createElement("span", ["rounded-grade"],{title: userScore, textContent: userScore});
+                let awardedGrade = createElement("span", ["awarded-grade"]);
+                score = createElement("span", ["rounded-grade"], { title: userScore, textContent: userScore });
                 awardedGrade.appendChild(score);
                 gradeColContentWrap.prepend(score);
                 noGrade.remove();
@@ -442,13 +442,23 @@ function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallbac
                 awardedPeriodPercent.textContent = (Math.round(newPerPercent * 100) / 100) + "%";
             } else {
                 let total = 0;
-                for (let category of perRow.parentElement.getElementsByClassName("category-row")) {
+                let totalPercent = 0;
+                let categories = perRow.parentElement.getElementsByClassName("category-row");
+                for (let category of categories) {
+                    let weightPercent = category.querySelector(".percentage-contrib").textContent;
+                    let roundedGrade = category.querySelector(".rounded-grade");
+                    let maxGrade = category.querySelector(".max-grade");
+                    if (roundedGrade && maxGrade && roundedGrade.textContent != "0" || maxGrade.textContent.slice(3) != "0") {
+                        totalPercent += Number.parseFloat(weightPercent.slice(1, -2));
+                    }
+                }
+                for (let category of categories) {
                     let weightPercent = category.querySelector(".percentage-contrib").textContent;
                     let col = category.querySelector(".grade-column-right");
                     let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
                     if (colMatch) {
                         let scorePercent = Number.parseFloat(colMatch[1]);
-                        total += (weightPercent.slice(1, -2) / 100) * scorePercent;
+                        total += (weightPercent.slice(1, -2) / totalPercent) * scorePercent;
                         awardedPeriodPercent.title = total + "%";
                         awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
                     }
