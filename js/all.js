@@ -7,24 +7,26 @@ document.getElementById("home").innerHTML = svg;
 document.documentElement.style.setProperty("--default-visibility", "visible");
 document.body.appendChild(createElement("script", undefined, { src: "https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.7.1/gist-embed.min.js" }));
 
-let footerText = `&copy; Aaron Opell 2018 | <a href="https://chrome.google.com/webstore/detail/${chrome.runtime.id}">Schoology Plus v${chrome.runtime.getManifest().version}${chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://github.com/aopell/SchoologyPlus">View Source and Contribute</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog"> Changelog</a>`;
+let footerText = `&copy; Aaron Opell 2018 | <a href="https://chrome.google.com/webstore/detail/${chrome.runtime.id}">Schoology Plus v${chrome.runtime.getManifest().version}${chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://github.com/aopell/SchoologyPlus/issues/new" title="Submit bug report or feature request">Send Feedback</a> | <a href="https://github.com/aopell/SchoologyPlus">View Source & Contribute</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog"> Changelog</a>`;
 
 let frame = document.createElement("iframe");
 frame.src = "data:text/html;charset=utf-8,<script src='https://gist.github.com/aopell/2cc6e752ee4dcee9b2f44fa3862f2886.js'></script>";
 
 let modals = [
-    new Modal("settings-modal", "Schoology Plus Settings", getModalContents(), footerText, openOptionsMenu),
+    new Modal(
+        "settings-modal",
+        "Schoology Plus Settings",
+        getModalContents(),
+        footerText,
+        openOptionsMenu
+    ),
     new Modal(
         "changelog-modal",
         "Schoology Plus Changelog",
         frame,
         "&copy; Aaron Opell 2018",
-        () => {
-            let updateText = document.querySelector(".new-update");
-            if (updateText) updateText.outerHTML = "";
-            let notifier = document.querySelector(".schoology-plus-icon .nav-icon-button .notifier");
-            if (notifier) notifier.outerHTML = "";
-            chrome.storage.sync.set({ newVersion: chrome.runtime.getManifest().version });
+        function () {
+            clearNewUpdate(true);
         }
     ),
     new Modal(
@@ -53,24 +55,31 @@ let modals = [
     )
 ];
 
-chrome.storage.sync.get("newVersion", s => {
+chrome.storage.sync.get(["newVersion", "hideUpdateIndicator"], s => {
     if (!s.newVersion || s.newVersion != chrome.runtime.getManifest().version) {
-        document.getElementById("open-changelog")
-            .insertAdjacentElement(
-            "afterbegin",
-            createElement(
-                "span",
-                ["new-update"],
-                { textContent: "New Update" }
-            ));
+        chrome.storage.sync.set({ hideUpdateIndicator: false }, showUpdateIndicator);
         document.querySelector(".schoology-plus-icon .nav-icon-button")
             .appendChild(createElement(
                 "span",
                 ["notifier"],
                 { textContent: "!!" }
             ));
+    } else if (!s.hideUpdateIndicator) {
+        showUpdateIndicator();
     }
 });
+
+function showUpdateIndicator() {
+    console.log("Showing update indicator");
+    document.getElementById("open-changelog")
+        .insertAdjacentElement(
+        "afterbegin",
+        createElement(
+            "span",
+            ["new-update"],
+            { textContent: "New Update" }
+        ));
+}
 
 let video = document.body.appendChild(createElement("video", ["easter-egg"], {
     onended: function () {
@@ -118,11 +127,23 @@ window.onclick = function (event) {
     }
 }
 
+function clearNewUpdate(clearAll) {
+    let notifier = document.querySelector(".schoology-plus-icon .nav-icon-button .notifier");
+    if (notifier) notifier.outerHTML = "";
+    chrome.storage.sync.set({ newVersion: chrome.runtime.getManifest().version });
+    if (clearAll) {
+        chrome.storage.sync.set({ hideUpdateIndicator: true });
+        let updateText = document.querySelector(".new-update");
+        if (updateText) updateText.outerHTML = "";
+    }
+}
+
 function openOptionsMenu(settingsModal) {
     settingsModal.body.innerHTML = "";
     settingsModal.body.appendChild(getModalContents());
-    settingsModal.element.querySelector("#open-changelog").addEventListener("click", () => openModal("changelog-modal"));
-    settingsModal.element.querySelector("#open-contributors").addEventListener("click", () => openModal("contributors-modal"));
+    settingsModal.element.querySelector("#open-changelog").addEventListener("click", () => openModal("changelog-modal"), { once: true });
+    settingsModal.element.querySelector("#open-contributors").addEventListener("click", () => openModal("contributors-modal"), { once: true });
+    clearNewUpdate(false);
 }
 
 function openModal(id) {
@@ -142,6 +163,7 @@ function modalClose(element) {
         if (!confirm("You have unsaved settings.\nAre you sure you want to exit?")) return;
         updateSettings();
     }
+
     element.style.display = "none";
 }
 

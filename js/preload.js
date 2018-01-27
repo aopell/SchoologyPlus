@@ -106,6 +106,27 @@ function updateSettings() {
                 undefined,
                 element => element.value
             ),
+            createSetting(
+                "assumeScale",
+                "Assume Grading Scale",
+                "[Refresh required] Assumes a 10%-based grading scale (90-100 A, 80-89 B, etc.) when a class has no grading scale",
+                "select",
+                {
+                    options: [
+                        {
+                            text: "Enabled",
+                            value: "tenPercent"
+                        },
+                        {
+                            text: "Disabled",
+                            value: "disabled"
+                        }
+                    ]
+                },
+                (value, element) => element.value = value || "tenPercent",
+                undefined,
+                element => element.value
+            ),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
                 createElement("span", ["submit-span-wrapper", "modal-button"], { onclick: saveSettings }, [createElement("input", ["form-submit"], { type: "button", value: "Save Settings", id: "save-settings" })]),
                 createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreDefaults, href: "#" })

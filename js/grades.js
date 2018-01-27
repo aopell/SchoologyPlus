@@ -148,7 +148,7 @@ for (let course of courses) {
 
     let grade = createElement("span",["awarded-grade","injected-title-grade",courseGrade ? "grade-active-color" : "grade-none-color"]);
     grade.textContent = courseGrade ? courseGrade.textContent : "—";
-    if (grade.textContent.match(/^\d+\.?\d*%/) !== null) {
+    if (storage["assumeScale"] != "disabled" && grade.textContent.match(/^\d+\.?\d*%/) !== null) {
         let percent = Number.parseFloat(grade.textContent.substr(0, grade.textContent.length - 1));
         let letterGrade = percent >= 90 ? "A" : (percent >= 80 ? "B" : (percent >= 70 ? "C" : (percent >= 60 ? "D" : "F")));
         grade.textContent = `${letterGrade} (${percent}%)`;
@@ -246,7 +246,7 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         // move the letter grade over to the right
         span = row.querySelector(".comment-column").firstChild;
         span.textContent = text;
-        if (span.textContent.match(/^\d+\.?\d*%/) !== null) {
+        if (storage["assumeScale"] != "disabled" && span.textContent.match(/^\d+\.?\d*%/) !== null) {
             let percent = Number.parseFloat(span.textContent.substr(0, span.textContent.length - 1));
             let letterGrade = percent >= 90 ? "A" : (percent >= 80 ? "B" : (percent >= 70 ? "C" : (percent >= 60 ? "D" : "F")));
             span.textContent = `${letterGrade} (${percent}%)`;

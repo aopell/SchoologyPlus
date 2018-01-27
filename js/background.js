@@ -72,11 +72,7 @@ function onAlarm(alarm) {
                             if (notificationDate > time) {
                                 time = notificationDate;
                                 timeModified = true;
-                                let count = 0;
-                                if (extraTextElement) {
-                                    count = +extraTextElement.textContent.match(/\d+/)[0];
-                                }
-                                totalAssignments += count + assignments.length;
+                                totalAssignments++;
                                 console.dir(notification);
                             }
                         }
