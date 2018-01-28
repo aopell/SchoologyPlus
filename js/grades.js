@@ -82,9 +82,11 @@ for (let course of courses) {
             let gradeWrapper = assignment.querySelector(".grade-wrapper");
             // FIXME correct behavior for editing dropped assignments
             if (!assignment.classList.contains("dropped")) {
+                let checkbox = document.getElementById("enable-modify");
                 let editGradeImg = createElement("img", ["grade-edit-indicator"], {
                     src: "https://www.iconninja.com/files/727/965/72/edit-draw-pencile-write-icon.svg",
-                    width: 12
+                    width: 12,
+                    style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
                 });
                 let gradeAddEditHandler = null;
                 if (assignment.classList.contains("grade-add-indicator")) {
