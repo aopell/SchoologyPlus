@@ -474,7 +474,7 @@ function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallbac
                 }
 
                 awardedPeriodPercent.title = total + "%";
-awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
+                awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
             }
 
             if (!awardedPeriodPercentContainer.querySelector(".modified-score-percent-warning")) {
