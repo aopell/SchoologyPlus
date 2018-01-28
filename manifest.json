@@ -11,6 +11,11 @@
         "32": "imgs/icon@32.png",
         "16": "imgs/icon@16.png"
     },
+    "applications": {
+        "gecko": {
+            "id": "schoologyplus@aopell.me"
+        }
+    },
     "browser_action": {
         "default_icon": {
             "16": "imgs/icon@16.png",
