@@ -191,10 +191,11 @@ function createSetting(name, friendlyName, description, type, options, onLoad, p
     setting.appendChild(helpText);
 
     title.firstElementChild.dataset.settingName = name;
+    title.firstElementChild.id = `setting-input-${name}`
     onLoad(storage[name], title.firstElementChild);
 
     settings[name] = {
-        element: title.firstElementChild,
+        element: () => document.getElementById(`setting-input-${name}`),
         onmodify: previewCallback,
         onsave: saveCallback,
         onload: onLoad,
@@ -231,10 +232,10 @@ function saveSettings() {
     for (let setting in settings) {
         let v = settings[setting];
         if (v.modified) {
-            let value = v.onsave(v.element);
+            let value = v.onsave(v.element());
             newValues[setting] = value;
             storage[setting] = value;
-            v.onload(value, v.element);
+            v.onload(value, v.element());
             v.modified = false;
         }
     }
@@ -256,7 +257,7 @@ function restoreDefaults() {
         for (let setting in settings) {
             delete storage[setting];
             chrome.storage.sync.remove(setting);
-            settings[setting].onload(undefined, settings[setting].element);
+            settings[setting].onload(undefined, settings[setting].element());
         }
     }
 }

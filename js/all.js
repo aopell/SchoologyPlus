@@ -61,7 +61,7 @@ let modals = [
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], { textContent: "Install from JSON:" }),
                 createElement("textarea", ["setting-item"], { rows: 10, cols: 50, id: "theme-json" }),
-                createElement("p", ["setting-description"], { innerHTML: "Load a theme from a JSON string. <a href='https://github.com/aopell/SchoologyPlus/docs/example-theme.json'>Click here for theme format</a>" }),
+                createElement("p", ["setting-description"], { innerHTML: "Load a theme from a JSON string. <a href='https://github.com/aopell/SchoologyPlus/themes'>Click here for format and examples</a>" }),
                 createButton("add-theme", "Install Theme", createTheme)
             ]),
             createElement("div", ["setting-entry"], { id: "themes-list" }, [
