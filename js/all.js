@@ -76,7 +76,7 @@ let modals = [
     let themesList = document.getElementById("themes-list");
     if (storage.themes) {
         for (let t of storage.themes) {
-            let a = createElement("a", ["close-button"], { textContent: "×", href: "#", onclick: (event) => deleteTheme(event.target.dataset.themeName) });
+            let a = createElement("a", ["close-button"], { textContent: "×", href: "#", title: "Delete Theme", onclick: (event) => deleteTheme(event.target.dataset.themeName) });
             a.dataset.themeName = t.name;
             themesList.appendChild(createElement("h3", ["setting-description"], {}, [
                 a,
