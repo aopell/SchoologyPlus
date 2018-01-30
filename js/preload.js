@@ -53,10 +53,15 @@ function updateSettings() {
                 },
                 (value, element) => {
                     tempTheme = undefined;
-                    element.value = value || "Custom";
+                    element.value = (value && Array.from(element.options).some(x => x.value == value)) ? value : "Custom Color";
                     Theme.apply(Theme.active);
                 },
                 event => {
+                    if (event.target.value === "Install and Manage Themes...") {
+                        settings["theme"].modified = false;
+                        openModal("themes-modal");
+                        return;
+                    }
                     tempTheme = event.target.value;
                     Theme.apply(Theme.active);
                 },
@@ -65,11 +70,11 @@ function updateSettings() {
             createSetting(
                 "color",
                 "Color Hue",
-                "[Custom theme only] An HSL hue to be used as the color for the navigation bar (0-359)",
+                "[Custom Color theme only] An HSL hue to be used as the color for the navigation bar (0-359)",
                 "number",
                 { min: 0, max: 359, value: 210 },
                 (value, element) => {
-                    if (Theme.active.name == "Custom") {
+                    if (Theme.active.name == "Custom Color") {
                         Theme.setBackgroundHue(value || value === 0 ? value : 210);
                     }
                     element.value = value || value === 0 ? value : 210;
@@ -128,7 +133,7 @@ function updateSettings() {
                 element => element.value
             ),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
-                createElement("span", ["submit-span-wrapper", "modal-button"], { onclick: saveSettings }, [createElement("input", ["form-submit"], { type: "button", value: "Save Settings", id: "save-settings" })]),
+                createButton("save-settings", "Save Settings", saveSettings),
                 createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreDefaults, href: "#" })
             ])
         ]);
@@ -254,4 +259,8 @@ function restoreDefaults() {
             settings[setting].onload(undefined, settings[setting].element);
         }
     }
+}
+
+function createButton(id, text, callback) {
+    return createElement("span", ["submit-span-wrapper", "modal-button"], { onclick: callback }, [createElement("input", ["form-submit"], { type: "button", value: text, id: id })]);
 }

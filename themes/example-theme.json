@@ -1,0 +1,25 @@
+{
+    //Comments not allowed in actual themes
+    //The name of the theme (required)
+    "name": "My Theme",
+    //The theme's color hue (optional, any number but technically should be an integer between 0 and 359)
+    "hue": 359,
+    //An array of four colors to be used as the primary and accent colors in the interface. (optional)
+    //If specified, exactly 4 colors are required
+    //Overrides color hue if both are set
+    "colors": [
+        "red", //Navigation bar background color, primary interface color
+        "rgb(0,0,255)", //Drop down menu background color
+        "hsl(150,50%,50%)", //Navigation bar link hover color and drop down border color
+        "#000000" //Button border color
+    ],
+    //Controls whether the LAUSD logo or the Schoology logo is shown in the upper left (optional)
+    //Set to "schoology" for schoology logo (default)
+    //Set to anything else for LAUSD logo
+    //This setting will allow you to set a custom logo image in the near future
+    "logo": "schoology",
+    //Sets the URL for the cursor image (optional)
+    //Must be a direct URL to an image
+    //The image must be less than 128x128 otherwise it will not show up, but should ideally be no greater than 32x32
+    "cursor": null
+}

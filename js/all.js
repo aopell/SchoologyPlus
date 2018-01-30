@@ -52,8 +52,43 @@ let modals = [
             ])
         ]),
         "&copy; Aaron Opell 2018"
+    ),
+    new Modal(
+        "themes-modal",
+        "Schoology Plus Themes",
+        createElement("div", [], {}, [
+            createElement("h2", ["setting-entry"], { textContent: "Install Custom Theme" }),
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h3", ["setting-title"], { textContent: "Install from JSON:" }),
+                createElement("textarea", ["setting-item"], { rows: 10, cols: 50, id: "theme-json" }),
+                createElement("p", ["setting-description"], { innerHTML: "Load a theme from a JSON string. <a href='https://github.com/aopell/SchoologyPlus/docs/example-theme.json'>Click here for theme format</a>" }),
+                createButton("add-theme", "Install Theme", createTheme)
+            ]),
+            createElement("div", ["setting-entry"], { id: "themes-list" }, [
+                createElement("h2", ["setting-title"], { textContent: "Installed Themes:" })
+            ])
+        ]),
+        "&copy; Aaron Opell 2018"
     )
 ];
+
+(() => {
+    let themesList = document.getElementById("themes-list");
+    if (storage.themes) {
+        for (let t of storage.themes) {
+            let a = createElement("a", ["close-button"], { textContent: "×", href: "#", onclick: (event) => deleteTheme(event.target.dataset.themeName) });
+            a.dataset.themeName = t.name;
+            themesList.appendChild(createElement("h3", ["setting-description"], {}, [
+                a,
+                createElement("span", [], { textContent: " " + t.name })
+            ]));
+        }
+    }
+
+    if (!storage.themes || storage.themes.length === 0) {
+        themesList.appendChild(createElement("h3", ["close-button"], { textContent: "No themes installed" }));
+    }
+})();
 
 chrome.storage.sync.get(["newVersion", "hideUpdateIndicator"], s => {
     if (!s.newVersion || s.newVersion != chrome.runtime.getManifest().version) {
@@ -140,6 +175,7 @@ function clearNewUpdate(clearAll) {
 
 function openOptionsMenu(settingsModal) {
     settingsModal.body.innerHTML = "";
+    updateSettings();
     settingsModal.body.appendChild(getModalContents());
     settingsModal.element.querySelector("#open-changelog").addEventListener("click", () => openModal("changelog-modal"), { once: true });
     settingsModal.element.querySelector("#open-contributors").addEventListener("click", () => openModal("contributors-modal"), { once: true });
@@ -165,6 +201,34 @@ function modalClose(element) {
     }
 
     element.style.display = "none";
+}
+
+function deleteTheme(name) {
+    if (confirm(`Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`)) {
+        if (storage.themes) {
+            chrome.storage.sync.set({ themes: storage.themes.filter(x => x.name != name) }, () => window.location.reload());
+        }
+    }
+}
+
+function addTheme(themeObject) {
+    let t = storage.themes || [];
+    t.push(themeObject);
+    chrome.storage.sync.set({ themes: t }, (x) => updateSettings());
+}
+
+function createTheme(event) {
+    let json = document.getElementById("theme-json").value;
+    let themeObject = JSON.parse(json);
+
+    if (!Theme.loadFromObject(themeObject)) {
+        alert("Error parsing theme");
+        return;
+    }
+
+    addTheme(themeObject);
+    alert("Added theme successfully. Reloading page.");
+    window.location.reload();
 }
 
 function Modal(id, title, contentElement, footerHTML, openCallback) {

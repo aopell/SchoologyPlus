@@ -5,6 +5,21 @@ class Theme {
         this.onupdate = onUpdate;
     }
 
+    static loadFromObject(obj) {
+        if (!obj.name || (obj.hue && Number.isNaN(Number.parseFloat(obj.hue))) || (obj.colors && obj.colors.length != 4)) return null;
+        return new Theme(
+            obj.name,
+            () => {
+                Theme.setBackgroundHue(obj.hue);
+                if (obj.colors) {
+                    Theme.setBackgroundColor(obj.colors[0], obj.colors[1], obj.colors[2], obj.colors[3]);
+                }
+                Theme.setLogoVisibility(obj.logo && obj.logo != "schoology");
+                Theme.setCursorUrl(obj.cursor);
+            }
+        );
+    }
+
     static apply(theme) {
         Theme.setBackgroundHue(210);
         Theme.setCursorUrl();
@@ -13,26 +28,30 @@ class Theme {
     }
 
     static get active() {
-        return tempTheme ? Theme.byName(tempTheme) : Theme.byName(storage["theme"]) || Theme.byName("Custom");
+        return tempTheme ? Theme.byName(tempTheme) : Theme.byName(storage["theme"]) || Theme.byName("Custom Color");
     }
 
     static byName(name) {
-        return themes.find(x => x.name == name);
+        return themes.find(x => x.name == name) || Theme.byName("Custom Color");
     }
 
     static setBackgroundColor(primaryColor, primaryLight, primaryDark, primaryVeryDark) {
-        document.documentElement.style.setProperty("--primary-color", primaryColor);
-        document.documentElement.style.setProperty("--primary-light", primaryLight);
-        document.documentElement.style.setProperty("--primary-dark", primaryDark);
-        document.documentElement.style.setProperty("--primary-very-dark", primaryVeryDark);
+        if (primaryColor && primaryLight && primaryDark && primaryVeryDark) {
+            document.documentElement.style.setProperty("--primary-color", primaryColor);
+            document.documentElement.style.setProperty("--primary-light", primaryLight);
+            document.documentElement.style.setProperty("--primary-dark", primaryDark);
+            document.documentElement.style.setProperty("--primary-very-dark", primaryVeryDark);
+        }
     }
 
     static setBackgroundHue(hue) {
-        document.documentElement.style.setProperty("--color-hue", hue);
-        document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
-        document.documentElement.style.setProperty("--primary-light", "hsl(var(--color-hue), 70%, 60%)");
-        document.documentElement.style.setProperty("--primary-dark", "hsl(var(--color-hue), 55%, 40%)");
-        document.documentElement.style.setProperty("--primary-very-dark", "hsl(var(--color-hue), 90%, 50%)");
+        if (hue) {
+            document.documentElement.style.setProperty("--color-hue", hue);
+            document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
+            document.documentElement.style.setProperty("--primary-light", "hsl(var(--color-hue), 60%, 55%)");
+            document.documentElement.style.setProperty("--primary-dark", "hsl(var(--color-hue), 55%, 40%)");
+            document.documentElement.style.setProperty("--primary-very-dark", "hsl(var(--color-hue), 90%, 50%)");
+        }
     }
 
     static setLogoVisibility(visible) {
@@ -51,7 +70,9 @@ class Theme {
     }
 
     static setCursorUrl(url) {
-        document.documentElement.style.setProperty("--cursor", url ? `url(${url}), auto` : "auto");
+        if (url) {
+            document.documentElement.style.setProperty("--cursor", url ? `url(${url}), auto` : "auto");
+        }
     }
 }
 
@@ -59,7 +80,7 @@ let tempTheme = undefined;
 
 let themes = [
     new Theme(
-        "Custom",
+        "Custom Color",
         function (storage) {
             Theme.setBackgroundHue(storage["color"] || 210);
         }
@@ -88,6 +109,16 @@ let themes = [
         }
     )
 ];
+
+chrome.storage.sync.get("themes", storageContents => {
+    if (storageContents.themes) {
+        for (let t of storageContents.themes) {
+            themes.push(Theme.loadFromObject(t));
+        }
+    }
+
+    themes.push(new Theme("Install and Manage Themes..."));
+});
 
 setInterval(() => {
     if (storage) {

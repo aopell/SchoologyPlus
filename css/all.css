@@ -1,7 +1,7 @@
 :root {
     --color-hue: 210;
     --primary-color: hsl(var(--color-hue), 50%, 50%);
-    --primary-light: hsl(var(--color-hue), 70%, 60%);
+    --primary-light: hsl(var(--color-hue), 60%, 55%);
     --primary-dark: hsl(var(--color-hue), 55%, 40%);
     --primary-very-dark: hsl(var(--color-hue), 90%, 50%);
     --cursor: auto;
@@ -48,8 +48,8 @@ body #primary-settings .unfold:hover {
 
 body .search-toggle,
 body #primary-settings .unfold {
-    background-color: var(--primary-color) !important;
-    border-color: var(--primary-light) !important;
+    background-color: var(--primary-light) !important;
+    border-color: var(--primary-dark) !important;
 }
 
 #home a[role=menuitem] {
@@ -276,4 +276,17 @@ video.easter-egg {
     color: red;
     margin-top: 10px;
     font-weight: normal;
+}
+
+textarea.setting-item {
+    height: unset !important;
+    resize: both;
+}
+
+input[type=text].setting-item {
+    width: 300px;
+}
+
+.close-button {
+    color: red;
 }
