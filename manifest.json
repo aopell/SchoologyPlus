@@ -4,6 +4,11 @@
     "short_name": "Schoology+",
     "description": "Provides some enhancements to your LAUSD Schoology experience",
     "version": "3.5.2",
+    "applications": {
+        "gecko": {
+            "id": "schoologyplus@aopell.me"
+        }
+    },
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
