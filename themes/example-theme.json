@@ -15,8 +15,8 @@
     ],
     //Controls whether the LAUSD logo or the Schoology logo is shown in the upper left (optional)
     //Set to "schoology" for schoology logo (default)
-    //Set to anything else for LAUSD logo
-    //This setting will allow you to set a custom logo image in the near future
+    //Set to "lausd" for the LAUSD logo
+    //Set to a direct image URL for a custom image (ideal size 160x36, image will not be scaled)
     "logo": "schoology",
     //Sets the URL for the cursor image (optional)
     //Must be a direct URL to an image
