@@ -14,8 +14,11 @@ class Theme {
                 if (obj.colors) {
                     Theme.setBackgroundColor(obj.colors[0], obj.colors[1], obj.colors[2], obj.colors[3]);
                 }
-                Theme.setLogoVisibility(obj.logo && obj.logo != "schoology");
+                Theme.setLogoVisibility(obj.logo && obj.logo.toLowerCase() != "schoology");
                 Theme.setCursorUrl(obj.cursor);
+                if (obj.logo && obj.logo.toLowerCase() != "schoology" && obj.logo.toLowerCase() != "lausd") {
+                    Theme.setLogoUrl(obj.logo);
+                }
             }
         );
     }
@@ -24,6 +27,7 @@ class Theme {
         Theme.setBackgroundHue(210);
         Theme.setCursorUrl();
         Theme.setLogoVisibility(false);
+        Theme.setLogoUrl();
         theme.onapply(storage);
     }
 
@@ -64,6 +68,23 @@ class Theme {
                     logo.classList.remove("hide-background-image");
                 } else {
                     logo.classList.add("hide-background-image");
+                }
+            }
+        }, 50);
+    }
+
+    static setLogoUrl(url) {
+        let interval = setInterval(() => {
+            let logo = document.querySelector("#home a");
+            let notLogo = document.querySelector("#home a[role=menuitem]")
+            if (!notLogo && logo) {
+                clearInterval(interval);
+                if (url) {
+                    logo.classList.add("custom-background-image");
+                    document.documentElement.style.setProperty("--background-url", `url(${url})`);
+                }
+                else {
+                    logo.classList.remove("custom-background-image");
                 }
             }
         }, 50);

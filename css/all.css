@@ -5,6 +5,7 @@
     --primary-dark: hsl(var(--color-hue), 55%, 40%);
     --primary-very-dark: hsl(var(--color-hue), 90%, 50%);
     --cursor: auto;
+    --background-url: none;
     cursor: var(--cursor);
 }
 
@@ -54,6 +55,10 @@ body #primary-settings .unfold {
 
 #home a[role=menuitem] {
     background-image: none !important;
+}
+
+#home a.custom-background-image {
+    background: var(--background-url) no-repeat 0px 0px !important;
 }
 
 #home a.hide-background-image {
