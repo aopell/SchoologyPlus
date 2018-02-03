@@ -166,9 +166,11 @@ for (let course of courses) {
 }
 
 if (!document.location.search.includes("past") || document.location.search.split("past=")[1] != 1) {
-    for (let course of coursesByPeriod) {
-        if (course) {
-            course.parentElement.appendChild(course);
+    if (storage["orderClasses"] == "period") {
+        for (let course of coursesByPeriod) {
+            if (course) {
+                course.parentElement.appendChild(course);
+            }
         }
     }
 
@@ -470,7 +472,7 @@ function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallbac
                     // some categories are specified, but weights don't quite add to 100
                     // scale up known grades
                     total /= totalPercentWeight;
-                // epsilon because floating point
+                    // epsilon because floating point
                 } else if (totalPercentWeight < 0.00001) {
                     total = 100;
                 }
