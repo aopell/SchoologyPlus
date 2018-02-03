@@ -211,6 +211,7 @@ function saveSettings() {
         for (let element of document.querySelectorAll(".setting-modified")) {
             element.parentElement.removeChild(element);
         }
+        updateSettings();
     });
 
     let settingsSaved = document.getElementById("save-settings");
