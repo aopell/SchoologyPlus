@@ -73,6 +73,15 @@
                 "js/grades.js"
             ],
             "run_at": "document_end"
+        },
+        {
+            "matches": [
+                "https://lms.lausd.net/mastery"
+            ],
+            "js": [
+                "js/mastery.js"
+            ],
+            "run_at": "document_end"
         }
     ]
 }
