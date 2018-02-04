@@ -59,6 +59,7 @@ class Theme {
     }
 
     static setLogoVisibility(visible) {
+        // Hacky workaround to ensure logo element has loaded
         let interval = setInterval(() => {
             let logo = document.querySelector("#home a");
             let notLogo = document.querySelector("#home a[role=menuitem]")
@@ -74,6 +75,7 @@ class Theme {
     }
 
     static setLogoUrl(url) {
+        // Hacky workaround to ensure logo element has loaded
         let interval = setInterval(() => {
             let logo = document.querySelector("#home a");
             let notLogo = document.querySelector("#home a[role=menuitem]")
@@ -91,9 +93,7 @@ class Theme {
     }
 
     static setCursorUrl(url) {
-        if (url) {
-            document.documentElement.style.setProperty("--cursor", url ? `url(${url}), auto` : "auto");
-        }
+        document.documentElement.style.setProperty("--cursor", url ? `url(${url}), auto` : "auto");
     }
 }
 

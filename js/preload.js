@@ -195,8 +195,11 @@ function anySettingsModified() {
     return false;
 }
 
-function saveSettings() {
+function saveSettings(modifiedValues) {
     let newValues = {};
+    if (modifiedValues) {
+        Object.assign(newValues, modifiedValues);
+    }
     for (let setting in settings) {
         let v = settings[setting];
         if (v.modified) {

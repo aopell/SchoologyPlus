@@ -72,14 +72,14 @@ let modals = [
     )
 ];
 
-(() => {
+(function () {
     let themesList = document.getElementById("themes-list");
     if (storage.themes) {
         for (let t of storage.themes) {
             let closeButton = createElement("a", ["close-button"], { textContent: "×", href: "#", title: "Delete Theme", onclick: (event) => deleteTheme(event.target.dataset.themeName) });
             closeButton.dataset.themeName = t.name;
-            let exportButton = createElement("a", [], { textContent: "↗", href: "#", title: "Export Theme", onclick: (event) => window.prompt("Copy the text below to share your theme:", JSON.stringify(storage.themes.find(x => x.name == event.target.dataset.themeName))) });
-            exportButton.dataset.themeName = t.name;
+            let exportButton = createElement("a", ["export-button"], { textContent: "↗", href: "#", title: "Export Theme", onclick: () => alert("Copied to clipboard") });
+            exportButton.dataset.clipboardText = JSON.stringify(t, null, 4);
             themesList.appendChild(createElement("h3", ["setting-description"], {}, [
                 closeButton,
                 exportButton,
@@ -91,6 +91,8 @@ let modals = [
     if (!storage.themes || storage.themes.length === 0) {
         themesList.appendChild(createElement("h3", ["close-button"], { textContent: "No themes installed" }));
     }
+
+    new Clipboard(".export-button");
 })();
 
 chrome.storage.sync.get(["newVersion", "hideUpdateIndicator"], s => {
@@ -229,7 +231,13 @@ function createTheme(event) {
         return;
     }
 
+    if (themes.find(x => x.name === themeObject.name)) {
+        alert("A theme with that name already exists");
+        return;
+    }
+
     addTheme(themeObject);
+    saveSettings({ theme: themeObject.name });
     alert("Added theme successfully. Reloading page.");
     window.location.reload();
 }
