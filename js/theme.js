@@ -176,16 +176,6 @@ let themes = [
     )
 ];
 
-chrome.storage.sync.get("themes", storageContents => {
-    if (storageContents.themes) {
-        for (let t of storageContents.themes) {
-            themes.push(Theme.loadFromObject(t));
-        }
-    }
-
-    themes.push(new Theme("Install and Manage Themes..."));
-});
-
 setInterval(() => {
     if (storage) {
         if (Theme.active.onupdate) {
