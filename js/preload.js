@@ -163,7 +163,7 @@ function updateSettings() {
             new Setting(
                 "courseIcons",
                 "Override Course Icons",
-                "[Refresh required] Replace the course icons with the selected theme's icons",
+                "[Refresh required to disable] Replace the course icons with the selected theme's icons",
                 "enabled",
                 "select",
                 {

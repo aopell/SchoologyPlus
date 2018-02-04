@@ -23,7 +23,7 @@ let modals = [
     new Modal(
         "changelog-modal",
         "Schoology Plus Changelog",
-        frame,
+        createElement("div", ["splus-modal-contents"], {}, [frame]),
         "&copy; Aaron Opell 2018",
         function () {
             clearNewUpdate(true);
@@ -32,7 +32,7 @@ let modals = [
     new Modal(
         "contributors-modal",
         "Schoology Plus Contributors",
-        createElement("div", [], undefined, [
+        createElement("div", ["splus-modal-contents"], undefined, [
             createElement("h2", ["setting-entry"], { textContent: "Contributors" }),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
@@ -56,7 +56,7 @@ let modals = [
     new Modal(
         "themes-modal",
         "Schoology Plus Themes",
-        createElement("div", [], {}, [
+        createElement("div", ["splus-modal-contents"], {}, [
             createElement("h2", ["setting-entry"], { textContent: "Install Custom Theme" }),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], { textContent: "Install from JSON:" }),
@@ -205,6 +205,7 @@ function openOptionsMenu(settingsModal) {
 }
 
 function openModal(id) {
+
     for (let m of modals) {
         modalClose(m.element);
     }

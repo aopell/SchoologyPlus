@@ -79,6 +79,7 @@ class Theme {
     }
 
     static setProfilePictures() {
+        if(storage["courseIcons"] === "disabled") return;
         let pictures = [];
         //Courses drop down
         pictures = Array.from(document.querySelectorAll(".section-item .profile-picture>img"));
