@@ -197,11 +197,12 @@ function clearNewUpdate(clearAll) {
 
 function openOptionsMenu(settingsModal) {
     settingsModal.body.innerHTML = "";
-    updateSettings();
-    settingsModal.body.appendChild(getModalContents());
-    settingsModal.element.querySelector("#open-changelog").addEventListener("click", () => openModal("changelog-modal"), { once: true });
-    settingsModal.element.querySelector("#open-contributors").addEventListener("click", () => openModal("contributors-modal"), { once: true });
-    clearNewUpdate(false);
+    updateSettings(() => {
+        settingsModal.body.appendChild(getModalContents());
+        settingsModal.element.querySelector("#open-changelog").addEventListener("click", () => openModal("changelog-modal"), { once: true });
+        settingsModal.element.querySelector("#open-contributors").addEventListener("click", () => openModal("contributors-modal"), { once: true });
+        clearNewUpdate(false);
+    });
 }
 
 function openModal(id) {

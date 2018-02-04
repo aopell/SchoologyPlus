@@ -38,7 +38,7 @@ function createElement(tag, classList, properties, children) {
 
 let storage = {};
 
-function updateSettings() {
+function updateSettings(callback) {
     chrome.storage.sync.get(null, storageContents => {
         storage = storageContents;
 
@@ -187,6 +187,10 @@ function updateSettings() {
                 createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreDefaults, href: "#" })
             ])
         ]);
+        
+        if (callback && typeof callback == "function") {
+            callback();
+        }
     });
 }
 
