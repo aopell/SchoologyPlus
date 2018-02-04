@@ -79,9 +79,25 @@ class Theme {
     }
 
     static setProfilePictures() {
-        let schoolIcon = document.querySelector(".school .profile-picture>img");
-        let peoplePictures = Array.from(document.querySelectorAll(".picture .profile-picture-wrapper .profile-picture>img"));
-        for (let img of Array.from(document.querySelectorAll(".profile-picture>img")).filter(x => x != schoolIcon && !peoplePictures.includes(x))) {
+        let pictures = [];
+        //Courses drop down
+        pictures = Array.from(document.querySelectorAll(".section-item .profile-picture>img"));
+        //Course profile picture on course page
+        let bigCourseIcon = document.querySelector(".sCourse-processed .profile-picture>img");
+        if (bigCourseIcon) pictures.push(bigCourseIcon);
+        //List of courses on user page
+        let coursesList = document.querySelector(".my-courses-item-list");
+        if (coursesList) {
+            let courseImgs = [];
+            for (let c of Array.from(coursesList.querySelectorAll(".course-item"))) {
+                let img = c.querySelector(".profile-picture>img");
+                img.alt = "Profile picture for " + c.textContent;
+                courseImgs.push(img);
+            }
+            pictures = pictures.concat(courseImgs);
+        }
+
+        for (let img of pictures) {
             img.src = Theme.getIcon(img.alt);
         }
     }
