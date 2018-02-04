@@ -18,7 +18,7 @@ var icons = {
     //Chemistry
     "CHEM": "https://image.flaticon.com/icons/svg/123/123381.svg",
     //Computer Science and related courses
-    "COMP SCI|COMPUTER": "https://image.flaticon.com/icons/png/512/626/626570.png",
+    "COMP SCI?|COMPUTER": "https://image.flaticon.com/icons/png/512/626/626570.png",
     //US History
     "US HIST": "https://image.flaticon.com/icons/svg/149/149513.svg",
     //Health

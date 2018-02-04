@@ -6,9 +6,9 @@ class Theme {
     }
 
     static getIcon(course) {
-        if(storage.themes) {
-            let t = storage.themes.find(x=>x.name === Theme.active.name);
-            if(t && t.icons) {
+        if (storage.themes) {
+            let t = storage.themes.find(x => x.name === Theme.active.name);
+            if (t && t.icons) {
                 for (let pattern in t.icons) {
                     if (course.match(new RegExp(pattern))) {
                         return t.icons[pattern];
@@ -79,7 +79,9 @@ class Theme {
     }
 
     static setProfilePictures() {
-        for (let img of Array.from(document.querySelectorAll(".profile-picture>img")).filter(x => x != document.querySelector(".school .profile-picture>img"))) {
+        let schoolIcon = document.querySelector(".school .profile-picture>img");
+        let peoplePictures = Array.from(document.querySelectorAll(".picture .profile-picture-wrapper .profile-picture>img"));
+        for (let img of Array.from(document.querySelectorAll(".profile-picture>img")).filter(x => x != schoolIcon && !peoplePictures.includes(x))) {
             img.src = Theme.getIcon(img.alt);
         }
     }
