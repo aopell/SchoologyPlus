@@ -130,7 +130,7 @@ video.easter-egg {
     border-radius: 5px;
 }
 
-.modal {
+.splus-modal {
     display: none;
     position: fixed;
     z-index: 1;
@@ -143,7 +143,7 @@ video.easter-egg {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content {
+.splus-modal-content {
     position: relative;
     background-color: #fefefe;
     margin: auto;
@@ -193,23 +193,23 @@ video.easter-egg {
     cursor: pointer;
 }
 
-.modal-header {
+.splus-modal-header {
     padding: 2px 16px;
     background-color: var(--primary-color);
     color: white;
 }
 
-.modal-body {
+.splus-modal-body {
     padding: 16px;
 }
 
-.modal-footer {
+.splus-modal-footer {
     padding: 2px 16px;
     background-color: var(--primary-color);
     color: white;
 }
 
-.modal-title {
+.splus-modal-title {
     font-size: 32px;
 }
 
@@ -221,25 +221,25 @@ video.easter-egg {
     color: red
 }
 
-.modal-button {
+.splus-modal-button {
     margin-left: 0 !important;
     margin-top: 8px;
 }
 
-.modal-body input[type=text],
-.modal-body input[type=number] {
+.splus-modal-body input[type=text],
+.splus-modal-body input[type=number] {
     color: #333;
     border: 1px solid #c7c7c7;
     font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
     padding: 4px;
 }
 
-.modal-content .modal-footer .modal-footer-text a {
+.splus-modal-content .splus-modal-footer .splus-modal-footer-text a {
     color: white;
     font-weight: normal !important;
 }
 
-.modal-body iframe {
+.splus-modal-body iframe {
     width: 100%;
     height: 400px;
 }

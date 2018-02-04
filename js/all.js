@@ -93,6 +93,31 @@ let modals = [
     }
 
     new Clipboard(".export-button");
+
+    function setProfilePictures() {
+        for (let img of document.querySelectorAll(".profile-picture>img")) {
+            for (let pattern in icons) {
+                if (img.alt.match(new RegExp(pattern))) {
+                    img.src = icons[pattern];
+                    break;
+                }
+            }
+        }
+    }
+
+    setProfilePictures();
+
+    let target = document.querySelector(".sections-list")
+    let config = { childList: true };
+    let observer = new MutationObserver(() => 0);
+
+    let callback = (mutationsList) => {
+        setProfilePictures();
+        observer.disconnect();
+    };
+
+    observer = new MutationObserver(callback);
+    observer.observe(target, config);
 })();
 
 chrome.storage.sync.get(["newVersion", "hideUpdateIndicator"], s => {
@@ -243,15 +268,15 @@ function createTheme(event) {
 }
 
 function Modal(id, title, contentElement, footerHTML, openCallback) {
-    let modalHTML = `<div id="${id}" class="modal"><div class="modal-content"><div class="modal-header"><span class="close" data-parent="${id}">&times;</span>`
-        + `<p class="modal-title">${title}</p></div><div class="modal-body"></div><div class="modal-footer"><p class="modal-footer-text">`
+    let modalHTML = `<div id="${id}" class="splus-modal"><div class="splus-modal-content"><div class="splus-modal-header"><span class="close" data-parent="${id}">&times;</span>`
+        + `<p class="splus-modal-title">${title}</p></div><div class="splus-modal-body"></div><div class="splus-modal-footer"><p class="splus-modal-footer-text">`
         + `${footerHTML}</p></div></div></div>`;
 
     document.body.appendChild(document.createElement("div")).innerHTML = modalHTML;
 
     this.id = id;
     this.element = document.getElementById(id);
-    this.body = document.getElementById(id).querySelector(".modal-body");
+    this.body = document.getElementById(id).querySelector(".splus-modal-body");
     this.onopen = openCallback;
 
     this.body.appendChild(contentElement);

@@ -57,6 +57,7 @@
             ],
             "js": [
                 "js/clipboard.min.js",
+                "js/icons.js",
                 "js/all.js"
             ],
             "run_at": "document_end"

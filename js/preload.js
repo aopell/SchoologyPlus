@@ -42,7 +42,7 @@ function updateSettings() {
     chrome.storage.sync.get(null, storageContents => {
         storage = storageContents;
 
-        modalContents = createElement("div", ["modal-contents"], undefined, [
+        modalContents = createElement("div", ["splus-modal-contents"], undefined, [
             new Setting(
                 "theme",
                 "Theme",
@@ -235,7 +235,7 @@ function restoreDefaults() {
 }
 
 function createButton(id, text, callback) {
-    return createElement("span", ["submit-span-wrapper", "modal-button"], { onclick: callback }, [createElement("input", ["form-submit"], { type: "button", value: text, id: id })]);
+    return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit"], { type: "button", value: text, id: id })]);
 }
 
 /**
