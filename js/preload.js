@@ -160,6 +160,28 @@ function updateSettings() {
                 undefined,
                 element => element.value
             ).getControl(),
+            new Setting(
+                "courseIcons",
+                "Override Course Icons",
+                "[Refresh required] Replace the course icons with the selected theme's icons",
+                "enabled",
+                "select",
+                {
+                    options: [
+                        {
+                            text: "Enabled",
+                            value: "enabled"
+                        },
+                        {
+                            text: "Disabled",
+                            value: "disabled"
+                        }
+                    ]
+                },
+                value => value,
+                undefined,
+                element => element.value
+            ).getControl(),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
                 createButton("save-settings", "Save Settings", saveSettings),
                 createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreDefaults, href: "#" })

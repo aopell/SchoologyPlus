@@ -46,6 +46,7 @@
                 "css/all.css"
             ],
             "js": [
+                "js/icons.js",
                 "js/theme.js",
                 "js/preload.js"
             ],
@@ -57,7 +58,6 @@
             ],
             "js": [
                 "js/clipboard.min.js",
-                "js/icons.js",
                 "js/all.js"
             ],
             "run_at": "document_end"

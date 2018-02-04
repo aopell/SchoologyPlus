@@ -5,6 +5,25 @@ class Theme {
         this.onupdate = onUpdate;
     }
 
+    static getIcon(course) {
+        if(storage.themes) {
+            let t = storage.themes.find(x=>x.name === Theme.active.name);
+            if(t && t.icons) {
+                for (let pattern in t.icons) {
+                    if (course.match(new RegExp(pattern))) {
+                        return t.icons[pattern];
+                    }
+                }
+            }
+        }
+
+        for (let pattern in icons) {
+            if (course.match(new RegExp(pattern))) {
+                return icons[pattern];
+            }
+        }
+    }
+
     static loadFromObject(obj) {
         if (!obj.name || (obj.hue && Number.isNaN(Number.parseFloat(obj.hue))) || (obj.colors && obj.colors.length != 4)) return null;
         return new Theme(
@@ -29,6 +48,7 @@ class Theme {
         Theme.setLogoVisibility(false);
         Theme.setLogoUrl();
         theme.onapply(storage);
+        Theme.setProfilePictures();
     }
 
     static get active() {
@@ -55,6 +75,12 @@ class Theme {
             document.documentElement.style.setProperty("--primary-light", "hsl(var(--color-hue), 60%, 55%)");
             document.documentElement.style.setProperty("--primary-dark", "hsl(var(--color-hue), 55%, 40%)");
             document.documentElement.style.setProperty("--primary-very-dark", "hsl(var(--color-hue), 90%, 50%)");
+        }
+    }
+
+    static setProfilePictures() {
+        for (let img of Array.from(document.querySelectorAll(".profile-picture>img")).filter(x => x != document.querySelector(".school .profile-picture>img"))) {
+            img.src = Theme.getIcon(img.alt);
         }
     }
 

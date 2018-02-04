@@ -94,30 +94,22 @@ let modals = [
 
     new Clipboard(".export-button");
 
-    function setProfilePictures() {
-        for (let img of document.querySelectorAll(".profile-picture>img")) {
-            for (let pattern in icons) {
-                if (img.alt.match(new RegExp(pattern))) {
-                    img.src = icons[pattern];
-                    break;
-                }
-            }
-        }
+    if (storage.courseIcons != "disabled") {
+
+        Theme.setProfilePictures();
+
+        let target = document.querySelector(".sections-list")
+        let config = { childList: true };
+        let observer = new MutationObserver(() => 0);
+
+        let callback = (mutationsList) => {
+            Theme.setProfilePictures();
+            observer.disconnect();
+        };
+
+        observer = new MutationObserver(callback);
+        observer.observe(target, config);
     }
-
-    setProfilePictures();
-
-    let target = document.querySelector(".sections-list")
-    let config = { childList: true };
-    let observer = new MutationObserver(() => 0);
-
-    let callback = (mutationsList) => {
-        setProfilePictures();
-        observer.disconnect();
-    };
-
-    observer = new MutationObserver(callback);
-    observer.observe(target, config);
 })();
 
 chrome.storage.sync.get(["newVersion", "hideUpdateIndicator"], s => {
