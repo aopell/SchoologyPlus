@@ -76,10 +76,13 @@ let modals = [
     let themesList = document.getElementById("themes-list");
     if (storage.themes) {
         for (let t of storage.themes) {
-            let a = createElement("a", ["close-button"], { textContent: "×", href: "#", title: "Delete Theme", onclick: (event) => deleteTheme(event.target.dataset.themeName) });
-            a.dataset.themeName = t.name;
+            let closeButton = createElement("a", ["close-button"], { textContent: "×", href: "#", title: "Delete Theme", onclick: (event) => deleteTheme(event.target.dataset.themeName) });
+            closeButton.dataset.themeName = t.name;
+            let exportButton = createElement("a", [], { textContent: "↗", href: "#", title: "Export Theme", onclick: (event) => window.prompt("Copy the text below to share your theme:", JSON.stringify(storage.themes.find(x => x.name == event.target.dataset.themeName))) });
+            exportButton.dataset.themeName = t.name;
             themesList.appendChild(createElement("h3", ["setting-description"], {}, [
-                a,
+                closeButton,
+                exportButton,
                 createElement("span", [], { textContent: " " + t.name })
             ]));
         }
