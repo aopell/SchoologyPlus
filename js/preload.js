@@ -1,4 +1,5 @@
 // Process options
+var firstLoad = true;
 updateSettings();
 
 // Functions
@@ -41,6 +42,18 @@ let storage = {};
 function updateSettings(callback) {
     chrome.storage.sync.get(null, storageContents => {
         storage = storageContents;
+
+        if (firstLoad) {
+            if (storageContents.themes) {
+                for (let t of storageContents.themes) {
+                    themes.push(Theme.loadFromObject(t));
+                }
+            }
+
+            themes.push(new Theme("Install and Manage Themes..."));
+
+            firstLoad = false;
+        }
 
         modalContents = createElement("div", ["splus-modal-contents"], undefined, [
             new Setting(
@@ -187,7 +200,7 @@ function updateSettings(callback) {
                 createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreDefaults, href: "#" })
             ])
         ]);
-        
+
         if (callback && typeof callback == "function") {
             callback();
         }
