@@ -1,0 +1,14 @@
+{
+    "name": "Penguins",
+    "icons": {
+        ".": "https://image.flaticon.com/icons/svg/692/692439.svg"
+    },
+    "colors": [
+        "#3E3D42",
+        "#3E3D42",
+        "#FA971E",
+        "#FA971E"
+    ],
+    "cursor": "https://imgur.com/5QVrDqX.png",
+    "logo": "schoology"
+}

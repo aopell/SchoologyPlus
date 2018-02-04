@@ -21,5 +21,13 @@
     //Sets the URL for the cursor image (optional)
     //Must be a direct URL to an image
     //The image must be less than 128x128 otherwise it will not show up, but should ideally be no greater than 32x32
-    "cursor": null
+    "cursor": null,
+    //Course icons (optional)
+    //A dictionary of (case insensitive) regular expressions and links to images
+    //Course names will be matched against regular expressions from top to bottom, so more specific regexes should be placed first
+    //If a catch-all regex (like ".") is not specified, courses not matching a regex in this file will fall back to the default icon set
+    "icons": {
+        "BIO(LOGY)? ": "https://example.com/my-biology-image.png",
+        "MATH|ALGEBRA": "https://example.com/my-math-image.png"
+    }
 }
