@@ -23,7 +23,7 @@
 
 - Classes are sorted by period
 - Grades are displayed when classes are collapsed
-- Course icons for many courses
+- Course icons for many courses (can be disabled)
 
 ![Assume Grade](https://i.imgur.com/jzf9VR7.png)
 - Ability to assume letter grades based on percentage when a class doesn't have a grading scale specified (can be disabled)
@@ -60,7 +60,7 @@
 
 ![Courses List](https://i.imgur.com/yGVIZTW.png)
 - The courses drop down menu fits all classes without a scroll bar
-- Course icons for many courses
+- Course icons for many courses (can be disabled)
 
 # Bug Reports and Feature Requests
 
