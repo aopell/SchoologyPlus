@@ -9,13 +9,14 @@
 # Features
 
 ### No more orange
+
+![Themes](https://i.imgur.com/JenJigF.png)
+
 - Removes the hideous LAUSD logo and orange color from the user interface.
 - Customize Schoology with a color of your choice
 - Multiple themes (and taking suggestions!)
 - Rainbow mode for the indecisive types
 - If *(for some strange reason)* you like the LAUSD color scheme, you can restore it in settings
-
-![Themes](https://i.imgur.com/JenJigF.png)
 
 ### Improvements to the grades page
 
