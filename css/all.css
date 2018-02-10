@@ -301,3 +301,24 @@ input[type=text].setting-item {
 .close-button {
     color: red;
 }
+
+.hierarchical-grading-report.show-title.interactive {
+    padding: 10px 0 !important;
+}
+
+.gradebook-course-title a {
+    line-height: 30px !important;
+}
+
+.gradebook-course-title a .arrow {
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.gradebook-course-title a .arrow:not(.icon-modified) {
+    background-position-y: -145px !important;
+}
+
+.gradebook-course-title .awarded-grade {
+    padding-top: 5px !important;
+}

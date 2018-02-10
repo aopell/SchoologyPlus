@@ -52,7 +52,7 @@ var icons = {
     //Statistics
     "STAT(STICS|ISTCS)|STATS?|STATISTICS ": "https://image.flaticon.com/icons/svg/138/138349.svg",
     //Film
-    " FILM(MAKING)? ": "https://image.flaticon.com/icons/svg/321/321799.svg",
+    "FILM(MAKING)? ": "https://image.flaticon.com/icons/svg/321/321799.svg",
     //Geology
     " GEOLOGY ": "https://image.flaticon.com/icons/png/512/184/184647.png",
     //Government
