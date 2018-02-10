@@ -19,10 +19,11 @@
 
 ### Improvements to the grades page
 
-![Grades](https://imgur.com/hoFKH32.png)
+![Grades](https://i.imgur.com/7G1xW39.png)
 
 - Classes are sorted by period
 - Grades are displayed when classes are collapsed
+- Course icons for many courses
 
 ![Assume Grade](https://i.imgur.com/jzf9VR7.png)
 - Ability to assume letter grades based on percentage when a class doesn't have a grading scale specified (can be disabled)
