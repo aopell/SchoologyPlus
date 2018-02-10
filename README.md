@@ -58,8 +58,9 @@
 - Added grades page link to the navigation bar
 - Replaced the LAUSD logo with the Schoology logo
 
-![Courses List](https://i.imgur.com/Kp14rwH.png)
+![Courses List](https://i.imgur.com/yGVIZTW.png)
 - The courses drop down menu fits all classes without a scroll bar
+- Course icons for many courses
 
 # Bug Reports and Feature Requests
 
