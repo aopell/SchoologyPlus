@@ -5,7 +5,7 @@
     "description": "Provides some enhancements to your LAUSD Schoology experience",
     "applications": {
         "gecko": {
-            "id": "schoologyplus@aopell.me",
+            "id": "schoology.plus@aopell.me",
             "update_url": "https://gist.githubusercontent.com/aopell/82a6f5c409dc0af7e97d2ebaf88c84f6/raw/986586e057edde16f31e236e068370ffbb2203cd/update.json"
         }
     },
