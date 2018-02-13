@@ -79,7 +79,7 @@ class Theme {
     }
 
     static setProfilePictures() {
-        if(storage["courseIcons"] === "disabled") return;
+        if (storage["courseIcons"] === "disabled") return;
         let pictures = [];
         //Courses drop down
         pictures = Array.from(document.querySelectorAll(".section-item .profile-picture>img"));
@@ -96,6 +96,14 @@ class Theme {
                 courseImgs.push(img);
             }
             pictures = pictures.concat(courseImgs);
+        }
+
+        let arrows = document.querySelectorAll(".gradebook-course-title .arrow");
+
+        for (let arrow of arrows) {
+            arrow.classList.add("icon-modified");
+            arrow.style.background = `url(${Theme.getIcon(arrow.parentElement.textContent)}) no-repeat 0`;
+            arrow.style.backgroundSize = "cover";
         }
 
         for (let img of pictures) {

@@ -9,20 +9,22 @@
 # Features
 
 ### No more orange
+
+![Themes](https://i.imgur.com/JenJigF.png)
+
 - Removes the hideous LAUSD logo and orange color from the user interface.
 - Customize Schoology with a color of your choice
 - Multiple themes (and taking suggestions!)
 - Rainbow mode for the indecisive types
 - If *(for some strange reason)* you like the LAUSD color scheme, you can restore it in settings
 
-![Themes](https://i.imgur.com/JenJigF.png)
-
 ### Improvements to the grades page
 
-![Grades](https://imgur.com/hoFKH32.png)
+![Grades](https://i.imgur.com/7G1xW39.png)
 
 - Classes are sorted by period
 - Grades are displayed when classes are collapsed
+- Course icons for many courses (can be disabled)
 
 ![Assume Grade](https://i.imgur.com/jzf9VR7.png)
 - Ability to assume letter grades based on percentage when a class doesn't have a grading scale specified (can be disabled)
@@ -57,8 +59,9 @@
 - Added grades page link to the navigation bar
 - Replaced the LAUSD logo with the Schoology logo
 
-![Courses List](https://i.imgur.com/Kp14rwH.png)
+![Courses List](https://i.imgur.com/yGVIZTW.png)
 - The courses drop down menu fits all classes without a scroll bar
+- Course icons for many courses (can be disabled)
 
 # Bug Reports and Feature Requests
 
