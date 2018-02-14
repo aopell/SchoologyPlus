@@ -55,146 +55,148 @@ function updateSettings(callback) {
             firstLoad = false;
         }
 
-        modalContents = createElement("div", ["splus-modal-contents"], undefined, [
-            new Setting(
-                "theme",
-                "Theme",
-                "Set a color theme for the schoology website",
-                "Custom Color",
-                "select",
-                {
-                    options: themes.map(x => ({ text: x.name, value: x.name }))
-                },
-                value => {
-                    tempTheme = undefined;
-                    Theme.apply(Theme.active);
-                    return (value && themes.some(x => x.name == value)) ? value : null;
-                },
-                event => {
-                    if (event.target.value === "Install and Manage Themes...") {
-                        settings["theme"].modified = false;
-                        openModal("themes-modal");
-                        return;
-                    }
-                    tempTheme = event.target.value;
-                    Theme.apply(Theme.active);
-                },
-                element => element.value
-            ).getControl(),
-            new Setting(
-                "color",
-                "Color Hue",
-                "[Custom Color theme only] An HSL hue to be used as the color for the navigation bar (0-359)",
-                210,
-                "number",
-                { min: 0, max: 359, value: 210 },
-                value => {
-                    if (Theme.active.name == "Custom Color") {
-                        Theme.setBackgroundHue(value || value === 0 ? value : 210);
-                    }
-                    return value || value === 0 ? value : null;
-                },
-                event => {
-                    if (Theme.active.name === "Custom Color") Theme.setBackgroundHue(event.target.value)
-                },
-                element => Number.parseInt(element.value)
-            ).getControl(),
-            new Setting(
-                "notifications",
-                "Desktop Notifications",
-                "Displays desktop notifications and a number badge on the extension button when new grades are entered",
-                "enabled",
-                "select",
-                {
-                    options: [
-                        {
-                            text: "Number Badge and Desktop Notifications",
-                            value: "enabled"
-                        },
-                        {
-                            text: "Number Badge Only",
-                            value: "badge"
-                        },
-                        {
-                            text: "Desktop Notifications Only",
-                            value: "popup"
-                        },
-                        {
-                            text: "Disabled",
-                            value: "disabled"
+        modalContents = createElement("div", [], undefined, [
+            createElement("div", ["splus-modal-contents"], {}, [
+                new Setting(
+                    "theme",
+                    "Theme",
+                    "Set a color theme for the schoology website",
+                    "Custom Color",
+                    "select",
+                    {
+                        options: themes.map(x => ({ text: x.name, value: x.name }))
+                    },
+                    value => {
+                        tempTheme = undefined;
+                        Theme.apply(Theme.active);
+                        return (value && themes.some(x => x.name == value)) ? value : null;
+                    },
+                    event => {
+                        if (event.target.value === "Install and Manage Themes...") {
+                            settings["theme"].modified = false;
+                            openModal("themes-modal");
+                            return;
                         }
-                    ]
-                },
-                value => value,
-                undefined,
-                element => element.value
-            ).getControl(),
-            new Setting(
-                "assumeScale",
-                "Assume Grading Scale",
-                "[Refresh required] Assumes a 10%-based grading scale (90-100 A, 80-89 B, etc.) when a class has no grading scale",
-                "tenPercent",
-                "select",
-                {
-                    options: [
-                        {
-                            text: "Enabled",
-                            value: "tenPercent"
-                        },
-                        {
-                            text: "Disabled",
-                            value: "disabled"
+                        tempTheme = event.target.value;
+                        Theme.apply(Theme.active);
+                    },
+                    element => element.value
+                ).getControl(),
+                new Setting(
+                    "color",
+                    "Color Hue",
+                    "[Custom Color theme only] An HSL hue to be used as the color for the navigation bar (0-359)",
+                    210,
+                    "number",
+                    { min: 0, max: 359, value: 210 },
+                    value => {
+                        if (Theme.active.name == "Custom Color") {
+                            Theme.setBackgroundHue(value || value === 0 ? value : 210);
                         }
-                    ]
-                },
-                value => value,
-                undefined,
-                element => element.value
-            ).getControl(),
-            new Setting(
-                "orderClasses",
-                "Order Classes",
-                "[Refresh required] Changes the order of your classes on the grades and mastery pages",
-                "period",
-                "select",
-                {
-                    options: [
-                        {
-                            text: "By Period",
-                            value: "period"
-                        },
-                        {
-                            text: "Alphabetically",
-                            value: "alpha"
-                        }
-                    ]
-                },
-                value => value,
-                undefined,
-                element => element.value
-            ).getControl(),
-            new Setting(
-                "courseIcons",
-                "Override Course Icons",
-                "[Refresh required to disable] Replace the course icons with the selected theme's icons",
-                "enabled",
-                "select",
-                {
-                    options: [
-                        {
-                            text: "Enabled",
-                            value: "enabled"
-                        },
-                        {
-                            text: "Disabled",
-                            value: "disabled"
-                        }
-                    ]
-                },
-                value => value,
-                undefined,
-                element => element.value
-            ).getControl(),
+                        return value || value === 0 ? value : null;
+                    },
+                    event => {
+                        if (Theme.active.name === "Custom Color") Theme.setBackgroundHue(event.target.value)
+                    },
+                    element => Number.parseInt(element.value)
+                ).getControl(),
+                new Setting(
+                    "notifications",
+                    "Desktop Notifications",
+                    "Displays desktop notifications and a number badge on the extension button when new grades are entered",
+                    "enabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Number Badge and Desktop Notifications",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Number Badge Only",
+                                value: "badge"
+                            },
+                            {
+                                text: "Desktop Notifications Only",
+                                value: "popup"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).getControl(),
+                new Setting(
+                    "assumeScale",
+                    "Assume Grading Scale",
+                    "[Refresh required] Assumes a 10%-based grading scale (90-100 A, 80-89 B, etc.) when a class has no grading scale",
+                    "tenPercent",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "tenPercent"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).getControl(),
+                new Setting(
+                    "orderClasses",
+                    "Order Classes",
+                    "[Refresh required] Changes the order of your classes on the grades and mastery pages",
+                    "period",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "By Period",
+                                value: "period"
+                            },
+                            {
+                                text: "Alphabetically",
+                                value: "alpha"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).getControl(),
+                new Setting(
+                    "courseIcons",
+                    "Override Course Icons",
+                    "[Refresh required to disable] Replace the course icons with the selected theme's icons",
+                    "enabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).getControl()
+            ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
                 createButton("save-settings", "Save Settings", saveSettings),
                 createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreDefaults, href: "#" })
@@ -279,15 +281,15 @@ function createButton(id, text, callback) {
 
 function getBrowser() {
     if (typeof chrome !== "undefined") {
-      if (typeof browser !== "undefined") {
-        return "Firefox";
-      } else {
-        return "Chrome";
-      }
+        if (typeof browser !== "undefined") {
+            return "Firefox";
+        } else {
+            return "Chrome";
+        }
     } else {
-      return "Edge";
+        return "Edge";
     }
-  }
+}
 
 /**
  * Creates a setting, appends it to the settings list
