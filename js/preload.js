@@ -277,6 +277,18 @@ function createButton(id, text, callback) {
     return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit"], { type: "button", value: text, id: id })]);
 }
 
+function getBrowser() {
+    if (typeof chrome !== "undefined") {
+      if (typeof browser !== "undefined") {
+        return "Firefox";
+      } else {
+        return "Chrome";
+      }
+    } else {
+      return "Edge";
+    }
+  }
+
 /**
  * Creates a setting, appends it to the settings list
  * @param {string} name - The name of the setting, to be stored in extension settings
