@@ -130,12 +130,12 @@ function showUpdateIndicator() {
     console.log("Showing update indicator");
     document.getElementById("open-changelog")
         .insertAdjacentElement(
-        "afterbegin",
-        createElement(
-            "span",
-            ["new-update"],
-            { textContent: "New Update" }
-        ));
+            "afterbegin",
+            createElement(
+                "span",
+                ["new-update"],
+                { textContent: "New Update" }
+            ));
 }
 
 let video = document.body.appendChild(createElement("video", ["easter-egg"], {
@@ -183,6 +183,31 @@ window.onclick = function (event) {
         modalClose(event.target);
     }
 }
+
+//Patch for arrow menu in Firefox
+let arrow = document.getElementById("primary-settings");
+let content = arrow.innerHTML;
+arrow.innerHTML = "";
+arrow.innerHTML = content;
+let arrowMenu = document.querySelector("#primary-settings>a");
+let dropdown = document.getElementById("settings-menu-dropdown");
+arrowMenu.removeAttribute("href");
+arrowMenu.style.cursor = "pointer";
+arrowMenu.addEventListener("click", function (event) {
+    if (isVisible(dropdown)) {
+        dropdown.style.display = "none";
+        arrowMenu.classList.remove("active");
+    } else {
+        dropdown.style.display = "block";
+        arrowMenu.classList.add("active");
+    }
+});
+document.body.addEventListener("click",function(event) {
+    if(getParents(event.target,"#primary-settings").length == 0) {
+        dropdown.style.display = "none";
+        arrowMenu.classList.remove("active");
+    }
+});
 
 function clearNewUpdate(clearAll) {
     let notifier = document.querySelector(".schoology-plus-icon .nav-icon-button .notifier");
