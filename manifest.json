@@ -9,7 +9,7 @@
             "update_url": "https://gist.githubusercontent.com/aopell/82a6f5c409dc0af7e97d2ebaf88c84f6/raw/update.json"
         }
     },
-    "version": "3.9.5",
+    "version": "3.9.6",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -83,10 +83,19 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/mastery"
+                "https://lms.lausd.net/mastery*"
             ],
             "js": [
                 "js/mastery.js"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
+                "https://lms.lausd.net/home/recent-activity*"
+            ],
+            "js": [
+                "js/home.js"
             ],
             "run_at": "document_end"
         }

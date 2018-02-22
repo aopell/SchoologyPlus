@@ -310,12 +310,12 @@ input[type=text].setting-item {
     line-height: 30px !important;
 }
 
-.gradebook-course-title a .arrow {
+.gradebook-course-title a .arrow, .gradebook-course-title .arrow {
     width: 30px !important;
     height: 30px !important;
 }
 
-.gradebook-course-title a .arrow:not(.icon-modified) {
+.gradebook-course-title a .arrow:not(.icon-modified), .gradebook-course-title .arrow:not(.icon-modified) {
     background-position-y: -145px !important;
 }
 
