@@ -35,7 +35,8 @@
     ],
     "web_accessible_resources": [
         "imgs/plus-icon.png",
-        "imgs/toy-mode.png"
+        "imgs/toy-mode.png",
+        "imgs/icon@128.png"
     ],
     "background": {
         "scripts": [

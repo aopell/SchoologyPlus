@@ -1,7 +1,7 @@
 const broadcastNotificationUrl = "https://gist.githubusercontent.com/aopell/82a6f5c409dc0af7e97d2ebaf88c84f6/raw/notifications.json";
 const assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filter=all";
 
-/** @typedef {{id:number,title:string,message:string,link:string,timestamp?:Date,icon?:string}} Broadcast */
+/** @typedef {{id:number,title:string,message:string,shortMessage:string,timestamp?:Date,icon?:string}} Broadcast */
 
 console.log("Loaded event page");
 console.log("Adding onInstalled listener");
@@ -42,6 +42,9 @@ chrome.browserAction.onClicked.addListener(function () {
     });
 });
 
+//Run once on load
+onAlarm({ name: "notification" });
+
 /**
  * Sends a desktop notification if settings permit
  * @param {NotificationOptions} notification A chrome notification object
@@ -80,7 +83,7 @@ function notificationFromBroadcast(broadcast) {
         type: "basic",
         iconUrl: broadcast.icon || "imgs/icon@128.png",
         title: broadcast.title,
-        message: broadcast.message,
+        message: broadcast.shortMessage,
         eventTime: broadcast.timestamp ? new Date(broadcast.timestamp).getTime() : Date.now(),
         isClickable: true,
         requireInteraction: true
@@ -112,7 +115,7 @@ function loadBroadcasts(storageContent) {
         }
         throw new Error("Error loading broadcast notifications: " + response);
     }).then(function (response) {
-        let lastId = storageContent.lastBroadcastId || 0;
+        let lastId = storageContent.lastBroadcastId || (storageContent.newVersion ? 1 : 0);
         /** @type {Broadcast[]} */
         let broadcasts = response;
         /** @type {Broadcast[]} */

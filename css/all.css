@@ -322,3 +322,20 @@ input[type=text].setting-item {
 .gradebook-course-title .awarded-grade {
     padding-top: 5px !important;
 }
+
+.profile-picture img.imagecache-profile_sm {
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.splus-broadcast-post {
+    background-color: #ddf3fb;
+}
+
+.splus-broadcast-close {
+    right: 10px;
+    position: absolute;
+    font-size: 20px;
+    top: -5px;
+    cursor: pointer;
+}
