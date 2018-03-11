@@ -109,19 +109,45 @@ function updateSettings(callback) {
                     {
                         options: [
                             {
-                                text: "Number Badge and Desktop Notifications",
+                                text: "Enable All Notifications",
                                 value: "enabled"
                             },
                             {
-                                text: "Number Badge Only",
+                                text: "Number Badge Only (No Pop-Ups)",
                                 value: "badge"
                             },
                             {
-                                text: "Desktop Notifications Only",
+                                text: "Pop-Ups Only (No Badge)",
                                 value: "popup"
                             },
                             {
-                                text: "Disabled",
+                                text: "Disable All Notifications",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).getControl(),
+                new Setting(
+                    "broadcasts",
+                    "Announcement Notifications",
+                    "Displays desktop notifications and news feed posts for announcements sent to all Schoology Plus users",
+                    "enabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enable Announcements",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Announcement News Feed Posts Only",
+                                value: "feed"
+                            },
+                            {
+                                text: "Disable Announcements",
                                 value: "disabled"
                             }
                         ]

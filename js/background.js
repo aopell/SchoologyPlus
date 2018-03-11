@@ -33,7 +33,6 @@ console.log("Adding browser action listener");
 chrome.browserAction.onClicked.addListener(function () {
     console.log("Browser action clicked");
     chrome.browserAction.getBadgeText({}, x => {
-        console.log("Callback");
         console.log(x);
         let n = Number.parseInt(x);
         if (n) chrome.tabs.create({ url: "https://lms.lausd.net/home/notifications" }, null);
@@ -54,6 +53,9 @@ onAlarm({ name: "notification" });
 function sendNotification(notification, name, count) {
     chrome.storage.sync.get(null, function (storageContent) {
         count = (count || count == 0) ? count : 1;
+        if(getBrowser() == "Firefox") {
+            delete notification.requireInteraction;
+        }
         console.warn("New notification!");
         console.dir(notification);
 
@@ -92,18 +94,19 @@ function notificationFromBroadcast(broadcast) {
 
 function onAlarm(alarm) {
     chrome.storage.sync.get(null, function (storageContent) {
-        if (alarm && alarm.name === "notification" && storageContent.notifications != "disabled") {
+        if (alarm && alarm.name === "notification") {
             try {
                 console.log(`[${new Date()}] Checking for new notifications`);
-                loadBroadcasts(storageContent);
-                loadAssignmentNotifications(storageContent);
+                if (storageContent.broadcasts != "disabled") {
+                    loadBroadcasts(storageContent);
+                }
+                if (storageContent.notifications != "disabled") {
+                    loadAssignmentNotifications(storageContent);
+                }
             } catch (error) {
                 console.error("Error caught:");
                 console.error(error);
             }
-        }
-        else if (storageContent.notifications === "disabled") {
-            console.log("Notifications are disabled");
         }
     });
 }
@@ -124,9 +127,11 @@ function loadBroadcasts(storageContent) {
 
         let maxId = lastId;
         unreadBroadcasts = unreadBroadcasts.concat(newBroadcasts);
-        for (let broadcast of newBroadcasts) {
-            sendNotification(notificationFromBroadcast(broadcast), `broadcast${broadcast.id}`, 0);
-            maxId = Math.max(maxId, broadcast.id);
+        if (!storageContent.broadcasts || storageContent.broadcasts == "enabled") {
+            for (let broadcast of newBroadcasts) {
+                sendNotification(notificationFromBroadcast(broadcast), `broadcast${broadcast.id}`, 0);
+                maxId = Math.max(maxId, broadcast.id);
+            }
         }
 
         chrome.storage.sync.set({ lastBroadcastId: maxId, unreadBroadcasts: unreadBroadcasts }, null);
@@ -201,4 +206,16 @@ function loadAssignmentNotifications(storageContent) {
         }
 
     });
+}
+
+function getBrowser() {
+    if (typeof chrome !== "undefined") {
+        if (typeof browser !== "undefined") {
+            return "Firefox";
+        } else {
+            return "Chrome";
+        }
+    } else {
+        return "Edge";
+    }
 }

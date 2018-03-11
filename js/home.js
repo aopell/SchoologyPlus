@@ -73,6 +73,8 @@ function formatDateAsString(date) {
     return `${date.toLocaleString("en-US", { weekday: "short" })} ${date.toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })} at ${date.toLocaleString("en-US", { hour: "numeric", minute: "2-digit" }).toLowerCase()}`;
 }
 
-for (let broadcast of storage.unreadBroadcasts) {
-    feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
+if (storage.broadcasts !== "disabled") {
+    for (let broadcast of storage.unreadBroadcasts) {
+        feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
+    }
 }
