@@ -150,11 +150,16 @@ for (let course of courses) {
 
     let grade = createElement("span", ["awarded-grade", "injected-title-grade", courseGrade ? "grade-active-color" : "grade-none-color"]);
     grade.textContent = courseGrade ? courseGrade.textContent : "—";
+    let courseId = title.parentElement.id.match(/\d+/)[0];
+    let gradingScale = { A: 90, B: 80, C: 70, D: 60 };
+    if (storage.gradingScales && storage.gradingScales[courseId]) {
+        gradingScale = storage.gradingScales[courseId];
+    }
     if (storage["assumeScale"] != "disabled" && grade.textContent.match(/^\d+\.?\d*%/) !== null) {
         let percent = Number.parseFloat(grade.textContent.substr(0, grade.textContent.length - 1));
-        let letterGrade = percent >= 90 ? "A" : (percent >= 80 ? "B" : (percent >= 70 ? "C" : (percent >= 60 ? "D" : "F")));
+        let letterGrade = percent >= gradingScale.A ? "A" : (percent >= gradingScale.B ? "B" : (percent >= gradingScale.C ? "C" : (percent >= gradingScale.D ? "D" : "F")));
         grade.textContent = `${letterGrade} (${percent}%)`;
-        grade.title = "Letter grade calculated assuming 10% grading scale";
+        grade.title = `Letter grade calculated using the following grading scale:\nA: ${gradingScale.A}%\nB: ${gradingScale.B}%\nC: ${gradingScale.C}%\nD: ${gradingScale.D}%\nF: <${gradingScale.D}%`;
     }
     title.appendChild(grade);
 
@@ -237,6 +242,7 @@ function prepareScoredAssignmentGrade(spanPercent, score, max) {
 
 function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
     if (gradeElement) {
+        let courseId = row.parentElement.firstElementChild.dataset.id;
         // currently there exists a letter grade here, we want to put a point score here and move the letter grade
         let text = gradeElement.parentElement.textContent;
         let textContent = gradeElement.parentElement.textContent;
@@ -250,11 +256,15 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         // move the letter grade over to the right
         span = row.querySelector(".comment-column").firstChild;
         span.textContent = text;
+        let gradingScale = { A: 90, B: 80, C: 70, D: 60 };
+        if (storage.gradingScales && storage.gradingScales[courseId]) {
+            gradingScale = storage.gradingScales[courseId];
+        }
         if (storage["assumeScale"] != "disabled" && span.textContent.match(/^\d+\.?\d*%/) !== null) {
             let percent = Number.parseFloat(span.textContent.substr(0, span.textContent.length - 1));
-            let letterGrade = percent >= 90 ? "A" : (percent >= 80 ? "B" : (percent >= 70 ? "C" : (percent >= 60 ? "D" : "F")));
+            let letterGrade = percent >= gradingScale.A ? "A" : (percent >= gradingScale.B ? "B" : (percent >= gradingScale.C ? "C" : (percent >= gradingScale.D ? "D" : "F")));
             span.textContent = `${letterGrade} (${percent}%)`;
-            span.title = "Letter grade calculated assuming 10% grading scale";
+            span.title = `Letter grade calculated using the following grading scale:\nA: ${gradingScale.A}%\nB: ${gradingScale.B}%\nC: ${gradingScale.C}%\nD: ${gradingScale.D}%\nF: <${gradingScale.D}%`;
         }
         // restyle the right hand side
         span.parentElement.classList.remove("comment-column");
