@@ -157,16 +157,16 @@ function updateSettings(callback) {
                     element => element.value
                 ).getControl(),
                 new Setting(
-                    "assumeScale",
-                    "Assume Grading Scale",
-                    "[Refresh required] Assumes a 10%-based grading scale (90-100 A, 80-89 B, etc.) when a class has no grading scale",
-                    "tenPercent",
+                    "customScales",
+                    "Custom Grading Scales",
+                    "[Refresh required] Uses custom grading scales (set per-course in course settings) when courses don't have one defined",
+                    "enabled",
                     "select",
                     {
                         options: [
                             {
                                 text: "Enabled",
-                                value: "tenPercent"
+                                value: "enabled"
                             },
                             {
                                 text: "Disabled",

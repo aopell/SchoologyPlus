@@ -273,11 +273,11 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
 }
 
 function addLetterGrade(elem, courseId) {
-    const gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
+    let gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
     if (storage.gradingScales && storage.gradingScales[courseId]) {
         gradingScale = storage.gradingScales[courseId];
     }
-    if (storage["assumeScale"] != "disabled" && elem.textContent.match(/^\d+\.?\d*%/) !== null) {
+    if (storage["customScales"] != "disabled" && elem.textContent.match(/^\d+\.?\d*%/) !== null) {
         let percent = Number.parseFloat(elem.textContent.substr(0, elem.textContent.length - 1));
         let letterGrade = getLetterGrade(gradingScale, percent);
         elem.textContent = `${letterGrade} (${percent}%)`;

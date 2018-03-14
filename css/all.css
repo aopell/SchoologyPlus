@@ -339,3 +339,7 @@ input[type=text].setting-item {
     top: -5px;
     cursor: pointer;
 }
+
+.add-grade-symbol {
+    padding-top: 4px;
+}
