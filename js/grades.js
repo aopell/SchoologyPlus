@@ -150,17 +150,10 @@ for (let course of courses) {
 
     let grade = createElement("span", ["awarded-grade", "injected-title-grade", courseGrade ? "grade-active-color" : "grade-none-color"]);
     grade.textContent = courseGrade ? courseGrade.textContent : "—";
+    
     let courseId = title.parentElement.id.match(/\d+/)[0];
-    let gradingScale = { A: 90, B: 80, C: 70, D: 60 };
-    if (storage.gradingScales && storage.gradingScales[courseId]) {
-        gradingScale = storage.gradingScales[courseId];
-    }
-    if (storage["assumeScale"] != "disabled" && grade.textContent.match(/^\d+\.?\d*%/) !== null) {
-        let percent = Number.parseFloat(grade.textContent.substr(0, grade.textContent.length - 1));
-        let letterGrade = percent >= gradingScale.A ? "A" : (percent >= gradingScale.B ? "B" : (percent >= gradingScale.C ? "C" : (percent >= gradingScale.D ? "D" : "F")));
-        grade.textContent = `${letterGrade} (${percent}%)`;
-        grade.title = `Letter grade calculated using the following grading scale:\nA: ${gradingScale.A}%\nB: ${gradingScale.B}%\nC: ${gradingScale.C}%\nD: ${gradingScale.D}%\nF: <${gradingScale.D}%`;
-    }
+    addLetterGrade(grade, courseId);
+
     title.appendChild(grade);
 
     gradeText = periods[0].querySelector(".awarded-grade");
@@ -217,6 +210,16 @@ if (!document.location.search.includes("past") || document.location.search.split
     }));
 }
 
+function getLetterGrade(gradingScale, percentage) {
+    let sorted = Object.keys(gradingScale).sort((a, b) => a - b).reverse();
+    for (let s of sorted) {
+        if (percentage >= Number.parseInt(s)) {
+            return gradingScale[s];
+        }
+    }
+    return "?";
+}
+
 function processNonenteredAssignment(assignment) {
     let noGrade = assignment.getElementsByClassName("no-grade")[0];
 
@@ -256,16 +259,9 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         // move the letter grade over to the right
         span = row.querySelector(".comment-column").firstChild;
         span.textContent = text;
-        let gradingScale = { A: 90, B: 80, C: 70, D: 60 };
-        if (storage.gradingScales && storage.gradingScales[courseId]) {
-            gradingScale = storage.gradingScales[courseId];
-        }
-        if (storage["assumeScale"] != "disabled" && span.textContent.match(/^\d+\.?\d*%/) !== null) {
-            let percent = Number.parseFloat(span.textContent.substr(0, span.textContent.length - 1));
-            let letterGrade = percent >= gradingScale.A ? "A" : (percent >= gradingScale.B ? "B" : (percent >= gradingScale.C ? "C" : (percent >= gradingScale.D ? "D" : "F")));
-            span.textContent = `${letterGrade} (${percent}%)`;
-            span.title = `Letter grade calculated using the following grading scale:\nA: ${gradingScale.A}%\nB: ${gradingScale.B}%\nC: ${gradingScale.C}%\nD: ${gradingScale.D}%\nF: <${gradingScale.D}%`;
-        }
+
+        addLetterGrade(span, courseId);
+
         // restyle the right hand side
         span.parentElement.classList.remove("comment-column");
         span.parentElement.classList.add("grade-column");
@@ -273,6 +269,19 @@ function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
         //span.style.cssFloat = "right"; //maybe remove
         //span.style.color = "#3aa406";
         //span.style.fontWeight = "bold";
+    }
+}
+
+function addLetterGrade(elem, courseId) {
+    const gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
+    if (storage.gradingScales && storage.gradingScales[courseId]) {
+        gradingScale = storage.gradingScales[courseId];
+    }
+    if (storage["assumeScale"] != "disabled" && elem.textContent.match(/^\d+\.?\d*%/) !== null) {
+        let percent = Number.parseFloat(elem.textContent.substr(0, elem.textContent.length - 1));
+        let letterGrade = getLetterGrade(gradingScale, percent);
+        elem.textContent = `${letterGrade} (${percent}%)`;
+        elem.title = `Letter grade calculated using the following grading scale:\n${Object.keys(gradingScale).sort((a, b) => a - b).reverse().map(x => `${gradingScale[x]}: ${x}%`).join('\n')}`;
     }
 }
 
