@@ -343,3 +343,7 @@ input[type=text].setting-item {
 .add-grade-symbol {
     padding-top: 4px;
 }
+
+section.sgy-card .sgy-card-lens img.injected-course-icon {
+    height: 100%;
+}
