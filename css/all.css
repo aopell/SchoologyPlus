@@ -42,6 +42,7 @@ body .edit-profile-picture-hover.active,
 body #sidebar-left .action-links a:hover,
 .component-add-link:hover,
 body .search-toggle:hover,
+body .submit-span-wrapper:hover,
 body #primary-settings .unfold:hover {
     background-color: var(--primary-dark) !important;
     color: white !important;
@@ -79,7 +80,7 @@ body .submit-btn,
 body .popups-body .submit-span-wrapper,
 body #nav .s-notifications-mini .requester-links a:hover {
     background-color: var(--primary-color) !important;
-    border-color: var(--primary-very-dark) !important;
+    border: 2px solid var(--primary-very-dark) !important;
 }
 
 video.easter-egg {
