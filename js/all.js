@@ -98,17 +98,39 @@ let modals = [
 
         Theme.setProfilePictures();
 
-        let target = document.querySelector(".sections-list")
-        let config = { childList: true };
-        let observer = new MutationObserver(() => 0);
+        let resetIconsOnMutate = function (target, predicate) {
+            // slight hack: if predicate defined, be broader about observation
+            // allows the course dashboard junk to work
+            let config = { childList: true, subtree: !!predicate };
+            let observer = new MutationObserver(() => 0);
 
-        let callback = (mutationsList) => {
-            Theme.setProfilePictures();
-            observer.disconnect();
+            let callback = (mutationsList) => {
+                if (predicate && !predicate(mutationsList)) {
+                    // predicate is defined, but returns false
+                    // not yet
+                    return;
+                }
+
+                Theme.setProfilePictures();
+                observer.disconnect();
+            };
+
+            observer = new MutationObserver(callback);
+            observer.observe(target, config);
         };
 
-        observer = new MutationObserver(callback);
-        observer.observe(target, config);
+        // courses dropdown (all pages)
+        let target = document.querySelector(".sections-list")
+        resetIconsOnMutate(target);
+
+        // course dashboard
+        let mainInner = document.getElementById("main-inner");
+
+        if (mainInner && window.location.pathname == "/home/course-dashboard") {
+            resetIconsOnMutate(mainInner, function(mutationsList) {
+                return !!mainInner.querySelector(".course-dashboard .sgy-card-lens");
+            });
+        }
     }
 })();
 
@@ -202,8 +224,8 @@ arrowMenu.addEventListener("click", function (event) {
         arrowMenu.classList.add("active");
     }
 });
-document.body.addEventListener("click",function(event) {
-    if(getParents(event.target,"#primary-settings").length == 0) {
+document.body.addEventListener("click", function (event) {
+    if (getParents(event.target, "#primary-settings").length == 0) {
         dropdown.style.display = "none";
         arrowMenu.classList.remove("active");
     }
