@@ -346,5 +346,6 @@ input[type=text].setting-item {
 }
 
 section.sgy-card .sgy-card-lens img.injected-course-icon {
-    height: 100%;
+    width: 150px;
+    height: 150px;
 }
