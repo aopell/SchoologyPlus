@@ -9,8 +9,7 @@
             "update_url": "https://gist.githubusercontent.com/aopell/82a6f5c409dc0af7e97d2ebaf88c84f6/raw/update.json"
         }
     },
-    "version": "3.14",
-    "version_name": "3.141592653589793238",
+    "version": "3.15",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
