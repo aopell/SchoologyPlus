@@ -69,6 +69,17 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
                         let holder = document.createElement("div");
                         holder.innerHTML = html;
                         let pts = Number.parseFloat(holder.querySelector(".max-points").textContent.substr(1));
+                        let maxPoints = holder.querySelector(".max-points");
+                        let counter = 0;
+                        for (counter = 0; !(maxPoints = holder.querySelector(".max-points")) && counter < 5; counter++) {
+                            console.warn(`[Attempt ${counter + 1}] Loading assignemnt ${assignment.dataset.id.substr(2)} failed`);
+                            await timeout(1000);
+                        }
+                        if (counter == 5) {
+                            console.error(`[Aborting] Error loading assignment ${assignment.dataset.id.substr(2)} - could not find max points`);
+                            return;
+                        }
+                        let pts = Number.parseFloat(maxPoints.textContent.substr(1));
                         max += pts;
                         let p = assignment.querySelector(".injected-assignment-percent");
                         p.textContent = `0/${pts}`;
