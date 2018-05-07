@@ -60,6 +60,7 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
                         processNonenteredAssignment(assignment);
                     }
                     if (assignment.querySelector(".missing")) {
+                        // get denominator for missing assignment
                         let html = await (
                             await fetch(`https://lms.lausd.net/assignment/${assignment.dataset.id.substr(2)}/info`, {
                                 credentials: "same-origin"
@@ -69,7 +70,9 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
                         let holder = document.createElement("div");
                         holder.innerHTML = html;
                         let pts = Number.parseFloat(holder.querySelector(".max-points").textContent.substr(1));
-                        max += pts;
+                        if (!assignment.classList.contains("dropped")) {
+                            max += pts;
+                        }
                         let p = assignment.querySelector(".injected-assignment-percent");
                         p.textContent = `0/${pts}`;
                         p.title = "Assignment missing";
@@ -102,7 +105,8 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
                     // add UI for grade virtual editing
                     let gradeWrapper = assignment.querySelector(".grade-wrapper");
                     // FIXME correct behavior for editing dropped assignments
-                    if (!assignment.classList.contains("dropped")) {
+                    // excused assignments cannot be edited and do not count toward grade
+                    if (!assignment.querySelector(".excused")) {
                         let checkbox = document.getElementById("enable-modify");
                         let editGradeImg = createElement("img", ["grade-edit-indicator"], {
                             src: "https://www.iconninja.com/files/727/965/72/edit-draw-pencile-write-icon.svg",
