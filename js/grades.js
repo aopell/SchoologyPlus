@@ -134,7 +134,7 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
                                 hasHandledGradeEdit = true;
                             };
                         }
-                        editGradeImg.addEventListener("click", createEditListener(gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
+                        editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
                         gradeWrapper.appendChild(editGradeImg);
                     }
                     if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
@@ -316,7 +316,7 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
         });
     }
 
-    function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallback) {
+    function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
             let noGrade = gradeColContentWrap.querySelector(".no-grade");
             let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
@@ -410,6 +410,16 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
                     gradeColContentWrap.appendChild(generateScoreModifyWarning());
                     gradesModified = true;
                 }
+
+                // don't alter totals for dropped assignment
+                if (assignment.classList.contains("dropped")) {
+                    if (finishedCallback) {
+                        finishedCallback();
+                    }
+
+                    return true;
+                }
+
                 // now category
                 // category always has a numeric score, unlike period
                 // awarded grade in our constructed element contains both rounded and max
