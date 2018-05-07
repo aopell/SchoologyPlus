@@ -1,4 +1,39 @@
 const timeout = ms => new Promise(res => setTimeout(res, ms));
+
+$.contextMenu({
+    selector: ".gradebook-course-title",
+    items: {
+        options: {
+            name: "Course Options",
+            callback: function(key, opt) {
+                courseIdNumber = this[0].parentElement.id.match(/\d+/)[0];
+                openModal("course-settings-modal");
+            }
+        },
+        separator: "-----",
+        materials: {
+            name: "Materials",
+            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/materials`, "_blank") }
+        },
+        updates: {
+            name: "Updates",
+            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/updates`, "_blank") }
+        },
+        student_grades: {
+            name: "Grades",
+            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/student_grades`, "_blank") }
+        },
+        mastery: {
+            name: "Mastery",
+            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/mastery`, "_blank") }
+        },
+        members: {
+            name: "Members",
+            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/members`, "_blank") }
+        }
+    }
+});
+
 (async function () {
     console.log("Running Schoology Plus grades page improvement script");
     let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
@@ -65,10 +100,19 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
                                 credentials: "same-origin"
                             })
                         ).text();
-                        //await timeout(500);
                         let holder = document.createElement("div");
                         holder.innerHTML = html;
-                        let pts = Number.parseFloat(holder.querySelector(".max-points").textContent.substr(1));
+                        let maxPoints = holder.querySelector(".max-points");
+                        let counter = 0;
+                        for (counter = 0; !(maxPoints = holder.querySelector(".max-points")) && counter < 5; counter++) {
+                            console.warn(`[Attempt ${counter + 1}] Loading assignemnt ${assignment.dataset.id.substr(2)} failed`);
+                            await timeout(1000);
+                        }
+                        if (counter == 5) {
+                            console.error(`[Aborting] Error loading assignment ${assignment.dataset.id.substr(2)} - could not find max points`);
+                            return;
+                        }
+                        let pts = Number.parseFloat(maxPoints.textContent.substr(1));
                         max += pts;
                         let p = assignment.querySelector(".injected-assignment-percent");
                         p.textContent = `0/${pts}`;

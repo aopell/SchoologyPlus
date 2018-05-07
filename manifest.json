@@ -64,8 +64,12 @@
             "matches": [
                 "https://lms.lausd.net/*"
             ],
+            "css": [
+                "css/contextmenu.css"
+            ],
             "js": [
                 "js/clipboard.min.js",
+                "js/contextmenu.js",
                 "js/all.js"
             ],
             "run_at": "document_end"
@@ -79,7 +83,8 @@
                 "css/grades.css"
             ],
             "js": [
-                "js/grades.js"
+                "js/grades.js",
+                "js/course.js"
             ],
             "run_at": "document_end"
         },

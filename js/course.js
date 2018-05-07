@@ -1,15 +1,20 @@
-let button = createButton("splus-course-options", "Course Options");
-let img = createElement("img", [], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 19 });
-img.style.marginLeft = "8px";
-img.style.marginTop = "4px";
-button.prepend(img);
-button.querySelector("input").style.paddingLeft = "4px";
-button.style.cursor = "pointer";
-button.addEventListener("click", () => openModal("course-settings-modal"));
+let couseIdNumber;
+(function () {
+    let sidebar = document.querySelector(".course-info-wrapper dl");
+    if (sidebar) {
+        let button = createButton("splus-course-options", "Course Options");
+        let img = createElement("img", [], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 19 });
+        img.style.marginLeft = "8px";
+        img.style.marginTop = "4px";
+        button.prepend(img);
+        button.querySelector("input").style.paddingLeft = "4px";
+        button.style.cursor = "pointer";
+        button.addEventListener("click", () => openModal("course-settings-modal"));
 
-document.querySelector(".course-info-wrapper dl").appendChild(button);
-
-let courseId = document.location.href.match(/\/(\d+)\//)[1];
+        sidebar.appendChild(button);
+        courseIdNumber = document.location.href.match(/\/(\d+)\//)[1];
+    }
+})();
 
 modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", ["splus-modal-contents"], {}, [
     createElement("h2", ["setting-entry"], { textContent: "Grading Scale" }),
@@ -39,7 +44,7 @@ function setCourseOptionsContent() {
     for (let e of document.querySelectorAll(".grade-symbol-row")) {
         e.parentElement.removeChild(e);
     }
-    gradingScale = (storage.gradingScales || {})[courseId] || gradingScale;
+    gradingScale = (storage.gradingScales || {})[courseIdNumber] || gradingScale;
 
     for (let p of Object.keys(gradingScale).sort((a, b) => a - b).reverse()) {
         createRow(p, gradingScale[p]);
@@ -56,7 +61,7 @@ function createRow(percentage, symbol) {
             createElement("input", [], { type: "text", value: symbol || "" })
         ]),
         createElement("td", [], {}, [
-            createElement("a", ["close-button"], { textContent: "×", href: "#", title: "Delete Theme", onclick: (event) => event.target.parentElement.parentElement.outerHTML = "" })
+            createElement("a", ["close-button"], { textContent: "×", href: "#", title: "Delete Grade Symbol", onclick: (event) => event.target.parentElement.parentElement.outerHTML = "" })
         ])
     ]);
     gradingScaleWrapper.appendChild(row);
@@ -74,7 +79,7 @@ function saveCourseSettings() {
             return;
         }
     }
-    currentValue[courseId] = scale;
+    currentValue[courseIdNumber] = scale;
     chrome.storage.sync.set({ gradingScales: currentValue }, x => {
         let settingsSaved = document.getElementById("save-course-settings");
         settingsSaved.value = "Saved!";
@@ -86,7 +91,7 @@ function saveCourseSettings() {
 
 function restoreCourseDefaults() {
     let currentValue = storage.gradingScales || {};
-    currentValue[courseId] = defaultGradingScale;
+    currentValue[courseIdNumber] = defaultGradingScale;
     chrome.storage.sync.set({ gradingScales: currentValue }, x => {
         alert("Settings restored. Reloading.");
         location.reload();
