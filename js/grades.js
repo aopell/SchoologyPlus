@@ -35,7 +35,7 @@ $.contextMenu({
 });
 
 $.contextMenu({
-    selector: ".item-row:not(.dropped)",
+    selector: ".item-row:not(.dropped):not(.grade-add-indicator)",
     items: {
         drop: {
             name: "Drop",
@@ -54,10 +54,10 @@ $.contextMenu({
 });
 
 $.contextMenu({
-    selector: ".item-row.dropped",
+    selector: ".item-row.dropped:not(.grade-add-indicator)",
     items: {
-        drop: {
-            unname: "Undrop",
+        undrop: {
+            name: "Undrop",
             callback: function(key, opt) {
                 this[0].classList.remove("dropped");
                 // FIXME alter grade
