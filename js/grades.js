@@ -95,6 +95,7 @@ $.contextMenu({
                         processNonenteredAssignment(assignment);
                     }
                     if (assignment.querySelector(".missing")) {
+                        // get denominator for missing assignment
                         let html = await (
                             await fetch(`https://lms.lausd.net/assignment/${assignment.dataset.id.substr(2)}/info`, {
                                 credentials: "same-origin"
@@ -113,7 +114,9 @@ $.contextMenu({
                             return;
                         }
                         let pts = Number.parseFloat(maxPoints.textContent.substr(1));
-                        max += pts;
+                        if (!assignment.classList.contains("dropped")) {
+                            max += pts;
+                        }
                         let p = assignment.querySelector(".injected-assignment-percent");
                         p.textContent = `0/${pts}`;
                         p.title = "Assignment missing";
@@ -146,7 +149,8 @@ $.contextMenu({
                     // add UI for grade virtual editing
                     let gradeWrapper = assignment.querySelector(".grade-wrapper");
                     // FIXME correct behavior for editing dropped assignments
-                    if (!assignment.classList.contains("dropped")) {
+                    // excused assignments cannot be edited and do not count toward grade
+                    if (!assignment.querySelector(".excused")) {
                         let checkbox = document.getElementById("enable-modify");
                         let editGradeImg = createElement("img", ["grade-edit-indicator"], {
                             src: "https://www.iconninja.com/files/727/965/72/edit-draw-pencile-write-icon.svg",
@@ -174,7 +178,7 @@ $.contextMenu({
                                 hasHandledGradeEdit = true;
                             };
                         }
-                        editGradeImg.addEventListener("click", createEditListener(gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
+                        editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
                         gradeWrapper.appendChild(editGradeImg);
                     }
                     if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
@@ -356,7 +360,7 @@ $.contextMenu({
         });
     }
 
-    function createEditListener(gradeColContentWrap, catRow, perRow, finishedCallback) {
+    function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
             let noGrade = gradeColContentWrap.querySelector(".no-grade");
             let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
@@ -450,6 +454,16 @@ $.contextMenu({
                     gradeColContentWrap.appendChild(generateScoreModifyWarning());
                     gradesModified = true;
                 }
+
+                // don't alter totals for dropped assignment
+                if (assignment.classList.contains("dropped")) {
+                    if (finishedCallback) {
+                        finishedCallback();
+                    }
+
+                    return true;
+                }
+
                 // now category
                 // category always has a numeric score, unlike period
                 // awarded grade in our constructed element contains both rounded and max
