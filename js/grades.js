@@ -34,6 +34,38 @@ $.contextMenu({
     }
 });
 
+$.contextMenu({
+    selector: ".item-row:not(.dropped)",
+    items: {
+        drop: {
+            name: "Drop",
+            callback: function(key, opt) {
+                this[0].classList.add("dropped");
+                // FIXME alter grade
+            }
+        },
+        separator: "-----"
+        // TODO, menu as follows:
+        // "Calculate Minimum Grade" (for current letter grade)
+        // -> "For A"
+        // -> "For B"
+        // etc, based on grading scale
+    }
+});
+
+$.contextMenu({
+    selector: ".item-row.dropped",
+    items: {
+        drop: {
+            unname: "Undrop",
+            callback: function(key, opt) {
+                this[0].classList.remove("dropped");
+                // FIXME alter grade
+            }
+        }
+    }
+});
+
 (async function () {
     console.log("Running Schoology Plus grades page improvement script");
     let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
