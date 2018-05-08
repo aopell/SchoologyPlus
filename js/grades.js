@@ -68,7 +68,6 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
                         //await timeout(500);
                         let holder = document.createElement("div");
                         holder.innerHTML = html;
-                        let pts = Number.parseFloat(holder.querySelector(".max-points").textContent.substr(1));
                         let maxPoints = holder.querySelector(".max-points");
                         let counter = 0;
                         for (counter = 0; !(maxPoints = holder.querySelector(".max-points")) && counter < 5; counter++) {
