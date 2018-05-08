@@ -431,3 +431,12 @@ function Setting(name, friendlyName, description, defaultValue, type, options, o
     }
     settings[name] = this;
 }
+
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+}
+
+Storage.prototype.getObject = function(key) {
+    var value = this.getItem(key);
+    return value && JSON.parse(value);
+}
