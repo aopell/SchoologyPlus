@@ -86,8 +86,9 @@ $.contextMenu({
         } else if (localStorage.getObject("attemptedGetKey") != userId) {
             console.log("API key not found - generating and reloading page");
             localStorage.setObject("attemptedGetKey", userId);
-            document.appendChild(tempDiv);
+            document.body.appendChild(tempDiv);
             tempDiv.querySelector("input[type=submit]").click();
+            location.reload();
         }
     }
 
