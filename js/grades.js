@@ -5,7 +5,7 @@ $.contextMenu({
     items: {
         options: {
             name: "Course Options",
-            callback: function(key, opt) {
+            callback: function (key, opt) {
                 courseIdNumber = this[0].parentElement.id.match(/\d+/)[0];
                 openModal("course-settings-modal");
             }
@@ -39,7 +39,7 @@ $.contextMenu({
     items: {
         drop: {
             name: "Drop",
-            callback: function(key, opt) {
+            callback: function (key, opt) {
                 this[0].classList.add("dropped");
                 // FIXME alter grade
             }
@@ -68,6 +68,30 @@ $.contextMenu({
 
 (async function () {
     console.log("Running Schoology Plus grades page improvement script");
+
+    let userId = document.querySelector("#profile > a").href.match(/\d+/)[0];
+    let apiKeys = localStorage.getObject("apiKeys");
+    if (!apiKeys || !apiKeys[userId]) {
+        apiKeys = apiKeys || {};
+        console.log(`API key not found for user ${userId} - attempting to fetch`);
+        let tempDiv = document.createElement("div");
+        let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();
+        tempDiv.innerHTML = html;
+        let key;
+        let secret;
+        if ((key = tempDiv.querySelector("#edit-current-key")) && (secret = tempDiv.querySelector("#edit-current-secret"))) {
+            console.log("API key already generated - saving to local storage");
+            apiKeys[userId] = [key.value, secret.value];
+            localStorage.setObject("apiKeys", apiKeys);
+        } else if (localStorage.getObject("attemptedGetKey") != userId) {
+            console.log("API key not found - generating and reloading page");
+            localStorage.setObject("attemptedGetKey", userId);
+            document.body.appendChild(tempDiv);
+            tempDiv.querySelector("input[type=submit]").click();
+            location.reload();
+        }
+    }
+
     let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
     let courses = inner.getElementsByClassName("gradebook-course");
     let coursesByPeriod = [];
@@ -77,12 +101,16 @@ $.contextMenu({
         (async function () {
             let title = course.querySelector(".gradebook-course-title");
             let summary = course.querySelector(".summary-course");
-            let courseGrade = summary.querySelector(".awarded-grade");
+            let courseGrade;
+            if (summary) {
+                courseGrade = summary.querySelector(".awarded-grade");
+            }
             let table = course.querySelector(".gradebook-course-grades").firstElementChild;
             let grades = table.firstElementChild;
             let categories = grades.getElementsByClassName("category-row");
             let rows = Array.from(grades.children);
             let periods = course.getElementsByClassName("period-row");
+            let courseId = title.parentElement.id.match(/\d+/)[0];
 
             let classPoints = 0;
             let classTotal = 0;
@@ -128,30 +156,28 @@ $.contextMenu({
                     }
                     if (assignment.querySelector(".missing")) {
                         // get denominator for missing assignment
-                        let html = await (
-                            await fetch(`https://lms.lausd.net/assignment/${assignment.dataset.id.substr(2)}/info`, {
-                                credentials: "same-origin"
-                            })
-                        ).text();
-                        let holder = document.createElement("div");
-                        holder.innerHTML = html;
-                        let maxPoints = holder.querySelector(".max-points");
-                        let counter = 0;
-                        for (counter = 0; !(maxPoints = holder.querySelector(".max-points")) && counter < 5; counter++) {
-                            console.warn(`[Attempt ${counter + 1}] Loading assignemnt ${assignment.dataset.id.substr(2)} failed`);
-                            await timeout(1000);
+                        let apiKeys = localStorage.getObject("apiKeys");
+                        if (apiKeys && apiKeys[userId]) {
+                            console.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
+                            let userAPIKey = apiKeys[userId][0];
+                            let userAPISecret = apiKeys[userId][1];
+                            let json = await (
+                                await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
+                                    headers: {
+                                        "Authorization": `OAuth realm="Schoology%20API",oauth_consumer_key="${userAPIKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Math.floor(Date.now() / 1000)}",oauth_nonce="${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}",oauth_version="1.0",oauth_signature="${userAPISecret}%26"`
+                                    }
+                                })
+                            ).json();
+
+                            let pts = Number.parseFloat(json.max_points);
+                            if (!assignment.classList.contains("dropped")) {
+                                max += pts;
+                                console.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
+                            }
+                            let p = assignment.querySelector(".injected-assignment-percent");
+                            p.textContent = `0/${pts}`;
+                            p.title = "Assignment missing";
                         }
-                        if (counter == 5) {
-                            console.error(`[Aborting] Error loading assignment ${assignment.dataset.id.substr(2)} - could not find max points`);
-                            return;
-                        }
-                        let pts = Number.parseFloat(maxPoints.textContent.substr(1));
-                        if (!assignment.classList.contains("dropped")) {
-                            max += pts;
-                        }
-                        let p = assignment.querySelector(".injected-assignment-percent");
-                        p.textContent = `0/${pts}`;
-                        p.title = "Assignment missing";
                     }
                     //assignment.style.padding = "7px 30px 5px";
                     //assignment.style.textAlign = "center";
@@ -227,9 +253,11 @@ $.contextMenu({
                 }
 
                 let gradeText = category.querySelector(".awarded-grade") || category.querySelector(".no-grade");
-                setGradeText(gradeText, sum, max, category);
-                gradeText.classList.remove("no-grade");
-                gradeText.classList.add("awarded-grade");
+                if (gradeText) {
+                    setGradeText(gradeText, sum, max, category);
+                    gradeText.classList.remove("no-grade");
+                    gradeText.classList.add("awarded-grade");
+                }
 
                 let weightText = category.querySelector(".percentage-contrib");
                 if (addMoreClassTotal) {
@@ -251,10 +279,9 @@ $.contextMenu({
 
             grade.textContent = courseGrade ? courseGrade.textContent : "—";
 
-            let courseId = title.parentElement.id.match(/\d+/)[0];
             addLetterGrade(grade, courseId);
 
-            gradeText = periods[0].querySelector(".awarded-grade");
+            let gradeText = periods[0].querySelector(".awarded-grade");
             setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
             for (let i = 1; i < periods.length; i++) {
                 periods[i].remove();
