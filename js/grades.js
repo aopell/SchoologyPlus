@@ -298,7 +298,35 @@ $.contextMenu({
                                 name: "Drop",
                                 callback: function (key, opt) {
                                     this[0].classList.add("dropped");
-                                    // FIXME alter grade
+                                    // alter grade
+                                    let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
+                                    // TODO refactor the grade extraction
+                                    let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
+                                    let maxGrade = gradeColContentWrap.querySelector(".max-grade");
+                                    let scoreVal = 0;
+                                    let maxVal = 0;
+                                    
+                                    if (score && maxGrade) {
+                                        scoreVal = Number.parseFloat(score.textContent);
+                                        maxVal = Number.parseFloat(maxGrade.textContent.substring(3));
+                                    }
+                                    
+                                    if (!gradeColContentWrap.querySelector(".modified-score-percent-warning")) {
+                                        //gradeColContentWrap.getElementsByClassName("injected-assignment-percent")[0].style.paddingRight = "0";
+                                        gradeColContentWrap.appendChild(generateScoreModifyWarning());
+                                        gradesModified = true;
+                                    }
+
+                                    console.log("Marked modified");
+
+                                    let catId = this[0].dataset.parentId;
+                                    console.log("Found category ID " + catId);
+                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
+                                    
+                                    recalculateCategoryScore(catRow, -scoreVal, -maxVal);
+                                    let perId = catRow.dataset.parentId;
+                                    let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
+                                    recalculatePeriodScore(perRow, -scoreVal, -maxVal);
                                 }
                             },
                             separator: "-----"
@@ -309,13 +337,13 @@ $.contextMenu({
                             // etc, based on grading scale
                         }
                     });
-                    
+
                     $.contextMenu({
                         selector: droppedAssignRClickSelector,
                         items: {
                             undrop: {
                                 name: "Undrop",
-                                callback: function(key, opt) {
+                                callback: function (key, opt) {
                                     this[0].classList.remove("dropped");
                                     // FIXME alter grade
                                 }
@@ -425,6 +453,127 @@ $.contextMenu({
         });
     }
 
+    function recalculateCategoryScore(catRow, deltaPoints, deltaMax) {
+        // category always has a numeric score, unlike period
+        // awarded grade in our constructed element contains both rounded and max
+        let awardedCategoryPoints = catRow.querySelector(".rounded-grade").parentNode;
+        let catScoreElem = awardedCategoryPoints.querySelector(".rounded-grade");
+        let catMaxElem = awardedCategoryPoints.querySelector(".max-grade");
+        let newCatScore = Number.parseFloat(catScoreElem.textContent) + deltaPoints;
+        let newCatMax = Number.parseFloat(catMaxElem.textContent.substring(3)) + deltaMax;
+        catScoreElem.textContent = newCatScore;
+        catMaxElem.textContent = " / " + newCatMax;
+        if (!awardedCategoryPoints.querySelector(".modified-score-percent-warning")) {
+            awardedCategoryPoints.appendChild(generateScoreModifyWarning());
+        }
+        // category percentage
+        // need to recalculate
+        // content wrapper in right grade col
+        let awardedCategoryPercentContainer = catRow.querySelector(".grade-column-right").firstElementChild;
+        let awardedCategoryPercent = awardedCategoryPercentContainer;
+        // clear existing percentage indicator
+        while (awardedCategoryPercent.firstChild) {
+            awardedCategoryPercent.firstChild.remove();
+        }
+        awardedCategoryPercent.appendChild(document.createElement("span"));
+        awardedCategoryPercent = awardedCategoryPercent.firstElementChild;
+        awardedCategoryPercent.classList.add("awarded-grade");
+        awardedCategoryPercent.appendChild(document.createElement("span"));
+        awardedCategoryPercent = awardedCategoryPercent.firstElementChild;
+        awardedCategoryPercent.classList.add("numeric-grade");
+        awardedCategoryPercent.classList.add("primary-grade");
+        awardedCategoryPercent.appendChild(document.createElement("span"));
+        awardedCategoryPercent = awardedCategoryPercent.firstElementChild;
+        awardedCategoryPercent.classList.add("rounded-grade");
+
+        let newCatPercent = (newCatScore / newCatMax) * 100;
+        awardedCategoryPercent.title = newCatPercent + "%";
+        awardedCategoryPercent.textContent = (Math.round(newCatPercent * 100) / 100) + "%";
+
+        if (!awardedCategoryPercentContainer.querySelector(".modified-score-percent-warning")) {
+            awardedCategoryPercentContainer.prepend(generateScoreModifyWarning());
+        }
+    }
+
+    function recalculatePeriodScore(perRow, deltaPoints, deltaMax) {
+        let awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right").firstElementChild;
+        let awardedPeriodPercent = awardedPeriodPercentContainer;
+        // clear existing percentage indicator
+        while (awardedPeriodPercent.firstChild) {
+            awardedPeriodPercent.firstChild.remove();
+        }
+        awardedPeriodPercent.appendChild(document.createElement("span"));
+        awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
+        awardedPeriodPercent.classList.add("awarded-grade");
+        awardedPeriodPercent.appendChild(document.createElement("span"));
+        awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
+        awardedPeriodPercent.classList.add("numeric-grade");
+        awardedPeriodPercent.classList.add("primary-grade");
+        awardedPeriodPercent.appendChild(document.createElement("span"));
+        awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
+        awardedPeriodPercent.classList.add("rounded-grade");
+
+        // now period (semester)
+        // might have a numeric score (weighting => no numeric, meaning we can assume unweighted if present)
+        let awardedPeriodPoints = perRow.querySelector(".grade-column-center");
+        if (awardedPeriodPoints && awardedPeriodPoints.textContent.trim().length !== 0) {
+            // awarded grade in our constructed element contains both rounded and max
+            let perScoreElem = awardedPeriodPoints.querySelector(".rounded-grade");
+            let perMaxElem = awardedPeriodPoints.querySelector(".max-grade");
+            let newPerScore = Number.parseFloat(perScoreElem.textContent) + deltaPoints;
+            let newPerMax = Number.parseFloat(perMaxElem.textContent.substring(3)) + deltaMax;
+            perScoreElem.textContent = newPerScore;
+            perMaxElem.textContent = " / " + newPerMax;
+            if (!awardedPeriodPoints.querySelector(".modified-score-percent-warning")) {
+                awardedPeriodPoints.appendChild(generateScoreModifyWarning());
+            }
+
+            // go ahead and calculate period percentage here since we know it's unweighted
+            let newPerPercent = (newPerScore / newPerMax) * 100;
+            awardedPeriodPercent.title = newPerPercent + "%";
+            awardedPeriodPercent.textContent = (Math.round(newPerPercent * 100) / 100) + "%";
+        } else {
+            let total = 0;
+            let totalPercentWeight = 0;
+            for (let category of perRow.parentElement.getElementsByClassName("category-row")) {
+                let weightPercentElement = category.getElementsByClassName("percentage-contrib")[0];
+                if (!weightPercentElement) {
+                    continue;
+                }
+                let weightPercent = weightPercentElement.textContent;
+                let col = category.getElementsByClassName("grade-column-right")[0];
+                let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
+                if (colMatch) {
+                    let scorePercent = Number.parseFloat(colMatch[1]);
+                    if (scorePercent && !Number.isNaN(scorePercent)) {
+                        total += (weightPercent.slice(1, -2) / 100) * scorePercent;
+                        totalPercentWeight += Number.parseFloat(weightPercent.slice(1, -2));
+                    }
+                }
+            }
+
+            totalPercentWeight /= 100;
+
+            // if only some categories have assignments, adjust the total accordingly 
+            // if weights are more than 100, this assumes that it's correct as intended (e.c.), I won't mess with it
+            if (totalPercentWeight > 0 && totalPercentWeight < 1) {
+                // some categories are specified, but weights don't quite add to 100
+                // scale up known grades
+                total /= totalPercentWeight;
+                // epsilon because floating point
+            } else if (totalPercentWeight < 0.00001) {
+                total = 100;
+            }
+
+            awardedPeriodPercent.title = total + "%";
+            awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
+        }
+
+        if (!awardedPeriodPercentContainer.querySelector(".modified-score-percent-warning")) {
+            awardedPeriodPercentContainer.prepend(generateScoreModifyWarning());
+        }
+    }
+
     function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
             let noGrade = gradeColContentWrap.querySelector(".no-grade");
@@ -529,123 +678,8 @@ $.contextMenu({
                     return true;
                 }
 
-                // now category
-                // category always has a numeric score, unlike period
-                // awarded grade in our constructed element contains both rounded and max
-                let awardedCategoryPoints = catRow.querySelector(".rounded-grade").parentNode;
-                let catScoreElem = awardedCategoryPoints.querySelector(".rounded-grade");
-                let catMaxElem = awardedCategoryPoints.querySelector(".max-grade");
-                let newCatScore = Number.parseFloat(catScoreElem.textContent) + deltaPoints;
-                let newCatMax = Number.parseFloat(catMaxElem.textContent.substring(3)) + deltaMax;
-                catScoreElem.textContent = newCatScore;
-                catMaxElem.textContent = " / " + newCatMax;
-                if (!awardedCategoryPoints.querySelector(".modified-score-percent-warning")) {
-                    awardedCategoryPoints.appendChild(generateScoreModifyWarning());
-                }
-                // category percentage
-                // need to recalculate
-                // content wrapper in right grade col
-                let awardedCategoryPercentContainer = catRow.querySelector(".grade-column-right").firstElementChild;
-                let awardedCategoryPercent = awardedCategoryPercentContainer;
-                // clear existing percentage indicator
-                while (awardedCategoryPercent.firstChild) {
-                    awardedCategoryPercent.firstChild.remove();
-                }
-                awardedCategoryPercent.appendChild(document.createElement("span"));
-                awardedCategoryPercent = awardedCategoryPercent.firstElementChild;
-                awardedCategoryPercent.classList.add("awarded-grade");
-                awardedCategoryPercent.appendChild(document.createElement("span"));
-                awardedCategoryPercent = awardedCategoryPercent.firstElementChild;
-                awardedCategoryPercent.classList.add("numeric-grade");
-                awardedCategoryPercent.classList.add("primary-grade");
-                awardedCategoryPercent.appendChild(document.createElement("span"));
-                awardedCategoryPercent = awardedCategoryPercent.firstElementChild;
-                awardedCategoryPercent.classList.add("rounded-grade");
-
-                let newCatPercent = (newCatScore / newCatMax) * 100;
-                awardedCategoryPercent.title = newCatPercent + "%";
-                awardedCategoryPercent.textContent = (Math.round(newCatPercent * 100) / 100) + "%";
-
-                if (!awardedCategoryPercentContainer.querySelector(".modified-score-percent-warning")) {
-                    awardedCategoryPercentContainer.prepend(generateScoreModifyWarning());
-                }
-
-                let awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right").firstElementChild;
-                let awardedPeriodPercent = awardedPeriodPercentContainer;
-                // clear existing percentage indicator
-                while (awardedPeriodPercent.firstChild) {
-                    awardedPeriodPercent.firstChild.remove();
-                }
-                awardedPeriodPercent.appendChild(document.createElement("span"));
-                awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
-                awardedPeriodPercent.classList.add("awarded-grade");
-                awardedPeriodPercent.appendChild(document.createElement("span"));
-                awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
-                awardedPeriodPercent.classList.add("numeric-grade");
-                awardedPeriodPercent.classList.add("primary-grade");
-                awardedPeriodPercent.appendChild(document.createElement("span"));
-                awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
-                awardedPeriodPercent.classList.add("rounded-grade");
-
-                // now period (semester)
-                // might have a numeric score (weighting => no numeric, meaning we can assume unweighted if present)
-                let awardedPeriodPoints = perRow.querySelector(".grade-column-center");
-                if (awardedPeriodPoints && awardedPeriodPoints.textContent.trim().length !== 0) {
-                    // awarded grade in our constructed element contains both rounded and max
-                    let perScoreElem = awardedPeriodPoints.querySelector(".rounded-grade");
-                    let perMaxElem = awardedPeriodPoints.querySelector(".max-grade");
-                    let newPerScore = Number.parseFloat(perScoreElem.textContent) + deltaPoints;
-                    let newPerMax = Number.parseFloat(perMaxElem.textContent.substring(3)) + deltaMax;
-                    perScoreElem.textContent = newPerScore;
-                    perMaxElem.textContent = " / " + newPerMax;
-                    if (!awardedPeriodPoints.querySelector(".modified-score-percent-warning")) {
-                        awardedPeriodPoints.appendChild(generateScoreModifyWarning());
-                    }
-
-                    // go ahead and calculate period percentage here since we know it's unweighted
-                    let newPerPercent = (newPerScore / newPerMax) * 100;
-                    awardedPeriodPercent.title = newPerPercent + "%";
-                    awardedPeriodPercent.textContent = (Math.round(newPerPercent * 100) / 100) + "%";
-                } else {
-                    let total = 0;
-                    let totalPercentWeight = 0;
-                    for (let category of perRow.parentElement.getElementsByClassName("category-row")) {
-                        let weightPercentElement = category.getElementsByClassName("percentage-contrib")[0];
-                        if (!weightPercentElement) {
-                            continue;
-                        }
-                        let weightPercent = weightPercentElement.textContent;
-                        let col = category.getElementsByClassName("grade-column-right")[0];
-                        let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
-                        if (colMatch) {
-                            let scorePercent = Number.parseFloat(colMatch[1]);
-                            if (scorePercent && !Number.isNaN(scorePercent)) {
-                                total += (weightPercent.slice(1, -2) / 100) * scorePercent;
-                                totalPercentWeight += Number.parseFloat(weightPercent.slice(1, -2));
-                            }
-                        }
-                    }
-
-                    totalPercentWeight /= 100;
-
-                    // if only some categories have assignments, adjust the total accordingly 
-                    // if weights are more than 100, this assumes that it's correct as intended (e.c.), I won't mess with it
-                    if (totalPercentWeight > 0 && totalPercentWeight < 1) {
-                        // some categories are specified, but weights don't quite add to 100
-                        // scale up known grades
-                        total /= totalPercentWeight;
-                        // epsilon because floating point
-                    } else if (totalPercentWeight < 0.00001) {
-                        total = 100;
-                    }
-
-                    awardedPeriodPercent.title = total + "%";
-                    awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
-                }
-
-                if (!awardedPeriodPercentContainer.querySelector(".modified-score-percent-warning")) {
-                    awardedPeriodPercentContainer.prepend(generateScoreModifyWarning());
-                }
+                recalculateCategoryScore(catRow, deltaPoints, deltaMax);
+                recalculatePeriodScore(perRow, deltaPoints, deltaMax);
 
                 if (finishedCallback) {
                     finishedCallback();
