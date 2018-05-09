@@ -317,13 +317,10 @@ $.contextMenu({
                                         gradesModified = true;
                                     }
 
-                                    console.log("Marked modified");
-
                                     let catId = this[0].dataset.parentId;
-                                    console.log("Found category ID " + catId);
-                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
-                                    
+                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);                                    
                                     recalculateCategoryScore(catRow, -scoreVal, -maxVal);
+
                                     let perId = catRow.dataset.parentId;
                                     let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
                                     recalculatePeriodScore(perRow, -scoreVal, -maxVal);
@@ -345,7 +342,32 @@ $.contextMenu({
                                 name: "Undrop",
                                 callback: function (key, opt) {
                                     this[0].classList.remove("dropped");
-                                    // FIXME alter grade
+                                    // alter grade
+                                    let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
+                                    // TODO refactor the grade extraction
+                                    let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
+                                    let maxGrade = gradeColContentWrap.querySelector(".max-grade");
+                                    let scoreVal = 0;
+                                    let maxVal = 0;
+                                    
+                                    if (score && maxGrade) {
+                                        scoreVal = Number.parseFloat(score.textContent);
+                                        maxVal = Number.parseFloat(maxGrade.textContent.substring(3));
+                                    }
+                                    
+                                    if (!gradeColContentWrap.querySelector(".modified-score-percent-warning")) {
+                                        //gradeColContentWrap.getElementsByClassName("injected-assignment-percent")[0].style.paddingRight = "0";
+                                        gradeColContentWrap.appendChild(generateScoreModifyWarning());
+                                        gradesModified = true;
+                                    }
+
+                                    let catId = this[0].dataset.parentId;
+                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);                                    
+                                    recalculateCategoryScore(catRow, scoreVal, maxVal);
+
+                                    let perId = catRow.dataset.parentId;
+                                    let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
+                                    recalculatePeriodScore(perRow, scoreVal, maxVal);
                                 }
                             }
                         }
