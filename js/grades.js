@@ -305,12 +305,16 @@ $.contextMenu({
                                     let maxGrade = gradeColContentWrap.querySelector(".max-grade");
                                     let scoreVal = 0;
                                     let maxVal = 0;
-                                    
+
                                     if (score && maxGrade) {
                                         scoreVal = Number.parseFloat(score.textContent);
                                         maxVal = Number.parseFloat(maxGrade.textContent.substring(3));
+                                    } else if (this[0].querySelector(".exception-icon.missing")) {
+                                        let scoreValues = maxGrade.textContent.split("/");
+                                        scoreVal = Number.parseFloat(scoreValues[0]);
+                                        maxVal = Number.parseFloat(scoreValues[1]);
                                     }
-                                    
+
                                     if (!gradeColContentWrap.querySelector(".modified-score-percent-warning")) {
                                         //gradeColContentWrap.getElementsByClassName("injected-assignment-percent")[0].style.paddingRight = "0";
                                         gradeColContentWrap.appendChild(generateScoreModifyWarning());
@@ -318,7 +322,7 @@ $.contextMenu({
                                     }
 
                                     let catId = this[0].dataset.parentId;
-                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);                                    
+                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
                                     recalculateCategoryScore(catRow, -scoreVal, -maxVal);
 
                                     let perId = catRow.dataset.parentId;
@@ -349,12 +353,16 @@ $.contextMenu({
                                     let maxGrade = gradeColContentWrap.querySelector(".max-grade");
                                     let scoreVal = 0;
                                     let maxVal = 0;
-                                    
+
                                     if (score && maxGrade) {
                                         scoreVal = Number.parseFloat(score.textContent);
                                         maxVal = Number.parseFloat(maxGrade.textContent.substring(3));
+                                    } else if (this[0].querySelector(".exception-icon.missing")) {
+                                        let scoreValues = maxGrade.textContent.split("/");
+                                        scoreVal = Number.parseFloat(scoreValues[0]);
+                                        maxVal = Number.parseFloat(scoreValues[1]);
                                     }
-                                    
+
                                     if (!gradeColContentWrap.querySelector(".modified-score-percent-warning")) {
                                         //gradeColContentWrap.getElementsByClassName("injected-assignment-percent")[0].style.paddingRight = "0";
                                         gradeColContentWrap.appendChild(generateScoreModifyWarning());
@@ -362,7 +370,7 @@ $.contextMenu({
                                     }
 
                                     let catId = this[0].dataset.parentId;
-                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);                                    
+                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
                                     recalculateCategoryScore(catRow, scoreVal, maxVal);
 
                                     let perId = catRow.dataset.parentId;
