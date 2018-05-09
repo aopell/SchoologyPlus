@@ -34,38 +34,6 @@ $.contextMenu({
     }
 });
 
-$.contextMenu({
-    selector: ".item-row:not(.dropped):not(.grade-add-indicator)",
-    items: {
-        drop: {
-            name: "Drop",
-            callback: function (key, opt) {
-                this[0].classList.add("dropped");
-                // FIXME alter grade
-            }
-        },
-        separator: "-----"
-        // TODO, menu as follows:
-        // "Calculate Minimum Grade" (for current letter grade)
-        // -> "For A"
-        // -> "For B"
-        // etc, based on grading scale
-    }
-});
-
-$.contextMenu({
-    selector: ".item-row.dropped:not(.grade-add-indicator)",
-    items: {
-        undrop: {
-            name: "Undrop",
-            callback: function(key, opt) {
-                this[0].classList.remove("dropped");
-                // FIXME alter grade
-            }
-        }
-    }
-});
-
 (async function () {
     console.log("Running Schoology Plus grades page improvement script");
 
@@ -309,6 +277,9 @@ $.contextMenu({
             type: "checkbox",
             id: "enable-modify",
             onclick: function () {
+                let undroppedAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator)";
+                let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator)";
+
                 if (document.getElementById("enable-modify").checked) {
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
                         edit.style.display = "unset";
@@ -319,6 +290,38 @@ $.contextMenu({
                             edit.previousElementSibling.classList.remove("last-row-of-tier");
                         }
                     }
+
+                    $.contextMenu({
+                        selector: undroppedAssignRClickSelector,
+                        items: {
+                            drop: {
+                                name: "Drop",
+                                callback: function (key, opt) {
+                                    this[0].classList.add("dropped");
+                                    // FIXME alter grade
+                                }
+                            },
+                            separator: "-----"
+                            // TODO, menu as follows:
+                            // "Calculate Minimum Grade" (for current letter grade)
+                            // -> "For A"
+                            // -> "For B"
+                            // etc, based on grading scale
+                        }
+                    });
+                    
+                    $.contextMenu({
+                        selector: droppedAssignRClickSelector,
+                        items: {
+                            undrop: {
+                                name: "Undrop",
+                                callback: function(key, opt) {
+                                    this[0].classList.remove("dropped");
+                                    // FIXME alter grade
+                                }
+                            }
+                        }
+                    });
                 } else if (!gradesModified) {
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
                         edit.style.display = "none";
@@ -329,7 +332,10 @@ $.contextMenu({
                             edit.previousElementSibling.classList.add("last-row-of-tier");
                         }
                     }
+                    $.contextMenu("destroy", undroppedAssignRClickSelector);
+                    $.contextMenu("destroy", droppedAssignRClickSelector);
                 } else {
+                    // not going to try to undo any grade modifications
                     document.location.reload();
                 }
             }
