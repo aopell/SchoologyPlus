@@ -120,14 +120,16 @@ let modals = [
         };
 
         // courses dropdown (all pages)
-        let target = document.querySelector(".sections-list")
-        resetIconsOnMutate(target);
-
+        let target = document.querySelector(".sections-list");
+        if (target) {
+            // TODO why might this be null?
+            resetIconsOnMutate(target);
+        }
         // course dashboard
         let mainInner = document.getElementById("main-inner");
 
         if (mainInner && window.location.pathname == "/home/course-dashboard") {
-            resetIconsOnMutate(mainInner, function(mutationsList) {
+            resetIconsOnMutate(mainInner, function (mutationsList) {
                 return !!mainInner.querySelector(".course-dashboard .sgy-card-lens");
             });
         }
