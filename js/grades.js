@@ -473,7 +473,7 @@ $.contextMenu({
 
                                     calculateMinimumGrade(this[0], desiredPercentage);
                                 },
-                                subMenu: []
+                                items: {}
                             }
                             // TODO, menu as follows:
                             // "Calculate Minimum Grade" (for current letter grade)
@@ -489,15 +489,15 @@ $.contextMenu({
                         gradingScale = storage.gradingScales[courseId];
                     }
                     // reference
-                    let calcMinFor = undroppedAssignContextMenuObject.items.calculateMinGrade.subMenu;
+                    let calcMinFor = undroppedAssignContextMenuObject.items.calculateMinGrade.items;
                     for (let gradeValue of Object.keys(gradingScale).sort((a, b) => b - a)) {
                         let letterGrade = gradingScale[gradeValue];
-                        calcMinFor.push({
+                        calcMinFor["calculateMinGradeFor" + gradeValue] = {
                             name: "For " + letterGrade,
                             callback: function(key, opt) {
                                 calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
                             }
-                        });
+                        };
                     }
 
                     $.contextMenu(undroppedAssignContextMenuObject);
