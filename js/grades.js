@@ -483,28 +483,35 @@ $.contextMenu({
                         }
                     };
 
-                    // TODO if grade scale is updated while this page is loaded (i.e. after this code runs) what to do
-                    // FIXME grading scales are PER COURSE and using this global scale won't work
-                    let gradingScale = { "90": "A*", "80": "B*", "70": "C*", "60": "D*", "0": "F*" };
-                    
-                    // if (storage.gradingScales && storage.gradingScales[courseId]) {
-                    //     gradingScale = storage.gradingScales[courseId];
-                    // }
+                    for (let courseElement of document.getElementsByClassName("gradebook-course")) {
+                        let contextMenuObject = Object.assign({}, undroppedAssignContextMenuObject);
+                        let calcMinFor = {};
+                        contextMenuObject.items.calculateMinGrade.items = calcMinFor;
+                        contextMenuObject.selector = "#" + courseElement.id + " " + contextMenuObject.selector;
 
 
-                    // reference
-                    let calcMinFor = undroppedAssignContextMenuObject.items.calculateMinGrade.items;
-                    for (let gradeValue of Object.keys(gradingScale).sort((a, b) => b - a)) {
-                        let letterGrade = gradingScale[gradeValue];
-                        calcMinFor["calculateMinGradeFor" + gradeValue] = {
-                            name: "For " + letterGrade,
-                            callback: function (key, opt) {
-                                calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
-                            }
-                        };
+                        let courseId = /\d+$/.exec(courseElement.id)[0];
+
+                        // TODO if grade scale is updated while this page is loaded (i.e. after this code runs) what to do
+                        // TODO refactor
+                        let gradingScale = { "90": "A*", "80": "B*", "70": "C*", "60": "D*", "0": "F*" };
+
+                        if (storage.gradingScales && storage.gradingScales[courseId]) {
+                            gradingScale = storage.gradingScales[courseId];
+                        }
+
+                        for (let gradeValue of Object.keys(gradingScale).sort((a, b) => b - a)) {
+                            let letterGrade = gradingScale[gradeValue];
+                            calcMinFor["calculateMinGradeFor" + gradeValue] = {
+                                name: "For " + letterGrade,
+                                callback: function (key, opt) {
+                                    calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
+                                }
+                            };
+                        }
+
+                        $.contextMenu(contextMenuObject);
                     }
-
-                    $.contextMenu(undroppedAssignContextMenuObject);
 
                     $.contextMenu({
                         selector: droppedAssignRClickSelector,
@@ -557,7 +564,9 @@ $.contextMenu({
                             edit.previousElementSibling.classList.add("last-row-of-tier");
                         }
                     }
-                    $.contextMenu("destroy", undroppedAssignRClickSelector);
+                    for (let courseElement of document.getElementsByClassName("gradebook-course")) {
+                        $.contextMenu("destroy", "#" + courseElement.id + " " + undroppedAssignRClickSelector);
+                    }
                     $.contextMenu("destroy", droppedAssignRClickSelector);
                 } else {
                     // not going to try to undo any grade modifications
