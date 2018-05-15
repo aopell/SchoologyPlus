@@ -445,15 +445,19 @@ $.contextMenu({
                                 callback: function (key, opt) {
                                     // TODO refactor grade extraction
                                     // get course letter grade
-                                    let gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
-                                    if (storage.gradingScales && storage.gradingScales[courseId]) {
-                                        gradingScale = storage.gradingScales[courseId];
-                                    }
-
                                     let catId = this[0].dataset.parentId;
                                     let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
                                     let perId = catRow.dataset.parentId;
                                     let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
+
+                                    // TODO refactor
+                                    // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
+                                    let courseId = Number.parseInt(/course-(\d+)$/.exec(this[0].parentElement.parentElement.parentElement.parentElement.id)[1]);
+
+                                    let gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
+                                    if (storage.gradingScales && storage.gradingScales[courseId]) {
+                                        gradingScale = storage.gradingScales[courseId];
+                                    }
 
                                     let courseGrade = getLetterGrade(gradingScale, Number.parseFloat(/\d+(\.\d+)%/.exec(perRow.querySelector(".grade-column-right").firstElementChild.textContent)[0].slice(0, -1)));
 
@@ -480,17 +484,21 @@ $.contextMenu({
                     };
 
                     // TODO if grade scale is updated while this page is loaded (i.e. after this code runs) what to do
-                    let gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
-                    if (storage.gradingScales && storage.gradingScales[courseId]) {
-                        gradingScale = storage.gradingScales[courseId];
-                    }
+                    // FIXME grading scales are PER COURSE and using this global scale won't work
+                    let gradingScale = { "90": "A*", "80": "B*", "70": "C*", "60": "D*", "0": "F*" };
+                    
+                    // if (storage.gradingScales && storage.gradingScales[courseId]) {
+                    //     gradingScale = storage.gradingScales[courseId];
+                    // }
+
+
                     // reference
                     let calcMinFor = undroppedAssignContextMenuObject.items.calculateMinGrade.subMenu;
                     for (let gradeValue of Object.keys(gradingScale).sort((a, b) => b - a)) {
                         let letterGrade = gradingScale[gradeValue];
                         calcMinFor.push({
                             name: "For " + letterGrade,
-                            callback: function(key, opt) {
+                            callback: function (key, opt) {
                                 calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
                             }
                         });
