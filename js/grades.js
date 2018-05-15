@@ -38,26 +38,23 @@ $.contextMenu({
     console.log("Running Schoology Plus grades page improvement script");
 
     let userId = document.querySelector("#profile > a").href.match(/\d+/)[0];
-    let apiKeys = localStorage.getObject("apiKeys");
-    if (!apiKeys || !apiKeys[userId]) {
-        apiKeys = apiKeys || {};
-        console.log(`API key not found for user ${userId} - attempting to fetch`);
-        let tempDiv = document.createElement("div");
-        let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();
-        tempDiv.innerHTML = html;
-        let key;
-        let secret;
-        if ((key = tempDiv.querySelector("#edit-current-key")) && (secret = tempDiv.querySelector("#edit-current-secret"))) {
-            console.log("API key already generated - saving to local storage");
-            apiKeys[userId] = [key.value, secret.value];
-            localStorage.setObject("apiKeys", apiKeys);
-        } else if (localStorage.getObject("attemptedGetKey") != userId) {
-            console.log("API key not found - generating and reloading page");
-            localStorage.setObject("attemptedGetKey", userId);
-            document.body.appendChild(tempDiv);
-            tempDiv.querySelector("input[type=submit]").click();
-            location.reload();
-        }
+    var apiKeys = null;
+    console.log(`Fetching API key for user ${userId}`);
+    let tempDiv = document.createElement("div");
+    let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();
+    tempDiv.innerHTML = html;
+    let key;
+    let secret;
+    if ((key = tempDiv.querySelector("#edit-current-key")) && (secret = tempDiv.querySelector("#edit-current-secret"))) {
+        console.log("API key already generated - storing");
+        apiKeys = [key.value, secret.value];
+        localStorage.setObject("attemptedGetKey", null);
+    } else if (localStorage.getObject("attemptedGetKey") != userId) {
+        console.log("API key not found - generating and reloading page");
+        localStorage.setObject("attemptedGetKey", userId);
+        document.body.appendChild(tempDiv);
+        tempDiv.querySelector("input[type=submit]").click();
+        location.reload();
     }
 
     let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
@@ -124,11 +121,10 @@ $.contextMenu({
                     }
                     if (assignment.querySelector(".missing")) {
                         // get denominator for missing assignment
-                        let apiKeys = localStorage.getObject("apiKeys");
-                        if (apiKeys && apiKeys[userId]) {
+                        if (apiKeys) {
                             console.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
-                            let userAPIKey = apiKeys[userId][0];
-                            let userAPISecret = apiKeys[userId][1];
+                            let userAPIKey = apiKeys[0];
+                            let userAPISecret = apiKeys[1];
                             let json = await (
                                 await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
                                     headers: {
@@ -449,15 +445,19 @@ $.contextMenu({
                                 callback: function (key, opt) {
                                     // TODO refactor grade extraction
                                     // get course letter grade
-                                    let gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
-                                    if (storage.gradingScales && storage.gradingScales[courseId]) {
-                                        gradingScale = storage.gradingScales[courseId];
-                                    }
-
                                     let catId = this[0].dataset.parentId;
                                     let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
                                     let perId = catRow.dataset.parentId;
                                     let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
+
+                                    // TODO refactor
+                                    // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
+                                    let courseId = Number.parseInt(/course-(\d+)$/.exec(this[0].parentElement.parentElement.parentElement.parentElement.id)[1]);
+
+                                    let gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
+                                    if (storage.gradingScales && storage.gradingScales[courseId]) {
+                                        gradingScale = storage.gradingScales[courseId];
+                                    }
 
                                     let courseGrade = getLetterGrade(gradingScale, Number.parseFloat(/\d+(\.\d+)%/.exec(perRow.querySelector(".grade-column-right").firstElementChild.textContent)[0].slice(0, -1)));
 
@@ -484,17 +484,21 @@ $.contextMenu({
                     };
 
                     // TODO if grade scale is updated while this page is loaded (i.e. after this code runs) what to do
-                    let gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
-                    if (storage.gradingScales && storage.gradingScales[courseId]) {
-                        gradingScale = storage.gradingScales[courseId];
-                    }
+                    // FIXME grading scales are PER COURSE and using this global scale won't work
+                    let gradingScale = { "90": "A*", "80": "B*", "70": "C*", "60": "D*", "0": "F*" };
+                    
+                    // if (storage.gradingScales && storage.gradingScales[courseId]) {
+                    //     gradingScale = storage.gradingScales[courseId];
+                    // }
+
+
                     // reference
                     let calcMinFor = undroppedAssignContextMenuObject.items.calculateMinGrade.items;
                     for (let gradeValue of Object.keys(gradingScale).sort((a, b) => b - a)) {
                         let letterGrade = gradingScale[gradeValue];
                         calcMinFor["calculateMinGradeFor" + gradeValue] = {
                             name: "For " + letterGrade,
-                            callback: function(key, opt) {
+                            callback: function (key, opt) {
                                 calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
                             }
                         };
