@@ -454,10 +454,7 @@ $.contextMenu({
                                     // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
                                     let courseId = Number.parseInt(/course-(\d+)$/.exec(this[0].parentElement.parentElement.parentElement.parentElement.id)[1]);
 
-                                    let gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
-                                    if (storage.gradingScales && storage.gradingScales[courseId]) {
-                                        gradingScale = storage.gradingScales[courseId];
-                                    }
+                                    let gradingScale = storage.getGradingScale(courseId);
 
                                     let courseGrade = getLetterGrade(gradingScale, Number.parseFloat(/\d+(\.\d+)%/.exec(perRow.querySelector(".grade-column-right").firstElementChild.textContent)[0].slice(0, -1)));
 
@@ -493,12 +490,7 @@ $.contextMenu({
                         let courseId = /\d+$/.exec(courseElement.id)[0];
 
                         // TODO if grade scale is updated while this page is loaded (i.e. after this code runs) what to do
-                        // TODO refactor
-                        let gradingScale = { "90": "A*", "80": "B*", "70": "C*", "60": "D*", "0": "F*" };
-
-                        if (storage.gradingScales && storage.gradingScales[courseId]) {
-                            gradingScale = storage.gradingScales[courseId];
-                        }
+                        let gradingScale = storage.getGradingScale(courseId);
 
                         for (let gradeValue of Object.keys(gradingScale).sort((a, b) => b - a)) {
                             let letterGrade = gradingScale[gradeValue];
@@ -640,10 +632,7 @@ $.contextMenu({
     }
 
     function addLetterGrade(elem, courseId) {
-        let gradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
-        if (storage.gradingScales && storage.gradingScales[courseId]) {
-            gradingScale = storage.gradingScales[courseId];
-        }
+        let gradingScale = storage.getGradingScale(courseId);
         if (storage["customScales"] != "disabled" && elem.textContent.match(/^\d+\.?\d*%/) !== null) {
             let percent = Number.parseFloat(elem.textContent.substr(0, elem.textContent.length - 1));
             let letterGrade = getLetterGrade(gradingScale, percent);

@@ -43,6 +43,16 @@ function updateSettings(callback) {
     chrome.storage.sync.get(null, storageContents => {
         storage = storageContents;
 
+        // wrapper functions for e.g. defaults
+        storage.getGradingScale = function (courseId) {
+            let defaultGradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
+            if (this.gradingScales && this.gradingScales[courseId]) {
+                return this.gradingScales[courseId];
+            }
+
+            return defaultGradingScale;
+        }
+
         if (firstLoad) {
             if (storageContents.themes) {
                 for (let t of storageContents.themes) {
@@ -318,37 +328,37 @@ function getBrowser() {
 }
 
 function isVisible(elem) {
-    return !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length );
+    return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
 }
 
-function getParents (elem, selector) {
+function getParents(elem, selector) {
     var parents = [];
     var firstChar;
-    if ( selector ) {
+    if (selector) {
         firstChar = selector.charAt(0);
     }
-    for ( ; elem && elem !== document; elem = elem.parentNode ) {
-        if ( selector ) {
-            if ( firstChar === '.' ) {
-                if ( elem.classList.contains( selector.substr(1) ) ) {
-                    parents.push( elem );
+    for (; elem && elem !== document; elem = elem.parentNode) {
+        if (selector) {
+            if (firstChar === '.') {
+                if (elem.classList.contains(selector.substr(1))) {
+                    parents.push(elem);
                 }
             }
-            if ( firstChar === '#' ) {
-                if ( elem.id === selector.substr(1) ) {
-                    parents.push( elem );
+            if (firstChar === '#') {
+                if (elem.id === selector.substr(1)) {
+                    parents.push(elem);
                 }
             }
-            if ( firstChar === '[' ) {
-                if ( elem.hasAttribute( selector.substr(1, selector.length - 1) ) ) {
-                    parents.push( elem );
+            if (firstChar === '[') {
+                if (elem.hasAttribute(selector.substr(1, selector.length - 1))) {
+                    parents.push(elem);
                 }
             }
-            if ( elem.tagName.toLowerCase() === selector ) {
-                parents.push( elem );
+            if (elem.tagName.toLowerCase() === selector) {
+                parents.push(elem);
             }
         } else {
-            parents.push( elem );
+            parents.push(elem);
         }
 
     }
@@ -432,11 +442,11 @@ function Setting(name, friendlyName, description, defaultValue, type, options, o
     settings[name] = this;
 }
 
-Storage.prototype.setObject = function(key, value) {
+Storage.prototype.setObject = function (key, value) {
     this.setItem(key, JSON.stringify(value));
 }
 
-Storage.prototype.getObject = function(key) {
+Storage.prototype.getObject = function (key) {
     var value = this.getItem(key);
     return value && JSON.parse(value);
 }
