@@ -38,26 +38,23 @@ $.contextMenu({
     console.log("Running Schoology Plus grades page improvement script");
 
     let userId = document.querySelector("#profile > a").href.match(/\d+/)[0];
-    let apiKeys = localStorage.getObject("apiKeys");
-    if (!apiKeys || !apiKeys[userId]) {
-        apiKeys = apiKeys || {};
-        console.log(`API key not found for user ${userId} - attempting to fetch`);
-        let tempDiv = document.createElement("div");
-        let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();
-        tempDiv.innerHTML = html;
-        let key;
-        let secret;
-        if ((key = tempDiv.querySelector("#edit-current-key")) && (secret = tempDiv.querySelector("#edit-current-secret"))) {
-            console.log("API key already generated - saving to local storage");
-            apiKeys[userId] = [key.value, secret.value];
-            localStorage.setObject("apiKeys", apiKeys);
-        } else if (localStorage.getObject("attemptedGetKey") != userId) {
-            console.log("API key not found - generating and reloading page");
-            localStorage.setObject("attemptedGetKey", userId);
-            document.body.appendChild(tempDiv);
-            tempDiv.querySelector("input[type=submit]").click();
-            location.reload();
-        }
+    var apiKeys = null;
+    console.log(`Fetching API key for user ${userId}`);
+    let tempDiv = document.createElement("div");
+    let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();
+    tempDiv.innerHTML = html;
+    let key;
+    let secret;
+    if ((key = tempDiv.querySelector("#edit-current-key")) && (secret = tempDiv.querySelector("#edit-current-secret"))) {
+        console.log("API key already generated - storing");
+        apiKeys = [key.value, secret.value];
+        localStorage.setObject("attemptedGetKey", null);
+    } else if (localStorage.getObject("attemptedGetKey") != userId) {
+        console.log("API key not found - generating and reloading page");
+        localStorage.setObject("attemptedGetKey", userId);
+        document.body.appendChild(tempDiv);
+        tempDiv.querySelector("input[type=submit]").click();
+        location.reload();
     }
 
     let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
@@ -124,11 +121,10 @@ $.contextMenu({
                     }
                     if (assignment.querySelector(".missing")) {
                         // get denominator for missing assignment
-                        let apiKeys = localStorage.getObject("apiKeys");
-                        if (apiKeys && apiKeys[userId]) {
+                        if (apiKeys) {
                             console.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
-                            let userAPIKey = apiKeys[userId][0];
-                            let userAPISecret = apiKeys[userId][1];
+                            let userAPIKey = apiKeys[0];
+                            let userAPISecret = apiKeys[1];
                             let json = await (
                                 await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
                                     headers: {
