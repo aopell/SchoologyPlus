@@ -121,7 +121,7 @@
                 "https://lms.lausd.net/*"
             ],
             "js": [
-                "js/arrowmenu-patch.js"
+                "js/all-idle.js"
             ],
             "run_at": "document_idle"
         }

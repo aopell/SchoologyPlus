@@ -219,8 +219,12 @@ function updateSettings(callback) {
                     {
                         options: [
                             {
-                                text: "Enabled",
+                                text: "All Icons",
                                 value: "enabled"
+                            },
+                            {
+                                text: "Default Icons Only",
+                                value: "defaultOnly",
                             },
                             {
                                 text: "Disabled",

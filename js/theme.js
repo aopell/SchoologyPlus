@@ -80,11 +80,18 @@ class Theme {
 
     static setProfilePictures() {
         if (storage["courseIcons"] === "disabled") return;
+        // whether or not to skip setting themed icons where the teacher has already set one
+        let skipOverriddenIcons = storage["courseIcons"] === "defaultOnly";
+        let defaultCourseIconUrlRegex = /\/sites\/[a-zA-Z0-9_-]+\/themes\/[%a-zA-Z0-9_-]+\/images\/course-default.(?:svg|png|jpe?g|gif)(\?[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?(&[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?)*)?$/;
         let pictures = [];
         //Courses drop down
         pictures = Array.from(document.querySelectorAll(".section-item .profile-picture>img"));
+        if (skipOverriddenIcons) {
+            pictures = pictures.filter(p => p.src.match(defaultCourseIconUrlRegex));
+        }
         //Course profile picture on course page
-        let bigCourseIcon = document.querySelector(".sCourse-processed .profile-picture>img");
+        let bigCourseIcon = document.querySelector(".profile-picture-wrapper.sCourse-processed .profile-picture>img");
+        if (skipOverriddenIcons && bigCourseIcon && !bigCourseIcon.src.match(defaultCourseIconUrlRegex)) bigCourseIcon = null;
         if (bigCourseIcon) pictures.push(bigCourseIcon);
         //List of courses on user page
         let coursesList = document.querySelector(".my-courses-item-list");
@@ -92,6 +99,11 @@ class Theme {
             let courseImgs = [];
             for (let c of Array.from(coursesList.querySelectorAll(".course-item"))) {
                 let img = c.querySelector(".profile-picture>img");
+                if (!img) {
+                    continue;
+                } else if (skipOverriddenIcons && !img.src.match(defaultCourseIconUrlRegex)) {
+                    continue;
+                }
                 img.alt = "Profile picture for " + c.textContent;
                 courseImgs.push(img);
             }
@@ -101,6 +113,11 @@ class Theme {
         let dashboardTiles = document.querySelectorAll(".sgy-card>.sgy-card-lens");
         if (dashboardTiles) {
             for (let tile of dashboardTiles) {
+                // check if not default icon
+                if (skipOverriddenIcons && !((tile.firstChild.data || tile.firstChild.src || "").match(defaultCourseIconUrlRegex))) {
+                    continue;
+                }
+
                 // clear children
                 while (tile.firstChild) {
                     tile.removeChild(tile.firstChild);
