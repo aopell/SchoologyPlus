@@ -28,7 +28,7 @@ var icons = {
     //Ceramics
     "CERAMICS": "https://image.flaticon.com/icons/svg/123/123458.svg",
     //Floral
-    "FLOR": "https://image.flaticon.com/icons/svg/346/346167.svgf",
+    "FLOR": "https://image.flaticon.com/icons/svg/346/346167.svg",
     //Marine Science/Biology
     "MARINE": "https://image.flaticon.com/icons/svg/146/146718.svg",
     //Psychology
