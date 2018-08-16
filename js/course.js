@@ -1,4 +1,4 @@
-let couseIdNumber;
+let courseIdNumber;
 (function () {
     let sidebar = document.querySelector(".course-info-wrapper dl");
     if (sidebar) {
@@ -17,6 +17,11 @@ let couseIdNumber;
 })();
 
 modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", ["splus-modal-contents"], {}, [
+    createElement("div", ["setting-entry"], {}, [
+        createElement("h2", ["setting-title"], { textContent: "Alias: " }, [
+            createElement("input", [], { type: "text", id: "setting-input-course-alias" }, [])
+        ])
+    ]),
     createElement("h2", ["setting-entry"], { textContent: "Grading Scale" }),
     createElement("div", ["setting-entry"], {}, [
         createElement("table", [], { id: "grading-scale-wrapper" }, [
@@ -49,6 +54,11 @@ function setCourseOptionsContent() {
     for (let p of Object.keys(gradingScale).sort((a, b) => a - b).reverse()) {
         createRow(p, gradingScale[p]);
     }
+
+    let aliasInput = document.getElementById("setting-input-course-alias");
+    if (storage.courseAliases && storage.courseAliases[courseIdNumber]) {
+        aliasInput.value = storage.courseAliases[courseIdNumber];
+    }
 }
 
 function createRow(percentage, symbol) {
@@ -80,12 +90,18 @@ function saveCourseSettings() {
         }
     }
     currentValue[courseIdNumber] = scale;
+
+    let currentAliasesValue = storage.courseAliases || {};
+    currentAliasesValue[courseIdNumber] = document.getElementById("setting-input-course-alias").value;
+
     chrome.storage.sync.set({ gradingScales: currentValue }, x => {
-        let settingsSaved = document.getElementById("save-course-settings");
-        settingsSaved.value = "Saved!";
-        setTimeout(() => {
-            location.reload();
-        }, 1000);
+        chrome.storage.sync.set({ courseAliases: currentAliasesValue }, y => {
+            let settingsSaved = document.getElementById("save-course-settings");
+            settingsSaved.value = "Saved!";
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        });
     });
 }
 
