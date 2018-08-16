@@ -89,3 +89,20 @@
         }
     }
 })();
+
+var courseAliasDictionary = {};
+
+// hack for course aliases
+setTimeout((async function () {
+    let apiKeys = await getApiKeys();
+    
+    let userAPIKey = apiKeys[0];
+    let userAPISecret = apiKeys[1];
+    let myUser = await (
+        await fetch(`GET https://api.schoology.com/v1/users/me`, {
+            headers: {
+                "Authorization": `OAuth realm="Schoology%20API",oauth_consumer_key="${userAPIKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Math.floor(Date.now() / 1000)}",oauth_nonce="${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}",oauth_version="1.0",oauth_signature="${userAPISecret}%26"`
+            }
+        })
+    ).json();
+}), 50);

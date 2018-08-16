@@ -454,3 +454,32 @@ Storage.prototype.getObject = function (key) {
     var value = this.getItem(key);
     return value && JSON.parse(value);
 }
+
+
+/**
+ * Asynchronously pulls the requisite data from the DOM to retrieve this user's Schoology API key, reloading the page if need be.
+ */
+async function getApiKeys() {
+    let userId = document.querySelector("#profile > a").href.match(/\d+/)[0];
+    var apiKeys = null;
+    console.log(`Fetching API key for user ${userId}`);
+    let tempDiv = document.createElement("div");
+    let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();
+    tempDiv.innerHTML = html;
+    let key;
+    let secret;
+    if ((key = tempDiv.querySelector("#edit-current-key")) && (secret = tempDiv.querySelector("#edit-current-secret"))) {
+        console.log("API key already generated - storing");
+        apiKeys = [key.value, secret.value];
+        localStorage.setObject("attemptedGetKey", null);
+    } else if (localStorage.getObject("attemptedGetKey") != userId) {
+        console.log("API key not found - generating and reloading page");
+        localStorage.setObject("attemptedGetKey", userId);
+        document.body.appendChild(tempDiv);
+        tempDiv.querySelector("input[type=submit]").click();
+        location.reload();
+        return null;
+    }
+
+    return apiKeys;
+}
