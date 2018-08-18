@@ -108,8 +108,14 @@ function saveCourseSettings() {
 function restoreCourseDefaults() {
     let currentValue = storage.gradingScales || {};
     currentValue[courseIdNumber] = defaultGradingScale;
+    
+    let currentAliasesValue = storage.courseAliases || {};
+    currentAliasesValue[courseIdNumber] = null;
+
     chrome.storage.sync.set({ gradingScales: currentValue }, x => {
-        alert("Settings restored. Reloading.");
-        location.reload();
+        chrome.storage.sync.set({ courseAliases: currentAliasesValue }, y => {
+            alert("Settings restored. Reloading.");
+            location.reload();
+        });
     });
 }
