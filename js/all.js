@@ -47,6 +47,18 @@ let modals = [
                 createElement("p", ["setting-description"], { textContent: "Grade modification feature; ideas and suggestions" })
             ]),
             createElement("div", ["setting-entry"], {}, [
+                createElement("h3", ["setting-title"], {}, [
+                    createElement("a", [], { href: "http://www.freepik.com", textContent: "Freepik" }),
+                    createElement("span", [], { textContent: " from " }),
+                    createElement("a", [], { href: "https://www.flaticon.com/", textContent: "flaticon.com" })
+                ]),
+                createElement("p", ["setting-description"], {}, [
+                    createElement("span", [], {  textContent: "Many custom course icons (under " }),
+                    createElement("a", [], {  href: "http://creativecommons.org/licenses/by/3.0/", title: "Creative Commons BY 3.0", target: "_blank", textContent: "CC 3.0 BY" }),
+                    createElement("span", [], {  textContent: ")" })
+                ])
+            ]),
+            createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], { textContent: "...and more" }),
                 createElement("p", ["setting-description"], { textContent: "For various ideas and suggestions" })
             ])
