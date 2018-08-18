@@ -126,7 +126,7 @@ class Theme {
                 let img = document.createElement("img");
                 // find course name
                 // note the context footer does linebreaks, so we have to undo that
-                let courseName = tile.parentElement.querySelector(".course-dashboard__card-context-title").innerText.replace("\n", " ");
+                let courseName = tile.parentElement.querySelector(".course-dashboard__card-context-title").textContent.replace("\n", " ");
                 img.alt = "Profile picture for " + courseName;
                 // to mirror original styling and behavior
                 img.classList.add("course-dashboard__card-lens-svg");
