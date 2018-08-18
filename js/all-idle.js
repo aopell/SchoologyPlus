@@ -97,30 +97,44 @@
     let myClassData = await fetch(`https://api.schoology.com/v1/users/${apiKeys[2]}/sections`, {
         headers: createApiAuthenticationHeaders(apiKeys)
     });
-    let myClasses = await myClassData.json();
+    let myClasses = (await myClassData.json()).section;
     console.log("Classes loaded, building alias stylesheet");
-    if(storage.courseAliases){
-        for(let jsonCourse of myClasses.section){
-            if(!storage.courseAliases[jsonCourse.id]){
+    if (storage.courseAliases) {
+        for (let jsonCourse of myClasses) {
+            if (!storage.courseAliases[jsonCourse.id]) {
                 continue;
             }
 
-            let findText = jsonCourse.course_title + ": " + jsonCourse.section_title; 
+            let findText = jsonCourse.course_title + ": " + jsonCourse.section_title;
+            let wrapClassName = "course-name-wrapper-" + jsonCourse.id;
 
             findAndReplaceDOMText(document.body, {
                 find: findText,
                 wrap: "span",
-                wrapClass: "course-name-wrapper-" + jsonCourse.id
+                wrapClass: wrapClassName
             });
 
             document.title = document.title.replace(findText, storage.courseAliases[jsonCourse.id]);
+
+            // cleanup: if we run this replacement twice, we'll end up with unnecessary nested elements <special-span><special-span>FULL COURSE NAME</special-span></special-span>
+            let nestedElements;
+            do {
+                nestedElements = document.querySelectorAll(`span.${wrapClassName}>span.${wrapClassName}`);
+                for (let nestedSpan of nestedElements) {
+                    let parentText = nestedSpan.textContent;
+                    while (nestedSpan.parentElement.firstChild) {
+                        nestedSpan.parentElement.firstChild.remove();
+                    }
+                    nestedSpan.parentElement.textContent = parentText;
+                }
+            } while (nestedElements.length > 0);
         }
     }
     console.log("Applying aliases");
     // https://stackoverflow.com/a/707794 for stylesheet insertion
     let sheet = window.document.styleSheets[0];
-    
-    for(let aliasedCourseId in storage.courseAliases){
+
+    for (let aliasedCourseId in storage.courseAliases) {
         // https://stackoverflow.com/a/18027136 for text replacement
         sheet.insertRule(`span.course-name-wrapper-${aliasedCourseId} {
             visibility: hidden;
