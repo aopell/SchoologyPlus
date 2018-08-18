@@ -11,6 +11,8 @@ var icons = {
     "EUR": "https://image.flaticon.com/icons/svg/664/664549.svg",
     //Physics
     "PHYSICS|PHY:C": "https://image.flaticon.com/icons/svg/164/164969.svg",
+    //Astronomy
+    "ASTRONOMY": "https://image.flaticon.com/icons/svg/124/124553.svg",
     //Precalculus
     "PRE ?CALC": "https://image.flaticon.com/icons/svg/707/707967.svg",
     //Calculus
