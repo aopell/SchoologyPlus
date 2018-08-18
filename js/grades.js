@@ -105,13 +105,9 @@ $.contextMenu({
                         // get denominator for missing assignment
                         if (apiKeys) {
                             console.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
-                            let userAPIKey = apiKeys[0];
-                            let userAPISecret = apiKeys[1];
                             let json = await (
                                 await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
-                                    headers: {
-                                        "Authorization": `OAuth realm="Schoology%20API",oauth_consumer_key="${userAPIKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Math.floor(Date.now() / 1000)}",oauth_nonce="${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}",oauth_version="1.0",oauth_signature="${userAPISecret}%26"`
-                                    }
+                                    headers: createApiAuthenticationHeaders(apiKeys)
                                 })
                             ).json();
 

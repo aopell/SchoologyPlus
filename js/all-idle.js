@@ -95,15 +95,9 @@ var courseAliasDictionary = null;
 // hack for course aliases
 setTimeout((async function () {
     let apiKeys = await getApiKeys();
-    
-    let userAPIKey = apiKeys[0];
-    let userAPISecret = apiKeys[1];
-    // FIXME hardcoded user ID
-    let myClassData = await fetch(`https://api.schoology.com/v1/users/USER_ID_GOES_HERE/sections`, {
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `OAuth realm="Schoology%20API",oauth_consumer_key="${userAPIKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Math.floor(Date.now() / 1000)}",oauth_nonce="${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}",oauth_version="1.0",oauth_signature="${userAPISecret}%26"`
-        }
+
+    let myClassData = await fetch(`https://api.schoology.com/v1/users/${apiKeys[2]}/sections`, {
+        headers: createApiAuthenticationHeaders(apiKeys)
     });
     let myClasses = await myClassData.json();
     console.log("Classes read, loading alias data");
@@ -115,7 +109,7 @@ setTimeout((async function () {
             let alias = storage.courseAliases[jsonCourse.id];
             // hacky bit, DOMwide find and replace
             findAndReplaceDOMText(document.documentElement, {
-                find: jsonCourse.course_title,
+                find: jsonCourse.course_title + ": " + jsonCourse.section_title,
                 replace: alias
               });
         }

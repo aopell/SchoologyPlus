@@ -458,6 +458,7 @@ Storage.prototype.getObject = function (key) {
 
 /**
  * Asynchronously pulls the requisite data from the DOM to retrieve this user's Schoology API key, reloading the page if need be.
+ * @returns an array of 3 elements: the key, the secret, and the user ID.
  */
 async function getApiKeys() {
     let userId = document.querySelector("#profile > a").href.match(/\d+/)[0];
@@ -470,7 +471,7 @@ async function getApiKeys() {
     let secret;
     if ((key = tempDiv.querySelector("#edit-current-key")) && (secret = tempDiv.querySelector("#edit-current-secret"))) {
         console.log("API key already generated - storing");
-        apiKeys = [key.value, secret.value];
+        apiKeys = [key.value, secret.value, userId];
         localStorage.setObject("attemptedGetKey", null);
     } else if (localStorage.getObject("attemptedGetKey") != userId) {
         console.log("API key not found - generating and reloading page");
@@ -482,4 +483,29 @@ async function getApiKeys() {
     }
 
     return apiKeys;
+}
+
+/**
+ * Given an apiKeys array, generate the authentication headers for an API request.
+ * 
+ * @param {string[]} apiKeys The apiKeys array, consisting of at least the key and the secret, returned from getApiKeys.
+ * @param {Object} baseObj Optional: the base object from which to copy existing properties.
+ * @returns {Object} A dictionary of HTTP headers, including a properly-constructed Authorization header for the given API user.
+ */
+function createApiAuthenticationHeaders(apiKeys, baseObj) {
+    let retObj = {};
+    if (baseObj) {
+        Object.assign(retObj, baseObj);
+    }
+
+    let userAPIKey = apiKeys[0];
+    let userAPISecret = apiKeys[1];
+
+    retObj["Authorization"] = `OAuth realm="Schoology%20API",oauth_consumer_key="${userAPIKey}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Math.floor(Date.now() / 1000)}",oauth_nonce="${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}",oauth_version="1.0",oauth_signature="${userAPISecret}%26"`;
+
+    if (!retObj["Content-Type"]) {
+        retObj["Content-Type"] = "application/json";
+    }
+
+    return retObj;
 }
