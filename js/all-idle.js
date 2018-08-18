@@ -90,28 +90,48 @@
     }
 })();
 
-var courseAliasDictionary = null;
-
 // hack for course aliases
-setTimeout((async function () {
+(async function () {
     let apiKeys = await getApiKeys();
 
     let myClassData = await fetch(`https://api.schoology.com/v1/users/${apiKeys[2]}/sections`, {
         headers: createApiAuthenticationHeaders(apiKeys)
     });
     let myClasses = await myClassData.json();
-    console.log("Classes read, loading alias data");
+    console.log("Classes loaded, building alias stylesheet");
     if(storage.courseAliases){
         for(let jsonCourse of myClasses.section){
             if(!storage.courseAliases[jsonCourse.id]){
                 continue;
             }
-            let alias = storage.courseAliases[jsonCourse.id];
-            // hacky bit, DOMwide find and replace
-            findAndReplaceDOMText(document.documentElement, {
-                find: jsonCourse.course_title + ": " + jsonCourse.section_title,
-                replace: alias
-              });
+
+            let findText = jsonCourse.course_title + ": " + jsonCourse.section_title; 
+
+            findAndReplaceDOMText(document.body, {
+                find: findText,
+                wrap: "span",
+                wrapClass: "course-name-wrapper-" + jsonCourse.id
+            });
+
+            document.title = document.title.replace(findText, storage.courseAliases[jsonCourse.id]);
         }
     }
-}), 50);
+    console.log("Applying aliases");
+    // https://stackoverflow.com/a/707794 for stylesheet insertion
+    let sheet = window.document.styleSheets[0];
+    
+    for(let aliasedCourseId in storage.courseAliases){
+        // https://stackoverflow.com/a/18027136 for text replacement
+        sheet.insertRule(`span.course-name-wrapper-${aliasedCourseId} {
+            visibility: hidden;
+            word-spacing:-999px;
+            letter-spacing: -999px;
+        }`, sheet.cssRules.length);
+        sheet.insertRule(`span.course-name-wrapper-${aliasedCourseId}:after {
+            content: "${storage.courseAliases[aliasedCourseId]}";
+            visibility: visible;
+            word-spacing:normal;
+            letter-spacing:normal; 
+        }`, sheet.cssRules.length);
+    }
+})();
