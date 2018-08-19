@@ -94,6 +94,9 @@
             "matches": [
                 "https://lms.lausd.net/course/*/materials"
             ],
+            "css": [
+                "css/grade-tooltip.css"
+            ],
             "js": [
                 "js/jquery-1.12.4.min.js",
                 "js/jquery.tipsy.min.js",

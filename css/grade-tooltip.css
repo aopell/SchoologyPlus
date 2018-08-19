@@ -1,0 +1,34 @@
+/* Grade tooltip CSS, as used on materials page */
+.assignment-tooltip .tooltip-footer {
+    color: #aaaaaa;
+    font-size: 9px;
+}
+
+.assignment-tooltip .tooltip-footer .tooltip-horiz-divider {
+    color: #808080;
+}
+
+.assignment-tooltip .error-message {
+    color: #cc6666;
+}
+
+.assignment-tooltip .exception-excused {
+    color: #8fdb8f;
+}
+
+.assignment-tooltip .exception-incomplete {
+    color: #f7c438;
+}
+
+.assignment-tooltip .exception-missing {
+    color: #f7c438;
+}
+
+.assignment-tooltip .exception-max-pts-info {
+    color: #aaaaaa;
+    font-size: 10px;
+}
+
+.assignment-tooltip .tooltip-grade-info {
+    color: #94cfff;
+}
