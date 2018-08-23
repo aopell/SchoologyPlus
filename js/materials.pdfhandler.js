@@ -1,6 +1,8 @@
 // this script runs in page DOM context, i.e. not as a content script
 // ignoring the fact that this is an awful hack, this script is exclusively responsible for document tooltips
 
+"use strict";
+
 (async function () {
     // subbed in from content script
     // let documentInfoFromApi = { ... };
