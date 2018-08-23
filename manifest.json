@@ -92,7 +92,7 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/course/*/materials"
+                "https://lms.lausd.net/course/*/materials*"
             ],
             "css": [
                 "css/grade-tooltip.css"
