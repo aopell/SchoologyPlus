@@ -110,7 +110,7 @@
                 }
             }
 
-            loadedGrade = wrapHtml(innerContent, "div", { class: "assignment-tooltip" });
+            loadedGrade = wrapHtml(innerContent, "div", { class: "schoologyplus-tooltip assignment-tooltip" });
         });
     });
 
@@ -205,8 +205,6 @@
         })).json());
     }
 
-    console.log("Document API calls finished, getting URLs");
-
     for (let documentId in documentInfoFromApi) {
         // TODO this isn't the cleanest, not sure if this is accurate for all cases
         let fileData = documentInfoFromApi[documentId].attachments.files.file[0];
@@ -220,11 +218,13 @@
         }
     }
 
+    console.log("Injecting document tooltip handler...");
     let injectScript = document.createElement("script");
     let scriptText = (await (await fetch(chrome.runtime.getURL("js/materials.pdfhandler.js"))).text());
     // awful hack
     scriptText = scriptText.replace("/* SUBSTITUTE_API_DOCUMENT_INFO */", `let documentInfoFromApi = ${JSON.stringify(documentInfoFromApi)};`);
     scriptText = scriptText.replace("/* SUBSTITUTE_API_DOCUMENT_URLS */", `let documentUrlsFromApi = ${JSON.stringify(documentUrlsFromApi)};`);
+    scriptText = scriptText.replace("/* SUBSTITUTE_HTML_BUILDER_UTIL */", `${escapeForHtml.toString()}\n${wrapHtml.toString()}`);
     injectScript.text = scriptText;
     document.head.appendChild(injectScript);
 })();
