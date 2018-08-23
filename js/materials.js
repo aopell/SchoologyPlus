@@ -35,9 +35,12 @@
     }
 
     let gradeLoadHooks = [];
+    let documentLoadHooks = {}; // dictionary: assignment id -> async function handling resulting load
     let userId;
 
     // FIXME the container element in question (the list of assignments) can be recreated; we should handle this case
+
+    // assignment tooltips
     $("#course-profile-materials tr.type-assignment").each((index, value) => {
         let loadedGrade = "Loading...";
         $(value).find(".item-title>a").tipsy({ gravity: "n", html: true, title: () => loadedGrade });
@@ -112,10 +115,25 @@
         });
     });
 
+    // document tooltips
+    $("#course-profile-materials tr.type-document").each(async function (index, value) {
+        let loadedText = "Loading...";
+        // title already has a tooltip (full filename), so we'll use the filesize instead
+        $(value).find(".attachments-file-name .attachments-file-size").tipsy({ gravity: "w", html: true, title: () => loadedText });
+
+        let materialId = value.id.match(/\d+/)[0];
+        documentLoadHooks[materialId] = async function (apiData, pdf) {
+
+        };
+    });
+
+    let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
+    let myApiKeys = await getApiKeys();
+    userId = myApiKeys[2];
+
+
     if (gradeLoadHooks.length > 0) {
         // load grade information for this class, call grade hooks
-        let myApiKeys = await getApiKeys();
-        userId = myApiKeys[2];
 
         // this object contains ALL grades from this Schoology account, "keyed" by annoying IDs
         // TODO Schoology API docs say this is paged, we should possible account for that? 
@@ -123,7 +141,6 @@
             headers: createApiAuthenticationHeaders(myApiKeys)
         })).json();
 
-        let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
         let thisClassGrades = myGrades.section.find(x => x.section_id == classId);
 
         // start building our return object, which will follow a nicer format
@@ -181,6 +198,31 @@
         // call our event listeners
         for (let eventHook of gradeLoadHooks) {
             eventHook(retObj);
+        }
+    }
+
+    // initialize pdfjs
+    // FIXME this is an awful hack because we're trying to avoid webpack and pdfjs is a module
+    let injectScript = document.createElement("script");
+    injectScript.text = await (await fetch(chrome.runtime.getURL("js/materials.pdfhandler.mjs"))).text();
+    injectScript.type = "module";
+    document.head.appendChild(injectScript);
+
+    let baseLocation = `${location.protocol}//${location.host}${location.pathname}`; // location without querystring or other botherances
+    for (let docToLoad in documentLoadHooks) {
+        let apiMetadata = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/documents/${docToLoad}`, {
+            headers: createApiAuthenticationHeaders(myApiKeys)
+        })).json());
+        // TODO this isn't the cleanest, not sure if this is accurate for all cases
+        let fileData = apiMetadata.attachments.files.file[0];
+        if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
+            let pdfContentBuffer = await (await fetch(apiMetadata.converted_download_path, {
+                headers: createApiAuthenticationHeaders(myApiKeys)
+            })).arrayBuffer();
+
+            await documentLoadHooks[docToLoad](apiMetadata, null); // await PDFJS.getDocument({ data: new Uint8Array(pdfContentBuffer) }));
+        } else {
+            await documentLoadHooks[docToLoad](apiMetadata, null);
         }
     }
 })();
