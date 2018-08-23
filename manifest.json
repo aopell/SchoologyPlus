@@ -95,7 +95,7 @@
                 "https://lms.lausd.net/course/*/materials*"
             ],
             "css": [
-                "css/grade-tooltip.css"
+                "css/materials.css"
             ],
             "js": [
                 "js/jquery-1.12.4.min.js",
