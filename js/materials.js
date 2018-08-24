@@ -83,10 +83,10 @@
 
                 if (grades.gradeDrops[assignmentId]) {
                     // assignment dropped
-                    innerContent = wrapHtml("Dropped", "p", { class: "tooltip-dropped-indicator" }) + wrapHtml(innerContent, "p", { class: "tooltip-dropped-gradeinfo" });
-                } else {
-                    innerContent = wrapHtml(innerContent, "p");
+                    innerContent = wrapHtml("Dropped", "span", { class: "tooltip-dropped-indicator" }) + " " + wrapHtml(innerContent, "span", { class: "tooltip-dropped-gradeinfo" });
                 }
+
+                innerContent = wrapHtml(innerContent, "p");
 
                 let footerElements = [];
                 if (assignment.category_id && grades.categories[assignment.category_id]) {
