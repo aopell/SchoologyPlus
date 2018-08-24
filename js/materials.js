@@ -64,7 +64,7 @@
                     // normal grade status, has a grade
                     let gradeElem = wrapHtml(escapeForHtml(assignment.grade), "span", { class: "tooltip-grade-numerator" });
                     if (assignment.max_points) {
-                        gradeElem += " / ";
+                        gradeElem += " <span class=\"tooltip-horiz-divider\">/</span> ";
                         gradeElem += wrapHtml(escapeForHtml(assignment.max_points, "span", { class: "tooltip-grade-denominator" }));
                     } else {
                         gradeElem += " pts";

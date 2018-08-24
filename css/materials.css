@@ -32,3 +32,7 @@
 .assignment-tooltip .tooltip-grade-info {
     color: #94cfff;
 }
+
+.assignment-tooltip .tooltip-grade-info .tooltip-horiz-divider {
+    color: #6f99bb;
+}
