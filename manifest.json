@@ -71,7 +71,8 @@
             "js": [
                 "js/clipboard.min.js",
                 "js/contextmenu.js",
-                "js/all.js"
+                "js/all.js",
+                "js/findAndReplaceDOMText.js"
             ],
             "run_at": "document_end"
         },

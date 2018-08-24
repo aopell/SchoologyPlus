@@ -89,3 +89,102 @@
         }
     }
 })();
+
+// hack for course aliases
+(async function () {
+    let apiKeys = await getApiKeys();
+
+    let myClassData = await fetch(`https://api.schoology.com/v1/users/${apiKeys[2]}/sections`, {
+        headers: createApiAuthenticationHeaders(apiKeys)
+    });
+    let myClasses = (await myClassData.json()).section;
+
+    console.log("Classes loaded, building alias stylesheet");
+    // https://stackoverflow.com/a/707794 for stylesheet insertion
+    let sheet = window.document.styleSheets[0];
+
+    for (let aliasedCourseId in storage.courseAliases) {
+        // https://stackoverflow.com/a/18027136 for text replacement
+        sheet.insertRule(`span.course-name-wrapper-${aliasedCourseId} {
+            visibility: hidden;
+            word-spacing:-999px;
+            letter-spacing: -999px;
+        }`, sheet.cssRules.length);
+        sheet.insertRule(`span.course-name-wrapper-${aliasedCourseId}:after {
+            content: "${storage.courseAliases[aliasedCourseId]}";
+            visibility: visible;
+            word-spacing:normal;
+            letter-spacing:normal; 
+        }`, sheet.cssRules.length);
+    }
+
+    console.log("Applying aliases");
+    if (storage.courseAliases) {
+        let applyCourseAliases = function (mutationsList) {
+            let rootElement = document.body;
+
+            if (mutationsList && mutationsList.length == 0) {
+                return;
+            }
+
+            if (mutationsList && mutationsList.length == 1) {
+                rootElement = mutationsList[0].target;
+            }
+
+            for (let jsonCourse of myClasses) {
+                if (!storage.courseAliases[jsonCourse.id]) {
+                    continue;
+                }
+
+                let findText = jsonCourse.course_title + ": " + jsonCourse.section_title;
+                let wrapClassName = "course-name-wrapper-" + jsonCourse.id;
+
+                findAndReplaceDOMText(rootElement, {
+                    find: findText,
+                    wrap: "span",
+                    wrapClass: wrapClassName
+                });
+
+                document.title = document.title.replace(findText, storage.courseAliases[jsonCourse.id]);
+
+                // cleanup: if we run this replacement twice, we'll end up with unnecessary nested elements <special-span><special-span>FULL COURSE NAME</special-span></special-span>
+                let nestedSpan;
+                while (nestedSpan = document.querySelector(`span.${wrapClassName}>span.${wrapClassName}`)) {
+                    let parentText = nestedSpan.textContent;
+                    let parentElem = nestedSpan.parentElement;
+                    while (parentElem.firstChild) {
+                        parentElem.firstChild.remove();
+                    }
+                    parentElem.textContent = parentText;
+                }
+            }
+
+        };
+
+        // wait for the page to "cool down" a bit before we begin intensive monitoring - 100ms sleep
+        //await new Promise(resolve => setTimeout(resolve, 100));
+
+        applyCourseAliases();
+
+        // beware of performance implications of observing document.body
+        let aliasPrepObserver = new MutationObserver(function (mutationsList) {
+            applyCourseAliases(mutationsList.filter(function (mutation) {
+                for(let cssClass of mutation.target.classList){
+                    // target blacklist
+                    // we don't care about some (especially frequent and performance-hurting) changes
+                    if(cssClass.startsWith("course-name-wrapper-")){
+                        // our own element, we don't care
+                        return false;
+                    }
+                    if(cssClass.includes("pendo")){
+                        // Schoology's analytics platform, we don't care
+                        return false;
+                    }
+                }
+                
+                return true;
+            }));
+        });
+        aliasPrepObserver.observe(document.body, { childList: true, subtree: true });
+    }
+})();
