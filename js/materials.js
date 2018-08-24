@@ -81,7 +81,12 @@
                     innerContent += ` <span class=\"exception-max-pts-info\">(${ptStr})</span>`;
                 }
 
-                innerContent = wrapHtml(innerContent, "p");
+                if (grades.gradeDrops[assignmentId]) {
+                    // assignment dropped
+                    innerContent = wrapHtml("Dropped", "p", { class: "tooltip-dropped-indicator" }) + wrapHtml(innerContent, "p", { class: "tooltip-dropped-gradeinfo" });
+                } else {
+                    innerContent = wrapHtml(innerContent, "p");
+                }
 
                 let footerElements = [];
                 if (assignment.category_id && grades.categories[assignment.category_id]) {
@@ -132,6 +137,7 @@
         retObj.grades = {};
         retObj.assignments = {};
         retObj.dropboxes = {};
+        retObj.gradeDrops = {};
 
         // gradebook categories
         for (let gradeCategory of thisClassGrades.grading_category) {
@@ -203,6 +209,19 @@
 
         Object.freeze(retObj.assignments);
         Object.freeze(retObj.dropboxes);
+
+        // grade drops
+        // unfortunately it doesn't look like the API returns grade drop status, so we have to scrape it from the gradebook
+        let ourGradebookHtml = await (await fetch(`https://lms.lausd.net/course/${classId}/student_grades`)).text();
+        let ourGradebookParser = new DOMParser();
+        let ourGradebookDoc = ourGradebookParser.parseFromString(ourGradebookHtml, "text/html");
+
+        let containerDiv = ourGradebookDoc.querySelector(".gradebook-course-grades");
+        for (let gradeItemRow of containerDiv.querySelectorAll(".item-row")) {
+            retObj.gradeDrops[gradeItemRow.dataset.id.match(/\d+/)[0]] = gradeItemRow.classList.contains("dropped");
+        }
+
+        Object.freeze(retObj.gradeDrops);
         Object.freeze(retObj);
 
         console.log("Assignment data loaded, creating tooltips");

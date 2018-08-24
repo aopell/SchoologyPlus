@@ -29,6 +29,27 @@
     font-size: 10px;
 }
 
+.assignment-tooltip .tooltip-dropped-indicator {
+    color: #00ff00;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.assignment-tooltip .tooltip-dropped-gradeinfo {
+    font-size: 50%;
+    /* text-decoration: line-through; */ /* Off-center and bad looking */
+}
+
+.assignment-tooltip .tooltip-dropped-gradeinfo::before {
+    content: "[";
+    color: #781b8f;
+}
+
+.assignment-tooltip .tooltip-dropped-gradeinfo::after {
+    content: "]";
+    color: #781b8f;
+}
+
 .assignment-tooltip .tooltip-grade-info {
     color: #94cfff;
 }
