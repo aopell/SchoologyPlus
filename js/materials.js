@@ -151,18 +151,47 @@
 
         Object.freeze(retObj.grades);
 
+        let missingAssignmentCt = 0;
+        let missingAssignmentErrorCt = 0;
+
         // assignments
         // need a separate API call
         let ourAssignments = await (await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments`, {
             headers: createApiAuthenticationHeaders(myApiKeys)
         })).json();
 
+        // for some reason (TODO why) that call doesn't always return everything
+        // since we only use the assignments collection here (internally), no need to add the entire remainder off of grades
+        // just if it's a strange grade status (exception or ungraded), we'll pull assignment details
+        let missingAssignmentIds = Object.keys(retObj.grades).filter(x => ourAssignments.assignment.findIndex(y => y.id == x) < 0);
+        for (let missingAssignment of missingAssignmentIds) {
+            missingAssignmentCt++;
+            let fetchRes = await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments/${missingAssignment}`, {
+                headers: createApiAuthenticationHeaders(myApiKeys)
+            });
+            if (fetchRes.ok) {
+                ourAssignments.assignment.push(await fetchRes.json());
+            } else {
+                missingAssignmentErrorCt++;
+            }
+        }
+
+        if (missingAssignmentCt > 0) {
+            console.log(`Fetched ${missingAssignmentCt} assignment(s) (${missingAssignmentErrorCt} error(s)) missing from summary API call`);
+        }
+
         for (let assignment of ourAssignments.assignment) {
             retObj.assignments[assignment.id] = assignment;
             Object.freeze(assignment);
 
             // string "0" or "1" from API
-            if (+assignment.allow_dropbox) {
+            // for performance reasons, don't fetch info for all dropboxes, just those without grade
+            // assignments by default have dropboxes, but if teachers don't mean for them to be there, they end up being meaningless "Not Submitted"
+            // thus, if the assignment has a normal grade, don't fetch submission status here
+            // improves performance because it's one NETWORK API call PER ASSIGNMENT, and it blocks all tooltips until all assignments are done loading
+            // especially visible in large classes
+            let gradeInfo = retObj.grades[assignment.id];
+            if (+assignment.allow_dropbox && (gradeInfo.grade === null || gradeInfo.exception)) {
                 // "dropboxes," or places to submit documents via Schoology
                 // another API call
                 retObj.dropboxes[assignment.id] = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/submissions/${assignment.id}/${userId}`, {
