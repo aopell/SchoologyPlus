@@ -92,6 +92,20 @@
         },
         {
             "matches": [
+                "https://lms.lausd.net/course/*/materials*"
+            ],
+            "css": [
+                "css/materials.css"
+            ],
+            "js": [
+                "js/jquery-1.12.4.min.js",
+                "js/jquery.tipsy.min.js",
+                "js/materials.js"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
                 "https://lms.lausd.net/mastery*"
             ],
             "js": [
