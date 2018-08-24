@@ -62,7 +62,7 @@
                     innerContent += "<span class=\"exception-missing\">Missing</span>";
                 } else if (assignment.grade !== null) {
                     // normal grade status, has a grade
-                    let gradeElem = wrapHtml(escapeForHtml(assignment.grade), "span", { class: "tooltip-grade-numerator" });
+                    let gradeElem = wrapHtml(escapeForHtml((!assignment.max_points && assignment.grade >= 0 ? "+" : "") + assignment.grade), "span", { class: "tooltip-grade-numerator" });
                     if (assignment.max_points) {
                         gradeElem += " <span class=\"tooltip-horiz-divider\">/</span> ";
                         gradeElem += wrapHtml(escapeForHtml(assignment.max_points, "span", { class: "tooltip-grade-denominator" }));
