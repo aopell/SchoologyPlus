@@ -47,47 +47,6 @@
     }
 
     new Clipboard(".export-button");
-
-    if (storage.courseIcons != "disabled") {
-
-        Theme.setProfilePictures();
-
-        let resetIconsOnMutate = function (target, predicate) {
-            // slight hack: if predicate defined, be broader about observation
-            // allows the course dashboard junk to work
-            let config = { childList: true, subtree: !!predicate };
-            let observer = new MutationObserver(() => 0);
-
-            let callback = (mutationsList) => {
-                if (predicate && !predicate(mutationsList)) {
-                    // predicate is defined, but returns false
-                    // not yet
-                    return;
-                }
-
-                Theme.setProfilePictures();
-                observer.disconnect();
-            };
-
-            observer = new MutationObserver(callback);
-            observer.observe(target, config);
-        };
-
-        // courses dropdown (all pages)
-        let target = document.querySelector(".sections-list");
-        if (target) {
-            // TODO why might this be null?
-            resetIconsOnMutate(target);
-        }
-        // course dashboard
-        let mainInner = document.getElementById("main-inner");
-
-        if (mainInner && window.location.pathname == "/home/course-dashboard") {
-            resetIconsOnMutate(mainInner, function (mutationsList) {
-                return !!mainInner.querySelector(".course-dashboard .sgy-card-lens");
-            });
-        }
-    }
 })();
 
 // hack for course aliases
@@ -119,8 +78,10 @@
     }
 
     console.log("Applying aliases");
+    let applyCourseAliases = null;
+    let applyThemeIcons = null;
     if (storage.courseAliases) {
-        let applyCourseAliases = function (mutationsList) {
+        applyCourseAliases = function (mutationsList) {
             let rootElement = document.body;
 
             if (mutationsList && mutationsList.length == 0) {
@@ -161,30 +122,93 @@
 
         };
 
-        // wait for the page to "cool down" a bit before we begin intensive monitoring - 100ms sleep
-        //await new Promise(resolve => setTimeout(resolve, 100));
-
         applyCourseAliases();
-
-        // beware of performance implications of observing document.body
-        let aliasPrepObserver = new MutationObserver(function (mutationsList) {
-            applyCourseAliases(mutationsList.filter(function (mutation) {
-                for(let cssClass of mutation.target.classList){
-                    // target blacklist
-                    // we don't care about some (especially frequent and performance-hurting) changes
-                    if(cssClass.startsWith("course-name-wrapper-")){
-                        // our own element, we don't care
-                        return false;
-                    }
-                    if(cssClass.includes("pendo")){
-                        // Schoology's analytics platform, we don't care
-                        return false;
-                    }
-                }
-                
-                return true;
-            }));
-        });
-        aliasPrepObserver.observe(document.body, { childList: true, subtree: true });
     }
+
+    if (storage.courseIcons != "disabled") {
+        Theme.setProfilePictures();
+        applyThemeIcons = Theme.setProfilePictures;
+    }
+
+    let isModifying = false;
+
+    // course dashboard
+    let mainInner = document.getElementById("main-inner");
+    let courseDashboard = mainInner && window.location.pathname == "/home/course-dashboard";
+    let hasAppliedDashboard = false;
+
+    // duplicate of logic in themes.js; needed because we do mutation logic here
+    let skipOverriddenIcons = storage["courseIcons"] === "defaultOnly";
+
+    // beware of performance implications of observing document.body
+    let aliasPrepObserver = new MutationObserver(function (mutationsList) {
+        if (isModifying) {
+            return;
+        }
+
+        isModifying = true;
+
+        let filteredList = mutationsList.filter(function (mutation) {
+            for (let cssClass of mutation.target.classList) {
+                // target blacklist
+                // we don't care about some (especially frequent and performance-hurting) changes
+                if (cssClass.startsWith("course-name-wrapper-")) {
+                    // our own element, we don't care
+                    return false;
+                }
+                if (cssClass.includes("pendo")) {
+                    // Schoology's analytics platform, we don't care
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        // this delegate has the conditional within it
+        if (applyCourseAliases) {
+            applyCourseAliases(filteredList);
+        }
+
+        if (applyThemeIcons && filteredList.length > 0) {
+            let ancillaryList = null;
+            if (courseDashboard && !hasAppliedDashboard) {
+                let cardLenses = mainInner.querySelectorAll(".course-dashboard .sgy-card-lens");
+                if (cardLenses && cardLenses.length > 0) {
+                    ancillaryList = [];
+                    //Course icons on "Course Dashboard" view of homepage
+                    for (let tile of cardLenses) {
+                        // check if not default icon
+                        // underlying method does this, but since we mutate we have to do it too
+                        if (skipOverriddenIcons && !((tile.firstChild.data || tile.firstChild.src || "").match(defaultCourseIconUrlRegex))) {
+                            continue;
+                        }
+
+                        // clear children
+                        while (tile.firstChild) {
+                            tile.removeChild(tile.firstChild);
+                        }
+                        // create an img
+                        let img = document.createElement("img");
+                        // find course name
+                        // note the context footer does linebreaks, so we have to undo that
+                        let courseName = tile.parentElement.querySelector(".course-dashboard__card-context-title").textContent.replace("\n", " ");
+                        img.alt = "Profile picture for " + courseName;
+                        // to mirror original styling and behavior
+                        img.classList.add("course-dashboard__card-lens-svg");
+                        img.tabIndex = -1;
+
+                        tile.appendChild(img);
+                        ancillaryList.push(img);
+                    }
+                    hasAppliedDashboard = true;
+                }
+            }
+            applyThemeIcons(ancillaryList);
+        }
+
+        isModifying = false;
+    });
+    aliasPrepObserver.observe(document.body, { childList: true, subtree: true });
+
 })();
