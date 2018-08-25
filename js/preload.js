@@ -475,7 +475,7 @@ async function getApiKeys() {
         apiKeys = [key.value, secret.value, userId];
     } else {
         console.log("API key not found - generating and trying again");
-        let submitData = new FormData(document.getElementById("s-api-register-form"));
+        let submitData = new FormData(doc.getElementById("s-api-register-form"));
         let generateFetch = await fetch("https://lms.lausd.net/api", { 
             credentials: "same-origin",
             body: submitData,
