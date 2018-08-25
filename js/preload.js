@@ -481,7 +481,7 @@ async function getApiKeys() {
             body: submitData,
             method: "post" });
         console.log(`Generatekey response: ${generateFetch.status}`);
-        return getApiKeys();
+        return await getApiKeys();
     }
 
     return apiKeys;
