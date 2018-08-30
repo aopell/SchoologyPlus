@@ -38,6 +38,8 @@
     let userId;
 
     // FIXME the container element in question (the list of assignments) can be recreated; we should handle this case
+
+    // assignment tooltips
     $("#course-profile-materials tr.type-assignment").each((index, value) => {
         let loadedGrade = "Loading...";
         $(value).find(".item-title>a").tipsy({ gravity: "n", html: true, title: () => loadedGrade });
@@ -108,14 +110,16 @@
                 }
             }
 
-            loadedGrade = wrapHtml(innerContent, "div", { class: "assignment-tooltip" });
+            loadedGrade = wrapHtml(innerContent, "div", { class: "schoologyplus-tooltip assignment-tooltip" });
         });
     });
 
+    let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
+    let myApiKeys = await getApiKeys();
+    userId = myApiKeys[2];
+
     if (gradeLoadHooks.length > 0) {
         // load grade information for this class, call grade hooks
-        let myApiKeys = await getApiKeys();
-        userId = myApiKeys[2];
 
         // this object contains ALL grades from this Schoology account, "keyed" by annoying IDs
         // TODO Schoology API docs say this is paged, we should possible account for that? 
@@ -123,7 +127,6 @@
             headers: createApiAuthenticationHeaders(myApiKeys)
         })).json();
 
-        let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
         let thisClassGrades = myGrades.section.find(x => x.section_id == classId);
 
         // start building our return object, which will follow a nicer format
@@ -183,5 +186,46 @@
             eventHook(retObj);
         }
     }
+
+    // initialize pdfjs
+    // FIXME this is an awful hack because we're trying to avoid webpack and pdfjs is a module
+    let injectLib = document.createElement("script");
+    injectLib.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.js";
+    injectLib.type = "text/javascript";
+    document.head.appendChild(injectLib);
+
+    // do our API calls
+    let documentInfoFromApi = {};
+    // note that these CDN urls expire
+    let documentUrlsFromApi = {};
+    for (let value of document.querySelectorAll("#course-profile-materials tr.type-document")) {
+        let materialId = value.id.match(/\d+/)[0];
+        documentInfoFromApi[materialId] = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/documents/${materialId}`, {
+            headers: createApiAuthenticationHeaders(myApiKeys)
+        })).json());
+    }
+
+    for (let documentId in documentInfoFromApi) {
+        // TODO this isn't the cleanest, not sure if this is accurate for all cases
+        let fileData = documentInfoFromApi[documentId].attachments.files.file[0];
+        if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
+            // get the URL of the doc we want
+            // it's an unauthenticated CDN url that expires (experimentation), returned as a redirect
+            // unfortunately we need permissions for the extra domain
+            documentUrlsFromApi[documentId] = (await fetch(fileData.converted_download_path, {
+                headers: createApiAuthenticationHeaders(myApiKeys)
+            })).url;
+        }
+    }
+
+    console.log("Injecting document tooltip handler...");
+    let injectScript = document.createElement("script");
+    let scriptText = (await (await fetch(chrome.runtime.getURL("js/materials.pdfhandler.js"))).text());
+    // awful hack
+    scriptText = scriptText.replace("/* SUBSTITUTE_API_DOCUMENT_INFO */", `let documentInfoFromApi = ${JSON.stringify(documentInfoFromApi)};`);
+    scriptText = scriptText.replace("/* SUBSTITUTE_API_DOCUMENT_URLS */", `let documentUrlsFromApi = ${JSON.stringify(documentUrlsFromApi)};`);
+    scriptText = scriptText.replace("/* SUBSTITUTE_HTML_BUILDER_UTIL */", `${escapeForHtml.toString()}\n${wrapHtml.toString()}`);
+    injectScript.text = scriptText;
+    document.head.appendChild(injectScript);
 })();
 
