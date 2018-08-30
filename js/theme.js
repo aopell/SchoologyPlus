@@ -78,14 +78,20 @@ class Theme {
         }
     }
 
-    static setProfilePictures() {
+    static setProfilePictures(candidateImages) {
         if (storage["courseIcons"] === "disabled") return;
         // whether or not to skip setting themed icons where the teacher has already set one
         let skipOverriddenIcons = storage["courseIcons"] === "defaultOnly";
-        let defaultCourseIconUrlRegex = /\/sites\/[a-zA-Z0-9_-]+\/themes\/[%a-zA-Z0-9_-]+\/images\/course-default.(?:svg|png|jpe?g|gif)(\?[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?(&[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?)*)?$/;
         let pictures = [];
+        if (candidateImages) {
+            if (!skipOverriddenIcons) {
+                pictures = Array.from(candidateImages);
+            } else {
+                pictures = Array.from(candidateImages).filter(x => x.src.match(defaultCourseIconUrlRegex));
+            }
+        }
         //Courses drop down
-        pictures = Array.from(document.querySelectorAll(".section-item .profile-picture>img"));
+        pictures = pictures.concat(Array.from(document.querySelectorAll(".section-item .profile-picture>img")));
         if (skipOverriddenIcons) {
             pictures = pictures.filter(p => p.src.match(defaultCourseIconUrlRegex));
         }
@@ -94,10 +100,11 @@ class Theme {
         if (skipOverriddenIcons && bigCourseIcon && !bigCourseIcon.src.match(defaultCourseIconUrlRegex)) bigCourseIcon = null;
         if (bigCourseIcon) pictures.push(bigCourseIcon);
         //List of courses on user page
-        let coursesList = document.querySelector(".my-courses-item-list");
-        if (coursesList) {
+        //Note that the modal popup also uses this class
+        let coursesList = document.querySelectorAll(".my-courses-item-list");
+        if (coursesList && coursesList.length > 0) {
             let courseImgs = [];
-            for (let c of Array.from(coursesList.querySelectorAll(".course-item"))) {
+            for (let c of Array.from(coursesList).reduce((accum, curr) => accum.concat(Array.from(curr.querySelectorAll(".course-item"))), [])) {
                 let img = c.querySelector(".profile-picture>img");
                 if (!img) {
                     continue;
@@ -109,34 +116,7 @@ class Theme {
             }
             pictures = pictures.concat(courseImgs);
         }
-        //Course icons on "Course Dashboard" view of homepage
-        let dashboardTiles = document.querySelectorAll(".sgy-card>.sgy-card-lens");
-        if (dashboardTiles) {
-            for (let tile of dashboardTiles) {
-                // check if not default icon
-                if (skipOverriddenIcons && !((tile.firstChild.data || tile.firstChild.src || "").match(defaultCourseIconUrlRegex))) {
-                    continue;
-                }
-
-                // clear children
-                while (tile.firstChild) {
-                    tile.removeChild(tile.firstChild);
-                }
-                // create an img
-                let img = document.createElement("img");
-                // find course name
-                // note the context footer does linebreaks, so we have to undo that
-                let courseName = tile.parentElement.querySelector(".course-dashboard__card-context-title").textContent.replace("\n", " ");
-                img.alt = "Profile picture for " + courseName;
-                // to mirror original styling and behavior
-                img.classList.add("course-dashboard__card-lens-svg");
-                img.tabIndex = -1;
-
-                tile.appendChild(img);
-                pictures.push(img);
-            }
-        }
-
+        
         let arrows = document.querySelectorAll(".gradebook-course-title .arrow");
 
         for (let arrow of arrows) {

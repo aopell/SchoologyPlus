@@ -1,14 +1,14 @@
 /* Grade tooltip CSS, as used on materials page */
-.assignment-tooltip .tooltip-footer {
+.schoologyplus-tooltip .tooltip-footer {
     color: #aaaaaa;
     font-size: 9px;
 }
 
-.assignment-tooltip .tooltip-footer .tooltip-horiz-divider {
+.schoologyplus-tooltip .tooltip-footer .tooltip-horiz-divider {
     color: #808080;
 }
 
-.assignment-tooltip .error-message {
+.schoologyplus-tooltip .error-message {
     color: #cc6666;
 }
 
@@ -56,4 +56,12 @@
 
 .assignment-tooltip .tooltip-grade-info .tooltip-horiz-divider {
     color: #6f99bb;
+}
+
+.document-tooltip .preview-canvas {
+    border: 1px solid black;
+}
+
+.schoologyplus-master-canvas {
+    display: none;
 }

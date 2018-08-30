@@ -30,6 +30,7 @@
     "permissions": [
         "*://lms.lausd.net/*",
         "*://api.schoology.com/*",
+        "*://*.cdn.schoology.com/*",
         "activeTab",
         "storage",
         "alarms",
@@ -38,7 +39,8 @@
     "web_accessible_resources": [
         "imgs/plus-icon.png",
         "imgs/toy-mode.png",
-        "imgs/icon@128.png"
+        "imgs/icon@128.png",
+        "js/materials.pdfhandler.js"
     ],
     "background": {
         "scripts": [
