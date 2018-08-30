@@ -64,9 +64,9 @@
                     innerContent += "<span class=\"exception-missing\">Missing</span>";
                 } else if (assignment.grade !== null) {
                     // normal grade status, has a grade
-                    let gradeElem = wrapHtml(escapeForHtml(assignment.grade), "span", { class: "tooltip-grade-numerator" });
+                    let gradeElem = wrapHtml(escapeForHtml((!assignment.max_points && assignment.grade >= 0 ? "+" : "") + assignment.grade), "span", { class: "tooltip-grade-numerator" });
                     if (assignment.max_points) {
-                        gradeElem += " / ";
+                        gradeElem += " <span class=\"tooltip-horiz-divider\">/</span> ";
                         gradeElem += wrapHtml(escapeForHtml(assignment.max_points, "span", { class: "tooltip-grade-denominator" }));
                     } else {
                         gradeElem += " pts";
@@ -81,6 +81,11 @@
                 if (assignment.exception || assignment.grade === null) {
                     let ptStr = !assignment.max_points ? "EC" : `${assignment.max_points} pts`;
                     innerContent += ` <span class=\"exception-max-pts-info\">(${ptStr})</span>`;
+                }
+
+                if (grades.gradeDrops[assignmentId]) {
+                    // assignment dropped
+                    innerContent = wrapHtml("Dropped", "span", { class: "tooltip-dropped-indicator" }) + " " + wrapHtml(innerContent, "span", { class: "tooltip-dropped-gradeinfo" });
                 }
 
                 innerContent = wrapHtml(innerContent, "p");
@@ -135,6 +140,7 @@
         retObj.grades = {};
         retObj.assignments = {};
         retObj.dropboxes = {};
+        retObj.gradeDrops = {};
 
         // gradebook categories
         for (let gradeCategory of thisClassGrades.grading_category) {
@@ -154,18 +160,47 @@
 
         Object.freeze(retObj.grades);
 
+        let missingAssignmentCt = 0;
+        let missingAssignmentErrorCt = 0;
+
         // assignments
         // need a separate API call
         let ourAssignments = await (await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments`, {
             headers: createApiAuthenticationHeaders(myApiKeys)
         })).json();
 
+        // for some reason (TODO why) that call doesn't always return everything
+        // since we only use the assignments collection here (internally), no need to add the entire remainder off of grades
+        // just if it's a strange grade status (exception or ungraded), we'll pull assignment details
+        let missingAssignmentIds = Object.keys(retObj.grades).filter(x => ourAssignments.assignment.findIndex(y => y.id == x) < 0);
+        for (let missingAssignment of missingAssignmentIds) {
+            missingAssignmentCt++;
+            let fetchRes = await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments/${missingAssignment}`, {
+                headers: createApiAuthenticationHeaders(myApiKeys)
+            });
+            if (fetchRes.ok) {
+                ourAssignments.assignment.push(await fetchRes.json());
+            } else {
+                missingAssignmentErrorCt++;
+            }
+        }
+
+        if (missingAssignmentCt > 0) {
+            console.log(`Fetched ${missingAssignmentCt} assignment(s) (${missingAssignmentErrorCt} error(s)) missing from summary API call`);
+        }
+
         for (let assignment of ourAssignments.assignment) {
             retObj.assignments[assignment.id] = assignment;
             Object.freeze(assignment);
 
             // string "0" or "1" from API
-            if (+assignment.allow_dropbox) {
+            // for performance reasons, don't fetch info for all dropboxes, just those without grade
+            // assignments by default have dropboxes, but if teachers don't mean for them to be there, they end up being meaningless "Not Submitted"
+            // thus, if the assignment has a normal grade, don't fetch submission status here
+            // improves performance because it's one NETWORK API call PER ASSIGNMENT, and it blocks all tooltips until all assignments are done loading
+            // especially visible in large classes
+            let gradeInfo = retObj.grades[assignment.id];
+            if (+assignment.allow_dropbox && (gradeInfo.grade === null || gradeInfo.exception)) {
                 // "dropboxes," or places to submit documents via Schoology
                 // another API call
                 retObj.dropboxes[assignment.id] = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/submissions/${assignment.id}/${userId}`, {
@@ -177,6 +212,19 @@
 
         Object.freeze(retObj.assignments);
         Object.freeze(retObj.dropboxes);
+
+        // grade drops
+        // unfortunately it doesn't look like the API returns grade drop status, so we have to scrape it from the gradebook
+        let ourGradebookHtml = await (await fetch(`https://lms.lausd.net/course/${classId}/student_grades`)).text();
+        let ourGradebookParser = new DOMParser();
+        let ourGradebookDoc = ourGradebookParser.parseFromString(ourGradebookHtml, "text/html");
+
+        let containerDiv = ourGradebookDoc.querySelector(".gradebook-course-grades");
+        for (let gradeItemRow of containerDiv.querySelectorAll(".item-row")) {
+            retObj.gradeDrops[gradeItemRow.dataset.id.match(/\d+/)[0]] = gradeItemRow.classList.contains("dropped");
+        }
+
+        Object.freeze(retObj.gradeDrops);
         Object.freeze(retObj);
 
         console.log("Assignment data loaded, creating tooltips");
