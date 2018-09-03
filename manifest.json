@@ -29,8 +29,7 @@
     },
     "permissions": [
         "*://lms.lausd.net/*",
-        "*://api.schoology.com/*",
-        "*://*.cdn.schoology.com/*",
+        "*://*.schoology.com/*",
         "activeTab",
         "storage",
         "alarms",
