@@ -36,6 +36,16 @@
 
     let gradeLoadHooks = [];
     let userId;
+    let immediateGradeLoadInvoke = false;
+    let loadedGradeContainer = null;
+
+    function registerGradeLoadHook(loadHook) {
+        if (immediateGradeLoadInvoke) {
+            loadHook(loadedGradeContainer);
+        } else {
+            gradeLoadHooks.push(loadHook);
+        }
+    }
 
     // FIXME the container element in question (the list of assignments) can be recreated; we should handle this case
 
@@ -45,23 +55,28 @@
     documentTooltipDataHolder.id = "schoologyplus-material-tooltip-data-container";
     document.body.appendChild(documentTooltipDataHolder);
 
-    $("#course-profile-materials tr.type-document").each(function (index, value) {
+    let courseProfileMaterials = document.getElementById("course-profile-materials");
+
+    // data handler from page context, logic is there
+    // tr.type-document
+    function processDocumentElement(value) {
         let loadedTextHolder = document.createElement("span");
         loadedTextHolder.id = "tooltip-holder-" + value.id;
         documentTooltipDataHolder.appendChild(loadedTextHolder);
         loadedTextHolder.dataset.tooltipHtml = "Loading...";
         // title already has a tooltip (full filename), so we'll use the filesize instead
         $(value).find(".attachments-file-name .attachments-file-size").tipsy({ gravity: "w", html: true, title: () => loadedTextHolder.dataset.tooltipHtml });
-    });
+    }
 
     // assignment tooltips
-    $("#course-profile-materials tr.type-assignment").each((index, value) => {
+    // tr.type-assignment
+    function processAssignmentElement(value) {
         let loadedGrade = "Loading...";
         $(value).find(".item-title>a").tipsy({ gravity: "n", html: true, title: () => loadedGrade });
 
         let assignmentId = value.id.match(/\d+/)[0];
 
-        gradeLoadHooks.push(function (grades) {
+        registerGradeLoadHook(function (grades) {
             let innerContent = "";
 
             if (!grades.grades[assignmentId]) {
@@ -132,7 +147,37 @@
 
             loadedGrade = wrapHtml(innerContent, "div", { class: "schoologyplus-tooltip assignment-tooltip" });
         });
+    }
+
+    for (let docElem of courseProfileMaterials.querySelectorAll("tr.type-document")) {
+        processDocumentElement(docElem);
+    }
+
+    for (let assignElem of courseProfileMaterials.querySelectorAll("tr.type-assignment")) {
+        processAssignmentElement(assignElem);
+    }
+
+    let materialsMutationObserver = new MutationObserver(function (mutationRecords) {
+        for (let mutateRecord of mutationRecords) {
+            if (!mutateRecord.addedNodes) {
+                continue;
+            }
+
+            for (let addedNode of mutateRecord.addedNodes) {
+                if (addedNode.nodeName == "TR") {
+                    if (addedNode.classList.contains("type-document")) {
+                        processDocumentElement(addedNode);
+                    } else if (addedNode.classList.contains("type-assignment")) {
+                        processAssignmentElement(addedNode);
+                    }
+                }
+            }
+        }
     });
+
+    // watch for new material DOM elements, and process them as they're added
+    // needs a corresponding handler in the pagescript
+    materialsMutationObserver.observe(courseProfileMaterials, { childList: true, subtree: true });
 
     let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
     let myApiKeys = await getApiKeys();
@@ -150,30 +195,30 @@
         let thisClassGrades = myGrades.section.find(x => x.section_id == classId);
 
         // start building our return object, which will follow a nicer format
-        let retObj = {};
-        retObj.categories = {};
-        retObj.grades = {};
-        retObj.assignments = {};
-        retObj.dropboxes = {};
-        retObj.gradeDrops = {};
+        loadedGradeContainer = {};
+        loadedGradeContainer.categories = {};
+        loadedGradeContainer.grades = {};
+        loadedGradeContainer.assignments = {};
+        loadedGradeContainer.dropboxes = {};
+        loadedGradeContainer.gradeDrops = {};
 
         // gradebook categories
         for (let gradeCategory of thisClassGrades.grading_category) {
-            retObj.categories[gradeCategory.id] = gradeCategory;
+            loadedGradeContainer.categories[gradeCategory.id] = gradeCategory;
             Object.freeze(gradeCategory);
         }
 
-        Object.freeze(retObj.categories);
+        Object.freeze(loadedGradeContainer.categories);
 
         // assignment grades
         // period is an array of object
         // period[x].assignment is an array of grade objects (the ones we want to enumerate)
         for (let assignment of thisClassGrades.period.reduce((accum, curr) => accum.concat(curr.assignment), [])) {
-            retObj.grades[assignment.assignment_id] = assignment;
+            loadedGradeContainer.grades[assignment.assignment_id] = assignment;
             Object.freeze(assignment);
         }
 
-        Object.freeze(retObj.grades);
+        Object.freeze(loadedGradeContainer.grades);
 
         let missingAssignmentCt = 0;
         let missingAssignmentErrorCt = 0;
@@ -188,7 +233,8 @@
         // since we only use the assignments collection here (internally), no need to add the entire remainder off of grades
         // just if it's a strange grade status (exception or ungraded), we'll pull assignment details
         // also only obtain it if there's a material entry in the DOM for it, otherwise there's no point
-        let missingAssignmentIds = Object.keys(retObj.grades).filter(x => ourAssignments.assignment.findIndex(y => y.id == x) < 0).filter(x => document.getElementById("n-" + x));
+        // TODO does the DOM-existance check ever come into play such that we don't load data for an item which is dynamically loaded later?
+        let missingAssignmentIds = Object.keys(loadedGradeContainer.grades).filter(x => ourAssignments.assignment.findIndex(y => y.id == x) < 0).filter(x => document.getElementById("n-" + x));
         for (let missingAssignment of missingAssignmentIds) {
             missingAssignmentCt++;
             let fetchRes = await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments/${missingAssignment}`, {
@@ -206,7 +252,7 @@
         }
 
         for (let assignment of ourAssignments.assignment) {
-            retObj.assignments[assignment.id] = assignment;
+            loadedGradeContainer.assignments[assignment.id] = assignment;
             Object.freeze(assignment);
 
             // string "0" or "1" from API
@@ -215,19 +261,19 @@
             // thus, if the assignment has a normal grade, don't fetch submission status here
             // improves performance because it's one NETWORK API call PER ASSIGNMENT, and it blocks all tooltips until all assignments are done loading
             // especially visible in large classes
-            let gradeInfo = retObj.grades[assignment.id];
+            let gradeInfo = loadedGradeContainer.grades[assignment.id];
             if (+assignment.allow_dropbox && (gradeInfo.grade === null || gradeInfo.exception)) {
                 // "dropboxes," or places to submit documents via Schoology
                 // another API call
-                retObj.dropboxes[assignment.id] = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/submissions/${assignment.id}/${userId}`, {
+                loadedGradeContainer.dropboxes[assignment.id] = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/submissions/${assignment.id}/${userId}`, {
                     headers: createApiAuthenticationHeaders(myApiKeys)
                 })).json()).revision;
-                Object.freeze(retObj.dropboxes[assignment.id]);
+                Object.freeze(loadedGradeContainer.dropboxes[assignment.id]);
             }
         }
 
-        Object.freeze(retObj.assignments);
-        Object.freeze(retObj.dropboxes);
+        Object.freeze(loadedGradeContainer.assignments);
+        Object.freeze(loadedGradeContainer.dropboxes);
 
         // grade drops
         // unfortunately it doesn't look like the API returns grade drop status, so we have to scrape it from the gradebook
@@ -237,17 +283,19 @@
 
         let containerDiv = ourGradebookDoc.querySelector(".gradebook-course-grades");
         for (let gradeItemRow of containerDiv.querySelectorAll(".item-row")) {
-            retObj.gradeDrops[gradeItemRow.dataset.id.match(/\d+/)[0]] = gradeItemRow.classList.contains("dropped");
+            loadedGradeContainer.gradeDrops[gradeItemRow.dataset.id.match(/\d+/)[0]] = gradeItemRow.classList.contains("dropped");
         }
 
-        Object.freeze(retObj.gradeDrops);
-        Object.freeze(retObj);
+        Object.freeze(loadedGradeContainer.gradeDrops);
+        Object.freeze(loadedGradeContainer);
 
         console.log("Assignment data loaded, creating tooltips");
 
+        immediateGradeLoadInvoke = true;
+
         // call our event listeners
         for (let eventHook of gradeLoadHooks) {
-            eventHook(retObj);
+            eventHook(loadedGradeContainer);
         }
     }
 
