@@ -98,40 +98,46 @@
                     hasAppliedDashboard = true;
                 }
             }
-            Theme.setProfilePictures(ancillaryList);  
+            Theme.setProfilePictures(ancillaryList);
         };
         applyThemeIcons();
     }
 
     // PREP COURSE ALIASES
-    let apiKeys = await getApiKeys();
+    if (storage.courseAliases) {
+        let apiKeys = await getApiKeys();
 
-    let myClassData = await fetch(`https://api.schoology.com/v1/users/${apiKeys[2]}/sections`, {
-        headers: createApiAuthenticationHeaders(apiKeys)
-    });
-    let myClasses = (await myClassData.json()).section;
+        let myClassData = await fetch(`https://api.schoology.com/v1/users/${apiKeys[2]}/sections`, {
+            headers: createApiAuthenticationHeaders(apiKeys)
+        });
+        let myClasses = (await myClassData.json()).section;
 
-    console.log("Classes loaded, building alias stylesheet");
-    // https://stackoverflow.com/a/707794 for stylesheet insertion
-    let sheet = window.document.styleSheets[0];
+        // get course info for courses with aliases that I'm not currently enrolled in, concurrently
+        myClasses.push(...await Promise.all(Object.keys(storage.courseAliases).filter(aliasedCourseId => !myClasses.some(x => x.id == aliasedCourseId))
+            .map(id => fetch(`https://api.schoology.com/v1/sections/${id}`, {
+                headers: createApiAuthenticationHeaders(apiKeys)
+            }).then(resp => resp.json(), rej => null))));
 
-    for (let aliasedCourseId in storage.courseAliases) {
-        // https://stackoverflow.com/a/18027136 for text replacement
-        sheet.insertRule(`.course-name-wrapper-${aliasedCourseId} {
+        console.log("Classes loaded, building alias stylesheet");
+        // https://stackoverflow.com/a/707794 for stylesheet insertion
+        let sheet = window.document.styleSheets[0];
+
+        for (let aliasedCourseId in storage.courseAliases) {
+            // https://stackoverflow.com/a/18027136 for text replacement
+            sheet.insertRule(`.course-name-wrapper-${aliasedCourseId} {
             visibility: hidden;
             word-spacing:-999px;
             letter-spacing: -999px;
         }`, sheet.cssRules.length);
-        sheet.insertRule(`.course-name-wrapper-${aliasedCourseId}:after {
+            sheet.insertRule(`.course-name-wrapper-${aliasedCourseId}:after {
             content: "${storage.courseAliases[aliasedCourseId]}";
             visibility: visible;
             word-spacing:normal;
             letter-spacing:normal; 
         }`, sheet.cssRules.length);
-    }
+        }
 
-    console.log("Applying aliases");
-    if (storage.courseAliases) {
+        console.log("Applying aliases");
         applyCourseAliases = function (mutationsList) {
             let rootElement = document.body;
 
@@ -144,11 +150,11 @@
             }
 
             for (let jsonCourse of myClasses) {
-                if (!storage.courseAliases[jsonCourse.id]) {
+                if (!jsonCourse || !storage.courseAliases[jsonCourse.id]) {
                     continue;
                 }
 
-                let findTexts = [ jsonCourse.course_title + ": " + jsonCourse.section_title, jsonCourse.course_title + " : " + jsonCourse.section_title ];
+                let findTexts = [jsonCourse.course_title + ": " + jsonCourse.section_title, jsonCourse.course_title + " : " + jsonCourse.section_title];
                 let wrapClassName = "course-name-wrapper-" + jsonCourse.id;
 
                 for (let findText of findTexts) {
@@ -179,6 +185,7 @@
         applyCourseAliases();
     }
 
+    // MUTATION HOOK
     let isModifying = false;
 
     // beware of performance implications of observing document.body
