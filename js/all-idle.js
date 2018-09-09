@@ -181,7 +181,6 @@
             }
 
         };
-
         applyCourseAliases();
     }
 
@@ -224,6 +223,14 @@
 
         isModifying = false;
     });
+    // necessary (again) because on *some* pages, namely course-dashboard, we have a race condition
+    // if the main body loads after our initial check but before the observe call (e.g. during our network awaits), 
+    // we won't catch the update until a separate unrelated DOM change
+    // this is not as much of an issue with aliases because we do our initial check there after the network awaits,
+    // which are by far the longest-running part of this code
+    if (applyThemeIcons) {
+        applyThemeIcons();
+    }
     aliasPrepObserver.observe(document.body, { childList: true, subtree: true });
 
 })();
