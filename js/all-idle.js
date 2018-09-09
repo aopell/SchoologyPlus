@@ -64,12 +64,12 @@
 
     for (let aliasedCourseId in storage.courseAliases) {
         // https://stackoverflow.com/a/18027136 for text replacement
-        sheet.insertRule(`span.course-name-wrapper-${aliasedCourseId} {
+        sheet.insertRule(`.course-name-wrapper-${aliasedCourseId} {
             visibility: hidden;
             word-spacing:-999px;
             letter-spacing: -999px;
         }`, sheet.cssRules.length);
-        sheet.insertRule(`span.course-name-wrapper-${aliasedCourseId}:after {
+        sheet.insertRule(`.course-name-wrapper-${aliasedCourseId}:after {
             content: "${storage.courseAliases[aliasedCourseId]}";
             visibility: visible;
             word-spacing:normal;
@@ -97,16 +97,18 @@
                     continue;
                 }
 
-                let findText = jsonCourse.course_title + ": " + jsonCourse.section_title;
+                let findTexts = [ jsonCourse.course_title + ": " + jsonCourse.section_title, jsonCourse.course_title + " : " + jsonCourse.section_title ];
                 let wrapClassName = "course-name-wrapper-" + jsonCourse.id;
 
-                findAndReplaceDOMText(rootElement, {
-                    find: findText,
-                    wrap: "span",
-                    wrapClass: wrapClassName
-                });
+                for (let findText of findTexts) {
+                    findAndReplaceDOMText(rootElement, {
+                        find: findText,
+                        wrap: "span",
+                        wrapClass: wrapClassName
+                    });
 
-                document.title = document.title.replace(findText, storage.courseAliases[jsonCourse.id]);
+                    document.title = document.title.replace(findText, storage.courseAliases[jsonCourse.id]);
+                }
 
                 // cleanup: if we run this replacement twice, we'll end up with unnecessary nested elements <special-span><special-span>FULL COURSE NAME</special-span></special-span>
                 let nestedSpan;
