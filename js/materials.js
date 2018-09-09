@@ -187,7 +187,8 @@
         // for some reason (TODO why) that call doesn't always return everything
         // since we only use the assignments collection here (internally), no need to add the entire remainder off of grades
         // just if it's a strange grade status (exception or ungraded), we'll pull assignment details
-        let missingAssignmentIds = Object.keys(retObj.grades).filter(x => ourAssignments.assignment.findIndex(y => y.id == x) < 0);
+        // also only obtain it if there's a material entry in the DOM for it, otherwise there's no point
+        let missingAssignmentIds = Object.keys(retObj.grades).filter(x => ourAssignments.assignment.findIndex(y => y.id == x) < 0).filter(x => document.getElementById("n-" + x));
         for (let missingAssignment of missingAssignmentIds) {
             missingAssignmentCt++;
             let fetchRes = await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments/${missingAssignment}`, {
