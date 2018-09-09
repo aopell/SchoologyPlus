@@ -155,7 +155,8 @@
                     findAndReplaceDOMText(rootElement, {
                         find: findText,
                         wrap: "span",
-                        wrapClass: wrapClassName
+                        wrapClass: wrapClassName,
+                        portionMode: "first"
                     });
 
                     document.title = document.title.replace(findText, storage.courseAliases[jsonCourse.id]);
