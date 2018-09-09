@@ -51,6 +51,59 @@
 
 // hack for course aliases
 (async function () {
+    let applyCourseAliases = null;
+    let applyThemeIcons = null;
+
+    // PREP COURSE ICONS
+    // course dashboard
+    let mainInner = document.getElementById("main-inner");
+    let courseDashboard = mainInner && window.location.pathname == "/home/course-dashboard";
+    let hasAppliedDashboard = false;
+
+    // duplicate of logic in themes.js; needed because we do mutation logic here
+    let skipOverriddenIcons = storage["courseIcons"] === "defaultOnly";
+
+    if (storage.courseIcons != "disabled") {
+        applyThemeIcons = function () {
+            let ancillaryList = null;
+            if (courseDashboard && !hasAppliedDashboard) {
+                let cardLenses = mainInner.querySelectorAll(".course-dashboard .sgy-card-lens");
+                if (cardLenses && cardLenses.length > 0) {
+                    ancillaryList = [];
+                    //Course icons on "Course Dashboard" view of homepage
+                    for (let tile of cardLenses) {
+                        // check if not default icon
+                        // underlying method does this, but since we mutate we have to do it too
+                        if (skipOverriddenIcons && !((tile.firstChild.data || tile.firstChild.src || "").match(defaultCourseIconUrlRegex))) {
+                            continue;
+                        }
+
+                        // clear children
+                        while (tile.firstChild) {
+                            tile.removeChild(tile.firstChild);
+                        }
+                        // create an img
+                        let img = document.createElement("img");
+                        // find course name
+                        // note the context footer does linebreaks, so we have to undo that
+                        let courseName = tile.parentElement.querySelector(".course-dashboard__card-context-title").textContent.replace("\n", " ");
+                        img.alt = "Profile picture for " + courseName;
+                        // to mirror original styling and behavior
+                        img.classList.add("course-dashboard__card-lens-svg");
+                        img.tabIndex = -1;
+
+                        tile.appendChild(img);
+                        ancillaryList.push(img);
+                    }
+                    hasAppliedDashboard = true;
+                }
+            }
+            Theme.setProfilePictures(ancillaryList);  
+        };
+        applyThemeIcons();
+    }
+
+    // PREP COURSE ALIASES
     let apiKeys = await getApiKeys();
 
     let myClassData = await fetch(`https://api.schoology.com/v1/users/${apiKeys[2]}/sections`, {
@@ -78,8 +131,6 @@
     }
 
     console.log("Applying aliases");
-    let applyCourseAliases = null;
-    let applyThemeIcons = null;
     if (storage.courseAliases) {
         applyCourseAliases = function (mutationsList) {
             let rootElement = document.body;
@@ -127,20 +178,7 @@
         applyCourseAliases();
     }
 
-    if (storage.courseIcons != "disabled") {
-        Theme.setProfilePictures();
-        applyThemeIcons = Theme.setProfilePictures;
-    }
-
     let isModifying = false;
-
-    // course dashboard
-    let mainInner = document.getElementById("main-inner");
-    let courseDashboard = mainInner && window.location.pathname == "/home/course-dashboard";
-    let hasAppliedDashboard = false;
-
-    // duplicate of logic in themes.js; needed because we do mutation logic here
-    let skipOverriddenIcons = storage["courseIcons"] === "defaultOnly";
 
     // beware of performance implications of observing document.body
     let aliasPrepObserver = new MutationObserver(function (mutationsList) {
@@ -173,40 +211,7 @@
         }
 
         if (applyThemeIcons && filteredList.length > 0) {
-            let ancillaryList = null;
-            if (courseDashboard && !hasAppliedDashboard) {
-                let cardLenses = mainInner.querySelectorAll(".course-dashboard .sgy-card-lens");
-                if (cardLenses && cardLenses.length > 0) {
-                    ancillaryList = [];
-                    //Course icons on "Course Dashboard" view of homepage
-                    for (let tile of cardLenses) {
-                        // check if not default icon
-                        // underlying method does this, but since we mutate we have to do it too
-                        if (skipOverriddenIcons && !((tile.firstChild.data || tile.firstChild.src || "").match(defaultCourseIconUrlRegex))) {
-                            continue;
-                        }
-
-                        // clear children
-                        while (tile.firstChild) {
-                            tile.removeChild(tile.firstChild);
-                        }
-                        // create an img
-                        let img = document.createElement("img");
-                        // find course name
-                        // note the context footer does linebreaks, so we have to undo that
-                        let courseName = tile.parentElement.querySelector(".course-dashboard__card-context-title").textContent.replace("\n", " ");
-                        img.alt = "Profile picture for " + courseName;
-                        // to mirror original styling and behavior
-                        img.classList.add("course-dashboard__card-lens-svg");
-                        img.tabIndex = -1;
-
-                        tile.appendChild(img);
-                        ancillaryList.push(img);
-                    }
-                    hasAppliedDashboard = true;
-                }
-            }
-            applyThemeIcons(ancillaryList);
+            applyThemeIcons();
         }
 
         isModifying = false;
