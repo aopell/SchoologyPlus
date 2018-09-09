@@ -21,10 +21,9 @@
     let documentLoadHooks = {};
 
     // document tooltips
+    // passes information to content script, which actually manages the tooltip
     $("#course-profile-materials tr.type-document").each(async function (index, value) {
-        let loadedText = "Loading...";
-        // title already has a tooltip (full filename), so we'll use the filesize instead
-        $(value).find(".attachments-file-name .attachments-file-size").tipsy({ gravity: "w", html: true, title: () => loadedText });
+        let loadedTextHolder = document.getElementById("tooltip-holder-" + value.id);
 
         let materialId = value.id.match(/\d+/)[0];
         documentLoadHooks[materialId] = async function (apiData, pdf) {
@@ -57,7 +56,7 @@
                 document.body.appendChild(masterCanvas);
             }
 
-            loadedText = wrapHtml(body, "div", { class: "schoologyplus-tooltip document-tooltip" });
+            loadedTextHolder.dataset.tooltipHtml = wrapHtml(body, "div", { class: "schoologyplus-tooltip document-tooltip" });
         };
     });
 

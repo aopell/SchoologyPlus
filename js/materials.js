@@ -39,6 +39,21 @@
 
     // FIXME the container element in question (the list of assignments) can be recreated; we should handle this case
 
+    // document tooltips
+    // this is a hack to pass data back and forth between our page context script
+    let documentTooltipDataHolder = document.createElement("div");
+    documentTooltipDataHolder.id = "schoologyplus-material-tooltip-data-container";
+    document.body.appendChild(documentTooltipDataHolder);
+
+    $("#course-profile-materials tr.type-document").each(function (index, value) {
+        let loadedTextHolder = document.createElement("span");
+        loadedTextHolder.id = "tooltip-holder-" + value.id;
+        documentTooltipDataHolder.appendChild(loadedTextHolder);
+        loadedTextHolder.dataset.tooltipHtml = "Loading...";
+        // title already has a tooltip (full filename), so we'll use the filesize instead
+        $(value).find(".attachments-file-name .attachments-file-size").tipsy({ gravity: "w", html: true, title: () => loadedTextHolder.dataset.tooltipHtml });
+    });
+
     // assignment tooltips
     $("#course-profile-materials tr.type-assignment").each((index, value) => {
         let loadedGrade = "Loading...";

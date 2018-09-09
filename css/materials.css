@@ -65,3 +65,11 @@
 .schoologyplus-master-canvas {
     display: none;
 }
+
+/*
+Used to pass data between script contents
+Should not be shown
+*/
+#schoologyplus-material-tooltip-data-container { 
+    display: none;
+}
