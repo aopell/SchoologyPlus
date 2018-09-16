@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Welcome to Schoology Plus!",
+    "message": "Thanks for installing Schoology Plus! <a href=\"https://github.com/aopell/SchoologyPlus\">Click here</a> to check out all of the interesting features! Be sure to check out the Schoology Plus menu at the top of the page next to the messages button.",
+    "shortMessage": "Thanks for installing Schoology Plus! Click here for more info.",
+    "timestamp": "2018-03-06T02:54:26.758Z"
+  },
+  {
+    "id": 2,
+    "title": "Schoology Plus for Firefox!",
+    "message": "Schoology Plus is now available for Firefox! The extension is not on the Firefox addon store, but it can be downloaded from the following links:<br><a href=\"https://github.com/aopell/SchoologyPlus\">GitHub Link</a><br><a href=\"http://aopell.me/projects/schoology-plus-firefox-download.html\">Direct Download Link (for Firefox only)</a>",
+    "shortMessage": "Schoology Plus is now available for Firefox",
+    "timestamp": "2018-03-07T04:49:22.050Z"
+  },
+  {
+    "id": 3,
+    "message": "Please take one minute of your time to give some feedback regarding your use of Schoology Plus. This survey is very short, and all questions are optional. Thank you!<br><br><a href='https://goo.gl/forms/iP6GzLqNc6YQoJo83' style='font-size: 16px; font-weight: bold;'>Click Here to Take the Survey</a>",
+    "shortMessage": "Please fill out a quick survey",
+    "timestamp": "2018-03-11T00:33:05.751Z",
+    "title": "Schoology Plus Survey"
+  }
+]
