@@ -1,4 +1,4 @@
-const broadcastNotificationUrl = "https://gist.githubusercontent.com/aopell/82a6f5c409dc0af7e97d2ebaf88c84f6/raw/notifications.json";
+const broadcastNotificationUrl = "https://aopell.me/SchoologyPlus/notifications.json";
 const assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filter=all";
 
 /** @typedef {{id:number,title:string,message:string,shortMessage:string,timestamp?:Date,icon?:string}} Broadcast */

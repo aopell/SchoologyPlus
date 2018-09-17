@@ -6,7 +6,7 @@
     "applications": {
         "gecko": {
             "id": "schoology.plus@aopell.me",
-            "update_url": "https://gist.githubusercontent.com/aopell/82a6f5c409dc0af7e97d2ebaf88c84f6/raw/update.json"
+            "update_url": "https://aopell.me/SchoologyPlus/update.json"
         }
     },
     "version": "4.0",
