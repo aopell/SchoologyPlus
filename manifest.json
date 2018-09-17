@@ -99,7 +99,8 @@
                 "css/materials.css"
             ],
             "js": [
-                "js/jquery-ancient-1.12.4.min.js",
+                "js/jquery-3.3.1.min.js",
+                "js/jquery-migrate-3.0.1.js",
                 "js/jquery.tipsy.min.js",
                 "js/materials.js"
             ],
