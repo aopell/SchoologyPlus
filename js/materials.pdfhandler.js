@@ -20,13 +20,11 @@
 
     let documentLoadHooks = {};
 
-    // document tooltips
-    // passes information to content script, which actually manages the tooltip
-    $("#course-profile-materials tr.type-document").each(async function (index, value) {
-        let loadedTextHolder = document.getElementById("tooltip-holder-" + value.id);
+    function processDocument(loadedTextHolder, onLoadHookRegister) {
+        let value = document.getElementById(loadedTextHolder.dataset.domElementId);
 
         let materialId = value.id.match(/\d+/)[0];
-        documentLoadHooks[materialId] = async function (apiData, pdf) {
+        onLoadHookRegister(materialId, async function (apiData, pdf) {
             let body = "";
             if (!pdf) {
                 body = wrapHtml("Error", "span", { class: "error-message" });
@@ -57,7 +55,13 @@
             }
 
             loadedTextHolder.dataset.tooltipHtml = wrapHtml(body, "div", { class: "schoologyplus-tooltip document-tooltip" });
-        };
+        });
+    }
+
+    // document tooltips
+    // passes information to content script, which actually manages the tooltip
+    $("#schoologyplus-material-tooltip-data-container .type-document").each(function (index, value) {
+        processDocument(value, function (materialId, func) { documentLoadHooks[materialId] = func; });
     });
 
     let tooltipCreateObserver = new MutationObserver(mutations => {
@@ -85,6 +89,20 @@
         }
     });
 
+    let tooltipInfoCreateObserver = new MutationObserver(mutations => {
+        for (let i = 0; i < mutations.length; ++i) {
+            for (let j = 0; j < mutations[i].addedNodes.length; ++j) {
+                let thisNode = mutations[i].addedNodes[j];
+                if (!thisNode.dataset.domElementId || !document.getElementById(thisNode.dataset.domElementId) || !thisNode.classList.contains("type-document")) {
+                    continue;
+                }
+                processDocument(thisNode, async function (materialId, callback) {
+                    await callback(JSON.parse(thisNode.dataset.docInfo), thisNode.dataset.docUrl ? await pdfjsLib.getDocument(thisNode.dataset.docUrl) : null);
+                });
+            }
+        }
+    });
+
     for (let docToLoad in documentLoadHooks) {
         // we can't do API requests here (CORS), so we pass in info from the content script
         let apiMetadata = documentInfoFromApi[docToLoad];
@@ -98,6 +116,11 @@
     }
 
     tooltipCreateObserver.observe(document.body, {
+        subtree: false,
+        childList: true
+    });
+
+    tooltipInfoCreateObserver.observe(document.getElementById("schoologyplus-material-tooltip-data-container"), {
         subtree: false,
         childList: true
     });

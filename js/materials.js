@@ -35,6 +35,7 @@
     }
 
     let gradeLoadHooks = [];
+    let myApiKeys;
     let userId;
     let immediateGradeLoadInvoke = false;
     let loadedGradeContainer = null;
@@ -59,13 +60,41 @@
 
     // data handler from page context, logic is there
     // tr.type-document
-    function processDocumentElement(value) {
+    async function processDocumentElement(value, dynamic) {
         let loadedTextHolder = document.createElement("span");
         loadedTextHolder.id = "tooltip-holder-" + value.id;
+        loadedTextHolder.classList.add("type-document");
+        loadedTextHolder.dataset.domElementId = value.id;
+
+        if (dynamic) {
+            // FIXME code duplication
+            // note that these CDN urls expire
+            let documentUrlFromApi = null;
+            let materialId = value.id.match(/\d+/)[0];
+            let documentInfoFromApi = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/documents/${materialId}`, {
+                headers: createApiAuthenticationHeaders(myApiKeys)
+            })).json());
+
+            let fileData = documentInfoFromApi.attachments.files.file[0];
+            if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
+                // get the URL of the doc we want
+                // it's an unauthenticated CDN url that expires (experimentation), returned as a redirect
+                // unfortunately we need permissions for the extra domain
+                documentUrlFromApi = (await fetch(fileData.converted_download_path, {
+                    headers: createApiAuthenticationHeaders(myApiKeys)
+                })).url;
+            }
+
+            loadedTextHolder.dataset.docInfo = JSON.stringify(documentInfoFromApi);
+            loadedTextHolder.dataset.docUrl = documentUrlFromApi;
+        }
+
         documentTooltipDataHolder.appendChild(loadedTextHolder);
         loadedTextHolder.dataset.tooltipHtml = "Loading...";
         // title already has a tooltip (full filename), so we'll use the filesize instead
         $(value).find(".attachments-file-name .attachments-file-size").tipsy({ gravity: "w", html: true, title: () => loadedTextHolder.dataset.tooltipHtml });
+
+        value.dataset.schoologyPlusProcessedTooltip = true;
     }
 
     // assignment tooltips
@@ -147,10 +176,12 @@
 
             loadedGrade = wrapHtml(innerContent, "div", { class: "schoologyplus-tooltip assignment-tooltip" });
         });
+
+        value.dataset.schoologyPlusProcessedTooltip = true;
     }
 
     for (let docElem of courseProfileMaterials.querySelectorAll("tr.type-document")) {
-        processDocumentElement(docElem);
+        processDocumentElement(docElem, false);
     }
 
     for (let assignElem of courseProfileMaterials.querySelectorAll("tr.type-assignment")) {
@@ -158,30 +189,46 @@
     }
 
     let materialsMutationObserver = new MutationObserver(function (mutationRecords) {
+        let reprocessElements = false;
+
         for (let mutateRecord of mutationRecords) {
             if (!mutateRecord.addedNodes) {
                 continue;
             }
 
-            for (let addedNode of mutateRecord.addedNodes) {
-                if (addedNode.nodeName == "TR") {
-                    if (addedNode.classList.contains("type-document")) {
-                        processDocumentElement(addedNode);
-                    } else if (addedNode.classList.contains("type-assignment")) {
-                        processAssignmentElement(addedNode);
-                    }
+            reprocessElements = true;
+            break;
+        }
+
+        if (!reprocessElements) {
+            return;
+        }
+
+        // hack because apparently we can't trust this MutationObserver to catch everything
+
+        for (let addedNode of courseProfileMaterials.querySelectorAll("tr.type-assignment, tr.type-document")) {
+            if (addedNode.dataset.schoologyPlusProcessedTooltip) {
+                continue;
+            }
+
+            if (addedNode.nodeName == "TR") {
+                if (addedNode.classList.contains("type-document")) {
+                    processDocumentElement(addedNode, true);
+                } else if (addedNode.classList.contains("type-assignment")) {
+                    processAssignmentElement(addedNode);
                 }
             }
         }
     });
+
+    myApiKeys = await getApiKeys();
+    userId = myApiKeys[2];
 
     // watch for new material DOM elements, and process them as they're added
     // needs a corresponding handler in the pagescript
     materialsMutationObserver.observe(courseProfileMaterials, { childList: true, subtree: true });
 
     let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
-    let myApiKeys = await getApiKeys();
-    userId = myApiKeys[2];
 
     if (gradeLoadHooks.length > 0) {
         // load grade information for this class, call grade hooks
