@@ -6,6 +6,17 @@
 "use strict";
 
 (async function () {
+    // initialize pdfjs
+    // FIXME this is an awful hack because we're trying to avoid webpack and pdfjs is a module
+    // also putting it here is a hack to give it time to load
+    let injectLib = document.createElement("script");
+    injectLib.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.js";
+    injectLib.type = "text/javascript";
+    injectLib.async = false;
+    injectLib.defer = false;
+    document.head.appendChild(injectLib);
+
+
     // utility function
     function escapeForHtml(text) {
         let tempElem = document.createElement("span");
@@ -230,128 +241,120 @@
 
     let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
 
-    if (gradeLoadHooks.length > 0) {
-        // load grade information for this class, call grade hooks
+    // load grade information for this class, call grade hooks
 
-        // this object contains ALL grades from this Schoology account, "keyed" by annoying IDs
-        // TODO Schoology API docs say this is paged, we should possible account for that? 
-        let myGrades = await (await fetch(`https://api.schoology.com/v1/users/${userId}/grades`, {
+    // this object contains ALL grades from this Schoology account, "keyed" by annoying IDs
+    // TODO Schoology API docs say this is paged, we should possible account for that? 
+    let myGrades = await (await fetch(`https://api.schoology.com/v1/users/${userId}/grades`, {
+        headers: createApiAuthenticationHeaders(myApiKeys)
+    })).json();
+
+    let thisClassGrades = myGrades.section.find(x => x.section_id == classId);
+
+    // start building our return object, which will follow a nicer format
+    loadedGradeContainer = {};
+    loadedGradeContainer.categories = {};
+    loadedGradeContainer.grades = {};
+    loadedGradeContainer.assignments = {};
+    loadedGradeContainer.dropboxes = {};
+    loadedGradeContainer.gradeDrops = {};
+
+    // gradebook categories
+    for (let gradeCategory of thisClassGrades.grading_category) {
+        loadedGradeContainer.categories[gradeCategory.id] = gradeCategory;
+        Object.freeze(gradeCategory);
+    }
+
+    Object.freeze(loadedGradeContainer.categories);
+
+    // assignment grades
+    // period is an array of object
+    // period[x].assignment is an array of grade objects (the ones we want to enumerate)
+    for (let assignment of thisClassGrades.period.reduce((accum, curr) => accum.concat(curr.assignment), [])) {
+        loadedGradeContainer.grades[assignment.assignment_id] = assignment;
+        Object.freeze(assignment);
+    }
+
+    Object.freeze(loadedGradeContainer.grades);
+
+    let missingAssignmentCt = 0;
+    let missingAssignmentErrorCt = 0;
+
+    // assignments
+    // need a separate API call
+    let ourAssignments = await (await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments`, {
+        headers: createApiAuthenticationHeaders(myApiKeys)
+    })).json();
+
+    // for some reason (TODO why) that call doesn't always return everything
+    // since we only use the assignments collection here (internally), no need to add the entire remainder off of grades
+    // just if it's a strange grade status (exception or ungraded), we'll pull assignment details
+    // also only obtain it if there's a material entry in the DOM for it, otherwise there's no point
+    // TODO does the DOM-existance check ever come into play such that we don't load data for an item which is dynamically loaded later?
+    let missingAssignmentIds = Object.keys(loadedGradeContainer.grades).filter(x => ourAssignments.assignment.findIndex(y => y.id == x) < 0).filter(x => document.getElementById("n-" + x));
+    for (let missingAssignment of missingAssignmentIds) {
+        missingAssignmentCt++;
+        let fetchRes = await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments/${missingAssignment}`, {
             headers: createApiAuthenticationHeaders(myApiKeys)
-        })).json();
-
-        let thisClassGrades = myGrades.section.find(x => x.section_id == classId);
-
-        // start building our return object, which will follow a nicer format
-        loadedGradeContainer = {};
-        loadedGradeContainer.categories = {};
-        loadedGradeContainer.grades = {};
-        loadedGradeContainer.assignments = {};
-        loadedGradeContainer.dropboxes = {};
-        loadedGradeContainer.gradeDrops = {};
-
-        // gradebook categories
-        for (let gradeCategory of thisClassGrades.grading_category) {
-            loadedGradeContainer.categories[gradeCategory.id] = gradeCategory;
-            Object.freeze(gradeCategory);
-        }
-
-        Object.freeze(loadedGradeContainer.categories);
-
-        // assignment grades
-        // period is an array of object
-        // period[x].assignment is an array of grade objects (the ones we want to enumerate)
-        for (let assignment of thisClassGrades.period.reduce((accum, curr) => accum.concat(curr.assignment), [])) {
-            loadedGradeContainer.grades[assignment.assignment_id] = assignment;
-            Object.freeze(assignment);
-        }
-
-        Object.freeze(loadedGradeContainer.grades);
-
-        let missingAssignmentCt = 0;
-        let missingAssignmentErrorCt = 0;
-
-        // assignments
-        // need a separate API call
-        let ourAssignments = await (await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments`, {
-            headers: createApiAuthenticationHeaders(myApiKeys)
-        })).json();
-
-        // for some reason (TODO why) that call doesn't always return everything
-        // since we only use the assignments collection here (internally), no need to add the entire remainder off of grades
-        // just if it's a strange grade status (exception or ungraded), we'll pull assignment details
-        // also only obtain it if there's a material entry in the DOM for it, otherwise there's no point
-        // TODO does the DOM-existance check ever come into play such that we don't load data for an item which is dynamically loaded later?
-        let missingAssignmentIds = Object.keys(loadedGradeContainer.grades).filter(x => ourAssignments.assignment.findIndex(y => y.id == x) < 0).filter(x => document.getElementById("n-" + x));
-        for (let missingAssignment of missingAssignmentIds) {
-            missingAssignmentCt++;
-            let fetchRes = await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments/${missingAssignment}`, {
-                headers: createApiAuthenticationHeaders(myApiKeys)
-            });
-            if (fetchRes.ok) {
-                ourAssignments.assignment.push(await fetchRes.json());
-            } else {
-                missingAssignmentErrorCt++;
-            }
-        }
-
-        if (missingAssignmentCt > 0) {
-            console.log(`Fetched ${missingAssignmentCt} assignment(s) (${missingAssignmentErrorCt} error(s)) missing from summary API call`);
-        }
-
-        for (let assignment of ourAssignments.assignment) {
-            loadedGradeContainer.assignments[assignment.id] = assignment;
-            Object.freeze(assignment);
-
-            // string "0" or "1" from API
-            // for performance reasons, don't fetch info for all dropboxes, just those without grade
-            // assignments by default have dropboxes, but if teachers don't mean for them to be there, they end up being meaningless "Not Submitted"
-            // thus, if the assignment has a normal grade, don't fetch submission status here
-            // improves performance because it's one NETWORK API call PER ASSIGNMENT, and it blocks all tooltips until all assignments are done loading
-            // especially visible in large classes
-            let gradeInfo = loadedGradeContainer.grades[assignment.id];
-            if (+assignment.allow_dropbox && (gradeInfo.grade === null || gradeInfo.exception)) {
-                // "dropboxes," or places to submit documents via Schoology
-                // another API call
-                loadedGradeContainer.dropboxes[assignment.id] = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/submissions/${assignment.id}/${userId}`, {
-                    headers: createApiAuthenticationHeaders(myApiKeys)
-                })).json()).revision;
-                Object.freeze(loadedGradeContainer.dropboxes[assignment.id]);
-            }
-        }
-
-        Object.freeze(loadedGradeContainer.assignments);
-        Object.freeze(loadedGradeContainer.dropboxes);
-
-        // grade drops
-        // unfortunately it doesn't look like the API returns grade drop status, so we have to scrape it from the gradebook
-        let ourGradebookHtml = await (await fetch(`https://lms.lausd.net/course/${classId}/student_grades`)).text();
-        let ourGradebookParser = new DOMParser();
-        let ourGradebookDoc = ourGradebookParser.parseFromString(ourGradebookHtml, "text/html");
-
-        let containerDiv = ourGradebookDoc.querySelector(".gradebook-course-grades");
-        for (let gradeItemRow of containerDiv.querySelectorAll(".item-row")) {
-            loadedGradeContainer.gradeDrops[gradeItemRow.dataset.id.match(/\d+/)[0]] = gradeItemRow.classList.contains("dropped");
-        }
-
-        Object.freeze(loadedGradeContainer.gradeDrops);
-        Object.freeze(loadedGradeContainer);
-
-        console.log("Assignment data loaded, creating tooltips");
-
-        immediateGradeLoadInvoke = true;
-
-        // call our event listeners
-        for (let eventHook of gradeLoadHooks) {
-            eventHook(loadedGradeContainer);
+        });
+        if (fetchRes.ok) {
+            ourAssignments.assignment.push(await fetchRes.json());
+        } else {
+            missingAssignmentErrorCt++;
         }
     }
 
-    // initialize pdfjs
-    // FIXME this is an awful hack because we're trying to avoid webpack and pdfjs is a module
-    let injectLib = document.createElement("script");
-    injectLib.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.js";
-    injectLib.type = "text/javascript";
-    document.head.appendChild(injectLib);
+    if (missingAssignmentCt > 0) {
+        console.log(`Fetched ${missingAssignmentCt} assignment(s) (${missingAssignmentErrorCt} error(s)) missing from summary API call`);
+    }
+
+    for (let assignment of ourAssignments.assignment) {
+        loadedGradeContainer.assignments[assignment.id] = assignment;
+        Object.freeze(assignment);
+
+        // string "0" or "1" from API
+        // for performance reasons, don't fetch info for all dropboxes, just those without grade
+        // assignments by default have dropboxes, but if teachers don't mean for them to be there, they end up being meaningless "Not Submitted"
+        // thus, if the assignment has a normal grade, don't fetch submission status here
+        // improves performance because it's one NETWORK API call PER ASSIGNMENT, and it blocks all tooltips until all assignments are done loading
+        // especially visible in large classes
+        let gradeInfo = loadedGradeContainer.grades[assignment.id];
+        if (+assignment.allow_dropbox && (gradeInfo.grade === null || gradeInfo.exception)) {
+            // "dropboxes," or places to submit documents via Schoology
+            // another API call
+            loadedGradeContainer.dropboxes[assignment.id] = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/submissions/${assignment.id}/${userId}`, {
+                headers: createApiAuthenticationHeaders(myApiKeys)
+            })).json()).revision;
+            Object.freeze(loadedGradeContainer.dropboxes[assignment.id]);
+        }
+    }
+
+    Object.freeze(loadedGradeContainer.assignments);
+    Object.freeze(loadedGradeContainer.dropboxes);
+
+    // grade drops
+    // unfortunately it doesn't look like the API returns grade drop status, so we have to scrape it from the gradebook
+    let ourGradebookHtml = await (await fetch(`https://lms.lausd.net/course/${classId}/student_grades`)).text();
+    let ourGradebookParser = new DOMParser();
+    let ourGradebookDoc = ourGradebookParser.parseFromString(ourGradebookHtml, "text/html");
+
+    let containerDiv = ourGradebookDoc.querySelector(".gradebook-course-grades");
+    for (let gradeItemRow of containerDiv.querySelectorAll(".item-row")) {
+        loadedGradeContainer.gradeDrops[gradeItemRow.dataset.id.match(/\d+/)[0]] = gradeItemRow.classList.contains("dropped");
+    }
+
+    Object.freeze(loadedGradeContainer.gradeDrops);
+    Object.freeze(loadedGradeContainer);
+
+    console.log("Assignment data loaded, creating tooltips");
+
+    immediateGradeLoadInvoke = true;
+
+    // call our event listeners
+    for (let eventHook of gradeLoadHooks) {
+        eventHook(loadedGradeContainer);
+    }
+
 
     // do our API calls
     let documentInfoFromApi = {};
@@ -385,6 +388,8 @@
     scriptText = scriptText.replace("/* SUBSTITUTE_API_DOCUMENT_URLS */", `let documentUrlsFromApi = ${JSON.stringify(documentUrlsFromApi)};`);
     scriptText = scriptText.replace("/* SUBSTITUTE_HTML_BUILDER_UTIL */", `${escapeForHtml.toString()}\n${wrapHtml.toString()}`);
     injectScript.text = scriptText;
+    injectScript.async = false;
+    injectScript.defer = false;
     document.head.appendChild(injectScript);
 })();
 
