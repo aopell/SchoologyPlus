@@ -44,6 +44,8 @@ $.contextMenu({
     let coursesByPeriod = [];
     let gradesModified = false;
 
+    let upperPeriodSortBound = 20;
+
     for (let course of courses) {
         (async function () {
             let title = course.querySelector(".gradebook-course-title");
@@ -63,7 +65,7 @@ $.contextMenu({
             let classTotal = 0;
             let addMoreClassTotal = true;
 
-            coursesByPeriod[Number.parseInt(title.textContent.match(/PERIOD (\d)/)[1])] = course;
+            coursesByPeriod[Number.parseInt((title.textContent.match(/PERIOD (\d)/) || [null, upperPeriodSortBound++])[1])] = course;
 
             // Fix width of assignment columns
             table.appendChild(createElement("colgroup", [], {}, [
