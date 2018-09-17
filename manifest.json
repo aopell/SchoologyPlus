@@ -9,7 +9,7 @@
             "update_url": "https://aopell.me/SchoologyPlus/update.json"
         }
     },
-    "version": "4.1",
+    "version": "4.1.1",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -99,7 +99,7 @@
                 "css/materials.css"
             ],
             "js": [
-                "js/jquery-1.12.4.min.js",
+                "js/jquery-ancient-1.12.4.min.js",
                 "js/jquery.tipsy.min.js",
                 "js/materials.js"
             ],
