@@ -3,8 +3,7 @@
 ## Version 4.1.1 - September 16, 2018
 
 ### Fixes
-- Hotfix to address Firefox addon publishing complaints
-  - Underlying cause will be addressed in next release
+- Address Firefox addon publishing complaints regarding old library versions
 
 ## Version 4.1 - September 16, 2018
 
