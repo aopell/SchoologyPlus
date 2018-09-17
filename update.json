@@ -3,8 +3,8 @@
     "schoology.plus@aopell.me": {
       "updates": [
         { 
-          "version": "4.0",
-          "update_link": "https://github.com/aopell/SchoologyPlus/releases/download/v4.0/schoology_plus-4.0-an+fx.xpi" 
+          "version": "4.1.1",
+          "update_link": "https://github.com/aopell/SchoologyPlus/releases/download/v4.1.1/schoology_plus-4.1.1-an+fx.xpi" 
         }
       ]
     }
