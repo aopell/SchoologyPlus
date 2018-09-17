@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 4.1 - September 16, 2018
+
+### Changes
+- "Loading..." tooltips now immediately appear for documents and assignments
+- Material tooltips now generate in materials under folders (and other cases where not all materials show up at page load)
+- Changelog, update, and notification infrastructural URLs updated to use GitHub pages (maintainable by all project contributors)
+
+### Fixes
+- Custom course aliases apply even with an extra space in the full name, most notably in Upcoming events
+- Course dashboard fixes for custom aliases and icons
+- Aliases now work properly for archived courses
+- Classes without "PERIOD N" in the name will no longer crash the grades page
+
 ## Version 4.0 - September 4, 2018
 
 ### Additions
