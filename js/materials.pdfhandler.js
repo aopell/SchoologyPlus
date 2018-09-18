@@ -124,4 +124,6 @@
         subtree: false,
         childList: true
     });
-})();
+})().catch(rej => {
+    console.error("Error occurred in materials.pdfhandler injected code: %o", rej);
+});
