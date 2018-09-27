@@ -3,9 +3,9 @@
 ### A web extension that enhances your LAUSD Schoology experience
 
 [![Download for Chrome](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
-[<img src="https://imgur.com/hVupcaT.png" height="58" alt="Download for Firefox">](http://aopell.me/projects/schoology-plus-firefox-download.html)
+[<img src="https://imgur.com/hVupcaT.png" height="58" alt="Download for Firefox">](http://aopell.me/SchoologyPlus/firefox-download.html)
 
-[Download for Chrome](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef) | [Download for Firefox](http://aopell.me/projects/schoology-plus-firefox-download.html) | [View Changelog](https://aopell.me/SchoologyPlus/changelog)
+[Download for Chrome](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef) | [Download for Firefox](http://aopell.me/SchoologyPlus/firefox-download.html) | [View Changelog](https://aopell.me/SchoologyPlus/changelog)
 
 # Features
 
