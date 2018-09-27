@@ -41,14 +41,14 @@
         };
 
         let b = browser();
-        if (b == "Firefox" || prompt(`Are you sure you want to download this Firefox extension? You seem to be using ${b}.`)) {
+        if (b == "Firefox" || confirm(`Are you sure you want to download this Firefox extension? You seem to be using ${b}.`)) {
             fetch("https://api.github.com/repos/aopell/SchoologyPlus/releases/latest")
                 .then(x => x.json())
                 .then(x => {
                     location.href = x.assets[0].browser_download_url;
                 });
         } else {
-            if (b == "Chrome" && prompt("Would you like to download Schoology Plus from the Chrome Web Store?")) {
+            if (b == "Chrome" && confirm("Would you like to download Schoology Plus from the Chrome Web Store?")) {
                 location.href = "https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef";
             } else {
                 window.close();
