@@ -117,6 +117,8 @@
         },
         {
             "matches": [
+                "https://lms.lausd.net/home",
+                "https://lms.lausd.net/home#*",
                 "https://lms.lausd.net/home/recent-activity*"
             ],
             "js": [
