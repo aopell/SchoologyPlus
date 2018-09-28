@@ -76,7 +76,7 @@ let modals = [
                 createButton("add-theme", "Install Theme", createTheme)
             ]),
             createElement("div", ["setting-entry"], { id: "themes-list" }, [
-                createElement("h2", ["setting-title"], { textContent: "Installed Themes:" })
+                createElement("h2", ["setting-title", "margin-under"], { textContent: "Installed Themes:" })
             ])
         ]),
         "&copy; Aaron Opell 2018"

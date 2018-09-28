@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="/lib/css/material-icons.css">
+    <link type="text/css" rel="stylesheet" href="/lib/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/css/theme-editor2.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/css/theme-editor.css" media="screen,projection" />
+    <link rel="shortcut icon" type="image/png" href="/imgs/icon@128.png" />
+
+    <script src="/lib/js/jquery-3.3.1.min.js"></script>
+    <script src="/lib/js/spectrum.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/lib/css/spectrum.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Schoology Plus Theme Editor</title>
+
+</head>
+
+<body>
+    <header>
+        <div class="navbar-fixed">
+            <nav class="splus-blue">
+                <div class="nav-wrapper">
+                    <div class="brand-logo center truncate">
+                        Schoology Plus Theme Editor
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="container wide-container">
+        <div class="row content-box">
+            <div id="theme-options" class="col s12 l4 xl3">
+                <div class="section row">
+                    <h5>Properties</h5>
+                    <div class="input-field col s12">
+                        <input id="theme-name" type="text" class="validate">
+                        <label for="theme-name">Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <h5>Color</h5>
+                    <p>
+                        <label>
+                            <input id="theme-color-hue" class="with-gap" name="color-group" type="radio" checked />
+                            <span>Color Hue</span>
+                        </label>
+                        <div class="input-field col s12" id="theme-hue-wrapper">
+                            <input id="theme-hue" type="number" class="validate" min="0" max="359">
+                            <label for="theme-hue">Color Hue</label>
+                        </div>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-color-custom" class="with-gap" name="color-group" type="radio" />
+                            <span>Custom Colors</span>
+                        </label>
+                        <div id="theme-color-custom-wrapper" class="hidden">
+                            <div class="input-field col s12 m6">
+                                <input id="theme-primary-color" disabled>
+                                <label for="theme-primary-color" class="active">Primary Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="theme-secondary-color" disabled>
+                                <label for="theme-secondary-color" class="active">Hover Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="theme-background-color" disabled>
+                                <label for="theme-background-color" class="active">Background Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="theme-border-color" disabled>
+                                <label for="theme-border-color" class="active">Border Color</label>
+                            </div>
+                        </div>
+                    </p>
+                </div>
+                <div class="row">
+                    <h5>Logo</h5>
+                    <p>
+                        <label>
+                            <input id="theme-schoology-logo" class="with-gap" name="logo-group" type="radio" checked />
+                            <span>Schoology Logo</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-lausd-logo" class="with-gap" name="logo-group" type="radio" />
+                            <span>LAUSD Logo</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-custom-logo" class="with-gap" name="logo-group" type="radio" />
+                            <span>Custom Image</span>
+                        </label>
+                        <div id="theme-logo-wrapper" class="input-field col s12 hidden">
+                            <input id="theme-logo" type="url" class="validate" disabled>
+                            <label for="theme-logo">Logo Image URL</label>
+                        </div>
+                    </p>
+                </div>
+                <div class="row">
+                    <h5>Cursor</h5>
+                    <div class="input-field col s12">
+                        <input id="theme-cursor" type="url" class="validate">
+                        <label for="theme-cursor">Cursor Image URL</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <h5>Icons <span class="small-text">(Advanced)</span></h5>
+                    <div class="input-field col s12">
+                        <textarea id="theme-icons" class="materialize-textarea"></textarea>
+                        <label for="theme-icons">Icons JSON Object</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l8 push-xl1">
+                <div class="section fixed-on-large-and-up">
+                    <h5>Preview<a id="save-close-button" class="waves-effect waves-light btn right action-button">Save and Close</a><a id="save-button" class="waves-effect waves-light btn right action-button">Save</a><a id="discard-button" class="waves-effect waves-light btn right action-button">Discard</a></h5>
+                    <div id="error-card" class="col s12" style="display:none;">
+                        <div class="card red darken-2">
+                            <div class="card-content white-text">
+                                <span class="card-title valign-wrapper">
+                                    <i class="material-icons inline-icon">error</i> Error</span>
+                                <p id="error-content"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="warning-card" class="col s12" style="display:none;">
+                        <div class="card yellow darken-3">
+                            <div class="card-content black-text">
+                                <span class="card-title valign-wrapper">
+                                    <i class="material-icons inline-icon">warning</i> Warning</span>
+                                <p id="warning-content"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <ul class="tabs">
+                                <li class="tab col s6">
+                                    <a href="#tab-preview">Theme Preview</a>
+                                </li>
+                                <li class="tab col s6">
+                                    <a href="#tab-json">Theme JSON</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="tab-preview" class="col s12">
+                            <div class="col s12">
+                                <div id="preview" class="card-panel white">
+                                    <div class="row">
+                                        <nav id="preview-navbar">
+                                            <div class="nav-wrapper">
+                                                <div id="preview-logo" class="hide-background-image brand-logo" href="/home">
+                                                    <svg id="logo" viewBox="0 -2 220 31" width="174" height="31" style="fill: white;">
+                                                        <path d="M15.4 30.7C6.9 30.7 0 23.8 0 15.4 0 6.9 6.9 0 15.4 0s15.4 6.9 15.4 15.4c-.1 8.4-7 15.3-15.4 15.3zm0-28.1C8.3 2.6 2.6 8.3 2.6 15.4c0 7.1 5.8 12.8 12.8 12.8 7.1 0 12.8-5.8 12.8-12.8 0-7.1-5.8-12.8-12.8-12.8z"></path>
+                                                        <path d="M14.7 16.3c-2.5-.6-5.6-1.3-5.6-4.6 0-2.9 2.4-4.7 6.1-4.7 3 0 6.2 1.4 6.7 5.1l-2.9.4c0-1-.1-1.7-1.1-2.5s-2.2-.9-3-.9c-2.1 0-3.1 1.2-3.1 2.3 0 1.5 1.7 2 3.8 2.5l1.5.4c1.9.4 5.2 1.2 5.2 4.5 0 2.6-2.3 5-6.6 5-1.8 0-3.6-.4-4.9-1.3-.5-.4-2-1.6-2.3-4.3l3-.5c0 .7 0 2 1.2 3.1.9.8 2.1.9 3.2.9 2.3 0 3.7-.9 3.7-2.6 0-1.8-1.4-2.1-3.3-2.5l-1.6-.3z"></path>
+                                                        <g>
+                                                            <path d="M153.7 18.6h-4.3v-1.7h7.2V25h-1.8v-1.9s.3-.3 0 0c-1.3 1.5-3.2 2.2-5.5 2.2-5.6 0-7.6-4.2-7.6-7.9 0-4.3 2.3-8.2 7.4-8.2 2.5 0 6 .9 7.1 5.1l-2.8.3c-.1-.6-.6-3.5-4.1-3.5-4.4 0-4.6 4.8-4.6 6.2 0 1.7.3 3.1 1 4.1.9 1.4 2.2 2 3.8 2 3.7 0 4.1-3 4.3-4.2l-.1-.6zM45.5 18.2C43 17.6 40 17 40 13.8c0-2.8 2.4-4.5 5.9-4.5 2.9 0 6 1.4 6.5 5l-2.8.4c0-.9-.1-1.7-1.1-2.5s-2.2-.9-2.9-.9c-2 0-3 1.2-3 2.2 0 1.5 1.6 1.9 3.7 2.4l1.5.4c1.8.4 5.1 1.2 5.1 4.4 0 2.5-2.2 4.8-6.4 4.8-1.7 0-3.5-.4-4.7-1.2-.5-.4-2-1.6-2.3-4.1l2.9-.5c0 .7 0 2 1.1 3 .9.8 2 .9 3.1.9 2.3 0 3.6-.9 3.6-2.5 0-1.7-1.3-2.1-3.2-2.4l-1.5-.5zM69 19.5c-.1.6-.3 1.5-.9 2.6-1.3 2.3-3.4 3.4-6.2 3.4-5.6 0-7.6-4.2-7.6-7.9 0-4.3 2.3-8.3 7.4-8.3 2.5 0 6.1.9 7.1 5.1l-2.8.3c-.1-.6-.6-3.5-4.1-3.5-4.4 0-4.6 4.8-4.6 6.2 0 1.6.3 3.1 1 4.1.9 1.4 2.2 2 3.8 2 3.7 0 4.1-3 4.3-4.2l2.6.2zM70.6 2.1h2.6v9.2c1.6-1.7 3.2-2 4.6-2 3.4 0 4.7 1.9 5.1 3.4.3 1 .3 2 .3 3.5V25h-2.6v-8.1c0-2 0-3.2-.6-4.1-.6-.9-1.7-1.3-2.7-1.3-1.7 0-3.4.9-4 3.3-.2.8-.2 1.7-.2 2.8V25h-2.6V2.1zM93.3 25.4c-5.3 0-7.5-3.9-7.5-8 0-3.4 1.7-8.2 7.6-8.2 5 0 7.4 3.9 7.3 8.1 0 4.6-2.7 8.1-7.4 8.1zm4.5-10.2c-.6-3-2.6-3.9-4.3-3.9-3.5 0-4.9 2.7-4.9 6.2 0 3.2 1.3 5.9 4.7 5.9 4.3 0 4.6-4.5 4.7-6 0-1.1-.1-1.8-.2-2.2zM110 25.4c-5.3 0-7.5-3.9-7.5-8 0-3.4 1.7-8.2 7.6-8.2 5 0 7.4 3.9 7.3 8.1 0 4.6-2.7 8.1-7.4 8.1zm4.5-10.2c-.6-3-2.6-3.9-4.3-3.9-3.5 0-4.9 2.7-4.9 6.2 0 3.2 1.3 5.9 4.7 5.9 4.3 0 4.6-4.5 4.7-6 0-1.1-.1-1.8-.2-2.2zM122.6 2.1V25h-2.5V2.1h2.5zM132.7 25.4c-5.3 0-7.5-3.9-7.5-8 0-3.4 1.7-8.2 7.6-8.2 5 0 7.4 3.9 7.3 8.1 0 4.6-2.8 8.1-7.4 8.1zm4.4-10.2c-.6-3-2.6-3.9-4.3-3.9-3.5 0-4.9 2.7-4.9 6.2 0 3.2 1.3 5.9 4.7 5.9 4.3 0 4.6-4.5 4.7-6 0-1.1-.1-1.8-.2-2.2zM169.9 9.5h-2.5l-3.9 6.2-3.8-6.2h-2.9l5.5 8.4V25h2.4v-7.1l5.6-8.4zM174.9 11c0 .9-.8 1.7-1.7 1.7-1 0-1.7-.7-1.7-1.7 0-.9.8-1.7 1.7-1.7.9 0 1.7.7 1.7 1.7zm-3 0c0 .7.6 1.3 1.3 1.3.7 0 1.3-.6 1.3-1.3 0-.7-.6-1.3-1.3-1.3-.8 0-1.3.6-1.3 1.3zm1 .8h-.4v-1.7c.2 0 .4-.1.6-.1.3 0 .5.1.6.1.1.1.2.2.2.4s-.2.3-.3.4c.2.1.2.2.3.4 0 .3.1.3.1.4h-.4c-.1-.1-.1-.2-.1-.4s-.1-.3-.3-.3h-.2v.8zm0-.9h.2c.2 0 .4-.1.4-.2 0-.2-.1-.3-.4-.3h-.2v.5z"></path>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                                <ul id="nav-mobile" class="navbar-links hide-on-med-and-down">
+                                                    <li>
+                                                        <a>Home</a>
+                                                    </li>
+                                                    <li>
+                                                        <a>Grades</a>
+                                                    </li>
+                                                    <li>
+                                                        <a>Courses</a>
+                                                    </li>
+                                                </ul>
+                                                <ul class="right">
+                                                    <li>
+                                                        <img id="preview-splus-settings" src="/imgs/plus-icon.png"
+                                                            width="24" />
+                                                    </li>
+                                                    <li>
+                                                        <a>YOUR NAME</a>
+                                                    </li>
+                                                    <li>
+                                                        <div id="preview-settings">
+                                                            <span class="dropdown"></span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </nav>
+                                    </div>
+                                    <div id="preview-modal" class="splus-modal">
+                                        <div class="splus-modal-content">
+                                            <div class="splus-modal-header">
+                                                <span class="close" data-parent="peview-modal">&times;</span>
+                                                <p class="splus-modal-title">Schoology Plus Theme Editor</p>
+                                            </div>
+                                            <div class="splus-modal-body">
+                                                <div class="splus-modal-contents">
+                                                    <h2 class="setting-entry">Title</h2>
+                                                    <div class="setting-entry">
+                                                        <h3 class="setting-title">Subtitle</h3>
+                                                        <p class="setting-description">Some text</p>
+                                                    </div>
+                                                    <div class="setting-entry">
+                                                        <h3 class="setting-title">Subtitle</h3>
+                                                        <p class="setting-description">Some text</p>
+                                                    </div>
+                                                    <div class="setting-entry">
+                                                        <h3 class="setting-title">Subtitle</h3>
+                                                        <p class="setting-description">Some text</p>
+                                                    </div>
+                                                    <span class="submit-span-wrapper splus-modal-button">
+                                                        <input class="form-submit" type="button" value="Click Me">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="splus-modal-footer">
+                                                <p class="splus-modal-footer-text">&copy; Aaron Opell 2018</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-json" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="json-output" class="materialize-textarea"></textarea>
+                                    <label for="json-output">JSON (Paste to import theme)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/lib/js/materialize.min.js"></script>
+    <script src="/js/theme-editor.js"></script>
+</body>
+
+</html>

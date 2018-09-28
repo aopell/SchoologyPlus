@@ -39,7 +39,8 @@
         "imgs/plus-icon.png",
         "imgs/toy-mode.png",
         "imgs/icon@128.png",
-        "js/materials.pdfhandler.js"
+        "js/materials.pdfhandler.js",
+        "theme-editor.html"
     ],
     "background": {
         "scripts": [

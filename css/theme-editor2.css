@@ -1,0 +1,29 @@
+.no-margin {
+    margin: 0;
+}
+
+.pre-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.nav-wrapper li>a {
+    font-weight: bold;
+}
+
+.card-header {
+    margin-top: 0;
+    font-weight: 500;
+}
+
+.card-action>a {
+    font-weight: 500;
+}
+
+* {
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif
+}
+
+.card.small .card-image + .card-content, .card.medium .card-image + .card-content, .card.large .card-image + .card-content {
+    max-height: 80%;
+}

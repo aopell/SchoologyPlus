@@ -1,0 +1,337 @@
+:root {
+    --color-hue: 210;
+    --primary-color: hsl(var(--color-hue), 50%, 50%);
+    --primary-light: hsl(var(--color-hue), 60%, 55%);
+    --primary-dark: hsl(var(--color-hue), 55%, 40%);
+    --primary-very-dark: hsl(var(--color-hue), 90%, 50%);
+    --cursor: auto;
+    --background-url: none;
+}
+
+html,
+body {
+    height: 100%;
+    font-size: 100% !important;
+}
+
+.splus-blue {
+    background-color: var(--primary-color);
+}
+
+.splus-blue-text {
+    color: var(--primary-color);
+}
+
+.inline-icon {
+    vertical-align: bottom;
+    font-size: 24px !important;
+}
+
+#json-output, #theme-icons {
+    font-family: "Lucida Console", Monaco, monospace;
+}
+
+#preview {
+    cursor: var(--cursor);
+}
+
+#preview-navbar {
+    width: 100%;
+    line-height: 45px;
+    height: 45px;
+    background-color: var(--primary-color);
+}
+
+#preview-navbar a {
+    font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+#preview-logo {
+    margin-left: 2%;
+    width: 160px;
+    height: 36px;
+    margin-top: 4.5px;
+    cursor: pointer;
+}
+
+#preview-logo.custom-background-image {
+    background: var(--background-url) no-repeat 0px 0px !important;
+}
+
+#preview-logo.hide-background-image {
+    background: none !important;
+}
+
+#preview-logo.hide-background-image svg {
+    visibility: visible !important;
+}
+
+#preview-logo svg {
+    visibility: hidden !important;
+}
+
+#preview-splus-settings {
+    margin-top: 10.5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#preview-settings {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--primary-dark);
+    margin-top: 7.5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: var(--primary-light);
+    cursor: pointer;
+}
+
+#preview-settings:hover {
+    background-color: var(--primary-dark);
+}
+
+.action-button {
+    margin: 0 2px;
+    background-color: var(--primary-color);
+}
+
+.action-button:hover {
+    background-color: var(--primary-dark);
+}
+
+.wide-container {
+    max-width: unset !important;
+}
+
+.navbar-links {
+    margin-left: calc(180px + 2%);
+}
+
+.dropdown {
+    background: url(https://lms.lausd.net/sites/all/themes/schoology_theme/images/btn-sprite.png?5ab95b9010366eec) no-repeat -3px -599px;
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    position: relative;
+    top: -6px;
+    left: 8px;
+    margin: 0;
+    background-position: -4px -601px;
+}
+
+#preview-navbar a:hover {
+    background-color: var(--primary-dark);
+}
+
+@media screen and (min-width: 993px) {
+    .wide-container {
+        width: 80%;
+    }
+    .fixed-on-large-and-up {
+        position: fixed;
+        width: 60%;
+    }
+}
+
+.splus-modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif !important;
+}
+
+.splus-modal h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 8px;
+    padding: 0;
+}
+
+.splus-modal h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+
+.splus-modal-header {
+    padding: 2px 16px;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.splus-modal-body {
+    padding: 16px;
+}
+
+.splus-modal-footer {
+    padding: 2px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    margin: 0;
+}
+
+.splus-modal-title {
+    font-size: 32px;
+    margin: 0;
+    font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif !important;
+}
+
+.setting-entry {
+    margin-bottom: 8px;
+}
+
+.splus-modal-footer-text {
+    margin: 0;
+    font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif !important;
+    font-size: 12px;
+}
+
+.setting-modified {
+    color: red
+}
+
+.setting-description {
+    font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif !important;
+    margin: 0;
+    font-size: 12px;
+}
+
+.splus-modal-button {
+    margin-left: 0 !important;
+    margin-top: 8px;
+}
+
+.splus-modal-body input[type=text],
+.splus-modal-body input[type=number] {
+    color: #333;
+    border: 1px solid #c7c7c7;
+    font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+    padding: 4px;
+}
+
+.splus-modal-content .splus-modal-footer .splus-modal-footer-text a {
+    color: white;
+    font-weight: normal !important;
+}
+
+.splus-modal-body iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 40vmin;
+}
+
+.close {
+    color: rgba(255, 255, 255, 0.8);
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+body .submit-span-wrapper,
+body .click-submit,
+body .submit-btn,
+body .popups-body .submit-span-wrapper,
+body #nav .s-notifications-mini .requester-links a:hover {
+    background-color: var(--primary-color) !important;
+    border: 2px solid var(--primary-very-dark) !important;
+    padding-bottom: 5px;
+}
+
+body #nav #primary-home a:hover,
+body #nav #profile a:hover,
+body .primary-activities .clickable:hover,
+body .primary-activities .active,
+body #nav ul li.active-trail a,
+body .ac_results ul .ac_over .ac-top,
+body .schoology:hover,
+body .ac_over .schoology,
+body .action-links a:hover,
+body .action-links span:hover,
+body .edit-profile-picture-hover:hover,
+body .edit-profile-picture-hover.active,
+body #sidebar-left .action-links a:hover,
+.component-add-link:hover,
+body .search-toggle:hover,
+body .submit-span-wrapper:hover,
+body #primary-settings .unfold:hover {
+    background-color: var(--primary-dark) !important;
+    color: white !important;
+}
+
+input[type=submit],
+input[type=button] {
+    margin: 0;
+    cursor: pointer;
+    background: 0;
+    font-size: 14px;
+    outline: 0;
+    padding: 5px 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    border: 0;
+    color: #fff;
+    display: -moz-inline-box;
+    display: inline-block;
+    vertical-align: top;
+    overflow: visible;
+    height: 27px;
+    font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+}
+
+.splus-modal-button {
+    margin-left: 0 !important;
+    margin-top: 8px;
+}
+
+.tabs .indicator {
+    background-color: var(--primary-dark);
+}
+
+.tabs > li > a.active {
+    color: var(--primary-dark) !important;
+}
+
+.tabs > li > a {
+    color: var(--primary-color) !important;
+}
+
+.tabs > li > a:hover:not(.active) {
+    color: var(--primary-dark) !important;
+}
+
+.tabs a:focus.active {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.hidden {
+    display: none;
+}
+
+#theme-color-custom-wrapper label {
+    transform: translateY(-22px) scale(0.8) !important;
+}
+
+.small-text {
+    color: grey;
+    font-size: 12px;
+}

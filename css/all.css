@@ -290,6 +290,10 @@ video.easter-egg {
     font-weight: normal;
 }
 
+.margin-under {
+    margin-bottom: 10px !important;
+}
+
 textarea.setting-item {
     height: unset !important;
     resize: both;
@@ -301,6 +305,20 @@ input[type=text].setting-item {
 
 .close-button {
     color: red;
+    font-weight: normal;
+    font-size: 80%;
+}
+
+.export-button {
+    color: blue;
+    font-weight: normal;
+    font-size: 80%;
+}
+
+.edit-button {
+    color: green;
+    font-weight: normal;
+    font-size: 80%;
 }
 
 .hierarchical-grading-report.show-title.interactive {

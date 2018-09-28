@@ -30,14 +30,16 @@
     let themesList = document.getElementById("themes-list");
     if (storage.themes) {
         for (let t of storage.themes) {
-            let closeButton = createElement("a", ["close-button"], { textContent: "×", href: "#", title: "Delete Theme", onclick: (event) => deleteTheme(event.target.dataset.themeName) });
+            let closeButton = createElement("a", ["close-button"], { textContent: "Delete × ", href: "#", title: "Delete Theme", onclick: (event) => deleteTheme(event.target.dataset.themeName) });
             closeButton.dataset.themeName = t.name;
-            let exportButton = createElement("a", ["export-button"], { textContent: "↗", href: "#", title: "Export Theme", onclick: () => alert("Copied to clipboard") });
+            let exportButton = createElement("a", ["export-button"], { textContent: "Export ↗ ", href: "#", title: "Export Theme", onclick: () => alert("Copied to clipboard") });
             exportButton.dataset.clipboardText = JSON.stringify(t, null, 4);
+            let editButton = createElement("a", ["edit-button"], { textContent: "Edit ✶ ", href: "#", title: "Edit Theme", onclick: () => location.href = chrome.runtime.getURL(`theme-editor.html?theme=${t.name}`)});
             themesList.appendChild(createElement("h3", ["setting-description"], {}, [
+                createElement("span", [], { textContent: t.name + " " }),
                 closeButton,
-                exportButton,
-                createElement("span", [], { textContent: " " + t.name })
+                editButton,
+                exportButton
             ]));
         }
     }
