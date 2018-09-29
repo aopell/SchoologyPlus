@@ -359,7 +359,7 @@ function saveTheme(close = false) {
             return;
         }
     }
-    chrome.storage.sync.get("themes", s => {
+    chrome.storage.sync.get({ themes: [] }, s => {
         let themes = s.themes.filter(x => x.name != (themeName || t.name));
         themes.push(t);
         chrome.storage.sync.set({ themes: themes }, () => {
@@ -423,7 +423,7 @@ $(document).ready(function () {
     let themeName = params.get("theme");
     if (themeName) {
         chrome.storage.sync.get("themes", s => {
-            let t = s.themes.find(x => x.name == themeName);
+            let t = s.themes ? s.themes.find(x => x.name == themeName) : null;
             if (t) {
                 importFromObject(t);
             } else {
