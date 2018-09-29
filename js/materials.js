@@ -28,7 +28,7 @@
      * Wraps the given base string in syntax for an HTML element.
      * @param {string} baseString The HTML syntax string to wrap.
      * @param {string} wrapperTag The tag name of the wrapper element to use.
-     * @param {Object} wrapperProps Properties to add to the wrapper element (they will be quoted). Escaping will not be performed; it is the caller's responsibility
+     * @param {Object.<string,any>} wrapperProps Properties to add to the wrapper element (they will be quoted). Escaping will not be performed; it is the caller's responsibility
      * @returns The given HTML syntax wrapped in a tag as specified.
      */
     function wrapHtml(baseString, wrapperTag, wrapperProps) {

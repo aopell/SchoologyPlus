@@ -52,9 +52,9 @@ let modals = [
                     createElement("a", [], { href: "https://www.flaticon.com/", textContent: "flaticon.com" })
                 ]),
                 createElement("p", ["setting-description"], {}, [
-                    createElement("span", [], {  textContent: "Many custom course icons (under " }),
-                    createElement("a", [], {  href: "http://creativecommons.org/licenses/by/3.0/", title: "Creative Commons BY 3.0", target: "_blank", textContent: "CC 3.0 BY" }),
-                    createElement("span", [], {  textContent: ")" })
+                    createElement("span", [], { textContent: "Many custom course icons (under " }),
+                    createElement("a", [], { href: "http://creativecommons.org/licenses/by/3.0/", title: "Creative Commons BY 3.0", target: "_blank", textContent: "CC 3.0 BY" }),
+                    createElement("span", [], { textContent: ")" })
                 ])
             ]),
             createElement("div", ["setting-entry"], {}, [
@@ -68,9 +68,13 @@ let modals = [
         "themes-modal",
         "Schoology Plus Themes",
         createElement("div", ["splus-modal-contents"], {}, [
-            createElement("h2", ["setting-entry"], { textContent: "Install Custom Theme" }),
+            createElement("h2", ["setting-entry"], { textContent: "Create Custom Theme" }),
             createElement("div", ["setting-entry"], {}, [
-                createElement("h3", ["setting-title"], { textContent: "Install from JSON:" }),
+                createElement("h3", ["setting-title"], { textContent: "Create in Theme Editor" }),
+                createButton("create-theme", "Open Theme Editor", e => location.href = chrome.runtime.getURL("/theme-editor.html"))
+            ]),
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h3", ["setting-title"], { textContent: "Create from JSON:" }),
                 createElement("textarea", ["setting-item"], { rows: 10, cols: 50, id: "theme-json" }),
                 createElement("p", ["setting-description"], { innerHTML: "Load a theme from a JSON string. <a href='https://github.com/aopell/SchoologyPlus/tree/master/themes'>Click here for format and examples</a>" }),
                 createButton("add-theme", "Install Theme", createTheme)
@@ -232,6 +236,14 @@ function createTheme(event) {
     window.location.reload();
 }
 
+/**
+ * Creates a Schoology Plus modal element
+ * @param {string} id 
+ * @param {string} title 
+ * @param {HTMLElement} contentElement 
+ * @param {string} footerHTML 
+ * @param {(Modal)=>void} openCallback 
+ */
 function Modal(id, title, contentElement, footerHTML, openCallback) {
     let modalHTML = `<div id="${id}" class="splus-modal"><div class="splus-modal-content"><div class="splus-modal-header"><span class="close" data-parent="${id}">&times;</span>`
         + `<p class="splus-modal-title">${title}</p></div><div class="splus-modal-body"></div><div class="splus-modal-footer"><p class="splus-modal-footer-text">`

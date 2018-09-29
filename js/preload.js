@@ -6,7 +6,9 @@ var defaultCourseIconUrlRegex = /\/sites\/[a-zA-Z0-9_-]+\/themes\/[%a-zA-Z0-9_-]
 
 // Functions
 
+/** @type {HTMLDivElement} */
 var modalContents;
+
 function getModalContents() {
     return modalContents;
 }
@@ -16,7 +18,7 @@ function getModalContents() {
  * @returns {HTMLElement} A DOM element
  * @param {string} tag - The HTML tag name of the type of DOM element to create
  * @param {string[]} classList - CSS classes to apply to the DOM element
- * @param {Object} properties - Properties to apply to the DOM element
+ * @param {Object.<string,any>} properties - Properties to apply to the DOM element
  * @param {HTMLElement[]} children - Elements to append as children to the created element
  */
 function createElement(tag, classList, properties, children) {
@@ -39,8 +41,13 @@ function createElement(tag, classList, properties, children) {
     return element;
 }
 
+/** @type {Object.<string,any>} */
 let storage = {};
 
+/**
+ * Updates the contents of the settings modal to reflect changes made by the user to all settings
+ * @param {()=>any} callback Called after settings are updated
+ */
 function updateSettings(callback) {
     chrome.storage.sync.get(null, storageContents => {
         storage = storageContents;
@@ -256,6 +263,10 @@ function updateSettings(callback) {
  */
 let settings = {};
 
+/**
+ * Callback function called when any setting is changed in the settings menu
+ * @param {Event} event Contains a `target` setting element
+ */
 function settingModified(event) {
     let element = event.target || event;
     let parent = element.parentElement;
@@ -269,6 +280,9 @@ function settingModified(event) {
     }
 }
 
+/**
+ * @returns {boolean} `true` if any setting has been modified
+ */
 function anySettingsModified() {
     for (let setting in settings) {
         if (settings[setting].modified) {
@@ -278,6 +292,10 @@ function anySettingsModified() {
     return false;
 }
 
+/**
+ * Saves modified settings to the Chrome Sync Storage
+ * @param {Object.<string,any>} modifiedValues An object containing modified setting keys and values
+ */
 function saveSettings(modifiedValues) {
     let newValues = {};
     if (modifiedValues) {
@@ -307,6 +325,9 @@ function saveSettings(modifiedValues) {
     }, 2000);
 }
 
+/**
+ * Deletes all settings from Chrome Sync Storage and the local `storage` object
+ */
 function restoreDefaults() {
     if (confirm("Are you sure you want to delete all settings?\nTHIS CANNOT BE UNDONE")) {
         for (let setting in settings) {
@@ -317,10 +338,20 @@ function restoreDefaults() {
     }
 }
 
+/**
+ * Creates a Schoology Plus themed button element
+ * @param {string} id The ID for the button element
+ * @param {string} text The text to show on the button
+ * @param {(e: Event)=>void} callback A function to be called when the button is clicked
+ */
 function createButton(id, text, callback) {
     return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit"], { type: "button", value: text, id: id })]);
 }
 
+/**
+ * Returns the name of the current browser
+ * @returns {"Chrome"|"Firefox"|"Edge"} Name of the current browser
+ */
 function getBrowser() {
     if (typeof chrome !== "undefined") {
         if (typeof browser !== "undefined") {
@@ -333,10 +364,22 @@ function getBrowser() {
     }
 }
 
+/**
+ * Returns `true` if an element is visible to the user
+ * @param {HTMLElement} elem The element to check for visibility
+ * @returns {boolean} `true` if element is visible
+ */
 function isVisible(elem) {
     return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
 }
 
+/**
+ * Returns all parent elements matching the provided selector.
+ * Essentially works like a reverse `document.querySelectorAll`.
+ * @param {HTMLElement} elem The target element 
+ * @param {string} selector A CSS selector
+ * @returns {HTMLElement[]} An array of matching parent elements
+ */
 function getParents(elem, selector) {
     var parents = [];
     var firstChar;
@@ -401,7 +444,7 @@ function Setting(name, friendlyName, description, defaultValue, type, options, o
     this.default = defaultValue;
     /**
      * Returns the element control to be used to edit the setting's value by the user
-     * @returns {HTMLElement}
+     * @returns {HTMLElement} A setting element
      */
     this.getControl = () => {
         let setting = createElement("div", ["setting-entry"]);
@@ -448,10 +491,20 @@ function Setting(name, friendlyName, description, defaultValue, type, options, o
     settings[name] = this;
 }
 
+/**
+ * Stringifies an object and saves it to storage
+ * @param {string} key Name of the setting
+ * @param {Object.<string,any>} value Value of the setting
+ */
 Storage.prototype.setObject = function (key, value) {
     this.setItem(key, JSON.stringify(value));
 }
 
+/**
+ * Parses a saved object and returns it
+ * @param {string} key Name of the setting
+ * @returns {Object.<string,any>} Returns the parsed version of the stored object
+ */
 Storage.prototype.getObject = function (key) {
     var value = this.getItem(key);
     return value && JSON.parse(value);
@@ -493,8 +546,8 @@ async function getApiKeys() {
  * Given an apiKeys array, generate the authentication headers for an API request.
  * 
  * @param {string[]} apiKeys The apiKeys array, consisting of at least the key and the secret, returned from getApiKeys.
- * @param {Object} baseObj Optional: the base object from which to copy existing properties.
- * @returns {Object} A dictionary of HTTP headers, including a properly-constructed Authorization header for the given API user.
+ * @param {Object.<string,any>} baseObj Optional: the base object from which to copy existing properties.
+ * @returns {Object.<string,string>} A dictionary of HTTP headers, including a properly-constructed Authorization header for the given API user.
  */
 function createApiAuthenticationHeaders(apiKeys, baseObj) {
     let retObj = {};
