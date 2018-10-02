@@ -367,3 +367,14 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
     width: 150px;
     height: 150px;
 }
+
+.splus-modal-contents input[type=button] {
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-very-dark);
+    height: 30px;
+    vertical-align: middle;
+}
+
+.splus-modal-contents input[type=button]:hover {
+    background-color: var(--primary-dark);
+}

@@ -69,8 +69,8 @@ function updateSettings(callback) {
                 }
             }
 
-            themes.push(new Theme("Install and Manage Themes..."));
-
+            // themes.push(new Theme("Install and Manage Themes..."));
+            Theme.apply(Theme.active);
             firstLoad = false;
         }
 
@@ -79,45 +79,13 @@ function updateSettings(callback) {
                 new Setting(
                     "theme",
                     "Theme",
-                    "Set a color theme for the schoology website",
-                    "Custom Color",
-                    "select",
-                    {
-                        options: themes.map(x => ({ text: x.name, value: x.name }))
-                    },
-                    value => {
-                        tempTheme = undefined;
-                        Theme.apply(Theme.active);
-                        return (value && themes.some(x => x.name == value)) ? value : null;
-                    },
-                    event => {
-                        if (event.target.value === "Install and Manage Themes...") {
-                            settings["theme"].modified = false;
-                            openModal("themes-modal");
-                            return;
-                        }
-                        tempTheme = event.target.value;
-                        Theme.apply(Theme.active);
-                    },
+                    "Click to open the theme editor to create, edit, or select a theme",
+                    "Schoology Plus",
+                    "button",
+                    {},
+                    value => value || "Schoology Plus",
+                    event => location.href = chrome.runtime.getURL("/theme-editor.html"),
                     element => element.value
-                ).getControl(),
-                new Setting(
-                    "color",
-                    "Color Hue",
-                    "[Custom Color theme only] An HSL hue to be used as the color for the navigation bar (0-359)",
-                    210,
-                    "number",
-                    { min: 0, max: 359, value: 210 },
-                    value => {
-                        if (Theme.active.name == "Custom Color") {
-                            Theme.setBackgroundHue(value || value === 0 ? value : 210);
-                        }
-                        return value || value === 0 ? value : null;
-                    },
-                    event => {
-                        if (Theme.active.name === "Custom Color") Theme.setBackgroundHue(event.target.value)
-                    },
-                    element => Number.parseInt(element.value)
                 ).getControl(),
                 new Setting(
                     "notifications",
