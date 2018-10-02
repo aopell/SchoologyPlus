@@ -118,8 +118,16 @@
                 </div>
             </div>
             <div class="col s12 l8 push-xl1">
-                <div class="section fixed-on-large-and-up">
-                    <h5>Preview<a id="save-close-button" class="waves-effect waves-light btn right action-button">Save and Close</a><a id="save-button" class="waves-effect waves-light btn right action-button">Save</a><a id="discard-button" class="waves-effect waves-light btn right action-button">Discard</a></h5>
+                <div id="preview-section" class="section fixed-on-large-and-up">
+                    <h5>
+                        <a id="lock-button" title="Toggle preview lock to top" class="waves-effect waves-light btn hide-on-med-and-down locked">
+                            <i id="lock-icon" class="material-icons left">vertical_align_center</i>
+                        </a>
+                        Preview
+                        <a id="save-close-button" class="waves-effect waves-light btn right action-button">Save and Close</a>
+                        <a id="save-button" class="waves-effect waves-light btn right action-button">Save</a>
+                        <a id="discard-button" class="waves-effect waves-light btn right action-button">Discard</a>
+                    </h5>
                     <div id="error-card" class="col s12" style="display:none;">
                         <div class="card red darken-2">
                             <div class="card-content white-text">

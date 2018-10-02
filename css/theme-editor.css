@@ -132,7 +132,7 @@ body {
 
 @media screen and (min-width: 993px) {
     .wide-container {
-        width: 80%;
+        width: 90%;
     }
     .fixed-on-large-and-up {
         position: fixed;
@@ -334,4 +334,14 @@ input[type=button] {
 .small-text {
     color: grey;
     font-size: 12px;
+}
+
+#lock-button {
+    background-color: var(--primary-color);
+    width: 30px;
+    padding: 0 5px;
+}
+
+#lock-button.locked {
+    background-color: var(--primary-dark);
 }

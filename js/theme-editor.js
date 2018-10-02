@@ -1,3 +1,51 @@
+const lausdImageUrl = "https://cdn.schoology.com/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/BrandingUpdateLAUSD_59d2b7fc44916.png";
+
+var themeName = document.getElementById("theme-name");
+var themeHue = document.getElementById("theme-hue");
+var themePrimaryColor = document.getElementById("theme-primary-color");
+var themeSecondaryColor = document.getElementById("theme-secondary-color");
+var themeBackgroundColor = document.getElementById("theme-background-color");
+var themeBorderColor = document.getElementById("theme-border-color");
+var themeSchoologyLogo = document.getElementById("theme-schoology-logo");
+var themeLAUSDLogo = document.getElementById("theme-lausd-logo");
+var themeCustomLogo = document.getElementById("theme-custom-logo");
+var themeLogo = document.getElementById("theme-logo");
+var themeCursor = document.getElementById("theme-cursor");
+var themeColorHue = document.getElementById("theme-color-hue");
+var themeColorCustom = document.getElementById("theme-color-custom");
+var themeColorCustomWrapper = document.getElementById("theme-color-custom-wrapper");
+var themeHueWrapper = document.getElementById("theme-hue-wrapper");
+var themeLogoWrapper = document.getElementById("theme-logo-wrapper");
+var previewSection = document.getElementById("preview-section");
+var lockIcon = document.getElementById("lock-icon");
+var themeIcons = document.getElementById("theme-icons");
+themeIcons.addEventListener("input", e => updateOutput(e.target));
+var saveButton = document.getElementById("save-button");
+saveButton.addEventListener("click", e => saveTheme());
+var saveCloseButton = document.getElementById("save-close-button");
+saveCloseButton.addEventListener("click", e => saveTheme(true));
+var discardButton = document.getElementById("discard-button");
+discardButton.addEventListener("click", e => confirm("Are you sure you want to close without saving?") && (location.href = "https://lms.lausd.net"));
+var lockButton = document.getElementById("lock-button");
+lockButton.addEventListener("click", e => {
+    if(previewSection.classList.contains("fixed-on-large-and-up")) {
+        previewSection.classList.remove("fixed-on-large-and-up");
+        lockButton.classList.remove("locked");
+        lockIcon.textContent = "vertical_align_top";
+    } else {
+        previewSection.classList.add("fixed-on-large-and-up");
+        lockButton.classList.add("locked");
+        lockIcon.textContent = "vertical_align_center";
+    }
+});
+
+var previewNavbar = document.getElementById("preview-navbar");
+var previewLogo = document.getElementById("preview-logo");
+
+let warnings = [];
+let errors = [];
+let theme = {};
+
 var output = document.getElementById("json-output");
 for (let e of document.querySelectorAll("#theme-options input")) {
     e.addEventListener("input", function (event) {
@@ -116,40 +164,6 @@ function initPicker(id, onupdate) {
         ]
     });
 }
-
-const lausdImageUrl = "https://cdn.schoology.com/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/BrandingUpdateLAUSD_59d2b7fc44916.png";
-
-var themeName = document.getElementById("theme-name");
-var themeHue = document.getElementById("theme-hue");
-var themePrimaryColor = document.getElementById("theme-primary-color");
-var themeSecondaryColor = document.getElementById("theme-secondary-color");
-var themeBackgroundColor = document.getElementById("theme-background-color");
-var themeBorderColor = document.getElementById("theme-border-color");
-var themeSchoologyLogo = document.getElementById("theme-schoology-logo");
-var themeLAUSDLogo = document.getElementById("theme-lausd-logo");
-var themeCustomLogo = document.getElementById("theme-custom-logo");
-var themeLogo = document.getElementById("theme-logo");
-var themeCursor = document.getElementById("theme-cursor");
-var themeColorHue = document.getElementById("theme-color-hue");
-var themeColorCustom = document.getElementById("theme-color-custom");
-var themeColorCustomWrapper = document.getElementById("theme-color-custom-wrapper");
-var themeHueWrapper = document.getElementById("theme-hue-wrapper");
-var themeLogoWrapper = document.getElementById("theme-logo-wrapper");
-var themeIcons = document.getElementById("theme-icons");
-themeIcons.addEventListener("input", e => updateOutput(e.target));
-var saveButton = document.getElementById("save-button");
-saveButton.addEventListener("click", e => saveTheme());
-var saveCloseButton = document.getElementById("save-close-button");
-saveCloseButton.addEventListener("click", e => saveTheme(true));
-var discardButton = document.getElementById("discard-button");
-discardButton.addEventListener("click", e => confirm("Are you sure you want to close without saving?") && (location.href = "https://lms.lausd.net"));
-
-var previewNavbar = document.getElementById("preview-navbar");
-var previewLogo = document.getElementById("preview-logo");
-
-let warnings = [];
-let errors = [];
-let theme = {};
 
 initPicker("theme-primary-color", (c) => updateOutput(themePrimaryColor, c));
 initPicker("theme-secondary-color", (c) => updateOutput(themeSecondaryColor, c));
