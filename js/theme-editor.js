@@ -1,5 +1,7 @@
 const lausdImageUrl = "https://cdn.schoology.com/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/BrandingUpdateLAUSD_59d2b7fc44916.png";
+const defaultThemes = ["Schoology Plus", "LAUSD Orange", "Toy", "Rainbow"];
 
+var allThemes;
 var themeName = document.getElementById("theme-name");
 var themeHue = document.getElementById("theme-hue");
 var themePrimaryColor = document.getElementById("theme-primary-color");
@@ -18,6 +20,9 @@ var themeHueWrapper = document.getElementById("theme-hue-wrapper");
 var themeLogoWrapper = document.getElementById("theme-logo-wrapper");
 var previewSection = document.getElementById("preview-section");
 var lockIcon = document.getElementById("lock-icon");
+var themesList = document.getElementById("themes-list");
+var themesListSection = document.getElementById("themes-list-section");
+var themeEditorSection = document.getElementById("theme-editor-section");
 var themeIcons = document.getElementById("theme-icons");
 themeIcons.addEventListener("input", e => updateOutput(e.target));
 var saveButton = document.getElementById("save-button");
@@ -25,10 +30,14 @@ saveButton.addEventListener("click", e => saveTheme());
 var saveCloseButton = document.getElementById("save-close-button");
 saveCloseButton.addEventListener("click", e => saveTheme(true));
 var discardButton = document.getElementById("discard-button");
-discardButton.addEventListener("click", e => confirm("Are you sure you want to close without saving?") && (location.href = "https://lms.lausd.net"));
+discardButton.addEventListener("click", e => confirm("Are you sure you want to discard changes?") && location.reload());
+var closeButton = document.getElementById("close-button");
+closeButton.addEventListener("click", e => confirm('Are you sure you want to close without saving?') && (location.href = 'https://lms.lausd.net'));
+var createButton = document.getElementById("create-button");
+createButton.addEventListener("click", e => editTheme());
 var lockButton = document.getElementById("lock-button");
 lockButton.addEventListener("click", e => {
-    if(previewSection.classList.contains("fixed-on-large-and-up")) {
+    if (previewSection.classList.contains("fixed-on-large-and-up")) {
         previewSection.classList.remove("fixed-on-large-and-up");
         lockButton.classList.remove("locked");
         lockIcon.textContent = "vertical_align_top";
@@ -47,7 +56,7 @@ let errors = [];
 let theme = {};
 
 var output = document.getElementById("json-output");
-for (let e of document.querySelectorAll("#theme-options input")) {
+for (let e of document.querySelectorAll("#theme-editor-section input")) {
     e.addEventListener("input", function (event) {
         updateOutput(event.target);
     });
@@ -279,6 +288,8 @@ function updateOutput(target, color) {
             setCSSVariable("cursor", "auto");
             updatePreview();
         });
+    } else {
+        setCSSVariable("cursor", "auto");
     }
 
     if (theme.hue && (theme.hue < 0 || theme.hue > 359 || theme.hue != Math.floor(theme.hue))) {
@@ -363,9 +374,9 @@ function updatePreview(updateJSON = true) {
 /**
  * Saves the theme currently displayed in the preview with the given name.
  * If the querystring parameter `theme` exists, it will rename the theme with that value
- * @param {boolean} [close=false] If true, returns to https://lms.lausd.net
+ * @param {boolean} [apply=false] If true, applies the theme and returns to https://lms.lausd.net
  */
-function saveTheme(close = false) {
+function saveTheme(apply = false) {
     if (errors.length > 0) return alert("Please fix all errors before saving the theme");
     let t = JSON.parse(output.value);
     if (origThemeName && t.name != origThemeName) {
@@ -379,7 +390,8 @@ function saveTheme(close = false) {
         chrome.storage.sync.set({ themes: themes }, () => {
             alert("Theme saved successfully");
             origThemeName = t.name;
-            if (close) location.href = "https://lms.lausd.net";
+            if (apply) chrome.storage.sync.set({ theme: t.name }, () => location.href = "https://lms.lausd.net");
+            else location.reload();
         });
     });
 }
@@ -432,18 +444,137 @@ function parseJSONObject(str) {
     }
 }
 
+/**
+ * Creates a DOM element
+ * @returns {HTMLElement} A DOM element
+ * @param {string} tag - The HTML tag name of the type of DOM element to create
+ * @param {string[]} classList - CSS classes to apply to the DOM element
+ * @param {Object.<string,any>} properties - Properties to apply to the DOM element
+ * @param {HTMLElement[]} children - Elements to append as children to the created element
+ */
+function createElement(tag, classList, properties, children) {
+    let element = document.createElement(tag);
+    if (classList) {
+        for (let c of classList) {
+            element.classList.add(c);
+        }
+    }
+    if (properties) {
+        for (let property in properties) {
+            element[property] = properties[property];
+        }
+    }
+    if (children) {
+        for (let child of children) {
+            element.appendChild(child);
+        }
+    }
+    return element;
+}
+
+let rainbowInterval = null;
+/**
+ * Applies the theme with the given name
+ * @param {string} t The theme's name
+ */
+function applyTheme(t) {
+    clearInterval(rainbowInterval);
+    if (t == "Rainbow") {
+        rainbowInterval = setInterval(rainbow, 100);
+        importFromObject({ name: "Rainbow", hue: (new Date().valueOf() / 100) % 360 });
+    } else if (allThemes[t]) {
+        importFromObject(allThemes[t]);
+    }
+}
+
+/**
+ * Deletes a theme with the given name from the Chrome Sync Storage
+ * @param {string} name The theme's name
+ */
+function deleteTheme(name) {
+    let allUserThemes = Object.values(allThemes).slice(4);
+    if (confirm(`Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`)) {
+        chrome.storage.sync.set({ themes: allUserThemes.filter(x => x.name != name) }, () => window.location.reload());
+    }
+}
+
+/**
+ * Opens the editor interface with the given theme selected, or 
+ * none selected if name not provided
+ * @param {string} [name] The theme to edit
+ */
+function editTheme(name) {
+    themesListSection.classList.add("hidden");
+    themeEditorSection.classList.remove("hidden");
+    importFromObject(name ? allThemes[name] : { name: "My Theme" });
+    previewSection.classList.add("show-editor-controls");
+    origThemeName = name;
+}
+
+/**
+ * Cycles the color of the interface
+ */
+function rainbow() {
+    let hue = (new Date().valueOf() / 100) % 360;
+    document.documentElement.style.setProperty("--color-hue", hue);
+    document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
+    document.documentElement.style.setProperty("--primary-light", "hsl(var(--color-hue), 60%, 55%)");
+    document.documentElement.style.setProperty("--primary-dark", "hsl(var(--color-hue), 55%, 40%)");
+    document.documentElement.style.setProperty("--primary-very-dark", "hsl(var(--color-hue), 90%, 50%)");
+}
+
 $(document).ready(function () {
     updateOutput(document.rootElement);
-    let params = new URLSearchParams(location.search);
-    origThemeName = params.get("theme");
-    if (origThemeName) {
-        chrome.storage.sync.get("themes", s => {
-            let t = s.themes ? s.themes.find(x => x.name == origThemeName) : null;
-            if (t) {
-                importFromObject(t);
-            } else {
-                alert(`Theme ${origThemeName} not found`);
+
+    chrome.storage.sync.get(["theme", "themes"], s => {
+        allThemes = {
+            "Schoology Plus": {
+                name: "Schoology Plus",
+                hue: 210
+            },
+            "Rainbow": undefined,
+            "Toy": {
+                name: "Toy",
+                hue: 150,
+                cursor: "https://raw.githubusercontent.com/aopell/SchoologyPlus/master/imgs/toy-mode.png"
+            },
+            "LAUSD Orange": {
+                name: "LAUSD Orange",
+                colors: [
+                    "#FF7A00",
+                    "#FF8A10",
+                    "#FF9A20",
+                    "#DF5A00"
+                ],
+                logo: "lausd"
             }
-        });
-    }
+        };
+        for (let t of s.themes) {
+            allThemes[t.name] = t;
+        }
+        for (let t in allThemes) {
+            let themeItem = createElement("a", ["collection-item", "theme-item"], {
+                textContent: t,
+                onclick: e => {
+                    applyTheme(t);
+                    for (let elem of e.target.parentElement.children) {
+                        elem.classList.remove("active");
+                    }
+                    e.target.classList.add("active");
+                }
+            });
+
+            themeItem.appendChild(createElement("i", ["material-icons", "right"], { textContent: "check", title: "Apply Theme", onclick: () => confirm(`Are you sure you want to apply the theme ${t}?`) && chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net") }));
+
+            if (!defaultThemes.includes(t)) {
+                themeItem.appendChild(createElement("i", ["material-icons", "right"], { textContent: "delete", title: "Delete Theme", onclick: () => deleteTheme(t) }));
+                themeItem.appendChild(createElement("i", ["material-icons", "right"], { textContent: "edit", title: "Edit Theme", onclick: () => editTheme(t) }));
+            }
+
+            themesList.appendChild(themeItem);
+        }
+        
+        let selected = Array.from(themesList.children).find(x => x.childNodes[0].textContent == s.theme);
+        (selected || themesList.firstElementChild).click();
+    });
 });

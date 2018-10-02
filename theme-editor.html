@@ -26,13 +26,32 @@
                     <div class="brand-logo center truncate">
                         Schoology Plus Theme Editor
                     </div>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li>
+                            <a id="close-button" class="waves-effect waves-light" href="#!">
+                                <i class="material-icons">clear</i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </div>
     </header>
     <main class="container wide-container">
         <div class="row content-box">
-            <div id="theme-options" class="col s12 l4 xl3">
+            <div id="themes-list-section" class="col s12 l4 xl3">
+                <div class="section row">
+                    <h5 id="themes-header">
+                        Themes
+                        <a id="create-button" class="waves-effect waves-light btn-floating right action-button"><i class="material-icons">add</i></a>
+                    </h5>
+                    <div class="section">
+                        <div id="themes-list" class="collection">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="theme-editor-section" class="col s12 l4 xl3 hidden">
                 <div class="section row">
                     <h5>Properties</h5>
                     <div class="input-field col s12">
@@ -120,11 +139,12 @@
             <div class="col s12 l8 push-xl1">
                 <div id="preview-section" class="section fixed-on-large-and-up">
                     <h5>
-                        <a id="lock-button" title="Toggle preview lock to top" class="waves-effect waves-light btn hide-on-med-and-down locked">
+                        <a id="lock-button" title="Toggle preview follow scroll" class="waves-effect waves-light btn hide-on-med-and-down locked">
                             <i id="lock-icon" class="material-icons left">vertical_align_center</i>
                         </a>
                         Preview
-                        <a id="save-close-button" class="waves-effect waves-light btn right action-button">Save and Close</a>
+                        <a id="save-close-button" class="waves-effect waves-light btn right action-button">Save and
+                            Apply</a>
                         <a id="save-button" class="waves-effect waves-light btn right action-button">Save</a>
                         <a id="discard-button" class="waves-effect waves-light btn right action-button">Discard</a>
                     </h5>

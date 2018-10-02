@@ -27,7 +27,8 @@ body {
     font-size: 24px !important;
 }
 
-#json-output, #theme-icons {
+#json-output,
+#theme-icons {
     font-family: "Lucida Console", Monaco, monospace;
 }
 
@@ -98,12 +99,20 @@ body {
 }
 
 .action-button {
-    margin: 0 2px;
     background-color: var(--primary-color);
+    margin: 0 2px;
 }
 
 .action-button:hover {
     background-color: var(--primary-dark);
+}
+
+#preview-section .action-button {
+    visibility: hidden;
+}
+
+#preview-section.show-editor-controls .action-button {
+    visibility: visible;
 }
 
 .wide-container {
@@ -307,15 +316,15 @@ input[type=button] {
     background-color: var(--primary-dark);
 }
 
-.tabs > li > a.active {
+.tabs>li>a.active {
     color: var(--primary-dark) !important;
 }
 
-.tabs > li > a {
+.tabs>li>a {
     color: var(--primary-color) !important;
 }
 
-.tabs > li > a:hover:not(.active) {
+.tabs>li>a:hover:not(.active) {
     color: var(--primary-dark) !important;
 }
 
@@ -344,4 +353,25 @@ input[type=button] {
 
 #lock-button.locked {
     background-color: var(--primary-dark);
+}
+
+.collection-item {
+    color: var(--primary-color) !important;
+}
+
+.collection-item.active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.no-click {
+    pointer-events: none;
+}
+
+.theme-item .material-icons {
+    cursor: pointer;
+}
+
+#themes-header {
+    line-height: 40px;
 }
