@@ -70,6 +70,8 @@ document.getElementById("json-output").addEventListener("input", t => {
     importFromObject(j);
 });
 
+var origThemeName;
+
 /**
  * Fills out form elements with the data contained in the provided Theme object
  * @param {{name:string,hue?:Number,colors?:string[],logo?:string,cursor?:string,icons?:Object}} j A SchoologyPlus theme object
@@ -365,19 +367,18 @@ function updatePreview(updateJSON = true) {
  */
 function saveTheme(close = false) {
     if (errors.length > 0) return alert("Please fix all errors before saving the theme");
-    let params = new URLSearchParams(location.search);
-    let themeName = params.get("theme");
     let t = JSON.parse(output.value);
-    if (themeName && t.name != themeName) {
-        if (!confirm(`Are you sure you want to rename "${themeName}" to "${t.name}"`)) {
+    if (origThemeName && t.name != origThemeName) {
+        if (!confirm(`Are you sure you want to rename "${origThemeName}" to "${t.name}"`)) {
             return;
         }
     }
-    chrome.storage.sync.get("themes", s => {
-        let themes = s.themes.filter(x => x.name != (themeName || t.name));
+    chrome.storage.sync.get({ themes: [] }, s => {
+        let themes = s.themes.filter(x => x.name != (origThemeName || t.name));
         themes.push(t);
         chrome.storage.sync.set({ themes: themes }, () => {
             alert("Theme saved successfully");
+            origThemeName = t.name;
             if (close) location.href = "https://lms.lausd.net";
         });
     });
@@ -434,14 +435,14 @@ function parseJSONObject(str) {
 $(document).ready(function () {
     updateOutput(document.rootElement);
     let params = new URLSearchParams(location.search);
-    let themeName = params.get("theme");
-    if (themeName) {
+    origThemeName = params.get("theme");
+    if (origThemeName) {
         chrome.storage.sync.get("themes", s => {
-            let t = s.themes.find(x => x.name == themeName);
+            let t = s.themes ? s.themes.find(x => x.name == origThemeName) : null;
             if (t) {
                 importFromObject(t);
             } else {
-                alert(`Theme ${themeName} not found`);
+                alert(`Theme ${origThemeName} not found`);
             }
         });
     }
