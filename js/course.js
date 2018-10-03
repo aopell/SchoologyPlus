@@ -38,7 +38,7 @@ modals.push(new Modal("course-settings-modal", "Course Options", createElement("
         createButton("save-course-settings", "Save Settings", saveCourseSettings),
         createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreCourseDefaults, href: "#" })
     ])
-]), "&copy; Aaron Opell 2018", setCourseOptionsContent));
+]), "&copy; Aaron Opell, Glen Husman 2018", setCourseOptionsContent));
 
 document.querySelector("#course-settings-modal .close").onclick = modalClose;
 

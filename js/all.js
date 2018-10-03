@@ -6,7 +6,7 @@ document.getElementById("home").innerHTML = svg;
 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
-let footerText = `&copy; Aaron Opell 2018 | <a href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://github.com/aopell/SchoologyPlus/releases/latest"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://github.com/aopell/SchoologyPlus/issues/new" title="Submit bug report or feature request">Send Feedback</a> | <a href="https://github.com/aopell/SchoologyPlus">View Source & Contribute</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog"> Changelog</a>`;
+let footerText = `&copy; Aaron Opell, Glen Husman 2018 | <a href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://github.com/aopell/SchoologyPlus/releases/latest"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://github.com/aopell/SchoologyPlus/issues/new" title="Submit bug report or feature request">Send Feedback</a> | <a href="https://github.com/aopell/SchoologyPlus">View Source & Contribute</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog"> Changelog</a>`;
 
 let frame = document.createElement("iframe");
 frame.src = "https://aopell.me/SchoologyPlus/changelog";
@@ -23,7 +23,7 @@ let modals = [
         "changelog-modal",
         "Schoology Plus Changelog",
         createElement("div", ["splus-modal-contents"], {}, [frame]),
-        "&copy; Aaron Opell 2018",
+        "&copy; Aaron Opell, Glen Husman 2018",
         function () {
             clearNewUpdate(true);
         }
@@ -43,7 +43,7 @@ let modals = [
                 createElement("h3", ["setting-title"], {}, [
                     createElement("a", [], { href: "https://github.com/glen3b", textContent: "Glen Husman" })
                 ]),
-                createElement("p", ["setting-description"], { textContent: "Grade modification feature; ideas and suggestions" })
+                createElement("p", ["setting-description"], { textContent: "Lead developer" })
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
@@ -62,7 +62,7 @@ let modals = [
                 createElement("p", ["setting-description"], { textContent: "For various ideas and suggestions" })
             ])
         ]),
-        "&copy; Aaron Opell 2018"
+        "&copy; Aaron Opell, Glen Husman 2018"
     ),
 ];
 

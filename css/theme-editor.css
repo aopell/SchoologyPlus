@@ -1,9 +1,9 @@
 :root {
     --color-hue: 210;
     --primary-color: hsl(var(--color-hue), 50%, 50%);
-    --primary-light: hsl(var(--color-hue), 60%, 55%);
-    --primary-dark: hsl(var(--color-hue), 55%, 40%);
-    --primary-very-dark: hsl(var(--color-hue), 90%, 50%);
+    --background-color: hsl(var(--color-hue), 60%, 55%);
+    --hover-color: hsl(var(--color-hue), 55%, 40%);
+    --border-color: hsl(var(--color-hue), 90%, 50%);
     --cursor: auto;
     --background-url: none;
 }
@@ -86,16 +86,16 @@ body {
 #preview-settings {
     width: 30px;
     height: 30px;
-    border: 1px solid var(--primary-dark);
+    border: 1px solid var(--hover-color);
     margin-top: 7.5px;
     margin-left: 10px;
     margin-right: 10px;
-    background-color: var(--primary-light);
+    background-color: var(--background-color);
     cursor: pointer;
 }
 
 #preview-settings:hover {
-    background-color: var(--primary-dark);
+    background-color: var(--hover-color);
 }
 
 .action-button {
@@ -112,7 +112,7 @@ body {
 }
 
 #discard-button:hover, #create-button:hover {
-    background-color: var(--primary-dark);
+    background-color: var(--hover-color);
 }
 
 #preview-section .action-button {
@@ -144,7 +144,7 @@ body {
 }
 
 #preview-navbar a:hover {
-    background-color: var(--primary-dark);
+    background-color: var(--hover-color);
 }
 
 @media screen and (min-width: 993px) {
@@ -270,7 +270,7 @@ body .submit-btn,
 body .popups-body .submit-span-wrapper,
 body #nav .s-notifications-mini .requester-links a:hover {
     background-color: var(--primary-color) !important;
-    border: 2px solid var(--primary-very-dark) !important;
+    border: 2px solid var(--border-color) !important;
     padding-bottom: 5px;
 }
 
@@ -291,7 +291,7 @@ body #sidebar-left .action-links a:hover,
 body .search-toggle:hover,
 body .submit-span-wrapper:hover,
 body #primary-settings .unfold:hover {
-    background-color: var(--primary-dark) !important;
+    background-color: var(--hover-color) !important;
     color: white !important;
 }
 
@@ -321,11 +321,11 @@ input[type=button] {
 }
 
 .tabs .indicator {
-    background-color: var(--primary-dark);
+    background-color: var(--hover-color);
 }
 
 .tabs>li>a.active {
-    color: var(--primary-dark) !important;
+    color: var(--hover-color) !important;
 }
 
 .tabs>li>a {
@@ -333,7 +333,7 @@ input[type=button] {
 }
 
 .tabs>li>a:hover:not(.active) {
-    color: var(--primary-dark) !important;
+    color: var(--hover-color) !important;
 }
 
 .tabs a:focus.active {
@@ -360,7 +360,7 @@ input[type=button] {
 }
 
 #lock-button.locked {
-    background-color: var(--primary-dark);
+    background-color: var(--hover-color);
     color: white;
 }
 

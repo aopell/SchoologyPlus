@@ -1,9 +1,9 @@
 :root {
     --color-hue: 210;
     --primary-color: hsl(var(--color-hue), 50%, 50%);
-    --primary-light: hsl(var(--color-hue), 60%, 55%);
-    --primary-dark: hsl(var(--color-hue), 55%, 40%);
-    --primary-very-dark: hsl(var(--color-hue), 90%, 50%);
+    --background-color: hsl(var(--color-hue), 60%, 55%);
+    --hover-color: hsl(var(--color-hue), 55%, 40%);
+    --border-color: hsl(var(--color-hue), 90%, 50%);
     --cursor: auto;
     --background-url: none;
     cursor: var(--cursor);
@@ -23,7 +23,7 @@ body #header {
 #nav #nav_left li.primary-activities:hover,
 #nav #nav_left li.primary-activities.active,
 .s-enable-course-dashboard.is-home #nav ul #primary-home:hover {
-    background-color: var(--primary-dark) !important;
+    background-color: var(--hover-color) !important;
     color: white;
 }
 
@@ -44,14 +44,14 @@ body #sidebar-left .action-links a:hover,
 body .search-toggle:hover,
 body .submit-span-wrapper:hover,
 body #primary-settings .unfold:hover {
-    background-color: var(--primary-dark) !important;
+    background-color: var(--hover-color) !important;
     color: white !important;
 }
 
 body .search-toggle,
 body #primary-settings .unfold {
-    background-color: var(--primary-light) !important;
-    border-color: var(--primary-dark) !important;
+    background-color: var(--background-color) !important;
+    border-color: var(--hover-color) !important;
 }
 
 #home a[role=menuitem] {
@@ -80,7 +80,7 @@ body .submit-btn,
 body .popups-body .submit-span-wrapper,
 body #nav .s-notifications-mini .requester-links a:hover {
     background-color: var(--primary-color) !important;
-    border: 2px solid var(--primary-very-dark) !important;
+    border: 2px solid var(--border-color) !important;
 }
 
 video.easter-egg {
@@ -370,11 +370,11 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 
 .splus-modal-contents input[type=button] {
     background-color: var(--primary-color);
-    border: 2px solid var(--primary-very-dark);
+    border: 2px solid var(--border-color);
     height: 30px;
     vertical-align: middle;
 }
 
 .splus-modal-contents input[type=button]:hover {
-    background-color: var(--primary-dark);
+    background-color: var(--hover-color);
 }

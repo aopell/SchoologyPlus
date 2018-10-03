@@ -52,19 +52,19 @@ class Theme {
     }
 
     static get active() {
-        return tempTheme ? Theme.byName(tempTheme) : Theme.byName(storage["theme"]) || Theme.byName("Custom Color");
+        return tempTheme ? Theme.byName(tempTheme) : Theme.byName(storage["theme"]) || Theme.byName("Schoology Plus");
     }
 
     static byName(name) {
-        return themes.find(x => x.name == name) || Theme.byName("Custom Color");
+        return themes.find(x => x.name == name) || Theme.byName("Schoology Plus");
     }
 
     static setBackgroundColor(primaryColor, primaryLight, primaryDark, primaryVeryDark) {
         if (primaryColor && primaryLight && primaryDark && primaryVeryDark) {
             document.documentElement.style.setProperty("--primary-color", primaryColor);
-            document.documentElement.style.setProperty("--primary-light", primaryLight);
-            document.documentElement.style.setProperty("--primary-dark", primaryDark);
-            document.documentElement.style.setProperty("--primary-very-dark", primaryVeryDark);
+            document.documentElement.style.setProperty("--background-color", primaryLight);
+            document.documentElement.style.setProperty("--hover-color", primaryDark);
+            document.documentElement.style.setProperty("--border-color", primaryVeryDark);
         }
     }
 
@@ -72,9 +72,9 @@ class Theme {
         if (hue) {
             document.documentElement.style.setProperty("--color-hue", hue);
             document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
-            document.documentElement.style.setProperty("--primary-light", "hsl(var(--color-hue), 60%, 55%)");
-            document.documentElement.style.setProperty("--primary-dark", "hsl(var(--color-hue), 55%, 40%)");
-            document.documentElement.style.setProperty("--primary-very-dark", "hsl(var(--color-hue), 90%, 50%)");
+            document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 55%)");
+            document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
+            document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 90%, 50%)");
         }
     }
 
@@ -174,7 +174,7 @@ let tempTheme = undefined;
 
 let themes = [
     new Theme(
-        "Custom Color",
+        "Schoology Plus",
         function (storage) {
             Theme.setBackgroundHue(storage["color"] || 210);
         }

@@ -211,9 +211,9 @@ function updateOutput(target, color) {
         }
 
         setCSSVariable("primary-color", "hsl(var(--color-hue), 50%, 50%)");
-        setCSSVariable("primary-light", "hsl(var(--color-hue), 60%, 55%)");
-        setCSSVariable("primary-dark", "hsl(var(--color-hue), 55%, 40%)");
-        setCSSVariable("primary-very-dark", "hsl(var(--color-hue), 90%, 50%)");
+        setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 55%)");
+        setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
+        setCSSVariable("border-color", "hsl(var(--color-hue), 90%, 50%)");
     }
 
     switch (target) {
@@ -308,7 +308,7 @@ function updateOutput(target, color) {
             (target === themeBorderColor && color) ? color.toHexString() : (themeBorderColor.value || "green"),
         ];
 
-        let colorMappings = ["primary-color", "primary-light", "primary-dark", "primary-very-dark"];
+        let colorMappings = ["primary-color", "background-color", "hover-color", "border-color"];
 
         let valid = true;
         let validCount = 0;
@@ -465,7 +465,13 @@ function createElement(tag, classList, properties, children) {
     }
     if (properties) {
         for (let property in properties) {
-            element[property] = properties[property];
+            if (properties[property] instanceof Object && !(properties[property] instanceof Function)) {
+                for (let subproperty in properties[property]) {
+                    element[property][subproperty] = properties[property][subproperty];
+                }
+            } else {
+                element[property] = properties[property];
+            }
         }
     }
     if (children) {
@@ -523,9 +529,9 @@ function rainbow() {
     let hue = (new Date().valueOf() / 100) % 360;
     document.documentElement.style.setProperty("--color-hue", hue);
     document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
-    document.documentElement.style.setProperty("--primary-light", "hsl(var(--color-hue), 60%, 55%)");
-    document.documentElement.style.setProperty("--primary-dark", "hsl(var(--color-hue), 55%, 40%)");
-    document.documentElement.style.setProperty("--primary-very-dark", "hsl(var(--color-hue), 90%, 50%)");
+    document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 55%)");
+    document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
+    document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 90%, 50%)");
 }
 
 $(document).ready(function () {
@@ -569,14 +575,14 @@ $(document).ready(function () {
                 }
             });
 
-            let props = { textContent: "check", title: "Apply Theme", onclick: () => confirm(`Are you sure you want to apply the theme ${t}?`) && chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net") };
-            let appliedProps = { textContent: "star", title: "Theme Applied", onclick: () => location.href = "https://lms.lausd.net" };
+            let props = { textContent: "check", dataset: { tooltip: "Apply Theme" }, onclick: () => confirm(`Are you sure you want to apply the theme ${t}?`) && chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net") };
+            let appliedProps = { textContent: "star", dataset: { tooltip: "Theme Applied" }, onclick: () => location.href = "https://lms.lausd.net" };
 
-            themeItem.appendChild(createElement("i", ["material-icons", "right"], t == s.theme ? appliedProps : props));
+            themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], t == s.theme ? appliedProps : props));
 
             if (!defaultThemes.includes(t)) {
-                themeItem.appendChild(createElement("i", ["material-icons", "right"], { textContent: "delete", title: "Delete Theme", onclick: () => deleteTheme(t) }));
-                themeItem.appendChild(createElement("i", ["material-icons", "right"], { textContent: "edit", title: "Edit Theme", onclick: () => editTheme(t) }));
+                themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], { textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: () => deleteTheme(t) }));
+                themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], { textContent: "edit", dataset: { tooltip: "Edit Theme" }, onclick: () => editTheme(t) }));
             }
 
             themesList.appendChild(themeItem);
@@ -584,5 +590,6 @@ $(document).ready(function () {
 
         let selected = Array.from(themesList.children).find(x => x.childNodes[0].textContent == s.theme);
         (selected || themesList.firstElementChild).click();
+        M.Tooltip.init(document.querySelectorAll('.tooltipped'));
     });
 });
