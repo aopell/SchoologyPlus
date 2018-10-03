@@ -562,7 +562,7 @@ $(document).ready(function () {
                 logo: "lausd"
             }
         };
-        for (let t of s.themes) {
+        for (let t of s.themes || []) {
             allThemes[t.name] = t;
         }
         for (let t in allThemes) {
