@@ -71,7 +71,6 @@
                 "lib/css/contextmenu.css"
             ],
             "js": [
-                "lib/js/clipboard.min.js",
                 "lib/js/contextmenu.js",
                 "js/all.js",
                 "lib/js/findAndReplaceDOMText.js"
