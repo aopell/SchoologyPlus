@@ -32,7 +32,7 @@ saveCloseButton.addEventListener("click", e => saveTheme(true));
 var discardButton = document.getElementById("discard-button");
 discardButton.addEventListener("click", e => confirm("Are you sure you want to discard changes?") && location.reload());
 var closeButton = document.getElementById("close-button");
-closeButton.addEventListener("click", e => confirm('Are you sure you want to close without saving?') && (location.href = 'https://lms.lausd.net'));
+closeButton.addEventListener("click", e => (!document.querySelector(".show-editor-controls") || confirm('Are you sure you want to close without saving?')) && (location.href = 'https://lms.lausd.net'));
 var createButton = document.getElementById("create-button");
 createButton.addEventListener("click", e => editTheme());
 var lockButton = document.getElementById("lock-button");
@@ -519,7 +519,7 @@ function editTheme(name) {
     clearInterval(rainbowInterval);
     themesListSection.classList.add("hidden");
     themeEditorSection.classList.remove("hidden");
-    importFromObject(name ? allThemes[name] : { name: "My Theme" });
+    importFromObject(name ? allThemes[name] : { name: "My Theme", hue: 210 });
     previewSection.classList.add("show-editor-controls");
     origThemeName = name;
 }
