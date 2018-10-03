@@ -51,6 +51,14 @@
     new Clipboard(".export-button");
 })();
 
+function deleteTheme(name) {
+    if (confirm(`Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`)) {
+        if (storage.themes) {
+            chrome.storage.sync.set({ themes: storage.themes.filter(x => x.name != name) }, () => window.location.reload());
+        }
+    }
+}
+
 // hack for course aliases
 (async function () {
     let applyCourseAliases = null;

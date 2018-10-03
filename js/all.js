@@ -64,27 +64,6 @@ let modals = [
         ]),
         "&copy; Aaron Opell 2018"
     ),
-    new Modal(
-        "themes-modal",
-        "Schoology Plus Themes",
-        createElement("div", ["splus-modal-contents"], {}, [
-            createElement("h2", ["setting-entry"], { textContent: "Create Custom Theme" }),
-            createElement("div", ["setting-entry"], {}, [
-                createElement("h3", ["setting-title"], { textContent: "Create in Theme Editor" }),
-                createButton("create-theme", "Open Theme Editor", e => location.href = chrome.runtime.getURL("/theme-editor.html"))
-            ]),
-            createElement("div", ["setting-entry"], {}, [
-                createElement("h3", ["setting-title"], { textContent: "Create from JSON:" }),
-                createElement("textarea", ["setting-item"], { rows: 10, cols: 50, id: "theme-json" }),
-                createElement("p", ["setting-description"], { innerHTML: "Load a theme from a JSON string. <a href='https://github.com/aopell/SchoologyPlus/tree/master/themes'>Click here for format and examples</a>" }),
-                createButton("add-theme", "Install Theme", createTheme)
-            ]),
-            createElement("div", ["setting-entry"], { id: "themes-list" }, [
-                createElement("h2", ["setting-title", "margin-under"], { textContent: "Installed Themes:" })
-            ])
-        ]),
-        "&copy; Aaron Opell 2018"
-    )
 ];
 
 chrome.storage.sync.get(["newVersion", "hideUpdateIndicator"], s => {
@@ -200,40 +179,6 @@ function modalClose(element) {
     }
 
     element.style.display = "none";
-}
-
-function deleteTheme(name) {
-    if (confirm(`Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`)) {
-        if (storage.themes) {
-            chrome.storage.sync.set({ themes: storage.themes.filter(x => x.name != name) }, () => window.location.reload());
-        }
-    }
-}
-
-function addTheme(themeObject) {
-    let t = storage.themes || [];
-    t.push(themeObject);
-    chrome.storage.sync.set({ themes: t }, (x) => updateSettings());
-}
-
-function createTheme(event) {
-    let json = document.getElementById("theme-json").value;
-    let themeObject = JSON.parse(json);
-
-    if (!Theme.loadFromObject(themeObject)) {
-        alert("Error parsing theme");
-        return;
-    }
-
-    if (themes.find(x => x.name === themeObject.name)) {
-        alert("A theme with that name already exists");
-        return;
-    }
-
-    addTheme(themeObject);
-    saveSettings({ theme: themeObject.name });
-    alert("Added theme successfully. Reloading page.");
-    window.location.reload();
 }
 
 /**
