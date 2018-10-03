@@ -505,7 +505,9 @@ function deleteTheme(name) {
     let allUserThemes = Object.values(allThemes).slice(4);
     if (confirm(`Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`)) {
         chrome.storage.sync.set({ themes: allUserThemes.filter(x => x.name != name) }, () => window.location.reload());
+        return true;
     }
+    return false;
 }
 
 /**
@@ -575,13 +577,13 @@ $(document).ready(function () {
                 }
             });
 
-            let props = { textContent: "check", dataset: { tooltip: "Apply Theme" }, onclick: () => confirm(`Are you sure you want to apply the theme ${t}?`) && chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net") };
+            let props = { textContent: "check", dataset: { tooltip: "Apply Theme" }, onclick: e => confirm(`Are you sure you want to apply the theme ${t}?`) ? chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net") : e.stopPropagation() };
             let appliedProps = { textContent: "star", dataset: { tooltip: "Theme Applied" }, onclick: () => location.href = "https://lms.lausd.net" };
 
             themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], t == s.theme ? appliedProps : props));
 
             if (!defaultThemes.includes(t)) {
-                themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], { textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: () => deleteTheme(t) }));
+                themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], { textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: e => deleteTheme(t) || e.stopPropagation() }));
                 themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], { textContent: "edit", dataset: { tooltip: "Edit Theme" }, onclick: () => editTheme(t) }));
             }
 
@@ -590,6 +592,6 @@ $(document).ready(function () {
 
         let selected = Array.from(themesList.children).find(x => x.childNodes[0].textContent == s.theme);
         (selected || themesList.firstElementChild).click();
-        M.Tooltip.init(document.querySelectorAll('.tooltipped'));
+        M.Tooltip.init(document.querySelectorAll('.tooltipped'), { outDuration: 200 });
     });
 });
