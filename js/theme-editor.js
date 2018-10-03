@@ -40,10 +40,14 @@ lockButton.addEventListener("click", e => {
     if (previewSection.classList.contains("fixed-on-large-and-up")) {
         previewSection.classList.remove("fixed-on-large-and-up");
         lockButton.classList.remove("locked");
+        lockButton.classList.add("btn");
+        lockButton.classList.remove("btn-flat");
         lockIcon.textContent = "vertical_align_top";
     } else {
         previewSection.classList.add("fixed-on-large-and-up");
         lockButton.classList.add("locked");
+        lockButton.classList.add("btn-flat");
+        lockButton.classList.remove("btn");
         lockIcon.textContent = "vertical_align_center";
     }
 });
@@ -504,6 +508,7 @@ function deleteTheme(name) {
  * @param {string} [name] The theme to edit
  */
 function editTheme(name) {
+    clearInterval(rainbowInterval);
     themesListSection.classList.add("hidden");
     themeEditorSection.classList.remove("hidden");
     importFromObject(name ? allThemes[name] : { name: "My Theme" });
@@ -564,7 +569,10 @@ $(document).ready(function () {
                 }
             });
 
-            themeItem.appendChild(createElement("i", ["material-icons", "right"], { textContent: "check", title: "Apply Theme", onclick: () => confirm(`Are you sure you want to apply the theme ${t}?`) && chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net") }));
+            let props = { textContent: "check", title: "Apply Theme", onclick: () => confirm(`Are you sure you want to apply the theme ${t}?`) && chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net") };
+            let appliedProps = { textContent: "star", title: "Theme Applied", onclick: () => location.href = "https://lms.lausd.net" };
+
+            themeItem.appendChild(createElement("i", ["material-icons", "right"], t == s.theme ? appliedProps : props));
 
             if (!defaultThemes.includes(t)) {
                 themeItem.appendChild(createElement("i", ["material-icons", "right"], { textContent: "delete", title: "Delete Theme", onclick: () => deleteTheme(t) }));
@@ -573,7 +581,7 @@ $(document).ready(function () {
 
             themesList.appendChild(themeItem);
         }
-        
+
         let selected = Array.from(themesList.children).find(x => x.childNodes[0].textContent == s.theme);
         (selected || themesList.firstElementChild).click();
     });

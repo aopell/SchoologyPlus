@@ -99,11 +99,19 @@ body {
 }
 
 .action-button {
-    background-color: var(--primary-color);
     margin: 0 2px;
 }
 
 .action-button:hover {
+    color: white;
+    background-color: var(--primary-color);
+}
+
+#create-button {
+    background-color: var(--primary-color);
+}
+
+#discard-button:hover, #create-button:hover {
     background-color: var(--primary-dark);
 }
 
@@ -353,6 +361,7 @@ input[type=button] {
 
 #lock-button.locked {
     background-color: var(--primary-dark);
+    color: white;
 }
 
 .collection-item {
