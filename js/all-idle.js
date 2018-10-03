@@ -25,40 +25,6 @@
     });
 })();
 
-// theme loading, with course icon overriding
-(function () {
-    let themesList = document.getElementById("themes-list");
-    if (storage.themes) {
-        for (let t of storage.themes) {
-            let closeButton = createElement("a", ["close-button"], { textContent: "Delete × ", href: "#", title: "Delete Theme", onclick: (event) => deleteTheme(event.target.dataset.themeName) });
-            closeButton.dataset.themeName = t.name;
-            let exportButton = createElement("a", ["export-button"], { textContent: "Export ↗ ", href: "#", title: "Export Theme", onclick: () => alert("Copied to clipboard") });
-            exportButton.dataset.clipboardText = JSON.stringify(t, null, 4);
-            let editButton = createElement("a", ["edit-button"], { textContent: "Edit ✶ ", href: "#", title: "Edit Theme", onclick: () => location.href = chrome.runtime.getURL(`theme-editor.html?theme=${t.name}`)});
-            themesList.appendChild(createElement("h3", ["setting-description"], {}, [
-                createElement("span", [], { textContent: t.name + " " }),
-                closeButton,
-                editButton,
-                exportButton
-            ]));
-        }
-    }
-
-    if (!storage.themes || storage.themes.length === 0) {
-        themesList.appendChild(createElement("h3", ["close-button"], { textContent: "No themes installed" }));
-    }
-
-    new Clipboard(".export-button");
-})();
-
-function deleteTheme(name) {
-    if (confirm(`Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`)) {
-        if (storage.themes) {
-            chrome.storage.sync.set({ themes: storage.themes.filter(x => x.name != name) }, () => window.location.reload());
-        }
-    }
-}
-
 // hack for course aliases
 (async function () {
     let applyCourseAliases = null;
