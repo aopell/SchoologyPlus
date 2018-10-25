@@ -592,6 +592,6 @@ $(document).ready(function () {
 
         let selected = Array.from(themesList.children).find(x => x.childNodes[0].textContent == s.theme);
         (selected || themesList.firstElementChild).click();
-        M.Tooltip.init(document.querySelectorAll('.tooltipped'), { outDuration: 200 });
+        M.Tooltip.init(document.querySelectorAll('.tooltipped'), { outDuration: 0, inDuration: 300, enterDelay: 0, exitDelay: 10, transition: 10 });
     });
 });
