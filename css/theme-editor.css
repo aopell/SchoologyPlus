@@ -107,12 +107,31 @@ body {
     background-color: var(--primary-color);
 }
 
-#create-button {
+#create-button, #new-icon{
     background-color: var(--primary-color);
 }
 
-#discard-button:hover, #create-button:hover {
+#discard-button:hover, #create-button:hover , #new-icon:hover, .delete-button {
     background-color: var(--hover-color);
+}
+
+.delete-icon-button {
+    background-color: transparent;
+}
+
+.delete-icon-button:hover {
+    background-color: var(--hover-color);
+}
+
+.arrow-button {
+    background-color: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.arrow-button:hover {
+    background-color: transparent;
+    color: var(--primary-color);
 }
 
 #preview-section .action-button {
@@ -383,4 +402,33 @@ input[type=button] {
 
 #themes-header {
     line-height: 40px;
+}
+
+[contentEditable=true]:empty:before{
+    content:attr(data-text);
+    color: grey;
+}
+
+#icon-list-table {
+    table-layout: fixed;
+}
+
+#icon-list-table td {
+    white-space: nowrap;
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#icon-list-table td:focus {
+    text-overflow: initial;
+}
+
+#icon-list-table tbody:empty:before {
+    content:attr(data-text);
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: grey;
 }

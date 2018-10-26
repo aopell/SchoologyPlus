@@ -23,8 +23,14 @@ var lockIcon = document.getElementById("lock-icon");
 var themesList = document.getElementById("themes-list");
 var themesListSection = document.getElementById("themes-list-section");
 var themeEditorSection = document.getElementById("theme-editor-section");
-var themeIcons = document.getElementById("theme-icons");
-themeIcons.addEventListener("input", e => updateOutput(e.target));
+var testIcon = document.getElementById("test-icon");
+var iconList = document.getElementById("icon-list");
+/** @type {HTMLTableElement} */
+var iconListTable = document.getElementById("icon-list-table");
+var newIcon = document.getElementById("new-icon");
+newIcon.addEventListener("click", addIcon);
+var iconTestText = document.getElementById("icon-test-text");
+iconTestText.addEventListener("input", iconPreview);
 var saveButton = document.getElementById("save-button");
 saveButton.addEventListener("click", e => saveTheme());
 var saveCloseButton = document.getElementById("save-close-button");
@@ -51,6 +57,10 @@ lockButton.addEventListener("click", e => {
         lockIcon.textContent = "vertical_align_center";
     }
 });
+
+// document.querySelector(".move-down").addEventListener("click", moveDown);
+// document.querySelector(".move-up").addEventListener("click", moveUp);
+// document.querySelector(".delete-icon-button").addEventListener("click", deleteIcon);
 
 var previewNavbar = document.getElementById("preview-navbar");
 var previewLogo = document.getElementById("preview-logo");
@@ -120,15 +130,19 @@ function importFromObject(j) {
             themeSchoologyLogo.click();
         }
 
+        iconList.innerHTML = "";
         if (j.icons) {
-            themeIcons.value = JSON.stringify(j.icons);
+            for (let k in j.icons) {
+                let row = addIcon();
+                row.querySelector(".class-name").textContent = k;
+                row.querySelector(".icon-url").textContent = j.icons[k];
+            }
         }
 
         themeCursor.value = j.cursor || "";
         updateOutput(themeCursor);
 
         M.updateTextFields();
-        M.textareaAutoResize(themeIcons);
         updateOutput();
     } else {
         errors.push("The JSON you have entered is not valid");
@@ -337,13 +351,25 @@ function updateOutput(target, color) {
         }
     }
 
-    if (themeIcons.value) {
-        let j = parseJSONObject(themeIcons.value);
-        if (j) {
-            theme.icons = j;
-        } else {
-            errors.push("Value for icons is not a valid JSON object");
+    if (iconListTable.rows.length > 1) {
+        let customIcons = {};
+        let first = true;
+        for (let row of iconListTable.rows) {
+            if (first || !row.cells[1].textContent || !row.cells[2].textContent) {
+                first = false;
+                continue;
+            }
+            let pattern = row.cells[1].textContent;
+            let url = row.cells[2].textContent;
+            checkImage(url, undefined, () => errors.push(url + " is not a valid image URL"));
+            try {
+                RegExp(pattern);
+            } catch {
+                errors.push(pattern + " is not a valid regular expression");
+            }
+            customIcons[pattern] = url;
         }
+        theme.icons = customIcons;
     }
 
     updatePreview();
@@ -373,6 +399,7 @@ function updatePreview(updateJSON = true) {
     }
     M.updateTextFields();
     M.textareaAutoResize(output);
+    iconPreview();
 }
 
 /**
@@ -418,10 +445,14 @@ function validateColor(c) {
  * @param {(ErrorEvent)} invalidCallback Callback if image is invalid
  */
 function checkImage(imageSrc, validCallback, invalidCallback) {
-    var img = new Image();
-    img.onload = validCallback;
-    img.onerror = invalidCallback;
-    img.src = imageSrc;
+    try {
+        var img = new Image();
+        img.onload = validCallback;
+        img.onerror = invalidCallback;
+        img.src = imageSrc;
+    } catch {
+        invalidCallback();
+    }
 }
 
 /**
@@ -521,6 +552,8 @@ function editTheme(name) {
     themeEditorSection.classList.remove("hidden");
     importFromObject(name ? allThemes[name] : { name: "My Theme", hue: 210 });
     previewSection.classList.add("show-editor-controls");
+    output.removeAttribute("readonly");
+    Array.from(iconList.querySelectorAll(".class-name, .icon-url")).map(x => x.setAttribute("contenteditable", "true"));
     origThemeName = name;
 }
 
@@ -534,6 +567,74 @@ function rainbow() {
     document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 55%)");
     document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
     document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 90%, 50%)");
+}
+
+function addIcon() {
+    let template = `<td style=text-align:center><a class="action-button tooltipped arrow-button move-down"data-tooltip="Move Down"><i class=material-icons>arrow_downward</i> </a><a class="action-button tooltipped arrow-button move-up"data-tooltip="Move Up"><i class=material-icons>arrow_upward</i></a><td class=class-name data-text="Class Name Pattern"><td class=icon-url data-text="Icon URL"><td><a class="action-button tooltipped btn-flat delete-icon-button right waves-effect waves-light"data-tooltip=Delete><i class=material-icons>delete</i></a>`;
+    let tr = document.createElement("tr");
+    tr.innerHTML = template;
+    iconList.appendChild(tr);
+    tr.querySelector(".move-down").addEventListener("click", moveDown);
+    tr.querySelector(".move-up").addEventListener("click", moveUp);
+    tr.querySelector(".delete-icon-button").addEventListener("click", deleteIcon);
+    Array.from(tr.querySelectorAll("td")).map(x => x.addEventListener("blur", e => e.target.scrollLeft = 0));
+    M.Tooltip.init(tr.querySelectorAll('.tooltipped'), { outDuration: 0, inDuration: 300, enterDelay: 0, exitDelay: 10, transition: 10 });
+    if (document.querySelector(".show-editor-controls")) {
+        let arr = Array.from(tr.querySelectorAll(".class-name, .icon-url"));
+        arr.map(x => x.setAttribute("contenteditable", "true"));
+        arr.map(x => x.addEventListener("input", e => updateOutput(e.target)));
+    }
+    return tr;
+}
+
+function moveUp(e) {
+    let target = e.target;
+    while (target.tagName != "TR") target = target.parentElement;
+    if (target.previousElementSibling) {
+        target.parentNode.insertBefore(target, target.previousElementSibling);
+    }
+    updateOutput(e.target);
+}
+
+function moveDown(e) {
+    let target = e.target;
+    while (target.tagName != "TR") target = target.parentElement;
+    if (target.nextElementSibling) {
+        target.parentNode.insertBefore(target.nextElementSibling, target);
+    }
+    updateOutput(e.target);
+}
+
+function deleteIcon(e) {
+    let target = e.target;
+    while (target.tagName != "TR") target = target.parentElement;
+    M.Tooltip.getInstance(target.querySelector(".delete-icon-button")).destroy();
+    target.outerHTML = "";
+    updateOutput(e.target);
+}
+
+function iconPreview(e) {
+    testIcon.src = (s => {
+        if (!s) {
+            return "https://image.flaticon.com/icons/svg/164/164949.svg";
+        }
+
+        s += " ";
+
+        if (theme && theme.icons) {
+            for (let pattern in theme.icons) {
+                if (s.match(new RegExp(pattern))) {
+                    return theme.icons[pattern];
+                }
+            }
+        }
+
+        for (let pattern in icons) {
+            if (s.match(new RegExp(pattern))) {
+                return icons[pattern];
+            }
+        }
+    })(iconTestText.value);
 }
 
 $(document).ready(function () {
