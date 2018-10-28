@@ -1,3 +1,8 @@
+// an img per domain
+// to check if images load
+let themeIconLoadElementContainer = document.createElement("div");
+themeIconLoadElementContainer.style.display = "none";
+
 class Theme {
     constructor(name, onApply, onUpdate) {
         this.name = name;
@@ -121,7 +126,65 @@ class Theme {
 
         for (let arrow of arrows) {
             arrow.classList.add("icon-modified");
-            arrow.setAttribute("style", `background-image: url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")}); background-image: url(${Theme.getIcon(arrow.parentElement.textContent)}); background-repeat: no-repeat; background-size: cover;`);
+            // fallbacks don't work in CSS
+            // implement our own thing for it, based on img and onerror
+            let sourceUrl = Theme.getIcon(arrow.parentElement.textContent);
+            let fallbackUrl = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
+            let matches = sourceUrl.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+            let domain = matches && matches[1];
+
+            if (!domain) {
+                sourceUrl = fallbackUrl;
+            } else {
+                let containerImg;
+                for (let imgTester of themeIconLoadElementContainer.children) {
+                    if (imgTester.dataset.domain == domain) {
+                        // this is our test element
+                        containerImg = imgTester;
+                        break;
+                    }
+                }
+                if (!containerImg) {
+                    containerImg = document.createElement("img");
+                    containerImg.dataset.domain = domain;
+                    themeIconLoadElementContainer.appendChild(containerImg);
+                }
+                if (containerImg.dataset.result && containerImg.dataset.result == "fail") {
+                    // already tried loading this domain and it failed
+                    sourceUrl = fallbackUrl;
+                } else if (!containerImg.dataset.result) {
+                    // loading not yet completed (already succeeded would have result set)
+                    // no action required if already succeeded
+
+                    let existingOnError = containerImg.onerror;
+                    containerImg.onerror = function (p1, p2, p3) {
+                        if (existingOnError) {
+                            // call whatever's before us
+                            existingOnError(p1, p2, p3);
+                        } else {
+                            // we're first, wipe onerror
+                            containerImg.dataset.result = "fail";
+                            containerImg.onerror = null;
+                        }
+
+                        // in case this gets called before we get through the rest of this method, somehow
+                        sourceUrl = fallbackUrl;
+                        arrow.setAttribute("style", `background: url(${fallbackUrl}) no-repeat 0; background-size: cover;`);
+                    }
+
+                    if (!containerImg.src) {
+                        // not yet attempted
+                        containerImg.onload = function() {
+                            containerImg.onload = null;
+                            containerImg.dataset.result = "success";
+                        };
+
+                        containerImg.src = sourceUrl;
+                    }
+                }
+            }
+
+            arrow.setAttribute("style", `background: url(${sourceUrl}) no-repeat 0; background-size: cover;`);
         }
 
         for (let img of pictures) {
