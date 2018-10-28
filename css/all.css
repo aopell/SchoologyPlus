@@ -378,3 +378,7 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 .splus-modal-contents input[type=button]:hover {
     background-color: var(--hover-color);
 }
+
+.splus-indent-1 {
+    text-indent: 2em;
+}

@@ -54,7 +54,16 @@ let modals = [
                 createElement("p", ["setting-description"], {}, [
                     createElement("span", [], { textContent: "Many custom course icons (under " }),
                     createElement("a", [], { href: "http://creativecommons.org/licenses/by/3.0/", title: "Creative Commons BY 3.0", target: "_blank", textContent: "CC 3.0 BY" }),
-                    createElement("span", [], { textContent: ")" })
+                    createElement("span", [], { textContent: ")" }),
+                    createElement("p", [], { textContent: "Bundled:" }),
+                    createElement("div", ["splus-indent-1"], { innerHTML:
+                    '<ul><li>Exclamation mark (grades page modified indicator): By <a href="https://www.flaticon.com/authors/pixel-buddha" title="Pixel Buddha">Pixel Buddha</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></li>'
+                    + '<li>Bookshelf (default course icon): <i>Modified</i>. Original by <a href="https://www.flaticon.com/authors/pixel-buddha" title="Pixel Buddha">Pixel Buddha</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></li>'
+                    + "</ul>" })
+                ]),
+                
+                createElement("ul", ["setting-description"], {}, [
+                    createElement("li", [], { textContent: "" })
                 ])
             ]),
             createElement("div", ["setting-entry"], {}, [
