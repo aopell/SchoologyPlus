@@ -378,7 +378,3 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 .splus-modal-contents input[type=button]:hover {
     background-color: var(--hover-color);
 }
-
-.injected-course-icon.splus-loaderror {
-    filter: grayscale(100%);
-}

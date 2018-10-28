@@ -121,7 +121,7 @@ class Theme {
 
         for (let arrow of arrows) {
             arrow.classList.add("icon-modified");
-            arrow.style.background = `url(${Theme.getIcon(arrow.parentElement.textContent)}) no-repeat 0`;
+            arrow.style.background = `url(${Theme.getIcon(arrow.parentElement.textContent)}) no-repeat 0, url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")}) no-repeat 0`;
             arrow.style.backgroundSize = "cover";
         }
 
@@ -129,7 +129,7 @@ class Theme {
             img.onerror = function () {
                 // avoid infinite recursion
                 img.onerror = null;
-                img.src = chrome.runtime.getURL("imgs/default-course-icon.svg");
+                img.src = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
                 img.classList.add("splus-loaderror");
             };
             img.src = Theme.getIcon(img.alt);
