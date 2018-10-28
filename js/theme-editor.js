@@ -663,6 +663,10 @@ $(document).ready(function () {
                 logo: "lausd"
             }
         };
+
+        // default theme is "Schoology Plus"
+        s.theme = s.theme || "Schoology Plus";
+
         for (let t of s.themes || []) {
             allThemes[t.name] = t;
         }
