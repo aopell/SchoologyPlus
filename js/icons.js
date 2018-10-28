@@ -20,7 +20,8 @@ var icons = {
     //Chemistry
     "CHEM": "https://image.flaticon.com/icons/svg/123/123381.svg",
     //Computer Science and related courses
-    "COMP SCI?|COMPUTER": "https://image.flaticon.com/icons/png/512/626/626570.png",
+    //Source: https://www.flaticon.com/free-icon/binary-code_626570 by Freepik under Flaticon Basic License (CC BY 3.0)
+    "COMP SCI?|COMPUTER": "https://image.flaticon.com/icons/svg/626/626570.svg",
     //US History
     "US HIST": "https://image.flaticon.com/icons/svg/149/149513.svg",
     //Health
@@ -38,7 +39,8 @@ var icons = {
     //Writing Seminar/AP Seminar
     "SEM(INAR)? ": "https://image.flaticon.com/icons/svg/176/176690.svg",
     //Discrete Math
-    "DISCR": "https://image.flaticon.com/icons/png/512/251/251986.png",
+    //Source: https://www.flaticon.com/free-icon/calculating_251986 by Freepik under Flaticon Basic License (CC BY 3.0)
+    "DISCR": "https://image.flaticon.com/icons/svg/251/251986.svg",
     //Orchestra
     "ORCH": "https://image.flaticon.com/icons/svg/124/124811.svg",
     //Band
@@ -56,7 +58,8 @@ var icons = {
     //Film
     "FILM(MAKING)? ": "https://image.flaticon.com/icons/svg/321/321799.svg",
     //Geology
-    " GEOLOGY ": "https://image.flaticon.com/icons/png/512/184/184647.png",
+    //Source: https://www.flaticon.com/free-icon/science_184647 by Freepik under Flaticon Basic License (CC BY 3.0)
+    " GEOLOGY ": "https://image.flaticon.com/icons/svg/184/184647.svg",
     //Government
     " GOVT ": "https://image.flaticon.com/icons/svg/167/167718.svg",
     //English (Generic)
