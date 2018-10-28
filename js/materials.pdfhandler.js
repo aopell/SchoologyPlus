@@ -20,6 +20,8 @@
 
     let documentLoadHooks = {};
 
+    // process data for a document: create tooltip HTML given the data holder DOM element and a function called when API and PDF data have been loaded
+    // tooltips themselves are created from the data in the DOM holder element by a listener in the real contentscript
     function processDocument(loadedTextHolder, onLoadHookRegister) {
         let value = document.getElementById(loadedTextHolder.dataset.domElementId);
 
@@ -61,9 +63,11 @@
     // document tooltips
     // passes information to content script, which actually manages the tooltip
     $("#schoologyplus-material-tooltip-data-container .type-document").each(function (index, value) {
+        // real contentscript created these elements and has corresponding data in the dictionaries subbed into this file
         processDocument(value, function (materialId, func) { documentLoadHooks[materialId] = func; });
     });
 
+    // when a tooltip appears, render to its canvas
     let tooltipCreateObserver = new MutationObserver(mutations => {
         for (let i = 0; i < mutations.length; ++i) {
             for (let j = 0; j < mutations[i].addedNodes.length; ++j) {
@@ -89,6 +93,7 @@
         }
     });
 
+    // when new document info is added to the DOM info container, process it
     let tooltipInfoCreateObserver = new MutationObserver(mutations => {
         for (let i = 0; i < mutations.length; ++i) {
             for (let j = 0; j < mutations[i].addedNodes.length; ++j) {
@@ -103,6 +108,7 @@
         }
     });
 
+    // preexisting documents w/ API data subbed into this file
     for (let docToLoad in documentLoadHooks) {
         // we can't do API requests here (CORS), so we pass in info from the content script
         let apiMetadata = documentInfoFromApi[docToLoad];

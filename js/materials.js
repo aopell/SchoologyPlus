@@ -80,12 +80,20 @@
         if (dynamic) {
             // FIXME code duplication
             // note that these CDN urls expire
-            let documentUrlFromApi = null;
+
+            // blank because null becomes "null" in the dataset, which is truthy; blank is falsey
+            let documentUrlFromApi = "";
             let materialId = value.id.match(/\d+/)[0];
             let documentInfoFromApi = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/documents/${materialId}`, {
                 headers: createApiAuthenticationHeaders(myApiKeys)
             })).json());
 
+            if (!documentInfoFromApi.attachments.files || !documentInfoFromApi.attachments.files.file[0]) {
+                // dynamic nonfile (probably link) element
+                // abort creation of tooltip
+                value.dataset.schoologyPlusProcessedTooltip = true;
+                return;
+            }
             let fileData = documentInfoFromApi.attachments.files.file[0];
             if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
                 // get the URL of the doc we want
@@ -101,8 +109,9 @@
         }
 
         documentTooltipDataHolder.appendChild(loadedTextHolder);
-        loadedTextHolder.dataset.tooltipHtml = "Loading...";
+        loadedTextHolder.dataset.tooltipHtml = "Loading [dyn]...";
         // title already has a tooltip (full filename), so we'll use the filesize instead
+        // if there's no filesize (e.g. because this document isn't a file), we won't create the tooltip, so no problems
         $(value).find(".attachments-file-name .attachments-file-size").tipsy({ gravity: "w", html: true, title: () => loadedTextHolder.dataset.tooltipHtml });
 
         value.dataset.schoologyPlusProcessedTooltip = true;
@@ -339,8 +348,11 @@
     let ourGradebookDoc = ourGradebookParser.parseFromString(ourGradebookHtml, "text/html");
 
     let containerDiv = ourGradebookDoc.querySelector(".gradebook-course-grades");
-    for (let gradeItemRow of containerDiv.querySelectorAll(".item-row")) {
-        loadedGradeContainer.gradeDrops[gradeItemRow.dataset.id.match(/\d+/)[0]] = gradeItemRow.classList.contains("dropped");
+    if (containerDiv) {
+        // in some courses you can't see your grades (annoying), so we'll get a 404 page and the element won't be there (or if loading fails for any other reason)
+        for (let gradeItemRow of containerDiv.querySelectorAll(".item-row")) {
+            loadedGradeContainer.gradeDrops[gradeItemRow.dataset.id.match(/\d+/)[0]] = gradeItemRow.classList.contains("dropped");
+        }
     }
 
     Object.freeze(loadedGradeContainer.gradeDrops);
@@ -355,8 +367,8 @@
         eventHook(loadedGradeContainer);
     }
 
-
     // do our API calls
+    // FIXME this code is duplicated
     let documentInfoFromApi = {};
     // note that these CDN urls expire
     let documentUrlsFromApi = {};
@@ -369,6 +381,12 @@
 
     for (let documentId in documentInfoFromApi) {
         // TODO this isn't the cleanest, not sure if this is accurate for all cases
+        if (!documentInfoFromApi[documentId].attachments.files || !documentInfoFromApi[documentId].attachments.files.file[0]) {
+            // preexisting document isn't a 'real' document (i.e. link or whatever)
+            // delete it from our list
+            delete documentInfoFromApi[documentId];
+            continue;
+        }
         let fileData = documentInfoFromApi[documentId].attachments.files.file[0];
         if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
             // get the URL of the doc we want
@@ -377,6 +395,8 @@
             documentUrlsFromApi[documentId] = (await fetch(fileData.converted_download_path, {
                 headers: createApiAuthenticationHeaders(myApiKeys)
             })).url;
+        } else {
+            // it's a file but not a supported type. TODO what to do? probably at least should show an unsupported method
         }
     }
 
