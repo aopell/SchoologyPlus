@@ -625,7 +625,7 @@ $.contextMenu({
 
     function generateScoreModifyWarning() {
         return createElement("img", ["modified-score-percent-warning"], {
-            src: "https://image.flaticon.com/icons/svg/179/179386.svg",
+            src: chrome.runtime.getURL("imgs/exclamation-mark.svg"),
             title: "This grade has been modified from its true value."
         });
     }

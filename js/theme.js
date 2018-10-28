@@ -116,7 +116,7 @@ class Theme {
             }
             pictures = pictures.concat(courseImgs);
         }
-        
+
         let arrows = document.querySelectorAll(".gradebook-course-title .arrow");
 
         for (let arrow of arrows) {
@@ -126,6 +126,12 @@ class Theme {
         }
 
         for (let img of pictures) {
+            img.onerror = function () {
+                // avoid infinite recursion
+                img.onerror = null;
+                img.src = chrome.runtime.getURL("imgs/default-course-icon.svg");
+                img.classList.add("splus-loaderror");
+            };
             img.src = Theme.getIcon(img.alt);
             img.classList.add("injected-course-icon");
         }
