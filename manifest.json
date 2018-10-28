@@ -40,7 +40,9 @@
         "imgs/toy-mode.png",
         "imgs/icon@128.png",
         "js/materials.pdfhandler.js",
-        "theme-editor.html"
+        "theme-editor.html",
+        "imgs/exclamation-mark.svg",
+        "imgs/fallback-course-icon.svg"
     ],
     "background": {
         "scripts": [

@@ -121,8 +121,7 @@ class Theme {
 
         for (let arrow of arrows) {
             arrow.classList.add("icon-modified");
-            arrow.style.background = `url(${Theme.getIcon(arrow.parentElement.textContent)}) no-repeat 0, url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")}) no-repeat 0`;
-            arrow.style.backgroundSize = "cover";
+            arrow.setAttribute("style", `background-image: url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")}); background-image: url(${Theme.getIcon(arrow.parentElement.textContent)}); background-repeat: no-repeat; background-size: cover;`);
         }
 
         for (let img of pictures) {
