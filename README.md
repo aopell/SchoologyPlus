@@ -2,10 +2,14 @@
 
 ### A web extension that enhances your LAUSD Schoology experience
 
+[![Chrome Download](https://img.shields.io/chrome-web-store/v/fbfppoaockpecjpbdmldojdehdpepfef.svg?label=chrome%20download)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
+[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/fbfppoaockpecjpbdmldojdehdpepfef.svg)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
+[![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/rating/fbfppoaockpecjpbdmldojdehdpepfef.svg)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
+[![Firefox Download](https://img.shields.io/badge/dynamic/json.svg?label=firefox%20download&url=https%3A%2F%2Faopell.me%2FSchoologyPlus%2Fupdate.json&query=%24.addons%5B%27schoology.plus%40aopell.me%27%5D.updates%5B0%5D.version&colorB=orange)](http://aopell.me/SchoologyPlus/firefox-download.html)
+[![Changelog](https://img.shields.io/github/release/aopell/SchoologyPlus.svg?label=changelog&colorB=lightgrey)](https://aopell.me/SchoologyPlus/changelog)
+
 [![Download for Chrome](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [<img src="https://imgur.com/hVupcaT.png" height="58" alt="Download for Firefox">](http://aopell.me/SchoologyPlus/firefox-download.html)
-
-[Download for Chrome](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef) | [Download for Firefox](http://aopell.me/SchoologyPlus/firefox-download.html) | [View Changelog](https://aopell.me/SchoologyPlus/changelog)
 
 # Features
 
