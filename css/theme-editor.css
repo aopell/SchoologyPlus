@@ -432,3 +432,8 @@ input[type=button] {
     text-align: center;
     color: grey;
 }
+
+textarea#json-output[readonly] {
+    color: grey;
+    border-bottom: none;
+}

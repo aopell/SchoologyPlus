@@ -555,6 +555,7 @@ function editTheme(name) {
     output.removeAttribute("readonly");
     Array.from(iconList.querySelectorAll(".class-name, .icon-url")).map(x => x.setAttribute("contenteditable", "true"));
     origThemeName = name;
+    document.querySelector("#json-output + label").textContent = "JSON (Paste to import a theme)";
 }
 
 /**
