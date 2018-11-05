@@ -19,7 +19,7 @@ let courseIdNumber;
 modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", ["splus-modal-contents"], {}, [
     createElement("div", ["setting-entry"], {}, [
         createElement("h2", ["setting-title"], {}, [
-            createElement("label", [], { textContent: "Nickname: ", htmlFor: "setting-input-course-alias" }),
+            createElement("label", ["centered-label"], { textContent: "Nickname: ", htmlFor: "setting-input-course-alias" }),
             createElement("input", [], { type: "text", id: "setting-input-course-alias" }, [])
         ])
     ]),
@@ -95,28 +95,24 @@ function saveCourseSettings() {
     let currentAliasesValue = storage.courseAliases || {};
     currentAliasesValue[courseIdNumber] = document.getElementById("setting-input-course-alias").value;
 
-    chrome.storage.sync.set({ gradingScales: currentValue }, x => {
-        chrome.storage.sync.set({ courseAliases: currentAliasesValue }, y => {
-            let settingsSaved = document.getElementById("save-course-settings");
-            settingsSaved.value = "Saved!";
-            setTimeout(() => {
-                location.reload();
-            }, 1000);
-        });
+    chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
+        let settingsSaved = document.getElementById("save-course-settings");
+        settingsSaved.value = "Saved!";
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
     });
 }
 
 function restoreCourseDefaults() {
     let currentValue = storage.gradingScales || {};
     currentValue[courseIdNumber] = defaultGradingScale;
-    
+
     let currentAliasesValue = storage.courseAliases || {};
     currentAliasesValue[courseIdNumber] = null;
 
-    chrome.storage.sync.set({ gradingScales: currentValue }, x => {
-        chrome.storage.sync.set({ courseAliases: currentAliasesValue }, y => {
-            alert("Settings restored. Reloading.");
-            location.reload();
-        });
+    chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
+        alert("Settings restored. Reloading.");
+        location.reload();
     });
 }

@@ -382,3 +382,7 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 .splus-indent-1 {
     text-indent: 2em;
 }
+
+.centered-label {
+    vertical-align: middle;
+}
