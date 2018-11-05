@@ -579,10 +579,6 @@ $.contextMenu({
                     maxGrade.classList.add("max-grade");
                     maxGrade.textContent = " / " + json.max_points;
                     noGrade.insertAdjacentElement("afterend", maxGrade);
-                    // kind of a hack
-                    noGrade.onSchoologyPlusEditModeEnabled = function () {
-                        maxGrade.remove();
-                    };
                 }
             })();
         }
