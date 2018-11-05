@@ -18,7 +18,8 @@ let courseIdNumber;
 
 modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", ["splus-modal-contents"], {}, [
     createElement("div", ["setting-entry"], {}, [
-        createElement("h2", ["setting-title"], { textContent: "Alias: " }, [
+        createElement("h2", ["setting-title"], {}, [
+            createElement("label", [], { textContent: "Nickname: ", htmlFor: "setting-input-course-alias" }),
             createElement("input", [], { type: "text", id: "setting-input-course-alias" }, [])
         ])
     ]),
