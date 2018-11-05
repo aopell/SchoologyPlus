@@ -103,7 +103,7 @@ $.contextMenu({
                         maxGrade.parentElement.appendChild(newGrade);
                     }
                     else {
-                        processNonenteredAssignment(assignment);
+                        processNonenteredAssignment(assignment, apiKeys, courseId);
                     }
                     if (assignment.querySelector(".missing")) {
                         // get denominator for missing assignment
@@ -560,12 +560,36 @@ $.contextMenu({
         return "?";
     }
 
-    function processNonenteredAssignment(assignment) {
+    function processNonenteredAssignment(assignment, apiKeys, courseId) {
         let noGrade = assignment.getElementsByClassName("no-grade")[0];
+
+        if (apiKeys) {
+            // do this while the other operation is happening so we don't block the page load
+            // don't block on it
+            (async function () {
+                console.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
+                let json = await (
+                    await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
+                        headers: createApiAuthenticationHeaders(apiKeys)
+                    })
+                ).json();
+                if (json && json.max_points !== null && json.max_points !== undefined) {
+                    // success case
+                    let maxGrade = document.createElement("span");
+                    maxGrade.classList.add("max-grade");
+                    maxGrade.textContent = " / " + json.max_points;
+                    noGrade.insertAdjacentElement("afterend", maxGrade);
+                    // kind of a hack
+                    noGrade.onSchoologyPlusEditModeEnabled = function () {
+                        maxGrade.remove();
+                    };
+                }
+            })();
+        }
 
         // td-content-wrapper
         noGrade.parentElement.appendChild(document.createElement("br"));
-        let injectedPercent = createElement("span", ["max-grade", "injected-assignment-percent"], { textContent: "N/A" });
+        let injectedPercent = createElement("span", ["percentage-grade", "injected-assignment-percent"], { textContent: "N/A" });
         noGrade.parentElement.appendChild(injectedPercent);
 
         if (noGrade.parentElement.classList.contains("exception-grade-wrapper")) {
@@ -789,12 +813,19 @@ $.contextMenu({
                 let userMax;
                 if (noGrade) {
                     // regex capture and check
-                    let regexResult = /^(-?\d+(\.\d+)?)\s*\/\s*(-?\d+(\.\d+)?)$/.exec(editElem.textContent);
-                    if (!regexResult) {
-                        return false;
+                    if (maxGrade) {
+                        userScore = Number.parseFloat(noGrade.textContent);
+                        // noGrade+maxGrade = inserted maxGrade from an API call
+                        // initDenom = 0; newDenom = whatever is in that textfield
+                        userMax = Number.parseFloat(maxGrade.textContent.substring(3));
+                    } else {
+                        let regexResult = /^(-?\d+(\.\d+)?)\s*\/\s*(-?\d+(\.\d+)?)$/.exec(editElem.textContent);
+                        if (!regexResult) {
+                            return false;
+                        }
+                        userScore = Number.parseFloat(regexResult[1]);
+                        userMax = Number.parseFloat(regexResult[3]);
                     }
-                    userScore = Number.parseFloat(regexResult[1]);
-                    userMax = Number.parseFloat(regexResult[3]);
                     if (Number.isNaN(userScore) || Number.isNaN(userMax)) {
                         return false;
                     }
@@ -816,8 +847,10 @@ $.contextMenu({
                 let deltaMax = userMax - initMax;
                 // first, replace no grades
                 if (noGrade) {
-                    maxGrade = createElement("span", ["max-grade"], { textContent: " / " + userMax });
-                    gradeColContentWrap.prepend(maxGrade);
+                    if (!maxGrade) {
+                        maxGrade = createElement("span", ["max-grade"], { textContent: " / " + userMax });
+                        gradeColContentWrap.prepend(maxGrade);
+                    }
                     let awardedGrade = createElement("span", ["awarded-grade"]);
                     score = createElement("span", ["rounded-grade"], { title: userScore, textContent: userScore });
                     awardedGrade.appendChild(score);

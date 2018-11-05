@@ -138,3 +138,9 @@ input#enable-modify {
 .report-row.item-row.hidden {
     display: none !important;
 }
+
+.gradebook-course.hierarchical-grading-report .grade-column .percentage-grade {
+    color: #767676;
+    font-size: 12px;
+    font-weight: normal;
+}
