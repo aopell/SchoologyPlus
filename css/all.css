@@ -386,3 +386,7 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 .centered-label {
     vertical-align: middle;
 }
+
+#nav .courses-action .before-last-li, #nav .groups-action .before-last-li {
+    border-right: 1px solid #ddd;
+}

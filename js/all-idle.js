@@ -25,6 +25,16 @@
     });
 })();
 
+// archived courses button in courses dropdown
+(function () {
+    let lastCoursesAction = document.querySelector("#primary-courses .wrapper-for-actions").lastElementChild;
+    lastCoursesAction.insertAdjacentElement("beforebegin",
+        createElement("span", ["see-all", "before-last-li"], { title: "Archived Courses" }, [
+            createElement("a", ["sExtlink-processed"], { title: "See Past Courses", href: "/courses/mycourses/past", textContent: "See Archived" })
+        ])
+    );
+})();
+
 // hack for course aliases
 (async function () {
     let applyCourseAliases = null;
