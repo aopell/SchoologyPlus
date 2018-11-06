@@ -564,10 +564,16 @@ var fetchQueue = [];
     function queueNonenteredAssignment(assignment, apiKeys, courseId) {
         let noGrade = assignment.getElementsByClassName("no-grade")[0];
 
-        if (apiKeys) {
+        if (apiKeys && assignment.dataset.id) {
             // do this while the other operation is happening so we don't block the page load
             // don't block on it
-            if (!assignment.dataset.id) return;
+
+            let maxGrade = document.createElement("span");
+            maxGrade.classList.add("max-grade");
+            maxGrade.classList.add("no-grade");
+            maxGrade.textContent = " / —";
+            noGrade.insertAdjacentElement("afterend", maxGrade);
+
             let f = async () => {
                 console.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
                 let response = await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
@@ -580,10 +586,9 @@ var fetchQueue = [];
 
                 if (json && json.max_points !== null && json.max_points !== undefined) {
                     // success case
-                    let maxGrade = document.createElement("span");
-                    maxGrade.classList.add("max-grade");
+                    // note; even if maxGrade is removed from the DOM, this will still work
                     maxGrade.textContent = " / " + json.max_points;
-                    noGrade.insertAdjacentElement("afterend", maxGrade);
+                    maxGrade.classList.remove("no-grade");
                 }
             };
             fetchQueue.push(f);
@@ -790,6 +795,10 @@ var fetchQueue = [];
                 editElem = noGrade;
                 initPts = 0;
                 initMax = 0;
+                if (maxGrade.classList.contains("no-grade")) {
+                    maxGrade.remove();
+                    maxGrade = null;
+                }
             }
             if (score && maxGrade) {
                 editElem = score;
@@ -934,6 +943,8 @@ var fetchQueue = [];
     }
 })().then(() => {
     processNonenteredAssignments();
+}).catch(reason => {
+    console.error("Error running grades page modification script: ", reason);
 });
 
 function processNonenteredAssignments(sleep) {

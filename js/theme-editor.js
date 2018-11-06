@@ -625,14 +625,14 @@ function iconPreview(e) {
 
         if (theme && theme.icons) {
             for (let pattern in theme.icons) {
-                if (s.match(new RegExp(pattern))) {
+                if (s.match(new RegExp(pattern, 'i'))) {
                     return theme.icons[pattern];
                 }
             }
         }
 
         for (let pattern in icons) {
-            if (s.match(new RegExp(pattern))) {
+            if (s.match(new RegExp(pattern, 'i'))) {
                 return icons[pattern];
             }
         }
