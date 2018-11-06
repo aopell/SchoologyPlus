@@ -34,6 +34,7 @@ $.contextMenu({
     }
 });
 
+var fetchQueue = [];
 (async function () {
     console.log("Running Schoology Plus grades page improvement script");
 
@@ -103,7 +104,7 @@ $.contextMenu({
                         maxGrade.parentElement.appendChild(newGrade);
                     }
                     else {
-                        processNonenteredAssignment(assignment, apiKeys, courseId);
+                        queueNonenteredAssignment(assignment, apiKeys, courseId);
                     }
                     if (assignment.querySelector(".missing")) {
                         // get denominator for missing assignment
@@ -560,19 +561,23 @@ $.contextMenu({
         return "?";
     }
 
-    function processNonenteredAssignment(assignment, apiKeys, courseId) {
+    function queueNonenteredAssignment(assignment, apiKeys, courseId) {
         let noGrade = assignment.getElementsByClassName("no-grade")[0];
 
         if (apiKeys) {
             // do this while the other operation is happening so we don't block the page load
             // don't block on it
-            (async function () {
+            if (!assignment.dataset.id) return;
+            let f = async () => {
                 console.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
-                let json = await (
-                    await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
-                        headers: createApiAuthenticationHeaders(apiKeys)
-                    })
-                ).json();
+                let response = await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
+                    headers: createApiAuthenticationHeaders(apiKeys)
+                });
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                let json = await response.json();
+
                 if (json && json.max_points !== null && json.max_points !== undefined) {
                     // success case
                     let maxGrade = document.createElement("span");
@@ -580,7 +585,8 @@ $.contextMenu({
                     maxGrade.textContent = " / " + json.max_points;
                     noGrade.insertAdjacentElement("afterend", maxGrade);
                 }
-            })();
+            };
+            fetchQueue.push(f);
         }
 
         // td-content-wrapper
@@ -926,4 +932,21 @@ $.contextMenu({
             document.execCommand('selectAll', false, null);
         };
     }
-})();
+})().then(() => {
+    processNonenteredAssignments();
+});
+
+function processNonenteredAssignments(sleep) {
+    if (fetchQueue.length > 0) {
+        setTimeout(() => {
+            fetchQueue[0]().then(x => {
+                fetchQueue.splice(0, 1);
+                processNonenteredAssignments();
+            }).catch(err => {
+                console.warn("Caught error: " + err);
+                console.log("Waiting 3 seconds to avoid rate limit");
+                processNonenteredAssignments(true);
+            });
+        }, sleep ? 3000 : 0);
+    }
+}
