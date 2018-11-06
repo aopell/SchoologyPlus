@@ -267,7 +267,10 @@
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>Class Name Pattern</th>
+                                            <th>
+                                                <span style="vertical-align: middle;">Class Name Regular Expression</span>
+                                                <a target="_blank" href="https://www.regular-expressions.info/quickstart.html"><i class="material-icons tooltipped" data-tooltip="Regular expressions are a special way to check if text matches a pattern. Click for more info." style="vertical-align: middle; color: black;">help</i></a>
+                                            </th>
                                             <th>Icon URL</th>
                                             <th>
                                                 <a class="waves-effect waves-light btn-floating action-button tooltipped right" data-tooltip="Add New" id="new-icon">
@@ -296,8 +299,14 @@
                                         </tr> -->
                                     </tbody>
                                 </table>
-                                <p style="text-align: center; color: grey; padding-top: 10px;">Schoology Plus will attempt to match an icon above first, but if it doesn't find a match it will use the default icon set</p>
-                                <p style="text-align: center; color: grey;">Class name patterns are <a target="_blank" href="https://en.wikipedia.org/wiki/Regular_expression">regular expressions</a></p>
+                                <p style="text-align: center; color: grey; padding-top: 20px;">
+                                    Schoology Plus will attempt to match a class name to one of the
+                                    regular expressions above first (from top to bottom), but if it
+                                    doesn't find a match it will use the default icon set. 
+                                    To avoid this behavior, create a default icon for your theme by
+                                    adding an icon with pattern "." (a single period) as the last
+                                    icon in your list.
+                                </p>
                             </div>
                         </div>
                         <div id="tab-json" class="col s12">

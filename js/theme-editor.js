@@ -25,6 +25,7 @@ var themesListSection = document.getElementById("themes-list-section");
 var themeEditorSection = document.getElementById("theme-editor-section");
 var testIcon = document.getElementById("test-icon");
 var iconList = document.getElementById("icon-list");
+var tabIcons = document.getElementById("tab-icons");
 /** @type {HTMLTableElement} */
 var iconListTable = document.getElementById("icon-list-table");
 var newIcon = document.getElementById("new-icon");
@@ -38,7 +39,7 @@ saveCloseButton.addEventListener("click", e => saveTheme(true));
 var discardButton = document.getElementById("discard-button");
 discardButton.addEventListener("click", e => confirm("Are you sure you want to discard changes?") && location.reload());
 var closeButton = document.getElementById("close-button");
-closeButton.addEventListener("click", e => (!document.querySelector(".show-editor-controls") || confirm('Are you sure you want to close without saving?')) && (location.href = 'https://lms.lausd.net'));
+closeButton.addEventListener("click", e => (!inEditMode() || confirm('Are you sure you want to close without saving?')) && (location.href = 'https://lms.lausd.net'));
 var createButton = document.getElementById("create-button");
 createButton.addEventListener("click", e => editTheme());
 var lockButton = document.getElementById("lock-button");
@@ -580,7 +581,7 @@ function addIcon() {
     tr.querySelector(".delete-icon-button").addEventListener("click", deleteIcon);
     Array.from(tr.querySelectorAll("td")).map(x => x.addEventListener("blur", e => e.target.scrollLeft = 0));
     M.Tooltip.init(tr.querySelectorAll('.tooltipped'), { outDuration: 0, inDuration: 300, enterDelay: 0, exitDelay: 10, transition: 10 });
-    if (document.querySelector(".show-editor-controls")) {
+    if (inEditMode()) {
         let arr = Array.from(tr.querySelectorAll(".class-name, .icon-url"));
         arr.map(x => x.setAttribute("contenteditable", "true"));
         arr.map(x => x.addEventListener("input", e => updateOutput(e.target)));
@@ -637,6 +638,8 @@ function iconPreview(e) {
         }
     })(iconTestText.value);
 }
+
+function inEditMode() { return !!document.querySelector(".show-editor-controls"); }
 
 $(document).ready(function () {
     updateOutput(document.rootElement);
