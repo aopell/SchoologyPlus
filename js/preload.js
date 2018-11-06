@@ -212,6 +212,28 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
+                ).getControl(),
+                new Setting(
+                    "archivedCoursesButton",
+                    "Archived Courses Button",
+                    '[Refresh required] Shows a button labeled "See Archived" next to the "See All" button in the courses dropdown',
+                    "show",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Show",
+                                value: "show"
+                            },
+                            {
+                                text: "Hide",
+                                value: "hide"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value                    
                 ).getControl()
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
