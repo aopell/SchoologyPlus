@@ -2,10 +2,11 @@
 <html>
 
 <head>
-    <link type="text/css" rel="stylesheet" href="/lib/css/material-icons.css">
+    <link type="text/css" rel="stylesheet" href="/lib/css/material-icons.css"/>
     <link type="text/css" rel="stylesheet" href="/lib/css/materialize.min.css" media="screen,projection" />
-    <link type="text/css" rel="stylesheet" href="/css/theme-editor2.css" media="screen,projection" />
-    <link type="text/css" rel="stylesheet" href="/css/theme-editor.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/lib/css/jquery-ui.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/theme-editor2.css" />
+    <link type="text/css" rel="stylesheet" href="/css/theme-editor.css" />
     <link rel="shortcut icon" type="image/png" href="/imgs/icon@128.png" />
 
     <script src="/lib/js/jquery-3.3.1.min.js"></script>
@@ -66,9 +67,9 @@
                             <input id="theme-color-hue" class="with-gap" name="color-group" type="radio" checked />
                             <span>Color Hue</span>
                         </label>
-                        <div class="range-field col s12" id="theme-hue-wrapper">
-                            <input id="theme-hue" type="range" class="validate" min="0" max="359">
-                            <label for="theme-hue">Color Hue</label>
+                        <div class="col s12" id="theme-hue-wrapper">
+                            <label for="theme-hue">Color Hue<span id="color-hue-value" class="right"></span></label>
+                            <div id="theme-hue"></div>
                         </div>
                     </p>
                     <p>
@@ -324,6 +325,7 @@
         </div>
     </main>
     <script src="/lib/js/materialize.min.js"></script>
+    <script src="/lib/js/jquery-ui.min.js"></script>
     <script src="/js/theme-editor.js"></script>
     <script src="/js/icons.js"></script>
 </body>

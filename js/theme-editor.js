@@ -110,7 +110,7 @@ function importFromObject(j) {
 
         themeName.value = j.name;
 
-        themeHue.value = j.hue || "";
+        $("#theme-hue").slider("value", j.hue || 210);
         if (j.hue) themeColorHue.click();
 
         if (j.colors) {
@@ -218,7 +218,7 @@ function updateOutput(target, color) {
     }
 
     if (themeColorHue.checked) {
-        if ((hue = Number.parseFloat(themeHue.value)) || hue === 0) {
+        if ((color && target == themeHue ? (hue = color) : (hue = $("#theme-hue").slider("value"))) || hue === 0) {
             theme.hue = hue;
             setCSSVariable("color-hue", hue);
         } else {
@@ -642,6 +642,19 @@ function iconPreview(e) {
 function inEditMode() { return !!document.querySelector(".show-editor-controls"); }
 
 $(document).ready(function () {
+    function sliderEvent(event, ui) {
+        updateOutput(themeHue, ui.value);
+        document.getElementById("color-hue-value").textContent = ui.value.toString();
+    }
+
+    $("#theme-hue").slider({
+        min: 0,
+        max: 359,
+        slide: sliderEvent,
+        stop: sliderEvent,
+        change: sliderEvent
+    });
+
     updateOutput(document.rootElement);
 
     chrome.storage.sync.get(["theme", "themes"], s => {
