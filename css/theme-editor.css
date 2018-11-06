@@ -437,3 +437,7 @@ textarea#json-output[readonly] {
     color: grey;
     border-bottom: none;
 }
+
+.show-editor-controls .class-name, .show-editor-controls .icon-url {
+    box-shadow: inset 0px 0px 4px #666;
+}
