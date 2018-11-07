@@ -160,7 +160,7 @@ var fetchQueue = [];
                     if (!assignment.querySelector(".excused")) {
                         let checkbox = document.getElementById("enable-modify");
                         let editGradeImg = createElement("img", ["grade-edit-indicator"], {
-                            src: "https://www.iconninja.com/files/727/965/72/edit-draw-pencile-write-icon.svg",
+                            src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
                             width: 12,
                             style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
                         });

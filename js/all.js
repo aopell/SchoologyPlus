@@ -83,6 +83,12 @@ let modals = [
                 ])
             ]),
             createElement("div", ["setting-entry"], {}, [
+                createElement("h3", ["setting-title"], {}, [
+                    createElement("a", [], { href: "http://www.iconninja.com/edit-draw-pencile-write-icon-899685", textContent: "Pencil Icon from IconNinja" })
+                ]),
+                createElement("p", ["setting-description"], { textContent: "Bundled as edit grade icon" }, [])
+            ]),
+            createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], { textContent: "...and more" }),
                 createElement("p", ["setting-description"], { textContent: "For various ideas and suggestions" })
             ])
