@@ -47,8 +47,10 @@ var fetchQueue = [];
 
     let upperPeriodSortBound = 20;
 
+    let courseLoadTasks = [];
+
     for (let course of courses) {
-        (async function () {
+        courseLoadTasks.push((async function () {
             let title = course.querySelector(".gradebook-course-title");
             let summary = course.querySelector(".summary-course");
             let courseGrade;
@@ -233,7 +235,7 @@ var fetchQueue = [];
             for (let i = 1; i < periods.length; i++) {
                 periods[i].remove();
             }
-        })();
+        })());
     }
 
     if (!document.location.search.includes("past") || document.location.search.split("past=")[1] != 1) {
@@ -549,6 +551,10 @@ var fetchQueue = [];
                 }
             }
         }));
+    }
+
+    for (let courseTask of courseLoadTasks) {
+        await courseTask;
     }
 
     function getLetterGrade(gradingScale, percentage) {
@@ -942,6 +948,7 @@ var fetchQueue = [];
         };
     }
 })().then(() => {
+    console.log("Retrieving (" + fetchQueue.length + ") nonentered assignments info...")
     processNonenteredAssignments();
 }).catch(reason => {
     console.error("Error running grades page modification script: ", reason);
