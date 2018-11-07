@@ -441,3 +441,19 @@ textarea#json-output[readonly] {
 .show-editor-controls .class-name, .show-editor-controls .icon-url {
     box-shadow: inset 0px 0px 4px #666;
 }
+
+#theme-hue {
+    height: 24px;
+    background: linear-gradient(to right,hsl(0,50%,50%),hsl(36,50%,50%),hsl(72,50%,50%),hsl(108,50%,50%), hsl(144,50%,50%), hsl(180,50%,50%), hsl(216,50%,50%), hsl(252,50%,50%), hsl(288,50%,50%), hsl(324,50%,50%), hsl(359,50%,50%));
+}
+
+.ui-slider-handle {
+    height: 32px !important;
+    background-color: white !important;
+    border-color: black !important;
+    width: 1em !important;
+}
+
+#theme-hue-wrapper {
+    padding-bottom: 32px;
+}
