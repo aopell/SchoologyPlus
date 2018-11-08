@@ -9,20 +9,20 @@ Schoology Plus allows users to create, share, and apply custom themes for the Sc
 A Schoology Plus theme has the following format and components (each component will be explained in detail below):
 ```json
 {
-	"name": "My Theme",
-	"hue": 359,
-	"colors": [
-		"red", 
-		"rgb(0,0,255)", 
-		"hsl(150,50%,50%)",
-		"#000000"
-	],
-	"logo": "schoology",
-	"cursor": null,
-	"icons": {
-		"BIO(LOGY)? ": "https://example.com/my-biology-image.png",
-		"MATH|ALGEBRA": "https://example.com/my-math-image.png"
-	}
+    "name": "My Theme",
+    "hue": 359,
+    "colors": [
+        "red", 
+        "rgb(0,0,255)", 
+        "hsl(150,50%,50%)",
+        "#000000"
+    ],
+    "logo": "schoology",
+    "cursor": null,
+    "icons": {
+        "BIO(LOGY)? ": "https://example.com/my-biology-image.png",
+        "MATH|ALGEBRA": "https://example.com/my-math-image.png"
+    }
 }
 ```
 ### Components

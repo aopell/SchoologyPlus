@@ -325,6 +325,7 @@ function restoreDefaults() {
             chrome.storage.sync.remove(setting);
             settings[setting].onload(undefined, settings[setting].element());
         }
+        location.reload();
     }
 }
 
