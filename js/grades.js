@@ -275,10 +275,12 @@ var fetchQueue = [];
                     let calculateMinimumGrade = function (element, desiredGrade) {
                         let gradeColContentWrap = element.querySelector(".grade-wrapper").parentElement;
                         // TODO refactor the grade extraction
-                        let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
+                        let noGrade = gradeColContentWrap.querySelector(".no-grade");
+                        let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value") || gradeColContentWrap.querySelector(".no-grade");
                         let maxGrade = gradeColContentWrap.querySelector(".max-grade");
                         let scoreVal = 0;
                         let maxVal = 0;
+                        noGrade = noGrade == score;
 
                         if (score && maxGrade) {
                             scoreVal = Number.parseFloat(score.textContent);
@@ -287,6 +289,12 @@ var fetchQueue = [];
                             let scoreValues = maxGrade.textContent.split("/");
                             scoreVal = Number.parseFloat(scoreValues[0]);
                             maxVal = Number.parseFloat(scoreValues[1]);
+                        }
+
+                        if (Number.isNaN(scoreVal)) {
+                            scoreVal = 0;
+                            score.classList.add("rounded-grade");
+                            score.classList.remove("no-grade");
                         }
 
                         if (!gradeColContentWrap.querySelector(".modified-score-percent-warning")) {
@@ -313,6 +321,10 @@ var fetchQueue = [];
                             let perScore = Number.parseFloat(perScoreElem.textContent);
                             let perMax = Number.parseFloat(perMaxElem.textContent.substring(3));
 
+                            if (noGrade) {
+                                perMax += maxVal;
+                            }
+
                             // (perScore + x) / perMax = desiredGrade
                             // solve for x:
                             deltaScore = (desiredGrade * perMax) - perScore;
@@ -324,6 +336,10 @@ var fetchQueue = [];
                             let catMaxElem = awardedCategoryPoints.querySelector(".max-grade");
                             let catScore = Number.parseFloat(catScoreElem.textContent);
                             let catMax = Number.parseFloat(catMaxElem.textContent.substring(3));
+
+                            if (noGrade) {
+                                catMax += maxVal;
+                            }
 
                             // TODO refactor
                             let total = 0;
@@ -337,7 +353,18 @@ var fetchQueue = [];
 
                                 let weightPercent = weightPercentElement.textContent;
                                 let col = category.getElementsByClassName("grade-column-right")[0];
+
+                                if (noGrade && category == catRow) {
+                                    let maxGrade = category.querySelector(".max-grade");
+                                    maxGrade.textContent = " / " + catMax;
+                                    if(col) {
+                                        let catGrade = col.firstElementChild;
+                                        catGrade.textContent = (catScore * 100 / catMax) + "%";
+                                    }
+                                }
+
                                 let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
+
                                 if (colMatch) {
                                     let scorePercent = Number.parseFloat(colMatch[1]);
                                     if (scorePercent && !Number.isNaN(scorePercent)) {
@@ -377,8 +404,10 @@ var fetchQueue = [];
                         }
 
                         // TODO refactor: we already have our DOM elements
-                        score.title = scoreVal + deltaScore;
-                        score.textContent = scoreVal + deltaScore;
+                        if (score) {
+                            score.title = scoreVal + deltaScore;
+                            score.textContent = scoreVal + deltaScore;
+                        }
 
                         prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), scoreVal + deltaScore, maxVal);
                         recalculateCategoryScore(catRow, deltaScore, 0);
@@ -801,7 +830,7 @@ var fetchQueue = [];
                 editElem = noGrade;
                 initPts = 0;
                 initMax = 0;
-                if (maxGrade.classList.contains("no-grade")) {
+                if (maxGrade && maxGrade.classList.contains("no-grade")) {
                     maxGrade.remove();
                     maxGrade = null;
                 }

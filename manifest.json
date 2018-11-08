@@ -42,7 +42,8 @@
         "js/materials.pdfhandler.js",
         "theme-editor.html",
         "imgs/exclamation-mark.svg",
-        "imgs/fallback-course-icon.svg"
+        "imgs/fallback-course-icon.svg",
+        "imgs/edit-pencil.svg"
     ],
     "background": {
         "scripts": [

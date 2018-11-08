@@ -749,8 +749,8 @@ $(document).ready(function () {
                     mTabs.select("tab-json");
                     themeItem.click();
                 });
-                themeItem.appendChild(shareButton);
                 themeItem.appendChild(createActionButton({ textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: e => deleteTheme(t) || e.stopPropagation() }));
+                themeItem.appendChild(shareButton);
                 themeItem.appendChild(createActionButton({ textContent: "edit", dataset: { tooltip: "Edit Theme" }, onclick: () => editTheme(t) }));
             }
 
