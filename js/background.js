@@ -4,13 +4,6 @@ const assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filt
 /** @typedef {{id:number,title:string,message:string,shortMessage:string,timestamp?:Date,icon?:string}} Broadcast */
 
 console.log("Loaded event page");
-console.log("Adding onInstalled listener");
-chrome.runtime.onInstalled.addListener(function () {
-    console.log("Registered alarm");
-    chrome.alarms.create("notification", {
-        periodInMinutes: 5
-    });
-});
 console.log("Adding alarm listener");
 chrome.alarms.onAlarm.addListener(onAlarm);
 console.log("Adding notification listener");
@@ -41,6 +34,17 @@ chrome.browserAction.onClicked.addListener(function () {
     });
 });
 
+chrome.alarms.get("notification", function (alarm) {
+    if (alarm) {
+        console.log("Alarm is already registered");
+    } else {
+        console.log("Notifications alarm is not registered; registering...");
+        chrome.alarms.create("notification", {
+            periodInMinutes: 5
+        });
+    }
+});
+
 //Run once on load
 onAlarm({ name: "notification" });
 
@@ -53,7 +57,7 @@ onAlarm({ name: "notification" });
 function sendNotification(notification, name, count) {
     chrome.storage.sync.get(null, function (storageContent) {
         count = (count || count == 0) ? count : 1;
-        if(getBrowser() == "Firefox") {
+        if (getBrowser() == "Firefox") {
             delete notification.requireInteraction;
         }
         console.warn("New notification!");
