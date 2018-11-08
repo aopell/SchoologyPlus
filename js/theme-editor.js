@@ -66,17 +66,29 @@ lockButton.addEventListener("click", e => {
 var previewNavbar = document.getElementById("preview-navbar");
 var previewLogo = document.getElementById("preview-logo");
 
+var origThemeName;
 let warnings = [];
 let errors = [];
 let theme = {};
 
 var output = document.getElementById("json-output");
+output.addEventListener("input", importThemeFromOutput);
+output.addEventListener("paste", e => {
+    if (inEditMode()) {
+        e.preventDefault();
+        e.stopPropagation();
+        let t = e.clipboardData.getData("text");
+        output.value = t;
+        importThemeFromOutput();
+    }
+});
+
 for (let e of document.querySelectorAll("#theme-editor-section input")) {
     e.addEventListener("input", function (event) {
         updateOutput(event.target);
     });
 }
-M.Tabs.init(document.querySelector(".tabs"));
+var mTabs = M.Tabs.init(document.querySelector(".tabs"));
 
 function generateWarnings(j) {
     let w = [];
@@ -87,14 +99,12 @@ function generateWarnings(j) {
     return w;
 }
 
-document.getElementById("json-output").addEventListener("input", t => {
+function importThemeFromOutput() {
     errors = [];
     warnings = [];
-    j = parseJSONObject(t.target.value);
+    j = parseJSONObject(output.value);
     importFromObject(j);
-});
-
-var origThemeName;
+}
 
 /**
  * Fills out form elements with the data contained in the provided Theme object
@@ -687,9 +697,13 @@ $(document).ready(function () {
         for (let t of s.themes || []) {
             allThemes[t.name] = t;
         }
+
         for (let t in allThemes) {
             let themeItem = createElement("a", ["collection-item", "theme-item"], {
                 textContent: t,
+                dataset: {
+                    theme: t
+                },
                 onclick: e => {
                     applyTheme(t);
                     for (let elem of e.target.parentElement.children) {
@@ -699,18 +713,59 @@ $(document).ready(function () {
                 }
             });
 
-            let props = { textContent: "check", dataset: { tooltip: "Apply Theme" }, onclick: e => confirm(`Are you sure you want to apply the theme ${t}?`) ? chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net") : e.stopPropagation() };
-            let appliedProps = { textContent: "star", dataset: { tooltip: "Theme Applied" }, onclick: () => location.href = "https://lms.lausd.net" };
+            let props = {
+                textContent: "check",
+                dataset: {
+                    tooltip: "Apply Theme"
+                },
+                onclick: e => confirm(`Are you sure you want to apply the theme ${t}?`)
+                    ? chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net")
+                    : e.stopPropagation()
+            };
+            let appliedProps = {
+                textContent: "star",
+                dataset: {
+                    tooltip: "Theme Applied"
+                },
+                onclick: () => location.href = "https://lms.lausd.net"
+            };
 
-            themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], t == s.theme ? appliedProps : props));
+            function createActionButton(properties) {
+                return createElement("i", ["material-icons", "right", "tooltipped"], properties);
+            }
+
+            themeItem.appendChild(createActionButton(t == s.theme ? appliedProps : props));
 
             if (!defaultThemes.includes(t)) {
-                themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], { textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: e => deleteTheme(t) || e.stopPropagation() }));
-                themeItem.appendChild(createElement("i", ["material-icons", "right", "tooltipped"], { textContent: "edit", dataset: { tooltip: "Edit Theme" }, onclick: () => editTheme(t) }));
+                let shareButton = createActionButton({
+                    textContent: "content_copy",
+                    dataset: {
+                        tooltip: "Copy Theme",
+                        clipboardTarget: "#json-output",
+                        enableClipboard: "true"
+                    }
+                });
+                shareButton.addEventListener("click", e => {
+                    mTabs.select("tab-json");
+                    themeItem.click();
+                });
+                themeItem.appendChild(shareButton);
+                themeItem.appendChild(createActionButton({ textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: e => deleteTheme(t) || e.stopPropagation() }));
+                themeItem.appendChild(createActionButton({ textContent: "edit", dataset: { tooltip: "Edit Theme" }, onclick: () => editTheme(t) }));
             }
 
             themesList.appendChild(themeItem);
         }
+
+        var clipboard = new ClipboardJS(".material-icons.right.tooltipped[data-enable-clipboard=true]");
+        clipboard.on("success", e => {
+            let theme = parseJSONObject(e.text);
+            if (theme) {
+                M.toast({ html: `Copied theme "${theme.name}" to clipboard` });
+            } else {
+                M.toast({ html: "Failed to copy theme - try again"});
+            }
+        });
 
         let selected = Array.from(themesList.children).find(x => x.childNodes[0].textContent == s.theme);
         (selected || themesList.firstElementChild).click();

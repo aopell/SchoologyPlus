@@ -449,8 +449,8 @@ textarea#json-output[readonly] {
 
 .ui-slider-handle {
     height: 32px !important;
-    background-color: white !important;
-    border-color: black !important;
+    background-color: var(--primary-color) !important;
+    border: 2px solid black !important;
     width: 1em !important;
 }
 
