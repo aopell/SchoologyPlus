@@ -111,8 +111,10 @@ function restoreCourseDefaults() {
     let currentAliasesValue = storage.courseAliases || {};
     currentAliasesValue[courseIdNumber] = null;
 
-    chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
-        alert("Settings restored. Reloading.");
-        location.reload();
-    });
+    if(confirm("Are you sure you want to reset all options for this course to their default values? This action is irreversible.")) {
+        chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
+            alert("Settings restored. Reloading.");
+            location.reload();
+        });
+    }
 }

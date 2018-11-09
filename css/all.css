@@ -306,7 +306,7 @@ input[type=text].setting-item {
 .close-button {
     color: red;
     font-weight: normal;
-    font-size: 80%;
+    font-size: 20px;
 }
 
 .export-button {
