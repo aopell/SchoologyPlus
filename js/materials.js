@@ -112,7 +112,7 @@
         loadedTextHolder.dataset.tooltipHtml = "Loading...";
         // title already has a tooltip (full filename), so we'll use the filesize instead
         // if there's no filesize (e.g. because this document isn't a file), we won't create the tooltip, so no problems
-        $(value).find(".attachments-file-name .attachments-file-size").tipsy({ gravity: "w", html: true, title: () => loadedTextHolder.dataset.tooltipHtml });
+        $(value).find(".attachments-file-name>a").tipsy({ gravity: "w", html: true, title: () => loadedTextHolder.dataset.tooltipHtml });
 
         value.dataset.schoologyPlusProcessedTooltip = true;
     }
