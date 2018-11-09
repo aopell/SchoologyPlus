@@ -354,15 +354,6 @@ var fetchQueue = [];
                                 let weightPercent = weightPercentElement.textContent;
                                 let col = category.getElementsByClassName("grade-column-right")[0];
 
-                                if (noGrade && category == catRow) {
-                                    let maxGrade = category.querySelector(".max-grade");
-                                    maxGrade.textContent = " / " + catMax;
-                                    if(col) {
-                                        let catGrade = col.firstElementChild;
-                                        catGrade.textContent = (catScore * 100 / catMax) + "%";
-                                    }
-                                }
-
                                 let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
 
                                 if (colMatch) {
@@ -410,8 +401,8 @@ var fetchQueue = [];
                         }
 
                         prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), scoreVal + deltaScore, maxVal);
-                        recalculateCategoryScore(catRow, deltaScore, 0);
-                        recalculatePeriodScore(perRow, deltaScore, 0);
+                        recalculateCategoryScore(catRow, deltaScore, noGrade ? maxVal : 0);
+                        recalculatePeriodScore(perRow, deltaScore, noGrade ? maxVal : 0);
                     };
 
                     let undroppedAssignContextMenuObject = {
