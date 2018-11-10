@@ -1,6 +1,6 @@
 [![Schoology Plus](https://imgur.com/QdAPxXN.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 
-### A web extension that enhances your LAUSD Schoology experience
+### Schoology Plus is a web extension that enhances your LAUSD Schoology experience with numerous interface improvements.
 
 [![Chrome Download](https://img.shields.io/chrome-web-store/v/fbfppoaockpecjpbdmldojdehdpepfef.svg?label=chrome%20download)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/fbfppoaockpecjpbdmldojdehdpepfef.svg)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
@@ -61,9 +61,9 @@
   - Assignments show score and grade category
   - PDF files show previews and number of pages
 ### Miscellaneous Interface Improvements
-- Added a "Grades" link to the navigation bar for easy access from any page
-- Added a button to quickly jump to archived courses in the Courses drop-down list*
-- Extended the length of the Courses drop-down list so there is no longer a scroll bar
+- Adds a "Grades" link to the navigation bar for easy access from any page
+- Adds a button to quickly jump to archived courses in the Courses drop-down list*
+- Extends the length of the Courses drop-down list so there is no longer a scroll bar
 
 ## Grades Page Improvements
 ### Miscellaneous Grades Page Improvements
@@ -193,7 +193,7 @@ Please submit bugs and feature requests using [Github issues](https://github.com
 Pull requests are welcomed! If you would like to add a new feature, the best way of doing so is to submit a pull request. All pull requests will be considered and reviewed thoroughly.
 
 # Contributors
-This extension was created by [Aaron Opell](https://github.com/aopell). Significant development assistance has been provided by [Glen Husman](https://github.com/glen3b). Various other contribution information is located in the Contributors modal accessible via a link in the footer of Schoology Plus settings.
+This extension was created by [Aaron Opell](https://github.com/aopell). Significant development assistance has been provided by [Glen Husman](https://github.com/glen3b). Various other contribution information is located in the Contributors dialog accessible via a link in the footer of Schoology Plus settings.
 
 # License
 This project is open source under the MIT License. See the [LICENSE file](LICENSE) for more information.
