@@ -649,6 +649,17 @@ function iconPreview(e) {
     })(iconTestText.value);
 }
 
+function copyThemeToClipboard(themeName) {
+    let text = JSON.stringify(allThemes[themeName]);
+    var copyFrom = $('<textarea/>');
+    copyFrom.text(text);
+    $('body').append(copyFrom);
+    copyFrom.select();
+    document.execCommand('copy');
+    copyFrom.remove();
+    M.toast({ html: `Copied theme "${theme.name}" to clipboard` });
+}
+
 function inEditMode() { return !!document.querySelector(".show-editor-controls"); }
 
 $(document).ready(function () {
@@ -740,14 +751,11 @@ $(document).ready(function () {
                 let shareButton = createActionButton({
                     textContent: "content_copy",
                     dataset: {
-                        tooltip: "Copy Theme",
-                        clipboardTarget: "#json-output",
-                        enableClipboard: "true"
+                        tooltip: "Copy Theme"
                     }
                 });
                 shareButton.addEventListener("click", e => {
-                    mTabs.select("tab-json");
-                    themeItem.click();
+                    copyThemeToClipboard(t);
                 });
                 themeItem.appendChild(createActionButton({ textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: e => deleteTheme(t) || e.stopPropagation() }));
                 themeItem.appendChild(shareButton);
@@ -756,16 +764,6 @@ $(document).ready(function () {
 
             themesList.appendChild(themeItem);
         }
-
-        var clipboard = new ClipboardJS(".material-icons.right.tooltipped[data-enable-clipboard=true]");
-        clipboard.on("success", e => {
-            let theme = parseJSONObject(e.text);
-            if (theme) {
-                M.toast({ html: `Copied theme "${theme.name}" to clipboard` });
-            } else {
-                M.toast({ html: "Failed to copy theme - try again"});
-            }
-        });
 
         let selected = Array.from(themesList.children).find(x => x.childNodes[0].textContent == s.theme);
         (selected || themesList.firstElementChild).click();
