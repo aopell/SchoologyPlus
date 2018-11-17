@@ -23,10 +23,7 @@ let modals = [
         "changelog-modal",
         "Schoology Plus Changelog",
         createElement("div", ["splus-modal-contents"], {}, [frame]),
-        "&copy; Aaron Opell, Glen Husman 2018",
-        function () {
-            clearNewUpdate(true);
-        }
+        "&copy; Aaron Opell, Glen Husman 2018"
     ),
     new Modal(
         "contributors-modal",
@@ -97,31 +94,33 @@ let modals = [
     ),
 ];
 
-chrome.storage.sync.get(["newVersion", "hideUpdateIndicator"], s => {
+chrome.storage.sync.get(["newVersion"], s => {
     if (!s.newVersion || s.newVersion != chrome.runtime.getManifest().version) {
-        chrome.storage.sync.set({ hideUpdateIndicator: false }, showUpdateIndicator);
-        document.querySelector(".schoology-plus-icon .nav-icon-button")
-            .appendChild(createElement(
-                "span",
-                ["notifier"],
-                { textContent: "!!" }
-            ));
-    } else if (!s.hideUpdateIndicator) {
-        showUpdateIndicator();
+        let currentVersion = chrome.runtime.getManifest().version;
+
+        iziToast.show({
+            theme: 'dark',
+            iconUrl: chrome.runtime.getURL("/imgs/plus-icon.png"),
+            title: `Welcome to Schoology Plus version ${currentVersion}!`,
+             position: 'topRight',
+            timeout: 0,
+            progressBarColor: 'hsl(190, 100%, 50%)',
+            buttons: [
+                ['<button>View Changelog</button>', function (instance, toast) {
+                    instance.hide({
+                        transitionOut: 'fadeOutRight',
+                        onClosing: function(instance, toast, closedBy){
+                            openModal("changelog-modal");
+                        }
+                    }, toast, 'viewChangelogButton');
+                }]
+            ]
+        });
+
+        versionSpecificFirstLaunch(currentVersion);
+        chrome.storage.sync.set({ newVersion: chrome.runtime.getManifest().version });
     }
 });
-
-function showUpdateIndicator() {
-    console.log("Showing update indicator");
-    document.getElementById("open-changelog")
-        .insertAdjacentElement(
-            "afterbegin",
-            createElement(
-                "span",
-                ["new-update"],
-                { textContent: "New Update" }
-            ));
-}
 
 let video = document.body.appendChild(createElement("video", ["easter-egg"], {
     onended: function () {
@@ -169,24 +168,12 @@ window.onclick = function (event) {
     }
 }
 
-function clearNewUpdate(clearAll) {
-    let notifier = document.querySelector(".schoology-plus-icon .nav-icon-button .notifier");
-    if (notifier) notifier.outerHTML = "";
-    chrome.storage.sync.set({ newVersion: chrome.runtime.getManifest().version });
-    if (clearAll) {
-        chrome.storage.sync.set({ hideUpdateIndicator: true });
-        let updateText = document.querySelector(".new-update");
-        if (updateText) updateText.outerHTML = "";
-    }
-}
-
 function openOptionsMenu(settingsModal) {
     settingsModal.body.innerHTML = "";
     updateSettings(() => {
         settingsModal.body.appendChild(getModalContents());
         settingsModal.element.querySelector("#open-changelog").addEventListener("click", () => openModal("changelog-modal"), { once: true });
         settingsModal.element.querySelector("#open-contributors").addEventListener("click", () => openModal("contributors-modal"), { once: true });
-        clearNewUpdate(false);
     });
 }
 

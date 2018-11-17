@@ -71,10 +71,13 @@
                 "https://lms.lausd.net/*"
             ],
             "css": [
-                "lib/css/contextmenu.css"
+                "lib/css/contextmenu.css",
+                "lib/css/iziToast.min.css"
             ],
             "js": [
                 "lib/js/contextmenu.js",
+                "lib/js/iziToast.min.js",
+                "js/version-specific.js",
                 "js/all.js",
                 "lib/js/findAndReplaceDOMText.js"
             ],
@@ -120,6 +123,7 @@
         },
         {
             "matches": [
+                "https://lms.lausd.net/",
                 "https://lms.lausd.net/home",
                 "https://lms.lausd.net/home#*",
                 "https://lms.lausd.net/home/recent-activity*"
