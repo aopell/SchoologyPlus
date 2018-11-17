@@ -111,6 +111,9 @@ var fetchQueue = [];
                     if (assignment.querySelector(".missing")) {
                         // get denominator for missing assignment
                         if (apiKeys) {
+                            let p = assignment.querySelector(".injected-assignment-percent");
+                            p.textContent = "0%";
+                            p.title = "Assignment missing";
                             console.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
                             let json = await (
                                 await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
@@ -123,9 +126,6 @@ var fetchQueue = [];
                                 max += pts;
                                 console.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
                             }
-                            let p = assignment.querySelector(".injected-assignment-percent");
-                            p.textContent = `0/${pts}`;
-                            p.title = "Assignment missing";
                         }
                     }
                     //assignment.style.padding = "7px 30px 5px";
@@ -258,8 +258,8 @@ var fetchQueue = [];
             type: "checkbox",
             id: "enable-modify",
             onclick: function () {
-                let undroppedAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator)";
-                let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator)";
+                let undroppedAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.contains-exception)";
+                let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator):not(.contains-exception)";
 
                 if (document.getElementById("enable-modify").checked) {
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
@@ -354,15 +354,6 @@ var fetchQueue = [];
                                 let weightPercent = weightPercentElement.textContent;
                                 let col = category.getElementsByClassName("grade-column-right")[0];
 
-                                if (noGrade && category == catRow) {
-                                    let maxGrade = category.querySelector(".max-grade");
-                                    maxGrade.textContent = " / " + catMax;
-                                    if(col) {
-                                        let catGrade = col.firstElementChild;
-                                        catGrade.textContent = (catScore * 100 / catMax) + "%";
-                                    }
-                                }
-
                                 let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
 
                                 if (colMatch) {
@@ -410,8 +401,8 @@ var fetchQueue = [];
                         }
 
                         prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), scoreVal + deltaScore, maxVal);
-                        recalculateCategoryScore(catRow, deltaScore, 0);
-                        recalculatePeriodScore(perRow, deltaScore, 0);
+                        recalculateCategoryScore(catRow, deltaScore, noGrade ? maxVal : 0);
+                        recalculatePeriodScore(perRow, deltaScore, noGrade ? maxVal : 0);
                     };
 
                     let undroppedAssignContextMenuObject = {
@@ -599,7 +590,21 @@ var fetchQueue = [];
     function queueNonenteredAssignment(assignment, apiKeys, courseId) {
         let noGrade = assignment.getElementsByClassName("no-grade")[0];
 
-        if (apiKeys && assignment.dataset.id) {
+        if (noGrade.parentElement.classList.contains("exception-grade-wrapper")) {
+            noGrade.remove();
+            assignment.classList.add("contains-exception")
+            // an exception case
+            // now we just have to be careful to avoid double-counting
+            noGrade = assignment.querySelector(".exception .exception-icon");
+            if (noGrade) {
+                // the text gets in the way
+                let exceptionDesc = assignment.querySelector(".exception .exception-text");
+                noGrade.title = exceptionDesc.textContent;
+                exceptionDesc.remove();
+            }
+        }
+
+        if (noGrade && apiKeys && assignment.dataset.id) {
             // do this while the other operation is happening so we don't block the page load
             // don't block on it
 
@@ -633,10 +638,6 @@ var fetchQueue = [];
         noGrade.parentElement.appendChild(document.createElement("br"));
         let injectedPercent = createElement("span", ["percentage-grade", "injected-assignment-percent"], { textContent: "N/A" });
         noGrade.parentElement.appendChild(injectedPercent);
-
-        if (noGrade.parentElement.classList.contains("exception-grade-wrapper")) {
-            noGrade.remove();
-        }
     }
 
     function prepareScoredAssignmentGrade(spanPercent, score, max) {
