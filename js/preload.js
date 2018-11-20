@@ -120,7 +120,7 @@ function updateSettings(callback) {
                 new Setting(
                     "broadcasts",
                     "Announcement Notifications",
-                    "Displays desktop notifications and news feed posts for announcements sent to all Schoology Plus users",
+                    "Displays news feed posts for announcements sent to all Schoology Plus users",
                     "enabled",
                     "select",
                     {
@@ -128,10 +128,6 @@ function updateSettings(callback) {
                             {
                                 text: "Enable Announcements",
                                 value: "enabled"
-                            },
-                            {
-                                text: "Announcement News Feed Posts Only",
-                                value: "feed"
                             },
                             {
                                 text: "Disable Announcements",

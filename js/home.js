@@ -1,3 +1,5 @@
+/** @typedef {{id:number,title:string,message:string,shortMessage:string,timestamp?:Date,icon?:string}} Broadcast */
+
 let feed = document.querySelector(".feed .item-list .s-edge-feed");
 
 /**

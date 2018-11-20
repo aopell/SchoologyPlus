@@ -1,7 +1,4 @@
-const broadcastNotificationUrl = "https://aopell.me/SchoologyPlus/notifications.json";
 const assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filter=all";
-
-/** @typedef {{id:number,title:string,message:string,shortMessage:string,timestamp?:Date,icon?:string}} Broadcast */
 
 console.log("Loaded event page");
 console.log("Adding alarm listener");
@@ -10,14 +7,13 @@ console.log("Adding notification listener");
 chrome.notifications.onClicked.addListener(function (id) {
     console.log("Notification clicked");
     chrome.notifications.clear(id, null);
-    if (id.startsWith("broadcast")) {
-        chrome.tabs.create({ url: "https://lms.lausd.net" }, null);
-        return;
-    }
     switch (id) {
         case "assignment":
             chrome.tabs.create({ url: "https://lms.lausd.net/home/notifications" }, null);
             chrome.browserAction.setBadgeText({ text: "" });
+            break;
+        default:
+            chrome.tabs.create({ url: "https://lms.lausd.net" });
             break;
     }
 });
@@ -79,31 +75,11 @@ function sendNotification(notification, name, count) {
     });
 }
 
-/**
- * Creates a Chrome NotificationOptions object from a Broadcast object
- * @param {Broadcast} broadcast The broadcast to turn into a Chrome notification
- * @returns {NotificationOptions}
- */
-function notificationFromBroadcast(broadcast) {
-    return {
-        type: "basic",
-        iconUrl: broadcast.icon || "imgs/icon@128.png",
-        title: broadcast.title,
-        message: broadcast.shortMessage,
-        eventTime: broadcast.timestamp ? new Date(broadcast.timestamp).getTime() : Date.now(),
-        isClickable: true,
-        requireInteraction: true
-    };
-}
-
 function onAlarm(alarm) {
     chrome.storage.sync.get(null, function (storageContent) {
         if (alarm && alarm.name === "notification") {
             try {
                 console.log(`[${new Date()}] Checking for new notifications`);
-                if (storageContent.broadcasts != "disabled") {
-                    loadBroadcasts(storageContent);
-                }
                 if (storageContent.notifications != "disabled") {
                     loadAssignmentNotifications(storageContent);
                 }
@@ -112,33 +88,6 @@ function onAlarm(alarm) {
                 console.error(error);
             }
         }
-    });
-}
-
-function loadBroadcasts(storageContent) {
-    fetch(broadcastNotificationUrl).then(function (response) {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error("Error loading broadcast notifications: " + response);
-    }).then(function (response) {
-        let lastId = storageContent.lastBroadcastId || (storageContent.newVersion ? 1 : 0);
-        /** @type {Broadcast[]} */
-        let broadcasts = response;
-        /** @type {Broadcast[]} */
-        let unreadBroadcasts = storageContent.unreadBroadcasts || [];
-        let newBroadcasts = broadcasts.filter(x => x.id > lastId);
-
-        let maxId = lastId;
-        unreadBroadcasts = unreadBroadcasts.concat(newBroadcasts);
-        if (!storageContent.broadcasts || storageContent.broadcasts == "enabled") {
-            for (let broadcast of newBroadcasts) {
-                sendNotification(notificationFromBroadcast(broadcast), `broadcast${broadcast.id}`, 0);
-                maxId = Math.max(maxId, broadcast.id);
-            }
-        }
-
-        chrome.storage.sync.set({ lastBroadcastId: maxId, unreadBroadcasts: unreadBroadcasts }, null);
     });
 }
 
