@@ -1,6 +1,7 @@
 /** @typedef {{id:number,title:string,message:string,shortMessage:string,timestamp?:Date,icon?:string}} Broadcast */
 
-let feed = document.querySelector(".feed .item-list .s-edge-feed");
+let homeFeedContainer = document.getElementById("home-feed-container");
+let feed = homeFeedContainer.querySelector(".feed .item-list .s-edge-feed");
 
 /**
  * Creates a post from a broadcast
@@ -76,7 +77,27 @@ function formatDateAsString(date) {
 }
 
 if (storage.broadcasts !== "disabled") {
-    for (let broadcast of storage.unreadBroadcasts || []) {
-        feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
-    }
+    (function () {
+        let observer = new MutationObserver(function (mutations) {
+            if (mutations.length == 0) {
+                return;
+            }
+
+            // we Should only be observing changes to style on homeFeedContainer
+            // style is set on homeFeedContainer whenever Schoology decides to unhide it (static CSS sets display: none), i.e. when it's finished loading
+            // once this happens, we can do our thing
+
+            for (let broadcast of storage.unreadBroadcasts || []) {
+                feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
+            }
+
+            // then disconnect
+            observer.disconnect();
+        });
+
+        observer.observe(homeFeedContainer, {
+            attributes: true,
+            attributeFilter: ["style"]
+        });
+    })();
 }
