@@ -22,9 +22,9 @@ class Theme {
             }
         }
 
-        for (let pattern in icons) {
-            if (course.match(new RegExp(pattern, 'i'))) {
-                return icons[pattern];
+        for (let iconPattern of icons) {
+            if (course.match(new RegExp(iconPattern[0], 'i'))) {
+                return iconPattern[1];
             }
         }
     }

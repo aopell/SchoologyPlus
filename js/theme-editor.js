@@ -653,9 +653,9 @@ function iconPreview(e) {
             }
         }
 
-        for (let pattern in icons) {
-            if (s.match(new RegExp(pattern, 'i'))) {
-                return icons[pattern];
+        for (let iconPattern of icons) {
+            if (s.match(new RegExp(iconPattern[0], 'i'))) {
+                return iconPattern[1];
             }
         }
     })(iconTestText.value);
