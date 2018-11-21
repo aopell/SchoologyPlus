@@ -600,6 +600,38 @@ function addIcon() {
     tr.querySelector(".move-down").addEventListener("click", moveDown);
     tr.querySelector(".move-up").addEventListener("click", moveUp);
     tr.querySelector(".delete-icon-button").addEventListener("click", deleteIcon);
+
+    // Replaces pasted images with data urls
+    tr.querySelector(".icon-url").addEventListener("paste", pasteEvent => {
+        let items = (pasteEvent.clipboardData || pasteEvent.originalEvent.clipboardData).items;
+        let blob = null;
+        for (let i of items) {
+            if (i.type.indexOf("image") === 0) {
+                blob = i.getAsFile();
+            }
+        }
+        if (blob !== null) {
+            pasteEvent.preventDefault();
+            pasteEvent.stopPropagation();
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                let text = e.target.result;
+                if (document.queryCommandSupported('insertText')) {
+                    document.execCommand('insertText', false, text);
+                } else {
+                    document.execCommand('paste', false, text);
+                }
+                preview.src = pasteEvent.target.textContent;
+            };
+            reader.readAsDataURL(blob);
+        } else {
+            plainTextPaste(pasteEvent);
+        }
+    });
+
+    // Replaces pasted HTML with plain text
+    tr.querySelector(".class-name").addEventListener("paste", plainTextPaste);
+
     tr.querySelector(".icon-url").addEventListener("input", e => preview.src = e.target.textContent);
     Array.from(tr.querySelectorAll("td")).map(x => x.addEventListener("blur", e => e.target.scrollLeft = 0));
     M.Tooltip.init(tr.querySelectorAll('.tooltipped'), { outDuration: 0, inDuration: 300, enterDelay: 0, exitDelay: 10, transition: 10 });
@@ -609,6 +641,21 @@ function addIcon() {
         arr.map(x => x.addEventListener("input", e => updateOutput(e.target)));
     }
     return tr;
+}
+
+function plainTextPaste (e) {
+    e.preventDefault();
+    var text = '';
+    if (e.clipboardData || e.originalEvent.clipboardData) {
+        text = (e.originalEvent || e).clipboardData.getData('text/plain');
+    } else if (window.clipboardData) {
+        text = window.clipboardData.getData('Text');
+    }
+    if (document.queryCommandSupported('insertText')) {
+        document.execCommand('insertText', false, text);
+    } else {
+        document.execCommand('paste', false, text);
+    }
 }
 
 function moveUp(e) {
