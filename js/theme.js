@@ -12,11 +12,11 @@ class Theme {
 
     static getIcon(course) {
         if (storage.themes) {
-            let t = Theme.active;
-            if (t && t.icons) {
-                for (let pattern in t.icons) {
-                    if (course.match(new RegExp(pattern, 'i'))) {
-                        return t.icons[pattern];
+            let t = storage.themes.find(x => x.name === Theme.active.name);
+            if (t && t.icons && t.icons instanceof Array) {
+                for (let iconPattern of t.icons) {
+                    if (course.match(new RegExp(iconPattern[0], 'i'))) {
+                        return iconPattern[1];
                     }
                 }
             }

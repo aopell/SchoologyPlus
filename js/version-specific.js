@@ -22,7 +22,7 @@ function versionSpecificFirstLaunch(version) {
                 ]
             });
 
-            chrome.storage.sync.get(["unreadBroadcasts", "broadcasts"], (storage) => {
+            chrome.storage.sync.get(["unreadBroadcasts", "broadcasts", "themes"], (storage) => {
                 let broadcasts = storage.unreadBroadcasts || [];
                 broadcasts.push({
                     id: Number.parseInt(version.replace('.', '')),
@@ -31,10 +31,27 @@ function versionSpecificFirstLaunch(version) {
                     shortMessage: "Complete for a chance to win an Amazon gift card!",
                     timestamp: Date.now()
                 });
+
+                let oldFormatThemesExist = false;
+                for(let t of storage.themes) {
+                    if(t.icons && !(t.icons instanceof Array)) {
+                        oldFormatThemesExist = true;
+                        let newIconsArray = [];
+                        for(let k in t.icons) {
+                            newIconsArray.push([k, t.icons[k]]);
+                        }
+                        t.icons = newIconsArray;
+                    }
+                }
+                if(oldFormatThemesExist) {
+                    alert("Warning! One or more of your themes were created using an old and broken format for custom icons. If custom icons have not been working for you, please proceed to the theme editor to fix the issue.");
+                }
+
                 chrome.storage.sync.remove(["lastBroadcastId", "hideUpdateIndicator"]);
                 chrome.storage.sync.set({
                     unreadBroadcasts: broadcasts,
-                    broadcasts: storage.broadcasts === "feed" ? "enabled" : storage.broadcasts
+                    broadcasts: storage.broadcasts === "feed" ? "enabled" : storage.broadcasts,
+                    themes: storage.themes
                 });
             });
             break;

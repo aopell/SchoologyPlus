@@ -95,7 +95,7 @@ let modals = [
 ];
 
 chrome.storage.sync.get(["newVersion"], s => {
-    if (!s.newVersion || s.newVersion != chrome.runtime.getManifest().version) {
+    if (!s || !s.newVersion || s.newVersion != chrome.runtime.getManifest().version) {
         let currentVersion = chrome.runtime.getManifest().version;
 
         iziToast.show({

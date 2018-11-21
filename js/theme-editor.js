@@ -108,7 +108,7 @@ function importThemeFromOutput() {
 
 /**
  * Fills out form elements with the data contained in the provided Theme object
- * @param {{name:string,hue?:Number,colors?:string[],logo?:string,cursor?:string,icons?:Object}} j A SchoologyPlus theme object
+ * @param {{name:string,hue?:Number,colors?:string[],logo?:string,cursor?:string,icons?:Array}} j A SchoologyPlus theme object
  */
 function importFromObject(j) {
     if (j) {
@@ -143,10 +143,18 @@ function importFromObject(j) {
 
         iconList.innerHTML = "";
         if (j.icons) {
-            for (let k in j.icons) {
-                let row = addIcon();
-                row.querySelector(".class-name").textContent = k;
-                row.querySelector(".icon-url").textContent = j.icons[k];
+            if (j.icons instanceof Array) {
+                for (let i of j.icons) {
+                    let row = addIcon();
+                    row.querySelector(".class-name").textContent = i[0];
+                    row.querySelector(".icon-url").textContent = i[1];
+                }
+            } else {
+                for (let k in j.icons) {
+                    let row = addIcon();
+                    row.querySelector(".class-name").textContent = k;
+                    row.querySelector(".icon-url").textContent = j.icons[k];
+                }
             }
         }
 
@@ -363,7 +371,7 @@ function updateOutput(target, color) {
     }
 
     if (iconListTable.rows.length > 1) {
-        let customIcons = {};
+        let customIcons = [];
         let first = true;
         for (let row of iconListTable.rows) {
             if (first || !row.cells[1].textContent || !row.cells[2].textContent) {
@@ -378,7 +386,7 @@ function updateOutput(target, color) {
             } catch {
                 errors.push(pattern + " is not a valid regular expression");
             }
-            customIcons[pattern] = url;
+            customIcons.push([pattern, url]);
         }
         theme.icons = customIcons;
     }
@@ -634,9 +642,9 @@ function iconPreview(e) {
         s += " ";
 
         if (theme && theme.icons) {
-            for (let pattern in theme.icons) {
-                if (s.match(new RegExp(pattern, 'i'))) {
-                    return theme.icons[pattern];
+            for (let iconPattern of theme.icons) {
+                if (s.match(new RegExp(iconPattern[0], 'i'))) {
+                    return iconPattern[1];
                 }
             }
         }
@@ -711,18 +719,22 @@ $(document).ready(function () {
 
         for (let t in allThemes) {
             let themeItem = createElement("a", ["collection-item", "theme-item"], {
-                textContent: t,
                 dataset: {
-                    theme: t
+                    theme: t,
                 },
                 onclick: e => {
                     applyTheme(t);
-                    for (let elem of e.target.parentElement.children) {
+                    for (let elem of themeItem.parentElement.children) {
                         elem.classList.remove("active");
                     }
-                    e.target.classList.add("active");
+                    themeItem.classList.add("active");
                 }
-            });
+            }, [createElement("span", t.length > 16 ? ["tooltipped"] : [], {
+                textContent: t.length > 16 ? t.substr(0, 13) + "..." : t,
+                dataset: {
+                    tooltip: t.length > 16 ? t : ""
+                }
+            })]);
 
             let props = {
                 textContent: "check",

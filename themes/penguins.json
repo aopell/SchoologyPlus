@@ -1,8 +1,8 @@
 {
     "name": "Penguins",
-    "icons": {
-        ".": "https://image.flaticon.com/icons/svg/692/692439.svg"
-    },
+    "icons": [
+        [".", "https://image.flaticon.com/icons/svg/692/692439.svg"]
+    ],
     "colors": [
         "#3E3D42",
         "#3E3D42",

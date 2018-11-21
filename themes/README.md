@@ -19,10 +19,10 @@ A Schoology Plus theme has the following format and components (each component w
     ],
     "logo": "schoology",
     "cursor": null,
-    "icons": {
-        "BIO(LOGY)? ": "https://example.com/my-biology-image.png",
-        "MATH|ALGEBRA": "https://example.com/my-math-image.png"
-    }
+    "icons": [
+        ["BIO(LOGY)? ", "https://example.com/my-biology-image.png"],
+        ["MATH|ALGEBRA", "https://example.com/my-math-image.png"]
+    ]
 }
 ```
 ### Components
@@ -30,10 +30,10 @@ A Schoology Plus theme has the following format and components (each component w
 |--|--|--|
 |[`name`](#name)|`string`|false
 |[`hue`](#hue)|`number`|true
-|[`colors`](#colors)|`string[]`|true
+|[`colors`](#colors)|`[string]`|true
 |[`logo`](#logo)|`URL \| string`|true
 |[`cursor`](#cursor)|`URL`|true
-|[`icons`](#icons)|`Dictionary<RegExp, URL>`|true
+|[`icons`](#icons)|`[[RegExp, URL]]`|true
 
 #### `name`
 |Property||
@@ -94,10 +94,10 @@ A Schoology Plus theme has the following format and components (each component w
 |Property||
 |--|--|
 |Key|`icons`
-|Value Type|`Dictionary<RegExp,URL>`|
+|Value Type|`[[RegExp,URL]]`|
 |Optional|true
 |Default Value|Schoology Plus default course icon set
-|Description|A dictionary of regular expressions to image URLs to be used as icons for courses.
-|Value Restrictions|A JSON object where all keys are valid regular expressions and all values are direct image links. Images should be square and at least `32x32` in size.
-|Special Notes|Course names are checked against regular expressions in object order, meaning the first keys on the object are checked first *in a non-case-sensitive manor*. If no regular expression matches a specific course, Schoology Plus will fallback to the default Schoology Plus icon set. If you want to prevent this behavior, add an entry such as `".": "https://example.com/my-image.png"` that will match all course titles.
-|Example|`"icons": {"FRENCH": "https://cdn.countryflags.com/thumbs/france/flag-round-250.png",".": "https://image.flaticon.com/icons/svg/183/183759.svg"}`<br/><br/>[See here](https://github.com/aopell/SchoologyPlus/blob/master/js/icons.js) for another example
+|Description|An array of two element arrays, where index 0 is a regular expression and index 1 is an image URLs to be used as an icon for courses with names matching the regular expression.
+|Value Restrictions|An array of arrays where all values at index 0 of subarrays are valid regular expressions and all index 1 values of subarrays are direct image links. Images should be square and at least `32x32` in size, but this is not required.
+|Special Notes|Course names are checked against regular expressions in array order, meaning the elements in the array are checked first *in a non-case-sensitive manor*. If no regular expression matches a specific course, Schoology Plus will fallback to the default Schoology Plus icon set. If you want to prevent this behavior, add an entry such as `".": "https://example.com/my-image.png"` that will match all course titles.
+|Example|`"icons": [["FRENCH", "https://cdn.countryflags.com/thumbs/france/flag-round-250.png"],[".", "https://image.flaticon.com/icons/svg/183/183759.svg"]]`
