@@ -1,5 +1,44 @@
 # Changelog
 
+## Version 4.2 - November 21, 2018
+
+### Added
+- Fully-featured theme editor!
+  - A more user-friendly way to customize your Schoology appearance
+  - Access the theme editor through Schoology Plus settings (it replaces the old theme selection dialog)
+  - Allows you to create, import, edit, export, delete, preview, and apply themes
+  - Live preview of themes!
+- Points possible values are shown for assignments that do not yet have a grade
+  - By default, Schoology hides this information from you and shows simply an em dash (—) for assignments without a grade
+- "See Archived" button in courses dropdown to quickly access archived courses
+  - There is also a new setting that allows you to disable this feature
+
+### Changed
+- The Firefox extension download page now ensures you are using Firefox before downloading
+- Renamed the "Custom Color" theme to "Schoology Plus"
+- Renamed "Course Aliases" to "Nicknames"
+- Moved document tooltips on materials pages from the file size to the file name
+- New release nags
+  - The "!!" on the Schoology Plus settings button and the flashing "New Update" text have been removed
+  - Replaced with less intrusive on-page notification
+- Theme JSON format updated
+  - Themes will be automatically converted
+  - Importing the old format still works
+- Contributors page now more thoroughly lists icon authors
+- More prominently featured Glen Husman, the co-lead developer of this extension
+
+### Deprecated
+- The "Custom Color" theme and the "Color Hue" setting have been deprecated
+  - If you are currently using the Custom Color theme with a modified hue setting, your interface will remain unchanged
+  - However, you are no longer able to modify the color hue setting
+  - If you want to change the color, create a new theme and change the color hue
+
+### Fixed
+- Schoology Plus broadcasts now show up on https://lms.lausd.net/home
+  - Previously, broadcasts would only show up on https://lms.lausd.net/home/recent-activity
+- Better error handling all around
+- Desktop notifications now work in Firefox
+
 ## Version 4.1.1 - September 16, 2018
 
 ### Fixes
