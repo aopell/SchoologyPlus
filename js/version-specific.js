@@ -33,7 +33,7 @@ function versionSpecificFirstLaunch(version) {
                 });
 
                 let oldFormatThemesExist = false;
-                for(let t of storage.themes) {
+                for(let t of storage.themes || []) {
                     if(t.icons && !(t.icons instanceof Array)) {
                         oldFormatThemesExist = true;
                         let newIconsArray = [];

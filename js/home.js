@@ -76,7 +76,7 @@ function formatDateAsString(date) {
 }
 
 if (storage.broadcasts !== "disabled") {
-    for (let broadcast of storage.unreadBroadcasts) {
+    for (let broadcast of storage.unreadBroadcasts || []) {
         feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
     }
 }
