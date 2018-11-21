@@ -148,12 +148,14 @@ function importFromObject(j) {
                     let row = addIcon();
                     row.querySelector(".class-name").textContent = i[0];
                     row.querySelector(".icon-url").textContent = i[1];
+                    row.querySelector(".small-icon-preview").src = i[1];
                 }
             } else {
                 for (let k in j.icons) {
                     let row = addIcon();
                     row.querySelector(".class-name").textContent = k;
                     row.querySelector(".icon-url").textContent = j.icons[k];
+                    row.querySelector(".small-icon-preview").src = j.icons[k];
                 }
             }
         }
@@ -590,13 +592,15 @@ function rainbow() {
 }
 
 function addIcon() {
-    let template = `<td style=text-align:center><a class="action-button tooltipped arrow-button move-down"data-tooltip="Move Down"><i class=material-icons>arrow_downward</i> </a><a class="action-button tooltipped arrow-button move-up"data-tooltip="Move Up"><i class=material-icons>arrow_upward</i></a><td class=class-name data-text="Class Name Pattern"><td class=icon-url data-text="Icon URL"><td><a class="action-button tooltipped btn-flat delete-icon-button right waves-effect waves-light"data-tooltip=Delete><i class=material-icons>delete</i></a>`;
+    let template = `<td style=text-align:center><a class="action-button tooltipped arrow-button move-down"data-tooltip="Move Down"><i class=material-icons>arrow_downward</i> </a><a class="action-button tooltipped arrow-button move-up"data-tooltip="Move Up"><i class=material-icons>arrow_upward</i></a><td class=class-name data-text="Class Name Pattern"><td class=icon-url data-text="Icon URL"><td><img class="small-icon-preview" height=32/></td><td><a class="action-button tooltipped btn-flat delete-icon-button right waves-effect waves-light"data-tooltip=Delete><i class=material-icons>delete</i></a>`;
     let tr = document.createElement("tr");
     tr.innerHTML = template;
     iconList.appendChild(tr);
+    let preview = tr.querySelector(".small-icon-preview");
     tr.querySelector(".move-down").addEventListener("click", moveDown);
     tr.querySelector(".move-up").addEventListener("click", moveUp);
     tr.querySelector(".delete-icon-button").addEventListener("click", deleteIcon);
+    tr.querySelector(".icon-url").addEventListener("input", e => preview.src = e.target.textContent);
     Array.from(tr.querySelectorAll("td")).map(x => x.addEventListener("blur", e => e.target.scrollLeft = 0));
     M.Tooltip.init(tr.querySelectorAll('.tooltipped'), { outDuration: 0, inDuration: 300, enterDelay: 0, exitDelay: 10, transition: 10 });
     if (inEditMode()) {
