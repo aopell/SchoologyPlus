@@ -136,7 +136,6 @@ var fetchQueue = [];
                     let kabobMenuButton = createElement("span", ["kabob-menu"], {
                         textContent: "⠇",
                         onclick: function (event) {
-                            console.log(event);
                             $(assignment).contextMenu({ x: event.pageX, y: event.pageY });
                         }
                     });
@@ -149,6 +148,9 @@ var fetchQueue = [];
                     }
 
                     commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
+                    if(commentsContentWrapper.querySelector(".comment")) {
+                        commentsContentWrapper.style.display = "flex";
+                    }
 
                     let createAddAssignmentUi = async function () {
                         //.insertAdjacentElement('afterend', document.createElement("div"))

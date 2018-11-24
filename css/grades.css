@@ -146,6 +146,7 @@ input#enable-modify {
 }
 
 .kabob-menu {
+    margin-left: 10px;
     font-size: 16px;
     font-weight: normal;
     float: right;
