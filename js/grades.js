@@ -131,6 +131,27 @@ var fetchQueue = [];
                     //assignment.style.padding = "7px 30px 5px";
                     //assignment.style.textAlign = "center";
 
+                    // kabob menu
+                    let commentsContentWrapper = assignment.querySelector(".comment-column").firstElementChild;
+                    let kabobMenuButton = createElement("span", ["kabob-menu"], {
+                        textContent: "⠇",
+                        onclick: function (event) {
+                            $(assignment).contextMenu({ x: event.pageX, y: event.pageY });
+                        }
+                    });
+
+                    let editEnableCheckbox = document.getElementById("enable-modify");
+
+                    // not created yet and thus editing disabled, or created the toggle but editing disabled
+                    if (!editEnableCheckbox || !editEnableCheckbox.checked) {
+                        kabobMenuButton.classList.add("hidden");
+                    }
+
+                    commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
+                    if(commentsContentWrapper.querySelector(".comment")) {
+                        commentsContentWrapper.style.display = "flex";
+                    }
+
                     let createAddAssignmentUi = async function () {
                         //.insertAdjacentElement('afterend', document.createElement("div"))
                         let addAssignmentThing = createElement("tr", ["report-row", "item-row", "last-row-of-tier", "grade-add-indicator"]);
@@ -551,6 +572,10 @@ var fetchQueue = [];
                             }
                         }
                     });
+
+                    for (let kabob of document.getElementsByClassName("kabob-menu")) {
+                        kabob.classList.remove("hidden");
+                    }
                 } else if (!gradesModified) {
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
                         edit.style.display = "none";
@@ -560,6 +585,9 @@ var fetchQueue = [];
                         if (edit.previousElementSibling.classList.contains("item-row") && !edit.previousElementSibling.classList.contains("last-row-of-tier")) {
                             edit.previousElementSibling.classList.add("last-row-of-tier");
                         }
+                    }
+                    for (let kabob of document.getElementsByClassName("kabob-menu")) {
+                        kabob.classList.add("hidden");
                     }
                     for (let courseElement of document.getElementsByClassName("gradebook-course")) {
                         $.contextMenu("destroy", "#" + courseElement.id + " " + undroppedAssignRClickSelector);
