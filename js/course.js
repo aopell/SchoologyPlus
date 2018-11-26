@@ -108,7 +108,7 @@ function saveCourseSettings() {
     let currentAliasesValue = storage.courseAliases || {};
     currentAliasesValue[courseIdNumber] = document.getElementById("setting-input-course-alias").value;
 
-    chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue, perCourseIcons: currentCourseIconsValue }, x => {
+    chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
         let settingsSaved = document.getElementById("save-course-settings");
         settingsSaved.value = "Saved!";
         setTimeout(() => {
@@ -125,7 +125,7 @@ function restoreCourseDefaults() {
     currentAliasesValue[courseIdNumber] = null;
 
     if (confirm(`Are you sure you want to reset all options for the course "${courseSettingsCourseName}" to their default values? This action is irreversible.`)) {
-        chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue, perCourseIcons: currentCourseIconsValue }, x => {
+        chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
             alert("Settings restored. Reloading.");
             location.reload();
         });
