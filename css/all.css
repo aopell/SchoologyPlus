@@ -390,3 +390,11 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 #nav .courses-action .before-last-li, #nav .groups-action .before-last-li {
     border-right: 1px solid #ddd;
 }
+
+h1.setting-title {
+    display: inline;
+}
+
+#grading-scale-wrapper {
+    margin-top: 7px !important;
+}

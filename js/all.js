@@ -177,14 +177,19 @@ function openOptionsMenu(settingsModal) {
     });
 }
 
-function openModal(id) {
+/**
+ * Opens the modal with the given ID
+ * @param {string} id The ID of the modal to open
+ * @param {Object} [options] An optional options argument to be passed to the modal's open event
+ */
+function openModal(id, options) {
 
     for (let m of modals) {
         modalClose(m.element);
     }
 
     let mm = modals.find(m => m.id == id);
-    if (mm.onopen) mm.onopen(mm);
+    if (mm.onopen) mm.onopen(mm, options);
     mm.element.style.display = "block";
 }
 
@@ -205,7 +210,7 @@ function modalClose(element) {
  * @param {string} title 
  * @param {HTMLElement} contentElement 
  * @param {string} footerHTML 
- * @param {(Modal)=>void} openCallback 
+ * @param {(Modal,Object?)=>void} openCallback 
  */
 function Modal(id, title, contentElement, footerHTML, openCallback) {
     let modalHTML = `<div id="${id}" class="splus-modal"><div class="splus-modal-content"><div class="splus-modal-header"><span class="close" data-parent="${id}">&times;</span>`

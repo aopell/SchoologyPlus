@@ -151,7 +151,8 @@
                         find: findText,
                         wrap: "span",
                         wrapClass: wrapClassName,
-                        portionMode: "first"
+                        portionMode: "first",
+                        filterElements: (elem) => elem.id != "course-options-course-name"
                     });
 
                     document.title = document.title.replace(findText, storage.courseAliases[jsonCourse.id]);

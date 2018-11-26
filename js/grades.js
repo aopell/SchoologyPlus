@@ -6,8 +6,10 @@ $.contextMenu({
         options: {
             name: "Course Options",
             callback: function (key, opt) {
-                courseIdNumber = this[0].parentElement.id.match(/\d+/)[0];
-                openModal("course-settings-modal");
+                openModal("course-settings-modal", {
+                    courseId: this[0].parentElement.id.match(/\d+/)[0],
+                    courseName: this[0].querySelector("a span:nth-child(3)") ? this[0].querySelector("a span:nth-child(2)").textContent : this[0].innerText.split('\n')[0]
+                });
             }
         },
         separator: "-----",
@@ -148,7 +150,7 @@ var fetchQueue = [];
                     }
 
                     commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
-                    if(commentsContentWrapper.querySelector(".comment")) {
+                    if (commentsContentWrapper.querySelector(".comment")) {
                         commentsContentWrapper.style.display = "flex";
                     }
 

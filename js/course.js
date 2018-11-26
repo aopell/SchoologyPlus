@@ -1,4 +1,5 @@
 let courseIdNumber;
+let courseSettingsCourseName;
 (function () {
     let sidebar = document.querySelector(".course-info-wrapper dl");
     if (sidebar) {
@@ -9,31 +10,37 @@ let courseIdNumber;
         button.prepend(img);
         button.querySelector("input").style.paddingLeft = "4px";
         button.style.cursor = "pointer";
-        button.addEventListener("click", () => openModal("course-settings-modal"));
+        button.addEventListener("click", () => openModal("course-settings-modal", { courseId: document.location.href.match(/\/(\d+)\//)[1], courseName: document.querySelector(".page-title").textContent }));
 
         sidebar.appendChild(button);
-        courseIdNumber = document.location.href.match(/\/(\d+)\//)[1];
     }
 })();
 
-modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", ["splus-modal-contents"], {}, [
-    createElement("div", ["setting-entry"], {}, [
-        createElement("h2", ["setting-title"], {}, [
-            createElement("label", ["centered-label"], { textContent: "Nickname: ", htmlFor: "setting-input-course-alias" }),
-            createElement("input", [], { type: "text", id: "setting-input-course-alias" }, [])
-        ])
-    ]),
-    createElement("h2", ["setting-entry"], { textContent: "Grading Scale" }),
-    createElement("div", ["setting-entry"], {}, [
-        createElement("table", [], { id: "grading-scale-wrapper" }, [
-            createElement("tr", [], {}, [
-                createElement("th", [], { textContent: "Minimum Percentage" }),
-                createElement("th", [], { textContent: "Grade Symbol" })
+modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", [], {}, [
+    createElement("div", ["splus-modal-contents"], {}, [
+        createElement("div", ["setting-entry"], {}, [
+            createElement("h1", ["setting-title"], { id: "course-options-course-name" })
+        ]),
+        createElement("div", ["setting-entry"], {}, [
+            createElement("h2", ["setting-title"], {}, [
+                createElement("label", ["centered-label"], { textContent: "Nickname: ", htmlFor: "setting-input-course-alias" }),
+                createElement("input", [], { type: "text", id: "setting-input-course-alias" }, [])
+            ]),
+            createElement("p", ["setting-description"], { textContent: "A frendlier name for a course that shows anywhere the full name for the course would normally" })
+        ]),
+        createElement("div", ["setting-entry"], {}, [
+            createElement("h2", [], { textContent: "Grading Scale" }),
+            createElement("p", ["setting-description"], { textContent: "This grading scale is used to show letter grades when teachers don't set them, and for calculating the minimum score needed on an assignment for a grade" }),
+            createElement("table", [], { id: "grading-scale-wrapper" }, [
+                createElement("tr", [], {}, [
+                    createElement("th", [], { textContent: "Minimum Percentage" }),
+                    createElement("th", [], { textContent: "Grade Symbol" })
+                ])
+            ]),
+            createElement("p", ["add-grade-symbol"], {}, [
+                createElement("a", [], { textContent: "Add Grading Symbol", href: "#", onclick: (event) => createRow() })
             ])
         ]),
-        createElement("p", ["add-grade-symbol"], {}, [
-            createElement("a", [], { textContent: "Add Grading Symbol", href: "#", onclick: (event) => createRow() })
-        ])
     ]),
     createElement("div", ["settings-buttons-wrapper"], undefined, [
         createButton("save-course-settings", "Save Settings", saveCourseSettings),
@@ -46,7 +53,11 @@ document.querySelector("#course-settings-modal .close").onclick = modalClose;
 const defaultGradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
 let gradingScale = defaultGradingScale;
 
-function setCourseOptionsContent() {
+function setCourseOptionsContent(modal, options) {
+    document.getElementById("course-options-course-name").textContent = options.courseName || "<UNKNOWN COURSE>";
+    courseSettingsCourseName = options.courseName;
+    courseIdNumber = options.courseId ? options.courseId : courseIdNumber;
+
     for (let e of document.querySelectorAll(".grade-symbol-row")) {
         e.parentElement.removeChild(e);
     }
@@ -59,6 +70,8 @@ function setCourseOptionsContent() {
     let aliasInput = document.getElementById("setting-input-course-alias");
     if (storage.courseAliases && storage.courseAliases[courseIdNumber]) {
         aliasInput.value = storage.courseAliases[courseIdNumber];
+    } else {
+        aliasInput.value = "";
     }
 }
 
@@ -95,7 +108,7 @@ function saveCourseSettings() {
     let currentAliasesValue = storage.courseAliases || {};
     currentAliasesValue[courseIdNumber] = document.getElementById("setting-input-course-alias").value;
 
-    chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
+    chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue, perCourseIcons: currentCourseIconsValue }, x => {
         let settingsSaved = document.getElementById("save-course-settings");
         settingsSaved.value = "Saved!";
         setTimeout(() => {
@@ -111,8 +124,8 @@ function restoreCourseDefaults() {
     let currentAliasesValue = storage.courseAliases || {};
     currentAliasesValue[courseIdNumber] = null;
 
-    if(confirm("Are you sure you want to reset all options for this course to their default values? This action is irreversible.")) {
-        chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
+    if (confirm(`Are you sure you want to reset all options for the course "${courseSettingsCourseName}" to their default values? This action is irreversible.`)) {
+        chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue, perCourseIcons: currentCourseIconsValue }, x => {
             alert("Settings restored. Reloading.");
             location.reload();
         });
