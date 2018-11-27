@@ -200,6 +200,8 @@ var fetchQueue = [];
                                 assignment.classList.remove("grade-add-indicator");
                                 assignment.classList.remove("last-row-of-tier");
 
+                                assignment.classList.add("added-fake-assignment");
+
                                 assignment.getElementsByClassName("title")[0].firstElementChild.textContent = "Added Assignment";
 
                                 let newAddAssignmentPlaceholder = await createAddAssignmentUi();
@@ -281,7 +283,8 @@ var fetchQueue = [];
             type: "checkbox",
             id: "enable-modify",
             onclick: function () {
-                let undroppedAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.contains-exception)";
+                let normalAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.added-fake-assignment):not(.contains-exception)";
+                let addedAssignRClickSelector = ".item-row.added-fake-assignment:not(.dropped):not(.grade-add-indicator):not(.contains-exception)";
                 let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator):not(.contains-exception)";
 
                 if (document.getElementById("enable-modify").checked) {
@@ -428,92 +431,104 @@ var fetchQueue = [];
                         recalculatePeriodScore(perRow, deltaScore, noGrade ? maxVal : 0);
                     };
 
-                    let undroppedAssignContextMenuObject = {
-                        selector: undroppedAssignRClickSelector,
-                        items: {
-                            drop: {
-                                name: "Drop",
-                                callback: function (key, opt) {
-                                    this[0].classList.add("dropped");
-                                    // alter grade
-                                    let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
-                                    // TODO refactor the grade extraction
-                                    let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
-                                    let maxGrade = gradeColContentWrap.querySelector(".max-grade");
-                                    let scoreVal = 0;
-                                    let maxVal = 0;
+                    let dropGradeThis = function () {
+                        this[0].classList.add("dropped");
+                        // alter grade
+                        let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
+                        // TODO refactor the grade extraction
+                        let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
+                        let maxGrade = gradeColContentWrap.querySelector(".max-grade");
+                        let scoreVal = 0;
+                        let maxVal = 0;
 
-                                    if (score && maxGrade) {
-                                        scoreVal = Number.parseFloat(score.textContent);
-                                        maxVal = Number.parseFloat(maxGrade.textContent.substring(3));
-                                    } else if (this[0].querySelector(".exception-icon.missing")) {
-                                        let scoreValues = maxGrade.textContent.split("/");
-                                        scoreVal = Number.parseFloat(scoreValues[0]);
-                                        maxVal = Number.parseFloat(scoreValues[1]);
-                                    }
+                        if (score && maxGrade) {
+                            scoreVal = Number.parseFloat(score.textContent);
+                            maxVal = Number.parseFloat(maxGrade.textContent.substring(3));
+                        } else if (this[0].querySelector(".exception-icon.missing")) {
+                            let scoreValues = maxGrade.textContent.split("/");
+                            scoreVal = Number.parseFloat(scoreValues[0]);
+                            maxVal = Number.parseFloat(scoreValues[1]);
+                        }
 
-                                    if (!gradeColContentWrap.querySelector(".modified-score-percent-warning")) {
-                                        //gradeColContentWrap.getElementsByClassName("injected-assignment-percent")[0].style.paddingRight = "0";
-                                        gradeColContentWrap.appendChild(generateScoreModifyWarning());
-                                        gradesModified = true;
-                                    }
+                        if (!gradeColContentWrap.querySelector(".modified-score-percent-warning")) {
+                            //gradeColContentWrap.getElementsByClassName("injected-assignment-percent")[0].style.paddingRight = "0";
+                            gradeColContentWrap.appendChild(generateScoreModifyWarning());
+                            gradesModified = true;
+                        }
 
-                                    let catId = this[0].dataset.parentId;
-                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
-                                    recalculateCategoryScore(catRow, -scoreVal, -maxVal);
+                        let catId = this[0].dataset.parentId;
+                        let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
+                        recalculateCategoryScore(catRow, -scoreVal, -maxVal);
 
-                                    let perId = catRow.dataset.parentId;
-                                    let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
-                                    recalculatePeriodScore(perRow, -scoreVal, -maxVal);
-                                }
-                            },
-                            separator: "-----",
-                            calculateMinGrade: {
-                                name: "Calculate Minimum Grade",
-                                callback: function (key, opt) {
-                                    // TODO refactor grade extraction
-                                    // get course letter grade
-                                    let catId = this[0].dataset.parentId;
-                                    let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
-                                    let perId = catRow.dataset.parentId;
-                                    let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
+                        let perId = catRow.dataset.parentId;
+                        let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
+                        recalculatePeriodScore(perRow, -scoreVal, -maxVal);
+                    };
 
-                                    // TODO refactor
-                                    // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
-                                    let courseId = Number.parseInt(/course-(\d+)$/.exec(this[0].parentElement.parentElement.parentElement.parentElement.id)[1]);
-
-                                    let gradingScale = storage.getGradingScale(courseId);
-
-                                    let courseGrade = getLetterGrade(gradingScale, Number.parseFloat(/\d+(\.\d+)%/.exec(perRow.querySelector(".grade-column-right").firstElementChild.textContent)[0].slice(0, -1)));
-
-                                    let desiredPercentage = 0.9;
-
-                                    // letter to percent - "in" for property enumeration
-                                    for (let gradeValue in gradingScale) {
-                                        if (gradingScale[gradeValue] == courseGrade) {
-                                            desiredPercentage = Number.parseFloat(gradeValue) / 100;
-                                            break;
-                                        }
-                                    }
-
-                                    calculateMinimumGrade(this[0], desiredPercentage);
-                                },
-                                items: {}
+                    let undroppedAssignItemSet = {
+                        drop: {
+                            name: "Drop",
+                            callback: dropGradeThis
+                        },
+                        delete: {
+                            name: "Delete",
+                            callback: function () {
+                                dropGradeThis.bind(this)();
+                                // shouldn't need to worry about any last-row-of-tier stuff because this will always be followed by an Add Assignment indicator
+                                this[0].remove();
                             }
-                            // TODO, menu as follows:
-                            // "Calculate Minimum Grade" (for current letter grade)
-                            // -> "For A"
-                            // -> "For B"
-                            // etc, based on grading scale
+                        },
+                        separator: "-----",
+                        calculateMinGrade: {
+                            name: "Calculate Minimum Grade",
+                            callback: function (key, opt) {
+                                // TODO refactor grade extraction
+                                // get course letter grade
+                                let catId = this[0].dataset.parentId;
+                                let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
+                                let perId = catRow.dataset.parentId;
+                                let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
+
+                                // TODO refactor
+                                // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
+                                let courseId = Number.parseInt(/course-(\d+)$/.exec(this[0].parentElement.parentElement.parentElement.parentElement.id)[1]);
+
+                                let gradingScale = storage.getGradingScale(courseId);
+
+                                let courseGrade = getLetterGrade(gradingScale, Number.parseFloat(/\d+(\.\d+)%/.exec(perRow.querySelector(".grade-column-right").firstElementChild.textContent)[0].slice(0, -1)));
+
+                                let desiredPercentage = 0.9;
+
+                                // letter to percent - "in" for property enumeration
+                                for (let gradeValue in gradingScale) {
+                                    if (gradingScale[gradeValue] == courseGrade) {
+                                        desiredPercentage = Number.parseFloat(gradeValue) / 100;
+                                        break;
+                                    }
+                                }
+
+                                calculateMinimumGrade(this[0], desiredPercentage);
+                            },
+                            items: {}
                         }
                     };
 
-                    for (let courseElement of document.getElementsByClassName("gradebook-course")) {
-                        let contextMenuObject = Object.assign({}, undroppedAssignContextMenuObject);
-                        let calcMinFor = {};
-                        contextMenuObject.items.calculateMinGrade.items = calcMinFor;
-                        contextMenuObject.selector = "#" + courseElement.id + " " + contextMenuObject.selector;
+                    let undroppedAssignContextMenuItems = {
+                        drop: undroppedAssignItemSet.drop,
+                        separator: undroppedAssignItemSet.separator,
+                        calculateMinGrade: undroppedAssignItemSet.calculateMinGrade
+                    };
 
+                    for (let courseElement of document.getElementsByClassName("gradebook-course")) {
+                        let baseContextMenuObject = {};
+                        let calcMinFor = {};
+                        baseContextMenuObject.items = {};
+                        Object.assign(baseContextMenuObject.items, undroppedAssignContextMenuItems);
+                        baseContextMenuObject.items.calculateMinGrade = {};
+                        Object.assign(baseContextMenuObject.items.calculateMinGrade, undroppedAssignContextMenuItems.calculateMinGrade);
+                        baseContextMenuObject.items.calculateMinGrade.items = calcMinFor;
+
+                        baseContextMenuObject.selector = "#" + courseElement.id + " ";
 
                         let courseId = /\d+$/.exec(courseElement.id)[0];
 
@@ -530,7 +545,18 @@ var fetchQueue = [];
                             };
                         }
 
-                        $.contextMenu(contextMenuObject);
+                        let normalContextMenuObject = Object.assign({}, baseContextMenuObject);
+                        normalContextMenuObject.selector += normalAssignRClickSelector;
+
+
+                        let addedContextMenuObject = Object.assign({}, baseContextMenuObject);
+                        addedContextMenuObject.selector += addedAssignRClickSelector;
+                        // replace drop with delete
+                        addedContextMenuObject.items = Object.assign({}, baseContextMenuObject.items);
+                        addedContextMenuObject.items.drop = undroppedAssignItemSet.delete;
+
+                        $.contextMenu(normalContextMenuObject);
+                        $.contextMenu(addedContextMenuObject);
                     }
 
                     $.contextMenu({
@@ -592,7 +618,8 @@ var fetchQueue = [];
                         kabob.classList.add("hidden");
                     }
                     for (let courseElement of document.getElementsByClassName("gradebook-course")) {
-                        $.contextMenu("destroy", "#" + courseElement.id + " " + undroppedAssignRClickSelector);
+                        $.contextMenu("destroy", "#" + courseElement.id + " " + normalAssignRClickSelector);
+                        $.contextMenu("destroy", "#" + courseElement.id + " " + addedAssignRClickSelector);
                     }
                     $.contextMenu("destroy", droppedAssignRClickSelector);
                 } else {
