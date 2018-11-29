@@ -25,13 +25,13 @@ Grades Page Improvements:
   - Classes are sorted by period*
   - Grades are displayed when classes are collapsed
   - Displays letter grades for classes that don't provide them*
-    - The specific score needed for each grade can be customized, see [Custom Grading Scales](#custom-grading-scales)
+    - The specific score needed for each grade can be customized, see "Custom Grading Scales"
   - Point totals are displayed for classes with unweighted categories
   - Point totals are displayed for all assignment categories
   - The number of possible points for an assignment is shown even when a grade has not yet been entered for that assignment
   - Percentages are shown for each individual assignment
   - Removes the useless "(no grading period)" section from all classes
-  - Right click a class to quickly jump to a specific page or to edit that [course's settings](#course-settings)
+  - Right click a class to quickly jump to a specific page or to edit that course's settings
 - Simulated Grades
   - Allows you to locally modify the grade of an assignment
     - Schoology Plus will recalculate the grades for each category and for the entire class
@@ -71,7 +71,7 @@ Schoology Plus Settings:
   - Archived Courses Button
     - Shows a button labeled "See Archived" next to the "See All" button in the courses dropdown
 - Theme Editor:
-  - Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the [Theme Editor Help Page](themes/README.md).
+  - Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the theme editor help page.
 
 Course Options:
 - Course Nicknames
@@ -89,3 +89,5 @@ Contributors:
 This extension was created by Aaron Opell.
 Significant development assistance has been provided by Glen Husman.
 Various other contribution information is located in the Contributors dialog accessible via a link in the footer of Schoology Plus settings.
+
+Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners.

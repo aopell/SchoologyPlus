@@ -197,3 +197,7 @@ This extension was created by [Aaron Opell](https://github.com/aopell). Signific
 
 # License
 This project is open source under the MIT License. See the [LICENSE file](LICENSE) for more information.
+
+# Disclaimer
+
+Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners.

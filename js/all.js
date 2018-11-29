@@ -88,6 +88,10 @@ let modals = [
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], { textContent: "...and more" }),
                 createElement("p", ["setting-description"], { textContent: "For various ideas and suggestions" })
+            ]),
+            createElement("div",["setting-entry"],{},[
+                createElement("h3", ["setting-title"], {textContent: "Disclaimer"}),
+                createElement("p", ["setting-description"], {textContent: "Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners."})
             ])
         ]),
         "&copy; Aaron Opell, Glen Husman 2018"
