@@ -96,10 +96,13 @@ col.comments-column {
 .modified-score-percent-warning {
     vertical-align: middle;
     position: absolute;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
-.item-row img.modified-score-percent-warning {
-    width: 11px;
+.item-row img.modified-score-percent-warning, .grade-column-center img.modified-score-percent-warning {
+    width: 12px;
+    margin-top: 2px;
 }
 
 .category-row img.modified-score-percent-warning {
@@ -107,7 +110,8 @@ col.comments-column {
 }
 
 .period-row img.modified-score-percent-warning {
-    width: 13px;
+    margin-bottom: 1px;
+    width: 15px;
 }
 
 .relative-span-contain {
