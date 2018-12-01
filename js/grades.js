@@ -40,8 +40,6 @@ var fetchQueue = [];
 (async function () {
     console.log("Running Schoology Plus grades page improvement script");
 
-    let apiKeys = await getApiKeys();
-
     let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
     let courses = inner.getElementsByClassName("gradebook-course");
     let coursesByPeriod = [];
@@ -108,22 +106,20 @@ var fetchQueue = [];
                         maxGrade.parentElement.appendChild(newGrade);
                     }
                     else {
-                        queueNonenteredAssignment(assignment, apiKeys, courseId);
+                        queueNonenteredAssignment(assignment, courseId);
                     }
                     if (assignment.querySelector(".missing")) {
                         // get denominator for missing assignment
-                        if (apiKeys) {
-                            let p = assignment.querySelector(".injected-assignment-percent");
-                            p.textContent = "0%";
-                            p.title = "Assignment missing";
-                            console.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
-                            let json = await fetchApiJson(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
+                        let p = assignment.querySelector(".injected-assignment-percent");
+                        p.textContent = "0%";
+                        p.title = "Assignment missing";
+                        console.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
+                        let json = await fetchApiJson(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
 
-                            let pts = Number.parseFloat(json.max_points);
-                            if (!assignment.classList.contains("dropped")) {
-                                max += pts;
-                                console.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
-                            }
+                        let pts = Number.parseFloat(json.max_points);
+                        if (!assignment.classList.contains("dropped")) {
+                            max += pts;
+                            console.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
                         }
                     }
                     //assignment.style.padding = "7px 30px 5px";
@@ -646,7 +642,7 @@ var fetchQueue = [];
         return "?";
     }
 
-    function queueNonenteredAssignment(assignment, apiKeys, courseId) {
+    function queueNonenteredAssignment(assignment, courseId) {
         let noGrade = assignment.getElementsByClassName("no-grade")[0];
 
         if (noGrade.parentElement.classList.contains("exception-grade-wrapper")) {
@@ -663,7 +659,7 @@ var fetchQueue = [];
             }
         }
 
-        if (noGrade && apiKeys && assignment.dataset.id) {
+        if (noGrade && assignment.dataset.id) {
             // do this while the other operation is happening so we don't block the page load
             // don't block on it
 

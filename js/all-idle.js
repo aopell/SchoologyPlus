@@ -93,9 +93,7 @@
 
     // PREP COURSE ALIASES
     if (storage.courseAliases) {
-        let apiKeys = await getApiKeys();
-
-        let myClasses = (await fetchApiJson(`/users/${apiKeys[2]}/sections`)).section;
+        let myClasses = (await fetchApiJson(`/users/${getUserId()}/sections`)).section;
 
         // get course info for courses with aliases that I'm not currently enrolled in, concurrently
         myClasses.push(...await Promise.all(Object.keys(storage.courseAliases).filter(aliasedCourseId => !myClasses.some(x => x.id == aliasedCourseId))

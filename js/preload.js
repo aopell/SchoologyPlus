@@ -563,10 +563,17 @@ async function getApiKeys() {
 }
 
 /**
+ * Gets the current user's ID.
+ */
+function getUserId() {
+    return document.querySelector("#profile > a").href.match(/\d+/)[0];
+}
+
+/**
  * Gets the user's API credentials from the Schoology API key webpage, bypassing the cache.
  */
 async function getApiKeysDirect() {
-    let userId = document.querySelector("#profile > a").href.match(/\d+/)[0];
+    let userId = getUserId();
     var apiKeys = null;
     console.log(`Fetching API key for user ${userId}`);
     let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();

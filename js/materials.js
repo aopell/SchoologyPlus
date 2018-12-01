@@ -46,7 +46,6 @@
     }
 
     let gradeLoadHooks = [];
-    let myApiKeys;
     let userId;
     let immediateGradeLoadInvoke = false;
     let loadedGradeContainer = null;
@@ -237,8 +236,7 @@
         }
     });
 
-    myApiKeys = await getApiKeys();
-    userId = myApiKeys[2];
+    userId = getUserId();
 
     // watch for new material DOM elements, and process them as they're added
     // needs a corresponding handler in the pagescript
