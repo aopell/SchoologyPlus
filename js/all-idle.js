@@ -95,17 +95,12 @@
     if (storage.courseAliases) {
         let apiKeys = await getApiKeys();
 
-        let myClassData = await fetch(`https://api.schoology.com/v1/users/${apiKeys[2]}/sections`, {
-            headers: createApiAuthenticationHeaders(apiKeys)
-        });
-        let myClasses = (await myClassData.json()).section;
+        let myClasses = (await fetchApiJson(`/users/${apiKeys[2]}/sections`)).section;
 
         // get course info for courses with aliases that I'm not currently enrolled in, concurrently
         myClasses.push(...await Promise.all(Object.keys(storage.courseAliases).filter(aliasedCourseId => !myClasses.some(x => x.id == aliasedCourseId))
             .filter(aliasedCourseId => storage.courseAliases[aliasedCourseId]) // only fetch if the alias hasn't subsequently been cleared
-            .map(id => fetch(`https://api.schoology.com/v1/sections/${id}`, {
-                headers: createApiAuthenticationHeaders(apiKeys)
-            }).then(resp => resp.json().catch(rej => null), rej => null))));
+            .map(id => fetchApi(`/sections/${id}`).then(resp => resp.json().catch(rej => null), rej => null))));
 
         console.log("Classes loaded, building alias stylesheet");
         // https://stackoverflow.com/a/707794 for stylesheet insertion

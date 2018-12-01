@@ -117,11 +117,7 @@ var fetchQueue = [];
                             p.textContent = "0%";
                             p.title = "Assignment missing";
                             console.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
-                            let json = await (
-                                await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
-                                    headers: createApiAuthenticationHeaders(apiKeys)
-                                })
-                            ).json();
+                            let json = await fetchApiJson(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
 
                             let pts = Number.parseFloat(json.max_points);
                             if (!assignment.classList.contains("dropped")) {
@@ -679,9 +675,7 @@ var fetchQueue = [];
 
             let f = async () => {
                 console.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
-                let response = await fetch(`https://api.schoology.com/v1/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`, {
-                    headers: createApiAuthenticationHeaders(apiKeys)
-                });
+                let response = await fetchApi(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
