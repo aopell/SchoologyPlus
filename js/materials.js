@@ -376,7 +376,7 @@
             // get the URL of the doc we want
             // it's an unauthenticated CDN url that expires (experimentation), returned as a redirect
             // unfortunately we need permissions for the extra domain
-            documentUrlsFromApi[documentId] = (await fetchWithApiAuthentication(fileData.converted_download_paths)).url;
+            documentUrlsFromApi[documentId] = (await fetchWithApiAuthentication(fileData.converted_download_path)).url;
         } else {
             // it's a file but not a supported type. TODO what to do? probably at least should show an unsupported method
         }
