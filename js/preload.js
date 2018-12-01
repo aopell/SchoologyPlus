@@ -13,7 +13,70 @@ function getModalContents() {
     return modalContents;
 }
 
+/**
+ * Creates a fetch function wrapper which honors a rate limit.
+ * 
+ * @returns {(input: RequestInfo, init?: RequestInit)=>Promise<Response>} A function following the fetch contract.
+ * @example
+ * // 10 requests per 3 seconds
+ * var rateLimitedFetch = createFetchRateLimitWrapper(10, 3000);
+ * rateLimitedFetch("https://www.google.com/").then(x => console.log(x))
+ * @param {number} requestsPerInterval The number of requests per time interval permitted by the rate limit.
+ * @param {number} interval The amount of time, in milliseconds, that the rate limit is delineated in.
+ */
+function createFetchRateLimitWrapper(requestsPerInterval, interval) {
+    let callsThisCycle = 0;
+
+    // array of resolve callbacks which trigger the request to be reenqueued
+    let queue = [];
+
+    function onIntervalReset() {
+        callsThisCycle = 0;
+        let countToDequeue = queue.length;
+        if (countToDequeue) {
+            console.log("Processing " + countToDequeue + " ratelimit-delayed queued requests");
+        }
+        for (let i = 0; i < countToDequeue; i++) {
+            // note that this resolution might trigger stuff to be added to the queue again
+            // that's why we store length before we iterate
+            queue[i]();
+        }
+        // remove everything we just dequeued and executed
+        queue.splice(0, countToDequeue);
+    }
+
+    function rateLimitedFetch() {
+        if (callsThisCycle == 0) {
+            setTimeout(onIntervalReset, interval);
+        }
+
+        if (callsThisCycle < requestsPerInterval) {
+            callsThisCycle++;
+            return fetch.apply(this, arguments);
+        } else {
+            // enqueue the request
+            // basically try again later
+            let resolvePromiseFunc;
+
+            let realThis = this;
+            let realArgs = arguments;
+
+            let returnPromise = new Promise((resolve, reject) => {
+                resolvePromiseFunc = resolve;
+            }).then(() => rateLimitedFetch.apply(realThis, realArgs));
+
+            queue.push(resolvePromiseFunc);
+
+            return returnPromise;
+        }
+    }
+
+    return rateLimitedFetch;
+}
+
 var preload_globallyCachedApiKeys = null;
+// real limit is 15/5s but we want to be conservative
+var preload_schoologyPlusApiRateLimitedFetch = createFetchRateLimitWrapper(13, 5000);
 
 /**
  * Fetches data from the Schoology API (v1).
@@ -29,9 +92,14 @@ function fetchApi(path) {
  * @returns {Promise<Response>}
  * @param {string} url The URL to fetch.
  * @param {Object.<string, string>} [baseObj] The base set of headers. 
+ * @param {boolean} [useRateLimit=true] Whether or not to use the internal Schoology API rate limit tracker. Defaults to true.
  */
-async function fetchWithApiAuthentication(url, baseObj) {
-    return await fetch(url, {
+async function fetchWithApiAuthentication(url, baseObj, useRateLimit) {
+    if (useRateLimit === undefined) {
+        useRateLimit = true;
+    }
+
+    return await (useRateLimit ? preload_schoologyPlusApiRateLimitedFetch : fetch)(url, {
         headers: createApiAuthenticationHeaders(await getApiKeysInternal(), baseObj)
     });
 }
