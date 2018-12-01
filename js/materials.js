@@ -46,7 +46,6 @@
     }
 
     let gradeLoadHooks = [];
-    let myApiKeys;
     let userId;
     let immediateGradeLoadInvoke = false;
     let loadedGradeContainer = null;
@@ -84,9 +83,7 @@
             // blank because null becomes "null" in the dataset, which is truthy; blank is falsey
             let documentUrlFromApi = "";
             let materialId = value.id.match(/\d+/)[0];
-            let documentInfoFromApi = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/documents/${materialId}`, {
-                headers: createApiAuthenticationHeaders(myApiKeys)
-            })).json());
+            let documentInfoFromApi = await fetchApiJson(`/sections/${classId}/documents/${materialId}`);
 
             if (!documentInfoFromApi.attachments.files || !documentInfoFromApi.attachments.files.file[0]) {
                 // dynamic nonfile (probably link) element
@@ -99,9 +96,7 @@
                 // get the URL of the doc we want
                 // it's an unauthenticated CDN url that expires (experimentation), returned as a redirect
                 // unfortunately we need permissions for the extra domain
-                documentUrlFromApi = (await fetch(fileData.converted_download_path, {
-                    headers: createApiAuthenticationHeaders(myApiKeys)
-                })).url;
+                documentUrlFromApi = (await fetchWithApiAuthentication(fileData.converted_download_path)).url;
             }
 
             loadedTextHolder.dataset.docInfo = JSON.stringify(documentInfoFromApi);
@@ -241,8 +236,7 @@
         }
     });
 
-    myApiKeys = await getApiKeys();
-    userId = myApiKeys[2];
+    userId = getUserId();
 
     // watch for new material DOM elements, and process them as they're added
     // needs a corresponding handler in the pagescript
@@ -254,9 +248,7 @@
 
     // this object contains ALL grades from this Schoology account, "keyed" by annoying IDs
     // TODO Schoology API docs say this is paged, we should possible account for that? 
-    let myGrades = await (await fetch(`https://api.schoology.com/v1/users/${userId}/grades`, {
-        headers: createApiAuthenticationHeaders(myApiKeys)
-    })).json();
+    let myGrades = await fetchApiJson(`/users/${userId}/grades`);
 
     let thisClassGrades = myGrades.section.find(x => x.section_id == classId);
 
@@ -291,9 +283,7 @@
 
     // assignments
     // need a separate API call
-    let ourAssignments = await (await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments`, {
-        headers: createApiAuthenticationHeaders(myApiKeys)
-    })).json();
+    let ourAssignments = await fetchApiJson(`/sections/${classId}/assignments`);
 
     // for some reason (TODO why) that call doesn't always return everything
     // since we only use the assignments collection here (internally), no need to add the entire remainder off of grades
@@ -303,9 +293,7 @@
     let missingAssignmentIds = Object.keys(loadedGradeContainer.grades).filter(x => ourAssignments.assignment.findIndex(y => y.id == x) < 0).filter(x => document.getElementById("n-" + x));
     for (let missingAssignment of missingAssignmentIds) {
         missingAssignmentCt++;
-        let fetchRes = await fetch(`https://api.schoology.com/v1/sections/${classId}/assignments/${missingAssignment}`, {
-            headers: createApiAuthenticationHeaders(myApiKeys)
-        });
+        let fetchRes = await fetchApi(`/sections/${classId}/assignments/${missingAssignment}`);
         if (fetchRes.ok) {
             ourAssignments.assignment.push(await fetchRes.json());
         } else {
@@ -331,9 +319,7 @@
         if (+assignment.allow_dropbox && (gradeInfo.grade === null || gradeInfo.exception)) {
             // "dropboxes," or places to submit documents via Schoology
             // another API call
-            loadedGradeContainer.dropboxes[assignment.id] = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/submissions/${assignment.id}/${userId}`, {
-                headers: createApiAuthenticationHeaders(myApiKeys)
-            })).json()).revision;
+            loadedGradeContainer.dropboxes[assignment.id] = (await fetchApiJson(`/sections/${classId}/submissions/${assignment.id}/${userId}`)).revision;
             Object.freeze(loadedGradeContainer.dropboxes[assignment.id]);
         }
     }
@@ -374,9 +360,7 @@
     let documentUrlsFromApi = {};
     for (let value of document.querySelectorAll("#course-profile-materials tr.type-document")) {
         let materialId = value.id.match(/\d+/)[0];
-        documentInfoFromApi[materialId] = (await (await fetch(`https://api.schoology.com/v1/sections/${classId}/documents/${materialId}`, {
-            headers: createApiAuthenticationHeaders(myApiKeys)
-        })).json());
+        documentInfoFromApi[materialId] = (await fetchApiJson(`/sections/${classId}/documents/${materialId}`));
     }
 
     for (let documentId in documentInfoFromApi) {
@@ -392,9 +376,7 @@
             // get the URL of the doc we want
             // it's an unauthenticated CDN url that expires (experimentation), returned as a redirect
             // unfortunately we need permissions for the extra domain
-            documentUrlsFromApi[documentId] = (await fetch(fileData.converted_download_path, {
-                headers: createApiAuthenticationHeaders(myApiKeys)
-            })).url;
+            documentUrlsFromApi[documentId] = (await fetchWithApiAuthentication(fileData.converted_download_path)).url;
         } else {
             // it's a file but not a supported type. TODO what to do? probably at least should show an unsupported method
         }
