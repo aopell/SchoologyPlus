@@ -35,6 +35,9 @@
         "alarms",
         "notifications"
     ],
+    "optional_permissions": [
+        "cookies"
+    ],
     "web_accessible_resources": [
         "imgs/plus-icon.png",
         "imgs/toy-mode.png",

@@ -330,6 +330,28 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
+                ).getControl(),
+                new Setting(
+                    "sessionCookiePersist",
+                    "Persist Session Through Restarts",
+                    "Stay logged in when you restart your browser (requires additional permissions)",
+                    "disabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
                 ).getControl()
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
