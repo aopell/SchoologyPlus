@@ -398,3 +398,17 @@ h1.setting-title {
 #grading-scale-wrapper {
     margin-top: 7px !important;
 }
+
+.bottom-span {
+    display: block !important;
+    color: grey;
+    font-family: "Century Gothic", sans-serif;
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 14px;
+    font-variant: small-caps;
+}
+
+.regular-caps {
+    font-variant: normal;
+}
