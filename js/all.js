@@ -125,7 +125,7 @@ chrome.storage.sync.get(["newVersion"], s => {
             ]
         });
 
-        versionSpecificFirstLaunch(currentVersion);
+        versionSpecificFirstLaunch(currentVersion, s.newVersion);
         chrome.storage.sync.set({ newVersion: chrome.runtime.getManifest().version });
     }
 });
