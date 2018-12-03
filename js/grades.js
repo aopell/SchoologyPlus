@@ -412,10 +412,15 @@ var fetchQueue = [];
                             deltaScore = (desiredGrade - total) / catPointWorth;
                         }
 
-                        if (deltaScore < 0) {
-                            deltaScore = 0;
-                        } else {
-                            deltaScore = Math.round(deltaScore * 100) / 100;
+                        if (deltaScore < -scoreVal) {
+                            deltaScore = -scoreVal;
+                        }
+
+                        deltaScore = Math.round(deltaScore * 100) / 100;
+
+                        if (deltaScore < -scoreVal) {
+                            // probably 1 under due to rounding
+                            deltaScore++;
                         }
 
                         // TODO refactor: we already have our DOM elements
