@@ -1,5 +1,21 @@
 # Changelog
 
+## Version 4.3 - December 2, 2018
+### Added
+- Kebab (3-dot) menu on assignments in grade-editing mode
+  - Easier access to the features from the right-click menu
+  - Calculate the minimum grade needed to maintain a course average, and simulate dropping/deleting assignments
+
+### Changed
+- Clarified status of Schoology Plus as an unofficial addon, not an official Schoology product
+- Added assignments can now be deleted, instead of dropped
+- Course options dialogs now show which course they apply to
+
+### Fixed
+- Schoology Plus settings button spacing is now even with the other titlebar elements
+- Calculating minimum grades now avoids ridiculous decimals or negative scores
+- Pages requiring many API calls (e.g. long materials pages, or grade pages with many unentered assignments) should load more reliably
+
 ## Version 4.2 - November 21, 2018
 
 ### Added
