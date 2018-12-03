@@ -68,6 +68,30 @@ chrome.cookies.onChanged.addListener(function (changeInfo) {
     }
 
 });
+console.log("Adding BG page message listener");
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        switch (request.type) {
+            case "permission_request":
+                chrome.permissions.request(request.permissionSpecification, function (granted) {
+                    sendResponse({
+                        type: "permission_request",
+                        permissionSpecification: request.permissionSpecification,
+                        granted: granted
+                    });
+                });
+                return true;
+            case "permission_revoke":
+                chrome.permissions.remove(request.permissionSpecification, function (removed) {
+                    sendResponse({
+                        type: "permission_revoke",
+                        permissionSpecification: request.permissionSpecification,
+                        revoked: removed
+                    });
+                });
+                return true;
+        }
+    });
 
 chrome.alarms.get("notification", function (alarm) {
     if (alarm) {
