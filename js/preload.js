@@ -504,7 +504,7 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
-                ).getControl(),
+                ).control,
                 new Setting(
                     "sessionCookiePersist",
                     "Stay Logged In",
