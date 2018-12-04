@@ -35,35 +35,12 @@ if (chrome.cookies && !registeredCookieHandler) {
     // if we have permission
     registerCookieHandler();
 }
-console.log("Adding BG page message listener");
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        switch (request.type) {
-            case "permission_request":
-                console.log("Fielding permission request for " + JSON.stringify(request.permissionSpecification));
-                chrome.permissions.request(request.permissionSpecification, function (granted) {
-                    if (request.permissionSpecification.permissions && request.permissionSpecification.permissions.includes("cookies") && granted && !registeredCookieHandler) {
-                        registerCookieHandler();
-                    }
-
-                    sendResponse({
-                        type: "permission_request",
-                        permissionSpecification: request.permissionSpecification,
-                        granted: granted
-                    });
-                });
-                return true;
-            case "permission_revoke":
-                chrome.permissions.remove(request.permissionSpecification, function (removed) {
-                    sendResponse({
-                        type: "permission_revoke",
-                        permissionSpecification: request.permissionSpecification,
-                        revoked: removed
-                    });
-                });
-                return true;
-        }
-    });
+console.log("Adding permission added listener");
+chrome.permissions.onAdded.addListener(permissionSpec => {
+    if (!registeredCookieHandler && permissionSpec.permissions && permissionSpec.permissions.includes("cookies")) {
+        registerCookieHandler();
+    }
+});
 
 chrome.alarms.get("notification", function (alarm) {
     if (alarm) {
