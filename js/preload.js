@@ -508,13 +508,24 @@ function updateSettings(callback) {
                 new Setting(
                     "sessionCookiePersist",
                     "Stay Logged In",
-                    "[Logout/login required] Stay logged in to Schoology when you restart your browser (requires additional permissions)",
+                    "[Logout/login required] Stay logged in to Schoology when you restart your browser",
                     "disabled",
-                    "button",
-                    {},
-                    value => value ? value.charAt(0).toUpperCase() + value.slice(1) : "Disabled",
-                    event => location.href = chrome.runtime.getURL("/advanced-settings.html"),
-                    element => element.value.toLowerCase()
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
                 ).control
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [

@@ -33,9 +33,7 @@
         "activeTab",
         "storage",
         "alarms",
-        "notifications"
-    ],
-    "optional_permissions": [
+        "notifications",
         "cookies"
     ],
     "web_accessible_resources": [
@@ -44,7 +42,6 @@
         "imgs/icon@128.png",
         "js/materials.pdfhandler.js",
         "theme-editor.html",
-        "advanced-settings.html",
         "imgs/exclamation-mark.svg",
         "imgs/fallback-course-icon.svg",
         "imgs/edit-pencil.svg"
