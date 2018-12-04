@@ -35,12 +35,29 @@ if (chrome.cookies && !registeredCookieHandler) {
     // if we have permission
     registerCookieHandler();
 }
-console.log("Adding permission added listener");
-chrome.permissions.onAdded.addListener(permissionSpec => {
-    if (!registeredCookieHandler && permissionSpec.permissions && permissionSpec.permissions.includes("cookies")) {
-        registerCookieHandler();
-    }
-});
+console.log("Adding BGpage event handler");
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.type == "install_handler" && request.handlerType == "cookies") {
+            console.log("Received cookie handler install request");
+            if (!chrome.cookies) {
+                sendResponse({ success: false, isRegistered: false, error: "permissions_api_missing" });
+            } else if (registeredCookieHandler) {
+                sendResponse({ success: false, isRegistered: true, error: "duplicate_registration" });
+            } else {
+                if (!registerCookieHandler()) {
+                    sendResponse({ success: false, isRegistered: false, error: "registration_error_generic" });
+                } else {
+                    sendResponse({ success: true, isRegistered: true });
+                }
+            }
+        } else if (request.type == "revoke_permission" && request.permissionSpecification) {
+            (chrome.permissions.remove || chrome.permissions.revoke)(permissionSpecification, function (revoked) {
+                sendResponse({ success: revoked });
+            });
+            return true;
+        }
+    });
 
 chrome.alarms.get("notification", function (alarm) {
     if (alarm) {
@@ -61,7 +78,7 @@ function registerCookieHandler() {
     if (!chrome.cookies) {
         console.error("Attempted to register cookie handler but chrome.cookies is not defined.");
         console.trace();
-        return;
+        return false;
     }
     chrome.cookies.onChanged.addListener(function (changeInfo) {
         if (changeInfo.cookie.domain == ".lms.lausd.net" && changeInfo.cookie.name.startsWith("SESS")) {
@@ -101,6 +118,7 @@ function registerCookieHandler() {
         }
     });
     registeredCookieHandler = true;
+    return true;
 }
 
 /**

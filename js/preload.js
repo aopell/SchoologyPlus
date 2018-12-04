@@ -508,7 +508,7 @@ function updateSettings(callback) {
                 new Setting(
                     "sessionCookiePersist",
                     "Stay Logged In",
-                    "Stay logged in to Schoology when you restart your browser (requires additional permissions)",
+                    "[Logout/login required] Stay logged in to Schoology when you restart your browser (requires additional permissions)",
                     "disabled",
                     "button",
                     {},
