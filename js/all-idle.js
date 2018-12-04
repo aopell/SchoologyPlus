@@ -27,7 +27,7 @@
 
 // archived courses button in courses dropdown
 (function () {
-    if (storage.archivedCoursesButton === "show") {
+    if (Setting.getValue("archivedCoursesButton") === "show") {
         let lastCoursesAction = document.querySelector("#primary-courses .wrapper-for-actions").lastElementChild;
         lastCoursesAction.insertAdjacentElement("beforebegin",
             createElement("span", ["see-all"], { title: "See Past Courses" }, [
@@ -49,9 +49,9 @@
     let hasAppliedDashboard = false;
 
     // duplicate of logic in themes.js; needed because we do mutation logic here
-    let skipOverriddenIcons = storage["courseIcons"] === "defaultOnly";
+    let skipOverriddenIcons = Setting.getValue("courseIcons") === "defaultOnly";
 
-    if (storage.courseIcons != "disabled") {
+    if (Setting.getValue("courseIcons") != "disabled") {
         applyThemeIcons = function () {
             let ancillaryList = null;
             if (courseDashboard && !hasAppliedDashboard) {
@@ -92,19 +92,19 @@
     }
 
     // PREP COURSE ALIASES
-    if (storage.courseAliases) {
+    if (Setting.getValue("courseAliases")) {
         let myClasses = (await fetchApiJson(`/users/${getUserId()}/sections`)).section;
 
         // get course info for courses with aliases that I'm not currently enrolled in, concurrently
-        myClasses.push(...await Promise.all(Object.keys(storage.courseAliases).filter(aliasedCourseId => !myClasses.some(x => x.id == aliasedCourseId))
-            .filter(aliasedCourseId => storage.courseAliases[aliasedCourseId]) // only fetch if the alias hasn't subsequently been cleared
+        myClasses.push(...await Promise.all(Object.keys(Setting.getValue("courseAliases")).filter(aliasedCourseId => !myClasses.some(x => x.id == aliasedCourseId))
+            .filter(aliasedCourseId => Setting.getValue("courseAliases")[aliasedCourseId]) // only fetch if the alias hasn't subsequently been cleared
             .map(id => fetchApi(`/sections/${id}`).then(resp => resp.json().catch(rej => null), rej => null))));
 
         console.log("Classes loaded, building alias stylesheet");
         // https://stackoverflow.com/a/707794 for stylesheet insertion
         let sheet = window.document.styleSheets[0];
 
-        for (let aliasedCourseId in storage.courseAliases) {
+        for (let aliasedCourseId in Setting.getValue("courseAliases")) {
             // https://stackoverflow.com/a/18027136 for text replacement
             sheet.insertRule(`.course-name-wrapper-${aliasedCourseId} {
             visibility: hidden;
@@ -112,7 +112,7 @@
             letter-spacing: -999px;
         }`, sheet.cssRules.length);
             sheet.insertRule(`.course-name-wrapper-${aliasedCourseId}:after {
-            content: "${storage.courseAliases[aliasedCourseId]}";
+            content: "${Setting.getValue("courseAliases")[aliasedCourseId]}";
             visibility: visible;
             word-spacing:normal;
             letter-spacing:normal; 
@@ -132,7 +132,7 @@
             }
 
             for (let jsonCourse of myClasses) {
-                if (!jsonCourse || !storage.courseAliases[jsonCourse.id]) {
+                if (!jsonCourse || !Setting.getValue("courseAliases")[jsonCourse.id]) {
                     continue;
                 }
 
@@ -148,7 +148,7 @@
                         filterElements: (elem) => elem.id != "course-options-course-name"
                     });
 
-                    document.title = document.title.replace(findText, storage.courseAliases[jsonCourse.id]);
+                    document.title = document.title.replace(findText, Setting.getValue("courseAliases")[jsonCourse.id]);
                 }
 
                 // cleanup: if we run this replacement twice, we'll end up with unnecessary nested elements <special-span><special-span>FULL COURSE NAME</special-span></special-span>
