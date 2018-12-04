@@ -11,8 +11,8 @@ class Theme {
     }
 
     static getIcon(course) {
-        if (storage.themes) {
-            let t = storage.themes.find(x => x.name === Theme.active.name);
+        if (Setting.getValue("themes")) {
+            let t = Setting.getValue("themes").find(x => x.name === Theme.active.name);
             if (t && t.icons && t.icons instanceof Array) {
                 for (let iconPattern of t.icons) {
                     if (course.match(new RegExp(iconPattern[0], 'i'))) {
@@ -52,12 +52,12 @@ class Theme {
         Theme.setCursorUrl();
         Theme.setLogoVisibility(false);
         Theme.setLogoUrl();
-        theme.onapply(storage);
+        theme.onapply();
         Theme.setProfilePictures();
     }
 
     static get active() {
-        return tempTheme ? Theme.byName(tempTheme) : Theme.byName(storage["theme"]) || Theme.byName("Schoology Plus");
+        return tempTheme ? Theme.byName(tempTheme) : Theme.byName(Setting.getValue("theme")) || Theme.byName("Schoology Plus");
     }
 
     static byName(name) {
@@ -84,9 +84,9 @@ class Theme {
     }
 
     static setProfilePictures(candidateImages) {
-        if (storage["courseIcons"] === "disabled") return;
+        if (Setting.getValue("courseIcons") === "disabled") return;
         // whether or not to skip setting themed icons where the teacher has already set one
-        let skipOverriddenIcons = storage["courseIcons"] === "defaultOnly";
+        let skipOverriddenIcons = Setting.getValue("courseIcons") === "defaultOnly";
         let pictures = [];
         if (candidateImages) {
             if (!skipOverriddenIcons) {
@@ -174,7 +174,7 @@ class Theme {
 
                     if (!containerImg.src) {
                         // not yet attempted
-                        containerImg.onload = function() {
+                        containerImg.onload = function () {
                             containerImg.onload = null;
                             containerImg.dataset.result = "success";
                         };
@@ -243,29 +243,29 @@ let tempTheme = undefined;
 let themes = [
     new Theme(
         "Schoology Plus",
-        function (storage) {
-            Theme.setBackgroundHue(storage["color"] || 210);
+        function () {
+            Theme.setBackgroundHue(Setting.getValue("color") || 210);
         }
     ),
     new Theme(
         "Rainbow",
-        function (storage) {
+        function () {
             Theme.setBackgroundHue((new Date().valueOf() / 100) % 360);
         },
-        function (storage) {
+        function () {
             Theme.setBackgroundHue((new Date().valueOf() / 100) % 360);
         }
     ),
     new Theme(
         "Toy",
-        function (storage) {
+        function () {
             Theme.setBackgroundHue(150);
             Theme.setCursorUrl(chrome.runtime.getURL("imgs/toy-mode.png"));
         }
     ),
     new Theme(
         "LAUSD Orange",
-        function (storage) {
+        function () {
             Theme.setBackgroundColor("#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00");
             Theme.setLogoVisibility(true);
         }
@@ -273,9 +273,7 @@ let themes = [
 ];
 
 setInterval(() => {
-    if (storage) {
-        if (Theme.active.onupdate) {
-            Theme.active.onupdate(storage);
-        }
+    if (Theme.active.onupdate) {
+        Theme.active.onupdate();
     }
 }, 100);

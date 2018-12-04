@@ -65,10 +65,9 @@ function postFromBroadcast(broadcast) {
 
 function dismissNotification(event) {
     let id = event.target.dataset.broadcastId;
-    let unreadBroadcasts = storage.unreadBroadcasts;
+    let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
     unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == id), 1);
-    storage.unreadBroadcasts = unreadBroadcasts;
-    chrome.storage.sync.set({ unreadBroadcasts: unreadBroadcasts });
+    Setting.setValue("unreadBroadcasts", unreadBroadcasts);
     document.getElementById(`broadcast${id}`).outerHTML = "";
 }
 
@@ -76,7 +75,7 @@ function formatDateAsString(date) {
     return `${date.toLocaleString("en-US", { weekday: "short" })} ${date.toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })} at ${date.toLocaleString("en-US", { hour: "numeric", minute: "2-digit" }).toLowerCase()}`;
 }
 
-if (storage.broadcasts !== "disabled") {
+if (Setting.getValue("broadcasts") !== "disabled") {
     (function () {
         let observer = new MutationObserver(function (mutations) {
             if (mutations.length == 0) {
@@ -87,7 +86,7 @@ if (storage.broadcasts !== "disabled") {
             // style is set on homeFeedContainer whenever Schoology decides to unhide it (static CSS sets display: none), i.e. when it's finished loading
             // once this happens, we can do our thing
 
-            for (let broadcast of storage.unreadBroadcasts || []) {
+            for (let broadcast of Setting.getValue("unreadBroadcasts") || []) {
                 feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
             }
 

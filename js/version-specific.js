@@ -27,8 +27,8 @@ function versionSpecificFirstLaunch(currentVersion, previousVersion) {
                 ]
             });
 
-            chrome.storage.sync.get(["unreadBroadcasts", "broadcasts", "themes"], (storage) => {
-                let broadcasts = storage.unreadBroadcasts || [];
+            chrome.storage.sync.get(["unreadBroadcasts", "broadcasts", "themes"], (values) => {
+                let broadcasts = values.unreadBroadcasts || [];
                 broadcasts.push({
                     id: Number.parseInt(currentVersion.replace('.', '')),
                     title: '',
@@ -38,7 +38,7 @@ function versionSpecificFirstLaunch(currentVersion, previousVersion) {
                 });
 
                 let oldFormatThemesExist = false;
-                for (let t of storage.themes || []) {
+                for (let t of values.themes || []) {
                     if (t.icons && !(t.icons instanceof Array)) {
                         oldFormatThemesExist = true;
                         let newIconsArray = [];
@@ -55,8 +55,8 @@ function versionSpecificFirstLaunch(currentVersion, previousVersion) {
                 chrome.storage.sync.remove(["lastBroadcastId", "hideUpdateIndicator"]);
                 chrome.storage.sync.set({
                     unreadBroadcasts: broadcasts,
-                    broadcasts: storage.broadcasts === "feed" ? "enabled" : storage.broadcasts,
-                    themes: storage.themes
+                    broadcasts: values.broadcasts === "feed" ? "enabled" : values.broadcasts,
+                    themes: values.themes
                 });
             });
             break;

@@ -61,15 +61,15 @@ function setCourseOptionsContent(modal, options) {
     for (let e of document.querySelectorAll(".grade-symbol-row")) {
         e.parentElement.removeChild(e);
     }
-    gradingScale = (storage.gradingScales || {})[courseIdNumber] || gradingScale;
+    gradingScale = (Setting.getValue("gradingScales") || {})[courseIdNumber] || gradingScale;
 
     for (let p of Object.keys(gradingScale).sort((a, b) => a - b).reverse()) {
         createRow(p, gradingScale[p]);
     }
 
     let aliasInput = document.getElementById("setting-input-course-alias");
-    if (storage.courseAliases && storage.courseAliases[courseIdNumber]) {
-        aliasInput.value = storage.courseAliases[courseIdNumber];
+    if (Setting.getValue("courseAliases") && Setting.getValue("courseAliases")[courseIdNumber]) {
+        aliasInput.value = Setting.getValue("courseAliases")[courseIdNumber];
     } else {
         aliasInput.value = "";
     }
@@ -92,7 +92,7 @@ function createRow(percentage, symbol) {
 }
 
 function saveCourseSettings() {
-    let currentValue = storage.gradingScales || {};
+    let currentValue = Setting.getValue("gradingScales") || {};
     let scale = {};
     for (let r of document.querySelectorAll(".grade-symbol-row")) {
         let inputBoxes = r.querySelectorAll("input");
@@ -105,10 +105,10 @@ function saveCourseSettings() {
     }
     currentValue[courseIdNumber] = scale;
 
-    let currentAliasesValue = storage.courseAliases || {};
+    let currentAliasesValue = Setting.getValue("courseAliases") || {};
     currentAliasesValue[courseIdNumber] = document.getElementById("setting-input-course-alias").value;
 
-    chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
+    Setting.setValues({ gradingScales: currentValue, courseAliases: currentAliasesValue }, () => {
         let settingsSaved = document.getElementById("save-course-settings");
         settingsSaved.value = "Saved!";
         setTimeout(() => {
@@ -118,14 +118,14 @@ function saveCourseSettings() {
 }
 
 function restoreCourseDefaults() {
-    let currentValue = storage.gradingScales || {};
+    let currentValue = Setting.getValue("gradingScales") || {};
     currentValue[courseIdNumber] = defaultGradingScale;
 
-    let currentAliasesValue = storage.courseAliases || {};
+    let currentAliasesValue = Setting.getValue("courseAliases") || {};
     currentAliasesValue[courseIdNumber] = null;
 
     if (confirm(`Are you sure you want to reset all options for the course "${courseSettingsCourseName}" to their default values? This action is irreversible.`)) {
-        chrome.storage.sync.set({ gradingScales: currentValue, courseAliases: currentAliasesValue }, x => {
+        Setting.setValues({ gradingScales: currentValue, courseAliases: currentAliasesValue }, () => {
             alert("Settings restored. Reloading.");
             location.reload();
         });
