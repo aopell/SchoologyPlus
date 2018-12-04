@@ -510,46 +510,11 @@ function updateSettings(callback) {
                     "Stay Logged In",
                     "Stay logged in to Schoology when you restart your browser (requires additional permissions)",
                     "disabled",
-                    "select",
-                    {
-                        options: [
-                            {
-                                text: "Enabled",
-                                value: "enabled"
-                            },
-                            {
-                                text: "Disabled",
-                                value: "disabled"
-                            }
-                        ]
-                    },
-                    value => value,
-                    event => {
-                        let newVal = event.target.selectedOptions[0].value;
-                        if (newVal == "enabled") {
-                            chrome.runtime.sendMessage({
-                                type: "permission_request",
-                                permissionSpecification: {
-                                    permissions: ["cookies"]
-                                }
-                            }, function (response) {
-                                if (!response.granted) {
-                                    alert("Access to cookies is required to force Schoology sessions to remain logged in after browser restarts.");
-                                    // reset UI
-                                    Setting.setValue("sessionCookiePersist", "disabled");
-                                    __settings["sessionCookiePersist"].modified = false;
-                                }
-                            });
-                        } else if (newVal == "disabled") {
-                            chrome.runtime.sendMessage({
-                                type: "permission_revoke",
-                                permissionSpecification: {
-                                    permissions: ["cookies"]
-                                }
-                            }, resp => { });
-                        }
-                    },
-                    element => element.value
+                    "button",
+                    {},
+                    value => value ? value.charAt(0).toUpperCase() + value.slice(1) : "Disabled",
+                    event => location.href = chrome.runtime.getURL("/advanced-settings.html"),
+                    element => element.value.toLowerCase()
                 ).control
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
