@@ -1,5 +1,7 @@
 const assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filter=all";
 
+let registeredCookieHandler = false;
+
 console.log("Loaded event page");
 console.log("Adding alarm listener");
 chrome.alarms.onAlarm.addListener(onAlarm);
@@ -29,51 +31,21 @@ chrome.browserAction.onClicked.addListener(function () {
         chrome.browserAction.setBadgeText({ text: "" });
     });
 });
-console.log("Adding cookie change listener");
-chrome.cookies.onChanged.addListener(function (changeInfo) {
-    if (changeInfo.cookie.domain == ".lms.lausd.net" && changeInfo.cookie.name.startsWith("SESS")) {
-        chrome.storage.sync.get({ sessionCookiePersist: "disabled" }, settings => {
-            let rewriteCookie = false;
-            if (settings.sessionCookiePersist == "enabled") {
-                if (changeInfo.removed && (changeInfo.cause == "evicted" || changeInfo.cause == "expired")) {
-                    console.log("Overriding implicit Schoology session token removal");
-                    rewriteCookie = true;
-                } else if (!changeInfo.removed && changeInfo.cookie.session) {
-                    console.log("Overriding session-only Schoology session cookie with persistence");
-                    rewriteCookie = true;
-                }
-            }
-
-            if (!rewriteCookie) {
-                return;
-            }
-
-            // expire in roughly 2 months (we need this so we don't become a session cookie)
-            let expiryTime = new Date(new Date().setDate(new Date().getDate() + 60));
-
-            let cookie = changeInfo.cookie;
-            cookie.url = "https://lms.lausd.net/";
-            delete cookie.session;
-            delete cookie.hostOnly;
-            cookie.expirationDate = expiryTime.getTime() / 1000;
-
-            chrome.cookies.set(cookie, setCookie => {
-                if (!setCookie) {
-                    console.warn("Error overriding Schoology session cookie");
-                } else {
-                    console.debug("Successfully overrode Schoology session cookie");
-                }
-            })
-        })
-    }
-
-});
+if (chrome.cookies && !registeredCookieHandler) {
+    // if we have permission
+    registerCookieHandler();
+}
 console.log("Adding BG page message listener");
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         switch (request.type) {
             case "permission_request":
+                console.log("Fielding permission request for " + JSON.stringify(request.permissionSpecification));
                 chrome.permissions.request(request.permissionSpecification, function (granted) {
+                    if (request.permissionSpecification.permissions && request.permissionSpecification.permissions.includes("cookies") && granted && !registeredCookieHandler) {
+                        registerCookieHandler();
+                    }
+
                     sendResponse({
                         type: "permission_request",
                         permissionSpecification: request.permissionSpecification,
@@ -106,6 +78,53 @@ chrome.alarms.get("notification", function (alarm) {
 
 //Run once on load
 onAlarm({ name: "notification" });
+
+function registerCookieHandler() {
+    console.log("Adding cookie change listener");
+    if (!chrome.cookies) {
+        console.error("Attempted to register cookie handler but chrome.cookies is not defined.");
+        console.trace();
+        return;
+    }
+    chrome.cookies.onChanged.addListener(function (changeInfo) {
+        if (changeInfo.cookie.domain == ".lms.lausd.net" && changeInfo.cookie.name.startsWith("SESS")) {
+            chrome.storage.sync.get({ sessionCookiePersist: "disabled" }, settings => {
+                let rewriteCookie = false;
+                if (settings.sessionCookiePersist == "enabled") {
+                    if (changeInfo.removed && (changeInfo.cause == "evicted" || changeInfo.cause == "expired")) {
+                        console.log("Overriding implicit Schoology session token removal");
+                        rewriteCookie = true;
+                    } else if (!changeInfo.removed && changeInfo.cookie.session) {
+                        console.log("Overriding session-only Schoology session cookie with persistence");
+                        rewriteCookie = true;
+                    }
+                }
+
+                if (!rewriteCookie) {
+                    return;
+                }
+
+                // expire in roughly 2 months (we need this so we don't become a session cookie)
+                let expiryTime = new Date(new Date().setDate(new Date().getDate() + 60));
+
+                let cookie = changeInfo.cookie;
+                cookie.url = "https://lms.lausd.net/";
+                delete cookie.session;
+                delete cookie.hostOnly;
+                cookie.expirationDate = expiryTime.getTime() / 1000;
+
+                chrome.cookies.set(cookie, setCookie => {
+                    if (!setCookie) {
+                        console.warn("Error overriding Schoology session cookie");
+                    } else {
+                        console.debug("Successfully overrode Schoology session cookie");
+                    }
+                })
+            })
+        }
+    });
+    registeredCookieHandler = true;
+}
 
 /**
  * Sends a desktop notification if settings permit
