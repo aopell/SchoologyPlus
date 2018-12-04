@@ -102,8 +102,10 @@ let modals = [
     ),
 ];
 
-chrome.storage.sync.get(["newVersion"], s => {
-    if (!s || !s.newVersion || s.newVersion != chrome.runtime.getManifest().version) {
+(() => {
+    // Run when new version installed
+    let newVersion = Setting.getValue("newVersion");
+    if (!newVersion || newVersion != chrome.runtime.getManifest().version) {
         let currentVersion = chrome.runtime.getManifest().version;
 
         iziToast.show({
@@ -125,8 +127,8 @@ chrome.storage.sync.get(["newVersion"], s => {
             ]
         });
 
-        versionSpecificFirstLaunch(currentVersion);
-        chrome.storage.sync.set({ newVersion: chrome.runtime.getManifest().version });
+        versionSpecificFirstLaunch(currentVersion, newVersion);
+        Setting.setValue("newVersion", chrome.runtime.getManifest().version);
     }
 });
 
@@ -204,7 +206,7 @@ function openModal(id, options) {
 function modalClose(element) {
     element = element.target ? document.getElementById(element.target.dataset.parent) : element;
 
-    if (element == modals.find(m => m.id == "settings-modal").element && anySettingsModified()) {
+    if (element == modals.find(m => m.id == "settings-modal").element && Setting.anyModified()) {
         if (!confirm("You have unsaved settings.\nAre you sure you want to exit?")) return;
         updateSettings();
     }

@@ -256,7 +256,7 @@ var fetchQueue = [];
     }
 
     if (!document.location.search.includes("past") || document.location.search.split("past=")[1] != 1) {
-        if (storage["orderClasses"] == "period") {
+        if (Setting.getValue("orderClasses") == "period") {
             for (let course of coursesByPeriod) {
                 if (course) {
                     course.parentElement.appendChild(course);
@@ -412,10 +412,15 @@ var fetchQueue = [];
                             deltaScore = (desiredGrade - total) / catPointWorth;
                         }
 
-                        if (deltaScore < 0) {
-                            deltaScore = 0;
-                        } else {
-                            deltaScore = Math.round(deltaScore * 100) / 100;
+                        if (deltaScore < -scoreVal) {
+                            deltaScore = -scoreVal;
+                        }
+
+                        deltaScore = Math.round(deltaScore * 100) / 100;
+
+                        if (deltaScore < -scoreVal) {
+                            // probably 1 under due to rounding
+                            deltaScore++;
                         }
 
                         // TODO refactor: we already have our DOM elements
@@ -491,7 +496,7 @@ var fetchQueue = [];
                                 // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
                                 let courseId = Number.parseInt(/course-(\d+)$/.exec(this[0].parentElement.parentElement.parentElement.parentElement.id)[1]);
 
-                                let gradingScale = storage.getGradingScale(courseId);
+                                let gradingScale = Setting.getValue("getGradingScale")(courseId);
 
                                 let courseGrade = getLetterGrade(gradingScale, Number.parseFloat(/\d+(\.\d+)%/.exec(perRow.querySelector(".grade-column-right").firstElementChild.textContent)[0].slice(0, -1)));
 
@@ -531,7 +536,7 @@ var fetchQueue = [];
                         let courseId = /\d+$/.exec(courseElement.id)[0];
 
                         // TODO if grade scale is updated while this page is loaded (i.e. after this code runs) what to do
-                        let gradingScale = storage.getGradingScale(courseId);
+                        let gradingScale = Setting.getValue("getGradingScale")(courseId);
 
                         for (let gradeValue of Object.keys(gradingScale).sort((a, b) => b - a)) {
                             let letterGrade = gradingScale[gradeValue];
@@ -734,8 +739,8 @@ var fetchQueue = [];
     }
 
     function addLetterGrade(elem, courseId) {
-        let gradingScale = storage.getGradingScale(courseId);
-        if (storage["customScales"] != "disabled" && elem.textContent.match(/^\d+\.?\d*%/) !== null) {
+        let gradingScale = Setting.getValue("getGradingScale")(courseId);
+        if (Setting.getValue("customScales") != "disabled" && elem.textContent.match(/^\d+\.?\d*%/) !== null) {
             let percent = Number.parseFloat(elem.textContent.substr(0, elem.textContent.length - 1));
             let letterGrade = getLetterGrade(gradingScale, percent);
             elem.textContent = `${letterGrade} (${percent}%)`;

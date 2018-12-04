@@ -5,7 +5,7 @@ for (let course of courses) {
     coursesByPeriod[Number.parseInt(course.textContent.match(/PERIOD (\d)/)[1])] = course;
 }
 
-if (storage["orderClasses"] == "period") {
+if (Setting.getValue("orderClasses") == "period") {
     for (let course of coursesByPeriod) {
         if (course) {
             course.parentElement.appendChild(course);
