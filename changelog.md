@@ -3,7 +3,7 @@
 ## Version 4.3.1 - December 4, 2018
 ### Fixed
 - Calculate Minimum Grade now once again will lower existing assignment grades to positive, but less than original, values when calculating minimum grades
-  - Previously it would refuse to report anything lower than what you had on an assignment as a minimum score to get a letter grade
+  - Previously it would refuse to report anything lower than what you currently had on an assignment as a minimum score to get a letter grade
   - This bug was introduced in v4.3
 
 ## Version 4.3 - December 2, 2018
