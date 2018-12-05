@@ -1,5 +1,55 @@
+/**
+ * Provides logging utilities
+ */
+class Logger {
+    /**
+     * Provides equivalent functionality to console.log
+     * @param {string} message Message to log
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static log(message, ...args) {
+        console.log(`%c+%c ${message}`, "color: #81D4FA;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+
+    /**
+     * Provides equivalent functionality to console.error
+     * @param {string} message Message to log (with "error" log level)
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static error(message, ...args) {
+        console.error(`%c+%c ${message}`, "color: #ff6961;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+
+    /**
+     * Provides equivalent functionality to console.info
+     * @param {string} message Message to log (with "info" log level)
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static info(message, ...args) {
+        console.info(`%c+%c ${message}`, "color: #81D4FA;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+
+    /**
+     * Provides equivalent functionality to console.warn
+     * @param {string} message Message to log (with "warn" log level)
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static warn(message, ...args) {
+        console.warn(`%c+%c ${message}`, "color: #fdfd96;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+
+    /**
+     * Provides equivalent functionality to console.trace
+     * @param {string} message Message to log (with traceback)
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static trace(message, ...args) {
+        console.trace(`%c+%c ${message}`, "color: #81D4FA;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+}
+
 // Process options
-var self = this;
+Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version}`);
 var firstLoad = true;
 updateSettings();
 
@@ -21,7 +71,7 @@ function getModalContents() {
  * @example
  * // 10 requests per 3 seconds
  * var rateLimitedFetch = createFetchRateLimitWrapper(10, 3000);
- * rateLimitedFetch("https://www.google.com/").then(x => console.log(x))
+ * rateLimitedFetch("https://www.google.com/").then(x => Logger.log(x))
  * @param {number} requestsPerInterval The number of requests per time interval permitted by the rate limit.
  * @param {number} interval The amount of time, in milliseconds, that the rate limit is delineated in.
  */
@@ -35,7 +85,7 @@ function createFetchRateLimitWrapper(requestsPerInterval, interval) {
         callsThisCycle = 0;
         let countToDequeue = queue.length;
         if (countToDequeue) {
-            console.log("Processing " + countToDequeue + " ratelimit-delayed queued requests");
+            Logger.log("Processing " + countToDequeue + " ratelimit-delayed queued requests");
         }
         for (let i = 0; i < countToDequeue; i++) {
             // note that this resolution might trigger stuff to be added to the queue again
@@ -265,7 +315,7 @@ function getUserId() {
 async function getApiKeysDirect() {
     let userId = getUserId();
     var apiKeys = null;
-    console.log(`Fetching API key for user ${userId}`);
+    Logger.log(`Fetching API key for user ${userId}`);
     let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();
     let docParser = new DOMParser();
     let doc = docParser.parseFromString(html, "text/html");
@@ -273,17 +323,17 @@ async function getApiKeysDirect() {
     let key;
     let secret;
     if ((key = doc.getElementById("edit-current-key")) && (secret = doc.getElementById("edit-current-secret"))) {
-        console.log("API key already generated - storing");
+        Logger.log("API key already generated - storing");
         apiKeys = [key.value, secret.value, userId];
     } else {
-        console.log("API key not found - generating and trying again");
+        Logger.log("API key not found - generating and trying again");
         let submitData = new FormData(doc.getElementById("s-api-register-form"));
         let generateFetch = await fetch("https://lms.lausd.net/api", {
             credentials: "same-origin",
             body: submitData,
             method: "post"
         });
-        console.log(`Generatekey response: ${generateFetch.status}`);
+        Logger.log(`Generatekey response: ${generateFetch.status}`);
         return await getApiKeysDirect();
     }
 

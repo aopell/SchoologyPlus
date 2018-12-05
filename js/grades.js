@@ -38,7 +38,7 @@ $.contextMenu({
 
 var fetchQueue = [];
 (async function () {
-    console.log("Running Schoology Plus grades page improvement script");
+    Logger.log("Running Schoology Plus grades page improvement script");
 
     let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
     let courses = inner.getElementsByClassName("gradebook-course");
@@ -113,13 +113,13 @@ var fetchQueue = [];
                         let p = assignment.querySelector(".injected-assignment-percent");
                         p.textContent = "0%";
                         p.title = "Assignment missing";
-                        console.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
+                        Logger.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
                         let json = await fetchApiJson(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
 
                         let pts = Number.parseFloat(json.max_points);
                         if (!assignment.classList.contains("dropped")) {
                             max += pts;
-                            console.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
+                            Logger.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
                         }
                     }
                     //assignment.style.padding = "7px 30px 5px";
@@ -675,7 +675,7 @@ var fetchQueue = [];
             noGrade.insertAdjacentElement("afterend", maxGrade);
 
             let f = async () => {
-                console.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
+                Logger.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
                 let response = await fetchApi(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
                 if (!response.ok) {
                     throw new Error(response.statusText);
@@ -943,7 +943,7 @@ var fetchQueue = [];
                     }
                 } else {
                     // ???
-                    console.warn("unexpected case of field type in editing grade");
+                    Logger.warn("unexpected case of field type in editing grade");
                     return false;
                 }
 
@@ -1036,10 +1036,10 @@ var fetchQueue = [];
         };
     }
 })().then(() => {
-    console.log("Retrieving (" + fetchQueue.length + ") nonentered assignments info...")
+    Logger.log("Retrieving (" + fetchQueue.length + ") nonentered assignments info...")
     processNonenteredAssignments();
 }).catch(reason => {
-    console.error("Error running grades page modification script: ", reason);
+    Logger.error("Error running grades page modification script: ", reason);
 });
 
 function processNonenteredAssignments(sleep) {
@@ -1049,8 +1049,8 @@ function processNonenteredAssignments(sleep) {
                 fetchQueue.splice(0, 1);
                 processNonenteredAssignments();
             }).catch(err => {
-                console.warn("Caught error: " + err);
-                console.log("Waiting 3 seconds to avoid rate limit");
+                Logger.warn("Caught error: " + err);
+                Logger.log("Waiting 3 seconds to avoid rate limit");
                 processNonenteredAssignments(true);
             });
         }, sleep ? 3000 : 0);

@@ -237,4 +237,4 @@ function Modal(id, title, contentElement, footerHTML, openCallback) {
     this.body.appendChild(contentElement);
 }
 
-console.log("[SchoologyPlus] Finished loading all.js");
+Logger.log("Finished loading all.js");
