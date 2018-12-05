@@ -1,11 +1,61 @@
+/**
+ * Provides logging utilities
+ */
+class Logger {
+    /**
+     * Provides equivalent functionality to console.log
+     * @param {string} message Message to log
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static log(message, ...args) {
+        console.log(`%c+%c ${message}`, "color: #81D4FA;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+
+    /**
+     * Provides equivalent functionality to console.error
+     * @param {string} message Message to log (with "error" log level)
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static error(message, ...args) {
+        console.error(`%c+%c ${message}`, "color: #ff6961;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+
+    /**
+     * Provides equivalent functionality to console.info
+     * @param {string} message Message to log (with "info" log level)
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static info(message, ...args) {
+        console.info(`%c+%c ${message}`, "color: #81D4FA;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+
+    /**
+     * Provides equivalent functionality to console.warn
+     * @param {string} message Message to log (with "warn" log level)
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static warn(message, ...args) {
+        console.warn(`%c+%c ${message}`, "color: #fdfd96;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+
+    /**
+     * Provides equivalent functionality to console.trace
+     * @param {string} message Message to log (with traceback)
+     * @param  {...any} args Object arguments or strings to concatenate
+     */
+    static trace(message, ...args) {
+        console.trace(`%c+%c ${message}`, "color: #81D4FA;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
+    }
+}
+
 const assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filter=all";
 
-console.log("Loaded event page");
-console.log("Adding alarm listener");
+Logger.log("Loaded event page");
+Logger.log("Adding alarm listener");
 chrome.alarms.onAlarm.addListener(onAlarm);
-console.log("Adding notification listener");
+Logger.log("Adding notification listener");
 chrome.notifications.onClicked.addListener(function (id) {
-    console.log("Notification clicked");
+    Logger.log("Notification clicked");
     chrome.notifications.clear(id, null);
     switch (id) {
         case "assignment":
@@ -18,11 +68,11 @@ chrome.notifications.onClicked.addListener(function (id) {
     }
 });
 chrome.browserAction.setBadgeBackgroundColor({ color: [217, 0, 0, 255] });
-console.log("Adding browser action listener");
+Logger.log("Adding browser action listener");
 chrome.browserAction.onClicked.addListener(function () {
-    console.log("Browser action clicked");
+    Logger.log("Browser action clicked");
     chrome.browserAction.getBadgeText({}, x => {
-        console.log(x);
+        Logger.log(`Browser action text: "${x}"`);
         let n = Number.parseInt(x);
         if (n) chrome.tabs.create({ url: "https://lms.lausd.net/home/notifications" }, null);
         else chrome.tabs.create({ url: "https://lms.lausd.net" }, null);
@@ -32,9 +82,9 @@ chrome.browserAction.onClicked.addListener(function () {
 
 chrome.alarms.get("notification", function (alarm) {
     if (alarm) {
-        console.log("Alarm is already registered");
+        Logger.log("Alarm is already registered");
     } else {
-        console.log("Notifications alarm is not registered; registering...");
+        Logger.log("Notifications alarm is not registered; registering...");
         chrome.alarms.create("notification", {
             periodInMinutes: 5
         });
@@ -56,8 +106,8 @@ function sendNotification(notification, name, count) {
         if (getBrowser() == "Firefox") {
             delete notification.requireInteraction;
         }
-        console.warn("New notification!");
-        console.dir(notification);
+        Logger.warn("New notification!");
+        Logger.log(notification);
 
         if (count > 0 && (!storageContent.notifications || storageContent.notifications == "enabled" || storageContent.notifications == "badge")) {
             chrome.browserAction.getBadgeText({}, x => {
@@ -65,12 +115,12 @@ function sendNotification(notification, name, count) {
                 chrome.browserAction.setBadgeText({ text: (num ? num + count : count).toString() });
             });
         } else {
-            console.log("Number badge is disabled");
+            Logger.log("Number badge is disabled");
         }
         if (!storageContent.notifications || storageContent.notifications == "enabled" || storageContent.notifications == "popup") {
             chrome.notifications.create(name, notification, null);
         } else {
-            console.log("Popup notifications are disabled");
+            Logger.log("Popup notifications are disabled");
         }
     });
 }
@@ -79,13 +129,13 @@ function onAlarm(alarm) {
     chrome.storage.sync.get(null, function (storageContent) {
         if (alarm && alarm.name === "notification") {
             try {
-                console.log(`[${new Date()}] Checking for new notifications`);
+                Logger.log(`[${new Date()}] Checking for new notifications`);
                 if (storageContent.notifications != "disabled") {
                     loadAssignmentNotifications(storageContent);
                 }
             } catch (error) {
-                console.error("Error caught:");
-                console.error(error);
+                Logger.error("Error caught:");
+                Logger.error(error);
             }
         }
     });
@@ -100,7 +150,7 @@ function loadAssignmentNotifications(storageContent) {
         }
         throw new Error("Error loading notifications: " + response);
     }).then(function (response) {
-        console.log("Last new grade: " + new Date(storageContent.lastTime).toString());
+        Logger.log("Last new grade: " + new Date(storageContent.lastTime).toString());
         let time = storageContent.lastTime;
         let timeModified = false;
         if (!time) {
@@ -134,7 +184,7 @@ function loadAssignmentNotifications(storageContent) {
                     time = notificationDate;
                     timeModified = true;
                     totalAssignments++;
-                    console.dir(notification);
+                    Logger.log(notification);
                 }
             }
         }
@@ -153,9 +203,9 @@ function loadAssignmentNotifications(storageContent) {
         }
 
         if (timeModified) {
-            chrome.storage.sync.set({ lastTime: time }, () => { console.log("Set new time " + new Date(time)) });
+            chrome.storage.sync.set({ lastTime: time }, () => { Logger.log("Set new time " + new Date(time)) });
         } else {
-            console.log("No new notifications");
+            Logger.log("No new notifications");
         }
 
     });

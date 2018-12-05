@@ -100,7 +100,7 @@
             .filter(aliasedCourseId => Setting.getValue("courseAliases")[aliasedCourseId]) // only fetch if the alias hasn't subsequently been cleared
             .map(id => fetchApi(`/sections/${id}`).then(resp => resp.json().catch(rej => null), rej => null))));
 
-        console.log("Classes loaded, building alias stylesheet");
+        Logger.log("Classes loaded, building alias stylesheet");
         // https://stackoverflow.com/a/707794 for stylesheet insertion
         let sheet = window.document.styleSheets[0];
 
@@ -119,7 +119,7 @@
         }`, sheet.cssRules.length);
         }
 
-        console.log("Applying aliases");
+        Logger.log("Applying aliases");
         applyCourseAliases = function (mutationsList) {
             let rootElement = document.body;
 

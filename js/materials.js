@@ -302,7 +302,7 @@
     }
 
     if (missingAssignmentCt > 0) {
-        console.log(`Fetched ${missingAssignmentCt} assignment(s) (${missingAssignmentErrorCt} error(s)) missing from summary API call`);
+        Logger.log(`Fetched ${missingAssignmentCt} assignment(s) (${missingAssignmentErrorCt} error(s)) missing from summary API call`);
     }
 
     for (let assignment of ourAssignments.assignment) {
@@ -344,7 +344,7 @@
     Object.freeze(loadedGradeContainer.gradeDrops);
     Object.freeze(loadedGradeContainer);
 
-    console.log("Assignment data loaded, creating tooltips");
+    Logger.log("Assignment data loaded, creating tooltips");
 
     immediateGradeLoadInvoke = true;
 
@@ -382,7 +382,7 @@
         }
     }
 
-    console.log("Injecting document tooltip handler...");
+    Logger.log("Injecting document tooltip handler...");
     let injectScript = document.createElement("script");
     let scriptText = (await (await fetch(chrome.runtime.getURL("js/materials.pdfhandler.js"))).text());
     // awful hack
