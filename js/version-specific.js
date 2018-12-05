@@ -1,7 +1,8 @@
 function versionSpecificFirstLaunch(currentVersion, previousVersion) {
     switch (currentVersion) {
+        case "4.3.1":
         case "4.3":
-            if (previousVersion != "4.2") {
+            if (previousVersion != "4.2" && previousVersion != "4.3") {
                 versionSpecificFirstLaunch("4.2");
             }
             break;
