@@ -79,17 +79,17 @@ chrome.browserAction.onClicked.addListener(function () {
         chrome.browserAction.setBadgeText({ text: "" });
     });
 });
-console.log("Adding cookie change listener");
+Logger.log("Adding cookie change listener");
 chrome.cookies.onChanged.addListener(function (changeInfo) {
     if (changeInfo.cookie.domain == ".lms.lausd.net" && changeInfo.cookie.name.startsWith("SESS")) {
         chrome.storage.sync.get({ sessionCookiePersist: "disabled" }, settings => {
             let rewriteCookie = false;
             if (settings.sessionCookiePersist == "enabled") {
                 if (changeInfo.removed && (changeInfo.cause == "evicted" || changeInfo.cause == "expired")) {
-                    console.log("Overriding implicit Schoology session token removal");
+                    Logger.log("Overriding implicit Schoology session token removal");
                     rewriteCookie = true;
                 } else if (!changeInfo.removed && changeInfo.cookie.session) {
-                    console.log("Overriding session-only Schoology session cookie with persistence");
+                    Logger.log("Overriding session-only Schoology session cookie with persistence");
                     rewriteCookie = true;
                 }
             }
@@ -109,9 +109,9 @@ chrome.cookies.onChanged.addListener(function (changeInfo) {
 
             chrome.cookies.set(cookie, setCookie => {
                 if (!setCookie) {
-                    console.warn("Error overriding Schoology session cookie");
+                    Logger.warn("Error overriding Schoology session cookie");
                 } else {
-                    console.debug("Successfully overrode Schoology session cookie");
+                    Logger.debug("Successfully overrode Schoology session cookie");
                 }
             })
         })
