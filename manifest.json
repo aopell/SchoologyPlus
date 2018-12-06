@@ -145,6 +145,15 @@
         },
         {
             "matches": [
+                "https://lms.lausd.net/user/*"
+            ],
+            "js": [
+                "js/user.js"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
                 "https://lms.lausd.net/*"
             ],
             "js": [
