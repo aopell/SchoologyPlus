@@ -554,10 +554,32 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
+                ).control,
+                new Setting(
+                    "sessionCookiePersist",
+                    "Stay Logged In",
+                    "[Logout/login required] Stay logged in to Schoology when you restart your browser",
+                    "disabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
                 ).control
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
-                createButton("save-settings", "Save Settings", Setting.saveModified),
+                createButton("save-settings", "Save Settings", () => Setting.saveModified()),
                 createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: Setting.restoreDefaults, href: "#" })
             ])
         ]);
@@ -585,7 +607,7 @@ let __settings = {};
  * - **select**: *options* property on `options` object should be an array of objects containing *text* and *value* properties
  * @param {function(any):any} onload Called with the setting's current value when the page is loaded and when the setting is changed
  * - *This function should return `undefined` or `null` when the setting's default value should be used*
- * @param {function(any):void} onmodify Function called when setting value is changed
+ * @param {function(Event):void} onmodify Function called with the UI modification event when setting value is changed
  * - *Should be used to show how changing the setting affects the page if applicable*
  * @param {function(HTMLElement):any} onsave Function called when setting is saved
  * - First argument is the HTML element containing the setting value set by the user
@@ -654,26 +676,37 @@ function Setting(name, friendlyName, description, defaultValue, type, options, o
  * @param {Object.<string,any>} modifiedValues An object containing modified setting keys and values
  * @param {boolean} [updateButtonText=true] Change the value of the "Save Settings" button to "Saved!" temporarily
  * @param {()=>any} [callback=null] A function called after settings have been saved and updated
+ * @param {boolean} [saveUiSettings=true] Whether or not to save modified settings from the UI as well as the passed dictionary.
  */
-Setting.saveModified = function (modifiedValues, updateButtonText = true, callback = undefined) {
+Setting.saveModified = function (modifiedValues, updateButtonText = true, callback = undefined, saveUiSettings = true) {
     let newValues = {};
     if (modifiedValues) {
         Object.assign(newValues, modifiedValues);
     }
-    for (let setting in __settings) {
-        let v = __settings[setting];
-        if (v.modified) {
-            let value = v.onsave(v.getElement());
-            newValues[setting] = value;
-            __storage[setting] = value;
-            v.onload(value, v.getElement());
-            v.modified = false;
+    if (saveUiSettings) {
+        for (let setting in __settings) {
+            let v = __settings[setting];
+            if (v.modified) {
+                let value = v.onsave(v.getElement());
+                newValues[setting] = value;
+                __storage[setting] = value;
+                v.onload(value, v.getElement());
+                v.modified = false;
+            }
         }
     }
     chrome.storage.sync.set(newValues, () => {
-        for (let element of document.querySelectorAll(".setting-modified")) {
-            element.parentElement.removeChild(element);
+        for (let settingName in newValues) {
+            let setting = __settings[settingName];
+            if (!setting) {
+                continue;
+            }
+            let settingModifiedIndicator = setting.getElement().parentElement.querySelector(".setting-modified");
+            if (settingModifiedIndicator) {
+                settingModifiedIndicator.remove();
+            }
         }
+
         updateSettings(callback);
     });
 
@@ -755,7 +788,7 @@ Setting.getValue = function (name) {
  * @param {()=>any} callback Function called after new value is saved
  */
 Setting.setValue = function (name, value, callback = undefined) {
-    Setting.saveModified({ [name]: value }, false, callback);
+    Setting.saveModified({ [name]: value }, false, callback, false);
 }
 
 /**
@@ -766,5 +799,5 @@ Setting.setValue = function (name, value, callback = undefined) {
  * @param {()=>any} callback Function called after new values are saved
  */
 Setting.setValues = function (dictionary, callback = undefined) {
-    Setting.saveModified(dictionary, false, callback);
+    Setting.saveModified(dictionary, false, callback, false);
 }

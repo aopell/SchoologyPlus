@@ -79,6 +79,44 @@ chrome.browserAction.onClicked.addListener(function () {
         chrome.browserAction.setBadgeText({ text: "" });
     });
 });
+Logger.log("Adding cookie change listener");
+chrome.cookies.onChanged.addListener(function (changeInfo) {
+    if (changeInfo.cookie.domain == ".lms.lausd.net" && changeInfo.cookie.name.startsWith("SESS")) {
+        chrome.storage.sync.get({ sessionCookiePersist: "disabled" }, settings => {
+            let rewriteCookie = false;
+            if (settings.sessionCookiePersist == "enabled") {
+                if (changeInfo.removed && (changeInfo.cause == "evicted" || changeInfo.cause == "expired")) {
+                    Logger.log("Overriding implicit Schoology session token removal");
+                    rewriteCookie = true;
+                } else if (!changeInfo.removed && changeInfo.cookie.session) {
+                    Logger.log("Overriding session-only Schoology session cookie with persistence");
+                    rewriteCookie = true;
+                }
+            }
+
+            if (!rewriteCookie) {
+                return;
+            }
+
+            // expire in roughly 2 months (we need this so we don't become a session cookie)
+            let expiryTime = new Date(new Date().setDate(new Date().getDate() + 60));
+
+            let cookie = changeInfo.cookie;
+            cookie.url = "https://lms.lausd.net/";
+            delete cookie.session;
+            delete cookie.hostOnly;
+            cookie.expirationDate = expiryTime.getTime() / 1000;
+
+            chrome.cookies.set(cookie, setCookie => {
+                if (!setCookie) {
+                    Logger.warn("Error overriding Schoology session cookie");
+                } else {
+                    Logger.debug("Successfully overrode Schoology session cookie");
+                }
+            })
+        })
+    }
+});
 
 chrome.alarms.get("notification", function (alarm) {
     if (alarm) {

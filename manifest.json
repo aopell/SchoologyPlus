@@ -33,7 +33,8 @@
         "activeTab",
         "storage",
         "alarms",
-        "notifications"
+        "notifications",
+        "cookies"
     ],
     "web_accessible_resources": [
         "imgs/plus-icon.png",
