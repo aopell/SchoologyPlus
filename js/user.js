@@ -26,12 +26,33 @@ function setCourseListModalContent(modal, options) {
     listElem.appendChild(createElement("li", [], { textContent: "Loading..." }));
     (async function () {
         let otherUserId = options.userId;
+        let coursesInCommon = [];
         try {
-            let myClasses = (await fetchApiJson(`/users/${getUserId()}/sections`));
-            // TODO fetch member lists and compare, appending stuff to an internal list
-            // ultimately, clear the Loading placeholder and convert everything to DOM elements
+            let myClasses = (await fetchApiJson(`/users/${getUserId()}/sections`)).section;
+            for (let section of myClasses) {
+                let enrollments = await fetchApiJson(`/sections/${section.id}/enrollments`);
+                do {
+                    if (enrollments.enrollment.some(x => x.uid == otherUserId)) {
+                        coursesInCommon.push(section);
+                        break;
+                    } else if (enrollments.links.next) {
+                        enrollments = await (await fetchWithApiAuthentication(enrollments.links.next)).json();
+                    } else {
+                        enrollments = null;
+                    }
+                } while (enrollments);
+            }
+            Logger.log("Finished processing enrollments");
+
+            clearNodeChildren(listElem);
+
+            for (let section of coursesInCommon) {
+                listElem.appendChild(createElement("li", [], {}, [
+                    createElement("a", [], { href: `https://lms.lausd.net/course/${section.id}`, textContent: `${section.course_title}: ${section.section_title}` })
+                ]));
+            }
         } catch (err) {
-            Logger.error("Error fetching information for courses in common: ", err);
+            Logger.error("Error building courses in common: ", err);
         }
     })();
 }
