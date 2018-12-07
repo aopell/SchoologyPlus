@@ -46,11 +46,15 @@ function setCourseListModalContent(modal, options) {
 
             clearNodeChildren(listElem);
 
+            let aliases = Setting.getValue("courseAliases") || {};
+
             for (let section of coursesInCommon) {
                 listElem.appendChild(createElement("li", [], {}, [
-                    createElement("a", [], { href: `https://lms.lausd.net/course/${section.id}`, textContent: `${section.course_title}: ${section.section_title}` })
+                    createElement("img", [], { width: 32, height: 32, src: section.profile_url, alt: `Profile picture for ${section.course_title}: ${section.section_title}` }),
+                    createElement("a", [], { href: `https://lms.lausd.net/course/${section.id}`, textContent: aliases[section.id] || `${section.course_title}: ${section.section_title}` })
                 ]));
             }
+            Theme.setProfilePictures(listElem.getElementsByTagName("img"));
         } catch (err) {
             Logger.error("Error building courses in common: ", err);
         }
@@ -59,7 +63,7 @@ function setCourseListModalContent(modal, options) {
 
 modals.push(new Modal("user-courses-in-common-modal", "Courses In Common", createElement("div", [], {}, [
     createElement("div", ["splus-modal-contents"], {}, [
-        createElement("ul", ["setting-entry"], { id: "user-courses-in-common-list" }, [])
+        createElement("ul", ["setting-entry", "common-realm-list"], { id: "user-courses-in-common-list" }, [])
     ])
 ]), "&copy; Aaron Opell, Glen Husman 2018", setCourseListModalContent));
 

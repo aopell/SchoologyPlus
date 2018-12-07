@@ -150,6 +150,9 @@
             "js": [
                 "js/user.js"
             ],
+            "css": [
+                "css/user.css"
+            ],
             "run_at": "document_end"
         },
         {

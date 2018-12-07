@@ -1,0 +1,10 @@
+.common-realm-list li {
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.common-realm-list li img {
+    width: 32px;
+    height: 32px;
+    padding-right: 6px;
+}
