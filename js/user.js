@@ -20,6 +20,21 @@ function clearNodeChildren(node) {
     }
 }
 
+async function processEnrollment(initialEnrollments, owner, commonList, otherUserId) {
+    let enrollments = initialEnrollments;
+    do {
+        console.log(enrollments);
+        if (enrollments.enrollment.some(x => x.uid == otherUserId)) {
+            commonList.push(owner);
+            break;
+        } else if (enrollments.links.next) {
+            enrollments = await (await fetchWithApiAuthentication(enrollments.links.next)).json();
+        } else {
+            enrollments = null;
+        }
+    } while (enrollments);
+}
+
 function setCourseListModalContent(modal, options) {
     let listElem = document.getElementById("user-courses-in-common-list");
     clearNodeChildren(listElem);
@@ -30,17 +45,7 @@ function setCourseListModalContent(modal, options) {
         try {
             let myClasses = (await fetchApiJson(`/users/${getUserId()}/sections`)).section;
             for (let section of myClasses) {
-                let enrollments = await fetchApiJson(`/sections/${section.id}/enrollments`);
-                do {
-                    if (enrollments.enrollment.some(x => x.uid == otherUserId)) {
-                        coursesInCommon.push(section);
-                        break;
-                    } else if (enrollments.links.next) {
-                        enrollments = await (await fetchWithApiAuthentication(enrollments.links.next)).json();
-                    } else {
-                        enrollments = null;
-                    }
-                } while (enrollments);
+                await processEnrollment(await fetchApiJson(`/sections/${section.id}/enrollments`), section, coursesInCommon, otherUserId);
             }
             Logger.log("Finished processing enrollments");
 
@@ -50,7 +55,7 @@ function setCourseListModalContent(modal, options) {
 
             for (let section of coursesInCommon) {
                 listElem.appendChild(createElement("li", [], {}, [
-                    createElement("img", [], { width: 32, height: 32, src: section.profile_url, alt: `Profile picture for ${section.course_title}: ${section.section_title}` }),
+                    createElement("img", [], { src: section.profile_url, alt: `Profile picture for ${section.course_title}: ${section.section_title}` }),
                     createElement("a", [], { href: `https://lms.lausd.net/course/${section.id}`, textContent: aliases[section.id] || `${section.course_title}: ${section.section_title}` })
                 ]));
             }
