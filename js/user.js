@@ -23,7 +23,6 @@ function clearNodeChildren(node) {
 async function processEnrollment(initialEnrollments, owner, commonList, otherUserId) {
     let enrollments = initialEnrollments;
     do {
-        console.log(enrollments);
         if (enrollments.enrollment.some(x => x.uid == otherUserId)) {
             commonList.push(owner);
             break;
