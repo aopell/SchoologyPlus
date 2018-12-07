@@ -52,11 +52,15 @@ function setCourseListModalContent(modal, options) {
 
             let aliases = Setting.getValue("courseAliases") || {};
 
-            for (let section of coursesInCommon) {
-                listElem.appendChild(createElement("li", [], {}, [
-                    createElement("img", [], { src: section.profile_url, alt: `Profile picture for ${section.course_title}: ${section.section_title}` }),
-                    createElement("a", [], { href: `https://lms.lausd.net/course/${section.id}`, textContent: aliases[section.id] || `${section.course_title}: ${section.section_title}` })
-                ]));
+            if (coursesInCommon.length == 0) {
+                listElem.appendChild(createElement("li", [], { textContent: "No common courses found" }));
+            } else {
+                for (let section of coursesInCommon) {
+                    listElem.appendChild(createElement("li", [], {}, [
+                        createElement("img", [], { src: section.profile_url, alt: `Profile picture for ${section.course_title}: ${section.section_title}` }),
+                        createElement("a", [], { href: `https://lms.lausd.net/course/${section.id}`, textContent: aliases[section.id] || `${section.course_title}: ${section.section_title}` })
+                    ]));
+                }
             }
             Theme.setProfilePictures(listElem.getElementsByTagName("img"));
         } catch (err) {
