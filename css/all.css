@@ -417,3 +417,16 @@ h1.setting-title {
     font-size: 12px;
     color: #767676;
 }
+
+.popups-body li .user-item .grade-data {
+    font-size: 11px;
+    color: #3aa406;
+    display: block;
+}
+
+.popups-body li .user-item .grade-data::before {
+    font-size: 11px;
+    font-weight: bold;
+    color: #82848a;
+    content: "Grade: ";
+}

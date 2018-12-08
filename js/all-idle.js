@@ -238,7 +238,7 @@
 
         return loadedGradeContainer;
     })();
-    let observer = new MutationObserver(mutationsList => {
+    let notifsMenuDropdownObserver = new MutationObserver(mutationsList => {
         for (let mutation of mutationsList) {
             for (let addedNode of mutation.addedNodes) {
                 if (!addedNode.classList.contains("item-list")) {
@@ -258,9 +258,40 @@
                     });
                 }
 
-                observer.disconnect();
+                notifsMenuDropdownObserver.disconnect();
+                return;
             }
         }
     });
-    observer.observe(notifsMenuDropdown, { childList: true });
+    notifsMenuDropdownObserver.observe(notifsMenuDropdown, { childList: true });
+
+    let moreGradesModalObserver = new MutationObserver(mutationsList => {
+        for (let mutation of mutationsList) {
+            for (let addedNode of mutation.addedNodes) {
+                if (!addedNode.classList.contains("popups-box")) {
+                    continue;
+                }
+
+                if (addedNode.querySelector(".popups-title .title").textContent.trim().toLowerCase() != "grades") {
+                    continue;
+                }
+
+                for (let assignmentWrapper of addedNode.querySelectorAll(".popups-body .item-list li .user-item")) {
+                    if (assignmentWrapper.offsetParent == null) {
+                        // hidden and therefore irrelevant
+                        continue;
+                    }
+
+                    let assignmentId = assignmentWrapper.getElementsByTagName("a")[1].href.match(/\d+/)[0];
+
+                    gradesLoadedPromise.then(gradeContainer => {
+                        assignmentWrapper.insertAdjacentElement("beforeend", createElement("span", ["grade-data"], { textContent: `${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points}` }))
+                    });
+                }
+                return;
+            }
+        }
+    });
+
+    moreGradesModalObserver.observe(document.body, { childList: true });
 })();
