@@ -217,3 +217,50 @@
     aliasPrepObserver.observe(document.body, { childList: true, subtree: true });
 
 })();
+
+// show grades on notifications dropdown
+(function () {
+    let notifsMenuDropdown = document.getElementById("notifications-menu-dropdown");
+    let gradesLoadedPromise = (async function () {
+        let myGrades = await fetchApiJson(`/users/${getUserId()}/grades`);
+
+        let loadedGradeContainer = {};
+
+        // assignment grades
+        // period is an array of object
+        // period[x].assignment is an array of grade objects (the ones we want to enumerate)
+        for (let assignment of myGrades.section.reduce((oa, thisClassGrades) => oa.concat(thisClassGrades.period.reduce((accum, curr) => accum.concat(curr.assignment), [])), [])) {
+            loadedGradeContainer[assignment.assignment_id] = assignment;
+            Object.freeze(assignment);
+        }
+
+        Object.freeze(loadedGradeContainer);
+
+        return loadedGradeContainer;
+    })();
+    let observer = new MutationObserver(mutationsList => {
+        for (let mutation of mutationsList) {
+            for (let addedNode of mutation.addedNodes) {
+                if (!addedNode.classList.contains("item-list")) {
+                    continue;
+                }
+
+                for (let gradeLink of addedNode.querySelectorAll(".s-edge-type-grade-add a[href^=\"/assignment/\"]")) {
+                    if (gradeLink.offsetParent == null) {
+                        // hidden and therefore irrelevant
+                        continue;
+                    }
+
+                    let assignmentId = gradeLink.href.match(/\d+/)[0];
+
+                    gradesLoadedPromise.then(gradeContainer => {
+                        gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points})` }))
+                    });
+                }
+
+                observer.disconnect();
+            }
+        }
+    });
+    observer.observe(notifsMenuDropdown, { childList: true });
+})();

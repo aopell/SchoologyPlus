@@ -412,3 +412,8 @@ h1.setting-title {
 .regular-caps {
     font-variant: normal;
 }
+
+.s-edge-type-grade-add .grade-data {
+    font-size: 12px;
+    color: #767676;
+}
