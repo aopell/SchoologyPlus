@@ -1,4 +1,10 @@
 const timeout = ms => new Promise(res => setTimeout(res, ms));
+var editDisableReason = null;
+
+function addEditDisableReason(err) {
+    let strErr = (err || "General Error") + "";
+    editDisableReason = editDisableReason ? editDisableReason + "\n" + strErr : strErr;
+}
 
 $.contextMenu({
     selector: ".gradebook-course-title",
@@ -83,163 +89,175 @@ var fetchQueue = [];
             title.appendChild(grade);
 
             for (let category of categories) {
-                let assignments = rows.filter(x => category.dataset.id == x.dataset.parentId);
-                let sum = 0;
-                let max = 0;
-                let processAssignment = async function (assignment) {
-                    let maxGrade = assignment.querySelector(".max-grade");
-                    let score = assignment.querySelector(".rounded-grade") || assignment.querySelector(".rubric-grade-value");
-                    if (score) {
-                        let assignmentScore = Number.parseFloat(score.textContent);
-                        let assignmentMax = Number.parseFloat(maxGrade.textContent.substring(3));
+                try {
+                    let assignments = rows.filter(x => category.dataset.id == x.dataset.parentId);
+                    let sum = 0;
+                    let max = 0;
+                    let processAssignment = async function (assignment) {
+                        let maxGrade = assignment.querySelector(".max-grade");
+                        let score = assignment.querySelector(".rounded-grade") || assignment.querySelector(".rubric-grade-value");
+                        if (score) {
+                            let assignmentScore = Number.parseFloat(score.textContent);
+                            let assignmentMax = Number.parseFloat(maxGrade.textContent.substring(3));
 
-                        if (!assignment.classList.contains("dropped")) {
-                            sum += assignmentScore;
-                            max += assignmentMax;
+                            if (!assignment.classList.contains("dropped")) {
+                                sum += assignmentScore;
+                                max += assignmentMax;
+                            }
+
+                            let newGrade = document.createElement("span");
+                            prepareScoredAssignmentGrade(newGrade, assignmentScore, assignmentMax);
+
+                            // td-content-wrapper
+                            maxGrade.parentElement.appendChild(document.createElement("br"));
+                            maxGrade.parentElement.appendChild(newGrade);
                         }
-
-                        let newGrade = document.createElement("span");
-                        prepareScoredAssignmentGrade(newGrade, assignmentScore, assignmentMax);
-
-                        // td-content-wrapper
-                        maxGrade.parentElement.appendChild(document.createElement("br"));
-                        maxGrade.parentElement.appendChild(newGrade);
-                    }
-                    else {
-                        queueNonenteredAssignment(assignment, courseId);
-                    }
-                    if (assignment.querySelector(".missing")) {
-                        // get denominator for missing assignment
-                        let p = assignment.querySelector(".injected-assignment-percent");
-                        p.textContent = "0%";
-                        p.title = "Assignment missing";
-                        Logger.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
-                        let json = await fetchApiJson(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
-
-                        let pts = Number.parseFloat(json.max_points);
-                        if (!assignment.classList.contains("dropped")) {
-                            max += pts;
-                            Logger.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
+                        else {
+                            queueNonenteredAssignment(assignment, courseId);
                         }
-                    }
-                    //assignment.style.padding = "7px 30px 5px";
-                    //assignment.style.textAlign = "center";
+                        if (assignment.querySelector(".missing")) {
+                            // get denominator for missing assignment
+                            let p = assignment.querySelector(".injected-assignment-percent");
+                            p.textContent = "0%";
+                            p.title = "Assignment missing";
+                            Logger.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
+                            let json = await fetchApiJson(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
 
-                    // kabob menu
-                    let commentsContentWrapper = assignment.querySelector(".comment-column").firstElementChild;
-                    let kabobMenuButton = createElement("span", ["kabob-menu"], {
-                        textContent: "⠇",
-                        onclick: function (event) {
-                            $(assignment).contextMenu({ x: event.pageX, y: event.pageY });
+                            let pts = Number.parseFloat(json.max_points);
+                            if (!assignment.classList.contains("dropped")) {
+                                max += pts;
+                                Logger.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
+                            }
                         }
-                    });
+                        //assignment.style.padding = "7px 30px 5px";
+                        //assignment.style.textAlign = "center";
 
-                    let editEnableCheckbox = document.getElementById("enable-modify");
-
-                    // not created yet and thus editing disabled, or created the toggle but editing disabled
-                    if (!editEnableCheckbox || !editEnableCheckbox.checked) {
-                        kabobMenuButton.classList.add("hidden");
-                    }
-
-                    commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
-                    if (commentsContentWrapper.querySelector(".comment")) {
-                        commentsContentWrapper.style.display = "flex";
-                    }
-
-                    let createAddAssignmentUi = async function () {
-                        //.insertAdjacentElement('afterend', document.createElement("div"))
-                        let addAssignmentThing = createElement("tr", ["report-row", "item-row", "last-row-of-tier", "grade-add-indicator"]);
-                        addAssignmentThing.dataset.parentId = category.dataset.id;
-                        // to avoid a hugely annoying DOM construction
-                        // edit indicator will be added later
-                        // FIXME add little plus icon
-                        addAssignmentThing.innerHTML = '<th scope="row" class="title-column clickable"><div class="reportSpacer-3"><div class="td-content-wrapper"><span class="title"><a class="sExtlink-processed">Add Assignment</a></span></div></div></th><td class="grade-column"><div class="td-content-wrapper"><span class="no-grade">—</span><div class="grade-wrapper"></div></div></td><td class="comment-column"><div class="td-content-wrapper"><span class="visually-hidden">No comment</span></div></td>';
-                        addAssignmentThing.getElementsByClassName("title")[0].firstElementChild.addEventListener("click", function () {
-                            addAssignmentThing.querySelector("img.grade-edit-indicator").click();
+                        // kabob menu
+                        let commentsContentWrapper = assignment.querySelector(".comment-column").firstElementChild;
+                        let kabobMenuButton = createElement("span", ["kabob-menu"], {
+                            textContent: "⠇",
+                            onclick: function (event) {
+                                $(assignment).contextMenu({ x: event.pageX, y: event.pageY });
+                            }
                         });
 
-                        if (assignment.classList.contains("hidden")) {
-                            addAssignmentThing.classList.add("hidden");
+                        let editEnableCheckbox = document.getElementById("enable-modify");
+
+                        // not created yet and thus editing disabled, or created the toggle but editing disabled
+                        if (!editEnableCheckbox || !editEnableCheckbox.checked) {
+                            kabobMenuButton.classList.add("hidden");
                         }
 
-                        assignment.insertAdjacentElement('afterend', addAssignmentThing);
-                        await processAssignment(addAssignmentThing);
+                        commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
+                        if (commentsContentWrapper.querySelector(".comment")) {
+                            commentsContentWrapper.style.display = "flex";
+                        }
 
-                        return addAssignmentThing;
+                        let createAddAssignmentUi = async function () {
+                            //.insertAdjacentElement('afterend', document.createElement("div"))
+                            let addAssignmentThing = createElement("tr", ["report-row", "item-row", "last-row-of-tier", "grade-add-indicator"]);
+                            addAssignmentThing.dataset.parentId = category.dataset.id;
+                            // to avoid a hugely annoying DOM construction
+                            // edit indicator will be added later
+                            // FIXME add little plus icon
+                            addAssignmentThing.innerHTML = '<th scope="row" class="title-column clickable"><div class="reportSpacer-3"><div class="td-content-wrapper"><span class="title"><a class="sExtlink-processed">Add Assignment</a></span></div></div></th><td class="grade-column"><div class="td-content-wrapper"><span class="no-grade">—</span><div class="grade-wrapper"></div></div></td><td class="comment-column"><div class="td-content-wrapper"><span class="visually-hidden">No comment</span></div></td>';
+                            addAssignmentThing.getElementsByClassName("title")[0].firstElementChild.addEventListener("click", function () {
+                                addAssignmentThing.querySelector("img.grade-edit-indicator").click();
+                            });
+
+                            if (assignment.classList.contains("hidden")) {
+                                addAssignmentThing.classList.add("hidden");
+                            }
+
+                            assignment.insertAdjacentElement('afterend', addAssignmentThing);
+                            await processAssignment(addAssignmentThing);
+
+                            return addAssignmentThing;
+                        };
+
+                        // add UI for grade virtual editing
+                        let gradeWrapper = assignment.querySelector(".grade-wrapper");
+                        // FIXME correct behavior for editing dropped assignments
+                        // excused assignments cannot be edited and do not count toward grade
+                        if (!assignment.querySelector(".excused")) {
+                            let checkbox = document.getElementById("enable-modify");
+                            let editGradeImg = createElement("img", ["grade-edit-indicator"], {
+                                src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
+                                width: 12,
+                                style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
+                            });
+                            let gradeAddEditHandler = null;
+                            if (assignment.classList.contains("grade-add-indicator")) {
+                                // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
+                                // the reversal takes the form of a page refresh once grades have been changed
+                                let hasHandledGradeEdit = false;
+                                gradeAddEditHandler = async function () {
+                                    if (hasHandledGradeEdit) {
+                                        return;
+                                    }
+
+                                    assignment.classList.remove("grade-add-indicator");
+                                    assignment.classList.remove("last-row-of-tier");
+
+                                    assignment.classList.add("added-fake-assignment");
+
+                                    assignment.getElementsByClassName("title")[0].firstElementChild.textContent = "Added Assignment";
+
+                                    let newAddAssignmentPlaceholder = await createAddAssignmentUi();
+                                    newAddAssignmentPlaceholder.style.display = "table-row";
+
+                                    hasHandledGradeEdit = true;
+                                };
+                            }
+                            editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
+                            gradeWrapper.appendChild(editGradeImg);
+                        }
+                        if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
+                            await createAddAssignmentUi();
+                        }
                     };
 
-                    // add UI for grade virtual editing
-                    let gradeWrapper = assignment.querySelector(".grade-wrapper");
-                    // FIXME correct behavior for editing dropped assignments
-                    // excused assignments cannot be edited and do not count toward grade
-                    if (!assignment.querySelector(".excused")) {
-                        let checkbox = document.getElementById("enable-modify");
-                        let editGradeImg = createElement("img", ["grade-edit-indicator"], {
-                            src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
-                            width: 12,
-                            style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
-                        });
-                        let gradeAddEditHandler = null;
-                        if (assignment.classList.contains("grade-add-indicator")) {
-                            // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
-                            // the reversal takes the form of a page refresh once grades have been changed
-                            let hasHandledGradeEdit = false;
-                            gradeAddEditHandler = async function () {
-                                if (hasHandledGradeEdit) {
-                                    return;
-                                }
-
-                                assignment.classList.remove("grade-add-indicator");
-                                assignment.classList.remove("last-row-of-tier");
-
-                                assignment.classList.add("added-fake-assignment");
-
-                                assignment.getElementsByClassName("title")[0].firstElementChild.textContent = "Added Assignment";
-
-                                let newAddAssignmentPlaceholder = await createAddAssignmentUi();
-                                newAddAssignmentPlaceholder.style.display = "table-row";
-
-                                hasHandledGradeEdit = true;
-                            };
+                    for (let assignment of assignments) {
+                        try {
+                            await processAssignment(assignment);
+                        } catch (err) {
+                            addEditDisableReason(err);
+                            // cleanup: reestablish "grade" validity and disable editing
+                            grade.textContent = courseGrade ? courseGrade.textContent : "—";
+                            addLetterGrade(grade, courseId);
+                            throw err;
                         }
-                        editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
-                        gradeWrapper.appendChild(editGradeImg);
                     }
-                    if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
-                        await createAddAssignmentUi();
+
+                    if (assignments.length === 0) {
+                        category.querySelector(".grade-column").classList.add("grade-column-center");
                     }
-                };
 
-                for (let assignment of assignments) {
-                    await processAssignment(assignment);
-                }
-
-                if (assignments.length === 0) {
-                    category.querySelector(".grade-column").classList.add("grade-column-center");
-                }
-
-                let gradeText = category.querySelector(".awarded-grade") || category.querySelector(".no-grade");
-                if (gradeText) {
-                    setGradeText(gradeText, sum, max, category);
-                    gradeText.classList.remove("no-grade");
-                    gradeText.classList.add("awarded-grade");
-                }
-
-                let weightText = category.querySelector(".percentage-contrib");
-                if (addMoreClassTotal) {
-                    if (!weightText) {
-                        classPoints += sum;
-                        classTotal += max;
-                    } else if (weightText.textContent == "(100%)") {
-                        classPoints = sum;
-                        classTotal = max;
-                        addMoreClassTotal = false;
-                    } else {
-                        // there are weighted categories that aren't 100%, abandon our calculation
-                        classPoints = 0;
-                        classTotal = 0;
-                        addMoreClassTotal = false;
+                    let gradeText = category.querySelector(".awarded-grade") || category.querySelector(".no-grade");
+                    if (gradeText) {
+                        setGradeText(gradeText, sum, max, category);
+                        gradeText.classList.remove("no-grade");
+                        gradeText.classList.add("awarded-grade");
                     }
+
+                    let weightText = category.querySelector(".percentage-contrib");
+                    if (addMoreClassTotal) {
+                        if (!weightText) {
+                            classPoints += sum;
+                            classTotal += max;
+                        } else if (weightText.textContent == "(100%)") {
+                            classPoints = sum;
+                            classTotal = max;
+                            addMoreClassTotal = false;
+                        } else {
+                            // there are weighted categories that aren't 100%, abandon our calculation
+                            classPoints = 0;
+                            classTotal = 0;
+                            addMoreClassTotal = false;
+                        }
+                    }
+                } catch (err) {
+                    addEditDisableReason("(category) " + (err || "General Error"));
                 }
             }
 
@@ -279,7 +297,11 @@ var fetchQueue = [];
                 let addedAssignRClickSelector = ".item-row.added-fake-assignment:not(.dropped):not(.grade-add-indicator):not(.contains-exception)";
                 let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator):not(.contains-exception)";
 
-                if (document.getElementById("enable-modify").checked) {
+                if (editDisableReason) {
+                    alert("An error occurred loading assignments. Editing has been disabled.\nReason: " + editDisableReason);
+                    document.getElementById("enable-modify").checked = false;
+                }
+                else if (document.getElementById("enable-modify").checked) {
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
                         edit.style.display = "unset";
                     }
