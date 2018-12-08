@@ -1,8 +1,45 @@
 function versionSpecificFirstLaunch(currentVersion, previousVersion) {
     switch (currentVersion) {
+        case "4.3.2":
+            iziToast.show({
+                theme: 'dark',
+                iconUrl: chrome.runtime.getURL("/imgs/plus-icon.png"),
+                title: 'Important Message!',
+                message: 'Schoology Plus will temporarily stop working beginning December 15',
+                progressBarColor: 'red',
+                timeout: 0,
+                layout: 2,
+                position: 'topRight',
+                buttons: [
+                    ['<button>Click Here For More Info</button>', function (instance, toast) {
+                        instance.hide({
+                            transitionOut: 'fadeOutRight',
+                            onClosing: function (instance, toast, closedBy) {
+                                window.open("https://aopell.me/SchoologyPlus/notice", "_blank");
+                            }
+                        }, toast, 'moreInfoNoticeButton');
+                    }]
+                ]
+            });
+
+            chrome.storage.sync.get(["unreadBroadcasts", "broadcasts", "themes"], (storage) => {
+                let broadcasts = storage.unreadBroadcasts || [];
+                broadcasts.push({
+                    id: 432,
+                    title: '',
+                    message: '<div style="border: 3px solid red; background-color: black; color: white;"><span style="font-size: 16px; font-weight: bold">Important Message!</span><br/><br/><span style="font-size: 14px">LAUSD is updating the Schoology interface on December 15, which will cause Schoology Plus to function incorrectly until the next version.</span><br/><br/><a href="https://aopell.me/SchoologyPlus/notice" style="font-size: 16px; color: white; text-decoration: underline;">Click Here For More Info</a></div>',
+                    shortMessage: "Schoology Plus will temporarily stop working beginning December 15",
+                    timestamp: Date.now()
+                });
+
+                chrome.storage.sync.set({ unreadBroadcasts: broadcasts });
+            });
+
+            versionSpecificFirstLaunch("4.3.1", previousVersion);
+            break;
         case "4.3.1":
         case "4.3":
-            if (previousVersion != "4.2" && previousVersion != "4.3") {
+            if (previousVersion != "4.2" && previousVersion != "4.3" && previousVersion != "4.3.1") {
                 versionSpecificFirstLaunch("4.2");
             }
             break;
@@ -31,7 +68,7 @@ function versionSpecificFirstLaunch(currentVersion, previousVersion) {
             chrome.storage.sync.get(["unreadBroadcasts", "broadcasts", "themes"], (storage) => {
                 let broadcasts = storage.unreadBroadcasts || [];
                 broadcasts.push({
-                    id: Number.parseInt(currentVersion.replace('.', '')),
+                    id: 420,
                     title: '',
                     message: '<span style="font-size: 16px; font-weight: bold">Take the Schoology Plus Fall 2018 Survey!</span><br/><br/><span style="font-size: 14px">Let us know your thoughts about Schoology Plus and complete the survey for a chance to win <strong style="background-color: yellow">one of two $5 Amazon gift cards!</strong><br/><br/><strong style="background-color: yellow"><a href="https://goo.gl/forms/EVi8cTaakVhLekiN2" target="_blank">Click Here to Take The Survey!</a></strong></span><br/><br/>',
                     shortMessage: "Complete for a chance to win an Amazon gift card!",
