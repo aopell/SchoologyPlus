@@ -1,3 +1,44 @@
+/** Compares two version strings a and b.
+ * @param {string} a A string representing a numerical version.
+ * @param {string} b A string representing a numerical version.
+ * @returns {-1|1|0} A number less than 0 if a is less than b; a number greater than zero if a is greater than b; and a number equal to zero if a is equal to b.
+ */
+function compareVersions(a, b) {
+    function sanitizeVersion(ver) {
+        ver = ver.match(/\d+(\.\d+)*/)[0];
+        return ver.split(".").map(x => +x);
+    }
+    a = sanitizeVersion(a);
+    b = sanitizeVersion(b);
+
+    let swapped = false;
+    if (b.length < a.length) {
+        let temp = a;
+        a = b;
+        b = temp;
+        swapped = true;
+    }
+
+    while (a.length < b.length) {
+        a.push(0);
+    }
+
+    if (swapped) {
+        let temp = a;
+        a = b;
+        b = temp;
+    }
+
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] < b[i]) {
+            return -1;
+        } else if (a[i] > b[i]) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 function versionSpecificFirstLaunch(currentVersion, previousVersion) {
     switch (currentVersion) {
         case "4.3.2":
