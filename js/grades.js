@@ -88,6 +88,8 @@ var fetchQueue = [];
             let grade = createElement("span", ["awarded-grade", "injected-title-grade", courseGrade ? "grade-active-color" : "grade-none-color"], { textContent: "LOADING" });
             title.appendChild(grade);
 
+            let invalidatePerTotal = false;
+
             for (let category of categories) {
                 try {
                     let assignments = rows.filter(x => category.dataset.id == x.dataset.parentId);
@@ -217,15 +219,18 @@ var fetchQueue = [];
                         }
                     };
 
+                    let invalidateCatTotal = false;
+
                     for (let assignment of assignments) {
                         try {
                             await processAssignment(assignment);
                         } catch (err) {
                             addEditDisableReason(err);
-                            // cleanup: reestablish "grade" validity and disable editing
-                            grade.textContent = courseGrade ? courseGrade.textContent : "—";
-                            addLetterGrade(grade, courseId);
-                            throw err;
+                            if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
+                                // consequential failure: our denominator is invalid
+                                invalidateCatTotal = true;
+                            }
+                            Logger.error("Error loading assignment for " + courseId + ": ", assignment, err);
                         }
                     }
 
@@ -238,6 +243,12 @@ var fetchQueue = [];
                         setGradeText(gradeText, sum, max, category);
                         gradeText.classList.remove("no-grade");
                         gradeText.classList.add("awarded-grade");
+
+                        if (invalidateCatTotal) {
+                            let catMaxElem = gradeText.parentElement.querySelector(".grade-column-center .max-grade");
+                            catMaxElem.classList.add("max-grade-show-error");
+                            invalidatePerTotal = true;
+                        }
                     }
 
                     let weightText = category.querySelector(".percentage-contrib");
@@ -267,6 +278,12 @@ var fetchQueue = [];
 
             let gradeText = periods[0].querySelector(".awarded-grade");
             setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
+
+            if (invalidatePerTotal && classTotal !== 0) {
+                let perMaxElem = gradeText.parentElement.querySelector(".grade-column-center .max-grade");
+                perMaxElem.classList.add("max-grade-show-error");
+            }
+
             for (let i = 1; i < periods.length; i++) {
                 periods[i].remove();
             }

@@ -164,3 +164,23 @@ input#enable-modify {
 .grade-add-indicator .kabob-menu {
     display: none;
 }
+
+/* undo exception's .no-grade styling for unknown .max-grade elements */
+.exception-grade-wrapper .max-grade.no-grade {
+    width: unset !important;
+    text-align: unset !important;
+    display: unset !important;
+}
+
+.max-grade-show-error {
+    visibility: hidden;
+    word-spacing:-999px;
+    letter-spacing: -999px;
+}
+
+.max-grade-show-error::after{
+    content: " / <ERR>";
+    visibility: visible;
+    word-spacing:normal;
+    letter-spacing:normal; 
+}
