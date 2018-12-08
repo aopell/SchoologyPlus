@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 4.3.2 - December 7, 2018
+### Added
+- Notices regarding Schoology Plus and LAUSD's upcoming Schoology updates
+  - For more information, [click here](https://aopell.me/SchoologyPlus/notice)
+
 ## Version 4.3.1 - December 4, 2018
 ### Fixed
 - Calculate Minimum Grade now once again will lower existing assignment grades to positive, but less than original, values when calculating minimum grades
