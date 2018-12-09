@@ -1,51 +1,37 @@
 /**
- * Provides logging utilities
+ * Wrapper for various `console` functions. Each adds a custom prefix to the start of the log message.
  */
-class Logger {
+var Logger = {
     /**
-     * Provides equivalent functionality to console.log
-     * @param {string} message Message to log
-     * @param  {...any} args Object arguments or strings to concatenate
+     * Logs each argument to the console. Provides identical functionality to `console.log`, but WITHOUT format specifiers. 
+     * @type {(...args)=>void}
      */
-    static log(message, ...args) {
-        console.log(`%c+%c ${message}`, "color: #81D4FA;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
-    }
-
+    log: (() => console.log.bind(window.console, `%c+`, createLogPrefix("#81D4FA")))(),
     /**
-     * Provides equivalent functionality to console.error
-     * @param {string} message Message to log (with "error" log level)
-     * @param  {...any} args Object arguments or strings to concatenate
+     * Logs each argument to the console ("error" log level). Provides identical functionality to `console.error`, but WITHOUT format specifiers. 
+     * @type {(...args)=>void}
      */
-    static error(message, ...args) {
-        console.error(`%c+%c ${message}`, "color: #ff6961;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
-    }
-
+    error: (() => console.error.bind(window.console, `%c+`, createLogPrefix("#FF6961")))(),
     /**
-     * Provides equivalent functionality to console.info
-     * @param {string} message Message to log (with "info" log level)
-     * @param  {...any} args Object arguments or strings to concatenate
+     * Logs each argument to the console ("info" log level). Provides identical functionality to `console.info`, but WITHOUT format specifiers. 
+     * @type {(...args)=>void}
      */
-    static info(message, ...args) {
-        console.info(`%c+%c ${message}`, "color: #81D4FA;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
-    }
-
+    info: (() => console.info.bind(window.console, `%c+`, createLogPrefix("white")))(),
     /**
-     * Provides equivalent functionality to console.warn
-     * @param {string} message Message to log (with "warn" log level)
-     * @param  {...any} args Object arguments or strings to concatenate
+     * Logs each argument to the console ("warning" log level). Provides identical functionality to `console.warn`, but WITHOUT format specifiers. 
+     * @type {(...args)=>void}
      */
-    static warn(message, ...args) {
-        console.warn(`%c+%c ${message}`, "color: #fdfd96;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
-    }
-
+    warn: (() => console.warn.bind(window.console, `%c+`, createLogPrefix("#FDFD96")))(),
     /**
-     * Provides equivalent functionality to console.trace
-     * @param {string} message Message to log (with traceback)
-     * @param  {...any} args Object arguments or strings to concatenate
+     * Logs each argument to the console ("info" log level). Provides identical functionality to `console.trace`, but WITHOUT format specifiers. 
+     * @type {(...args)=>void}
      */
-    static trace(message, ...args) {
-        console.trace(`%c+%c ${message}`, "color: #81D4FA;border:1px solid #2A2A2A; border-radius: 100%; font-size: 14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A", "color:black;", ...args)
-    }
+    trace: (() => console.trace.bind(window.console, `%c+`, createLogPrefix("orange")))(),
+    /**
+     * Logs each argument to the console ("debug" log level). Provides identical functionality to `console.trace`, but WITHOUT format specifiers. 
+     * @type {(...args)=>void}
+     */
+    debug: (() => console.debug.bind(window.console, `%c+`, createLogPrefix("lightgreen")))(),
 }
 
 // Process options
@@ -800,4 +786,8 @@ Setting.setValue = function (name, value, callback = undefined) {
  */
 Setting.setValues = function (dictionary, callback = undefined) {
     Setting.saveModified(dictionary, false, callback, false);
+}
+
+function createLogPrefix(color) {
+    return `color:${color};border:1px solid #2A2A2A;border-radius:100%;font-size:14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A`;
 }
