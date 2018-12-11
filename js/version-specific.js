@@ -99,7 +99,7 @@ let migrationsTo = {
             });
         });
     },
-    "4.3.2": function (currentVersion, previousVersion) {
+    "4.3.1": function (currentVersion, previousVersion) {
         iziToast.show({
             theme: 'dark',
             iconUrl: chrome.runtime.getURL("/imgs/plus-icon.png"),

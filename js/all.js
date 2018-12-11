@@ -130,7 +130,7 @@ let modals = [
         versionSpecificFirstLaunch(currentVersion, newVersion);
         Setting.setValue("newVersion", chrome.runtime.getManifest().version);
     }
-});
+})();
 
 let video = document.body.appendChild(createElement("video", ["easter-egg"], {
     onended: function () {
