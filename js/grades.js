@@ -302,9 +302,14 @@ var fetchQueue = [];
         let timeRow = document.getElementById("past-selector") || document.querySelector(".content-top-upper").insertAdjacentElement('afterend', document.createElement("div"));
 
         timeRow.appendChild(createElement("label", ["modify-label"], {
-            textContent: "Enable grade modification",
             htmlFor: "enable-modify"
-        }));
+        }, [
+                createElement("span", [], { textContent: "Enable grade modification" }),
+                createElement("a", ["splus-grade-help-btn"], {
+                    href: "https://github.com/aopell/SchoologyPlus/wiki/Grade-Edit-Simulator",
+                    target: "_blank"
+                }, [createElement("span", ["icon-help"])])
+            ]));
 
         timeRow.appendChild(createElement("input", [], {
             type: "checkbox",
