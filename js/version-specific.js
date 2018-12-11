@@ -137,7 +137,7 @@ let migrationsTo = {
 };
 
 function versionSpecificFirstLaunch(currentVersion, previousVersion) {
-    console.log("[SchoologyPlus-Update] Version specific first launch: ", currentVersion, " from ", previousVersion);
+    Logger.log("[Updater] Version specific first launch: ", currentVersion, " from ", previousVersion);
     /*
     switch (currentVersion) {
         default:
