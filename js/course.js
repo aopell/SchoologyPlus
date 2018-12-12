@@ -41,6 +41,15 @@ modals.push(new Modal("course-settings-modal", "Course Options", createElement("
                 createElement("a", [], { textContent: "Add Grading Symbol", href: "#", onclick: (event) => createRow() })
             ])
         ]),
+        createElement("div", ["setting-entry"], {}, [
+            createElement("h2", ["setting-title"], { textContent: "Force Default Icon: " }, [
+                createElement("select", [], { id: "force-default-icon-splus-courseopt-select" }, [
+                    createElement("option", [], { textContent: "Enabled", value: "enabled" }),
+                    createElement("option", [], { textContent: "Disabled", value: "disabled", selected: true })
+                ])
+            ]),
+            createElement("p", ["setting-description"], { textContent: "Use Schoology's icon for this course instead of the Schoology Plus themed icon regardless of the global Schoology Plus setting" })
+        ])
     ]),
     createElement("div", ["settings-buttons-wrapper"], undefined, [
         createButton("save-course-settings", "Save Settings", saveCourseSettings),
@@ -72,6 +81,18 @@ function setCourseOptionsContent(modal, options) {
         aliasInput.value = Setting.getValue("courseAliases")[courseIdNumber];
     } else {
         aliasInput.value = "";
+    }
+
+    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons");
+    if (courseIconOverride) {
+        courseIconOverride = courseIconOverride[courseIdNumber];
+    }
+    if (courseIconOverride) {
+        for (let opt of document.getElementById("force-default-icon-splus-courseopt-select").children) {
+            if (opt.value == courseIconOverride) {
+                opt.selected = true;
+            }
+        }
     }
 }
 
@@ -108,7 +129,11 @@ function saveCourseSettings() {
     let currentAliasesValue = Setting.getValue("courseAliases") || {};
     currentAliasesValue[courseIdNumber] = document.getElementById("setting-input-course-alias").value;
 
-    Setting.setValues({ gradingScales: currentValue, courseAliases: currentAliasesValue }, () => {
+    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons") || {};
+    let iconOverrideSelect = document.getElementById("force-default-icon-splus-courseopt-select");
+    courseIconOverride[courseIdNumber] = iconOverrideSelect.options[iconOverrideSelect.selectedIndex].value;
+
+    Setting.setValues({ gradingScales: currentValue, courseAliases: currentAliasesValue, forceDefaultCourseIcons: courseIconOverride }, () => {
         let settingsSaved = document.getElementById("save-course-settings");
         settingsSaved.value = "Saved!";
         setTimeout(() => {
@@ -124,8 +149,11 @@ function restoreCourseDefaults() {
     let currentAliasesValue = Setting.getValue("courseAliases") || {};
     currentAliasesValue[courseIdNumber] = null;
 
+    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons") || {};
+    courseIconOverride[courseIdNumber] = null;
+
     if (confirm(`Are you sure you want to reset all options for the course "${courseSettingsCourseName}" to their default values? This action is irreversible.`)) {
-        Setting.setValues({ gradingScales: currentValue, courseAliases: currentAliasesValue }, () => {
+        Setting.setValues({ gradingScales: currentValue, courseAliases: currentAliasesValue, forceDefaultCourseIcons: courseIconOverride }, () => {
             alert("Settings restored. Reloading.");
             location.reload();
         });

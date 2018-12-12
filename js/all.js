@@ -132,6 +132,35 @@ let modals = [
     }
 })();
 
+(async function () {
+    Theme.profilePictureOverrides = [];
+    let courseProfilePicOverrides = Setting.getValue("forceDefaultCourseIcons") || {};
+
+    let profilePicLoadTasks = [];
+
+    for (let courseId in courseProfilePicOverrides) {
+        if (courseProfilePicOverrides[courseId] == "enabled") {
+            profilePicLoadTasks.push(fetchApiJson("/sections/" + courseId));
+        }
+    }
+
+    Logger.log("Forcing Schoology-default icons for " + profilePicLoadTasks.length + " courses");
+
+    // from https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex/6969486#6969486
+    function escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    }
+
+    let overrides = await Promise.all(profilePicLoadTasks);
+    for (let course of overrides) {
+        Theme.profilePictureOverrides.push([escapeRegExp(course.course_title) + " ?: " + escapeRegExp(course.section_title), course.profile_url]);
+    }
+
+    if (profilePicLoadTasks.length > 0) {
+        Theme.setProfilePictures();
+    }
+})();
+
 let video = document.body.appendChild(createElement("video", ["easter-egg"], {
     onended: function () {
         this.style.visibility = "hidden";
