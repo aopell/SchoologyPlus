@@ -13,6 +13,7 @@
   - Disabled by default
 - Courses in Common button
   - On every user profile, there's now a button to see what courses you have in common with that user
+- Grades show in "grade posted" notifications
 - Documentation for grade edit simulation
   - Available on the Schoology Plus wiki
   - Linked via a button near the enable grade editing checkbox
