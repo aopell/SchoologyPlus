@@ -1,5 +1,28 @@
 # Changelog
 
+## Version 4.4 - December 11, 2018
+
+> This release precedes a major interface change to LAUSD's Schoology. Schoology Plus will support the new interface, but not immediately upon its launch. Refer to the announcement within Schoology Plus [or this link](https://aopell.me/SchoologyPlus/new-interface-notice) for more information.
+
+### Added
+> Some of these features were inadvertently released as part of the 4.3.2 patch, but they should now be more polished and with fewer bugs.
+- Stay logged in setting
+  - Under Schoology Plus settings, this option allows you to remain signed in to Schoology across browser restarts
+  - No more annoying logging in every time you repoen your browser
+  - Disabled by default
+- Courses in Common button
+  - On every user profile, there's now a button to see what courses you have in common with that user
+- Documentation for grade edit simulation
+  - Available on the Schoology Plus wiki
+  - Linked via a button near the enable grade editing checkbox
+
+### Changed
+- Theme icons can now be overridden with the icon set in Schoology on a per-course basis
+- Debug log messages now have a consistent format to indicate which logs are from Schoology Plus and which aren't
+
+### Fixed
+- Handling of errors and extenuating circumstances on grades pages is vastly improved
+
 ## Version 4.3.2 - December 7, 2018
 ### Added
 - Notices regarding Schoology Plus and LAUSD's upcoming Schoology updates
