@@ -6,6 +6,7 @@
 
 ### Added
 > Some of these features were inadvertently released as part of the 4.3.2 patch, but they should now be more polished and with fewer bugs.
+
 - Stay logged in setting
   - Under Schoology Plus settings, this option allows you to remain signed in to Schoology across browser restarts
   - No more annoying logging in every time you repoen your browser
