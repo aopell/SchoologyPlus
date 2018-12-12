@@ -11,6 +11,12 @@ class Theme {
     }
 
     static getIcon(course) {
+        for (let overridePattern of Theme.profilePictureOverrides) {
+            if (course.match(new RegExp(overridePattern[0], 'i'))) {
+                return overridePattern[1];
+            }
+        }
+
         if (Setting.getValue("themes")) {
             let t = Setting.getValue("themes").find(x => x.name === Theme.active.name);
             if (t && t.icons && t.icons instanceof Array) {
@@ -237,6 +243,8 @@ class Theme {
         document.documentElement.style.setProperty("--cursor", url ? `url(${url}), auto` : "auto");
     }
 }
+
+Theme.profilePictureOverrides = [];
 
 let tempTheme = undefined;
 
