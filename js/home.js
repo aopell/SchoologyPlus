@@ -1,4 +1,4 @@
-/** @typedef {{id:number,title:string,message:string,shortMessage:string,timestamp?:Date,icon?:string}} Broadcast */
+/** @typedef {{id:number,title:string,message:string,timestamp?:Date,icon?:string}} Broadcast */
 
 let homeFeedContainer = document.getElementById("home-feed-container");
 let feed = homeFeedContainer.querySelector(".feed .item-list .s-edge-feed");
