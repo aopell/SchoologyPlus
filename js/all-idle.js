@@ -254,7 +254,7 @@
                     let assignmentId = gradeLink.href.match(/\d+/)[0];
 
                     gradesLoadedPromise.then(gradeContainer => {
-                        gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points})` }))
+                        gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0})` }))
                     });
                 }
 
@@ -285,7 +285,7 @@
                     let assignmentId = assignmentWrapper.getElementsByTagName("a")[1].href.match(/\d+/)[0];
 
                     gradesLoadedPromise.then(gradeContainer => {
-                        assignmentWrapper.insertAdjacentElement("beforeend", createElement("span", ["grade-data"], { textContent: `${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points}` }))
+                        assignmentWrapper.insertAdjacentElement("beforeend", createElement("span", ["grade-data"], { textContent: `${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0}` }))
                     });
                 }
                 return;
