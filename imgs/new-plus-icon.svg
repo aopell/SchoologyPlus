@@ -1,0 +1,5 @@
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <circle style="fill: none; stroke: rgb(255, 255, 255); stroke-width: 25px;" cx="250" cy="250" r="230"></circle>
+  <line style="stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-width: 25px;" x1="250" y1="125" x2="250" y2="375"></line>
+  <line style="stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-width: 25px;" x1="125" y1="250" x2="375" y2="250"></line>
+</svg>

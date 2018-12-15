@@ -188,10 +188,15 @@ document.body.onkeydown = (data) => {
     data.preventDefault = false;
 };
 
-document.querySelector(".user-menu").prepend(createElement("li", ["schoology-plus-icon"], undefined, [
-    createElement("a", ["nav-icon-button"], { href: "#", onclick: () => openModal("settings-modal") }, [
-        createElement("img", ["icon-unread-requests"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 24 })
-    ])
+document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(createElement("li", ["_24avl", "_3Rh90", "_349XD"], {}, [
+    createElement(
+        "a",
+        ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
+        { href: "#", onclick: () => openModal("settings-modal") },
+        [
+            createElement("img",["Header-two-point-two-ONgMZ", "Header-two-point-two-ONgMZ", "_1I3mg"],{src: chrome.runtime.getURL("imgs/new-plus-icon.svg")})
+        ]
+    )
 ]));
 
 for (let e of document.querySelectorAll(".close")) {

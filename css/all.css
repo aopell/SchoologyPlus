@@ -9,6 +9,7 @@
     cursor: var(--cursor);
 }
 
+/* _2JX1Q is the logo <a> element */
 .use-custom-url ._2JX1Q {
     background: var(--background-url) no-repeat !important;
     background-image: var(--background-url) !important;
