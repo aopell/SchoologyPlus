@@ -44,10 +44,17 @@ class Theme {
                 if (obj.colors) {
                     Theme.setBackgroundColor(obj.colors[0], obj.colors[1], obj.colors[2], obj.colors[3]);
                 }
-                Theme.setLogoVisibility(obj.logo && obj.logo.toLowerCase() != "schoology");
+                Theme.setLAUSDLogoVisibility(obj.logo == "lausd");
                 Theme.setCursorUrl(obj.cursor);
-                if (obj.logo && obj.logo.toLowerCase() != "schoology" && obj.logo.toLowerCase() != "lausd") {
-                    Theme.setLogoUrl(obj.logo);
+                obj.logo = obj.logo || "schoology";
+                switch (obj.logo) {
+                    case "schoology":
+                        Theme.setLogoUrl();
+                        break;
+                    case "lausd":
+                        break;
+                    default:
+                        Theme.setLogoUrl(obj.logo);
                 }
             }
         );
@@ -56,7 +63,7 @@ class Theme {
     static apply(theme) {
         Theme.setBackgroundHue(210);
         Theme.setCursorUrl();
-        Theme.setLogoVisibility(false);
+        Theme.setLAUSDLogoVisibility(false);
         Theme.setLogoUrl();
         theme.onapply();
         Theme.setProfilePictures();
@@ -205,38 +212,17 @@ class Theme {
         }
     }
 
-    static setLogoVisibility(visible) {
-        // Hacky workaround to ensure logo element has loaded
-        let interval = setInterval(() => {
-            let logo = document.querySelector("#home a");
-            let notLogo = document.querySelector("#home a[role=menuitem]")
-            if (!notLogo && logo) {
-                clearInterval(interval);
-                if (visible) {
-                    logo.classList.remove("hide-background-image");
-                } else {
-                    logo.classList.add("hide-background-image");
-                }
-            }
-        }, 50);
+    static setLAUSDLogoVisibility(visible) {
+        // False: show Schoology/custom logo; True: show LAUSD logo
+        if (visible) {
+            document.documentElement.classList.remove("use-custom-url");
+        } else {
+            document.documentElement.classList.add("use-custom-url");
+        }
     }
 
-    static setLogoUrl(url) {
-        // Hacky workaround to ensure logo element has loaded
-        let interval = setInterval(() => {
-            let logo = document.querySelector("#home a");
-            let notLogo = document.querySelector("#home a[role=menuitem]")
-            if (!notLogo && logo) {
-                clearInterval(interval);
-                if (url) {
-                    logo.classList.add("custom-background-image");
-                    document.documentElement.style.setProperty("--background-url", `url(${url})`);
-                }
-                else {
-                    logo.classList.remove("custom-background-image");
-                }
-            }
-        }, 50);
+    static setLogoUrl(url = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg") {
+        setCSSVariable("background-url", `url(${url})`);
     }
 
     static setCursorUrl(url) {
@@ -275,7 +261,7 @@ let themes = [
         "LAUSD Orange",
         function () {
             Theme.setBackgroundColor("#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00");
-            Theme.setLogoVisibility(true);
+            Theme.setLAUSDLogoVisibility(true);
         }
     )
 ];

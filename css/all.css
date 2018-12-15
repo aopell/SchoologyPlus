@@ -9,78 +9,11 @@
     cursor: var(--cursor);
 }
 
-body #header {
-    background-color: var(--primary-color) !important;
-}
-
-.s-enable-course-dashboard.is-home #nav ul #primary-home a,
-.s-enable-course-dashboard.is-home #nav ul #primary-home {
-    background-color: unset !important;
-}
-
-#nav #nav_left li#primary-home:hover,
-.s-enable-course-dashboard.is-home #nav ul #primary-home a:hover,
-#nav #nav_left li.primary-activities:hover,
-#nav #nav_left li.primary-activities.active,
-.s-enable-course-dashboard.is-home #nav ul #primary-home:hover {
-    background-color: var(--hover-color) !important;
-    color: white;
-}
-
-body #nav #primary-home a:hover,
-body #nav #profile a:hover,
-body .primary-activities .clickable:hover,
-body .primary-activities .active,
-body #nav ul li.active-trail a,
-body .ac_results ul .ac_over .ac-top,
-body .schoology:hover,
-body .ac_over .schoology,
-body .action-links a:hover,
-body .action-links span:hover,
-body .edit-profile-picture-hover:hover,
-body .edit-profile-picture-hover.active,
-body #sidebar-left .action-links a:hover,
-.component-add-link:hover,
-body .search-toggle:hover,
-body .submit-span-wrapper:hover,
-body #primary-settings .unfold:hover {
-    background-color: var(--hover-color) !important;
-    color: white !important;
-}
-
-body .search-toggle,
-body #primary-settings .unfold {
-    background-color: var(--background-color) !important;
-    border-color: var(--hover-color) !important;
-}
-
-#home a[role=menuitem] {
-    background-image: none !important;
-}
-
-#home a.custom-background-image {
-    background: var(--background-url) no-repeat 0px 0px !important;
-}
-
-#home a.hide-background-image {
-    background: none !important;
-}
-
-#home a.hide-background-image svg {
-    visibility: visible !important;
-}
-
-#home a svg {
-    visibility: hidden !important;
-}
-
-body .submit-span-wrapper,
-body .click-submit,
-body .submit-btn,
-body .popups-body .submit-span-wrapper,
-body #nav .s-notifications-mini .requester-links a:hover {
-    background-color: var(--primary-color) !important;
-    border: 2px solid var(--border-color) !important;
+.use-custom-url ._2JX1Q {
+    background: var(--background-url) no-repeat !important;
+    background-image: var(--background-url) !important;
+    background-size: 160px !important;
+    background-position: center center !important;
 }
 
 video.easter-egg {
@@ -96,19 +29,6 @@ video.easter-egg {
     z-index: 1000;
     overflow: hidden;
     pointer-events: none;
-}
-
-.activities-dropdown-wrapper ul {
-    max-height: unset !important;
-}
-
-#nav_left>li.primary-activities {
-    padding-bottom: 2px !important;
-}
-
-#nav_left>li#primary-home {
-    padding-bottom: 2px !important;
-    height: 37px !important;
 }
 
 .schoology-plus-icon {
@@ -249,33 +169,6 @@ video.easter-egg {
     width: 100%;
     height: 100%;
     min-height: 49vmin;
-}
-
-.new-update {
-    background: red;
-    border: 1px solid white;
-    padding: 1px 4px;
-    font-weight: bold;
-    border-radius: 3px;
-    animation: newupdate 2s linear infinite;
-}
-
-@keyframes newupdate {
-    0% {
-        opacity: 0.4;
-    }
-    25% {
-        opacity: 0.9;
-    }
-    50% {
-        opacity: 1;
-    }
-    75% {
-        opacity: 0.9;
-    }
-    100% {
-        opacity: 0.4;
-    }
 }
 
 .settings-buttons-wrapper {

@@ -791,3 +791,12 @@ Setting.setValues = function (dictionary, callback = undefined) {
 function createLogPrefix(color) {
     return `color:${color};border:1px solid #2A2A2A;border-radius:100%;font-size:14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A`;
 }
+
+/**
+ * Sets the value of a CSS variable on the document
+ * @param {string} name Variable name 
+ * @param {string} val New variable value
+ */
+function setCSSVariable(name, val) {
+    document.documentElement.style.setProperty(`--${name}`, val);
+}
