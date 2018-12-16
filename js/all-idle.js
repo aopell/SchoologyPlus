@@ -181,7 +181,7 @@
 
 // show grades on notifications dropdown
 (function () {
-    let notifsMenuDropdown = document.getElementById("notifications-menu-dropdown");
+    let notifsMenuContainer = document.querySelector("#header nav button[aria-label$=\"notifications\"]").parentElement;
     let gradesLoadedPromise = (async function () {
         let myGrades = await fetchApiJson(`/users/${getUserId()}/grades`);
 
@@ -199,32 +199,106 @@
 
         return loadedGradeContainer;
     })();
-    let notifsMenuDropdownObserver = new MutationObserver(mutationsList => {
-        for (let mutation of mutationsList) {
-            for (let addedNode of mutation.addedNodes) {
-                if (!addedNode.classList.contains("item-list")) {
+
+    let notifsDropdownObserver = new MutationObserver(function (mutationList) {
+        let processThis = false;
+
+        // ensure we're processing more than an addition of something this very handler added
+        for (let mutation of mutationList) {
+            for (let addedElem of mutation.addedNodes) {
+                if (addedElem.classList && !addedElem.classList.contains("splus-addedtonotifdropdown")) {
+                    processThis = true;
+                    break;
+                }
+            }
+
+            if (processThis) {
+                break;
+            }
+        }
+
+        if (!processThis) {
+            return;
+        }
+
+        let coll = notifsMenuContainer.querySelectorAll("div[role=\"menu\"] ._2awxe._3skcp._1tpub a[href^=\"/assignment/\"]");
+        if (coll.length > 0) {
+            Logger.log("NotifsDropdown observation has links to process - processing now");
+        }
+
+        // obfuscated classnames identify the div containers of our individual notifications (explicitly excluding the "View All" button)
+        for (let gradeLink of coll) {
+            if (gradeLink.offsetParent == null) {
+                // hidden and therefore irrelevant
+                continue;
+            }
+
+            // correct the showing of "N other people" on assignment/grade notifications which should read "N other assignments"
+            if (!gradeLink.parentElement.classList.contains("splus-people-are-assignments-corrected")) {
+                let parentElem = gradeLink.parentElement;
+                if (parentElem.firstElementChild.textContent.includes("grade") && parentElem.firstElementChild.textContent.includes("posted")) {
+                    // a grades posted notification
+                    for (let candidateSpan of parentElem.getElementsByTagName("span")) {
+                        if (candidateSpan.textContent.includes("other people")) {
+                            candidateSpan.textContent = candidateSpan.textContent.replace("other people", "other assignments");
+                        }
+                    }
+                    parentElem.classList.add("splus-people-are-assignments-corrected");
+                }
+            }
+
+            let assignmentId = (gradeLink.href.match(/\d+/) || [])[0];
+
+            if (!assignmentId) {
+                continue;
+            }
+
+            if (gradeLink.parentElement.querySelector(".grade-data.splus-addedtonotifdropdown")) {
+                // already processed
+                continue;
+            }
+
+            gradesLoadedPromise.then(gradeContainer => {
+                gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data", "splus-addedtonotifdropdown"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0})` }))
+            });
+        }
+
+    });
+
+    notifsDropdownObserver.observe(notifsMenuContainer, { childList: true, subtree: true });
+
+    if (window.location.pathname == "/home/notifications") {
+        // notifications page: legacy style
+
+        let processItemList = function (itemList) {
+            for (let gradeLink of itemList.querySelectorAll(".s-edge-type-grade-add a[href^=\"/assignment/\"]")) {
+                if (gradeLink.offsetParent == null) {
+                    // hidden and therefore irrelevant
                     continue;
                 }
 
-                for (let gradeLink of addedNode.querySelectorAll(".s-edge-type-grade-add a[href^=\"/assignment/\"]")) {
-                    if (gradeLink.offsetParent == null) {
-                        // hidden and therefore irrelevant
-                        continue;
-                    }
+                let assignmentId = (gradeLink.href.match(/\d+/) || [])[0];
 
-                    let assignmentId = gradeLink.href.match(/\d+/)[0];
-
-                    gradesLoadedPromise.then(gradeContainer => {
-                        gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0})` }))
-                    });
+                if (!assignmentId) {
+                    continue;
                 }
 
-                notifsMenuDropdownObserver.disconnect();
-                return;
-            }
+                gradesLoadedPromise.then(gradeContainer => {
+                    gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0})` }))
+                });
+            };
         }
-    });
-    notifsMenuDropdownObserver.observe(notifsMenuDropdown, { childList: true });
+
+        let itemList = document.querySelector("#main-inner .item-list ul.s-notifications-mini");
+
+        let oldNotifsObserver = new MutationObserver(function () {
+            processItemList(itemList);
+        });
+
+        processItemList(itemList);
+
+        oldNotifsObserver.observe(itemList, { childList: true });
+    }
 
     let moreGradesModalObserver = new MutationObserver(mutationsList => {
         for (let mutation of mutationsList) {
@@ -255,5 +329,4 @@
     });
 
     moreGradesModalObserver.observe(document.body, { childList: true });
-})//();
-// TODO: Uncomment and fix
+})();

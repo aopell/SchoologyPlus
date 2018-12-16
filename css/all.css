@@ -315,6 +315,14 @@ h1.setting-title {
     font-variant: normal;
 }
 
+/*
+newfangled trim and UI w/ obfuscated class names
+the selector matches inside notifications in the new notifs dropdown
+*/
+._1wP6w._3ghFm.WfriF .grade-data {
+    color: #0a9c78;
+}
+
 .s-edge-type-grade-add .grade-data {
     font-size: 12px;
     color: #767676;
