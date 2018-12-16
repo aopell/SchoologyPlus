@@ -9,6 +9,11 @@
     cursor: var(--cursor);
 }
 
+/* The "Resources" link on the navbar */
+._24avl._3Rh90 a._1SIMq._2kpZl._3OAXJ._13cCs._3_bfp._2M5aC._24avl._3v0y7._2s0LQ._3ghFm._3LeCL._31GLY._9GDcm._1D8fw.util-height-six-3PHnk.util-line-height-six-3lFgd.util-text-decoration-none-1n0lI.Header-header-button-active-state-3AvBm.Header-header-button-1EE8Y.sExtlink-processed {
+    padding-top: 1px !important;    
+}
+
 /* _2JX1Q is the logo <a> element */
 .use-custom-url ._2JX1Q {
     background: var(--background-url) no-repeat !important;
@@ -223,12 +228,14 @@ input[type=text].setting-item {
     line-height: 30px !important;
 }
 
-.gradebook-course-title a .arrow, .gradebook-course-title .arrow {
+.gradebook-course-title a .arrow,
+.gradebook-course-title .arrow {
     width: 30px !important;
     height: 30px !important;
 }
 
-.gradebook-course-title a .arrow:not(.icon-modified), .gradebook-course-title .arrow:not(.icon-modified) {
+.gradebook-course-title a .arrow:not(.icon-modified),
+.gradebook-course-title .arrow:not(.icon-modified) {
     background-position-y: -145px !important;
 }
 
@@ -281,7 +288,8 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
     vertical-align: middle;
 }
 
-#nav .courses-action .before-last-li, #nav .groups-action .before-last-li {
+#nav .courses-action .before-last-li,
+#nav .groups-action .before-last-li {
     border-right: 1px solid #ddd;
 }
 
