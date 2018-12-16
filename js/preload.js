@@ -292,7 +292,17 @@ async function getApiKeys() {
  * Gets the current user's ID.
  */
 function getUserId() {
-    return document.querySelector("#profile > a").href.match(/\d+/)[0];
+    try {
+        return Number.parseInt(new URLSearchParams(document.querySelector("iframe[src*=session-tracker]").src.split("?")[1]).get("id"));
+    } catch (e) {
+        Logger.warn("Failed to get user ID from session tracker, using backup", e);
+        try {
+            return JSON.parse(document.querySelector("script:not([type]):not([src])").textContent.split("=")[1]).props.user.uid;
+        } catch (e2) {
+            Logger.error("Failed to get user ID from backup method", e2);
+            throw new Error("Failed to get user ID from backup method: " + e2.toString());
+        }
+    }
 }
 
 /**

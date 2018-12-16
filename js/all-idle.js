@@ -1,42 +1,3 @@
-// patch for arrow menu in Firefox
-(function () {
-    let arrow = document.getElementById("primary-settings");
-    let content = arrow.innerHTML;
-    arrow.innerHTML = "";
-    arrow.innerHTML = content;
-    let arrowMenu = document.querySelector("#primary-settings>a");
-    let dropdown = document.getElementById("settings-menu-dropdown");
-    arrowMenu.removeAttribute("href");
-    arrowMenu.style.cursor = "pointer";
-    arrowMenu.addEventListener("click", function (event) {
-        if (isVisible(dropdown)) {
-            dropdown.style.display = "none";
-            arrowMenu.classList.remove("active");
-        } else {
-            dropdown.style.display = "block";
-            arrowMenu.classList.add("active");
-        }
-    });
-    document.body.addEventListener("click", function (event) {
-        if (getParents(event.target, "#primary-settings").length == 0) {
-            dropdown.style.display = "none";
-            arrowMenu.classList.remove("active");
-        }
-    });
-})();
-
-// archived courses button in courses dropdown
-(function () {
-    if (Setting.getValue("archivedCoursesButton") === "show") {
-        let lastCoursesAction = document.querySelector("#primary-courses .wrapper-for-actions").lastElementChild;
-        lastCoursesAction.insertAdjacentElement("beforebegin",
-            createElement("span", ["see-all"], { title: "See Past Courses" }, [
-                createElement("a", ["sExtlink-processed"], { href: "/courses/mycourses/past", textContent: "See Archived" })
-            ])
-        );
-    }
-})();
-
 // hack for course aliases
 (async function () {
     let applyCourseAliases = null;
@@ -294,4 +255,5 @@
     });
 
     moreGradesModalObserver.observe(document.body, { childList: true });
-})();
+})//();
+// TODO: Uncomment and fix
