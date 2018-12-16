@@ -532,7 +532,7 @@ function updateSettings(callback) {
                 new Setting(
                     "archivedCoursesButton",
                     "Archived Courses Button",
-                    '[Refresh required] Shows a button labeled "See Archived" next to the "See All" button in the courses dropdown',
+                    'Adds a link to see past/archived courses in the courses dropdown',
                     "show",
                     "select",
                     {

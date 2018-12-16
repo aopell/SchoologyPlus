@@ -1,3 +1,68 @@
+// archived courses button in courses dropdown
+(function () {
+    let coursesDropdownContainer;
+
+    let coursesDropdownObserver = new MutationObserver(function (mutationList) {
+        Logger.log("Courses dropdown mutation");
+
+        let processThis = false;
+
+        // ensure we're processing more than an addition of something this very handler added
+        for (let mutation of mutationList) {
+            for (let addedElem of mutation.addedNodes) {
+                if (addedElem.classList && !addedElem.classList.contains("splus-addedtodynamicdropdown")) {
+                    processThis = true;
+                    break;
+                }
+            }
+
+            if (processThis) {
+                break;
+            }
+        }
+
+        if (!processThis) {
+            return;
+        }
+
+        if (Setting.getValue("archivedCoursesButton") === "show") {
+            // aims to select the original "My Courses" link in the dropdown
+            let candidateLink = coursesDropdownContainer.querySelector("._3mp5E._24W2g._26UWf .CjR09._8a6xl._1tpub > a._3ghFm");
+            if (!candidateLink) {
+                return;
+            }
+
+            // the obfuscated class name is the one Schoology uses to float these links right
+            let newContainer = createElement("div", ["courses-mycourses-droppeddown-link-container", "splus-addedtodynamicdropdown", "_3ghFm"], {}, [
+                createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
+                    href: "/courses",
+                    textContent: "My Courses"
+                }),
+                createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
+                    href: "/courses/mycourses/past",
+                    textContent: "Past Courses"
+                })
+            ]);
+
+            candidateLink.replaceWith(newContainer);
+        }
+    });
+
+    for (let candidateLabel of document.querySelectorAll("#header nav ul > li span._1D8fw")) {
+        if (candidateLabel.textContent == "Courses") {
+            // a span inside a button inside a div (inside a li)
+            coursesDropdownContainer = candidateLabel.parentElement.parentElement;
+            break;
+        }
+    }
+
+    if (!coursesDropdownContainer) {
+        return;
+    }
+
+    coursesDropdownObserver.observe(coursesDropdownContainer, { childList: true, subtree: true });
+})();
+
 // hack for course aliases
 (async function () {
     let applyCourseAliases = null;
@@ -206,7 +271,7 @@
         // ensure we're processing more than an addition of something this very handler added
         for (let mutation of mutationList) {
             for (let addedElem of mutation.addedNodes) {
-                if (addedElem.classList && !addedElem.classList.contains("splus-addedtonotifdropdown")) {
+                if (addedElem.classList && !addedElem.classList.contains("splus-addedtodynamicdropdown")) {
                     processThis = true;
                     break;
                 }
@@ -253,13 +318,13 @@
                 continue;
             }
 
-            if (gradeLink.parentElement.querySelector(".grade-data.splus-addedtonotifdropdown")) {
+            if (gradeLink.parentElement.querySelector(".grade-data.splus-addedtodynamicdropdown")) {
                 // already processed
                 continue;
             }
 
             gradesLoadedPromise.then(gradeContainer => {
-                gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data", "splus-addedtonotifdropdown"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0})` }))
+                gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data", "splus-addedtodynamicdropdown"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0})` }))
             });
         }
 
