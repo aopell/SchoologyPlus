@@ -133,14 +133,14 @@ class Theme {
         let arrows = Array.from(document.querySelectorAll(".gradebook-course-title .arrow"));
 
         for (let arrow of arrows) {
-            arrow.fullBgSet = true;
+            arrow.themedIconMode = "gradesPageArrow";
         }
 
         // courses drop down icons
         let coursesDropDownIcons = document.querySelectorAll(".splus-courses-navbar-button ._1tpub.Kluyr a.Card-card-1Qd8e .Card-card-image-uV6Bu");
 
         for (let cDropIcon of coursesDropDownIcons) {
-            cDropIcon.fullBgSet = false;
+            cDropIcon.themedIconMode = "coursesDropDown";
             let cDropLink = cDropIcon.parentElement;
             // course + section titles
             let courseTitle = cDropLink.querySelector(".Card-card-data-17m6S div:not(.splus-coursesdropdown-nicknamed-dataset) ._3U8Br._2s0LQ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
@@ -207,10 +207,10 @@ class Theme {
                         // in case this gets called before we get through the rest of this method, somehow
                         sourceUrl = fallbackUrl;
 
-                        if (arrow.fullBgSet) {
+                        if (arrow.themedIconMode == "gradesPageArrow") {
                             arrow.setAttribute("style", `background: url(${fallbackUrl}) no-repeat 0; background-size: cover;`);
-                        } else {
-                            arrow.setAttribute("style", `background-image: url(${fallbackUrl})`);
+                        } else if (arrow.themedIconMode == "coursesDropDown") {
+                            arrow.setAttribute("style", `background-image: url(${fallbackUrl}); background-size: contain;`);
                         }
                     }
 
@@ -226,10 +226,10 @@ class Theme {
                 }
             }
 
-            if (arrow.fullBgSet) {
+            if (arrow.themedIconMode == "gradesPageArrow") {
                 arrow.setAttribute("style", `background: url(${sourceUrl}) no-repeat 0; background-size: cover;`);
-            } else {
-                arrow.setAttribute("style", `background-image: url(${sourceUrl})`);
+            } else if (arrow.themedIconMode == "coursesDropDown") {
+                arrow.setAttribute("style", `background-image: url(${sourceUrl}); background-size: contain;`);
             }
         }
 
