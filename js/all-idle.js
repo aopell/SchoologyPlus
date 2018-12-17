@@ -28,23 +28,81 @@
         if (Setting.getValue("archivedCoursesButton") === "show") {
             // aims to select the original "My Courses" link in the dropdown
             let candidateLink = coursesDropdownContainer.querySelector("._3mp5E._24W2g._26UWf .CjR09._8a6xl._1tpub > a._3ghFm");
-            if (!candidateLink) {
-                return;
+            if (candidateLink) {
+                // the obfuscated class name is the one Schoology uses to float these links right
+                let newContainer = createElement("div", ["courses-mycourses-droppeddown-link-container", "splus-addedtodynamicdropdown", "_3ghFm"], {}, [
+                    createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
+                        href: "/courses",
+                        textContent: "My Courses"
+                    }),
+                    createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
+                        href: "/courses/mycourses/past",
+                        textContent: "Past Courses"
+                    })
+                ]);
+
+                candidateLink.replaceWith(newContainer);
+            }
+        }
+
+        // rearrange spacing in the courses dropdown
+        // Schoology has 4 tiles per row by default, we want 6
+        let targetRowWidth = 6;
+
+        let createSpacerTile = function () {
+            return createElement("div", ["_3hM4e", "_3_a9F", "zJU7e", "util-width-zero-1OcAd", "_2oHes", "util-last-child-margin-right-zero-1DVn4", "splus-addedtodynamicdropdown"]);
+        };
+
+        let isSpacerTile = function (element) {
+            return element.childElementCount == 0;
+        };
+
+        // tiles must be mutable; caller must not care what happens to it
+        // spaceToTotal = desired width
+        let createTilesRow = function (tiles, spaceToTotal) {
+            if (!spaceToTotal) {
+                spaceToTotal = targetRowWidth;
             }
 
-            // the obfuscated class name is the one Schoology uses to float these links right
-            let newContainer = createElement("div", ["courses-mycourses-droppeddown-link-container", "splus-addedtodynamicdropdown", "_3ghFm"], {}, [
-                createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
-                    href: "/courses",
-                    textContent: "My Courses"
-                }),
-                createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
-                    href: "/courses/mycourses/past",
-                    textContent: "Past Courses"
-                })
-            ]);
+            while (tiles.length < spaceToTotal) {
+                tiles.push(createSpacerTile());
+            }
 
-            candidateLink.replaceWith(newContainer);
+            // the two obfuscated classes are the ones Schoology has on its rows
+            return createElement("div", ["_1tpub", "Kluyr", "splus-addedtodynamicdropdown"], {}, tiles);
+        };
+
+        let rowContainer;
+        let tiles = [];
+
+        let needsReorganization = false;
+
+        // selector: (actual content container) (thing which just holds the inner body) (row of tiles)
+        let rowsSelector = "div[role=\"menu\"] ._3mp5E._24W2g._26UWf ._1tpub.Kluyr";
+
+        for (let tilesRow of coursesDropdownContainer.querySelectorAll(rowsSelector)) {
+            if (!rowContainer) {
+                rowContainer = tilesRow.parentElement;
+            }
+            if (tilesRow.childElementCount != targetRowWidth) {
+                needsReorganization = true;
+            }
+            for (let tile of tilesRow.children) {
+                if (!isSpacerTile(tile)) {
+                    tiles.push(tile);
+                }
+            }
+        }
+
+        if (needsReorganization) {
+            let nodeToDelete;
+            while (nodeToDelete = coursesDropdownContainer.querySelector(rowsSelector)) {
+                nodeToDelete.remove();
+            }
+
+            while (tiles.length > 0) {
+                rowContainer.appendChild(createTilesRow(tiles.splice(0, targetRowWidth), targetRowWidth));
+            }
         }
     });
 
@@ -52,6 +110,9 @@
         if (candidateLabel.textContent == "Courses") {
             // a span inside a button inside a div (inside a li)
             coursesDropdownContainer = candidateLabel.parentElement.parentElement;
+
+            // to make interaction throughout the rest of the codebase easier
+            coursesDropdownContainer.parentElement.classList.add("splus-courses-navbar-button");
             break;
         }
     }

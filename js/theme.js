@@ -137,7 +137,7 @@ class Theme {
         }
 
         // courses drop down icons
-        let coursesDropDownIcons = document.querySelectorAll("#header li._24avl._3Rh90 ._1tpub.Kluyr a.Card-card-1Qd8e .Card-card-image-uV6Bu");
+        let coursesDropDownIcons = document.querySelectorAll(".splus-courses-navbar-button ._1tpub.Kluyr a.Card-card-1Qd8e .Card-card-image-uV6Bu");
 
         for (let cDropIcon of coursesDropDownIcons) {
             cDropIcon.fullBgSet = false;
