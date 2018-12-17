@@ -143,12 +143,12 @@ class Theme {
             cDropIcon.fullBgSet = false;
             let cDropLink = cDropIcon.parentElement;
             // course + section titles
-            let courseTitle = cDropLink.querySelector(".Card-card-data-17m6S ._3U8Br._2s0LQ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
+            let courseTitle = cDropLink.querySelector(".Card-card-data-17m6S div:not(.splus-coursesdropdown-nicknamed-dataset) ._3U8Br._2s0LQ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
             if (!courseTitle) {
                 continue;
             }
             courseTitle = courseTitle.textContent;
-            let sectionTitle = cDropLink.querySelector(".Card-card-data-17m6S ._1wP6w._23_WZ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
+            let sectionTitle = cDropLink.querySelector(".Card-card-data-17m6S div:not(.splus-coursesdropdown-nicknamed-dataset) ._1wP6w._23_WZ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
             if (!sectionTitle) {
                 continue;
             }

@@ -94,6 +94,9 @@
             }
         }
 
+        // used later, clone the complete tiles list
+        let contentTiles = tiles.slice(0);
+
         if (needsReorganization) {
             let nodeToDelete;
             while (nodeToDelete = coursesDropdownContainer.querySelector(rowsSelector)) {
@@ -103,6 +106,53 @@
             while (tiles.length > 0) {
                 rowContainer.appendChild(createTilesRow(tiles.splice(0, targetRowWidth), targetRowWidth));
             }
+        }
+
+        // nicknames in courses dropdown
+        // these need to be handled specially because it's not displayed as one contiguous block anymore
+        for (let contentTile of contentTiles) {
+            let cardData = contentTile.querySelector(".Card-card-data-17m6S");
+            if (!cardData || cardData.querySelector(".splus-coursesdropdown-nicknamed-dataset") || cardData.childElementCount > 1) {
+                // not a course, or already handled
+                continue;
+            }
+
+            let courseAlias;
+            if (cardData.parentElement.href) {
+                let courseLinkMatch = cardData.parentElement.href.match(/\/course\/(\d+)\/?$/);
+                if (courseLinkMatch) {
+                    courseLinkMatch = courseLinkMatch[1];
+                }
+                if (courseLinkMatch && Setting.getValue("courseAliases")) {
+                    courseAlias = Setting.getValue("courseAliases")[courseLinkMatch];
+                }
+            }
+
+            if (!courseAlias) {
+                continue;
+            }
+
+            // create our splus-coursesdropdown-nicknamed-dataset
+            // we can't delete the old one because theming uses data from it
+            cardData.firstElementChild.style.display = "none";
+
+            // Schoology's styling: by default, card data has:
+            // course name, in blue, at top: div._3U8Br._2s0LQ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB
+            // section title, in black, in middle (most emphasized, I think): div._1wP6w._23_WZ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB
+            // school name, in smaller gray at bottom: div._2wOCj.xjR5v._2qcpH._17Z60._1Aph-.gs0RB
+
+            let origCourseTitle = cardData.firstElementChild.querySelector("div._3U8Br._2s0LQ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
+            let origSectionTitle = cardData.firstElementChild.querySelector("div._1wP6w._23_WZ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
+            let origSchoolTitle = cardData.firstElementChild.querySelector("div._2wOCj.xjR5v._2qcpH._17Z60._1Aph-.gs0RB");
+
+            // stylistically equivalent to the other card data, in terms of our class list for the container element
+            // FIXME: there's a stylistic incongruity between a nicknamed course in the dropdown and a non-nicknamed one
+            let newCardDataChild = createElement("div", ["_36sHx", "_3M0N7", "fjQuT", "_1EyV_", "splus-coursesdropdown-nicknamed-dataset", "splus-addedtodynamicdropdown"], {}, [
+                createElement("div", ["_1wP6w", "_23_WZ", "_2qcpH", "_3ghFm", "_17Z60", "_1Aph-", "gs0RB"], { textContent: courseAlias }), // stylized like section title
+                createElement("div", ["_2wOCj", "xjR5v", "_2qcpH", "_17Z60", "_1Aph-", "gs0RB", "splus-coursealiasing-exempt"], { textContent: origCourseTitle.textContent + ": " + origSectionTitle.textContent }), // original full title, stylized like school name
+                createElement("div", ["_2wOCj", "xjR5v", "_2qcpH", "_17Z60", "_1Aph-", "gs0RB"], { textContent: origSchoolTitle.textContent }) // school title, original styling and text
+            ]);
+            cardData.appendChild(newCardDataChild);
         }
     });
 
@@ -232,7 +282,7 @@
                         wrap: "span",
                         wrapClass: wrapClassName,
                         portionMode: "first",
-                        filterElements: (elem) => elem.id != "course-options-course-name"
+                        filterElements: (elem) => !elem.classList || !elem.classList.contains("splus-coursealiasing-exempt")
                     });
 
                     document.title = document.title.replace(findText, Setting.getValue("courseAliases")[jsonCourse.id]);

@@ -19,7 +19,7 @@ let courseSettingsCourseName;
 modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", [], {}, [
     createElement("div", ["splus-modal-contents"], {}, [
         createElement("div", ["setting-entry"], {}, [
-            createElement("h1", ["setting-title"], { id: "course-options-course-name" })
+            createElement("h1", ["setting-title", "splus-coursealiasing-exempt"], { id: "course-options-course-name" })
         ]),
         createElement("div", ["setting-entry"], {}, [
             createElement("h2", ["setting-title"], {}, [
