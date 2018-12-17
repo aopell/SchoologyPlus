@@ -108,11 +108,6 @@ class Theme {
                 pictures = Array.from(candidateImages).filter(x => x.src.match(defaultCourseIconUrlRegex));
             }
         }
-        //Courses drop down
-        pictures = pictures.concat(Array.from(document.querySelectorAll(".section-item .profile-picture>img")));
-        if (skipOverriddenIcons) {
-            pictures = pictures.filter(p => p.src.match(defaultCourseIconUrlRegex));
-        }
         //Course profile picture on course page
         let bigCourseIcon = document.querySelector(".profile-picture-wrapper.sCourse-processed .profile-picture>img");
         if (skipOverriddenIcons && bigCourseIcon && !bigCourseIcon.src.match(defaultCourseIconUrlRegex)) bigCourseIcon = null;
@@ -135,13 +130,42 @@ class Theme {
             pictures = pictures.concat(courseImgs);
         }
 
-        let arrows = document.querySelectorAll(".gradebook-course-title .arrow");
+        let arrows = Array.from(document.querySelectorAll(".gradebook-course-title .arrow"));
+
+        for (let arrow of arrows) {
+            arrow.fullBgSet = true;
+        }
+
+        // courses drop down icons
+        let coursesDropDownIcons = document.querySelectorAll("#header li._24avl._3Rh90 ._1tpub.Kluyr a.Card-card-1Qd8e .Card-card-image-uV6Bu");
+
+        for (let cDropIcon of coursesDropDownIcons) {
+            cDropIcon.fullBgSet = false;
+            let cDropLink = cDropIcon.parentElement;
+            // course + section titles
+            let courseTitle = cDropLink.querySelector(".Card-card-data-17m6S ._3U8Br._2s0LQ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
+            if (!courseTitle) {
+                continue;
+            }
+            courseTitle = courseTitle.textContent;
+            let sectionTitle = cDropLink.querySelector(".Card-card-data-17m6S ._1wP6w._23_WZ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
+            if (!sectionTitle) {
+                continue;
+            }
+            sectionTitle = sectionTitle.textContent;
+            cDropIcon.courseTitle = courseTitle + ": " + sectionTitle;
+
+            let existingUrl = cDropIcon.style.backgroundImage.slice(4, -1).replace(/"/g, "");
+            if (!skipOverriddenIcons || existingUrl.match(defaultCourseIconUrlRegex)) {
+                arrows.push(cDropIcon);
+            }
+        }
 
         for (let arrow of arrows) {
             arrow.classList.add("icon-modified");
             // fallbacks don't work in CSS
             // implement our own thing for it, based on img and onerror
-            let sourceUrl = Theme.getIcon(arrow.parentElement.textContent);
+            let sourceUrl = Theme.getIcon(arrow.courseTitle || arrow.parentElement.textContent);
             let fallbackUrl = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
             let matches = sourceUrl.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
             let domain = matches && matches[1];
@@ -182,7 +206,12 @@ class Theme {
 
                         // in case this gets called before we get through the rest of this method, somehow
                         sourceUrl = fallbackUrl;
-                        arrow.setAttribute("style", `background: url(${fallbackUrl}) no-repeat 0; background-size: cover;`);
+
+                        if (arrow.fullBgSet) {
+                            arrow.setAttribute("style", `background: url(${fallbackUrl}) no-repeat 0; background-size: cover;`);
+                        } else {
+                            arrow.setAttribute("style", `background-image: url(${fallbackUrl})`);
+                        }
                     }
 
                     if (!containerImg.src) {
@@ -197,7 +226,11 @@ class Theme {
                 }
             }
 
-            arrow.setAttribute("style", `background: url(${sourceUrl}) no-repeat 0; background-size: cover;`);
+            if (arrow.fullBgSet) {
+                arrow.setAttribute("style", `background: url(${sourceUrl}) no-repeat 0; background-size: cover;`);
+            } else {
+                arrow.setAttribute("style", `background-image: url(${sourceUrl})`);
+            }
         }
 
         for (let img of pictures) {
