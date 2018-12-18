@@ -1,4 +1,4 @@
-const lausdImageUrl = "https://cdn.schoology.com/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/BrandingUpdateLAUSD_59d2b7fc44916.png";
+const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
 const defaultThemes = ["Schoology Plus", "LAUSD Orange", "Toy", "Rainbow"];
 
 var allThemes;
@@ -263,7 +263,7 @@ function updateOutput(target, color) {
         case themeLAUSDLogo:
             theme.logo = "lausd";
             themeLogo.setAttribute("disabled", "");
-            setCSSVariable("background-url", `url(${lausdImageUrl})`);
+            setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
             previewLogo.classList.remove("hide-background-image");
             previewLogo.classList.add("custom-background-image");
             themeLogoWrapper.classList.add("hidden");

@@ -1,10 +1,8 @@
 (function () {
     let sidebar = document.getElementById("content-left");
     if (sidebar) {
-        let button = createButton("splus-user-courses-in-common-btn", "Courses In Common");
-        let img = createElement("img", [], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 19 });
-        img.style.marginLeft = "8px";
-        img.style.marginTop = "4px";
+        let button = createButton("splus-user-courses-in-common-btn", "Courses in Common");
+        let img = createElement("img", [], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 18, style: { verticalAlign: "middle", paddingLeft: "4px" } });
         button.prepend(img);
         button.querySelector("input").style.paddingLeft = "4px";
         button.style.cursor = "pointer";

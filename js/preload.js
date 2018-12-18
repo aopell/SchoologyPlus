@@ -167,7 +167,13 @@ function createElement(tag, classList, properties, children) {
     }
     if (properties) {
         for (let property in properties) {
-            element[property] = properties[property];
+            if (properties[property] instanceof Object && !(properties[property] instanceof Function)) {
+                for (let subproperty in properties[property]) {
+                    element[property][subproperty] = properties[property][subproperty];
+                }
+            } else {
+                element[property] = properties[property];
+            }
         }
     }
     if (children) {
