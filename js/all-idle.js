@@ -3,8 +3,6 @@
     let coursesDropdownContainer;
 
     let coursesDropdownObserver = new MutationObserver(function (mutationList) {
-        Logger.log("Courses dropdown mutation");
-
         let processThis = false;
 
         // ensure we're processing more than an addition of something this very handler added
@@ -24,6 +22,8 @@
         if (!processThis) {
             return;
         }
+
+        Logger.log("Processing courses dropdown mutation");
 
         if (Setting.getValue("archivedCoursesButton") === "show") {
             // aims to select the original "My Courses" link in the dropdown
@@ -47,19 +47,19 @@
 
         // rearrange spacing in the courses dropdown
         // Schoology has 4 tiles per row by default, we want 6
-        let targetRowWidth = 6;
+        const targetRowWidth = 6;
 
-        let createSpacerTile = function () {
+        function createSpacerTile() {
             return createElement("div", ["_3hM4e", "_3_a9F", "zJU7e", "util-width-zero-1OcAd", "_2oHes", "util-last-child-margin-right-zero-1DVn4", "splus-addedtodynamicdropdown"]);
-        };
+        }
 
-        let isSpacerTile = function (element) {
+        function isSpacerTile(element) {
             return element.childElementCount == 0;
-        };
+        }
 
         // tiles must be mutable; caller must not care what happens to it
         // spaceToTotal = desired width
-        let createTilesRow = function (tiles, spaceToTotal) {
+        function createTilesRow(tiles, spaceToTotal) {
             if (!spaceToTotal) {
                 spaceToTotal = targetRowWidth;
             }
@@ -70,7 +70,7 @@
 
             // the two obfuscated classes are the ones Schoology has on its rows
             return createElement("div", ["_1tpub", "Kluyr", "splus-addedtodynamicdropdown"], {}, tiles);
-        };
+        }
 
         let rowContainer;
         let tiles = [];
@@ -78,7 +78,7 @@
         let needsReorganization = false;
 
         // selector: (actual content container) (thing which just holds the inner body) (row of tiles)
-        let rowsSelector = "div[role=\"menu\"] ._3mp5E._24W2g._26UWf ._1tpub.Kluyr";
+        const rowsSelector = "div[role=\"menu\"] ._3mp5E._24W2g._26UWf ._1tpub.Kluyr";
 
         for (let tilesRow of coursesDropdownContainer.querySelectorAll(rowsSelector)) {
             if (!rowContainer) {
