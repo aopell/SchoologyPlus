@@ -27,7 +27,7 @@
 
         if (Setting.getValue("archivedCoursesButton") === "show") {
             // aims to select the original "My Courses" link in the dropdown
-            let candidateLink = coursesDropdownContainer.querySelector("._3mp5E._24W2g._26UWf .CjR09._8a6xl._1tpub > a._3ghFm");
+            let candidateLink = coursesDropdownContainer.querySelector(".CjR09._8a6xl._1tpub > a[href=\"/courses\"]._3ghFm");
             if (candidateLink) {
                 // the obfuscated class name is the one Schoology uses to float these links right
                 let newContainer = createElement("div", ["courses-mycourses-droppeddown-link-container", "splus-addedtodynamicdropdown", "_3ghFm"], {}, [
