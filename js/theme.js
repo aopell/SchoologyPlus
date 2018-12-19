@@ -290,9 +290,18 @@ let themes = [
         cursor: chrome.runtime.getURL("imgs/toy-mode.png")
     }),
     Theme.loadFromObject({
+        name: "LAUSD Dark Blue",
+        colors: ["#143f69", "#345f89", "#345f89", "#024f7d"],
+        logo: "lausd_new"
+    }),
+    Theme.loadFromObject({
         name: "LAUSD Orange",
         colors: ["#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00"],
         logo: "lausd"
+    }),
+    Theme.loadFromObject({
+        name: "Schoology Default",
+        colors: ["#0677ba", "#002c47", "#024f7d", "#024f7d"]
     })
 ];
 

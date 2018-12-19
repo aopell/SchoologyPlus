@@ -1,7 +1,7 @@
 const schoologyLogoImageUrl = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg";
 const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
 const lausdNewImageUrl = "https://lms.lausd.net/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/Asset%202_5c15191c5dd7e.png";
-const defaultThemes = ["Schoology Plus", "LAUSD Orange", "Toy", "Rainbow"];
+const defaultThemes = ["Schoology Plus", "LAUSD Orange", "Toy", "Rainbow", "LAUSD Dark Blue", "Schoology Default"];
 
 var allThemes;
 var themeName = document.getElementById("theme-name");
@@ -769,6 +769,15 @@ $(document).ready(function () {
                     "#DF5A00"
                 ],
                 logo: "lausd"
+            },
+            "LAUSD Dark Blue": {
+                name: "LAUSD Dark Blue",
+                colors: ["#143f69", "#345f89", "#345f89", "#024f7d"],
+                logo: "lausd_new"
+            },
+            "Schoology Default": {
+                name: "Schoology Default",
+                colors: ["#0677ba", "#002c47", "#024f7d", "#024f7d"]
             }
         };
 
