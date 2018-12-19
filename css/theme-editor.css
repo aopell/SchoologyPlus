@@ -1,17 +1,63 @@
 :root {
     --color-hue: 210;
     --primary-color: hsl(var(--color-hue), 50%, 50%);
-    --background-color: hsl(var(--color-hue), 60%, 55%);
+    --background-color: hsl(var(--color-hue), 60%, 30%);
     --hover-color: hsl(var(--color-hue), 55%, 40%);
-    --border-color: hsl(var(--color-hue), 90%, 50%);
+    --border-color: hsl(var(--color-hue), 60%, 25%);
     --cursor: auto;
-    --background-url: none;
+    --background-url: url(https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg);
 }
 
 html,
 body {
     height: 100%;
     font-size: 100% !important;
+}
+
+@font-face {
+    font-family: Muli;
+    font-style: normal;
+    font-weight: 200;
+    src: local("Muli ExtraLight"), local("Muli-ExtraLight"), url(https://ui.schoology.com/design-system/assets/muli-latin-200.4387a458edb3bec4e81602c6329a207f.woff2) format("woff2"), url(https://ui.schoology.com/design-system/assets/muli-latin-200.3ae45760f8b0b342216bd55f131a68ec.woff) format("woff")
+}
+
+@font-face {
+    font-family: Muli;
+    font-style: normal;
+    font-weight: 700;
+    src: local("Muli Bold"), local("Muli-Bold"), url(https://ui.schoology.com/design-system/assets/muli-latin-700.8f65fa68cfb5d8cc4f4fa728a470332b.woff2) format("woff2"), url(https://ui.schoology.com/design-system/assets/muli-latin-700.1e6aab148ffeb8fe3470c15ef33c90bf.woff) format("woff")
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.pre-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.nav-wrapper li>a {
+    font-weight: bold;
+}
+
+.card-header {
+    margin-top: 0;
+    font-weight: 500;
+}
+
+.card-action>a {
+    font-weight: 500;
+}
+
+* {
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif
+}
+
+.card.small .card-image+.card-content,
+.card.medium .card-image+.card-content,
+.card.large .card-image+.card-content {
+    max-height: 80%;
 }
 
 .splus-blue {
@@ -38,64 +84,145 @@ body {
 
 #preview-navbar {
     width: 100%;
-    line-height: 45px;
-    height: 45px;
+    line-height: 60px;
+    height: 60px;
     background-color: var(--primary-color);
 }
 
-#preview-navbar a {
-    font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
-    font-size: 13px;
+#preview-navbar a,
+#preview-navbar span {
+    font-family: Muli, sans-serif;
+    font-size: 14px;
+    font-stretch: 100%;
     font-weight: 700;
     padding-left: 10px;
     padding-right: 10px;
     cursor: pointer;
 }
 
+#preview-navbar a:hover {
+    background-color: var(--hover-color);
+}
+
 #preview-logo {
-    margin-left: 2%;
-    width: 160px;
-    height: 36px;
-    margin-top: 4.5px;
+    width: 175px;
+    height: 60px;
     cursor: pointer;
+    padding-right: 15px;
 }
 
-#preview-logo.custom-background-image {
-    background: var(--background-url) no-repeat 0px 0px !important;
-}
-
-#preview-logo.hide-background-image {
-    background: none !important;
-}
-
-#preview-logo.hide-background-image svg {
-    visibility: visible !important;
-}
-
-#preview-logo svg {
-    visibility: hidden !important;
+#preview-logo {
+    background: var(--background-url) no-repeat !important;
+    background-image: var(--background-url) !important;
+    background-size: 160px !important;
+    background-position: center center !important;
 }
 
 #preview-splus-settings {
-    margin-top: 10.5px;
-    margin-left: 10px;
-    margin-right: 10px;
+    vertical-align: middle;
     cursor: pointer;
 }
 
-#preview-settings {
+#preview-profile-pic {
     width: 30px;
     height: 30px;
-    border: 1px solid var(--hover-color);
-    margin-top: 7.5px;
-    margin-left: 10px;
-    margin-right: 10px;
-    background-color: var(--background-color);
-    cursor: pointer;
+    border: 2px solid white;
+    border-radius: 50%;
+    vertical-align: middle;
 }
 
-#preview-settings:hover {
+#preview-down-arrow {
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+}
+
+#preview-name-container {
+    padding: 0 15px;
+}
+
+#preview-right-nav li a {
+    padding: 0 15px;
+}
+
+#preview-name-drop-down {
     background-color: var(--hover-color);
+    position: absolute;
+    right: 0;
+    border-top: 5px solid var(--border-color);
+    margin-top: -4px;
+    width: 220px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .12);
+}
+
+#preview-settings-menu:not(:hover) #preview-name-drop-down{
+    display: none;
+}
+
+#preview-settings-menu:hover {
+    background-color: var(--hover-color);
+}
+
+#preview-name-drop-down li {
+    height: 48px;
+    line-height: normal;
+    width: 100%;
+}
+
+#preview-name-drop-down li a {
+    font-family: Muli;
+    font-weight: 200;
+    font-size: 14px;
+    padding: 15px;
+    height: 48px;
+    width: 100%;
+}
+
+#preview-name-drop-down li a:hover {
+    background-color: var(--background-color) !important;
+}
+
+#preview-name-drop-down hr {
+    margin: 0;
+    border-top: 2px solid white;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    display: flow-root;
+    width: 100%;
+}
+
+#preview-courses-link:not(:hover) #preview-courses-drop-down {
+    display: none;
+}
+
+#preview-courses-drop-down {
+    border-top: 5px solid var(--border-color);
+    position: absolute;
+    width: 100%;
+    height: 150px;
+    background-color: white;
+    top: 60px;
+    left: 0;
+    color: black;
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12);
+    margin-top: -4px;
+}
+
+#preview-courses-drop-down h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 200;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+h2.center {
+    font-size: 20px;
+    font-weight: 200;
+    text-align: center;
 }
 
 .action-button {
@@ -107,11 +234,15 @@ body {
     background-color: var(--primary-color);
 }
 
-#create-button, #new-icon{
+#create-button,
+#new-icon {
     background-color: var(--primary-color);
 }
 
-#discard-button:hover, #create-button:hover , #new-icon:hover, .delete-button {
+#discard-button:hover,
+#create-button:hover,
+#new-icon:hover,
+.delete-button {
     background-color: var(--hover-color);
 }
 
@@ -147,23 +278,7 @@ body {
 }
 
 .navbar-links {
-    margin-left: calc(180px + 2%);
-}
-
-.dropdown {
-    background: url(https://lms.lausd.net/sites/all/themes/schoology_theme/images/btn-sprite.png?5ab95b9010366eec) no-repeat -3px -599px;
-    display: inline-block;
-    height: 12px;
-    width: 12px;
-    position: relative;
-    top: -6px;
-    left: 8px;
-    margin: 0;
-    background-position: -4px -601px;
-}
-
-#preview-navbar a:hover {
-    background-color: var(--hover-color);
+    margin-left: 175px;
 }
 
 @media screen and (min-width: 993px) {
@@ -404,8 +519,8 @@ input[type=button] {
     line-height: 40px;
 }
 
-[contentEditable=true]:empty:before{
-    content:attr(data-text);
+[contentEditable=true]:empty:before {
+    content: attr(data-text);
     color: grey;
 }
 
@@ -425,7 +540,7 @@ input[type=button] {
 }
 
 #icon-list-table tbody:empty:before {
-    content:attr(data-text);
+    content: attr(data-text);
     position: absolute;
     left: 0;
     right: 0;
@@ -438,13 +553,14 @@ textarea#json-output[readonly] {
     border-bottom: none;
 }
 
-.show-editor-controls .class-name, .show-editor-controls .icon-url {
+.show-editor-controls .class-name,
+.show-editor-controls .icon-url {
     box-shadow: inset 0px 0px 4px #666;
 }
 
 #theme-hue {
     height: 24px;
-    background: linear-gradient(to right,hsl(0,50%,50%),hsl(36,50%,50%),hsl(72,50%,50%),hsl(108,50%,50%), hsl(144,50%,50%), hsl(180,50%,50%), hsl(216,50%,50%), hsl(252,50%,50%), hsl(288,50%,50%), hsl(324,50%,50%), hsl(359,50%,50%));
+    background: linear-gradient(to right, hsl(0, 50%, 50%), hsl(36, 50%, 50%), hsl(72, 50%, 50%), hsl(108, 50%, 50%), hsl(144, 50%, 50%), hsl(180, 50%, 50%), hsl(216, 50%, 50%), hsl(252, 50%, 50%), hsl(288, 50%, 50%), hsl(324, 50%, 50%), hsl(359, 50%, 50%));
 }
 
 .ui-slider-handle {

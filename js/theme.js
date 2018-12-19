@@ -293,9 +293,6 @@ let themes = [
         name: "LAUSD Orange",
         colors: ["#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00"],
         logo: "lausd"
-    }),
-    Theme.loadFromObject({
-        name: "LAUSD Dark Blue"
     })
 ];
 

@@ -1,4 +1,6 @@
+const schoologyLogoImageUrl = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg";
 const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
+const lausdNewImageUrl = "https://lms.lausd.net/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/Asset%202_5c15191c5dd7e.png";
 const defaultThemes = ["Schoology Plus", "LAUSD Orange", "Toy", "Rainbow"];
 
 var allThemes;
@@ -9,6 +11,7 @@ var themeSecondaryColor = document.getElementById("theme-secondary-color");
 var themeBackgroundColor = document.getElementById("theme-background-color");
 var themeBorderColor = document.getElementById("theme-border-color");
 var themeSchoologyLogo = document.getElementById("theme-schoology-logo");
+var themeNewLAUSDLogo = document.getElementById("theme-new-lausd-logo");
 var themeLAUSDLogo = document.getElementById("theme-lausd-logo");
 var themeCustomLogo = document.getElementById("theme-custom-logo");
 var themeLogo = document.getElementById("theme-logo");
@@ -90,7 +93,7 @@ for (let e of document.querySelectorAll("#theme-editor-section input")) {
 }
 var mTabs = M.Tabs.init(document.querySelector(".tabs"));
 
-function generateWarnings(j) {
+function generateErrors(j) {
     let w = [];
     if (!j.name) w.push("Theme must have a name")
     if (j.hue && Number.isNaN(Number.parseFloat(j.hue))) w.push("Value of 'hue' must be a number");
@@ -111,64 +114,63 @@ function importThemeFromOutput() {
  * @param {{name:string,hue?:Number,colors?:string[],logo?:string,cursor?:string,icons?:Array}} j A SchoologyPlus theme object
  */
 function importFromObject(j) {
-    if (j) {
-        warnings = generateWarnings(j)
-        if (warnings.length > 0) {
-            updatePreview(false);
-            return;
-        }
-
-        themeName.value = j.name;
-
-        $("#theme-hue").slider("value", j.hue || 210);
-        if (j.hue) themeColorHue.click();
-
-        if (j.colors) {
-            ["primary-color", "background-color", "secondary-color", "border-color"].map((x, i) => $("#theme-" + x).spectrum("set", j.colors[i]));
-            themeColorCustom.click();
-        }
-
-        if (!j.hue && !j.colors) themeColorHue.click();
-
-        if (j.logo) {
-            if (j.logo == "schoology") themeSchoologyLogo.click();
-            else if (j.logo == "lausd") themeLAUSDLogo.click();
-            else {
-                themeLogo.value = j.logo;
-                themeCustomLogo.click();
-            }
-        } else {
-            themeSchoologyLogo.click();
-        }
-
-        iconList.innerHTML = "";
-        if (j.icons) {
-            if (j.icons instanceof Array) {
-                for (let i of j.icons) {
-                    let row = addIcon();
-                    row.querySelector(".class-name").textContent = i[0];
-                    row.querySelector(".icon-url").textContent = i[1];
-                    row.querySelector(".small-icon-preview").src = i[1];
-                }
-            } else {
-                for (let k in j.icons) {
-                    let row = addIcon();
-                    row.querySelector(".class-name").textContent = k;
-                    row.querySelector(".icon-url").textContent = j.icons[k];
-                    row.querySelector(".small-icon-preview").src = j.icons[k];
-                }
-            }
-        }
-
-        themeCursor.value = j.cursor || "";
-        updateOutput(themeCursor);
-
-        M.updateTextFields();
-        updateOutput();
-    } else {
+    if (!j) {
         errors.push("The JSON you have entered is not valid");
         updatePreview(false);
+        return;
     }
+
+    errors = generateErrors(j);
+    if (warnings.length > 0) {
+        updatePreview(false);
+        return;
+    }
+
+    themeName.value = j.name;
+
+    $("#theme-hue").slider("value", j.hue || 210);
+    if (j.hue) themeColorHue.click();
+
+    if (j.colors) {
+        ["primary-color", "background-color", "secondary-color", "border-color"].map((x, i) => $("#theme-" + x).spectrum("set", j.colors[i]));
+        themeColorCustom.click();
+    }
+
+    if (!j.hue && !j.colors) themeColorHue.click();
+
+    j.logo = j.logo || "schoology";
+    if (j.logo == "schoology") themeSchoologyLogo.click();
+    else if (j.logo == "lausd") themeLAUSDLogo.click();
+    else if (j.logo == "lausd_new") themeNewLAUSDLogo.click();
+    else {
+        themeLogo.value = j.logo;
+        themeCustomLogo.click();
+    }
+
+    iconList.innerHTML = "";
+    if (j.icons) {
+        if (j.icons instanceof Array) {
+            for (let i of j.icons) {
+                let row = addIcon();
+                row.querySelector(".class-name").textContent = i[0];
+                row.querySelector(".icon-url").textContent = i[1];
+                row.querySelector(".small-icon-preview").src = i[1];
+            }
+        } else {
+            for (let k in j.icons) {
+                let row = addIcon();
+                row.querySelector(".class-name").textContent = k;
+                row.querySelector(".icon-url").textContent = j.icons[k];
+                row.querySelector(".small-icon-preview").src = j.icons[k];
+            }
+        }
+    }
+
+    themeCursor.value = j.cursor || "";
+    updateOutput(themeCursor);
+
+    M.updateTextFields();
+    updateOutput();
 }
 
 let init = 0;
@@ -234,7 +236,7 @@ function updateOutput(target, color) {
     }
 
     if (!theme.name) {
-        errors.push("Theme must have a name")
+        errors.push("Theme must have a name");
     }
 
     if (themeColorHue.checked) {
@@ -246,31 +248,30 @@ function updateOutput(target, color) {
         }
 
         setCSSVariable("primary-color", "hsl(var(--color-hue), 50%, 50%)");
-        setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 55%)");
+        setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
         setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
-        setCSSVariable("border-color", "hsl(var(--color-hue), 90%, 50%)");
+        setCSSVariable("border-color", "hsl(var(--color-hue), 60%, 25%)");
     }
 
+    let updateLogo = false;
     switch (target) {
         case themeSchoologyLogo:
-            theme.logo = "schoology";
             themeLogo.setAttribute("disabled", "");
-            setCSSVariable("background-url", "none");
-            previewLogo.classList.add("hide-background-image");
-            previewLogo.classList.remove("custom-background-image");
-            themeLogoWrapper.classList.add("hidden");
+            updateLogo = true;
             break;
         case themeLAUSDLogo:
             theme.logo = "lausd";
             themeLogo.setAttribute("disabled", "");
-            setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
-            previewLogo.classList.remove("hide-background-image");
-            previewLogo.classList.add("custom-background-image");
-            themeLogoWrapper.classList.add("hidden");
+            updateLogo = true;
+            break;
+        case themeNewLAUSDLogo:
+            theme.logo = "lausd_new";
+            themeLogo.setAttribute("disabled", "");
+            updateLogo = true;
             break;
         case themeCustomLogo:
             themeLogo.removeAttribute("disabled");
-            themeLogoWrapper.classList.remove("hidden");
+            updateLogo = true;
             break;
         case themeColorHue:
             themeHue.removeAttribute("disabled");
@@ -292,25 +293,35 @@ function updateOutput(target, color) {
             break;
     }
 
-    if (themeCustomLogo.checked && themeLogo.value) {
-        checkImage(themeLogo.value, (x) => {
-            if (x.target.width != 160 || x.target.height != 36) {
-                warnings.push("Logo image is not the recommended size of 160x36");
+    if (updateLogo) {
+        if (themeCustomLogo.checked && themeLogo.value) {
+            checkImage(themeLogo.value, (x) => {
+                if (x.target.width != 160 || x.target.height < 36 || x.target.height > 60) {
+                    warnings.push("Logo image is not between the recommended sizes of 160x36 and 160x60");
+                }
+                theme.logo = themeLogo.value;
+                setCSSVariable("background-url", `url(${theme.logo})`);
+                updatePreview();
+            }, (x) => {
+                errors.push("Logo URL is invalid");
+                setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
+                updatePreview();
+            });
+        } else if (themeCustomLogo.checked) {
+            errors.push("No logo URL specified");
+        } else {
+            if (themeNewLAUSDLogo.checked) {
+                theme.logo = "lausd_new";
+                setCSSVariable("background-url", `url(${lausdNewImageUrl})`);
+            } else if (themeLAUSDLogo.checked) {
+                theme.logo = "lausd";
+                setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
+            } else {
+                theme.logo = "schoology";
+                setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
             }
-            theme.logo = themeLogo.value;
-            setCSSVariable("background-url", `url(${theme.logo})`);
-            previewLogo.classList.remove("hide-background-image");
-            previewLogo.classList.add("custom-background-image");
             updatePreview();
-        }, (x) => {
-            errors.push("Logo URL is invalid");
-            setCSSVariable("background-url", "none");
-            previewLogo.classList.add("hide-background-image");
-            previewLogo.classList.remove("custom-background-image");
-            updatePreview();
-        });
-    } else if (themeCustomLogo.checked) {
-        errors.push("No logo URL specified");
+        }
     }
 
 
@@ -585,10 +596,10 @@ function editTheme(name) {
 function rainbow() {
     let hue = (new Date().valueOf() / 100) % 360;
     document.documentElement.style.setProperty("--color-hue", hue);
-    document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
-    document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 55%)");
-    document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
-    document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 90%, 50%)");
+    setCSSVariable("primary-color", "hsl(var(--color-hue), 50%, 50%)");
+    setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
+    setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
+    setCSSVariable("border-color", "hsl(var(--color-hue), 60%, 25%)");
 }
 
 function addIcon() {
@@ -643,7 +654,7 @@ function addIcon() {
     return tr;
 }
 
-function plainTextPaste (e) {
+function plainTextPaste(e) {
     e.preventDefault();
     var text = '';
     if (e.clipboardData || e.originalEvent.clipboardData) {
@@ -780,10 +791,10 @@ $(document).ready(function () {
                     }
                     themeItem.classList.add("active");
                 }
-            }, [createElement("span", t.length > 16 ? ["tooltipped"] : [], {
-                textContent: t.length > 16 ? t.substr(0, 13) + "..." : t,
+            }, [createElement("span", t.length > 20 ? ["tooltipped"] : [], {
+                textContent: t.length > 20 ? t.substr(0, 17) + "..." : t,
                 dataset: {
-                    tooltip: t.length > 16 ? t : ""
+                    tooltip: t.length > 20 ? t : ""
                 }
             })]);
 
