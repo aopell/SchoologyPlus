@@ -257,20 +257,24 @@ function updateOutput(target, color) {
     switch (target) {
         case themeSchoologyLogo:
             themeLogo.setAttribute("disabled", "");
+            themeLogoWrapper.classList.add("hidden");
             updateLogo = true;
             break;
         case themeLAUSDLogo:
             theme.logo = "lausd";
             themeLogo.setAttribute("disabled", "");
+            themeLogoWrapper.classList.add("hidden");
             updateLogo = true;
             break;
         case themeNewLAUSDLogo:
             theme.logo = "lausd_new";
             themeLogo.setAttribute("disabled", "");
+            themeLogoWrapper.classList.add("hidden");
             updateLogo = true;
             break;
         case themeCustomLogo:
             themeLogo.removeAttribute("disabled");
+            themeLogoWrapper.classList.remove("hidden");
             updateLogo = true;
             break;
         case themeColorHue:
