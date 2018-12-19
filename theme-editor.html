@@ -5,7 +5,6 @@
     <link type="text/css" rel="stylesheet" href="/lib/css/material-icons.css" />
     <link type="text/css" rel="stylesheet" href="/lib/css/materialize.min.css" media="screen,projection" />
     <link type="text/css" rel="stylesheet" href="/lib/css/jquery-ui.min.css" />
-    <link type="text/css" rel="stylesheet" href="/css/theme-editor2.css" />
     <link type="text/css" rel="stylesheet" href="/css/theme-editor.css" />
     <link rel="shortcut icon" type="image/png" href="/imgs/icon@128.png" />
 
@@ -49,7 +48,7 @@
     </header>
     <main class="container wide-container">
         <div class="row content-box">
-            <div id="themes-list-section" class="col s12 l4 xl3">
+            <div id="themes-list-section" class="col s12 l4">
                 <div class="section row">
                     <h5 id="themes-header">
                         Themes
@@ -62,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div id="theme-editor-section" class="col s12 l4 xl3 hidden">
+            <div id="theme-editor-section" class="col s12 l4 hidden">
                 <div class="section row">
                     <h5>Properties</h5>
                     <div class="input-field col s12">
@@ -117,8 +116,14 @@
                     </p>
                     <p>
                         <label>
+                            <input id="theme-new-lausd-logo" class="with-gap" name="logo-group" type="radio" />
+                            <span>New LAUSD Logo</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
                             <input id="theme-lausd-logo" class="with-gap" name="logo-group" type="radio" />
-                            <span>LAUSD Logo</span>
+                            <span>Old LAUSD Logo</span>
                         </label>
                     </p>
                     <p>
@@ -140,7 +145,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s12 l8 push-xl1">
+            <div class="col s12 l8 xl7 push-xl1">
                 <div id="preview-section" class="section">
                     <h5>
                         <a id="lock-button" data-tooltip="Toggle preview follow scroll" class="waves-effect waves-light btn hide-on-med-and-down tooltipped">
@@ -192,38 +197,45 @@
                                     <div class="row">
                                         <nav id="preview-navbar">
                                             <div class="nav-wrapper">
-                                                <div id="preview-logo" class="hide-background-image brand-logo" href="/home">
-                                                    <svg id="logo" viewBox="0 -2 220 31" width="174" height="31" style="fill: white; margin-bottom: 4px;">
-                                                        <path d="M15.4 30.7C6.9 30.7 0 23.8 0 15.4 0 6.9 6.9 0 15.4 0s15.4 6.9 15.4 15.4c-.1 8.4-7 15.3-15.4 15.3zm0-28.1C8.3 2.6 2.6 8.3 2.6 15.4c0 7.1 5.8 12.8 12.8 12.8 7.1 0 12.8-5.8 12.8-12.8 0-7.1-5.8-12.8-12.8-12.8z"></path>
-                                                        <path d="M14.7 16.3c-2.5-.6-5.6-1.3-5.6-4.6 0-2.9 2.4-4.7 6.1-4.7 3 0 6.2 1.4 6.7 5.1l-2.9.4c0-1-.1-1.7-1.1-2.5s-2.2-.9-3-.9c-2.1 0-3.1 1.2-3.1 2.3 0 1.5 1.7 2 3.8 2.5l1.5.4c1.9.4 5.2 1.2 5.2 4.5 0 2.6-2.3 5-6.6 5-1.8 0-3.6-.4-4.9-1.3-.5-.4-2-1.6-2.3-4.3l3-.5c0 .7 0 2 1.2 3.1.9.8 2.1.9 3.2.9 2.3 0 3.7-.9 3.7-2.6 0-1.8-1.4-2.1-3.3-2.5l-1.6-.3z"></path>
-                                                        <g>
-                                                            <path d="M153.7 18.6h-4.3v-1.7h7.2V25h-1.8v-1.9s.3-.3 0 0c-1.3 1.5-3.2 2.2-5.5 2.2-5.6 0-7.6-4.2-7.6-7.9 0-4.3 2.3-8.2 7.4-8.2 2.5 0 6 .9 7.1 5.1l-2.8.3c-.1-.6-.6-3.5-4.1-3.5-4.4 0-4.6 4.8-4.6 6.2 0 1.7.3 3.1 1 4.1.9 1.4 2.2 2 3.8 2 3.7 0 4.1-3 4.3-4.2l-.1-.6zM45.5 18.2C43 17.6 40 17 40 13.8c0-2.8 2.4-4.5 5.9-4.5 2.9 0 6 1.4 6.5 5l-2.8.4c0-.9-.1-1.7-1.1-2.5s-2.2-.9-2.9-.9c-2 0-3 1.2-3 2.2 0 1.5 1.6 1.9 3.7 2.4l1.5.4c1.8.4 5.1 1.2 5.1 4.4 0 2.5-2.2 4.8-6.4 4.8-1.7 0-3.5-.4-4.7-1.2-.5-.4-2-1.6-2.3-4.1l2.9-.5c0 .7 0 2 1.1 3 .9.8 2 .9 3.1.9 2.3 0 3.6-.9 3.6-2.5 0-1.7-1.3-2.1-3.2-2.4l-1.5-.5zM69 19.5c-.1.6-.3 1.5-.9 2.6-1.3 2.3-3.4 3.4-6.2 3.4-5.6 0-7.6-4.2-7.6-7.9 0-4.3 2.3-8.3 7.4-8.3 2.5 0 6.1.9 7.1 5.1l-2.8.3c-.1-.6-.6-3.5-4.1-3.5-4.4 0-4.6 4.8-4.6 6.2 0 1.6.3 3.1 1 4.1.9 1.4 2.2 2 3.8 2 3.7 0 4.1-3 4.3-4.2l2.6.2zM70.6 2.1h2.6v9.2c1.6-1.7 3.2-2 4.6-2 3.4 0 4.7 1.9 5.1 3.4.3 1 .3 2 .3 3.5V25h-2.6v-8.1c0-2 0-3.2-.6-4.1-.6-.9-1.7-1.3-2.7-1.3-1.7 0-3.4.9-4 3.3-.2.8-.2 1.7-.2 2.8V25h-2.6V2.1zM93.3 25.4c-5.3 0-7.5-3.9-7.5-8 0-3.4 1.7-8.2 7.6-8.2 5 0 7.4 3.9 7.3 8.1 0 4.6-2.7 8.1-7.4 8.1zm4.5-10.2c-.6-3-2.6-3.9-4.3-3.9-3.5 0-4.9 2.7-4.9 6.2 0 3.2 1.3 5.9 4.7 5.9 4.3 0 4.6-4.5 4.7-6 0-1.1-.1-1.8-.2-2.2zM110 25.4c-5.3 0-7.5-3.9-7.5-8 0-3.4 1.7-8.2 7.6-8.2 5 0 7.4 3.9 7.3 8.1 0 4.6-2.7 8.1-7.4 8.1zm4.5-10.2c-.6-3-2.6-3.9-4.3-3.9-3.5 0-4.9 2.7-4.9 6.2 0 3.2 1.3 5.9 4.7 5.9 4.3 0 4.6-4.5 4.7-6 0-1.1-.1-1.8-.2-2.2zM122.6 2.1V25h-2.5V2.1h2.5zM132.7 25.4c-5.3 0-7.5-3.9-7.5-8 0-3.4 1.7-8.2 7.6-8.2 5 0 7.4 3.9 7.3 8.1 0 4.6-2.8 8.1-7.4 8.1zm4.4-10.2c-.6-3-2.6-3.9-4.3-3.9-3.5 0-4.9 2.7-4.9 6.2 0 3.2 1.3 5.9 4.7 5.9 4.3 0 4.6-4.5 4.7-6 0-1.1-.1-1.8-.2-2.2zM169.9 9.5h-2.5l-3.9 6.2-3.8-6.2h-2.9l5.5 8.4V25h2.4v-7.1l5.6-8.4zM174.9 11c0 .9-.8 1.7-1.7 1.7-1 0-1.7-.7-1.7-1.7 0-.9.8-1.7 1.7-1.7.9 0 1.7.7 1.7 1.7zm-3 0c0 .7.6 1.3 1.3 1.3.7 0 1.3-.6 1.3-1.3 0-.7-.6-1.3-1.3-1.3-.8 0-1.3.6-1.3 1.3zm1 .8h-.4v-1.7c.2 0 .4-.1.6-.1.3 0 .5.1.6.1.1.1.2.2.2.4s-.2.3-.3.4c.2.1.2.2.3.4 0 .3.1.3.1.4h-.4c-.1-.1-.1-.2-.1-.4s-.1-.3-.3-.3h-.2v.8zm0-.9h.2c.2 0 .4-.1.4-.2 0-.2-.1-.3-.4-.3h-.2v.5z"></path>
-                                                        </g>
-                                                    </svg>
-                                                </div>
-                                                <ul id="nav-mobile" class="navbar-links hide-on-med-and-down">
-                                                    <li>
-                                                        <a>Home</a>
+                                                <div id="preview-logo" class="hide-background-image brand-logo"></div>
+                                                <ul id="preview-left-nav" class="navbar-links hide-on-med-and-down">
+                                                    <li id="preview-courses-link">
+                                                        <a>COURSES</a>
+                                                        <div id="preview-courses-drop-down">
+                                                            <h1>Courses</h1>
+                                                            <h2 class="center">You are not currently enrolled in any
+                                                                courses</h2>
+                                                        </div>
                                                     </li>
                                                     <li>
-                                                        <a>Grades</a>
-                                                    </li>
-                                                    <li>
-                                                        <a>Courses</a>
+                                                        <a>RESOURCES</a>
                                                     </li>
                                                 </ul>
-                                                <ul class="right">
+                                                <ul id="preview-right-nav" class="right">
                                                     <li>
-                                                        <img id="preview-splus-settings" src="/imgs/plus-icon.png"
-                                                            width="24" />
+                                                        <a>
+                                                            <img id="preview-splus-settings" src="/imgs/new-plus-icon.svg"
+                                                                width="22" />
+                                                        </a>
                                                     </li>
-                                                    <li>
-                                                        <a>YOUR NAME</a>
-                                                    </li>
-                                                    <li>
-                                                        <div id="preview-settings">
-                                                            <span class="dropdown"></span>
-                                                        </div>
+                                                    <li id="preview-settings-menu">
+                                                        <a id="preview-name-container">
+                                                            <img src="https://asset-cdn.schoology.com/system/files/imagecache/profile_tiny/sites/all/themes/schoology_theme/images/user-default.gif"
+                                                                alt="Your Name" id="preview-profile-pic">
+                                                            <span>YOUR NAME</span>
+                                                            <svg id="preview-down-arrow" viewBox="0 0 15 10" id="icon-small-caret-white"
+                                                                width="100%" height="100%">
+                                                                <path d="M12.78.443L9.756 3.952 8.294 5.65l-.761.884-.033.03-.032-.03-.762-.884-1.463-1.698L2.221.442C1.06-.902-.79 1.126.365 2.468L5.722 8.7c.4.465.795 1.071 1.387 1.249.136.04.266.056.391.051.125.005.255-.01.39-.051.593-.178.988-.784 1.388-1.249l5.357-6.232c1.154-1.342-.696-3.37-1.856-2.024"
+                                                                    fill="#FFF" fill-rule="evenodd"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <ul id="preview-name-drop-down">
+                                                            <li><a>Your Profile</a></li>
+                                                            <li><a>Your School</a></li>
+                                                            <li><a>Settings</a></li>
+                                                            <hr />
+                                                            <li><a>Logout</a></li>
+                                                        </ul>
                                                     </li>
                                                 </ul>
                                             </div>

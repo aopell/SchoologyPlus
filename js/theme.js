@@ -44,10 +44,20 @@ class Theme {
                 if (obj.colors) {
                     Theme.setBackgroundColor(obj.colors[0], obj.colors[1], obj.colors[2], obj.colors[3]);
                 }
-                Theme.setLogoVisibility(obj.logo && obj.logo.toLowerCase() != "schoology");
+                Theme.setLAUSDLogoVisibility(obj.logo == "lausd_new");
                 Theme.setCursorUrl(obj.cursor);
-                if (obj.logo && obj.logo.toLowerCase() != "schoology" && obj.logo.toLowerCase() != "lausd") {
-                    Theme.setLogoUrl(obj.logo);
+                obj.logo = obj.logo || "schoology";
+                switch (obj.logo) {
+                    case "schoology":
+                        Theme.setLogoUrl();
+                        break;
+                    case "lausd":
+                        Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
+                        break;
+                    case "lausd_new":
+                        break;
+                    default:
+                        Theme.setLogoUrl(obj.logo);
                 }
             }
         );
@@ -56,7 +66,7 @@ class Theme {
     static apply(theme) {
         Theme.setBackgroundHue(210);
         Theme.setCursorUrl();
-        Theme.setLogoVisibility(false);
+        Theme.setLAUSDLogoVisibility(false);
         Theme.setLogoUrl();
         theme.onapply();
         Theme.setProfilePictures();
@@ -83,9 +93,9 @@ class Theme {
         if (hue) {
             document.documentElement.style.setProperty("--color-hue", hue);
             document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
-            document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 55%)");
+            document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
             document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
-            document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 90%, 50%)");
+            document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
         }
     }
 
@@ -100,11 +110,6 @@ class Theme {
             } else {
                 pictures = Array.from(candidateImages).filter(x => x.src.match(defaultCourseIconUrlRegex));
             }
-        }
-        //Courses drop down
-        pictures = pictures.concat(Array.from(document.querySelectorAll(".section-item .profile-picture>img")));
-        if (skipOverriddenIcons) {
-            pictures = pictures.filter(p => p.src.match(defaultCourseIconUrlRegex));
         }
         //Course profile picture on course page
         let bigCourseIcon = document.querySelector(".profile-picture-wrapper.sCourse-processed .profile-picture>img");
@@ -128,13 +133,42 @@ class Theme {
             pictures = pictures.concat(courseImgs);
         }
 
-        let arrows = document.querySelectorAll(".gradebook-course-title .arrow");
+        let arrows = Array.from(document.querySelectorAll(".gradebook-course-title .arrow"));
+
+        for (let arrow of arrows) {
+            arrow.themedIconMode = "gradesPageArrow";
+        }
+
+        // courses drop down icons
+        let coursesDropDownIcons = document.querySelectorAll(".splus-courses-navbar-button ._1tpub.Kluyr a.Card-card-1Qd8e .Card-card-image-uV6Bu");
+
+        for (let cDropIcon of coursesDropDownIcons) {
+            cDropIcon.themedIconMode = "coursesDropDown";
+            let cDropLink = cDropIcon.parentElement;
+            // course + section titles
+            let courseTitle = cDropLink.querySelector(".Card-card-data-17m6S div:not(.splus-coursesdropdown-nicknamed-dataset) ._3U8Br._2s0LQ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
+            if (!courseTitle) {
+                continue;
+            }
+            courseTitle = courseTitle.textContent;
+            let sectionTitle = cDropLink.querySelector(".Card-card-data-17m6S div:not(.splus-coursesdropdown-nicknamed-dataset) ._1wP6w._23_WZ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
+            if (!sectionTitle) {
+                continue;
+            }
+            sectionTitle = sectionTitle.textContent;
+            cDropIcon.courseTitle = courseTitle + ": " + sectionTitle;
+
+            let existingUrl = cDropIcon.style.backgroundImage.slice(4, -1).replace(/"/g, "");
+            if (!skipOverriddenIcons || existingUrl.match(defaultCourseIconUrlRegex)) {
+                arrows.push(cDropIcon);
+            }
+        }
 
         for (let arrow of arrows) {
             arrow.classList.add("icon-modified");
             // fallbacks don't work in CSS
             // implement our own thing for it, based on img and onerror
-            let sourceUrl = Theme.getIcon(arrow.parentElement.textContent);
+            let sourceUrl = Theme.getIcon(arrow.courseTitle || arrow.parentElement.textContent);
             let fallbackUrl = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
             let matches = sourceUrl.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
             let domain = matches && matches[1];
@@ -175,7 +209,12 @@ class Theme {
 
                         // in case this gets called before we get through the rest of this method, somehow
                         sourceUrl = fallbackUrl;
-                        arrow.setAttribute("style", `background: url(${fallbackUrl}) no-repeat 0; background-size: cover;`);
+
+                        if (arrow.themedIconMode == "gradesPageArrow") {
+                            arrow.setAttribute("style", `background: url(${fallbackUrl}) no-repeat 0; background-size: cover;`);
+                        } else if (arrow.themedIconMode == "coursesDropDown") {
+                            arrow.setAttribute("style", `background-image: url(${fallbackUrl}); background-size: contain;`);
+                        }
                     }
 
                     if (!containerImg.src) {
@@ -190,7 +229,11 @@ class Theme {
                 }
             }
 
-            arrow.setAttribute("style", `background: url(${sourceUrl}) no-repeat 0; background-size: cover;`);
+            if (arrow.themedIconMode == "gradesPageArrow") {
+                arrow.setAttribute("style", `background: url(${sourceUrl}) no-repeat 0; background-size: cover;`);
+            } else if (arrow.themedIconMode == "coursesDropDown") {
+                arrow.setAttribute("style", `background-image: url(${sourceUrl}); background-size: contain;`);
+            }
         }
 
         for (let img of pictures) {
@@ -205,38 +248,17 @@ class Theme {
         }
     }
 
-    static setLogoVisibility(visible) {
-        // Hacky workaround to ensure logo element has loaded
-        let interval = setInterval(() => {
-            let logo = document.querySelector("#home a");
-            let notLogo = document.querySelector("#home a[role=menuitem]")
-            if (!notLogo && logo) {
-                clearInterval(interval);
-                if (visible) {
-                    logo.classList.remove("hide-background-image");
-                } else {
-                    logo.classList.add("hide-background-image");
-                }
-            }
-        }, 50);
+    static setLAUSDLogoVisibility(visible) {
+        // False: show Schoology/custom logo; True: show LAUSD logo
+        if (visible) {
+            document.documentElement.classList.remove("use-custom-url");
+        } else {
+            document.documentElement.classList.add("use-custom-url");
+        }
     }
 
-    static setLogoUrl(url) {
-        // Hacky workaround to ensure logo element has loaded
-        let interval = setInterval(() => {
-            let logo = document.querySelector("#home a");
-            let notLogo = document.querySelector("#home a[role=menuitem]")
-            if (!notLogo && logo) {
-                clearInterval(interval);
-                if (url) {
-                    logo.classList.add("custom-background-image");
-                    document.documentElement.style.setProperty("--background-url", `url(${url})`);
-                }
-                else {
-                    logo.classList.remove("custom-background-image");
-                }
-            }
-        }, 50);
+    static setLogoUrl(url = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg") {
+        setCSSVariable("background-url", `url(${url})`);
     }
 
     static setCursorUrl(url) {
@@ -249,12 +271,10 @@ Theme.profilePictureOverrides = [];
 let tempTheme = undefined;
 
 let themes = [
-    new Theme(
-        "Schoology Plus",
-        function () {
-            Theme.setBackgroundHue(Setting.getValue("color") || 210);
-        }
-    ),
+    Theme.loadFromObject({
+        name: "Schoology Plus",
+        hue: 210
+    }),
     new Theme(
         "Rainbow",
         function () {
@@ -264,20 +284,25 @@ let themes = [
             Theme.setBackgroundHue((new Date().valueOf() / 100) % 360);
         }
     ),
-    new Theme(
-        "Toy",
-        function () {
-            Theme.setBackgroundHue(150);
-            Theme.setCursorUrl(chrome.runtime.getURL("imgs/toy-mode.png"));
-        }
-    ),
-    new Theme(
-        "LAUSD Orange",
-        function () {
-            Theme.setBackgroundColor("#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00");
-            Theme.setLogoVisibility(true);
-        }
-    )
+    Theme.loadFromObject({
+        name: "Toy",
+        hue: 150,
+        cursor: chrome.runtime.getURL("imgs/toy-mode.png")
+    }),
+    Theme.loadFromObject({
+        name: "LAUSD Dark Blue",
+        colors: ["#143f69", "#345f89", "#345f89", "#024f7d"],
+        logo: "lausd_new"
+    }),
+    Theme.loadFromObject({
+        name: "LAUSD Orange",
+        colors: ["#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00"],
+        logo: "lausd"
+    }),
+    Theme.loadFromObject({
+        name: "Schoology Default",
+        colors: ["#0677ba", "#002c47", "#024f7d", "#024f7d"]
+    })
 ];
 
 setInterval(() => {

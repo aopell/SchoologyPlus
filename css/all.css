@@ -1,86 +1,79 @@
 :root {
     --color-hue: 210;
     --primary-color: hsl(var(--color-hue), 50%, 50%);
-    --background-color: hsl(var(--color-hue), 60%, 55%);
+    --background-color: hsl(var(--color-hue), 60%, 30%);
     --hover-color: hsl(var(--color-hue), 55%, 40%);
-    --border-color: hsl(var(--color-hue), 90%, 50%);
+    --border-color: hsl(var(--color-hue), 60%, 25%);
     --cursor: auto;
     --background-url: none;
     cursor: var(--cursor);
 }
 
-body #header {
+/* Navbar items */
+
+._1SIMq {
     background-color: var(--primary-color) !important;
 }
 
-.s-enable-course-dashboard.is-home #nav ul #primary-home a,
-.s-enable-course-dashboard.is-home #nav ul #primary-home {
-    background-color: unset !important;
+._2kpZl:focus:not(:active),
+._2T2dA,
+._2W23R:active,
+._3OAXJ:hover:not(:active) {
+    background-color: var(--hover-color) !important;
 }
 
-#nav #nav_left li#primary-home:hover,
-.s-enable-course-dashboard.is-home #nav ul #primary-home a:hover,
-#nav #nav_left li.primary-activities:hover,
-#nav #nav_left li.primary-activities.active,
-.s-enable-course-dashboard.is-home #nav ul #primary-home:hover {
-    background-color: var(--hover-color) !important;
-    color: white;
+/* Borders at the top of drop down cards (Courses and Groups) */
+
+._2P7CY:focus,
+._3HOk8:hover,
+._37jp-:active,
+._37jp-:active:focus,
+.les2- {
+    border-color: var(--border-color) !important;
 }
 
-body #nav #primary-home a:hover,
-body #nav #profile a:hover,
-body .primary-activities .clickable:hover,
-body .primary-activities .active,
-body #nav ul li.active-trail a,
-body .ac_results ul .ac_over .ac-top,
-body .schoology:hover,
-body .ac_over .schoology,
-body .action-links a:hover,
-body .action-links span:hover,
-body .edit-profile-picture-hover:hover,
-body .edit-profile-picture-hover.active,
-body #sidebar-left .action-links a:hover,
-.component-add-link:hover,
-body .search-toggle:hover,
-body .submit-span-wrapper:hover,
-body #primary-settings .unfold:hover {
+/* Drop down menus (grades and user menu) */
+
+.Header-header-drop-menu-3SaYV {
     background-color: var(--hover-color) !important;
+}
+
+a.Header-header-drop-menu-3SaYV:hover {
+    background-color: var(--background-color) !important;
+}
+
+.Header-header-drop-menu-item-3d3IZ {
     color: white !important;
 }
 
-body .search-toggle,
-body #primary-settings .unfold {
-    background-color: var(--background-color) !important;
-    border-color: var(--hover-color) !important;
+footer .Footer-vertical-divider-3-9qQ a,
+footer button {
+    background-color: transparent !important;
 }
 
-#home a[role=menuitem] {
-    background-image: none !important;
+footer._2T2dA {
+    background-color: rgb(51, 51, 51) !important;
 }
 
-#home a.custom-background-image {
-    background: var(--background-url) no-repeat 0px 0px !important;
-}
+/* Logo */
 
-#home a.hide-background-image {
-    background: none !important;
-}
-
-#home a.hide-background-image svg {
-    visibility: visible !important;
-}
-
-#home a svg {
-    visibility: hidden !important;
-}
-
-body .submit-span-wrapper,
-body .click-submit,
-body .submit-btn,
-body .popups-body .submit-span-wrapper,
-body #nav .s-notifications-mini .requester-links a:hover {
+[data-sgy-sitenav=header-logo]:hover {
     background-color: var(--primary-color) !important;
-    border: 2px solid var(--border-color) !important;
+}
+
+.use-custom-url #header>header nav>ul>li>a._2JX1Q {
+    background: var(--background-url) no-repeat !important;
+    background-image: var(--background-url) !important;
+    background-size: 160px !important;
+    background-position: center center !important;
+}
+
+/* links inside the container for the added "Archived Courses" link within the Courses dropdown */
+
+.courses-mycourses-droppeddown-link-container .floating-contained-link {
+    float: right;
+    clear: right;
+    display: block;
 }
 
 video.easter-egg {
@@ -96,19 +89,6 @@ video.easter-egg {
     z-index: 1000;
     overflow: hidden;
     pointer-events: none;
-}
-
-.activities-dropdown-wrapper ul {
-    max-height: unset !important;
-}
-
-#nav_left>li.primary-activities {
-    padding-bottom: 2px !important;
-}
-
-#nav_left>li#primary-home {
-    padding-bottom: 2px !important;
-    height: 37px !important;
 }
 
 .schoology-plus-icon {
@@ -251,33 +231,6 @@ video.easter-egg {
     min-height: 49vmin;
 }
 
-.new-update {
-    background: red;
-    border: 1px solid white;
-    padding: 1px 4px;
-    font-weight: bold;
-    border-radius: 3px;
-    animation: newupdate 2s linear infinite;
-}
-
-@keyframes newupdate {
-    0% {
-        opacity: 0.4;
-    }
-    25% {
-        opacity: 0.9;
-    }
-    50% {
-        opacity: 1;
-    }
-    75% {
-        opacity: 0.9;
-    }
-    100% {
-        opacity: 0.4;
-    }
-}
-
 .settings-buttons-wrapper {
     display: flex;
     align-items: center;
@@ -329,12 +282,14 @@ input[type=text].setting-item {
     line-height: 30px !important;
 }
 
-.gradebook-course-title a .arrow, .gradebook-course-title .arrow {
+.gradebook-course-title a .arrow,
+.gradebook-course-title .arrow {
     width: 30px !important;
     height: 30px !important;
 }
 
-.gradebook-course-title a .arrow:not(.icon-modified), .gradebook-course-title .arrow:not(.icon-modified) {
+.gradebook-course-title a .arrow:not(.icon-modified),
+.gradebook-course-title .arrow:not(.icon-modified) {
     background-position-y: -145px !important;
 }
 
@@ -368,15 +323,32 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
     height: 150px;
 }
 
-.splus-modal-contents input[type=button] {
-    background-color: var(--primary-color);
-    border: 2px solid var(--border-color);
-    height: 30px;
-    vertical-align: middle;
+*:not(.submit-span-wrapper)>input[type=button],
+*:not(.submit-span-wrapper)>input[type=submit] {
+    height: 29px !important;
+    vertical-align: middle !important;
+    border: 2px solid var(--border-color) !important;
+    background-color: var(--primary-color) !important;
 }
 
-.splus-modal-contents input[type=button]:hover {
-    background-color: var(--hover-color);
+*:not(.submit-span-wrapper)>input[type=button]:hover,
+*:not(.submit-span-wrapper)>input[type=submit]:hover {
+    background-color: var(--hover-color) !important;
+}
+
+.submit-span-wrapper input[type=button],
+.submit-span-wrapperinput[type=submit] {
+    height: 25px !important;
+    vertical-align: middle !important;
+}
+
+.submit-span-wrapper {
+    border: 2px solid var(--border-color) !important;
+    background-color: var(--primary-color) !important;
+}
+
+.submit-span-wrapper:hover {
+    background-color: var(--hover-color) !important;
 }
 
 .splus-indent-1 {
@@ -387,7 +359,8 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
     vertical-align: middle;
 }
 
-#nav .courses-action .before-last-li, #nav .groups-action .before-last-li {
+#nav .courses-action .before-last-li,
+#nav .groups-action .before-last-li {
     border-right: 1px solid #ddd;
 }
 
@@ -399,18 +372,17 @@ h1.setting-title {
     margin-top: 7px !important;
 }
 
-.bottom-span {
-    display: block !important;
-    color: grey;
-    font-family: "Century Gothic", sans-serif;
-    text-align: center;
-    padding-bottom: 20px;
-    font-size: 14px;
-    font-variant: small-caps;
+.footer-divider, .footer-divider > span {
+    margin-left: 15px;
 }
 
-.regular-caps {
-    font-variant: normal;
+/*
+newfangled trim and UI w/ obfuscated class names
+the selector matches inside notifications in the new notifs dropdown
+*/
+
+._1wP6w._3ghFm.WfriF .grade-data {
+    color: #0a9c78;
 }
 
 .s-edge-type-grade-add .grade-data {
@@ -424,9 +396,38 @@ h1.setting-title {
     display: block;
 }
 
-.popups-body li .user-item .grade-data::before {
-    font-size: 11px;
-    font-weight: bold;
-    color: #82848a;
-    content: "Grade: ";
+@keyframes rainbow {
+    0% {
+        background-color: hsl(0, 50%, 50%);
+    }
+    10% {
+        background-color: hsl(36, 50%, 50%);
+    }
+    20% {
+        background-color: hsl(72, 50%, 50%);
+    }
+    30% {
+        background-color: hsl(108, 50%, 50%);
+    }
+    40% {
+        background-color: hsl(144, 50%, 50%);
+    }
+    50% {
+        background-color: hsl(180, 50%, 50%);
+    }
+    60% {
+        background-color: hsl(216, 50%, 50%);
+    }
+    70% {
+        background-color: hsl(252, 50%, 50%);
+    }
+    80% {
+        background-color: hsl(288, 50%, 50%);
+    }
+    90% {
+        background-color: hsl(324, 50%, 50%);
+    }
+    100% {
+        background-color: hsl(359, 50%, 50%);
+    }
 }

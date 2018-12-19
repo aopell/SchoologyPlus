@@ -920,6 +920,43 @@ var fetchQueue = [];
         }
     }
 
+    function parseAssignmentNumerator(numString, denomFloat, courseId) {
+        if (Number.isNaN(denomFloat)) {
+            return Number.NaN;
+        }
+
+        let numFloat;
+        let percentMatch = /^(-?[0-9]+(\.[0-9]+)?)%$/.exec(numString);
+
+        if (Number.isFinite(denomFloat) && percentMatch && percentMatch[1]) {
+            numFloat = denomFloat * Number.parseFloat(percentMatch[1]) / 100;
+
+            if (!Number.isNaN(numFloat)) {
+                return numFloat;
+            }
+        }
+
+        numFloat = Number.parseFloat(numString);
+
+        if (!Number.isNaN(numFloat)) {
+            return numFloat;
+        }
+
+
+        if (Number.isFinite(denomFloat) && courseId) {
+            let gradingScale = Setting.getValue("getGradingScale")(courseId);
+            for (let gradeScalePercent in gradingScale) {
+                let letterSymbol = gradingScale[gradeScalePercent];
+                if (numString == letterSymbol) {
+                    numFloat = (gradeScalePercent / 100) * denomFloat;
+                    break;
+                }
+            }
+        }
+
+        return Number.isFinite(numFloat) ? numFloat : Number.NaN;
+    }
+
     function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
             let noGrade = gradeColContentWrap.querySelector(".no-grade");
@@ -951,6 +988,10 @@ var fetchQueue = [];
             editElem.classList.add("student-editable");
             editElem.contentEditable = true;
 
+            // TODO refactor
+            // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
+            let courseId = Number.parseInt(/course-(\d+)$/.exec(perRow.parentElement.parentElement.parentElement.parentElement.id)[1]);
+
             // TODO blur v focusout
             let submitFunc = function () {
                 if (!editElem.classList.contains("student-editable")) {
@@ -963,24 +1004,24 @@ var fetchQueue = [];
                 if (noGrade) {
                     // regex capture and check
                     if (maxGrade) {
-                        userScore = Number.parseFloat(noGrade.textContent);
                         // noGrade+maxGrade = inserted maxGrade from an API call
                         // initDenom = 0; newDenom = whatever is in that textfield
                         userMax = Number.parseFloat(maxGrade.textContent.substring(3));
+                        userScore = parseAssignmentNumerator(noGrade.textContent, userMax, courseId);
                     } else {
                         let regexResult = /^(-?\d+(\.\d+)?)\s*\/\s*(-?\d+(\.\d+)?)$/.exec(editElem.textContent);
                         if (!regexResult) {
                             return false;
                         }
-                        userScore = Number.parseFloat(regexResult[1]);
                         userMax = Number.parseFloat(regexResult[3]);
+                        userScore = parseAssignmentNumerator(regexResult[1], userMax, courseId);
                     }
                     if (Number.isNaN(userScore) || Number.isNaN(userMax)) {
                         return false;
                     }
                 } else if (score) {
                     // user entered number must be a numeric
-                    userScore = Number.parseFloat(score.textContent);
+                    userScore = parseAssignmentNumerator(score.textContent, initMax, courseId);
                     userMax = initMax;
                     if (Number.isNaN(userScore)) {
                         return false;

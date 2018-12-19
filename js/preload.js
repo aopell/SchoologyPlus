@@ -167,7 +167,13 @@ function createElement(tag, classList, properties, children) {
     }
     if (properties) {
         for (let property in properties) {
-            element[property] = properties[property];
+            if (properties[property] instanceof Object && !(properties[property] instanceof Function)) {
+                for (let subproperty in properties[property]) {
+                    element[property][subproperty] = properties[property][subproperty];
+                }
+            } else {
+                element[property] = properties[property];
+            }
         }
     }
     if (children) {
@@ -292,7 +298,17 @@ async function getApiKeys() {
  * Gets the current user's ID.
  */
 function getUserId() {
-    return document.querySelector("#profile > a").href.match(/\d+/)[0];
+    try {
+        return Number.parseInt(new URLSearchParams(document.querySelector("iframe[src*=session-tracker]").src.split("?")[1]).get("id"));
+    } catch (e) {
+        Logger.warn("Failed to get user ID from session tracker, using backup", e);
+        try {
+            return JSON.parse(document.querySelector("script:not([type]):not([src])").textContent.split("=")[1]).props.user.uid;
+        } catch (e2) {
+            Logger.error("Failed to get user ID from backup method", e2);
+            throw new Error("Failed to get user ID from backup method: " + e2.toString());
+        }
+    }
 }
 
 /**
@@ -522,7 +538,7 @@ function updateSettings(callback) {
                 new Setting(
                     "archivedCoursesButton",
                     "Archived Courses Button",
-                    '[Refresh required] Shows a button labeled "See Archived" next to the "See All" button in the courses dropdown',
+                    'Adds a link to see past/archived courses in the courses dropdown',
                     "show",
                     "select",
                     {
@@ -790,4 +806,13 @@ Setting.setValues = function (dictionary, callback = undefined) {
 
 function createLogPrefix(color) {
     return `color:${color};border:1px solid #2A2A2A;border-radius:100%;font-size:14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A`;
+}
+
+/**
+ * Sets the value of a CSS variable on the document
+ * @param {string} name Variable name 
+ * @param {string} val New variable value
+ */
+function setCSSVariable(name, val) {
+    document.documentElement.style.setProperty(`--${name}`, val);
 }
