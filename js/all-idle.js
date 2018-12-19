@@ -1,25 +1,55 @@
-// archived courses button in courses dropdown
-(function () {
-    let coursesDropdownContainer;
+function shouldProcessMutations(mutationList) {
+    let processThis = false;
 
-    let coursesDropdownObserver = new MutationObserver(function (mutationList) {
-        let processThis = false;
-
-        // ensure we're processing more than an addition of something this very handler added
-        for (let mutation of mutationList) {
-            for (let addedElem of mutation.addedNodes) {
-                if (addedElem.classList && !addedElem.classList.contains("splus-addedtodynamicdropdown")) {
-                    processThis = true;
-                    break;
-                }
-            }
-
-            if (processThis) {
+    // ensure we're processing more than an addition of something this very handler added
+    for (let mutation of mutationList) {
+        for (let addedElem of mutation.addedNodes) {
+            if (addedElem.classList && !addedElem.classList.contains("splus-addedtodynamicdropdown")) {
+                processThis = true;
                 break;
             }
         }
 
-        if (!processThis) {
+        if (processThis) {
+            break;
+        }
+    }
+
+    return processThis;
+}
+
+let siteNavigationTileHelpers = {
+    createSpacerTile: function () {
+        return createElement("div", ["_3hM4e", "_3_a9F", "zJU7e", "util-width-zero-1OcAd", "_2oHes", "util-last-child-margin-right-zero-1DVn4", "splus-addedtodynamicdropdown"]);
+    },
+    isSpacerTile: function (element) {
+        return element.childElementCount == 0;
+    },
+    // tiles must be mutable; caller must not care what happens to it
+    // spaceToTotal = desired width
+    createTilesRow: function (tiles, spaceToTotal) {
+        if (!spaceToTotal) {
+            spaceToTotal = targetRowWidth;
+        }
+
+        while (tiles.length < spaceToTotal) {
+            tiles.push(siteNavigationTileHelpers.createSpacerTile());
+        }
+
+        // the two obfuscated classes are the ones Schoology has on its rows
+        return createElement("div", ["_1tpub", "Kluyr", "splus-addedtodynamicdropdown"], {}, tiles);
+    },
+
+    // selector: (actual content container) (thing which just holds the inner body) (row of tiles)
+    rowSelector: "div[role=\"menu\"] ._3mp5E._24W2g._26UWf ._1tpub.Kluyr"
+};
+
+// courses dropdown changes
+(function () {
+    let coursesDropdownContainer;
+
+    let coursesDropdownObserver = new MutationObserver(function (mutationList) {
+        if (!shouldProcessMutations(mutationList)) {
             return;
         }
 
@@ -49,38 +79,12 @@
         // Schoology has 4 tiles per row by default, we want 6
         const targetRowWidth = 6;
 
-        function createSpacerTile() {
-            return createElement("div", ["_3hM4e", "_3_a9F", "zJU7e", "util-width-zero-1OcAd", "_2oHes", "util-last-child-margin-right-zero-1DVn4", "splus-addedtodynamicdropdown"]);
-        }
-
-        function isSpacerTile(element) {
-            return element.childElementCount == 0;
-        }
-
-        // tiles must be mutable; caller must not care what happens to it
-        // spaceToTotal = desired width
-        function createTilesRow(tiles, spaceToTotal) {
-            if (!spaceToTotal) {
-                spaceToTotal = targetRowWidth;
-            }
-
-            while (tiles.length < spaceToTotal) {
-                tiles.push(createSpacerTile());
-            }
-
-            // the two obfuscated classes are the ones Schoology has on its rows
-            return createElement("div", ["_1tpub", "Kluyr", "splus-addedtodynamicdropdown"], {}, tiles);
-        }
-
         let rowContainer;
         let tiles = [];
 
         let needsReorganization = false;
 
-        // selector: (actual content container) (thing which just holds the inner body) (row of tiles)
-        const rowsSelector = "div[role=\"menu\"] ._3mp5E._24W2g._26UWf ._1tpub.Kluyr";
-
-        for (let tilesRow of coursesDropdownContainer.querySelectorAll(rowsSelector)) {
+        for (let tilesRow of coursesDropdownContainer.querySelectorAll(siteNavigationTileHelpers.rowSelector)) {
             if (!rowContainer) {
                 rowContainer = tilesRow.parentElement;
             }
@@ -88,7 +92,7 @@
                 needsReorganization = true;
             }
             for (let tile of tilesRow.children) {
-                if (!isSpacerTile(tile)) {
+                if (!siteNavigationTileHelpers.isSpacerTile(tile)) {
                     tiles.push(tile);
                 }
             }
@@ -99,12 +103,12 @@
 
         if (needsReorganization) {
             let nodeToDelete;
-            while (nodeToDelete = coursesDropdownContainer.querySelector(rowsSelector)) {
+            while (nodeToDelete = coursesDropdownContainer.querySelector(siteNavigationTileHelpers.rowSelector)) {
                 nodeToDelete.remove();
             }
 
             while (tiles.length > 0) {
-                rowContainer.appendChild(createTilesRow(tiles.splice(0, targetRowWidth), targetRowWidth));
+                rowContainer.appendChild(siteNavigationTileHelpers.createTilesRow(tiles.splice(0, targetRowWidth), targetRowWidth));
             }
         }
 
@@ -172,6 +176,71 @@
     }
 
     coursesDropdownObserver.observe(coursesDropdownContainer, { childList: true, subtree: true });
+})();
+
+// groups dropdown changes
+(function () {
+    let groupsDropdownContainer;
+
+    let groupsDropdownObserver = new MutationObserver(function (mutationList) {
+        if (!shouldProcessMutations(mutationList)) {
+            return;
+        }
+
+        Logger.log("Processing groups dropdown mutation");
+
+        // rearrange spacing in the courses dropdown
+        // Schoology has 4 tiles per row by default, we want 6
+        // primarily we do this to match the courses dropdown
+        const targetRowWidth = 6;
+
+        let rowContainer;
+        let tiles = [];
+
+        let needsReorganization = false;
+
+        for (let tilesRow of groupsDropdownContainer.querySelectorAll(siteNavigationTileHelpers.rowSelector)) {
+            if (!rowContainer) {
+                rowContainer = tilesRow.parentElement;
+            }
+            if (tilesRow.childElementCount != targetRowWidth) {
+                needsReorganization = true;
+            }
+            for (let tile of tilesRow.children) {
+                if (!siteNavigationTileHelpers.isSpacerTile(tile)) {
+                    tiles.push(tile);
+                }
+            }
+        }
+
+        if (needsReorganization) {
+            let nodeToDelete;
+            while (nodeToDelete = groupsDropdownContainer.querySelector(siteNavigationTileHelpers.rowSelector)) {
+                nodeToDelete.remove();
+            }
+
+            while (tiles.length > 0) {
+                rowContainer.appendChild(siteNavigationTileHelpers.createTilesRow(tiles.splice(0, targetRowWidth), targetRowWidth));
+            }
+        }
+    });
+
+    for (let candidateLabel of document.querySelectorAll("#header nav ul > li span._1D8fw")) {
+        if (candidateLabel.textContent == "Groups") {
+            // a span inside a button inside a div (inside a li)
+            groupsDropdownContainer = candidateLabel.parentElement.parentElement;
+
+            // to make interaction throughout the rest of the codebase easier
+            groupsDropdownContainer.parentElement.classList.add("splus-groups-navbar-button");
+            break;
+        }
+    }
+
+    if (!groupsDropdownContainer) {
+        return;
+    }
+
+    groupsDropdownObserver.observe(groupsDropdownContainer, { childList: true, subtree: true });
 })();
 
 // hack for course aliases
@@ -377,23 +446,7 @@
     })();
 
     let notifsDropdownObserver = new MutationObserver(function (mutationList) {
-        let processThis = false;
-
-        // ensure we're processing more than an addition of something this very handler added
-        for (let mutation of mutationList) {
-            for (let addedElem of mutation.addedNodes) {
-                if (addedElem.classList && !addedElem.classList.contains("splus-addedtodynamicdropdown")) {
-                    processThis = true;
-                    break;
-                }
-            }
-
-            if (processThis) {
-                break;
-            }
-        }
-
-        if (!processThis) {
+        if (!shouldProcessMutations(mutationList)) {
             return;
         }
 
