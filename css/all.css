@@ -29,6 +29,16 @@
     display: block;
 }
 
+.splus-coursesdropdown-reorder-btn {
+    width: 2rem;
+    height: 2rem;
+    padding-left: 0.45rem;
+}
+
+.splus-coursesdropdown-reorder-btn:hover {
+    cursor: pointer;
+}
+
 video.easter-egg {
     position: fixed;
     top: 50%;

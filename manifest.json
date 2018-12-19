@@ -45,7 +45,8 @@
         "imgs/exclamation-mark.svg",
         "imgs/fallback-course-icon.svg",
         "imgs/edit-pencil.svg",
-        "imgs/new-plus-icon.svg"
+        "imgs/new-plus-icon.svg",
+        "lib/data/schoology-reorder-ui-langprops.json"
     ],
     "background": {
         "scripts": [
