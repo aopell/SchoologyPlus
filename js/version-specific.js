@@ -85,7 +85,7 @@ function createToastButton(text, id, onClick, transition = "fadeOutRight") {
  * @param {Broadcast[]} broadcasts Broadcasts to save
  * @param {()=>void} callback Function called after broadcasts are saved
  */
-function createBroadcasts(broadcasts, callback = undefined) {
+function saveBroadcasts(broadcasts, callback = undefined) {
     chrome.storage.sync.get(["unreadBroadcasts"], values => {
         let b = values.unreadBroadcasts || [];
         b.push(...broadcasts);
@@ -102,7 +102,17 @@ function createBroadcasts(broadcasts, callback = undefined) {
  * @returns {Broadcast}
  */
 function createBroadcast(id, title, message, timestamp = Date.now()) {
-    return { id, title, message, timestamp };
+    return { id, title, message, timestamp: +timestamp };
+}
+
+/**
+ * Deletes broadcasts with the given IDs if they exist
+ * @param  {...number} ids Broadcasts to delete
+ */
+function deleteBroadcasts(...ids) {
+    chrome.storage.sync.get(["unreadBroadcasts"], v => {
+        chrome.storage.sync.set({ unreadBroadcasts: v.unreadBroadcasts.filter(x => !ids.includes(x.id)) });
+    });
 }
 
 /*
@@ -136,6 +146,17 @@ let migrationsTo = {
         });
     },
     "5.0": function (currentVersion, previousVersion) {
+        saveBroadcasts([
+            createBroadcast(
+                500,
+                "Schoology Plus Fall 2018 Survey Closed",
+                "Thank you to all that participated in the survey. Winners of the Amazon gift card drawing will be contacted before New Year's. We look forward to using your ideas to make Schoology Plus even better. Thanks for your support!",
+                new Date(2018, 11 /* don't you just love JavaScript */, 20)
+            )
+        ], () => {
+            deleteBroadcasts(432, 440);
+        });
+
         chrome.storage.sync.get(["hue", "theme", "themes"], values => {
             if (values.hue) {
                 if (!values.theme || values.theme == "Custom Color" || values.theme == "Schoology Plus") {
