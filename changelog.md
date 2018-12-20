@@ -1,5 +1,29 @@
 # Changelog
 
+## Version 5.0 - December 19, 2018
+
+### Added
+
+- Support for the updated Schoology interface
+- Two new default themes
+  - "LAUSD Dark Blue": Uses the colors of the updated LAUSD Schoology theme
+  - "Schoology Default": The default color scheme of Schoology.com
+- Ability to use the new LAUSD logo in custom themes
+- Letter grades and percentages can now be entered as a score when modifying grades
+
+### Changed
+
+- Courses drop down displays 6 tiles per row instead of 4 (change from default Schoology behavior)
+- Updated the mock interface in the Theme Editor to replicate the new Schoology interface
+- Moved "Enhanced by Schoology Plus" to the new footer
+- Various long standing Schoology Plus features have been updated to compensate for changes brought about by the new interface
+  - Therefore, some features may look slightly different or appear in different locations
+
+### Removed
+
+- Support for the deprecated "Custom Color" theme
+  - If you were using a custom hue with the default theme prior to this update, a new theme with your custom color will automatically be created and set as your current theme
+
 ## Version 4.4 - December 11, 2018
 
 > This release precedes a major interface change to LAUSD's Schoology. Schoology Plus will support the new interface, but not immediately upon its launch. Refer to the announcement within Schoology Plus [or this link](https://aopell.me/SchoologyPlus/new-interface-notice) for more information.
