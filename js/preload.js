@@ -381,8 +381,8 @@ function updateSettings(callback) {
         // wrapper functions for e.g. defaults
         __storage.getGradingScale = function (courseId) {
             let defaultGradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
-            if (this.gradingScales && this.gradingScales[courseId]) {
-                return this.gradingScales[courseId];
+            if (__storage.gradingScales && __storage.gradingScales[courseId]) {
+                return __storage.gradingScales[courseId];
             }
 
             return defaultGradingScale;

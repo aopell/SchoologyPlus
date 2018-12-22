@@ -313,8 +313,8 @@ var fetchQueue = [];
             type: "checkbox",
             id: "enable-modify",
             onclick: function () {
-                let normalAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.added-fake-assignment):not(.contains-exception)";
-                let addedAssignRClickSelector = ".item-row.added-fake-assignment:not(.dropped):not(.grade-add-indicator):not(.contains-exception)";
+                let normalAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.added-fake-assignment)";
+                let addedAssignRClickSelector = ".item-row.added-fake-assignment:not(.dropped):not(.grade-add-indicator)";
                 let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator):not(.contains-exception)";
 
                 if (editDisableReason) {
@@ -334,6 +334,9 @@ var fetchQueue = [];
 
                     let calculateMinimumGrade = function (element, desiredGrade) {
                         let gradeColContentWrap = element.querySelector(".grade-wrapper").parentElement;
+
+                        removeExceptionState(element, gradeColContentWrap);
+
                         // TODO refactor the grade extraction
                         let noGrade = gradeColContentWrap.querySelector(".no-grade");
                         let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value") || gradeColContentWrap.querySelector(".no-grade");
@@ -390,6 +393,14 @@ var fetchQueue = [];
                             deltaScore = (desiredGrade * perMax) - perScore;
                         } else {
                             // weighted
+
+                            // get this out of the way so it doesn't ruin later calculations
+                            if (noGrade) {
+                                recalculateCategoryScore(catRow, 0, maxVal);
+                                recalculatePeriodScore(perRow, 0, maxVal);
+                                noGrade = false;
+                            }
+
                             // get category score and category weight
                             let awardedCategoryPoints = catRow.querySelector(".rounded-grade").parentNode;
                             let catScoreElem = awardedCategoryPoints.querySelector(".rounded-grade");
@@ -955,6 +966,57 @@ var fetchQueue = [];
         return Number.isFinite(numFloat) ? numFloat : Number.NaN;
     }
 
+    function removeExceptionState(assignment, gradeColContentWrap, exceptionIcon, score, maxGrade) {
+        if (!gradeColContentWrap) {
+            gradeColContentWrap = assignment.querySelector(".grade-column .td-content-wrapper");
+        }
+
+        if (!exceptionIcon) {
+            exceptionIcon = gradeColContentWrap.querySelector(".exception-icon");
+            if (!exceptionIcon) {
+                return {};
+            }
+        }
+
+        if (!score) {
+            score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
+        }
+
+        if (!maxGrade) {
+            maxGrade = gradeColContentWrap.querySelector(".max-grade");
+        }
+
+        let retVars = {};
+
+        // the only exception which counts against the user is "missing"
+        let missing = exceptionIcon.classList.contains("missing");
+        let scoreElem = createElement("span", [missing ? "rounded-grade" : "no-grade"], { textContent: missing ? "0" : "—" });
+        retVars.editElem = scoreElem;
+        retVars.initPts = 0;
+        if (missing) {
+            retVars.score = scoreElem;
+            scoreElem = createElement("span", ["awarded-grade"], {}, [score, maxGrade]);
+            retVars.initMax = Number.parseFloat(maxGrade.textContent.substring(3));
+        } else {
+            retVars.initMax = 0;
+            retVars.noGrade = scoreElem;
+        }
+        // reorganize
+        let elemToRemove = exceptionIcon.parentElement.parentElement;
+        let nodesToMoveHolder = exceptionIcon.parentElement;
+
+        exceptionIcon.insertAdjacentElement('afterend', scoreElem);
+        exceptionIcon.remove();
+
+        let nodesToMove = Array.from(nodesToMoveHolder.childNodes).reverse();
+        for (let i = 0; i < nodesToMove.length; i++) {
+            gradeColContentWrap.insertAdjacentElement('afterbegin', nodesToMove[i]);
+        }
+        elemToRemove.remove();
+
+        assignment.classList.remove("contains-exception");
+    }
+
     function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
             let noGrade = gradeColContentWrap.querySelector(".no-grade");
@@ -980,31 +1042,22 @@ var fetchQueue = [];
                 initMax = Number.parseFloat(maxGrade.textContent.substring(3));
             }
             if (exceptionIcon && maxGrade) {
-                // the only exception which counts against the user is "missing"
-                let missing = exceptionIcon.classList.contains("missing");
-                let scoreElem = createElement("span", [missing ? "rounded-grade" : "no-grade"], { textContent: missing ? "0" : "—" });
-                editElem = scoreElem;
-                initPts = 0;
-                if (missing) {
-                    score = scoreElem;
-                    scoreElem = createElement("span", ["awarded-grade"], {}, [ score, maxGrade ]);
-                    initMax = Number.parseFloat(maxGrade.textContent.substring(3));
-                } else {
-                    initMax = 0;
-                    noGrade = scoreElem;
+                let vars = removeExceptionState(assignment, gradeColContentWrap, exceptionIcon, score, maxGrade);
+                if (vars.editElem) {
+                    editElem = vars.editElem;
                 }
-                // reorganize
-                let elemToRemove = exceptionIcon.parentElement.parentElement;
-                let nodesToMoveHolder = exceptionIcon.parentElement; 
-                
-                exceptionIcon.insertAdjacentElement('afterend', scoreElem);
-                exceptionIcon.remove();
-                
-                let nodesToMove = Array.from(nodesToMoveHolder.childNodes).reverse();
-                for(let i = 0; i < nodesToMove.length; i++){
-                    gradeColContentWrap.insertAdjacentElement('afterbegin', nodesToMove[i]);
+                if (vars.score) {
+                    score = vars.score;
                 }
-                elemToRemove.remove();
+                if (vars.noGrade) {
+                    noGrade = vars.noGrade;
+                }
+                if (vars.initPts !== undefined) {
+                    initPts = vars.initPts;
+                }
+                if (vars.initMax !== undefined) {
+                    initMax = vars.initMax;
+                }
             }
 
             if (!editElem || editElem.classList.contains("student-editable")) {
