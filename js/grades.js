@@ -179,41 +179,39 @@ var fetchQueue = [];
 
                         // add UI for grade virtual editing
                         let gradeWrapper = assignment.querySelector(".grade-wrapper");
-                        // FIXME correct behavior for editing dropped assignments
-                        // excused assignments cannot be edited and do not count toward grade
-                        if (!assignment.querySelector(".excused")) {
-                            let checkbox = document.getElementById("enable-modify");
-                            let editGradeImg = createElement("img", ["grade-edit-indicator"], {
-                                src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
-                                width: 12,
-                                style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
-                            });
-                            let gradeAddEditHandler = null;
-                            if (assignment.classList.contains("grade-add-indicator")) {
-                                // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
-                                // the reversal takes the form of a page refresh once grades have been changed
-                                let hasHandledGradeEdit = false;
-                                gradeAddEditHandler = async function () {
-                                    if (hasHandledGradeEdit) {
-                                        return;
-                                    }
 
-                                    assignment.classList.remove("grade-add-indicator");
-                                    assignment.classList.remove("last-row-of-tier");
+                        let checkbox = document.getElementById("enable-modify");
+                        let editGradeImg = createElement("img", ["grade-edit-indicator"], {
+                            src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
+                            width: 12,
+                            style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
+                        });
+                        let gradeAddEditHandler = null;
+                        if (assignment.classList.contains("grade-add-indicator")) {
+                            // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
+                            // the reversal takes the form of a page refresh once grades have been changed
+                            let hasHandledGradeEdit = false;
+                            gradeAddEditHandler = async function () {
+                                if (hasHandledGradeEdit) {
+                                    return;
+                                }
 
-                                    assignment.classList.add("added-fake-assignment");
+                                assignment.classList.remove("grade-add-indicator");
+                                assignment.classList.remove("last-row-of-tier");
 
-                                    assignment.getElementsByClassName("title")[0].firstElementChild.textContent = "Added Assignment";
+                                assignment.classList.add("added-fake-assignment");
 
-                                    let newAddAssignmentPlaceholder = await createAddAssignmentUi();
-                                    newAddAssignmentPlaceholder.style.display = "table-row";
+                                assignment.getElementsByClassName("title")[0].firstElementChild.textContent = "Added Assignment";
 
-                                    hasHandledGradeEdit = true;
-                                };
-                            }
-                            editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
-                            gradeWrapper.appendChild(editGradeImg);
+                                let newAddAssignmentPlaceholder = await createAddAssignmentUi();
+                                newAddAssignmentPlaceholder.style.display = "table-row";
+
+                                hasHandledGradeEdit = true;
+                            };
                         }
+                        editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
+                        gradeWrapper.appendChild(editGradeImg);
+
                         if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
                             await createAddAssignmentUi();
                         }
@@ -963,6 +961,7 @@ var fetchQueue = [];
             let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
             // note that this will always return (for our injected percentage element)
             let maxGrade = gradeColContentWrap.querySelector(".max-grade");
+            let exceptionIcon = gradeColContentWrap.querySelector(".exception-icon");
             let editElem;
             let initPts;
             let initMax;
@@ -979,6 +978,33 @@ var fetchQueue = [];
                 editElem = score;
                 initPts = Number.parseFloat(score.textContent);
                 initMax = Number.parseFloat(maxGrade.textContent.substring(3));
+            }
+            if (exceptionIcon && maxGrade) {
+                // the only exception which counts against the user is "missing"
+                let missing = exceptionIcon.classList.contains("missing");
+                let scoreElem = createElement("span", [missing ? "rounded-grade" : "no-grade"], { textContent: missing ? "0" : "—" });
+                editElem = scoreElem;
+                initPts = 0;
+                if (missing) {
+                    score = scoreElem;
+                    scoreElem = createElement("span", ["awarded-grade"], {}, [ score, maxGrade ]);
+                    initMax = Number.parseFloat(maxGrade.textContent.substring(3));
+                } else {
+                    initMax = 0;
+                    noGrade = scoreElem;
+                }
+                // reorganize
+                let elemToRemove = exceptionIcon.parentElement.parentElement;
+                let nodesToMoveHolder = exceptionIcon.parentElement; 
+                
+                exceptionIcon.insertAdjacentElement('afterend', scoreElem);
+                exceptionIcon.remove();
+                
+                let nodesToMove = Array.from(nodesToMoveHolder.childNodes).reverse();
+                for(let i = 0; i < nodesToMove.length; i++){
+                    gradeColContentWrap.insertAdjacentElement('afterbegin', nodesToMove[i]);
+                }
+                elemToRemove.remove();
             }
 
             if (!editElem || editElem.classList.contains("student-editable")) {
