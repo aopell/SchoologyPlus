@@ -315,7 +315,7 @@ var fetchQueue = [];
             onclick: function () {
                 let normalAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.added-fake-assignment)";
                 let addedAssignRClickSelector = ".item-row.added-fake-assignment:not(.dropped):not(.grade-add-indicator)";
-                let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator):not(.contains-exception)";
+                let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator)";
 
                 if (editDisableReason) {
                     alert("An error occurred loading assignments. Editing has been disabled.\nReason: " + editDisableReason);
@@ -624,6 +624,7 @@ var fetchQueue = [];
                                     this[0].classList.remove("dropped");
                                     // alter grade
                                     let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
+                                    removeExceptionState(this[0], gradeColContentWrap);
                                     // TODO refactor the grade extraction
                                     let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
                                     let maxGrade = gradeColContentWrap.querySelector(".max-grade");
@@ -995,7 +996,7 @@ var fetchQueue = [];
         retVars.initPts = 0;
         if (missing) {
             retVars.score = scoreElem;
-            scoreElem = createElement("span", ["awarded-grade"], {}, [score, maxGrade]);
+            scoreElem = createElement("span", ["awarded-grade"], {}, [retVars.score, maxGrade]);
             retVars.initMax = Number.parseFloat(maxGrade.textContent.substring(3));
         } else {
             retVars.initMax = 0;
