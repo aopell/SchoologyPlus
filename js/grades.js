@@ -1020,11 +1020,12 @@ var fetchQueue = [];
 
     function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
+            removeExceptionState(assignment, gradeColContentWrap);
+
             let noGrade = gradeColContentWrap.querySelector(".no-grade");
             let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
             // note that this will always return (for our injected percentage element)
             let maxGrade = gradeColContentWrap.querySelector(".max-grade");
-            let exceptionIcon = gradeColContentWrap.querySelector(".exception-icon");
             let editElem;
             let initPts;
             let initMax;
@@ -1041,24 +1042,6 @@ var fetchQueue = [];
                 editElem = score;
                 initPts = Number.parseFloat(score.textContent);
                 initMax = Number.parseFloat(maxGrade.textContent.substring(3));
-            }
-            if (exceptionIcon && maxGrade) {
-                let vars = removeExceptionState(assignment, gradeColContentWrap, exceptionIcon, score, maxGrade);
-                if (vars.editElem) {
-                    editElem = vars.editElem;
-                }
-                if (vars.score) {
-                    score = vars.score;
-                }
-                if (vars.noGrade) {
-                    noGrade = vars.noGrade;
-                }
-                if (vars.initPts !== undefined) {
-                    initPts = vars.initPts;
-                }
-                if (vars.initMax !== undefined) {
-                    initMax = vars.initMax;
-                }
             }
 
             if (!editElem || editElem.classList.contains("student-editable")) {
