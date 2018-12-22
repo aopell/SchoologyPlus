@@ -972,6 +972,8 @@ var fetchQueue = [];
             gradeColContentWrap = assignment.querySelector(".grade-column .td-content-wrapper");
         }
 
+        let gradeWrapper = gradeColContentWrap.querySelector(".grade-wrapper");
+
         if (!exceptionIcon) {
             exceptionIcon = gradeColContentWrap.querySelector(".exception-icon");
             if (!exceptionIcon) {
@@ -1009,9 +1011,15 @@ var fetchQueue = [];
         exceptionIcon.insertAdjacentElement('afterend', scoreElem);
         exceptionIcon.remove();
 
-        let nodesToMove = Array.from(nodesToMoveHolder.childNodes).reverse();
+        let nodesToMove = Array.from(nodesToMoveHolder.childNodes);
+        let nodesAfterMove = nodesToMove.splice(nodesToMove.findIndex(x => x.tagName == "BR"));
+        nodesToMove.reverse();
+        nodesAfterMove.reverse();
         for (let i = 0; i < nodesToMove.length; i++) {
             gradeColContentWrap.insertAdjacentElement('afterbegin', nodesToMove[i]);
+        }
+        for (let i = 0; i < nodesAfterMove.length; i++) {
+            gradeWrapper.insertAdjacentElement('afterend', nodesAfterMove[i]);
         }
         elemToRemove.remove();
 
