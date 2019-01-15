@@ -88,7 +88,7 @@ output.addEventListener("paste", e => {
 
 for (let e of document.querySelectorAll("#theme-editor-section input")) {
     e.addEventListener("input", function (event) {
-        updateOutput(event.target);
+        updateOutput();
     });
 }
 var mTabs = M.Tabs.init(document.querySelector(".tabs"));
@@ -128,16 +128,7 @@ function importFromObject(j) {
 
     themeName.value = j.name;
 
-    $("#theme-hue").slider("value", j.hue || 210);
-    if (j.hue) themeColorHue.click();
-
-    if (j.colors) {
-        ["primary-color", "background-color", "secondary-color", "border-color"].map((x, i) => $("#theme-" + x).spectrum("set", j.colors[i]));
-        themeColorCustom.click();
-    }
-
-    if (!j.hue && !j.colors) themeColorHue.click();
-
+    themeLogo.value = "";
     j.logo = j.logo || "schoology";
     if (j.logo == "schoology") themeSchoologyLogo.click();
     else if (j.logo == "lausd") themeLAUSDLogo.click();
@@ -146,6 +137,17 @@ function importFromObject(j) {
         themeLogo.value = j.logo;
         themeCustomLogo.click();
     }
+
+    $("#theme-hue").slider("value", j.hue || 210);
+
+    if (j.hue) themeColorHue.click();
+
+    if (j.colors) {
+        ["primary-color", "background-color", "secondary-color", "border-color"].map((x, i) => $("#theme-" + x).spectrum("set", j.colors[i]));
+        themeColorCustom.click();
+    }
+
+    if (!j.hue && !j.colors) themeColorHue.click();
 
     iconList.innerHTML = "";
     if (j.icons) {
@@ -167,7 +169,6 @@ function importFromObject(j) {
     }
 
     themeCursor.value = j.cursor || "";
-    updateOutput(themeCursor);
 
     M.updateTextFields();
     updateOutput();
@@ -217,176 +218,89 @@ function initPicker(id, onupdate) {
     });
 }
 
-initPicker("theme-primary-color", (c) => updateOutput(themePrimaryColor, c));
-initPicker("theme-secondary-color", (c) => updateOutput(themeSecondaryColor, c));
-initPicker("theme-background-color", (c) => updateOutput(themeBackgroundColor, c));
-initPicker("theme-border-color", (c) => updateOutput(themeBorderColor, c));
+initPicker("theme-primary-color", updateOutput);
+initPicker("theme-secondary-color", updateOutput);
+initPicker("theme-background-color", updateOutput);
+initPicker("theme-border-color", updateOutput);
 
-/**
- * Processes the values entered into the form
- * @param {HTMLElement} [target] Processes element-specific values for the provided element
- * @param {tinycolor} [color] A new color value for the specified element
- */
-function updateOutput(target, color) {
+function updateOutput() {
     warnings = [];
     errors = [];
-    let hue = undefined;
     theme = {
-        name: themeName.value || undefined,
-    }
+        name: themeName.value || undefined
+    };
 
+    // Name
     if (!theme.name) {
         errors.push("Theme must have a name");
+    } else if (inEditMode() && theme.name != origThemeName && allThemes[theme.name]) {
+        errors.push(`A theme with the name "${theme.name}" already exists. Delete that theme or choose a different name before saving.`);
     }
 
+    // Color
     if (themeColorHue.checked) {
-        if ((color && target == themeHue ? (hue = color) : (hue = $("#theme-hue").slider("value"))) || hue === 0) {
-            theme.hue = hue;
-            setCSSVariable("color-hue", hue);
-        } else {
-            setCSSVariable("color-hue", 210);
-        }
+        themeColorCustomWrapper.classList.add("hidden");
+        themeHueWrapper.classList.remove("hidden");
+        theme.hue = $("#theme-hue").slider("value");
 
+        setCSSVariable("color-hue", theme.hue == 0 ? 0 : (theme.hue || 210));
         setCSSVariable("primary-color", "hsl(var(--color-hue), 50%, 50%)");
         setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
         setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
         setCSSVariable("border-color", "hsl(var(--color-hue), 60%, 25%)");
+    } else if (themeColorCustom.checked) {
+        themeColorCustomWrapper.classList.remove("hidden");
+        themeHueWrapper.classList.add("hidden");
+        theme.colors = [
+            $("#theme-primary-color").spectrum("get").toHexString(),
+            $("#theme-secondary-color").spectrum("get").toHexString(),
+            $("#theme-background-color").spectrum("get").toHexString(),
+            $("#theme-border-color").spectrum("get").toHexString()
+        ];
+        setCSSVariable("primary-color", theme.colors[0]);
+        setCSSVariable("background-color", theme.colors[1]);
+        setCSSVariable("hover-color", theme.colors[2]);
+        setCSSVariable("border-color", theme.colors[3]);
     }
 
-    let updateLogo = false;
-    switch (target) {
-        case themeSchoologyLogo:
-            themeLogo.setAttribute("disabled", "");
-            themeLogoWrapper.classList.add("hidden");
-            updateLogo = true;
-            break;
-        case themeLAUSDLogo:
-            theme.logo = "lausd";
-            themeLogo.setAttribute("disabled", "");
-            themeLogoWrapper.classList.add("hidden");
-            updateLogo = true;
-            break;
-        case themeNewLAUSDLogo:
-            theme.logo = "lausd_new";
-            themeLogo.setAttribute("disabled", "");
-            themeLogoWrapper.classList.add("hidden");
-            updateLogo = true;
-            break;
-        case themeCustomLogo:
-            themeLogo.removeAttribute("disabled");
-            themeLogoWrapper.classList.remove("hidden");
-            updateLogo = true;
-            break;
-        case themeColorHue:
-            themeHue.removeAttribute("disabled");
-            $(`#theme-primary-color`).spectrum("disable");
-            $(`#theme-secondary-color`).spectrum("disable");
-            $(`#theme-border-color`).spectrum("disable");
-            $(`#theme-background-color`).spectrum("disable");
-            themeColorCustomWrapper.classList.add("hidden");
-            themeHueWrapper.classList.remove("hidden");
-            break;
-        case themeColorCustom:
-            themeHue.setAttribute("disabled", "");
-            themeColorCustomWrapper.classList.remove("hidden");
-            themeHueWrapper.classList.add("hidden");
-            $(`#theme-primary-color`).spectrum("enable");
-            $(`#theme-secondary-color`).spectrum("enable");
-            $(`#theme-border-color`).spectrum("enable");
-            $(`#theme-background-color`).spectrum("enable");
-            break;
-    }
-
-    if (updateLogo) {
-        if (themeCustomLogo.checked && themeLogo.value) {
-            checkImage(themeLogo.value, (x) => {
+    // Logo
+    themeLogoWrapper.classList.add("hidden");
+    if (themeSchoologyLogo.checked) {
+        theme.logo = "schoology";
+        setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
+    } else if (themeNewLAUSDLogo.checked) {
+        theme.logo = "lausd_new";
+        setCSSVariable("background-url", `url(${lausdNewImageUrl})`);
+    } else if (themeLAUSDLogo.checked) {
+        theme.logo = "lausd";
+        setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
+    } else if (themeCustomLogo.checked) {
+        themeLogoWrapper.classList.remove("hidden");
+        if (themeLogo.value) {
+            theme.logo = themeLogo.value;
+            checkImage(themeLogo.value, x => {
                 if (x.target.width != 160 || x.target.height < 36 || x.target.height > 60) {
                     warnings.push("Logo image is not between the recommended sizes of 160x36 and 160x60");
                 }
-                theme.logo = themeLogo.value;
                 setCSSVariable("background-url", `url(${theme.logo})`);
-                updatePreview();
-            }, (x) => {
-                errors.push("Logo URL is invalid");
-                setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
-                updatePreview();
-            });
-        } else if (themeCustomLogo.checked) {
-            errors.push("No logo URL specified");
-        } else {
-            if (themeNewLAUSDLogo.checked) {
-                theme.logo = "lausd_new";
-                setCSSVariable("background-url", `url(${lausdNewImageUrl})`);
-            } else if (themeLAUSDLogo.checked) {
-                theme.logo = "lausd";
-                setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
-            } else {
-                theme.logo = "schoology";
-                setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
-            }
-            updatePreview();
+            }, () => errors.push("Logo URL does not point to a valid image"));
         }
     }
 
-
+    // Cursor
     if (themeCursor.value) {
-        checkImage(themeCursor.value, (x) => {
+        theme.cursor = themeCursor.value;
+        checkImage(themeCursor.value, x => {
             if (x.target.width > 128 || x.target.height > 128) {
-                warnings.push("Cursor images must be smaller than 128x128 to appear");
+                errors.push("Cursor images must be smaller than 128x128 to appear");
             }
-            theme.cursor = themeCursor.value;
             setCSSVariable("cursor", `url(${themeCursor.value}), auto`);
-            updatePreview();
-        }, (x) => {
-            errors.push("Cursor URL is invalid");
-            setCSSVariable("cursor", "auto");
-            updatePreview();
-        });
+        }, () => errors.push("Cursor URL does not point to a valid image"));
     } else {
         setCSSVariable("cursor", "auto");
     }
 
-    if (theme.hue && (theme.hue < 0 || theme.hue > 359 || theme.hue != Math.floor(theme.hue))) {
-        warnings.push("Hue should be a positive integer between 0 and 359");
-    }
-
-    if (themeColorCustom.checked) {
-        let colors = [
-            (target === themePrimaryColor && color) ? color.toHexString() : (themePrimaryColor.value || "red"),
-            (target === themeBackgroundColor && color) ? color.toHexString() : (themeBackgroundColor.value || "yellow"),
-            (target === themeSecondaryColor && color) ? color.toHexString() : (themeSecondaryColor.value || "blue"),
-            (target === themeBorderColor && color) ? color.toHexString() : (themeBorderColor.value || "green"),
-        ];
-
-        let colorMappings = ["primary-color", "background-color", "hover-color", "border-color"];
-
-        let valid = true;
-        let validCount = 0;
-        for (let i = 0; i < colors.length; i++) {
-            let cc = validateColor(colors[i]);
-            if (!cc) {
-                valid = false;
-                document.documentElement.style.removeProperty(`--${colorMappings[i]}`);
-            } else {
-                validCount++;
-                setCSSVariable(colorMappings[i], cc);
-                colors[i] == cc;
-            }
-        }
-
-        if (valid && validCount > 0) {
-            theme.colors = colors;
-        } else if (colors.filter(x => x).length > 0) {
-            errors.push("One or more of your specified colors is invalid");
-        } else if (validCount > 0) {
-            warnings.push("All four colors must be specified")
-        }
-
-        if (theme.colors && theme.hue) {
-            warnings.push("Your specified hue value will be overridden by your other color choices");
-        }
-    }
-
+    // Icons
     if (iconListTable.rows.length > 1) {
         let customIcons = [];
         let first = true;
@@ -397,11 +311,11 @@ function updateOutput(target, color) {
             }
             let pattern = row.cells[1].textContent;
             let url = row.cells[2].textContent;
-            checkImage(url, undefined, () => errors.push(url + " is not a valid image URL"));
+            checkImage(url, undefined, () => errors.push(url + " is not a valid image URL (Course Icons)"));
             try {
                 RegExp(pattern);
             } catch {
-                errors.push(pattern + " is not a valid regular expression");
+                errors.push(pattern + " is not a valid regular expression (Course Icons)");
             }
             customIcons.push([pattern, url]);
         }
@@ -653,7 +567,7 @@ function addIcon() {
     if (inEditMode()) {
         let arr = Array.from(tr.querySelectorAll(".class-name, .icon-url"));
         arr.map(x => x.setAttribute("contenteditable", "true"));
-        arr.map(x => x.addEventListener("input", e => updateOutput(e.target)));
+        arr.map(x => x.addEventListener("input", updateOutput));
     }
     return tr;
 }
@@ -679,7 +593,7 @@ function moveUp(e) {
     if (target.previousElementSibling) {
         target.parentNode.insertBefore(target, target.previousElementSibling);
     }
-    updateOutput(e.target);
+    updateOutput();
 }
 
 function moveDown(e) {
@@ -688,7 +602,7 @@ function moveDown(e) {
     if (target.nextElementSibling) {
         target.parentNode.insertBefore(target.nextElementSibling, target);
     }
-    updateOutput(e.target);
+    updateOutput();
 }
 
 function deleteIcon(e) {
@@ -696,7 +610,7 @@ function deleteIcon(e) {
     while (target.tagName != "TR") target = target.parentElement;
     M.Tooltip.getInstance(target.querySelector(".delete-icon-button")).destroy();
     target.outerHTML = "";
-    updateOutput(e.target);
+    updateOutput();
 }
 
 function iconPreview(e) {
@@ -731,17 +645,19 @@ function copyThemeToClipboard(themeName) {
     copyFrom.select();
     document.execCommand('copy');
     copyFrom.remove();
-    M.toast({ html: `Copied theme "${theme.name}" to clipboard` });
+    M.toast({ html: `Copied theme "${themeName}" to clipboard` });
 }
 
 function inEditMode() { return !!document.querySelector(".show-editor-controls"); }
 
-$(document).ready(function () {
-    function sliderEvent(event, ui) {
-        updateOutput(themeHue, ui.value);
+function sliderEvent(event, ui) {
+    if (event.originalEvent) {
+        updateOutput();
         document.getElementById("color-hue-value").textContent = ui.value.toString();
     }
+}
 
+$(document).ready(function () {
     $("#theme-hue").slider({
         min: 0,
         max: 359,
@@ -749,8 +665,6 @@ $(document).ready(function () {
         stop: sliderEvent,
         change: sliderEvent
     });
-
-    updateOutput(document.rootElement);
 
     chrome.storage.sync.get(["theme", "themes"], s => {
         allThemes = {
