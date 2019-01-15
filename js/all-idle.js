@@ -158,6 +158,15 @@ let siteNavigationTileHelpers = {
             ]);
             cardData.appendChild(newCardDataChild);
         }
+
+        // reorder courses button
+        let coursesHeader = coursesDropdownContainer.querySelector(".CjR09._8a6xl._1tpub > h2");
+        if (coursesHeader && !coursesHeader.querySelector(".splus-coursesdropdown-reorder-btn")) {
+            // https://www.flaticon.com/free-icon/sort_159800
+            let newBtn = createElement("img", ["splus-coursesdropdown-reorder-btn", "splus-addedtodynamicdropdown"], { src: "https://image.flaticon.com/icons/svg/159/159800.svg", title: "Reorder Courses", alt: "Reorder Icon" });
+            newBtn.onclick = () => document.querySelector("#reorder-ui button.link-btn").click();
+            coursesHeader.appendChild(newBtn);
+        }
     });
 
     for (let candidateLabel of document.querySelectorAll("#header nav ul > li span._1D8fw")) {
@@ -176,6 +185,20 @@ let siteNavigationTileHelpers = {
     }
 
     coursesDropdownObserver.observe(coursesDropdownContainer, { childList: true, subtree: true });
+
+    if (!document.getElementById("reorder-ui")) {
+        let reorderUiContainer = document.createElement("div");
+        reorderUiContainer.style.display = "none";
+        reorderUiContainer.innerHTML = '<div id="reorder-ui"><div class="_3W1Kw"><div><button class="link-btn" role="button" style="height: 100%;"><span class="Reorder-reorder-icon-15wl2"></span>Reorder Courses</button></div></div></div>';
+        document.body.appendChild(reorderUiContainer);
+        let newScript = createElement("script", [], { src: "https://ui.schoology.com/platform/reorder-ui/bundle.0.1.1.js", async: true, id: "reorder-ui-script" });
+
+        // start the fetch langprops task
+        fetch(chrome.runtime.getURL("/lib/data/schoology-reorder-ui-langprops.json"))
+            .then(x => x.text())
+            .then(x => newScript.dataset.props = x)
+            .then(() => reorderUiContainer.appendChild(newScript));
+    }
 })();
 
 // groups dropdown changes

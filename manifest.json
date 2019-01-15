@@ -46,6 +46,7 @@
         "imgs/fallback-course-icon.svg",
         "imgs/edit-pencil.svg",
         "imgs/new-plus-icon.svg",
+        "lib/data/schoology-reorder-ui-langprops.json",
         "imgs/lausd-legacy.png"
     ],
     "background": {
