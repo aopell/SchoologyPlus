@@ -158,8 +158,8 @@
         // reorder courses button
         let coursesHeader = coursesDropdownContainer.querySelector(".CjR09._8a6xl._1tpub > h2");
         if (coursesHeader && !coursesHeader.querySelector(".splus-coursesdropdown-reorder-btn")) {
-            // https://www.flaticon.com/free-icon/sort-up-or-sort-down-couple-of-arrows_32074
-            let newBtn = createElement("img", ["splus-coursesdropdown-reorder-btn", "splus-addedtodynamicdropdown"], { src: "https://image.flaticon.com/icons/svg/32/32074.svg", title: "Reorder Courses", alt: "Reorder Icon" });
+            // https://www.flaticon.com/free-icon/sort_159800
+            let newBtn = createElement("img", ["splus-coursesdropdown-reorder-btn", "splus-addedtodynamicdropdown"], { src: "https://image.flaticon.com/icons/svg/159/159800.svg", title: "Reorder Courses", alt: "Reorder Icon" });
             newBtn.onclick = () => document.querySelector("#reorder-ui button.link-btn").click();
             coursesHeader.appendChild(newBtn);
         }
