@@ -1,9 +1,10 @@
 // Page Modifications
 
 document.head.appendChild(createElement("meta", [], { name: "viewport", content: "width=device-width, initial-scale=1" }));
-let bottom = document.querySelector(".bottom-span");
-bottom.textContent = "enhanced by";
-bottom.appendChild(createElement("strong", ["regular-caps"], { textContent: " Schoology Plus" }));
+let bottom = document.querySelector("span.Footer-copyright-2Vt6I");
+bottom.appendChild(createElement("span", ["footer-divider"], { textContent: "|" }, [
+    createElement("span", ["footer-text-enhanced-by"], { textContent: "Enhanced by Schoology Plus" }),
+]));
 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
@@ -194,7 +195,7 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
         ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
         { href: "#", onclick: () => openModal("settings-modal") },
         [
-            createElement("img",["Header-two-point-two-ONgMZ", "Header-two-point-two-ONgMZ", "_1I3mg"],{src: chrome.runtime.getURL("imgs/new-plus-icon.svg")})
+            createElement("img", ["Header-two-point-two-ONgMZ", "Header-two-point-two-ONgMZ", "_1I3mg"], { src: chrome.runtime.getURL("imgs/new-plus-icon.svg") })
         ]
     )
 ]));

@@ -85,7 +85,7 @@ function createToastButton(text, id, onClick, transition = "fadeOutRight") {
  * @param {Broadcast[]} broadcasts Broadcasts to save
  * @param {()=>void} callback Function called after broadcasts are saved
  */
-function createBroadcasts(broadcasts, callback = undefined) {
+function saveBroadcasts(broadcasts, callback = undefined) {
     chrome.storage.sync.get(["unreadBroadcasts"], values => {
         let b = values.unreadBroadcasts || [];
         b.push(...broadcasts);
@@ -102,7 +102,17 @@ function createBroadcasts(broadcasts, callback = undefined) {
  * @returns {Broadcast}
  */
 function createBroadcast(id, title, message, timestamp = Date.now()) {
-    return { id, title, message, timestamp };
+    return { id, title, message, timestamp: +timestamp };
+}
+
+/**
+ * Deletes broadcasts with the given IDs if they exist
+ * @param  {...number} ids Broadcasts to delete
+ */
+function deleteBroadcasts(...ids) {
+    chrome.storage.sync.get(["unreadBroadcasts"], v => {
+        chrome.storage.sync.set({ unreadBroadcasts: v.unreadBroadcasts.filter(x => !ids.includes(x.id)) });
+    });
 }
 
 /*
@@ -111,19 +121,7 @@ function createBroadcast(id, title, message, timestamp = Date.now()) {
 */
 let migrationsTo = {
     "4.2": function (currentVersion, previousVersion) {
-        showToast("Take the Schoology Plus Fall 2018 Survey!", "Complete for a chance to win an Amazon gift card!", "yellow", {
-            buttons: [
-                createToastButton("Take the Survey!", "take-survey-button", (i, t, c) => window.open("https://goo.gl/forms/EVi8cTaakVhLekiN2", "_blank"))
-            ]
-        });
-
-        chrome.storage.sync.get(["unreadBroadcasts", "broadcasts", "themes"], (values) => {
-            let broadcasts = values.unreadBroadcasts || [];
-            broadcasts.push(createBroadcast(
-                420,
-                '',
-                '<span style="font-size: 16px; font-weight: bold">Take the Schoology Plus Fall 2018 Survey!</span><br/><br/><span style="font-size: 14px">Let us know your thoughts about Schoology Plus and complete the survey for a chance to win <strong style="background-color: yellow">one of two $5 Amazon gift cards!</strong><br/><br/><strong style="background-color: yellow"><a href="https://goo.gl/forms/EVi8cTaakVhLekiN2" target="_blank">Click Here to Take The Survey!</a></strong></span><br/><br/>',
-            ));
+        chrome.storage.sync.get(["broadcasts", "themes"], (values) => {
 
             let oldFormatThemesExist = false;
             for (let t of values.themes || []) {
@@ -142,40 +140,42 @@ let migrationsTo = {
 
             chrome.storage.sync.remove(["lastBroadcastId", "hideUpdateIndicator"]);
             chrome.storage.sync.set({
-                unreadBroadcasts: broadcasts,
                 broadcasts: values.broadcasts === "feed" ? "enabled" : values.broadcasts,
                 themes: values.themes
             });
         });
     },
-    "4.4": function (currentVersion, previousVersion) {
-        showToast(
-            "Important Message!",
-            "Schoology Plus will temporarily stop working beginning December 15",
-            "red",
-            {
-                layout: 2,
-                buttons: [
-                    createToastButton(
-                        "Click Here for More Info",
-                        "more-info-notice-button",
-                        (i, t, c) => window.open("https://aopell.me/SchoologyPlus/new-interface-notice", "_blank")
-                    )
-                ]
-            }
-        );
-        createBroadcasts([
+    "5.0": function (currentVersion, previousVersion) {
+        saveBroadcasts([
             createBroadcast(
-                440,
-                "Last Chance!",
-                'The Schoology Plus Fall 2018 survey <strong>will close on December 20</strong>. This is the last chance for you to complete the survey for your chance to win <strong>one of two $5 Amazon gift cards!</strong> Winners will be announced after January 1.<br><br><a style="font-size: 14px; font-weight: bold" href="https://goo.gl/forms/EVi8cTaakVhLekiN2" target="_blank">Click Here to Take The Survey!</a>'
-            ),
-            createBroadcast(
-                432,
-                '',
-                '<div style="border: 3px solid red; background-color: black; color: white;"><span style="font-size: 16px; font-weight: bold">Important Message!</span><br/><br/><span style="font-size: 14px">LAUSD is updating the Schoology interface on December 15, which will cause Schoology Plus to function incorrectly until the next version.</span><br/><br/><a href="https://aopell.me/SchoologyPlus/new-interface-notice" style="font-size: 16px; color: white; text-decoration: underline;">Click Here For More Info</a></div>'
+                500,
+                "Schoology Plus Fall 2018 Survey Closed",
+                "Thank you to all that participated in the survey. Winners of the Amazon gift card drawing will be contacted before New Year's. We look forward to using your ideas to make Schoology Plus even better. Thanks for your support!",
+                new Date(2018, 11 /* don't you just love JavaScript */, 20)
             )
-        ]);
+        ], () => {
+            deleteBroadcasts(432, 440);
+        });
+
+        chrome.storage.sync.get(["hue", "theme", "themes"], values => {
+            if (values.hue) {
+                if (!values.theme || values.theme == "Custom Color" || values.theme == "Schoology Plus") {
+                    Logger.log(`Converting theme ${values.theme} with custom hue ${values.hue} to new theme`)
+                    let newTheme = {
+                        name: "Custom Color",
+                        hue: values.hue
+                    }
+                    values.themes.push(newTheme);
+                    chrome.storage.sync.set({
+                        theme: "Custom Color",
+                        themes: values.themes
+                    });
+                    Logger.log("Theme 'Custom Color' created and set as selected theme");
+                }
+                Logger.log("Deleting deprecated 'hue' setting");
+                chrome.storage.sync.remove(["hue"]);
+            }
+        });
     }
 };
 

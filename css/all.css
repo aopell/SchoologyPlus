@@ -1,21 +1,67 @@
 :root {
     --color-hue: 210;
     --primary-color: hsl(var(--color-hue), 50%, 50%);
-    --background-color: hsl(var(--color-hue), 60%, 55%);
+    --background-color: hsl(var(--color-hue), 60%, 30%);
     --hover-color: hsl(var(--color-hue), 55%, 40%);
-    --border-color: hsl(var(--color-hue), 90%, 50%);
+    --border-color: hsl(var(--color-hue), 60%, 25%);
     --cursor: auto;
     --background-url: none;
     cursor: var(--cursor);
 }
 
-/* The "Resources" link on the navbar */
-._24avl._3Rh90 a._1SIMq._2kpZl._3OAXJ._13cCs._3_bfp._2M5aC._24avl._3v0y7._2s0LQ._3ghFm._3LeCL._31GLY._9GDcm._1D8fw.util-height-six-3PHnk.util-line-height-six-3lFgd.util-text-decoration-none-1n0lI.Header-header-button-active-state-3AvBm.Header-header-button-1EE8Y.sExtlink-processed {
-    padding-top: 1px !important;    
+/* Navbar items */
+
+._1SIMq {
+    background-color: var(--primary-color) !important;
 }
 
-/* _2JX1Q is the logo <a> element */
-.use-custom-url ._2JX1Q {
+._2kpZl:focus:not(:active),
+._2T2dA,
+._2W23R:active,
+._3OAXJ:hover:not(:active) {
+    background-color: var(--hover-color) !important;
+}
+
+/* Borders at the top of drop down cards (Courses and Groups) */
+
+._2P7CY:focus,
+._3HOk8:hover,
+._37jp-:active,
+._37jp-:active:focus,
+.les2- {
+    border-color: var(--border-color) !important;
+}
+
+/* Drop down menus (grades and user menu) */
+
+.Header-header-drop-menu-3SaYV {
+    background-color: var(--hover-color) !important;
+}
+
+a.Header-header-drop-menu-3SaYV:hover {
+    background-color: var(--background-color) !important;
+}
+
+.Header-header-drop-menu-item-3d3IZ {
+    color: white !important;
+}
+
+footer .Footer-vertical-divider-3-9qQ a,
+footer button {
+    background-color: transparent !important;
+}
+
+footer._2T2dA {
+    background-color: rgb(51, 51, 51) !important;
+}
+
+/* Logo */
+
+[data-sgy-sitenav=header-logo]:hover {
+    background-color: var(--primary-color) !important;
+}
+
+.use-custom-url #header>header nav>ul>li>a._2JX1Q {
     background: var(--background-url) no-repeat !important;
     background-image: var(--background-url) !important;
     background-size: 160px !important;
@@ -23,6 +69,7 @@
 }
 
 /* links inside the container for the added "Archived Courses" link within the Courses dropdown */
+
 .courses-mycourses-droppeddown-link-container .floating-contained-link {
     float: right;
     clear: right;
@@ -286,15 +333,32 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
     height: 150px;
 }
 
-.splus-modal-contents input[type=button] {
-    background-color: var(--primary-color);
-    border: 2px solid var(--border-color);
-    height: 30px;
-    vertical-align: middle;
+*:not(.submit-span-wrapper)>input[type=button],
+*:not(.submit-span-wrapper)>input[type=submit] {
+    height: 29px !important;
+    vertical-align: middle !important;
+    border: 2px solid var(--border-color) !important;
+    background-color: var(--primary-color) !important;
 }
 
-.splus-modal-contents input[type=button]:hover {
-    background-color: var(--hover-color);
+*:not(.submit-span-wrapper)>input[type=button]:hover,
+*:not(.submit-span-wrapper)>input[type=submit]:hover {
+    background-color: var(--hover-color) !important;
+}
+
+.submit-span-wrapper input[type=button],
+.submit-span-wrapperinput[type=submit] {
+    height: 25px !important;
+    vertical-align: middle !important;
+}
+
+.submit-span-wrapper {
+    border: 2px solid var(--border-color) !important;
+    background-color: var(--primary-color) !important;
+}
+
+.submit-span-wrapper:hover {
+    background-color: var(--hover-color) !important;
 }
 
 .splus-indent-1 {
@@ -318,24 +382,15 @@ h1.setting-title {
     margin-top: 7px !important;
 }
 
-.bottom-span {
-    display: block !important;
-    color: grey;
-    font-family: "Century Gothic", sans-serif;
-    text-align: center;
-    padding-bottom: 20px;
-    font-size: 14px;
-    font-variant: small-caps;
-}
-
-.regular-caps {
-    font-variant: normal;
+.footer-divider, .footer-divider > span {
+    margin-left: 15px;
 }
 
 /*
 newfangled trim and UI w/ obfuscated class names
 the selector matches inside notifications in the new notifs dropdown
 */
+
 ._1wP6w._3ghFm.WfriF .grade-data {
     color: #0a9c78;
 }
@@ -351,9 +406,38 @@ the selector matches inside notifications in the new notifs dropdown
     display: block;
 }
 
-.popups-body li .user-item .grade-data::before {
-    font-size: 11px;
-    font-weight: bold;
-    color: #82848a;
-    content: "Grade: ";
+@keyframes rainbow {
+    0% {
+        background-color: hsl(0, 50%, 50%);
+    }
+    10% {
+        background-color: hsl(36, 50%, 50%);
+    }
+    20% {
+        background-color: hsl(72, 50%, 50%);
+    }
+    30% {
+        background-color: hsl(108, 50%, 50%);
+    }
+    40% {
+        background-color: hsl(144, 50%, 50%);
+    }
+    50% {
+        background-color: hsl(180, 50%, 50%);
+    }
+    60% {
+        background-color: hsl(216, 50%, 50%);
+    }
+    70% {
+        background-color: hsl(252, 50%, 50%);
+    }
+    80% {
+        background-color: hsl(288, 50%, 50%);
+    }
+    90% {
+        background-color: hsl(324, 50%, 50%);
+    }
+    100% {
+        background-color: hsl(359, 50%, 50%);
+    }
 }

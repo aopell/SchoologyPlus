@@ -179,41 +179,39 @@ var fetchQueue = [];
 
                         // add UI for grade virtual editing
                         let gradeWrapper = assignment.querySelector(".grade-wrapper");
-                        // FIXME correct behavior for editing dropped assignments
-                        // excused assignments cannot be edited and do not count toward grade
-                        if (!assignment.querySelector(".excused")) {
-                            let checkbox = document.getElementById("enable-modify");
-                            let editGradeImg = createElement("img", ["grade-edit-indicator"], {
-                                src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
-                                width: 12,
-                                style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
-                            });
-                            let gradeAddEditHandler = null;
-                            if (assignment.classList.contains("grade-add-indicator")) {
-                                // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
-                                // the reversal takes the form of a page refresh once grades have been changed
-                                let hasHandledGradeEdit = false;
-                                gradeAddEditHandler = async function () {
-                                    if (hasHandledGradeEdit) {
-                                        return;
-                                    }
 
-                                    assignment.classList.remove("grade-add-indicator");
-                                    assignment.classList.remove("last-row-of-tier");
+                        let checkbox = document.getElementById("enable-modify");
+                        let editGradeImg = createElement("img", ["grade-edit-indicator"], {
+                            src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
+                            width: 12,
+                            style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
+                        });
+                        let gradeAddEditHandler = null;
+                        if (assignment.classList.contains("grade-add-indicator")) {
+                            // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
+                            // the reversal takes the form of a page refresh once grades have been changed
+                            let hasHandledGradeEdit = false;
+                            gradeAddEditHandler = async function () {
+                                if (hasHandledGradeEdit) {
+                                    return;
+                                }
 
-                                    assignment.classList.add("added-fake-assignment");
+                                assignment.classList.remove("grade-add-indicator");
+                                assignment.classList.remove("last-row-of-tier");
 
-                                    assignment.getElementsByClassName("title")[0].firstElementChild.textContent = "Added Assignment";
+                                assignment.classList.add("added-fake-assignment");
 
-                                    let newAddAssignmentPlaceholder = await createAddAssignmentUi();
-                                    newAddAssignmentPlaceholder.style.display = "table-row";
+                                assignment.getElementsByClassName("title")[0].firstElementChild.textContent = "Added Assignment";
 
-                                    hasHandledGradeEdit = true;
-                                };
-                            }
-                            editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
-                            gradeWrapper.appendChild(editGradeImg);
+                                let newAddAssignmentPlaceholder = await createAddAssignmentUi();
+                                newAddAssignmentPlaceholder.style.display = "table-row";
+
+                                hasHandledGradeEdit = true;
+                            };
                         }
+                        editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
+                        gradeWrapper.appendChild(editGradeImg);
+
                         if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
                             await createAddAssignmentUi();
                         }
@@ -315,9 +313,9 @@ var fetchQueue = [];
             type: "checkbox",
             id: "enable-modify",
             onclick: function () {
-                let normalAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.added-fake-assignment):not(.contains-exception)";
-                let addedAssignRClickSelector = ".item-row.added-fake-assignment:not(.dropped):not(.grade-add-indicator):not(.contains-exception)";
-                let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator):not(.contains-exception)";
+                let normalAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.added-fake-assignment)";
+                let addedAssignRClickSelector = ".item-row.added-fake-assignment:not(.dropped):not(.grade-add-indicator)";
+                let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator)";
 
                 if (editDisableReason) {
                     alert("An error occurred loading assignments. Editing has been disabled.\nReason: " + editDisableReason);
@@ -336,6 +334,9 @@ var fetchQueue = [];
 
                     let calculateMinimumGrade = function (element, desiredGrade) {
                         let gradeColContentWrap = element.querySelector(".grade-wrapper").parentElement;
+
+                        removeExceptionState(element, gradeColContentWrap);
+
                         // TODO refactor the grade extraction
                         let noGrade = gradeColContentWrap.querySelector(".no-grade");
                         let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value") || gradeColContentWrap.querySelector(".no-grade");
@@ -392,6 +393,14 @@ var fetchQueue = [];
                             deltaScore = (desiredGrade * perMax) - perScore;
                         } else {
                             // weighted
+
+                            // get this out of the way so it doesn't ruin later calculations
+                            if (noGrade) {
+                                recalculateCategoryScore(catRow, 0, maxVal);
+                                recalculatePeriodScore(perRow, 0, maxVal);
+                                noGrade = false;
+                            }
+
                             // get category score and category weight
                             let awardedCategoryPoints = catRow.querySelector(".rounded-grade").parentNode;
                             let catScoreElem = awardedCategoryPoints.querySelector(".rounded-grade");
@@ -615,6 +624,7 @@ var fetchQueue = [];
                                     this[0].classList.remove("dropped");
                                     // alter grade
                                     let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
+                                    removeExceptionState(this[0], gradeColContentWrap);
                                     // TODO refactor the grade extraction
                                     let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
                                     let maxGrade = gradeColContentWrap.querySelector(".max-grade");
@@ -920,8 +930,106 @@ var fetchQueue = [];
         }
     }
 
+    function parseAssignmentNumerator(numString, denomFloat, courseId) {
+        if (Number.isNaN(denomFloat)) {
+            return Number.NaN;
+        }
+
+        let numFloat;
+        let percentMatch = /^(-?[0-9]+(\.[0-9]+)?)%$/.exec(numString);
+
+        if (Number.isFinite(denomFloat) && percentMatch && percentMatch[1]) {
+            numFloat = denomFloat * Number.parseFloat(percentMatch[1]) / 100;
+
+            if (!Number.isNaN(numFloat)) {
+                return numFloat;
+            }
+        }
+
+        numFloat = Number.parseFloat(numString);
+
+        if (!Number.isNaN(numFloat)) {
+            return numFloat;
+        }
+
+
+        if (Number.isFinite(denomFloat) && courseId) {
+            let gradingScale = Setting.getValue("getGradingScale")(courseId);
+            for (let gradeScalePercent in gradingScale) {
+                let letterSymbol = gradingScale[gradeScalePercent];
+                if (numString == letterSymbol) {
+                    numFloat = (gradeScalePercent / 100) * denomFloat;
+                    break;
+                }
+            }
+        }
+
+        return Number.isFinite(numFloat) ? numFloat : Number.NaN;
+    }
+
+    function removeExceptionState(assignment, gradeColContentWrap, exceptionIcon, score, maxGrade) {
+        if (!gradeColContentWrap) {
+            gradeColContentWrap = assignment.querySelector(".grade-column .td-content-wrapper");
+        }
+
+        let gradeWrapper = gradeColContentWrap.querySelector(".grade-wrapper");
+
+        if (!exceptionIcon) {
+            exceptionIcon = gradeColContentWrap.querySelector(".exception-icon");
+            if (!exceptionIcon) {
+                return {};
+            }
+        }
+
+        if (!score) {
+            score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
+        }
+
+        if (!maxGrade) {
+            maxGrade = gradeColContentWrap.querySelector(".max-grade");
+        }
+
+        let retVars = {};
+
+        // the only exception which counts against the user is "missing"
+        let missing = exceptionIcon.classList.contains("missing");
+        let scoreElem = createElement("span", [missing ? "rounded-grade" : "no-grade"], { textContent: missing ? "0" : "—" });
+        retVars.editElem = scoreElem;
+        retVars.initPts = 0;
+        if (missing) {
+            retVars.score = scoreElem;
+            scoreElem = createElement("span", ["awarded-grade"], {}, [retVars.score, maxGrade]);
+            retVars.initMax = Number.parseFloat(maxGrade.textContent.substring(3));
+        } else {
+            retVars.initMax = 0;
+            retVars.noGrade = scoreElem;
+        }
+        // reorganize
+        let elemToRemove = exceptionIcon.parentElement.parentElement;
+        let nodesToMoveHolder = exceptionIcon.parentElement;
+
+        exceptionIcon.insertAdjacentElement('afterend', scoreElem);
+        exceptionIcon.remove();
+
+        let nodesToMove = Array.from(nodesToMoveHolder.childNodes);
+        let nodesAfterMove = nodesToMove.splice(nodesToMove.findIndex(x => x.tagName == "BR"));
+        nodesToMove.reverse();
+        nodesAfterMove.reverse();
+        for (let i = 0; i < nodesToMove.length; i++) {
+            gradeColContentWrap.insertAdjacentElement('afterbegin', nodesToMove[i]);
+        }
+        for (let i = 0; i < nodesAfterMove.length; i++) {
+            gradeWrapper.insertAdjacentElement('afterend', nodesAfterMove[i]);
+        }
+        elemToRemove.remove();
+
+        assignment.classList.remove("contains-exception");
+    }
+
     function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
+            removeExceptionState(assignment, gradeColContentWrap);
+
             let noGrade = gradeColContentWrap.querySelector(".no-grade");
             let score = gradeColContentWrap.querySelector(".rounded-grade") || gradeColContentWrap.querySelector(".rubric-grade-value");
             // note that this will always return (for our injected percentage element)
@@ -951,6 +1059,10 @@ var fetchQueue = [];
             editElem.classList.add("student-editable");
             editElem.contentEditable = true;
 
+            // TODO refactor
+            // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
+            let courseId = Number.parseInt(/course-(\d+)$/.exec(perRow.parentElement.parentElement.parentElement.parentElement.id)[1]);
+
             // TODO blur v focusout
             let submitFunc = function () {
                 if (!editElem.classList.contains("student-editable")) {
@@ -963,24 +1075,24 @@ var fetchQueue = [];
                 if (noGrade) {
                     // regex capture and check
                     if (maxGrade) {
-                        userScore = Number.parseFloat(noGrade.textContent);
                         // noGrade+maxGrade = inserted maxGrade from an API call
                         // initDenom = 0; newDenom = whatever is in that textfield
                         userMax = Number.parseFloat(maxGrade.textContent.substring(3));
+                        userScore = parseAssignmentNumerator(noGrade.textContent, userMax, courseId);
                     } else {
                         let regexResult = /^(-?\d+(\.\d+)?)\s*\/\s*(-?\d+(\.\d+)?)$/.exec(editElem.textContent);
                         if (!regexResult) {
                             return false;
                         }
-                        userScore = Number.parseFloat(regexResult[1]);
                         userMax = Number.parseFloat(regexResult[3]);
+                        userScore = parseAssignmentNumerator(regexResult[1], userMax, courseId);
                     }
                     if (Number.isNaN(userScore) || Number.isNaN(userMax)) {
                         return false;
                     }
                 } else if (score) {
                     // user entered number must be a numeric
-                    userScore = Number.parseFloat(score.textContent);
+                    userScore = parseAssignmentNumerator(score.textContent, initMax, courseId);
                     userMax = initMax;
                     if (Number.isNaN(userScore)) {
                         return false;

@@ -4,9 +4,7 @@ let courseSettingsCourseName;
     let sidebar = document.querySelector(".course-info-wrapper dl");
     if (sidebar) {
         let button = createButton("splus-course-options", "Course Options");
-        let img = createElement("img", [], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 19 });
-        img.style.marginLeft = "8px";
-        img.style.marginTop = "4px";
+        let img = createElement("img", [], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 19, style: { verticalAlign: "middle", paddingLeft: "4px" } });
         button.prepend(img);
         button.querySelector("input").style.paddingLeft = "4px";
         button.style.cursor = "pointer";

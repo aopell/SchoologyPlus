@@ -167,7 +167,13 @@ function createElement(tag, classList, properties, children) {
     }
     if (properties) {
         for (let property in properties) {
-            element[property] = properties[property];
+            if (properties[property] instanceof Object && !(properties[property] instanceof Function)) {
+                for (let subproperty in properties[property]) {
+                    element[property][subproperty] = properties[property][subproperty];
+                }
+            } else {
+                element[property] = properties[property];
+            }
         }
     }
     if (children) {
@@ -375,8 +381,8 @@ function updateSettings(callback) {
         // wrapper functions for e.g. defaults
         __storage.getGradingScale = function (courseId) {
             let defaultGradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
-            if (this.gradingScales && this.gradingScales[courseId]) {
-                return this.gradingScales[courseId];
+            if (__storage.gradingScales && __storage.gradingScales[courseId]) {
+                return __storage.gradingScales[courseId];
             }
 
             return defaultGradingScale;

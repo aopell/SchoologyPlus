@@ -44,7 +44,7 @@ class Theme {
                 if (obj.colors) {
                     Theme.setBackgroundColor(obj.colors[0], obj.colors[1], obj.colors[2], obj.colors[3]);
                 }
-                Theme.setLAUSDLogoVisibility(obj.logo == "lausd");
+                Theme.setLAUSDLogoVisibility(obj.logo == "lausd_new");
                 Theme.setCursorUrl(obj.cursor);
                 obj.logo = obj.logo || "schoology";
                 switch (obj.logo) {
@@ -52,6 +52,9 @@ class Theme {
                         Theme.setLogoUrl();
                         break;
                     case "lausd":
+                        Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
+                        break;
+                    case "lausd_new":
                         break;
                     default:
                         Theme.setLogoUrl(obj.logo);
@@ -90,9 +93,9 @@ class Theme {
         if (hue) {
             document.documentElement.style.setProperty("--color-hue", hue);
             document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
-            document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 55%)");
+            document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
             document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
-            document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 90%, 50%)");
+            document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
         }
     }
 
@@ -268,12 +271,10 @@ Theme.profilePictureOverrides = [];
 let tempTheme = undefined;
 
 let themes = [
-    new Theme(
-        "Schoology Plus",
-        function () {
-            Theme.setBackgroundHue(Setting.getValue("color") || 210);
-        }
-    ),
+    Theme.loadFromObject({
+        name: "Schoology Plus",
+        hue: 210
+    }),
     new Theme(
         "Rainbow",
         function () {
@@ -283,20 +284,25 @@ let themes = [
             Theme.setBackgroundHue((new Date().valueOf() / 100) % 360);
         }
     ),
-    new Theme(
-        "Toy",
-        function () {
-            Theme.setBackgroundHue(150);
-            Theme.setCursorUrl(chrome.runtime.getURL("imgs/toy-mode.png"));
-        }
-    ),
-    new Theme(
-        "LAUSD Orange",
-        function () {
-            Theme.setBackgroundColor("#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00");
-            Theme.setLAUSDLogoVisibility(true);
-        }
-    )
+    Theme.loadFromObject({
+        name: "Toy",
+        hue: 150,
+        cursor: chrome.runtime.getURL("imgs/toy-mode.png")
+    }),
+    Theme.loadFromObject({
+        name: "LAUSD Dark Blue",
+        colors: ["#143f69", "#345f89", "#345f89", "#024f7d"],
+        logo: "lausd_new"
+    }),
+    Theme.loadFromObject({
+        name: "LAUSD Orange",
+        colors: ["#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00"],
+        logo: "lausd"
+    }),
+    Theme.loadFromObject({
+        name: "Schoology Default",
+        colors: ["#0677ba", "#002c47", "#024f7d", "#024f7d"]
+    })
 ];
 
 setInterval(() => {
