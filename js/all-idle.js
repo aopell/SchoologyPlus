@@ -112,6 +112,12 @@ let siteNavigationTileHelpers = {
             }
         }
 
+        let tileWidthCap;
+
+        if (contentTiles.length > 0) {
+            tileWidthCap = window.getComputedStyle(contentTiles[0]).width;
+        }
+
         // nicknames in courses dropdown
         // these need to be handled specially because it's not displayed as one contiguous block anymore
         for (let contentTile of contentTiles) {
@@ -156,6 +162,9 @@ let siteNavigationTileHelpers = {
                 createElement("div", ["_2wOCj", "xjR5v", "_2qcpH", "_17Z60", "_1Aph-", "gs0RB", "splus-coursealiasing-exempt"], { textContent: origCourseTitle.textContent + ": " + origSectionTitle.textContent }), // original full title, stylized like school name
                 createElement("div", ["_2wOCj", "xjR5v", "_2qcpH", "_17Z60", "_1Aph-", "gs0RB"], { textContent: origSchoolTitle.textContent }) // school title, original styling and text
             ]);
+            if (tileWidthCap) {
+                newCardDataChild.style.maxWidth = tileWidthCap;
+            }
             cardData.appendChild(newCardDataChild);
         }
 
