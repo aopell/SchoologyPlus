@@ -2,6 +2,7 @@ const schoologyLogoImageUrl = "https://ui.schoology.com/design-system/assets/sch
 const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
 const lausdNewImageUrl = "https://lms.lausd.net/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/Asset%202_5c15191c5dd7e.png";
 const defaultThemes = ["Schoology Plus", "LAUSD Orange", "Toy", "Rainbow", "LAUSD Dark Blue", "Schoology Default"];
+const CURRENT_VERSION = 2;
 
 var allThemes;
 var themeName = document.getElementById("theme-name");
@@ -95,10 +96,16 @@ var mTabs = M.Tabs.init(document.querySelector(".tabs"));
 
 function generateErrors(j) {
     let w = [];
-    if (!j.name) w.push("Theme must have a name")
-    if (j.hue && Number.isNaN(Number.parseFloat(j.hue))) w.push("Value of 'hue' must be a number");
-    if (j.colors && j.colors.length != 4) w.push("There must be four colors in 'colors'");
-    if (j.colors && j.colors.map(x => !!validateColor(x)).includes(false)) w.push("One or more values of 'colors' is not a valid color");
+    switch (j.version) {
+        case 2:
+            break;
+        default:
+            if (!j.name) w.push("Theme must have a name")
+            if (j.hue && Number.isNaN(Number.parseFloat(j.hue))) w.push("Value of 'hue' must be a number");
+            if (j.colors && j.colors.length != 4) w.push("There must be four colors in 'colors'");
+            if (j.colors && j.colors.map(x => !!validateColor(x)).includes(false)) w.push("One or more values of 'colors' is not a valid color");
+            break;
+    }
     return w;
 }
 
@@ -107,6 +114,63 @@ function importThemeFromOutput() {
     warnings = [];
     j = parseJSONObject(output.value);
     importFromObject(j);
+}
+
+function migrateTheme(t) {
+    switch (t.version) {
+        case 2:
+            break;
+        default:
+            t.version = 2;
+            if (t.colors) {
+                t.color = {
+                    custom: {
+                        primaryColor: t.colors[0],
+                        backgroundColor: t.colors[1],
+                        hoverColor: t.colors[2],
+                        borderColor: t.colors[3]
+                    }
+                };
+                delete t.colors;
+                delete t.hue;
+            } else if (t.hue) {
+                t.color = {
+                    hue: t.hue
+                };
+                delete t.hue;
+            }
+            if (t.logo) {
+                switch (t.logo) {
+                    case "schoology":
+                        t.logo = { preset: "schoology_logo" };
+                        break;
+                    case "lausd":
+                        t.logo = { preset: "lausd_legacy" };
+                        break;
+                    case "lausd_new":
+                        t.logo = { preset: "lausd_2019" };
+                        break;
+                    default:
+                        t.logo = { url: t.logo };
+                        break;
+                }
+            }
+            if (t.cursor) {
+                t.cursor = { primary: t.cursor };
+            }
+            if (t.icons) {
+                let newIconsArray = [];
+                for (let icon of t.icons) {
+                    newIconsArray.push({
+                        regex: icon[0],
+                        url: icon[1]
+                    });
+                }
+                t.icons = newIconsArray;
+            }
+            break;
+    }
+    return t.version == CURRENT_VERSION ? t : migrateTheme(t);
 }
 
 /**
@@ -121,10 +185,12 @@ function importFromObject(j) {
     }
 
     errors = generateErrors(j);
-    if (warnings.length > 0) {
+    if (errors.length > 0) {
         updatePreview(false);
         return;
     }
+
+    j = migrateTheme(j);
 
     themeName.value = j.name;
 

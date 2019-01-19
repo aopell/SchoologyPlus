@@ -10,18 +10,50 @@ A Schoology Plus theme has the following format and components (each component w
 ```json
 {
     "name": "My Theme",
-    "hue": 359,
-    "colors": [
-        "red", 
-        "rgb(0,0,255)", 
-        "hsl(150,50%,50%)",
-        "#000000"
-    ],
-    "logo": "schoology",
-    "cursor": null,
+    "version": 2,
+    "color": {
+        // Only one of the following properties
+        "hue": 359,
+        "custom": {
+            "primaryColor": "red",
+            "backgroundColor": "hsl(150,50%,50%)",
+            "hoverColor": "rgb(0,0,255)",
+            "borderColor": "#000000"
+        },
+        "rainbow": {
+            "hue": {
+                "animate": {
+                    "speed": 100,
+                    "offset": 0
+                }
+            },
+            "saturation": {
+                "value": "50%"
+            },
+            "lightness": {
+                "value": "50%"
+            }
+        }
+    },
+    "logo": {
+        // Only one of the following properties
+        "url": "https://example.com/my-logo-image.png",
+        "preset": "schoology_logo",
+        "preset": "lausd_legacy",
+        "preset": "lausd_2019"
+    },
+    "cursor": {
+        "primary": "https://example.com/my-cursor-image.png"
+    },
     "icons": [
-        ["BIO(LOGY)? ", "https://example.com/my-biology-image.png"],
-        ["MATH|ALGEBRA", "https://example.com/my-math-image.png"]
+        {
+            "regex": "BIO(LOGY)? ",
+            "url": "https://example.com/my-biology-image.png"
+        },
+        {
+            "regex": "MATH|ALGEBRA",
+            "url": "https://example.com/my-math-image.png"
+        }
     ]
 }
 ```
