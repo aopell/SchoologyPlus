@@ -111,7 +111,93 @@
                             <span>Rainbow</span>
                         </label>
                         <div id="theme-color-rainbow-wrapper" style="padding-left: 25px; padding-right: 25px;">
-                            <h6>Hue</h6>
+                            <div>
+                                <h6>Hue</h6>
+                                <div>
+                                    <label>
+                                        <input id="color-rainbow-hue-animate" class="filled-in" type="checkbox" />
+                                        <span>Animate</span>
+                                    </label>
+                                    <div id="color-rainbow-hue-animate-wrapper">
+                                        <label for="color-rainbow-hue-speed">
+                                            Animation Speed
+                                            <span id="color-rainbow-hue-speed-display" class="right">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-hue-speed" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-hue-speed-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="color-rainbow-hue-value">
+                                            Hue Value
+                                            <span class="right" id="color-rainbow-hue-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-hue-value" min="0" max="359" type="range"
+                                                    data-label="color-rainbow-hue-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h6>Saturation</h6>
+                                <div>
+                                    <label>
+                                        <input id="color-rainbow-saturation-animate" class="filled-in" type="checkbox" />
+                                        <span>Animate</span>
+                                    </label>
+                                    <div id="color-rainbow-saturation-animate-wrapper">
+                                        <label for="color-rainbow-saturation-speed">
+                                            Animation Speed
+                                            <span class="right" id="color-rainbow-saturation-speed-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-saturation-speed" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-saturation-speed-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="color-rainbow-saturation-value">
+                                            Saturation Value
+                                            <span class="right" id="color-rainbow-saturation-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-saturation-value" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-saturation-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h6>Lightness</h6>
+                                <div>
+                                    <label>
+                                        <input id="color-rainbow-lightness-animate" class="filled-in" type="checkbox" />
+                                        <span>Animate</span>
+                                    </label>
+                                    <div id="color-rainbow-lightness-animate-wrapper">
+                                        <label for="color-rainbow-lightness-speed">
+                                            Animation Speed
+                                            <span class="right" id="color-rainbow-lightness-speed-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-lightness-speed" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-lightness-speed-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="color-rainbow-lightness-value">
+                                            Lightness Value
+                                            <span class="right" id="color-rainbow-lightness-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-lightness-value" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-lightness-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </p>
                 </div>
@@ -157,7 +243,7 @@
             <div class="col s12 l8 xl7 push-xl1">
                 <div id="preview-section" class="section">
                     <h5>
-                        <a id="lock-button" data-tooltip="Toggle preview follow scroll" class="waves-effect waves-light btn hide-on-med-and-down tooltipped">
+                        <a id="lock-button" data-tooltip="Toggle preview lock" class="waves-effect waves-light btn hide-on-med-and-down tooltipped">
                             <i id="lock-icon" class="material-icons left">vertical_align_center</i>
                         </a>
                         Preview

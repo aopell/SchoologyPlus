@@ -19,7 +19,21 @@ var themeLogo = document.getElementById("theme-logo");
 var themeCursor = document.getElementById("theme-cursor");
 var themeColorHue = document.getElementById("theme-color-hue");
 var themeColorCustom = document.getElementById("theme-color-custom");
+var themeColorRainbow = document.getElementById("theme-color-rainbow");
 var themeColorCustomWrapper = document.getElementById("theme-color-custom-wrapper");
+var themeColorRainbowWrapper = document.getElementById("theme-color-rainbow-wrapper");
+var colorRainbowHueAnimate = document.getElementById("color-rainbow-hue-animate");
+var colorRainbowSaturationAnimate = document.getElementById("color-rainbow-saturation-animate");
+var colorRainbowLightnessAnimate = document.getElementById("color-rainbow-lightness-animate");
+var colorRainbowHueAnimateWrapper = document.getElementById("color-rainbow-hue-animate-wrapper");
+var colorRainbowSaturationAnimateWrapper = document.getElementById("color-rainbow-saturation-animate-wrapper");
+var colorRainbowLightnessAnimateWrapper = document.getElementById("color-rainbow-lightness-animate-wrapper");
+var colorRainbowHueSpeed = document.getElementById("color-rainbow-hue-speed");
+var colorRainbowHueValue = document.getElementById("color-rainbow-hue-value");
+var colorRainbowSaturationSpeed = document.getElementById("color-rainbow-saturation-speed");
+var colorRainbowSaturationValue = document.getElementById("color-rainbow-saturation-value");
+var colorRainbowLightnessSpeed = document.getElementById("color-rainbow-lightness-speed");
+var colorRainbowLightnessValue = document.getElementById("color-rainbow-lightness-value");
 var themeHueWrapper = document.getElementById("theme-hue-wrapper");
 var themeLogoWrapper = document.getElementById("theme-logo-wrapper");
 var previewSection = document.getElementById("preview-section");
@@ -195,46 +209,47 @@ function importFromObject(j) {
     themeName.value = j.name;
 
     themeLogo.value = "";
-    j.logo = j.logo || "schoology";
-    if (j.logo == "schoology") themeSchoologyLogo.click();
-    else if (j.logo == "lausd") themeLAUSDLogo.click();
-    else if (j.logo == "lausd_new") themeNewLAUSDLogo.click();
-    else {
-        themeLogo.value = j.logo;
+    j.logo = j.logo || { preset: "schoology_logo" };
+    if (j.logo.preset) {
+        if (j.logo.preset == "schoology_logo") themeSchoologyLogo.click();
+        else if (j.logo.preset == "lausd_legacy") themeLAUSDLogo.click();
+        else if (j.logo.preset == "lausd_2019") themeNewLAUSDLogo.click();
+    } else {
+        themeLogo.value = j.logo.url;
         themeCustomLogo.click();
     }
 
-    $("#theme-hue").slider("value", j.hue || 210);
+    $("#theme-hue").slider("value", j.color.hue === 0 ? 0 : (j.color.hue || 210));
 
-    if (j.hue) themeColorHue.click();
-
-    if (j.colors) {
-        ["primary-color", "background-color", "secondary-color", "border-color"].map((x, i) => $("#theme-" + x).spectrum("set", j.colors[i]));
+    if (j.color.hue || j.color.hue === 0) {
+        themeColorHue.click();
+    } else if (j.color.custom) {
+        let map = {
+            "#theme-primary-color": "primaryColor",
+            "#theme-background-color": "backgroundColor",
+            "#theme-secondary-color": "hoverColor",
+            "#theme-border-color": "borderColor"
+        };
+        Object.keys(map).map(x => $(x).spectrum("set", j.color.custom[map[x]]));
         themeColorCustom.click();
+    } else if (j.color.rainbow) {
+        themeColorRainbow.click();
     }
-
-    if (!j.hue && !j.colors) themeColorHue.click();
 
     iconList.innerHTML = "";
     if (j.icons) {
-        if (j.icons instanceof Array) {
-            for (let i of j.icons) {
-                let row = addIcon();
-                row.querySelector(".class-name").textContent = i[0];
-                row.querySelector(".icon-url").textContent = i[1];
-                row.querySelector(".small-icon-preview").src = i[1];
-            }
-        } else {
-            for (let k in j.icons) {
-                let row = addIcon();
-                row.querySelector(".class-name").textContent = k;
-                row.querySelector(".icon-url").textContent = j.icons[k];
-                row.querySelector(".small-icon-preview").src = j.icons[k];
-            }
+        for (let i of j.icons) {
+            let row = addIcon();
+            row.querySelector(".class-name").textContent = i.regex;
+            row.querySelector(".icon-url").textContent = i.url;
+            row.querySelector(".small-icon-preview").src = i.url;
         }
     }
 
-    themeCursor.value = j.cursor || "";
+    themeCursor.value = "";
+    if (j.cursor && j.cursor.primary) {
+        themeCursor.value = j.cursor.primary;
+    }
 
     M.updateTextFields();
     updateOutput();
@@ -293,7 +308,8 @@ function updateOutput() {
     warnings = [];
     errors = [];
     theme = {
-        name: themeName.value || undefined
+        name: themeName.value || undefined,
+        version: 2
     };
 
     // Name
@@ -307,9 +323,12 @@ function updateOutput() {
     if (themeColorHue.checked) {
         themeColorCustomWrapper.classList.add("hidden");
         themeHueWrapper.classList.remove("hidden");
-        theme.hue = $("#theme-hue").slider("value");
+        themeColorRainbowWrapper.classList.add("hidden");
+        theme.color = {
+            hue: $("#theme-hue").slider("value")
+        };
 
-        setCSSVariable("color-hue", theme.hue == 0 ? 0 : (theme.hue || 210));
+        setCSSVariable("color-hue", theme.color.hue == 0 ? 0 : (theme.color.hue || 210));
         setCSSVariable("primary-color", "hsl(var(--color-hue), 50%, 50%)");
         setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
         setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
@@ -317,45 +336,115 @@ function updateOutput() {
     } else if (themeColorCustom.checked) {
         themeColorCustomWrapper.classList.remove("hidden");
         themeHueWrapper.classList.add("hidden");
-        theme.colors = [
-            $("#theme-primary-color").spectrum("get").toHexString(),
-            $("#theme-secondary-color").spectrum("get").toHexString(),
-            $("#theme-background-color").spectrum("get").toHexString(),
-            $("#theme-border-color").spectrum("get").toHexString()
-        ];
-        setCSSVariable("primary-color", theme.colors[0]);
-        setCSSVariable("background-color", theme.colors[1]);
-        setCSSVariable("hover-color", theme.colors[2]);
-        setCSSVariable("border-color", theme.colors[3]);
+        themeColorRainbowWrapper.classList.add("hidden");
+        theme.color = {
+            custom: {
+                primaryColor: $("#theme-primary-color").spectrum("get").toHexString(),
+                secondaryColor: $("#theme-secondary-color").spectrum("get").toHexString(),
+                backgroundColor: $("#theme-background-color").spectrum("get").toHexString(),
+                borderColor: $("#theme-border-color").spectrum("get").toHexString()
+            }
+        };
+        setCSSVariable("primary-color", theme.color.custom.primaryColor);
+        setCSSVariable("background-color", theme.color.custom.secondaryColor);
+        setCSSVariable("hover-color", theme.color.custom.backgroundColor);
+        setCSSVariable("border-color", theme.color.custom.borderColor);
+    } else if (themeColorRainbow.checked) {
+        themeColorCustomWrapper.classList.add("hidden");
+        themeHueWrapper.classList.add("hidden");
+        themeColorRainbowWrapper.classList.remove("hidden");
+
+        theme.color = {
+            rainbow: {
+                hue: {},
+                saturation: {},
+                lightness: {}
+            }
+        };
+
+        if (colorRainbowHueAnimate.checked) {
+            colorRainbowHueAnimateWrapper.classList.remove("hidden");
+            theme.color.rainbow.hue = {
+                animate: {
+                    speed: colorRainbowHueSpeed.value,
+                    offset: colorRainbowHueValue.value
+                }
+            }
+        } else {
+            colorRainbowHueAnimateWrapper.classList.add("hidden");
+            theme.color.rainbow.hue = {
+                value: colorRainbowHueValue.value
+            }
+        }
+
+        if (colorRainbowSaturationAnimate.checked) {
+            colorRainbowSaturationAnimateWrapper.classList.remove("hidden");
+            theme.color.rainbow.saturation = {
+                animate: {
+                    speed: colorRainbowSaturationSpeed.value,
+                    offset: colorRainbowSaturationValue.value
+                }
+            }
+        } else {
+            colorRainbowSaturationAnimateWrapper.classList.add("hidden");
+            theme.color.rainbow.saturation = {
+                value: colorRainbowSaturationValue.value + "%"
+            }
+        }
+
+        if (colorRainbowLightnessAnimate.checked) {
+            colorRainbowLightnessAnimateWrapper.classList.remove("hidden");
+            theme.color.rainbow.lightness = {
+                animate: {
+                    speed: colorRainbowLightnessSpeed.value,
+                    offset: colorRainbowLightnessValue.value
+                }
+            }
+        } else {
+            colorRainbowLightnessAnimateWrapper.classList.add("hidden");
+            theme.color.rainbow.lightness = {
+                value: colorRainbowLightnessValue.value + "%"
+            }
+        }
     }
 
     // Logo
     themeLogoWrapper.classList.add("hidden");
     if (themeSchoologyLogo.checked) {
-        theme.logo = "schoology";
+        theme.logo = {
+            preset: "schoology_logo"
+        };
         setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
     } else if (themeNewLAUSDLogo.checked) {
-        theme.logo = "lausd_new";
+        theme.logo = {
+            preset: "lausd_2019"
+        };
         setCSSVariable("background-url", `url(${lausdNewImageUrl})`);
     } else if (themeLAUSDLogo.checked) {
-        theme.logo = "lausd";
+        theme.logo = {
+            preset: "lausd_legacy"
+        };
         setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
     } else if (themeCustomLogo.checked) {
         themeLogoWrapper.classList.remove("hidden");
         if (themeLogo.value) {
-            theme.logo = themeLogo.value;
+            theme.logo = {
+                url: themeLogo.value
+            };
             checkImage(themeLogo.value, x => {
                 if (x.target.width != 160 || x.target.height < 36 || x.target.height > 60) {
                     warnings.push("Logo image is not between the recommended sizes of 160x36 and 160x60");
                 }
-                setCSSVariable("background-url", `url(${theme.logo})`);
+                setCSSVariable("background-url", `url(${themeLogo.value})`);
             }, () => errors.push("Logo URL does not point to a valid image"));
         }
     }
 
     // Cursor
     if (themeCursor.value) {
-        theme.cursor = themeCursor.value;
+        theme.cursor = {
+            primary: themeCursor.value
+        };
         checkImage(themeCursor.value, x => {
             if (x.target.width > 128 || x.target.height > 128) {
                 errors.push("Cursor images must be smaller than 128x128 to appear");
@@ -383,7 +472,10 @@ function updateOutput() {
             } catch {
                 errors.push(pattern + " is not a valid regular expression (Course Icons)");
             }
-            customIcons.push([pattern, url]);
+            customIcons.push({
+                regex: pattern,
+                url
+            });
         }
         theme.icons = customIcons;
     }
@@ -731,6 +823,12 @@ $(document).ready(function () {
         stop: sliderEvent,
         change: sliderEvent
     });
+
+    let oninput = e => document.getElementById(e.target.dataset.label).textContent = e.target.value;
+    for (let input of themeColorRainbowWrapper.querySelectorAll("input[type=range][data-label]")) {
+        input.addEventListener("input", oninput);
+        document.getElementById(input.dataset.label).textContent = input.value;
+    }
 
     chrome.storage.sync.get(["theme", "themes"], s => {
         allThemes = {
