@@ -245,7 +245,24 @@
             gradesLoadedPromise.then(gradeContainer => {
                 if (!gradeLink.parentElement.querySelector(`.grade-data.splus-addedtodynamicdropdown[data-assignment-id=\"${assignmentId}\"]`)) {
                     // to control for already processed - race condition from the above
-                    gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data", "splus-addedtodynamicdropdown"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0})`, dataset: { assignmentId: assignmentId }}));
+                    let effectiveGrade = gradeContainer[assignmentId].grade;
+                    let effectiveTitle = null;
+                    if (effectiveGrade === null || effectiveGrade === undefined) {
+                        // exception: 1 excused
+                        // 2 incomplete
+                        // 3 missing
+                        if (gradeContainer[assignmentId].exception == 1) {
+                            effectiveGrade = "—";
+                            effectiveTitle = "Excused";
+                        } else if (gradeContainer[assignmentId].exception == 2) {
+                            effectiveGrade = "*";
+                            effectiveTitle = "Incomplete";
+                        } else if (gradeContainer[assignmentId].exception == 3) {
+                            effectiveGrade = "0*";
+                            effectiveTitle = "Missing";
+                        }
+                    }
+                    gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data", "splus-addedtodynamicdropdown"], { textContent: ` (${effectiveGrade} / ${gradeContainer[assignmentId].max_points || 0})`, dataset: { assignmentId: assignmentId }, title: effectiveTitle }));
                 }
             });
         }
