@@ -181,6 +181,30 @@
 
 // show grades on notifications dropdown
 (function () {
+    function appendGradeToLink(gradeLink, assignmentId, gradeContainer, isDynamic) {
+        if (!gradeLink.parentElement.querySelector(`.grade-data${isDynamic ? ".splus-addedtodynamicdropdown" : ""}[data-assignment-id=\"${assignmentId}\"]`)) {
+            // to control for already processed - race condition from the above
+            let effectiveGrade = gradeContainer[assignmentId].grade;
+            let effectiveTitle = undefined;
+            if (effectiveGrade === null || effectiveGrade === undefined) {
+                // exception: 1 excused
+                // 2 incomplete
+                // 3 missing
+                if (gradeContainer[assignmentId].exception == 1) {
+                    effectiveGrade = "—";
+                    effectiveTitle = "Excused";
+                } else if (gradeContainer[assignmentId].exception == 2) {
+                    effectiveGrade = "*";
+                    effectiveTitle = "Incomplete";
+                } else if (gradeContainer[assignmentId].exception == 3) {
+                    effectiveGrade = "0*";
+                    effectiveTitle = "Missing";
+                }
+            }
+            gradeLink.insertAdjacentElement("afterend", createElement("span", isDynamic ? ["grade-data", "splus-addedtodynamicdropdown"] : ["grade-data"], { textContent: ` (${effectiveGrade} / ${gradeContainer[assignmentId].max_points || 0})`, dataset: { assignmentId: assignmentId }, title: effectiveTitle }));
+        }
+    }
+
     let notifsMenuContainer = document.querySelector("#header nav button[aria-label$=\"notifications\"]").parentElement;
     let gradesLoadedPromise = (async function () {
         let myGrades = await fetchApiJson(`/users/${getUserId()}/grades`);
@@ -237,33 +261,8 @@
                 continue;
             }
 
-            if (gradeLink.parentElement.querySelector(`.grade-data.splus-addedtodynamicdropdown[data-assignment-id=\"${assignmentId}\"]`)) {
-                // already processed
-                continue;
-            }
-
             gradesLoadedPromise.then(gradeContainer => {
-                if (!gradeLink.parentElement.querySelector(`.grade-data.splus-addedtodynamicdropdown[data-assignment-id=\"${assignmentId}\"]`)) {
-                    // to control for already processed - race condition from the above
-                    let effectiveGrade = gradeContainer[assignmentId].grade;
-                    let effectiveTitle = null;
-                    if (effectiveGrade === null || effectiveGrade === undefined) {
-                        // exception: 1 excused
-                        // 2 incomplete
-                        // 3 missing
-                        if (gradeContainer[assignmentId].exception == 1) {
-                            effectiveGrade = "—";
-                            effectiveTitle = "Excused";
-                        } else if (gradeContainer[assignmentId].exception == 2) {
-                            effectiveGrade = "*";
-                            effectiveTitle = "Incomplete";
-                        } else if (gradeContainer[assignmentId].exception == 3) {
-                            effectiveGrade = "0*";
-                            effectiveTitle = "Missing";
-                        }
-                    }
-                    gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data", "splus-addedtodynamicdropdown"], { textContent: ` (${effectiveGrade} / ${gradeContainer[assignmentId].max_points || 0})`, dataset: { assignmentId: assignmentId }, title: effectiveTitle }));
-                }
+                appendGradeToLink(gradeLink, assignmentId, gradeContainer, true);
             });
         }
 
@@ -288,7 +287,7 @@
                 }
 
                 gradesLoadedPromise.then(gradeContainer => {
-                    gradeLink.insertAdjacentElement("afterend", createElement("span", ["grade-data"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0})` }))
+                    appendGradeToLink(gradeLink, assignmentId, gradeContainer, false);
                 });
             };
         }

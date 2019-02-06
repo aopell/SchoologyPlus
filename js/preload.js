@@ -171,7 +171,7 @@ function createElement(tag, classList, properties, children) {
                 for (let subproperty in properties[property]) {
                     element[property][subproperty] = properties[property][subproperty];
                 }
-            } else {
+            } else if (property !== undefined && properties[property] !== undefined) {
                 element[property] = properties[property];
             }
         }
