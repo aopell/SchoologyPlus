@@ -234,6 +234,30 @@ function importFromObject(j) {
         themeColorCustom.click();
     } else if (j.color.rainbow) {
         themeColorRainbow.click();
+
+        if (j.color.rainbow.hue.animate) {
+            colorRainbowHueAnimate.click();
+            colorRainbowHueSpeed.value = j.color.rainbow.hue.animate.speed;
+            colorRainbowHueValue.value = j.color.rainbow.hue.animate.offset;
+        } else {
+            colorRainbowHueValue.value = j.color.rainbow.hue.value;
+        }
+
+        if (j.color.rainbow.saturation.animate) {
+            colorRainbowSaturationAnimate.click();
+            colorRainbowSaturationSpeed.value = j.color.rainbow.saturation.animate.speed;
+            colorRainbowSaturationValue.value = j.color.rainbow.saturation.animate.offset;
+        } else {
+            colorRainbowSaturationValue.value = j.color.rainbow.saturation.value;
+        }
+
+        if (j.color.rainbow.lightness.animate) {
+            colorRainbowLightnessAnimate.click();
+            colorRainbowLightnessSpeed.value = j.color.rainbow.lightness.animate.speed;
+            colorRainbowLightnessValue.value = j.color.rainbow.lightness.animate.offset;
+        } else {
+            colorRainbowLightnessValue.value = j.color.rainbow.lightness.value;
+        }
     }
 
     iconList.innerHTML = "";
@@ -305,6 +329,7 @@ initPicker("theme-background-color", updateOutput);
 initPicker("theme-border-color", updateOutput);
 
 function updateOutput() {
+    clearInterval(rainbowInterval);
     warnings = [];
     errors = [];
     theme = {
@@ -388,7 +413,7 @@ function updateOutput() {
         } else {
             colorRainbowSaturationAnimateWrapper.classList.add("hidden");
             theme.color.rainbow.saturation = {
-                value: colorRainbowSaturationValue.value + "%"
+                value: colorRainbowSaturationValue.value
             }
         }
 
@@ -403,8 +428,13 @@ function updateOutput() {
         } else {
             colorRainbowLightnessAnimateWrapper.classList.add("hidden");
             theme.color.rainbow.lightness = {
-                value: colorRainbowLightnessValue.value + "%"
+                value: colorRainbowLightnessValue.value
             }
+        }
+
+        let f = generateRainbowFunction(theme);
+        if (f) {
+            rainbowInterval = setInterval(f, 100);
         }
     }
 
@@ -627,13 +657,7 @@ let rainbowInterval = null;
  * @param {string} t The theme's name
  */
 function applyTheme(t) {
-    clearInterval(rainbowInterval);
-    if (t == "Rainbow") {
-        rainbowInterval = setInterval(rainbow, 100);
-        importFromObject({ name: "Rainbow", hue: (new Date().valueOf() / 100) % 360 });
-    } else if (allThemes[t]) {
-        importFromObject(allThemes[t]);
-    }
+    importFromObject(allThemes[t]);
 }
 
 /**
@@ -669,13 +693,36 @@ function editTheme(name) {
 /**
  * Cycles the color of the interface
  */
-function rainbow() {
-    let hue = (new Date().valueOf() / 100) % 360;
-    document.documentElement.style.setProperty("--color-hue", hue);
-    setCSSVariable("primary-color", "hsl(var(--color-hue), 50%, 50%)");
-    setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
-    setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
-    setCSSVariable("border-color", "hsl(var(--color-hue), 60%, 25%)");
+function generateRainbowFunction(theme) {
+    if (theme.color.rainbow) {
+        return () => {
+            let hue = 0;
+            let saturation = 0;
+            let lightness = 0;
+            if (theme.color.rainbow.hue.animate) {
+                hue = ((new Date().valueOf() / (150 - theme.color.rainbow.hue.animate.speed)) + theme.color.rainbow.hue.animate.offset) % 360;
+            } else {
+                hue = theme.color.rainbow.hue.value;
+            }
+            if (theme.color.rainbow.saturation.animate) {
+                saturation = ((new Date().valueOf() / (150 - theme.color.rainbow.saturation.animate.speed)) + theme.color.rainbow.saturation.animate.offset) % 100;
+            } else {
+                saturation = theme.color.rainbow.saturation.value;
+            }
+            if (theme.color.rainbow.lightness.animate) {
+                lightness = ((new Date().valueOf() / (150 - theme.color.rainbow.lightness.animate.speed)) + theme.color.rainbow.lightness.animate.offset) % 100;
+            } else {
+                lightness = theme.color.rainbow.lightness.value;
+            }
+
+            document.documentElement.style.setProperty("--color-hue", hue);
+            setCSSVariable("primary-color", `hsl(var(--color-hue), ${saturation}%, ${lightness}%)`);
+            setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
+            setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
+            setCSSVariable("border-color", "hsl(var(--color-hue), 60%, 25%)");
+        }
+    }
+    return undefined;
 }
 
 function addIcon() {
@@ -836,7 +883,25 @@ $(document).ready(function () {
                 name: "Schoology Plus",
                 hue: 210
             },
-            "Rainbow": undefined,
+            "Rainbow": {
+                name: "Rainbow",
+                color: {
+                    rainbow: {
+                        hue: {
+                            animate: {
+                                speed: 50,
+                                offset: 0
+                            }
+                        },
+                        saturation: {
+                            value: 50
+                        },
+                        lightness: {
+                            value: 50
+                        }
+                    }
+                }
+            },
             "Toy": {
                 name: "Toy",
                 hue: 150,

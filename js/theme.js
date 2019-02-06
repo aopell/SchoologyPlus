@@ -35,31 +35,95 @@ class Theme {
         }
     }
 
-    static loadFromObject(obj) {
-        if (!obj.name || (obj.hue && Number.isNaN(Number.parseFloat(obj.hue))) || (obj.colors && obj.colors.length != 4)) return null;
-        return new Theme(
-            obj.name,
-            () => {
-                Theme.setBackgroundHue(obj.hue);
-                if (obj.colors) {
-                    Theme.setBackgroundColor(obj.colors[0], obj.colors[1], obj.colors[2], obj.colors[3]);
-                }
-                Theme.setLAUSDLogoVisibility(obj.logo == "lausd_new");
-                Theme.setCursorUrl(obj.cursor);
-                obj.logo = obj.logo || "schoology";
-                switch (obj.logo) {
-                    case "schoology":
-                        Theme.setLogoUrl();
-                        break;
-                    case "lausd":
-                        Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
-                        break;
-                    case "lausd_new":
-                        break;
-                    default:
-                        Theme.setLogoUrl(obj.logo);
-                }
+    static loadFromObject(theme) {
+        function createOnApply() {
+            switch (theme.version) {
+                case 2:
+                    return () => {
+                        if (theme.color.hue) {
+                            Theme.setBackgroundHue(theme.color.hue);
+                        } else if (theme.color.custom) {
+                            Theme.setBackgroundColor(theme.color.custom.primaryColor, theme.color.custom.backgroundColor, theme.color.custom.hoverColor, theme.color.custom.borderColor);
+                        }
+
+                        if (!theme.logo) {
+                            theme.logo = { preset: "schoology_logo" };
+                        }
+                        Theme.setLAUSDLogoVisibility(false);
+                        if (theme.logo.url) {
+                            Theme.setLogoUrl(theme.logo.url);
+                        } else switch (theme.logo.preset) {
+                            case "schoology_logo":
+                                Theme.setLogoUrl();
+                                break;
+                            case "lausd_legacy":
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
+                                break;
+                            case "lausd_2019":
+                                Theme.setLAUSDLogoVisibility(true);
+                                break;
+                        }
+
+                        if (theme.cursor) {
+                            Theme.setCursorUrl(theme.cursor.primary);
+                        }
+                    };
+                default:
+                    return () => {
+                        Theme.setBackgroundHue(theme.hue);
+                        if (theme.colors) {
+                            Theme.setBackgroundColor(theme.colors[0], theme.colors[1], theme.colors[2], theme.colors[3]);
+                        }
+                        Theme.setLAUSDLogoVisibility(theme.logo == "lausd_new");
+                        Theme.setCursorUrl(theme.cursor);
+                        theme.logo = theme.logo || "schoology";
+                        switch (theme.logo) {
+                            case "schoology":
+                                Theme.setLogoUrl();
+                                break;
+                            case "lausd":
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
+                                break;
+                            case "lausd_new":
+                                break;
+                            default:
+                                Theme.setLogoUrl(theme.logo);
+                        }
+                    };
             }
+        }
+        function createOnUpdate() {
+            if (theme.color && theme.color.rainbow) {
+                return () => {
+                    let hue = 0;
+                    let saturation = 0;
+                    let lightness = 0;
+                    if (theme.color.rainbow.hue.animate) {
+                        hue = ((new Date().valueOf() / (150 - theme.color.rainbow.hue.animate.speed)) + theme.color.rainbow.hue.animate.offset) % 360;
+                    } else {
+                        hue = theme.color.rainbow.hue.value;
+                    }
+                    if (theme.color.rainbow.saturation.animate) {
+                        saturation = ((new Date().valueOf() / (150 - theme.color.rainbow.saturation.animate.speed)) + theme.color.rainbow.saturation.animate.offset) % 100;
+                    } else {
+                        saturation = theme.color.rainbow.saturation.value;
+                    }
+                    if (theme.color.rainbow.lightness.animate) {
+                        lightness = ((new Date().valueOf() / (150 - theme.color.rainbow.lightness.animate.speed)) + theme.color.rainbow.lightness.animate.offset) % 100;
+                    } else {
+                        lightness = theme.color.rainbow.lightness.value;
+                    }
+                    Theme.setBackgroundHue(hue, saturation, lightness);
+                };
+            }
+            return undefined;
+        }
+
+        if (!theme.name || (theme.hue && Number.isNaN(Number.parseFloat(theme.hue))) || (theme.colors && theme.colors.length != 4)) return null;
+        return new Theme(
+            theme.name,
+            createOnApply(),
+            createOnUpdate()
         );
     }
 
@@ -89,10 +153,16 @@ class Theme {
         }
     }
 
-    static setBackgroundHue(hue) {
-        if (hue) {
+    static setBackgroundHue(hue, saturation = undefined, lightness = undefined) {
+        if (hue && !saturation && !lightness) {
             document.documentElement.style.setProperty("--color-hue", hue);
             document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
+            document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
+            document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
+            document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
+        } else if (hue) {
+            document.documentElement.style.setProperty("--color-hue", hue);
+            document.documentElement.style.setProperty("--primary-color", `hsl(var(--color-hue), ${saturation}%, ${lightness}%)`);
             document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
             document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
             document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");

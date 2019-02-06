@@ -61,11 +61,11 @@ body {
 }
 
 .splus-blue {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color) !important;
 }
 
 .splus-blue-text {
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
 }
 
 .inline-icon {
