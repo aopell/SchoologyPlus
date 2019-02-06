@@ -345,15 +345,25 @@ let themes = [
         name: "Schoology Plus",
         hue: 210
     }),
-    new Theme(
-        "Rainbow",
-        function () {
-            Theme.setBackgroundHue((new Date().valueOf() / 100) % 360);
-        },
-        function () {
-            Theme.setBackgroundHue((new Date().valueOf() / 100) % 360);
+    Theme.loadFromObject({
+        name: "Rainbow",
+        color: {
+            rainbow: {
+                hue: {
+                    animate: {
+                        speed: 50,
+                        offset: 0
+                    }
+                },
+                saturation: {
+                    value: 50
+                },
+                lightness: {
+                    value: 50
+                }
+            }
         }
-    ),
+    }),
     Theme.loadFromObject({
         name: "Toy",
         hue: 150,

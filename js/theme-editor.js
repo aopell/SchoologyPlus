@@ -5,6 +5,7 @@ const defaultThemes = ["Schoology Plus", "LAUSD Orange", "Toy", "Rainbow", "LAUS
 const CURRENT_VERSION = 2;
 
 var allThemes;
+var rainbowInterval = null;
 var themeName = document.getElementById("theme-name");
 var themeHue = document.getElementById("theme-hue");
 var themePrimaryColor = document.getElementById("theme-primary-color");
@@ -235,24 +236,33 @@ function importFromObject(j) {
     } else if (j.color.rainbow) {
         themeColorRainbow.click();
 
-        if (j.color.rainbow.hue.animate) {
+        if (!!j.color.rainbow.hue.animate !== colorRainbowHueAnimate.checked) {
             colorRainbowHueAnimate.click();
+        }
+
+        if (j.color.rainbow.hue.animate) {
             colorRainbowHueSpeed.value = j.color.rainbow.hue.animate.speed;
             colorRainbowHueValue.value = j.color.rainbow.hue.animate.offset;
         } else {
             colorRainbowHueValue.value = j.color.rainbow.hue.value;
         }
 
-        if (j.color.rainbow.saturation.animate) {
+        if (!!j.color.rainbow.saturation.animate !== colorRainbowSaturationAnimate.checked) {
             colorRainbowSaturationAnimate.click();
+        }
+
+        if (j.color.rainbow.saturation.animate) {
             colorRainbowSaturationSpeed.value = j.color.rainbow.saturation.animate.speed;
             colorRainbowSaturationValue.value = j.color.rainbow.saturation.animate.offset;
         } else {
             colorRainbowSaturationValue.value = j.color.rainbow.saturation.value;
         }
 
-        if (j.color.rainbow.lightness.animate) {
+        if (!!j.color.rainbow.lightness.animate !== colorRainbowLightnessAnimate.checked) {
             colorRainbowLightnessAnimate.click();
+        }
+
+        if (j.color.rainbow.lightness.animate) {
             colorRainbowLightnessSpeed.value = j.color.rainbow.lightness.animate.speed;
             colorRainbowLightnessValue.value = j.color.rainbow.lightness.animate.offset;
         } else {
@@ -651,7 +661,6 @@ function createElement(tag, classList, properties, children) {
     return element;
 }
 
-let rainbowInterval = null;
 /**
  * Applies the theme with the given name
  * @param {string} t The theme's name
