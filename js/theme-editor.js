@@ -709,17 +709,17 @@ function generateRainbowFunction(theme) {
             let saturation = 0;
             let lightness = 0;
             if (theme.color.rainbow.hue.animate) {
-                hue = ((new Date().valueOf() / (150 - theme.color.rainbow.hue.animate.speed)) + theme.color.rainbow.hue.animate.offset) % 360;
+                hue = ((new Date().valueOf() / (150 - theme.color.rainbow.hue.animate.speed)) + +theme.color.rainbow.hue.animate.offset) % 360;
             } else {
                 hue = theme.color.rainbow.hue.value;
             }
             if (theme.color.rainbow.saturation.animate) {
-                saturation = ((new Date().valueOf() / (150 - theme.color.rainbow.saturation.animate.speed)) + theme.color.rainbow.saturation.animate.offset) % 100;
+                saturation = ((new Date().valueOf() / (150 - theme.color.rainbow.saturation.animate.speed)) + +theme.color.rainbow.saturation.animate.offset) % 100;
             } else {
                 saturation = theme.color.rainbow.saturation.value;
             }
             if (theme.color.rainbow.lightness.animate) {
-                lightness = ((new Date().valueOf() / (150 - theme.color.rainbow.lightness.animate.speed)) + theme.color.rainbow.lightness.animate.offset) % 100;
+                lightness = ((new Date().valueOf() / (150 - theme.color.rainbow.lightness.animate.speed)) + +theme.color.rainbow.lightness.animate.offset) % 100;
             } else {
                 lightness = theme.color.rainbow.lightness.value;
             }
