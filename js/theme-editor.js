@@ -375,13 +375,13 @@ function updateOutput() {
         theme.color = {
             custom: {
                 primaryColor: $("#theme-primary-color").spectrum("get").toHexString(),
-                secondaryColor: $("#theme-secondary-color").spectrum("get").toHexString(),
+                hoverColor: $("#theme-secondary-color").spectrum("get").toHexString(),
                 backgroundColor: $("#theme-background-color").spectrum("get").toHexString(),
                 borderColor: $("#theme-border-color").spectrum("get").toHexString()
             }
         };
         setCSSVariable("primary-color", theme.color.custom.primaryColor);
-        setCSSVariable("background-color", theme.color.custom.secondaryColor);
+        setCSSVariable("background-color", theme.color.custom.hoverColor);
         setCSSVariable("hover-color", theme.color.custom.backgroundColor);
         setCSSVariable("border-color", theme.color.custom.borderColor);
     } else if (themeColorRainbow.checked) {
