@@ -317,10 +317,12 @@ var fetchQueue = [];
                 let addedAssignRClickSelector = ".item-row.added-fake-assignment:not(.dropped):not(.grade-add-indicator)";
                 let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator)";
 
+                // any state change when editing has been disabled
                 if (editDisableReason) {
                     alert("An error occurred loading assignments. Editing has been disabled.\nReason: " + editDisableReason);
                     document.getElementById("enable-modify").checked = false;
                 }
+                // enabling editing
                 else if (document.getElementById("enable-modify").checked) {
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
                         edit.style.display = "unset";
@@ -661,6 +663,7 @@ var fetchQueue = [];
                     for (let kabob of document.getElementsByClassName("kabob-menu")) {
                         kabob.classList.remove("hidden");
                     }
+                // uncheck the grades modify box without having modified grades
                 } else if (!gradesModified) {
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
                         edit.style.display = "none";
@@ -679,9 +682,13 @@ var fetchQueue = [];
                         $.contextMenu("destroy", "#" + courseElement.id + " " + addedAssignRClickSelector);
                     }
                     $.contextMenu("destroy", droppedAssignRClickSelector);
-                } else {
+                // uncheck the edit checkbox, with modified grades existing: prompt: does user confirm?
+                } else if (confirm("Disabling grade edits now will reload the page and erase all existing modified grades. Proceed?")) {
                     // not going to try to undo any grade modifications
                     document.location.reload();
+                // attempted to disable grade editing but backed out of confirmation prompt
+                } else {
+                    document.getElementById("enable-modify").checked = true;
                 }
             }
         }));
