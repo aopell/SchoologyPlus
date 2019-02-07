@@ -16,22 +16,25 @@ A Schoology Plus theme has the following format and components (each component w
         "hue": 359,
         "custom": {
             "primaryColor": "red",
-            "backgroundColor": "hsl(150,50%,50%)",
             "hoverColor": "rgb(0,0,255)",
+            "backgroundColor": "hsl(150,50%,50%)",
             "borderColor": "#000000"
         },
         "rainbow": {
             "hue": {
                 "animate": {
                     "speed": 100,
-                    "offset": 0
+                    "offset": 0,
+                    "min": 0,
+                    "max": 359,
+                    "alternate": false
                 }
             },
             "saturation": {
-                "value": "50%"
+                "value": 50
             },
             "lightness": {
-                "value": "50%"
+                "value": 50
             }
         }
     },

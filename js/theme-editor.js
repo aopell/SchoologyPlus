@@ -864,10 +864,17 @@ function copyThemeToClipboard(themeName) {
 
 function inEditMode() { return !!document.querySelector(".show-editor-controls"); }
 
-function sliderEvent(event, ui) {
+function hueSliderEvent(event, ui) {
     if (event.originalEvent) {
         updateOutput();
         document.getElementById("color-hue-value").textContent = ui.value.toString();
+    }
+}
+
+function rangeSliderEvent(event, ui) {
+    if (event.originalEvent) {
+        document.getElementById(event.target.id + "-display").textContent = `${ui.values[0]} - ${ui.values[1]}`;
+        updateOutput();
     }
 }
 
@@ -875,9 +882,39 @@ $(document).ready(function () {
     $("#theme-hue").slider({
         min: 0,
         max: 359,
-        slide: sliderEvent,
-        stop: sliderEvent,
-        change: sliderEvent
+        slide: hueSliderEvent,
+        stop: hueSliderEvent,
+        change: hueSliderEvent
+    });
+
+    $("#color-rainbow-hue-range").slider({
+        min: 0,
+        max: 359,
+        range: true,
+        slide: rangeSliderEvent,
+        stop: rangeSliderEvent,
+        change: rangeSliderEvent,
+        values: [0, 359]
+    });
+
+    $("#color-rainbow-saturation-range").slider({
+        min: 0,
+        max: 100,
+        range: true,
+        slide: rangeSliderEvent,
+        stop: rangeSliderEvent,
+        change: rangeSliderEvent,
+        values: [0, 100]
+    });
+
+    $("#color-rainbow-lightness-range").slider({
+        min: 0,
+        max: 100,
+        range: true,
+        slide: rangeSliderEvent,
+        stop: rangeSliderEvent,
+        change: rangeSliderEvent,
+        values: [0, 100]
     });
 
     let oninput = e => document.getElementById(e.target.dataset.label).textContent = e.target.value;
