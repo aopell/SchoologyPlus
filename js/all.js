@@ -546,4 +546,44 @@ let siteNavigationTileHelpers = {
     groupsDropdownObserver.observe(groupsDropdownContainer, { childList: true, subtree: true });
 })();
 
+// "More..." dialog changes
+(function () {
+    let navigationElementsContainer = document.querySelector("#header nav > ul:nth-child(1)");
+
+    let navigationElementsObserver = new MutationObserver(function (mutationList) {
+        if (!shouldProcessMutations(mutationList)) {
+            return;
+        }
+
+        let moreMenuDropdownList = navigationElementsContainer.querySelector("li > div[role=\"menu\"] > ul.util-flex-shrink-zero-3HoBE:nth-child(1)");
+        if (!moreMenuDropdownList || moreMenuDropdownList.classList.contains("splus-moremenuentries-gradesprocessed")) {
+            return;
+        }
+
+        moreMenuDropdownList.classList.add("plus-moremenuentries-gradesprocessed");
+
+        // remove the grades optiony menu
+        moreMenuDropdownList.querySelector("button[data-submenu=\"grades\"]").parentElement.remove();
+
+        // first element child is the search bar
+        // we want to insert directly after that
+        let insertAfter = moreMenuDropdownList.firstElementChild;
+
+        let masteryLink = document.createElement("li");
+        // use Schoology's convoluted class list, as presented in the original
+        masteryLink.innerHTML = '<a aria-label="Mastery" href="/mastery" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Mastery</a>';
+
+        insertAfter.insertAdjacentElement("afterend", masteryLink);
+
+        let gradeReportLink = document.createElement("li");
+        gradeReportLink.innerHTML = '<a aria-label="Grade Report" href="/grades/grades" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Grade Report</a>';
+
+        insertAfter.insertAdjacentElement("afterend", gradeReportLink);
+
+    });
+
+    navigationElementsObserver.observe(navigationElementsContainer, { childList: true, subtree: true });
+
+})();
+
 Logger.log("Finished loading all.js");
