@@ -619,7 +619,7 @@ let siteNavigationTileHelpers = {
 
             let masteryLink = document.createElement("li");
             // use Schoology's convoluted class list, as presented in the original
-            masteryLink.innerHTML = '<a aria-label="Mastery" href="/mastery" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Mastery</a>';
+            masteryLink.innerHTML = '<a aria-label="Mastery Grades" href="/mastery" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Mastery Grades</a>';
 
             insertAfter.insertAdjacentElement("afterend", masteryLink);
 
