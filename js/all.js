@@ -550,40 +550,99 @@ let siteNavigationTileHelpers = {
 (function () {
     let navigationElementsContainer = document.querySelector("#header nav > ul:nth-child(1)");
 
+    let fixNavButtons = (function () {
+        let moreNavElement = navigationElementsContainer.querySelector("li > button[aria-label=\"More\"]");
+        let alreadyTweakedResourcesBtn = navigationElementsContainer.querySelector("li.splus-nav-resources-lowwidth");
+        let fakeGradesBtn = navigationElementsContainer.querySelector("li.splus-nav-grades-directlink-lowwidth");
+        if (moreNavElement) {
+            moreNavElement = moreNavElement.parentElement;
+        } else {
+            // in a high width case
+            // we need to determine if this is a transition or if the changes are irrelevant
+            if (alreadyTweakedResourcesBtn) {
+                alreadyTweakedResourcesBtn.style.display = "initial";
+            }
+            if (fakeGradesBtn) {
+                fakeGradesBtn.style.display = "none";
+            }
+        }
+
+        if (!moreNavElement || moreNavElement.classList.contains("splus-moremenu-gradesreadded")) {
+            return;
+        }
+
+        moreNavElement.classList.add("splus-moremenu-gradesreadded");
+
+        // remove the resources button - we're going to replace it with a grade report button
+        let resLink = moreNavElement.previousElementSibling;
+        if (resLink.querySelector("a").href.endsWith("/resources")) {
+            resLink.classList.add("splus-nav-resources-lowwidth");
+            resLink.style.display = "none";
+
+            let gradesBtn = document.createElement("li");
+            gradesBtn.classList.add("_24avl");
+            gradesBtn.classList.add("_3Rh90");
+            gradesBtn.classList.add("splus-nav-grades-directlink-lowwidth");
+            gradesBtn.innerHTML = '<a class="_1SIMq _2kpZl _3OAXJ _13cCs _3_bfp _2M5aC _24avl _3v0y7 _2s0LQ _3ghFm _3LeCL _31GLY _9GDcm _1D8fw util-height-six-3PHnk util-line-height-six-3lFgd util-text-decoration-none-1n0lI Header-header-button-active-state-3AvBm Header-header-button-1EE8Y sExtlink-processed" href="/grades/grades">Grades</a>';
+            moreNavElement.insertAdjacentElement("beforebegin", gradesBtn);
+        } else if (fakeGradesBtn) {
+            if (alreadyTweakedResourcesBtn) {
+                alreadyTweakedResourcesBtn.style.display = "none";
+            }
+            fakeGradesBtn.style.display = "initial";
+        }
+    });
+
     let navigationElementsObserver = new MutationObserver(function (mutationList) {
         if (!shouldProcessMutations(mutationList)) {
             return;
         }
 
-        let moreMenuDropdownList = navigationElementsContainer.querySelector("li > div[role=\"menu\"] > ul.util-flex-shrink-zero-3HoBE:nth-child(1)");
-        if (!moreMenuDropdownList || moreMenuDropdownList.classList.contains("splus-moremenuentries-gradesprocessed")) {
-            return;
-        }
+        // spacing around the More... menu [reolace "Resources" with "Grades"]
+        fixNavButtons();
 
-        moreMenuDropdownList.classList.add("plus-moremenuentries-gradesprocessed");
+        // the More... menu itself
+        (function () {
+            let moreMenuDropdownList = navigationElementsContainer.querySelector("li > div[role=\"menu\"] > ul.util-flex-shrink-zero-3HoBE:nth-child(1)");
+            if (!moreMenuDropdownList || moreMenuDropdownList.classList.contains("splus-moremenuentries-gradesprocessed")) {
+                return;
+            }
 
-        // remove the grades optiony menu
-        moreMenuDropdownList.querySelector("button[data-submenu=\"grades\"]").parentElement.remove();
+            moreMenuDropdownList.classList.add("splus-moremenuentries-gradesprocessed");
 
-        // first element child is the search bar
-        // we want to insert directly after that
-        let insertAfter = moreMenuDropdownList.firstElementChild;
+            // remove the grades optiony menu that's under "more"
+            moreMenuDropdownList.querySelector("button[data-submenu=\"grades\"]").parentElement.remove();
 
-        let masteryLink = document.createElement("li");
-        // use Schoology's convoluted class list, as presented in the original
-        masteryLink.innerHTML = '<a aria-label="Mastery" href="/mastery" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Mastery</a>';
+            // first element child is the search bar
+            // we want to insert directly after that
+            let insertAfter = moreMenuDropdownList.firstElementChild;
 
-        insertAfter.insertAdjacentElement("afterend", masteryLink);
+            let masteryLink = document.createElement("li");
+            // use Schoology's convoluted class list, as presented in the original
+            masteryLink.innerHTML = '<a aria-label="Mastery" href="/mastery" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Mastery</a>';
 
-        let gradeReportLink = document.createElement("li");
-        gradeReportLink.innerHTML = '<a aria-label="Grade Report" href="/grades/grades" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Grade Report</a>';
+            insertAfter.insertAdjacentElement("afterend", masteryLink);
 
-        insertAfter.insertAdjacentElement("afterend", gradeReportLink);
+            let resourcesLink = document.createElement("li");
+            resourcesLink.innerHTML = '<a aria-label="Resources" href="/resources" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Resources</a>';
 
+            insertAfter.insertAdjacentElement("afterend", resourcesLink);
+        })();
     });
 
     navigationElementsObserver.observe(navigationElementsContainer, { childList: true, subtree: true });
 
+
+    // fix the nav buttons (for "fix" as defined above) immediately - this handles a page initially loading as low-width
+
+    if (document.readyState === "complete" ||
+        (document.readyState !== "loading" && !document.documentElement.doScroll)) {
+        fixNavButtons();
+    } else {
+        document.addEventListener('DOMContentLoaded', function () {
+            fixNavButtons();
+        }, false);
+    }
 })();
 
 Logger.log("Finished loading all.js");
