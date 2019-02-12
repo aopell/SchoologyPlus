@@ -573,3 +573,23 @@ textarea#json-output[readonly] {
 #theme-hue-wrapper {
     padding-bottom: 32px;
 }
+
+#theme-color-rainbow-wrapper .ui-slider-handle {
+    background-color: #26a69a !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 1.25em !important;
+    height: 1.25em !important;
+    margin-top: -3px !important;
+}
+
+#theme-color-rainbow-wrapper .ui-slider-horizontal {
+    height: 3px;
+    border: none;
+    background-color: #C2C0C2;
+    margin: 15px 0;
+}
+
+#theme-color-rainbow-wrapper .ui-slider-range {
+    background-color: #666;
+}

@@ -35,6 +35,12 @@ var colorRainbowSaturationSpeed = document.getElementById("color-rainbow-saturat
 var colorRainbowSaturationValue = document.getElementById("color-rainbow-saturation-value");
 var colorRainbowLightnessSpeed = document.getElementById("color-rainbow-lightness-speed");
 var colorRainbowLightnessValue = document.getElementById("color-rainbow-lightness-value");
+var colorRainbowHueAlternate = document.getElementById("color-rainbow-hue-alternate");
+var colorRainbowSaturationAlternate = document.getElementById("color-rainbow-saturation-alternate");
+var colorRainbowLightnessAlternate = document.getElementById("color-rainbow-lightness-alternate");
+var colorRainbowHueRange = document.getElementById("color-rainbow-hue-range");
+var colorRainbowSaturationRange = document.getElementById("color-rainbow-saturation-range");
+var colorRainbowLightnessRange = document.getElementById("color-rainbow-lightness-range");
 var themeHueWrapper = document.getElementById("theme-hue-wrapper");
 var themeLogoWrapper = document.getElementById("theme-logo-wrapper");
 var previewSection = document.getElementById("preview-section");
@@ -113,6 +119,7 @@ function generateErrors(j) {
     let w = [];
     switch (j.version) {
         case 2:
+            // TODO: Write error logic
             break;
         default:
             if (!j.name) w.push("Theme must have a name")
@@ -220,7 +227,7 @@ function importFromObject(j) {
         themeCustomLogo.click();
     }
 
-    $("#theme-hue").slider("value", j.color.hue === 0 ? 0 : (j.color.hue || 210));
+    $(themeHue).slider("value", j.color.hue === 0 ? 0 : (j.color.hue || 210));
 
     if (j.color.hue || j.color.hue === 0) {
         themeColorHue.click();
@@ -243,6 +250,10 @@ function importFromObject(j) {
         if (j.color.rainbow.hue.animate) {
             colorRainbowHueSpeed.value = j.color.rainbow.hue.animate.speed;
             colorRainbowHueValue.value = j.color.rainbow.hue.animate.offset;
+            if (!!j.color.rainbow.hue.alternate !== colorRainbowHueAlternate.checked) {
+                colorRainbowHueAlternate.click();
+            }
+            $(colorRainbowHueRange).slider("values", [j.color.rainbow.hue.min, j.color.rainbow.hue.max]);
         } else {
             colorRainbowHueValue.value = j.color.rainbow.hue.value;
         }
@@ -254,6 +265,10 @@ function importFromObject(j) {
         if (j.color.rainbow.saturation.animate) {
             colorRainbowSaturationSpeed.value = j.color.rainbow.saturation.animate.speed;
             colorRainbowSaturationValue.value = j.color.rainbow.saturation.animate.offset;
+            if (!!j.color.rainbow.saturation.alternate !== colorRainbowSaturationAlternate.checked) {
+                colorRainbowSaturationAlternate.click();
+            }
+            $(colorRainbowSaturationRange).slider("values", [j.color.rainbow.saturation.min, j.color.rainbow.saturation.max]);
         } else {
             colorRainbowSaturationValue.value = j.color.rainbow.saturation.value;
         }
@@ -265,6 +280,10 @@ function importFromObject(j) {
         if (j.color.rainbow.lightness.animate) {
             colorRainbowLightnessSpeed.value = j.color.rainbow.lightness.animate.speed;
             colorRainbowLightnessValue.value = j.color.rainbow.lightness.animate.offset;
+            if (!!j.color.rainbow.lightness.alternate !== colorRainbowLightnessAlternate.checked) {
+                colorRainbowLightnessAlternate.click();
+            }
+            $(colorRainbowLightnessRange).slider("values", [j.color.rainbow.lightness.min, j.color.rainbow.lightness.max]);
         } else {
             colorRainbowLightnessValue.value = j.color.rainbow.lightness.value;
         }
@@ -360,7 +379,7 @@ function updateOutput() {
         themeHueWrapper.classList.remove("hidden");
         themeColorRainbowWrapper.classList.add("hidden");
         theme.color = {
-            hue: $("#theme-hue").slider("value")
+            hue: $(themeHue).slider("value")
         };
 
         setCSSVariable("color-hue", theme.color.hue == 0 ? 0 : (theme.color.hue || 210));
@@ -402,7 +421,10 @@ function updateOutput() {
             theme.color.rainbow.hue = {
                 animate: {
                     speed: colorRainbowHueSpeed.value,
-                    offset: colorRainbowHueValue.value
+                    offset: colorRainbowHueValue.value,
+                    min: $(colorRainbowHueRange).slider("values")[0],
+                    max: $(colorRainbowHueRange).slider("values")[1],
+                    alternate: colorRainbowHueAlternate.checked
                 }
             }
         } else {
@@ -417,7 +439,10 @@ function updateOutput() {
             theme.color.rainbow.saturation = {
                 animate: {
                     speed: colorRainbowSaturationSpeed.value,
-                    offset: colorRainbowSaturationValue.value
+                    offset: colorRainbowSaturationValue.value,
+                    min: $(colorRainbowSaturationRange).slider("values")[0],
+                    max: $(colorRainbowSaturationRange).slider("values")[1],
+                    alternate: colorRainbowSaturationAlternate.checked
                 }
             }
         } else {
@@ -432,7 +457,10 @@ function updateOutput() {
             theme.color.rainbow.lightness = {
                 animate: {
                     speed: colorRainbowLightnessSpeed.value,
-                    offset: colorRainbowLightnessValue.value
+                    offset: colorRainbowLightnessValue.value,
+                    min: $(colorRainbowLightnessRange).slider("values")[0],
+                    max: $(colorRainbowLightnessRange).slider("values")[1],
+                    alternate: colorRainbowLightnessAlternate.checked
                 }
             }
         } else {
@@ -705,6 +733,7 @@ function editTheme(name) {
 function generateRainbowFunction(theme) {
     if (theme.color.rainbow) {
         return () => {
+            // TODO: Fix this function to add new features
             let hue = 0;
             let saturation = 0;
             let lightness = 0;
