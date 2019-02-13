@@ -366,50 +366,10 @@ Theme.profilePictureOverrides = [];
 
 let tempTheme = undefined;
 
-let themes = [
-    Theme.loadFromObject({
-        name: "Schoology Plus",
-        hue: 210
-    }),
-    Theme.loadFromObject({
-        name: "Rainbow",
-        color: {
-            rainbow: {
-                hue: {
-                    animate: {
-                        speed: 50,
-                        offset: 0
-                    }
-                },
-                saturation: {
-                    value: 50
-                },
-                lightness: {
-                    value: 50
-                }
-            }
-        }
-    }),
-    Theme.loadFromObject({
-        name: "Toy",
-        hue: 150,
-        cursor: chrome.runtime.getURL("imgs/toy-mode.png")
-    }),
-    Theme.loadFromObject({
-        name: "LAUSD Dark Blue",
-        colors: ["#143f69", "#345f89", "#345f89", "#024f7d"],
-        logo: "lausd_new"
-    }),
-    Theme.loadFromObject({
-        name: "LAUSD Orange",
-        colors: ["#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00"],
-        logo: "lausd"
-    }),
-    Theme.loadFromObject({
-        name: "Schoology Default",
-        colors: ["#0677ba", "#002c47", "#024f7d", "#024f7d"]
-    })
-];
+let themes = [];
+for(let t of __defaultThemes) {
+    themes.push(Theme.loadFromObject(t));
+}
 
 setInterval(() => {
     if (Theme.active.onupdate) {
