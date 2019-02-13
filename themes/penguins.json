@@ -1,14 +1,24 @@
 {
     "name": "Penguins",
+    "version": 2,
+    "color": {
+        "custom": {
+            "primaryColor": "#3e3d42",
+            "hoverColor": "#fa971e",
+            "backgroundColor": "#3e3d42",
+            "borderColor": "#fa971e"
+        }
+    },
+    "logo": {
+        "preset": "schoology_logo"
+    },
+    "cursor": {
+        "primary": "https://imgur.com/5QVrDqX.png"
+    },
     "icons": [
-        [".", "https://image.flaticon.com/icons/svg/692/692439.svg"]
-    ],
-    "colors": [
-        "#3E3D42",
-        "#3E3D42",
-        "#FA971E",
-        "#FA971E"
-    ],
-    "cursor": "https://imgur.com/5QVrDqX.png",
-    "logo": "schoology"
+        {
+            "regex": ".",
+            "url": "https://image.flaticon.com/icons/svg/692/692439.svg"
+        }
+    ]
 }
