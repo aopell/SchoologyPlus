@@ -593,3 +593,7 @@ textarea#json-output[readonly] {
 #theme-color-rainbow-wrapper .ui-slider-range {
     background-color: #666;
 }
+
+.help-icon {
+    color: var(--primary-color);
+}

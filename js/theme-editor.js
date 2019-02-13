@@ -74,13 +74,13 @@ lockButton.addEventListener("click", e => {
         lockButton.classList.remove("locked");
         lockButton.classList.add("btn");
         lockButton.classList.remove("btn-flat");
-        lockIcon.textContent = "vertical_align_top";
+        lockIcon.textContent = "lock_open";
     } else {
         previewSection.classList.add("fixed-on-large-and-up");
         lockButton.classList.add("locked");
         lockButton.classList.add("btn-flat");
         lockButton.classList.remove("btn");
-        lockIcon.textContent = "vertical_align_center";
+        lockIcon.textContent = "lock";
     }
 });
 
@@ -119,7 +119,7 @@ function generateErrors(j) {
     let w = [];
     switch (j.version) {
         case 2:
-            // TODO: Write error logic
+            if (!j.name) w.push("Theme must have a name");
             break;
         default:
             if (!j.name) w.push("Theme must have a name")
@@ -250,21 +250,21 @@ function importFromObject(j) {
         if (j.color.rainbow.hue.animate) {
             colorRainbowHueSpeed.value = j.color.rainbow.hue.animate.speed;
             colorRainbowHueValue.value = j.color.rainbow.hue.animate.offset;
-            if (!!j.color.rainbow.hue.alternate !== colorRainbowHueAlternate.checked) {
+            if (!!j.color.rainbow.hue.animate.alternate !== colorRainbowHueAlternate.checked) {
                 colorRainbowHueAlternate.click();
             }
             $(colorRainbowHueRange).slider("values", [
-                j.color.rainbow.hue.min
-                    && j.color.rainbow.hue.min < j.color.ranibow.hue.max
-                    && j.color.rainbow.hue.min >= 0
-                    && j.color.rainbow.hue.min <= 359
-                    ? j.color.rainbow.hue.min
+                j.color.rainbow.hue.animate.min
+                    && j.color.rainbow.hue.animate.min < j.color.rainbow.hue.animate.max
+                    && j.color.rainbow.hue.animate.min >= 0
+                    && j.color.rainbow.hue.animate.min <= 359
+                    ? j.color.rainbow.hue.animate.min
                     : 0,
-                j.color.rainbow.hue.max
-                    && j.color.rainbow.hue.max > j.color.hue.min
-                    && j.color.rainbow.hue.max >= 0
-                    && j.color.rainbow.hue.max <= 359
-                    ? j.color.rainbow.hue.max
+                j.color.rainbow.hue.animate.max
+                    && j.color.rainbow.hue.animate.max > j.color.rainbow.hue.animate.min
+                    && j.color.rainbow.hue.animate.max >= 0
+                    && j.color.rainbow.hue.animate.max <= 359
+                    ? j.color.rainbow.hue.animate.max
                     : 359
             ]);
         } else {
@@ -278,21 +278,21 @@ function importFromObject(j) {
         if (j.color.rainbow.saturation.animate) {
             colorRainbowSaturationSpeed.value = j.color.rainbow.saturation.animate.speed;
             colorRainbowSaturationValue.value = j.color.rainbow.saturation.animate.offset;
-            if (!!j.color.rainbow.saturation.alternate !== colorRainbowSaturationAlternate.checked) {
+            if (!!j.color.rainbow.saturation.animate.alternate !== colorRainbowSaturationAlternate.checked) {
                 colorRainbowSaturationAlternate.click();
             }
             $(colorRainbowSaturationRange).slider("values", [
-                j.color.rainbow.saturation.min
-                    && j.color.rainbow.saturation.min < j.color.ranibow.saturation.max
-                    && j.color.rainbow.saturation.min >= 0
-                    && j.color.rainbow.saturation.min <= 100
-                    ? j.color.rainbow.saturation.min
+                j.color.rainbow.saturation.animate.min
+                    && j.color.rainbow.saturation.animate.min < j.color.rainbow.saturation.animate.max
+                    && j.color.rainbow.saturation.animate.min >= 0
+                    && j.color.rainbow.saturation.animate.min <= 100
+                    ? j.color.rainbow.saturation.animate.min
                     : 0,
-                j.color.rainbow.saturation.max
-                    && j.color.rainbow.saturation.max > j.color.saturation.min
-                    && j.color.rainbow.saturation.max >= 0
-                    && j.color.rainbow.saturation.max <= 100
-                    ? j.color.rainbow.saturation.max
+                j.color.rainbow.saturation.animate.max
+                    && j.color.rainbow.saturation.animate.max > j.color.rainbow.saturation.animate.min
+                    && j.color.rainbow.saturation.animate.max >= 0
+                    && j.color.rainbow.saturation.animate.max <= 100
+                    ? j.color.rainbow.saturation.animate.max
                     : 100
             ]);
         } else {
@@ -306,21 +306,21 @@ function importFromObject(j) {
         if (j.color.rainbow.lightness.animate) {
             colorRainbowLightnessSpeed.value = j.color.rainbow.lightness.animate.speed;
             colorRainbowLightnessValue.value = j.color.rainbow.lightness.animate.offset;
-            if (!!j.color.rainbow.lightness.alternate !== colorRainbowLightnessAlternate.checked) {
+            if (!!j.color.rainbow.lightness.animate.alternate !== colorRainbowLightnessAlternate.checked) {
                 colorRainbowLightnessAlternate.click();
             }
             $(colorRainbowLightnessRange).slider("values", [
-                j.color.rainbow.lightness.min
-                    && j.color.rainbow.lightness.min < j.color.ranibow.lightness.max
-                    && j.color.rainbow.lightness.min >= 0
-                    && j.color.rainbow.lightness.min <= 100
-                    ? j.color.rainbow.lightness.min
+                j.color.rainbow.lightness.animate.min
+                    && j.color.rainbow.lightness.animate.min < j.color.rainbow.lightness.animate.max
+                    && j.color.rainbow.lightness.animate.min >= 0
+                    && j.color.rainbow.lightness.animate.min <= 100
+                    ? j.color.rainbow.lightness.animate.min
                     : 0,
-                j.color.rainbow.lightness.max
-                    && j.color.rainbow.lightness.max > j.color.lightness.min
-                    && j.color.rainbow.lightness.max >= 0
-                    && j.color.rainbow.lightness.max <= 100
-                    ? j.color.rainbow.lightness.max
+                j.color.rainbow.lightness.animate.max
+                    && j.color.rainbow.lightness.animate.max > j.color.rainbow.lightness.animate.min
+                    && j.color.rainbow.lightness.animate.max >= 0
+                    && j.color.rainbow.lightness.animate.max <= 100
+                    ? j.color.rainbow.lightness.animate.max
                     : 100
             ]);
         } else {
@@ -457,6 +457,7 @@ function updateOutput() {
 
         if (colorRainbowHueAnimate.checked) {
             colorRainbowHueAnimateWrapper.classList.remove("hidden");
+            document.querySelector("label[for=color-rainbow-hue-value]").firstElementChild.textContent = "Hue Offset";
             theme.color.rainbow.hue = {
                 animate: {
                     speed: +colorRainbowHueSpeed.value,
@@ -468,6 +469,7 @@ function updateOutput() {
             }
         } else {
             colorRainbowHueAnimateWrapper.classList.add("hidden");
+            document.querySelector("label[for=color-rainbow-hue-value]").firstElementChild.textContent = "Hue Value";
             theme.color.rainbow.hue = {
                 value: colorRainbowHueValue.value
             }
@@ -475,6 +477,7 @@ function updateOutput() {
 
         if (colorRainbowSaturationAnimate.checked) {
             colorRainbowSaturationAnimateWrapper.classList.remove("hidden");
+            document.querySelector("label[for=color-rainbow-saturation-value]").firstElementChild.textContent = "Saturation Offset";
             theme.color.rainbow.saturation = {
                 animate: {
                     speed: +colorRainbowSaturationSpeed.value,
@@ -486,6 +489,7 @@ function updateOutput() {
             }
         } else {
             colorRainbowSaturationAnimateWrapper.classList.add("hidden");
+            document.querySelector("label[for=color-rainbow-saturation-value]").firstElementChild.textContent = "Saturation Value";
             theme.color.rainbow.saturation = {
                 value: colorRainbowSaturationValue.value
             }
@@ -493,6 +497,7 @@ function updateOutput() {
 
         if (colorRainbowLightnessAnimate.checked) {
             colorRainbowLightnessAnimateWrapper.classList.remove("hidden");
+            document.querySelector("label[for=color-rainbow-lightness-value]").firstElementChild.textContent = "Lightness Offset";
             theme.color.rainbow.lightness = {
                 animate: {
                     speed: +colorRainbowLightnessSpeed.value,
@@ -504,6 +509,7 @@ function updateOutput() {
             }
         } else {
             colorRainbowLightnessAnimateWrapper.classList.add("hidden");
+            document.querySelector("label[for=color-rainbow-lightness-value]").firstElementChild.textContent = "Lightness Value";
             theme.color.rainbow.lightness = {
                 value: colorRainbowLightnessValue.value
             }
@@ -772,7 +778,6 @@ function editTheme(name) {
 function generateRainbowFunction(theme) {
     if (theme.color.rainbow) {
         return () => {
-            // TODO: Fix this function to add new features
             let hue = 0;
             let saturation = 0;
             let lightness = 0;

@@ -95,7 +95,6 @@ class Theme {
         function createOnUpdate() {
             if (theme.color && theme.color.rainbow) {
                 return () => {
-                    // TODO: Fix this function to add new features
                     let hue = 0;
                     let saturation = 0;
                     let lightness = 0;
