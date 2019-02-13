@@ -229,6 +229,24 @@ function importFromObject(j) {
 
     $(themeHue).slider("value", j.color.hue === 0 ? 0 : (j.color.hue || 210));
 
+    colorRainbowHueAnimate.checked = false;
+    colorRainbowHueSpeed.value = 50;
+    $(colorRainbowHueRange).slider("values", [0, 359]);
+    colorRainbowHueAlternate.checked = false;
+    colorRainbowHueValue.value = 180;
+
+    colorRainbowSaturationAnimate.checked = false;
+    colorRainbowSaturationSpeed.value = 50;
+    $(colorRainbowSaturationRange).slider("values", [0, 100]);
+    colorRainbowSaturationAlternate.checked = false;
+    colorRainbowSaturationValue.value = 50;
+    
+    colorRainbowLightnessAnimate.checked = false;
+    colorRainbowLightnessSpeed.value = 50;
+    $(colorRainbowLightnessRange).slider("values", [0, 100]);
+    colorRainbowLightnessAlternate.checked = false;
+    colorRainbowLightnessValue.value = 50;
+
     if (j.color.hue || j.color.hue === 0) {
         themeColorHue.click();
     } else if (j.color.custom) {
