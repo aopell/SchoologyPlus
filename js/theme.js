@@ -43,7 +43,7 @@ class Theme {
                         if (theme.color.hue) {
                             Theme.setBackgroundHue(theme.color.hue);
                         } else if (theme.color.custom) {
-                            Theme.setBackgroundColor(theme.color.custom.primaryColor, theme.color.custom.backgroundColor, theme.color.custom.hoverColor, theme.color.custom.borderColor);
+                            Theme.setBackgroundColor(theme.color.custom.primary, theme.color.custom.background, theme.color.custom.hover, theme.color.custom.border);
                         }
 
                         if (!theme.logo) {

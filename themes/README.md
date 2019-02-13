@@ -15,10 +15,10 @@ A Schoology Plus theme has the following format and components (each component w
         // Only one of the following properties
         "hue": 359,
         "custom": {
-            "primaryColor": "red",
-            "hoverColor": "rgb(0,0,255)",
-            "backgroundColor": "hsl(150,50%,50%)",
-            "borderColor": "#000000"
+            "primary": "red",
+            "hover": "rgb(0,0,255)",
+            "background": "hsl(150,50%,50%)",
+            "border": "#000000"
         },
         "rainbow": {
             "hue": {
@@ -64,13 +64,13 @@ A Schoology Plus theme has the following format and components (each component w
 |Property| Type | Optional? |
 |--|--|--|
 |[`name`](#name)|`string`|false
-|[`hue`](#hue)|`number`|true
-|[`colors`](#colors)|`[string]`|true
-|[`logo`](#logo)|`URL \| string`|true
-|[`cursor`](#cursor)|`URL`|true
-|[`icons`](#icons)|`[[RegExp, URL]]`|true
+|[`version`](#version)|`number`|false
+|[`color`](#color)|`Object`|true
+|[`logo`](#logo)|`Object`|true
+|[`cursor`](#cursor)|`Object`|true
+|[`icons`](#icons)|`[{regex: RegExp, url: URL}]`|true
 
-#### `name`
+### `name`
 |Property||
 |--|--|
 |Key|`name`
@@ -81,58 +81,124 @@ A Schoology Plus theme has the following format and components (each component w
 |Value Restrictions|N/A
 |Special Notes|N/A
 |Example|`"name": "My Theme"`
-#### `hue`
+### `version`
+|Property||
+|--|--|
+|Key|`version`
+|Value Type|`number`|
+|Optional|false
+|Default Value|N/A
+|Description|The version of the theme specification used by the theme
+|Value Restrictions|N/A
+|Special Notes|Backwards compatibility is not guaranteed, so always check this document for the newest theme spec version
+|Example|`"version": 2`
+### `color`
+|Property||
+|--|--|
+|Key|`color`
+|Value Type|`Object`|
+|Optional|true
+|Description|Describes the colors to use for the Schoology interface
+|Special Notes|The color object must contain ***exactly one*** of the following color definitions
+#### `hue` color definition
 |Property||
 |--|--|
 |Key|`hue`
 |Value Type|`number`|
-|Optional|true
-|Default Value|210 (Default Schoology Plus color theme)
 |Description|The theme's HSL color hue, used to color the interface by modifying the saturation and lightness values. The default Schoology Plus theme uses hue 210, and this value will be used by default if no color definitions are present.
-|Value Restrictions|Hues are integers between 0 and 359, however decimal numbers still work and numbers over 359 are subject to a modus of 360.
-|Special Notes|Overridden by the [`colors`](#colors) property if specified
-|Example|`"hue": 300`
-#### `colors`
+|Value Restrictions|Hues are integers between 0 and 359, however decimal numbers still work and numbers over 359 are subject to a modus of 360 (i.e. actual hue value will be `providedHueValue % 360`).
+|Special Notes|N/A|
+**Example**
+```json
+"color": {
+    "hue": 300
+}
+```
+#### `custom` color definition
 |Property||
 |--|--|
-|Key|`colors`
-|Value Type|`string[]`|
-|Optional|true
-|Default Value|`undefined` (Falls back to [`hue`](#hue) if specified, else default blue color theme is used)
-|Description|Allows themes to directly change the four interface colors rather than use a hue with varying saturation and lightness values.
-|Value Restrictions|Array must have length 4 and strings must be [valid CSS colors](https://www.w3schools.com/colors/default.asp) in any valid format
-|Special Notes|<table><tr><th>Index</th><th>Description</th><tr><td>0</td><td>The main interface color used in the navigation bar and as the primary color for buttons and other UI elements. **Should be dark enough to read white text.**</td></tr><tr><td>1</td><td>The background of the  settings dropdown button on the navbar next to your name.</td></tr><tr><td>2</td><td>The background color of buttons and other interactive elements when you hover over them, and the border color of the settings dropdown button on the navbar next to your name. **Should be dark enough to read white text.**</td></tr><tr><td>3</td><td>The border color of buttons.</td></tr></table>Overrides [`hue`](#hue) if set.
-|Example|`"colors": ["#011e3e","#06448E","#b70014","#b70014"]`
-#### `logo`
+|Key|`custom`
+|Value Type|`Object` as defined below|
+|Description|Allows fine control over individual colors in the interface
+|Value Restrictions|Each of the defined colors must be [valid CSS colors](https://www.w3schools.com/colors/default.asp) in any valid format
+|Required Keys|<table><tr><th>Key</th><th>Description</th><tr><td>`primary`</td><td>The main interface color used in the navigation bar and as the primary color for buttons and other UI elements. **Should be dark enough to read white text.**</td></tr><tr><td>`background`</td><td>The color of items in the settings menu (in the top right, when you click your name) when you hover over them.</td></tr><tr><td>`hover`</td><td>The background color of buttons and other interactive elements when you hover over them, and the color of the settings dropdown menu (in the top right, when you click your name). **Should be dark enough to read white text.**</td></tr><tr><td>`border`</td><td>The border color of buttons and the border between the navigation bar and drop-down menus.</td></tr></table>|
+**Example**
+```json
+"color": {
+    "custom": {
+        "primary": "#011e3e",
+        "hover": "#b70014",
+        "background": "#06448e",
+        "border": "#b70014"
+    }
+}
+```
+#### `rainbow` color definition
+|Property||
+|--|--|
+|Key|`rainbow`
+|Value Type|`Object` as defined below|
+|Description|Allows for animations of hue, saturation, and lightness of interface colors|
+|Special Notes|The rainbow options are quite complex, see the following detailed documentation for more inforamtion.|
+### `logo`
 |Property||
 |--|--|
 |Key|`logo`
-|Value Type|`URL | string`|
+|Value Type|`Object` as defined below|
 |Optional|true
 |Default Value|![Schoology logo](https://i.imgur.com/y64kiCY.png)
-|Description|An image URL to be used as the logo on the left side of the navbar.
-|Value Restrictions|A direct link to an image (ideally sized **`160x36`**) -OR- `"schoology"` or `"lausd"`
-|Special Notes|<table><tr><th>Value</th><th>Preview</th></tr><tr><td>`"schoology"`</td><td>![Schoology logo](https://i.imgur.com/y64kiCY.png)</td></tr><tr><td>`"lausd"`</td><td>![LAUSD logo](https://imgur.com/Mm7FXhD.png)</td></tr></table>**NOTE**: The Schoology logo has a transparent background, however the LAUSD logo background is orange as shown.
-|Example|`"logo": "https://example.com/my-correctly-sized-image.png"`<br/>`"logo": "schoology"`
-#### `cursor`
+|Description|Describes the logo to be displayed on the left side of the navbar.
+|Subkey Options (Must contain ***exactly one*** of these subkeys)|<table><tr><td>Key</td><td>Description</td></tr><tr><td>`url`</td><td>A direct link to an image to be used as the logo. Should be **160x50** or smaller for best results.</td></tr><tr><td>`preset`</td><td>One of the values described below that results in a preset image being used as the logo.</td></tr></table>
+|`preset` Values|<table><tr><th>Value</th><th>Preview</th></tr><tr><td>`"schoology_logo"`</td><td>![Schoology logo](https://i.imgur.com/y64kiCY.png)</td></tr><tr><td>`"lausd_legacy"`</td><td>![LAUSD legacy](https://imgur.com/Mm7FXhD.png)</td></tr><tr><td>`"lausd_2019"`</td><td>![LAUSD 2019](https://imgur.com/NOuGRyZ.png)</td></tr></table>**NOTE**: The Schoology logo has a transparent background, however the LAUSD logo backgrounds are orange or dark blue as shown.
+**Examples**
+```json
+// Example using "url"
+"logo": {
+    "url": "https://example.com/my-correctly-sized-image.png"
+}
+
+// Example using "preset"
+"logo": {
+    "preset": "schoology_logo"
+}
+```
+### `cursor`
 |Property||
 |--|--|
 |Key|`cursor`
-|Value Type|`URL`|
+|Value Type|`Object` as defined below|
 |Optional|true
 |Default Value|System default cursor
-|Description|An image url to be used as the standard mouse cursor (i.e. not when hovering over links)
+|Description|Image urls to be used as the mouse curor
 |Value Restrictions|A direct image link. Chrome and Firefox restrict cursor images to a **maximum size of `128x128`**, however it is recommended to use a significantly smaller image size.
-|Special Notes|This only replaces the default cursor (CSS value `default`), not the cursor shown when hovering over links or performing other special actions.
-|Example|`"cursor": "https://imgur.com/5QVrDqX.png"`
-#### `icons`
+|Special Notes|At the moment, this property only supports the default cursor (CSS value `default`), not the cursor shown when hovering over links or performing other special actions. This is currently defined as the `primary` subkey.
+|Subkeys|<table><tr><td>Key</td><td>Description</td></tr><tr><td>`primary`</td><td>The image to be used for the default cursor (CSS value `default`). Does not affect the cursor shown when hovering over links or performing other special actions.</td></tr><tr><td colspan="2">More cursor types coming soon</td></tr></table>
+**Example**
+```json
+"cursor": {
+    "primary": "https://imgur.com/5QVrDqX.png"
+}
+```
+### `icons`
 |Property||
 |--|--|
 |Key|`icons`
-|Value Type|`[[RegExp,URL]]`|
+|Value Type|`[{regex: RegExp, url: URL}]`|
 |Optional|true
 |Default Value|Schoology Plus default course icon set
-|Description|An array of two element arrays, where index 0 is a regular expression and index 1 is an image URLs to be used as an icon for courses with names matching the regular expression.
-|Value Restrictions|An array of arrays where all values at index 0 of subarrays are valid regular expressions and all index 1 values of subarrays are direct image links. Images should be square and at least `32x32` in size, but this is not required.
-|Special Notes|Course names are checked against regular expressions in array order, meaning the elements in the array are checked first *in a non-case-sensitive manor*. If no regular expression matches a specific course, Schoology Plus will fallback to the default Schoology Plus icon set. If you want to prevent this behavior, add an entry such as `".": "https://example.com/my-image.png"` that will match all course titles.
-|Example|`"icons": [["FRENCH", "https://cdn.countryflags.com/thumbs/france/flag-round-250.png"],[".", "https://image.flaticon.com/icons/svg/183/183759.svg"]]`
+|Description|An array of two-key objects, where the key `regex` is a regular expression and the key `url` is an image URL to be used as an icon for courses with names matching the regular expression.
+|Value Restrictions|An array of objects where all values of `regex` keys are valid regular expressions and all values of `url` keys are direct image links. Images should be square and at least `32x32` in size, but this is not required.
+|Special Notes|Course names are checked against regular expressions in array order, meaning the regexes in the objects with lower indecies in the array are checked first *in a non-case-sensitive manor*. If no regular expression matches a specific course, Schoology Plus will fallback to the default Schoology Plus icon set. If you want to prevent this behavior, add an entry such as `".": "https://example.com/my-image.png"` that will match all course titles.
+**Example**
+```json
+"icons": [
+    {
+        "regex": "FRENCH", 
+        "url": "https://cdn.countryflags.com/thumbs/france/flag-round-250.png"
+    },
+    {
+        "regex": ".",
+        "url": "https://image.flaticon.com/icons/svg/183/183759.svg"
+    }
+]
+```

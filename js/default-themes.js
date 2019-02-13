@@ -53,10 +53,10 @@ let __defaultThemes = [
         "version": 2,
         "color": {
             "custom": {
-                "primaryColor": "#143f69",
-                "hoverColor": "#345f89",
-                "backgroundColor": "#345f89",
-                "borderColor": "#024f7d"
+                "primary": "#143f69",
+                "hover": "#345f89",
+                "background": "#345f89",
+                "border": "#024f7d"
             }
         },
         "logo": {
@@ -68,10 +68,10 @@ let __defaultThemes = [
         "version": 2,
         "color": {
             "custom": {
-                "primaryColor": "#ff7a00",
-                "hoverColor": "#ff9a20",
-                "backgroundColor": "#ff8a10",
-                "borderColor": "#df5a00"
+                "primary": "#ff7a00",
+                "hover": "#ff9a20",
+                "background": "#ff8a10",
+                "border": "#df5a00"
             }
         },
         "logo": {
@@ -83,10 +83,10 @@ let __defaultThemes = [
         "version": 2,
         "color": {
             "custom": {
-                "primaryColor": "#0677ba",
-                "hoverColor": "#024f7d",
-                "backgroundColor": "#002c47",
-                "borderColor": "#024f7d"
+                "primary": "#0677ba",
+                "hover": "#024f7d",
+                "background": "#002c47",
+                "border": "#024f7d"
             }
         },
         "logo": {

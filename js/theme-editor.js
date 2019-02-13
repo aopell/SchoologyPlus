@@ -147,10 +147,10 @@ function migrateTheme(t) {
             if (t.colors) {
                 t.color = {
                     custom: {
-                        primaryColor: t.colors[0],
-                        backgroundColor: t.colors[1],
-                        hoverColor: t.colors[2],
-                        borderColor: t.colors[3]
+                        primary: t.colors[0],
+                        background: t.colors[1],
+                        hover: t.colors[2],
+                        border: t.colors[3]
                     }
                 };
                 delete t.colors;
@@ -233,10 +233,10 @@ function importFromObject(j) {
         themeColorHue.click();
     } else if (j.color.custom) {
         let map = {
-            "#theme-primary-color": "primaryColor",
-            "#theme-background-color": "backgroundColor",
-            "#theme-secondary-color": "hoverColor",
-            "#theme-border-color": "borderColor"
+            "#theme-primary-color": "primary",
+            "#theme-background-color": "background",
+            "#theme-secondary-color": "hover",
+            "#theme-border-color": "border"
         };
         Object.keys(map).map(x => $(x).spectrum("set", j.color.custom[map[x]]));
         themeColorCustom.click();
@@ -432,16 +432,16 @@ function updateOutput() {
         themeColorRainbowWrapper.classList.add("hidden");
         theme.color = {
             custom: {
-                primaryColor: $("#theme-primary-color").spectrum("get").toHexString(),
-                hoverColor: $("#theme-secondary-color").spectrum("get").toHexString(),
-                backgroundColor: $("#theme-background-color").spectrum("get").toHexString(),
-                borderColor: $("#theme-border-color").spectrum("get").toHexString()
+                primary: $("#theme-primary-color").spectrum("get").toHexString(),
+                hover: $("#theme-secondary-color").spectrum("get").toHexString(),
+                background: $("#theme-background-color").spectrum("get").toHexString(),
+                border: $("#theme-border-color").spectrum("get").toHexString()
             }
         };
-        setCSSVariable("primary-color", theme.color.custom.primaryColor);
-        setCSSVariable("background-color", theme.color.custom.backgroundColor);
-        setCSSVariable("hover-color", theme.color.custom.hoverColor);
-        setCSSVariable("border-color", theme.color.custom.borderColor);
+        setCSSVariable("primary-color", theme.color.custom.primary);
+        setCSSVariable("background-color", theme.color.custom.background);
+        setCSSVariable("hover-color", theme.color.custom.hover);
+        setCSSVariable("border-color", theme.color.custom.border);
     } else if (themeColorRainbow.checked) {
         themeColorCustomWrapper.classList.add("hidden");
         themeHueWrapper.classList.add("hidden");

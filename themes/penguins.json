@@ -3,10 +3,10 @@
     "version": 2,
     "color": {
         "custom": {
-            "primaryColor": "#3e3d42",
-            "hoverColor": "#fa971e",
-            "backgroundColor": "#3e3d42",
-            "borderColor": "#fa971e"
+            "primary": "#3e3d42",
+            "hover": "#fa971e",
+            "background": "#3e3d42",
+            "border": "#fa971e"
         }
     },
     "logo": {
