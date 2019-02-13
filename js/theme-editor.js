@@ -787,7 +787,7 @@ function generateRainbowFunction(theme) {
                 let range = max - min;
 
                 hue = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
-                if(alternate && hue > max) {
+                if (alternate && hue > max) {
                     hue = max - (hue - max);
                 }
             } else {
@@ -798,7 +798,7 @@ function generateRainbowFunction(theme) {
                 let range = max - min;
 
                 saturation = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
-                if(alternate && saturation > max) {
+                if (alternate && saturation > max) {
                     saturation = max - (saturation - max);
                 }
             } else {
@@ -809,7 +809,7 @@ function generateRainbowFunction(theme) {
                 let range = max - min;
 
                 lightness = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
-                if(alternate && lightness > max) {
+                if (alternate && lightness > max) {
                     lightness = max - (lightness - max);
                 }
             } else {
