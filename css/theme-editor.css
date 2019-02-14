@@ -287,7 +287,21 @@ h2.center {
     }
     .fixed-on-large-and-up {
         position: fixed;
-        width: 50%;
+        width: 60%;
+    }
+}
+
+@media screen and (min-width: 1201px) {
+    .fixed-on-large-and-up {
+        position: fixed;
+        width: 52%;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .hide-below-1300-px {
+        visibility: hidden;
+        width: 0px;
     }
 }
 
