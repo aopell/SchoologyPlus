@@ -71,6 +71,6 @@ modals.push(new Modal("user-courses-in-common-modal", "Courses In Common", creat
     createElement("div", ["splus-modal-contents"], {}, [
         createElement("ul", ["setting-entry", "common-realm-list"], { id: "user-courses-in-common-list" }, [])
     ])
-]), "&copy; Aaron Opell, Glen Husman 2018", setCourseListModalContent));
+]), modalFooterText, setCourseListModalContent));
 
 document.querySelector("#user-courses-in-common-modal .close").onclick = modalClose;
