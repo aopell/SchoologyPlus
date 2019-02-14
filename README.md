@@ -19,6 +19,7 @@
   - [Custom Themes](#custom-themes)
     - [Course Icons](#course-icons)
   - [Tooltips](#tooltips)
+  - [Courses in Common](#courses-in-common)
   - [Miscellaneous Improvements](#miscellaneous-interface-improvements)
 - [Grades Page Improvements](#grades-page-improvements)
   - [Miscellaneous Improvements](#miscellaneous-grades-page-improvements)
