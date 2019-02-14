@@ -12,54 +12,154 @@ class Theme {
 
     static getIcon(course) {
         for (let overridePattern of Theme.profilePictureOverrides) {
-            if (course.match(new RegExp(overridePattern[0], 'i'))) {
-                return overridePattern[1];
+            if (course.match(new RegExp(overridePattern.regex, 'i'))) {
+                return overridePattern.url;
             }
         }
 
         if (Setting.getValue("themes")) {
             let t = Setting.getValue("themes").find(x => x.name === Theme.active.name);
             if (t && t.icons && t.icons instanceof Array) {
+                let regexProp, urlProp;
+                switch(t.version) {
+                    case 2:
+                        regexProp = "regex";
+                        urlProp = "url";
+                        break;
+                    default:
+                        regexProp = 0;
+                        urlProp = 1;
+                        break;
+                }
                 for (let iconPattern of t.icons) {
-                    if (course.match(new RegExp(iconPattern[0], 'i'))) {
-                        return iconPattern[1];
+                    if (course.match(new RegExp(iconPattern[regexProp], 'i'))) {
+                        return iconPattern[urlProp];
                     }
                 }
             }
         }
 
         for (let iconPattern of icons) {
-            if (course.match(new RegExp(iconPattern[0], 'i'))) {
-                return iconPattern[1];
+            if (course.match(new RegExp(iconPattern.regex, 'i'))) {
+                return iconPattern.url;
             }
         }
     }
 
-    static loadFromObject(obj) {
-        if (!obj.name || (obj.hue && Number.isNaN(Number.parseFloat(obj.hue))) || (obj.colors && obj.colors.length != 4)) return null;
-        return new Theme(
-            obj.name,
-            () => {
-                Theme.setBackgroundHue(obj.hue);
-                if (obj.colors) {
-                    Theme.setBackgroundColor(obj.colors[0], obj.colors[1], obj.colors[2], obj.colors[3]);
-                }
-                Theme.setLAUSDLogoVisibility(obj.logo == "lausd_new");
-                Theme.setCursorUrl(obj.cursor);
-                obj.logo = obj.logo || "schoology";
-                switch (obj.logo) {
-                    case "schoology":
-                        Theme.setLogoUrl();
-                        break;
-                    case "lausd":
-                        Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
-                        break;
-                    case "lausd_new":
-                        break;
-                    default:
-                        Theme.setLogoUrl(obj.logo);
+    static loadFromObject(theme) {
+        function createOnApply() {
+            switch (theme.version) {
+                case 2:
+                    return () => {
+                        if (theme.color.hue) {
+                            Theme.setBackgroundHue(theme.color.hue);
+                        } else if (theme.color.custom) {
+                            Theme.setBackgroundColor(theme.color.custom.primary, theme.color.custom.background, theme.color.custom.hover, theme.color.custom.border);
+                        }
+
+                        if (!theme.logo) {
+                            theme.logo = { preset: "schoology_logo" };
+                        }
+                        Theme.setLAUSDLogoVisibility(false);
+                        if (theme.logo.url) {
+                            Theme.setLogoUrl(theme.logo.url);
+                        } else switch (theme.logo.preset) {
+                            case "schoology_logo":
+                                Theme.setLogoUrl();
+                                break;
+                            case "lausd_legacy":
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
+                                break;
+                            case "lausd_2019":
+                                Theme.setLAUSDLogoVisibility(true);
+                                break;
+                        }
+
+                        if (theme.cursor) {
+                            Theme.setCursorUrl(theme.cursor.primary);
+                        }
+                    };
+                default:
+                    return () => {
+                        Theme.setBackgroundHue(theme.hue);
+                        if (theme.colors) {
+                            Theme.setBackgroundColor(theme.colors[0], theme.colors[1], theme.colors[2], theme.colors[3]);
+                        }
+                        Theme.setLAUSDLogoVisibility(theme.logo == "lausd_new");
+                        Theme.setCursorUrl(theme.cursor);
+                        theme.logo = theme.logo || "schoology";
+                        switch (theme.logo) {
+                            case "schoology":
+                                Theme.setLogoUrl();
+                                break;
+                            case "lausd":
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
+                                break;
+                            case "lausd_new":
+                                break;
+                            default:
+                                Theme.setLogoUrl(theme.logo);
+                        }
+                    };
+            }
+        }
+        function createOnUpdate() {
+            if (theme.color && theme.color.rainbow) {
+                return () => {
+                    let hue = 0;
+                    let saturation = 0;
+                    let lightness = 0;
+                    let time = new Date().valueOf();
+
+                    // Equation for time-based hue, saturation, lightness:
+                    // hue = (((time / (150 - speed)) + offset) % (alternate ? range * 2 : range)) + min
+                    // if alternate and hue > max: hue = max - (hue - max)
+
+                    if (theme.color.rainbow.hue.animate) {
+                        let { speed, offset, alternate, min, max } = theme.color.rainbow.hue.animate;
+                        let range = max - min;
+
+                        hue = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
+                        if (alternate && hue > max) {
+                            hue = max - (hue - max);
+                        }
+                    } else {
+                        hue = theme.color.rainbow.hue.value;
+                    }
+                    if (theme.color.rainbow.saturation.animate) {
+                        let { speed, offset, alternate, min, max } = theme.color.rainbow.saturation.animate;
+                        let range = max - min;
+
+                        saturation = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
+                        if (alternate && saturation > max) {
+                            saturation = max - (saturation - max);
+                        }
+                    } else {
+                        saturation = theme.color.rainbow.saturation.value;
+                    }
+                    if (theme.color.rainbow.lightness.animate) {
+                        let { speed, offset, alternate, min, max } = theme.color.rainbow.lightness.animate;
+                        let range = max - min;
+
+                        lightness = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
+                        if (alternate && lightness > max) {
+                            lightness = max - (lightness - max);
+                        }
+                    } else {
+                        lightness = theme.color.rainbow.lightness.value;
+                    }
+
+                    Theme.setBackgroundHue(hue, saturation, lightness);
                 }
             }
+            return undefined;
+        }
+
+        if (!theme.name || (theme.hue && Number.isNaN(Number.parseFloat(theme.hue))) || (theme.colors && theme.colors.length != 4)) return null;
+        return new Theme(
+            theme.name,
+            createOnApply(),
+            createOnUpdate()
         );
     }
 
@@ -89,10 +189,16 @@ class Theme {
         }
     }
 
-    static setBackgroundHue(hue) {
-        if (hue) {
+    static setBackgroundHue(hue, saturation = undefined, lightness = undefined) {
+        if (hue && !saturation && !lightness) {
             document.documentElement.style.setProperty("--color-hue", hue);
             document.documentElement.style.setProperty("--primary-color", "hsl(var(--color-hue), 50%, 50%)");
+            document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
+            document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
+            document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
+        } else if (hue) {
+            document.documentElement.style.setProperty("--color-hue", hue);
+            document.documentElement.style.setProperty("--primary-color", `hsl(var(--color-hue), ${saturation}%, ${lightness}%)`);
             document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
             document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
             document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
@@ -270,40 +376,10 @@ Theme.profilePictureOverrides = [];
 
 let tempTheme = undefined;
 
-let themes = [
-    Theme.loadFromObject({
-        name: "Schoology Plus",
-        hue: 210
-    }),
-    new Theme(
-        "Rainbow",
-        function () {
-            Theme.setBackgroundHue((new Date().valueOf() / 100) % 360);
-        },
-        function () {
-            Theme.setBackgroundHue((new Date().valueOf() / 100) % 360);
-        }
-    ),
-    Theme.loadFromObject({
-        name: "Toy",
-        hue: 150,
-        cursor: chrome.runtime.getURL("imgs/toy-mode.png")
-    }),
-    Theme.loadFromObject({
-        name: "LAUSD Dark Blue",
-        colors: ["#143f69", "#345f89", "#345f89", "#024f7d"],
-        logo: "lausd_new"
-    }),
-    Theme.loadFromObject({
-        name: "LAUSD Orange",
-        colors: ["#FF7A00", "#FF8A10", "#FF9A20", "#DF5A00"],
-        logo: "lausd"
-    }),
-    Theme.loadFromObject({
-        name: "Schoology Default",
-        colors: ["#0677ba", "#002c47", "#024f7d", "#024f7d"]
-    })
-];
+let themes = [];
+for(let t of __defaultThemes) {
+    themes.push(Theme.loadFromObject(t));
+}
 
 setInterval(() => {
     if (Theme.active.onupdate) {

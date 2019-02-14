@@ -139,10 +139,18 @@ let migrationsTo = {
             }
 
             chrome.storage.sync.remove(["lastBroadcastId", "hideUpdateIndicator"]);
-            chrome.storage.sync.set({
-                broadcasts: values.broadcasts === "feed" ? "enabled" : values.broadcasts,
-                themes: values.themes
-            });
+
+            let newValues = {};
+
+            if (values.broadcasts !== null && values.broadcasts !== undefined) {
+                newValues.broadcasts = values.broadcasts === "feed" ? "enabled" : values.broadcasts;
+            }
+
+            if (values.themes !== null && values.themes !== undefined) {
+                newValues.themes = values.themes;
+            }
+
+            chrome.storage.sync.set(newValues);
         });
     },
     "5.0": function (currentVersion, previousVersion) {

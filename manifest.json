@@ -65,6 +65,7 @@
             ],
             "js": [
                 "js/icons.js",
+                "js/default-themes.js",
                 "js/theme.js",
                 "js/preload.js"
             ],

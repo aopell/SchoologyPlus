@@ -151,7 +151,7 @@ let modals = [
 
     let overrides = await Promise.all(profilePicLoadTasks);
     for (let course of overrides) {
-        Theme.profilePictureOverrides.push([escapeRegExp(course.course_title) + " ?: " + escapeRegExp(course.section_title), course.profile_url]);
+        Theme.profilePictureOverrides.push({regex: escapeRegExp(course.course_title) + " ?: " + escapeRegExp(course.section_title), url: course.profile_url});
     }
 
     if (profilePicLoadTasks.length > 0) {

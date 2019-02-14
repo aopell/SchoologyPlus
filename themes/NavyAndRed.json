@@ -1,0 +1,15 @@
+{
+    "name": "Navy and Red",
+    "version": 2,
+    "color": {
+        "custom": {
+            "primary": "#011e3e",
+            "hover": "#b70014",
+            "background": "#06448e",
+            "border": "#b70014"
+        }
+    },
+    "logo": {
+        "preset": "schoology_logo"
+    }
+}

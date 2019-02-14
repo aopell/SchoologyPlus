@@ -1,9 +1,11 @@
 const schoologyLogoImageUrl = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg";
 const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
 const lausdNewImageUrl = "https://lms.lausd.net/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/Asset%202_5c15191c5dd7e.png";
-const defaultThemes = ["Schoology Plus", "LAUSD Orange", "Toy", "Rainbow", "LAUSD Dark Blue", "Schoology Default"];
+const CURRENT_VERSION = 2;
 
-var allThemes;
+var allThemes = {};
+var defaultThemes = [];
+var rainbowInterval = null;
 var themeName = document.getElementById("theme-name");
 var themeHue = document.getElementById("theme-hue");
 var themePrimaryColor = document.getElementById("theme-primary-color");
@@ -18,7 +20,27 @@ var themeLogo = document.getElementById("theme-logo");
 var themeCursor = document.getElementById("theme-cursor");
 var themeColorHue = document.getElementById("theme-color-hue");
 var themeColorCustom = document.getElementById("theme-color-custom");
+var themeColorRainbow = document.getElementById("theme-color-rainbow");
 var themeColorCustomWrapper = document.getElementById("theme-color-custom-wrapper");
+var themeColorRainbowWrapper = document.getElementById("theme-color-rainbow-wrapper");
+var colorRainbowHueAnimate = document.getElementById("color-rainbow-hue-animate");
+var colorRainbowSaturationAnimate = document.getElementById("color-rainbow-saturation-animate");
+var colorRainbowLightnessAnimate = document.getElementById("color-rainbow-lightness-animate");
+var colorRainbowHueAnimateWrapper = document.getElementById("color-rainbow-hue-animate-wrapper");
+var colorRainbowSaturationAnimateWrapper = document.getElementById("color-rainbow-saturation-animate-wrapper");
+var colorRainbowLightnessAnimateWrapper = document.getElementById("color-rainbow-lightness-animate-wrapper");
+var colorRainbowHueSpeed = document.getElementById("color-rainbow-hue-speed");
+var colorRainbowHueValue = document.getElementById("color-rainbow-hue-value");
+var colorRainbowSaturationSpeed = document.getElementById("color-rainbow-saturation-speed");
+var colorRainbowSaturationValue = document.getElementById("color-rainbow-saturation-value");
+var colorRainbowLightnessSpeed = document.getElementById("color-rainbow-lightness-speed");
+var colorRainbowLightnessValue = document.getElementById("color-rainbow-lightness-value");
+var colorRainbowHueAlternate = document.getElementById("color-rainbow-hue-alternate");
+var colorRainbowSaturationAlternate = document.getElementById("color-rainbow-saturation-alternate");
+var colorRainbowLightnessAlternate = document.getElementById("color-rainbow-lightness-alternate");
+var colorRainbowHueRange = document.getElementById("color-rainbow-hue-range");
+var colorRainbowSaturationRange = document.getElementById("color-rainbow-saturation-range");
+var colorRainbowLightnessRange = document.getElementById("color-rainbow-lightness-range");
 var themeHueWrapper = document.getElementById("theme-hue-wrapper");
 var themeLogoWrapper = document.getElementById("theme-logo-wrapper");
 var previewSection = document.getElementById("preview-section");
@@ -52,13 +74,13 @@ lockButton.addEventListener("click", e => {
         lockButton.classList.remove("locked");
         lockButton.classList.add("btn");
         lockButton.classList.remove("btn-flat");
-        lockIcon.textContent = "vertical_align_top";
+        lockIcon.textContent = "lock_open";
     } else {
         previewSection.classList.add("fixed-on-large-and-up");
         lockButton.classList.add("locked");
         lockButton.classList.add("btn-flat");
         lockButton.classList.remove("btn");
-        lockIcon.textContent = "vertical_align_center";
+        lockIcon.textContent = "lock";
     }
 });
 
@@ -95,10 +117,17 @@ var mTabs = M.Tabs.init(document.querySelector(".tabs"));
 
 function generateErrors(j) {
     let w = [];
-    if (!j.name) w.push("Theme must have a name")
-    if (j.hue && Number.isNaN(Number.parseFloat(j.hue))) w.push("Value of 'hue' must be a number");
-    if (j.colors && j.colors.length != 4) w.push("There must be four colors in 'colors'");
-    if (j.colors && j.colors.map(x => !!validateColor(x)).includes(false)) w.push("One or more values of 'colors' is not a valid color");
+    switch (j.version) {
+        case 2:
+            if (!j.name) w.push("Theme must have a name");
+            break;
+        default:
+            if (!j.name) w.push("Theme must have a name")
+            if (j.hue && Number.isNaN(Number.parseFloat(j.hue))) w.push("Value of 'hue' must be a number");
+            if (j.colors && j.colors.length != 4) w.push("There must be four colors in 'colors'");
+            if (j.colors && j.colors.map(x => !!validateColor(x)).includes(false)) w.push("One or more values of 'colors' is not a valid color");
+            break;
+    }
     return w;
 }
 
@@ -107,6 +136,63 @@ function importThemeFromOutput() {
     warnings = [];
     j = parseJSONObject(output.value);
     importFromObject(j);
+}
+
+function migrateTheme(t) {
+    switch (t.version) {
+        case 2:
+            break;
+        default:
+            t.version = 2;
+            if (t.colors) {
+                t.color = {
+                    custom: {
+                        primary: t.colors[0],
+                        background: t.colors[1],
+                        hover: t.colors[2],
+                        border: t.colors[3]
+                    }
+                };
+                delete t.colors;
+                delete t.hue;
+            } else if (t.hue) {
+                t.color = {
+                    hue: t.hue
+                };
+                delete t.hue;
+            }
+            if (t.logo) {
+                switch (t.logo) {
+                    case "schoology":
+                        t.logo = { preset: "schoology_logo" };
+                        break;
+                    case "lausd":
+                        t.logo = { preset: "lausd_legacy" };
+                        break;
+                    case "lausd_new":
+                        t.logo = { preset: "lausd_2019" };
+                        break;
+                    default:
+                        t.logo = { url: t.logo };
+                        break;
+                }
+            }
+            if (t.cursor) {
+                t.cursor = { primary: t.cursor };
+            }
+            if (t.icons) {
+                let newIconsArray = [];
+                for (let icon of t.icons) {
+                    newIconsArray.push({
+                        regex: icon[0],
+                        url: icon[1]
+                    });
+                }
+                t.icons = newIconsArray;
+            }
+            break;
+    }
+    return t.version == CURRENT_VERSION ? t : migrateTheme(t);
 }
 
 /**
@@ -121,54 +207,167 @@ function importFromObject(j) {
     }
 
     errors = generateErrors(j);
-    if (warnings.length > 0) {
+    if (errors.length > 0) {
         updatePreview(false);
         return;
     }
 
+    j = migrateTheme(j);
+
     themeName.value = j.name;
 
     themeLogo.value = "";
-    j.logo = j.logo || "schoology";
-    if (j.logo == "schoology") themeSchoologyLogo.click();
-    else if (j.logo == "lausd") themeLAUSDLogo.click();
-    else if (j.logo == "lausd_new") themeNewLAUSDLogo.click();
-    else {
-        themeLogo.value = j.logo;
+    j.logo = j.logo || { preset: "schoology_logo" };
+    if (j.logo.preset) {
+        if (j.logo.preset == "schoology_logo") themeSchoologyLogo.click();
+        else if (j.logo.preset == "lausd_legacy") themeLAUSDLogo.click();
+        else if (j.logo.preset == "lausd_2019") themeNewLAUSDLogo.click();
+    } else {
+        themeLogo.value = j.logo.url;
         themeCustomLogo.click();
     }
 
-    $("#theme-hue").slider("value", j.hue || 210);
+    $(themeHue).slider("value", j.color.hue === 0 ? 0 : (j.color.hue || 210));
 
-    if (j.hue) themeColorHue.click();
+    colorRainbowHueAnimate.checked = false;
+    colorRainbowHueSpeed.value = 50;
+    $(colorRainbowHueRange).slider("values", [0, 359]);
+    colorRainbowHueAlternate.checked = false;
+    colorRainbowHueValue.value = 180;
 
-    if (j.colors) {
-        ["primary-color", "background-color", "secondary-color", "border-color"].map((x, i) => $("#theme-" + x).spectrum("set", j.colors[i]));
+    colorRainbowSaturationAnimate.checked = false;
+    colorRainbowSaturationSpeed.value = 50;
+    $(colorRainbowSaturationRange).slider("values", [0, 100]);
+    colorRainbowSaturationAlternate.checked = false;
+    colorRainbowSaturationValue.value = 50;
+
+    colorRainbowLightnessAnimate.checked = false;
+    colorRainbowLightnessSpeed.value = 50;
+    $(colorRainbowLightnessRange).slider("values", [0, 100]);
+    colorRainbowLightnessAlternate.checked = false;
+    colorRainbowLightnessValue.value = 50;
+
+    if (j.color.hue || j.color.hue === 0) {
+        themeColorHue.click();
+    } else if (j.color.custom) {
+        let map = {
+            "#theme-primary-color": "primary",
+            "#theme-background-color": "background",
+            "#theme-secondary-color": "hover",
+            "#theme-border-color": "border"
+        };
+        Object.keys(map).map(x => $(x).spectrum("set", j.color.custom[map[x]]));
         themeColorCustom.click();
-    }
+    } else if (j.color.rainbow) {
+        themeColorRainbow.click();
 
-    if (!j.hue && !j.colors) themeColorHue.click();
+        if (!!j.color.rainbow.hue.animate !== colorRainbowHueAnimate.checked) {
+            colorRainbowHueAnimate.click();
+        }
 
-    iconList.innerHTML = "";
-    if (j.icons) {
-        if (j.icons instanceof Array) {
-            for (let i of j.icons) {
-                let row = addIcon();
-                row.querySelector(".class-name").textContent = i[0];
-                row.querySelector(".icon-url").textContent = i[1];
-                row.querySelector(".small-icon-preview").src = i[1];
+        if (j.color.rainbow.hue.animate) {
+            colorRainbowHueSpeed.value = j.color.rainbow.hue.animate.speed;
+            colorRainbowHueValue.value = j.color.rainbow.hue.animate.offset;
+            if (!!j.color.rainbow.hue.animate.alternate !== colorRainbowHueAlternate.checked) {
+                colorRainbowHueAlternate.click();
             }
+            $(colorRainbowHueRange).slider("values", [
+                j.color.rainbow.hue.animate.min
+                    && j.color.rainbow.hue.animate.min < j.color.rainbow.hue.animate.max
+                    && j.color.rainbow.hue.animate.min >= 0
+                    && j.color.rainbow.hue.animate.min <= 359
+                    ? j.color.rainbow.hue.animate.min
+                    : 0,
+                j.color.rainbow.hue.animate.max
+                    && j.color.rainbow.hue.animate.max > j.color.rainbow.hue.animate.min
+                    && j.color.rainbow.hue.animate.max >= 0
+                    && j.color.rainbow.hue.animate.max <= 359
+                    ? j.color.rainbow.hue.animate.max
+                    : 359
+            ]);
         } else {
-            for (let k in j.icons) {
-                let row = addIcon();
-                row.querySelector(".class-name").textContent = k;
-                row.querySelector(".icon-url").textContent = j.icons[k];
-                row.querySelector(".small-icon-preview").src = j.icons[k];
+            colorRainbowHueValue.value = j.color.rainbow.hue.value;
+        }
+
+        if (!!j.color.rainbow.saturation.animate !== colorRainbowSaturationAnimate.checked) {
+            colorRainbowSaturationAnimate.click();
+        }
+
+        if (j.color.rainbow.saturation.animate) {
+            colorRainbowSaturationSpeed.value = j.color.rainbow.saturation.animate.speed;
+            colorRainbowSaturationValue.value = j.color.rainbow.saturation.animate.offset;
+            if (!!j.color.rainbow.saturation.animate.alternate !== colorRainbowSaturationAlternate.checked) {
+                colorRainbowSaturationAlternate.click();
             }
+            $(colorRainbowSaturationRange).slider("values", [
+                j.color.rainbow.saturation.animate.min
+                    && j.color.rainbow.saturation.animate.min < j.color.rainbow.saturation.animate.max
+                    && j.color.rainbow.saturation.animate.min >= 0
+                    && j.color.rainbow.saturation.animate.min <= 100
+                    ? j.color.rainbow.saturation.animate.min
+                    : 0,
+                j.color.rainbow.saturation.animate.max
+                    && j.color.rainbow.saturation.animate.max > j.color.rainbow.saturation.animate.min
+                    && j.color.rainbow.saturation.animate.max >= 0
+                    && j.color.rainbow.saturation.animate.max <= 100
+                    ? j.color.rainbow.saturation.animate.max
+                    : 100
+            ]);
+        } else {
+            colorRainbowSaturationValue.value = j.color.rainbow.saturation.value;
+        }
+
+        if (!!j.color.rainbow.lightness.animate !== colorRainbowLightnessAnimate.checked) {
+            colorRainbowLightnessAnimate.click();
+        }
+
+        if (j.color.rainbow.lightness.animate) {
+            colorRainbowLightnessSpeed.value = j.color.rainbow.lightness.animate.speed;
+            colorRainbowLightnessValue.value = j.color.rainbow.lightness.animate.offset;
+            if (!!j.color.rainbow.lightness.animate.alternate !== colorRainbowLightnessAlternate.checked) {
+                colorRainbowLightnessAlternate.click();
+            }
+            $(colorRainbowLightnessRange).slider("values", [
+                j.color.rainbow.lightness.animate.min
+                    && j.color.rainbow.lightness.animate.min < j.color.rainbow.lightness.animate.max
+                    && j.color.rainbow.lightness.animate.min >= 0
+                    && j.color.rainbow.lightness.animate.min <= 100
+                    ? j.color.rainbow.lightness.animate.min
+                    : 0,
+                j.color.rainbow.lightness.animate.max
+                    && j.color.rainbow.lightness.animate.max > j.color.rainbow.lightness.animate.min
+                    && j.color.rainbow.lightness.animate.max >= 0
+                    && j.color.rainbow.lightness.animate.max <= 100
+                    ? j.color.rainbow.lightness.animate.max
+                    : 100
+            ]);
+        } else {
+            colorRainbowLightnessValue.value = j.color.rainbow.lightness.value;
         }
     }
 
-    themeCursor.value = j.cursor || "";
+    for(let el of themeColorRainbowWrapper.querySelectorAll("input[type=range][data-label]")) {
+        document.getElementById(el.dataset.label).textContent = el.value;
+    }
+
+    for(let el of [colorRainbowHueRange, colorRainbowSaturationRange, colorRainbowLightnessRange]) {
+        document.getElementById(el.id + "-display").textContent = `${$(el).slider("values")[0]} - ${$(el).slider("values")[1]}`;
+    }
+
+    iconList.innerHTML = "";
+    if (j.icons) {
+        for (let i of j.icons) {
+            let row = addIcon();
+            row.querySelector(".class-name").textContent = i.regex;
+            row.querySelector(".icon-url").textContent = i.url;
+            row.querySelector(".small-icon-preview").src = i.url;
+        }
+    }
+
+    themeCursor.value = "";
+    if (j.cursor && j.cursor.primary) {
+        themeCursor.value = j.cursor.primary;
+    }
 
     M.updateTextFields();
     updateOutput();
@@ -224,10 +423,12 @@ initPicker("theme-background-color", updateOutput);
 initPicker("theme-border-color", updateOutput);
 
 function updateOutput() {
+    clearInterval(rainbowInterval);
     warnings = [];
     errors = [];
     theme = {
-        name: themeName.value || undefined
+        name: themeName.value || undefined,
+        version: 2
     };
 
     // Name
@@ -241,9 +442,12 @@ function updateOutput() {
     if (themeColorHue.checked) {
         themeColorCustomWrapper.classList.add("hidden");
         themeHueWrapper.classList.remove("hidden");
-        theme.hue = $("#theme-hue").slider("value");
+        themeColorRainbowWrapper.classList.add("hidden");
+        theme.color = {
+            hue: $(themeHue).slider("value")
+        };
 
-        setCSSVariable("color-hue", theme.hue == 0 ? 0 : (theme.hue || 210));
+        setCSSVariable("color-hue", theme.color.hue == 0 ? 0 : (theme.color.hue || 210));
         setCSSVariable("primary-color", "hsl(var(--color-hue), 50%, 50%)");
         setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
         setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
@@ -251,45 +455,135 @@ function updateOutput() {
     } else if (themeColorCustom.checked) {
         themeColorCustomWrapper.classList.remove("hidden");
         themeHueWrapper.classList.add("hidden");
-        theme.colors = [
-            $("#theme-primary-color").spectrum("get").toHexString(),
-            $("#theme-secondary-color").spectrum("get").toHexString(),
-            $("#theme-background-color").spectrum("get").toHexString(),
-            $("#theme-border-color").spectrum("get").toHexString()
-        ];
-        setCSSVariable("primary-color", theme.colors[0]);
-        setCSSVariable("background-color", theme.colors[1]);
-        setCSSVariable("hover-color", theme.colors[2]);
-        setCSSVariable("border-color", theme.colors[3]);
+        themeColorRainbowWrapper.classList.add("hidden");
+        theme.color = {
+            custom: {
+                primary: $("#theme-primary-color").spectrum("get").toHexString(),
+                hover: $("#theme-secondary-color").spectrum("get").toHexString(),
+                background: $("#theme-background-color").spectrum("get").toHexString(),
+                border: $("#theme-border-color").spectrum("get").toHexString()
+            }
+        };
+        setCSSVariable("primary-color", theme.color.custom.primary);
+        setCSSVariable("background-color", theme.color.custom.background);
+        setCSSVariable("hover-color", theme.color.custom.hover);
+        setCSSVariable("border-color", theme.color.custom.border);
+    } else if (themeColorRainbow.checked) {
+        themeColorCustomWrapper.classList.add("hidden");
+        themeHueWrapper.classList.add("hidden");
+        themeColorRainbowWrapper.classList.remove("hidden");
+
+        theme.color = {
+            rainbow: {
+                hue: {},
+                saturation: {},
+                lightness: {}
+            }
+        };
+
+        if (colorRainbowHueAnimate.checked) {
+            colorRainbowHueAnimateWrapper.classList.remove("hidden");
+            document.querySelector("label[for=color-rainbow-hue-value]").firstElementChild.textContent = "Hue Offset";
+            theme.color.rainbow.hue = {
+                animate: {
+                    speed: +colorRainbowHueSpeed.value,
+                    offset: +colorRainbowHueValue.value,
+                    min: $(colorRainbowHueRange).slider("values")[0],
+                    max: $(colorRainbowHueRange).slider("values")[1],
+                    alternate: colorRainbowHueAlternate.checked
+                }
+            }
+        } else {
+            colorRainbowHueAnimateWrapper.classList.add("hidden");
+            document.querySelector("label[for=color-rainbow-hue-value]").firstElementChild.textContent = "Hue Value";
+            theme.color.rainbow.hue = {
+                value: colorRainbowHueValue.value
+            }
+        }
+
+        if (colorRainbowSaturationAnimate.checked) {
+            colorRainbowSaturationAnimateWrapper.classList.remove("hidden");
+            document.querySelector("label[for=color-rainbow-saturation-value]").firstElementChild.textContent = "Saturation Offset";
+            theme.color.rainbow.saturation = {
+                animate: {
+                    speed: +colorRainbowSaturationSpeed.value,
+                    offset: +colorRainbowSaturationValue.value,
+                    min: $(colorRainbowSaturationRange).slider("values")[0],
+                    max: $(colorRainbowSaturationRange).slider("values")[1],
+                    alternate: colorRainbowSaturationAlternate.checked
+                }
+            }
+        } else {
+            colorRainbowSaturationAnimateWrapper.classList.add("hidden");
+            document.querySelector("label[for=color-rainbow-saturation-value]").firstElementChild.textContent = "Saturation Value";
+            theme.color.rainbow.saturation = {
+                value: colorRainbowSaturationValue.value
+            }
+        }
+
+        if (colorRainbowLightnessAnimate.checked) {
+            colorRainbowLightnessAnimateWrapper.classList.remove("hidden");
+            document.querySelector("label[for=color-rainbow-lightness-value]").firstElementChild.textContent = "Lightness Offset";
+            theme.color.rainbow.lightness = {
+                animate: {
+                    speed: +colorRainbowLightnessSpeed.value,
+                    offset: +colorRainbowLightnessValue.value,
+                    min: $(colorRainbowLightnessRange).slider("values")[0],
+                    max: $(colorRainbowLightnessRange).slider("values")[1],
+                    alternate: colorRainbowLightnessAlternate.checked
+                }
+            }
+        } else {
+            colorRainbowLightnessAnimateWrapper.classList.add("hidden");
+            document.querySelector("label[for=color-rainbow-lightness-value]").firstElementChild.textContent = "Lightness Value";
+            theme.color.rainbow.lightness = {
+                value: colorRainbowLightnessValue.value
+            }
+        }
+
+        let f = generateRainbowFunction(theme);
+        if (f) {
+            rainbowInterval = setInterval(f, 100);
+        }
     }
 
     // Logo
     themeLogoWrapper.classList.add("hidden");
     if (themeSchoologyLogo.checked) {
-        theme.logo = "schoology";
+        theme.logo = {
+            preset: "schoology_logo"
+        };
         setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
     } else if (themeNewLAUSDLogo.checked) {
-        theme.logo = "lausd_new";
+        theme.logo = {
+            preset: "lausd_2019"
+        };
         setCSSVariable("background-url", `url(${lausdNewImageUrl})`);
     } else if (themeLAUSDLogo.checked) {
-        theme.logo = "lausd";
+        theme.logo = {
+            preset: "lausd_legacy"
+        };
         setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
     } else if (themeCustomLogo.checked) {
         themeLogoWrapper.classList.remove("hidden");
         if (themeLogo.value) {
-            theme.logo = themeLogo.value;
+            theme.logo = {
+                url: themeLogo.value
+            };
             checkImage(themeLogo.value, x => {
                 if (x.target.width != 160 || x.target.height < 36 || x.target.height > 60) {
                     warnings.push("Logo image is not between the recommended sizes of 160x36 and 160x60");
                 }
-                setCSSVariable("background-url", `url(${theme.logo})`);
+                setCSSVariable("background-url", `url(${themeLogo.value})`);
             }, () => errors.push("Logo URL does not point to a valid image"));
         }
     }
 
     // Cursor
     if (themeCursor.value) {
-        theme.cursor = themeCursor.value;
+        theme.cursor = {
+            primary: themeCursor.value
+        };
         checkImage(themeCursor.value, x => {
             if (x.target.width > 128 || x.target.height > 128) {
                 errors.push("Cursor images must be smaller than 128x128 to appear");
@@ -317,7 +611,10 @@ function updateOutput() {
             } catch {
                 errors.push(pattern + " is not a valid regular expression (Course Icons)");
             }
-            customIcons.push([pattern, url]);
+            customIcons.push({
+                regex: pattern,
+                url
+            });
         }
         theme.icons = customIcons;
     }
@@ -463,19 +760,12 @@ function createElement(tag, classList, properties, children) {
     return element;
 }
 
-let rainbowInterval = null;
 /**
  * Applies the theme with the given name
  * @param {string} t The theme's name
  */
 function applyTheme(t) {
-    clearInterval(rainbowInterval);
-    if (t == "Rainbow") {
-        rainbowInterval = setInterval(rainbow, 100);
-        importFromObject({ name: "Rainbow", hue: (new Date().valueOf() / 100) % 360 });
-    } else if (allThemes[t]) {
-        importFromObject(allThemes[t]);
-    }
+    importFromObject(allThemes[t]);
 }
 
 /**
@@ -483,9 +773,10 @@ function applyTheme(t) {
  * @param {string} name The theme's name
  */
 function deleteTheme(name) {
-    let allUserThemes = Object.values(allThemes).slice(4);
     if (confirm(`Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`)) {
-        chrome.storage.sync.set({ themes: allUserThemes.filter(x => x.name != name) }, () => window.location.reload());
+        chrome.storage.sync.get(["theme", "themes"], s => {
+            chrome.storage.sync.set({ theme: s.theme == name ? null : s.theme, themes: s.themes.filter(x => x.name != name) }, () => window.location.reload());
+        });
         return true;
     }
     return false;
@@ -511,13 +802,60 @@ function editTheme(name) {
 /**
  * Cycles the color of the interface
  */
-function rainbow() {
-    let hue = (new Date().valueOf() / 100) % 360;
-    document.documentElement.style.setProperty("--color-hue", hue);
-    setCSSVariable("primary-color", "hsl(var(--color-hue), 50%, 50%)");
-    setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
-    setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
-    setCSSVariable("border-color", "hsl(var(--color-hue), 60%, 25%)");
+function generateRainbowFunction(theme) {
+    if (theme.color.rainbow) {
+        return () => {
+            let hue = 0;
+            let saturation = 0;
+            let lightness = 0;
+            let time = new Date().valueOf();
+
+            // Equation for time-based hue, saturation, lightness:
+            // hue = (((time / (150 - speed)) + offset) % (alternate ? range * 2 : range)) + min
+            // if alternate and hue > max: hue = max - (hue - max)
+
+            if (theme.color.rainbow.hue.animate) {
+                let { speed, offset, alternate, min, max } = theme.color.rainbow.hue.animate;
+                let range = max - min;
+
+                hue = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
+                if (alternate && hue > max) {
+                    hue = max - (hue - max);
+                }
+            } else {
+                hue = theme.color.rainbow.hue.value;
+            }
+            if (theme.color.rainbow.saturation.animate) {
+                let { speed, offset, alternate, min, max } = theme.color.rainbow.saturation.animate;
+                let range = max - min;
+
+                saturation = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
+                if (alternate && saturation > max) {
+                    saturation = max - (saturation - max);
+                }
+            } else {
+                saturation = theme.color.rainbow.saturation.value;
+            }
+            if (theme.color.rainbow.lightness.animate) {
+                let { speed, offset, alternate, min, max } = theme.color.rainbow.lightness.animate;
+                let range = max - min;
+
+                lightness = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
+                if (alternate && lightness > max) {
+                    lightness = max - (lightness - max);
+                }
+            } else {
+                lightness = theme.color.rainbow.lightness.value;
+            }
+
+            document.documentElement.style.setProperty("--color-hue", hue);
+            setCSSVariable("primary-color", `hsl(var(--color-hue), ${saturation}%, ${lightness}%)`);
+            setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
+            setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
+            setCSSVariable("border-color", "hsl(var(--color-hue), 60%, 25%)");
+        }
+    }
+    return undefined;
 }
 
 function addIcon() {
@@ -623,15 +961,15 @@ function iconPreview(e) {
 
         if (theme && theme.icons) {
             for (let iconPattern of theme.icons) {
-                if (s.match(new RegExp(iconPattern[0], 'i'))) {
-                    return iconPattern[1];
+                if (s.match(new RegExp(iconPattern.regex, 'i'))) {
+                    return iconPattern.url;
                 }
             }
         }
 
         for (let iconPattern of icons) {
-            if (s.match(new RegExp(iconPattern[0], 'i'))) {
-                return iconPattern[1];
+            if (s.match(new RegExp(iconPattern.regex, 'i'))) {
+                return iconPattern.url;
             }
         }
     })(iconTestText.value);
@@ -650,10 +988,17 @@ function copyThemeToClipboard(themeName) {
 
 function inEditMode() { return !!document.querySelector(".show-editor-controls"); }
 
-function sliderEvent(event, ui) {
+function hueSliderEvent(event, ui) {
     if (event.originalEvent) {
         updateOutput();
         document.getElementById("color-hue-value").textContent = ui.value.toString();
+    }
+}
+
+function rangeSliderEvent(event, ui) {
+    if (event.originalEvent) {
+        document.getElementById(event.target.id + "-display").textContent = `${ui.values[0]} - ${ui.values[1]}`;
+        updateOutput();
     }
 }
 
@@ -661,44 +1006,53 @@ $(document).ready(function () {
     $("#theme-hue").slider({
         min: 0,
         max: 359,
-        slide: sliderEvent,
-        stop: sliderEvent,
-        change: sliderEvent
+        slide: hueSliderEvent,
+        stop: hueSliderEvent,
+        change: hueSliderEvent
     });
 
-    chrome.storage.sync.get(["theme", "themes"], s => {
-        allThemes = {
-            "Schoology Plus": {
-                name: "Schoology Plus",
-                hue: 210
-            },
-            "Rainbow": undefined,
-            "Toy": {
-                name: "Toy",
-                hue: 150,
-                cursor: "https://raw.githubusercontent.com/aopell/SchoologyPlus/master/imgs/toy-mode.png"
-            },
-            "LAUSD Orange": {
-                name: "LAUSD Orange",
-                colors: [
-                    "#FF7A00",
-                    "#FF8A10",
-                    "#FF9A20",
-                    "#DF5A00"
-                ],
-                logo: "lausd"
-            },
-            "LAUSD Dark Blue": {
-                name: "LAUSD Dark Blue",
-                colors: ["#143f69", "#345f89", "#345f89", "#024f7d"],
-                logo: "lausd_new"
-            },
-            "Schoology Default": {
-                name: "Schoology Default",
-                colors: ["#0677ba", "#002c47", "#024f7d", "#024f7d"]
-            }
-        };
+    $("#color-rainbow-hue-range").slider({
+        min: 0,
+        max: 359,
+        range: true,
+        slide: rangeSliderEvent,
+        stop: rangeSliderEvent,
+        change: rangeSliderEvent,
+        values: [0, 359]
+    });
 
+    $("#color-rainbow-saturation-range").slider({
+        min: 0,
+        max: 100,
+        range: true,
+        slide: rangeSliderEvent,
+        stop: rangeSliderEvent,
+        change: rangeSliderEvent,
+        values: [0, 100]
+    });
+
+    $("#color-rainbow-lightness-range").slider({
+        min: 0,
+        max: 100,
+        range: true,
+        slide: rangeSliderEvent,
+        stop: rangeSliderEvent,
+        change: rangeSliderEvent,
+        values: [0, 100]
+    });
+
+    let oninput = e => document.getElementById(e.target.dataset.label).textContent = e.target.value;
+    for (let input of themeColorRainbowWrapper.querySelectorAll("input[type=range][data-label]")) {
+        input.addEventListener("input", oninput);
+        document.getElementById(input.dataset.label).textContent = input.value;
+    }
+
+    for (let t of __defaultThemes) {
+        allThemes[t.name] = t;
+        defaultThemes.push(t.name);
+    }
+
+    chrome.storage.sync.get(["theme", "themes"], s => {
         // default theme is "Schoology Plus"
         s.theme = s.theme || "Schoology Plus";
 
