@@ -240,7 +240,7 @@ function importFromObject(j) {
     $(colorRainbowSaturationRange).slider("values", [0, 100]);
     colorRainbowSaturationAlternate.checked = false;
     colorRainbowSaturationValue.value = 50;
-    
+
     colorRainbowLightnessAnimate.checked = false;
     colorRainbowLightnessSpeed.value = 50;
     $(colorRainbowLightnessRange).slider("values", [0, 100]);
@@ -765,9 +765,10 @@ function applyTheme(t) {
  * @param {string} name The theme's name
  */
 function deleteTheme(name) {
-    let allUserThemes = Object.values(allThemes).slice(4);
     if (confirm(`Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`)) {
-        chrome.storage.sync.set({ themes: allUserThemes.filter(x => x.name != name) }, () => window.location.reload());
+        chrome.storage.sync.get(["theme", "themes"], s => {
+            chrome.storage.sync.set({ theme: s.theme == name ? null : s.theme, themes: s.themes.filter(x => x.name != name) }, () => window.location.reload());
+        });
         return true;
     }
     return false;
