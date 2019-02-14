@@ -60,6 +60,12 @@
 - Toolips for items on the materials page show previews
   - Assignments show score and grade category
   - PDF files show previews and number of pages
+
+### Courses In Common
+![Courses in Common](https://imgur.com/0tEgPhh.png)
+*Image: Dialog box showing courses in common with another classmate*
+- View all courses you share with a classmate
+
 ### Miscellaneous Interface Improvements
 - Adds a "Grades" link to the navigation bar for easy access from any page
 - Adds a button to quickly jump to archived courses in the Courses drop-down list*
