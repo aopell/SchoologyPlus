@@ -12,25 +12,36 @@ class Theme {
 
     static getIcon(course) {
         for (let overridePattern of Theme.profilePictureOverrides) {
-            if (course.match(new RegExp(overridePattern[0], 'i'))) {
-                return overridePattern[1];
+            if (course.match(new RegExp(overridePattern.regex, 'i'))) {
+                return overridePattern.url;
             }
         }
 
         if (Setting.getValue("themes")) {
             let t = Setting.getValue("themes").find(x => x.name === Theme.active.name);
             if (t && t.icons && t.icons instanceof Array) {
+                let regexProp, urlProp;
+                switch(t.version) {
+                    case 2:
+                        regexProp = "regex";
+                        urlProp = "url";
+                        break;
+                    default:
+                        regexProp = 0;
+                        urlProp = 1;
+                        break;
+                }
                 for (let iconPattern of t.icons) {
-                    if (course.match(new RegExp(iconPattern[0], 'i'))) {
-                        return iconPattern[1];
+                    if (course.match(new RegExp(iconPattern[regexProp], 'i'))) {
+                        return iconPattern[urlProp];
                     }
                 }
             }
         }
 
         for (let iconPattern of icons) {
-            if (course.match(new RegExp(iconPattern[0], 'i'))) {
-                return iconPattern[1];
+            if (course.match(new RegExp(iconPattern.regex, 'i'))) {
+                return iconPattern.url;
             }
         }
     }

@@ -961,15 +961,15 @@ function iconPreview(e) {
 
         if (theme && theme.icons) {
             for (let iconPattern of theme.icons) {
-                if (s.match(new RegExp(iconPattern[0], 'i'))) {
-                    return iconPattern[1];
+                if (s.match(new RegExp(iconPattern.regex, 'i'))) {
+                    return iconPattern.url;
                 }
             }
         }
 
         for (let iconPattern of icons) {
-            if (s.match(new RegExp(iconPattern[0], 'i'))) {
-                return iconPattern[1];
+            if (s.match(new RegExp(iconPattern.regex, 'i'))) {
+                return iconPattern.url;
             }
         }
     })(iconTestText.value);
