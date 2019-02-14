@@ -35,13 +35,13 @@
 
 ## Interface Improvements
 ### Blue Theme
-![Navigation Bar](https://i.imgur.com/mn1Ll4A.png)
+![Navigation Bar](https://i.imgur.com/VbTn30Y.png)
 
 *Image: The blue Schology Plus navigation bar*
 - Replaces the orange LAUSD theme with a blue theme
 - Replaces the LAUSD logo with the Schoology logo
 ### Custom Themes
-![Built-in Themes](https://i.imgur.com/QPpxVvF.gif)
+![Built-in Themes](https://i.imgur.com/Tjfa5tJ.gif)
 
 *Image: Demonstration of the built-in themes*
 - You can create a custom theme or choose one of the small selection of built-in themes (including rainbow mode!)
@@ -146,7 +146,7 @@
 - They will also show as posts in your news feed*
 
 ## Schoology Plus Settings
-![Settings](https://i.imgur.com/1OKSqwO.png)
+![Settings](https://i.imgur.com/KwKmsTo.png)
 
 *Image: The Schoology Plus settings dialog box. Click the (+) button on the navigation bar to open.*
 
@@ -168,9 +168,9 @@ Schoology Plus has the following customizable settings:
 
 ### Theme Editor
 
-![Custom Theme](https://i.imgur.com/oRb7DO6.png)
+![Custom Theme](https://i.imgur.com/f5Fc7VE.png)
 
-*Image: The theme editor interface with an example of a custom Lavender theme*
+*Image: The theme editor interface with an example of a custom Black and White theme*
 
 Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the [Theme Editor Help Page](themes/README.md).
 
