@@ -48,7 +48,7 @@
 - One of the built-in themes is the "LAUSD Orange" theme which restores the interface to the LAUSD theme (including the logo)
 - To learn more about creating custom themes, see [Theme Editor](#theme-editor)
 #### Course Icons
-![Course Icons](https://i.imgur.com/38nzcs4.png)
+![Course Icons](https://imgur.com/KybIeXw.png)
 
 *Image: Example of built-in course icons*
 - Built-in course icons for many courses*
