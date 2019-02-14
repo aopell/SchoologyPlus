@@ -8,7 +8,7 @@ bottom.appendChild(createElement("span", ["footer-divider"], { textContent: "|" 
 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
-let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2019 | <a href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://github.com/aopell/SchoologyPlus/releases/latest"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://github.com/aopell/SchoologyPlus/issues/new" title="Submit bug report or feature request">Send Feedback</a> | <a href="https://github.com/aopell/SchoologyPlus">GitHub</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog"> Changelog</a>`;
+let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2019 | <a href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://github.com/aopell/SchoologyPlus/releases/latest"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://aopell.github.io/SchoologyPlus/discord.html" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Support Server</a> | <a href="https://github.com/aopell/SchoologyPlus">GitHub</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog"> Changelog</a>`;
 let modalFooterText = "Schoology Plus";
 
 let frame = document.createElement("iframe");
