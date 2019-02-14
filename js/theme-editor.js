@@ -346,6 +346,14 @@ function importFromObject(j) {
         }
     }
 
+    for(let el of themeColorRainbowWrapper.querySelectorAll("input[type=range][data-label]")) {
+        document.getElementById(el.dataset.label).textContent = el.value;
+    }
+
+    for(let el of [colorRainbowHueRange, colorRainbowSaturationRange, colorRainbowLightnessRange]) {
+        document.getElementById(el.id + "-display").textContent = `${$(el).slider("values")[0]} - ${$(el).slider("values")[1]}`;
+    }
+
     iconList.innerHTML = "";
     if (j.icons) {
         for (let i of j.icons) {
