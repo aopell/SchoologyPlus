@@ -4,9 +4,7 @@ let courseSettingsCourseName;
     let sidebar = document.querySelector(".course-info-wrapper dl");
     if (sidebar) {
         let button = createButton("splus-course-options", "Course Options");
-        let img = createElement("img", [], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 19 });
-        img.style.marginLeft = "8px";
-        img.style.marginTop = "4px";
+        let img = createElement("img", [], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 19, style: { verticalAlign: "middle", paddingLeft: "4px" } });
         button.prepend(img);
         button.querySelector("input").style.paddingLeft = "4px";
         button.style.cursor = "pointer";
@@ -19,7 +17,7 @@ let courseSettingsCourseName;
 modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", [], {}, [
     createElement("div", ["splus-modal-contents"], {}, [
         createElement("div", ["setting-entry"], {}, [
-            createElement("h1", ["setting-title"], { id: "course-options-course-name" })
+            createElement("h1", ["setting-title", "splus-coursealiasing-exempt"], { id: "course-options-course-name" })
         ]),
         createElement("div", ["setting-entry"], {}, [
             createElement("h2", ["setting-title"], {}, [
