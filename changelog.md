@@ -1,5 +1,34 @@
 # Changelog
 
+## Version 5.1 - February 14, 2019
+
+### Added
+
+- Grade simulation support for excused, missing, and incomplete assignments
+- Reorder Courses button to courses dropdown
+- Rainbow support to custom themes!
+  - Hue, saturation, and lightness can be customized and animated
+  - Rainbow can be combined with other theme features like course icons, banner logos, and custom cursors
+  - Documentation of this feature is on the wiki
+- Discord server for support and feedback
+  - Linked from Schoology Plus Settings
+
+### Changed
+
+- When the window size is small, "Grades" now remains in the titlebar
+  - "Resources" is moved to the "More" menu
+- Various documentation updates to reflect the new Schoology interface
+- Footer text in modals now shows "Schoology Plus" instead of less useful copyright information
+- Themes use a new JSON format internally
+  - Themes using the old format will be automatically converted upon import
+
+### Fixed
+
+- Various theme editor glitches fixed
+- Long course names will no longer mess up spacing in courses dropdown
+- Fixed duplicated point value inserts in grade posted notifications
+- Point value inserts when assignments are excused, marked missing, or marked incomplete no longer show "null"
+
 ## Version 5.0 - December 19, 2018
 
 ### Added
