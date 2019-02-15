@@ -26,7 +26,8 @@
                     <ul id="nav-mobile" class="left">
                         <li>
                             <a data-position="right" data-tooltip="Help" class="waves-effect waves-light tooltipped"
-                                href="https://github.com/aopell/SchoologyPlus/wiki/Theme-Editor#wiki-content" target="_blank">
+                                href="https://github.com/aopell/SchoologyPlus/wiki/Theme-Editor#wiki-content"
+                                target="_blank">
                                 <i class="material-icons">help</i>
                             </a>
                         </li>
@@ -36,8 +37,8 @@
                     </div>
                     <ul id="nav-mobile" class="right">
                         <li>
-                            <a id="close-button" data-position="left" data-tooltip="Exit" class="waves-effect waves-light tooltipped"
-                                href="#!">
+                            <a id="close-button" data-position="left" data-tooltip="Exit"
+                                class="waves-effect waves-light tooltipped" href="#!">
                                 <i class="material-icons">clear</i>
                             </a>
                         </li>
@@ -52,7 +53,8 @@
                 <div class="section row">
                     <h5 id="themes-header">
                         Themes
-                        <a id="create-button" data-tooltip="Create Theme" class="waves-effect waves-light btn-floating right action-button tooltipped"><i
+                        <a id="create-button" data-tooltip="Create Theme"
+                            class="waves-effect waves-light btn-floating right action-button tooltipped"><i
                                 class="material-icons">add</i></a>
                     </h5>
                     <div class="section">
@@ -76,7 +78,7 @@
                             <input id="theme-color-hue" class="with-gap" name="color-group" type="radio" checked />
                             <span>Color Hue</span>
                         </label>
-                        <div class="col s12" id="theme-hue-wrapper">
+                        <div class="col s12" id="theme-hue-wrapper" style="width: 90%; padding-left: 7.5%;">
                             <label for="theme-hue">Color Hue<span id="color-hue-value" class="right"></span></label>
                             <div id="theme-hue"></div>
                         </div>
@@ -86,22 +88,156 @@
                             <input id="theme-color-custom" class="with-gap" name="color-group" type="radio" />
                             <span>Custom Colors</span>
                         </label>
-                        <div id="theme-color-custom-wrapper" class="hidden">
+                        <div id="theme-color-custom-wrapper" class="hidden" style="width: 90%; padding-left: 5%;">
                             <div class="input-field col s12 m6">
-                                <input id="theme-primary-color" disabled>
+                                <input id="theme-primary-color">
                                 <label for="theme-primary-color" class="active">Primary Color</label>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="theme-secondary-color" disabled>
+                                <input id="theme-secondary-color">
                                 <label for="theme-secondary-color" class="active">Hover Color</label>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="theme-background-color" disabled>
+                                <input id="theme-background-color">
                                 <label for="theme-background-color" class="active">Background Color</label>
                             </div>
                             <div class="input-field col s12 m6">
-                                <input id="theme-border-color" disabled>
+                                <input id="theme-border-color">
                                 <label for="theme-border-color" class="active">Border Color</label>
+                            </div>
+                        </div>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-color-rainbow" class="with-gap" name="color-group" type="radio" />
+                            <span>Rainbow</span>
+                        </label>
+                        <div id="theme-color-rainbow-wrapper" style="width: 85%; padding-left: 7.5%;">
+                            <div class="card-panel yellow darken-3 black-text" style="padding: 15px;">
+                                <h6 style="line-height: 24px; vertical-align: middle;"><i class="material-icons left" style="margin-right: 5px;">warning</i>Warning</h6>
+                                <p>
+                                    This section contains advanced features. Please consult <a style="color: black; text-decoration: underline" href="https://github.com/aopell/SchoologyPlus/wiki/Creating-a-Theme#Rainbow">the
+                                        documentation</a> for how to use rainbow colors in your theme.
+                                </p>
+                            </div>
+                            <div>
+                                <h6>Hue</h6>
+                                <div style="width: 90%; padding-left: 5%;">
+                                    <label>
+                                        <input id="color-rainbow-hue-animate" class="filled-in" type="checkbox" />
+                                        <span>Animate</span>
+                                    </label>
+                                    <div id="color-rainbow-hue-animate-wrapper">
+                                        <label for="color-rainbow-hue-speed">
+                                            Animation Speed
+                                            <span id="color-rainbow-hue-speed-display" class="right">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-hue-speed" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-hue-speed-display" />
+                                            </div>
+                                        </label>
+                                        <label for="color-rainbow-hue-range">
+                                            Hue Range
+                                            <span id="color-rainbow-hue-range-display" class="right">0 - 359</span>
+                                            <div id="color-rainbow-hue-range"></div>
+                                        </label>
+                                        <label>
+                                            <input id="color-rainbow-hue-alternate" class="filled-in" type="checkbox" />
+                                            <span>Alternate</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="color-rainbow-hue-value">
+                                            <span>Hue Value</span>
+                                            <span class="right" id="color-rainbow-hue-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-hue-value" min="0" max="359" type="range"
+                                                    data-label="color-rainbow-hue-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h6>Saturation</h6>
+                                <div style="width: 90%; padding-left: 5%;">
+                                    <label>
+                                        <input id="color-rainbow-saturation-animate" class="filled-in"
+                                            type="checkbox" />
+                                        <span>Animate</span>
+                                    </label>
+                                    <div id="color-rainbow-saturation-animate-wrapper">
+                                        <label for="color-rainbow-saturation-speed">
+                                            Animation Speed
+                                            <span class="right" id="color-rainbow-saturation-speed-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-saturation-speed" min="0" max="100"
+                                                    type="range" data-label="color-rainbow-saturation-speed-display" />
+                                            </div>
+                                        </label>
+                                        <label for="color-rainbow-saturation-range">
+                                            Saturation Range
+                                            <span id="color-rainbow-saturation-range-display" class="right">0 -
+                                                100</span>
+                                            <div id="color-rainbow-saturation-range"></div>
+                                        </label>
+                                        <label>
+                                            <input id="color-rainbow-saturation-alternate" class="filled-in"
+                                                type="checkbox" />
+                                            <span>Alternate</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="color-rainbow-saturation-value">
+                                            <span>Saturation Value</span>
+                                            <span class="right" id="color-rainbow-saturation-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-saturation-value" min="0" max="100"
+                                                    type="range" data-label="color-rainbow-saturation-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h6>Lightness</h6>
+                                <div style="width: 90%; padding-left: 5%;">
+                                    <label>
+                                        <input id="color-rainbow-lightness-animate" class="filled-in" type="checkbox" />
+                                        <span>Animate</span>
+                                    </label>
+                                    <div id="color-rainbow-lightness-animate-wrapper">
+                                        <label for="color-rainbow-lightness-speed">
+                                            Animation Speed
+                                            <span class="right" id="color-rainbow-lightness-speed-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-lightness-speed" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-lightness-speed-display" />
+                                            </div>
+                                        </label>
+                                        <label for="color-rainbow-lightness-range">
+                                            Lightness Range
+                                            <span id="color-rainbow-lightness-range-display" class="right">0 -
+                                                100</span>
+                                            <div id="color-rainbow-lightness-range"></div>
+                                        </label>
+                                        <label>
+                                            <input id="color-rainbow-lightness-alternate" class="filled-in"
+                                                type="checkbox" />
+                                            <span>Alternate</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="color-rainbow-lightness-value">
+                                            <span>Lightness Value</span>
+                                            <span class="right" id="color-rainbow-lightness-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-lightness-value" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-lightness-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </p>
@@ -131,8 +267,8 @@
                             <input id="theme-custom-logo" class="with-gap" name="logo-group" type="radio" />
                             <span>Custom Image</span>
                         </label>
-                        <div id="theme-logo-wrapper" class="input-field col s12 hidden">
-                            <input id="theme-logo" type="url" class="validate" disabled>
+                        <div id="theme-logo-wrapper" class="input-field col s12 hidden" style="width: 90%; margin-left: 5%; margin-top: 0;">
+                            <input id="theme-logo" type="url" class="validate">
                             <label for="theme-logo">Logo Image URL</label>
                         </div>
                     </p>
@@ -146,17 +282,21 @@
                 </div>
             </div>
             <div class="col s12 l8 xl7 push-xl1">
-                <div id="preview-section" class="section">
+                <div id="preview-section" class="section fixed-on-large-and-up">
                     <h5>
-                        <a id="lock-button" data-tooltip="Toggle preview follow scroll" class="waves-effect waves-light btn hide-on-med-and-down tooltipped">
-                            <i id="lock-icon" class="material-icons left">vertical_align_center</i>
+                        <a id="lock-button" data-tooltip="Toggle preview lock"
+                            class="waves-effect waves-light btn-flat locked hide-on-med-and-down tooltipped">
+                            <i id="lock-icon" class="material-icons left">lock</i>
                         </a>
                         Preview
-                        <a id="save-close-button" data-tooltip="Save and Apply" class="waves-effect waves-light btn-flat right action-button tooltipped"><i
+                        <a id="save-close-button" data-tooltip="Save and Apply"
+                            class="waves-effect waves-light btn-flat right action-button tooltipped"><i
                                 class="material-icons">done</i></a>
-                        <a id="save-button" data-tooltip="Save Theme" class="waves-effect waves-light btn-flat right action-button tooltipped"><i
+                        <a id="save-button" data-tooltip="Save Theme"
+                            class="waves-effect waves-light btn-flat right action-button tooltipped"><i
                                 class="material-icons">save</i></a>
-                        <a id="discard-button" data-tooltip="Discard Changes" class="waves-effect waves-light btn-flat right action-button tooltipped"><i
+                        <a id="discard-button" data-tooltip="Discard Changes"
+                            class="waves-effect waves-light btn-flat right action-button tooltipped"><i
                                 class="material-icons">settings_backup_restore</i></a>
                     </h5>
                     <div id="error-card" class="col s12" style="display:none;">
@@ -207,15 +347,15 @@
                                                                 courses</h2>
                                                         </div>
                                                     </li>
-                                                    <li>
+                                                    <li class="hide-below-1300-px">
                                                         <a>RESOURCES</a>
                                                     </li>
                                                 </ul>
                                                 <ul id="preview-right-nav" class="right">
                                                     <li>
                                                         <a>
-                                                            <img id="preview-splus-settings" src="/imgs/new-plus-icon.svg"
-                                                                width="22" />
+                                                            <img id="preview-splus-settings"
+                                                                src="/imgs/new-plus-icon.svg" width="22" />
                                                         </a>
                                                     </li>
                                                     <li id="preview-settings-menu">
@@ -223,9 +363,10 @@
                                                             <img src="https://asset-cdn.schoology.com/system/files/imagecache/profile_tiny/sites/all/themes/schoology_theme/images/user-default.gif"
                                                                 alt="Your Name" id="preview-profile-pic">
                                                             <span>YOUR NAME</span>
-                                                            <svg id="preview-down-arrow" viewBox="0 0 15 10" id="icon-small-caret-white"
-                                                                width="100%" height="100%">
-                                                                <path d="M12.78.443L9.756 3.952 8.294 5.65l-.761.884-.033.03-.032-.03-.762-.884-1.463-1.698L2.221.442C1.06-.902-.79 1.126.365 2.468L5.722 8.7c.4.465.795 1.071 1.387 1.249.136.04.266.056.391.051.125.005.255-.01.39-.051.593-.178.988-.784 1.388-1.249l5.357-6.232c1.154-1.342-.696-3.37-1.856-2.024"
+                                                            <svg id="preview-down-arrow" viewBox="0 0 15 10"
+                                                                id="icon-small-caret-white" width="100%" height="100%">
+                                                                <path
+                                                                    d="M12.78.443L9.756 3.952 8.294 5.65l-.761.884-.033.03-.032-.03-.762-.884-1.463-1.698L2.221.442C1.06-.902-.79 1.126.365 2.468L5.722 8.7c.4.465.795 1.071 1.387 1.249.136.04.266.056.391.051.125.005.255-.01.39-.051.593-.178.988-.784 1.388-1.249l5.357-6.232c1.154-1.342-.696-3.37-1.856-2.024"
                                                                     fill="#FFF" fill-rule="evenodd"></path>
                                                             </svg>
                                                         </a>
@@ -268,7 +409,8 @@
                                                 </div>
                                             </div>
                                             <div class="splus-modal-footer">
-                                                <p class="splus-modal-footer-text">&copy; Aaron Opell, Glen Husman 2018</p>
+                                                <p class="splus-modal-footer-text">&copy; Aaron Opell, Glen Husman 2018
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -282,7 +424,15 @@
                                         height="49" id="test-icon">
                                 </div>
                                 <div class="input-field col s9 m10 l11">
-                                    <input type="text" id="icon-test-text" placeholder="Type a class name here to preview its icon">
+                                    <input type="text" id="icon-test-text"
+                                        placeholder="Type a class name here to preview its icon">
+                                </div>
+                                <div class="col s12 card-panel yellow darken-3 black-text" style="padding: 15px;">
+                                    <h6 style="line-height: 24px; vertical-align: middle;"><i class="material-icons left" style="margin-right: 5px;">warning</i>Warning</h6>
+                                    <p>
+                                        This section contains advanced features. Please consult <a style="color: black; text-decoration: underline" href="https://github.com/aopell/SchoologyPlus/wiki/Creating-a-Theme#Icons">the
+                                            documentation</a> for how to use custom icons in your theme.
+                                    </p>
                                 </div>
                                 <table id="icon-list-table">
                                     <colgroup>
@@ -296,9 +446,12 @@
                                         <tr>
                                             <th></th>
                                             <th>
-                                                <span style="vertical-align: middle;">Class Name Regular Expression</span>
-                                                <a target="_blank" href="https://www.regular-expressions.info/quickstart.html"><i
-                                                        class="material-icons tooltipped" data-tooltip="Regular expressions are a special way to check if text matches a pattern. Click for more info."
+                                                <span style="vertical-align: middle;">Class Name Regular
+                                                    Expression</span>
+                                                <a target="_blank"
+                                                    href="https://www.regular-expressions.info/quickstart.html"><i
+                                                        class="material-icons tooltipped"
+                                                        data-tooltip="Regular expressions are a special way to check if text matches a pattern. Click for more info."
                                                         style="vertical-align: middle; color: black;">help</i></a>
                                             </th>
                                             <th>Icon URL</th>
@@ -311,7 +464,8 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody id="icon-list" data-text="This theme has no icons - in edit mode, press the + button above to add a new icon">
+                                    <tbody id="icon-list"
+                                        data-text="This theme has no icons - in edit mode, press the + button above to add a new icon">
                                         <!-- <tr>
                                             <td style="text-align: center">
                                                 <a class="tooltipped action-button arrow-button move-down" data-tooltip="Move Down">
@@ -344,7 +498,8 @@
                         <div id="tab-json" class="col s12">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <textarea id="json-output" class="materialize-textarea" readonly wrap="off" style="overflow-x:auto;"></textarea>
+                                    <textarea id="json-output" class="materialize-textarea" readonly wrap="off"
+                                        style="overflow-x:auto;"></textarea>
                                     <label for="json-output">JSON</label>
                                 </div>
                             </div>
@@ -358,6 +513,7 @@
     <script src="/lib/js/materialize.min.js"></script>
     <script src="/lib/js/jquery-ui.min.js"></script>
     <script src="/js/icons.js"></script>
+    <script src="/js/default-themes.js"></script>
     <script src="/js/theme-editor.js"></script>
 </body>
 

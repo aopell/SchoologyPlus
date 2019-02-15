@@ -139,10 +139,18 @@ let migrationsTo = {
             }
 
             chrome.storage.sync.remove(["lastBroadcastId", "hideUpdateIndicator"]);
-            chrome.storage.sync.set({
-                broadcasts: values.broadcasts === "feed" ? "enabled" : values.broadcasts,
-                themes: values.themes
-            });
+
+            let newValues = {};
+
+            if (values.broadcasts !== null && values.broadcasts !== undefined) {
+                newValues.broadcasts = values.broadcasts === "feed" ? "enabled" : values.broadcasts;
+            }
+
+            if (values.themes !== null && values.themes !== undefined) {
+                newValues.themes = values.themes;
+            }
+
+            chrome.storage.sync.set(newValues);
         });
     },
     "5.0": function (currentVersion, previousVersion) {
@@ -176,6 +184,16 @@ let migrationsTo = {
                 chrome.storage.sync.remove(["hue"]);
             }
         });
+    },
+    "5.1": function (currentVersion, previousVersion) {
+        saveBroadcasts([
+            createBroadcast(
+                510,
+                "New Schoology Plus Discord Server",
+                "Schoology Plus has a new Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. <a href=\"https://aopell.github.io/SchoologyPlus/discord.html\">Click here</a> to join!",
+                new Date(2019, 1 /* February - don't you just love JavaScript */, 14)
+            )
+        ]);
     }
 };
 
