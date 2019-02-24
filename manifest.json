@@ -161,6 +161,15 @@
         },
         {
             "matches": [
+                "https://lms.lausd.net/assignment/*/assessment"
+            ],
+            "js": [
+                "js/assessment.js"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
                 "https://lms.lausd.net/*"
             ],
             "js": [
