@@ -396,6 +396,15 @@ This reskins the foreground to match our background
 }
 
 /*
+In the same vein as #139, to address stylistic discreptancies between the buttons
+*/
+.popups-buttons span {
+    border: 1px solid !important;
+    border-color: #999 #999 #888 !important;
+    background: url('https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/gray-btn-bg.gif') repeat-x 0 1px !important;
+}
+
+/*
 newfangled trim and UI w/ obfuscated class names
 the selector matches inside notifications in the new notifs dropdown
 */
