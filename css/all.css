@@ -387,6 +387,15 @@ h1.setting-title {
 }
 
 /*
+#139 fix
+We reskin background but not foreground in .popups-buttons
+This reskins the foreground to match our background
+*/
+.popups-buttons input {
+    color: #fff;
+}
+
+/*
 newfangled trim and UI w/ obfuscated class names
 the selector matches inside notifications in the new notifs dropdown
 */
