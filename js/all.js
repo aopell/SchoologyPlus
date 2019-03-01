@@ -152,7 +152,7 @@ let modals = [
 
     let overrides = await Promise.all(profilePicLoadTasks);
     for (let course of overrides) {
-        Theme.profilePictureOverrides.push({regex: escapeRegExp(course.course_title) + " ?: " + escapeRegExp(course.section_title), url: course.profile_url});
+        Theme.profilePictureOverrides.push({ regex: escapeRegExp(course.course_title) + " ?: " + escapeRegExp(course.section_title), url: course.profile_url });
     }
 
     if (profilePicLoadTasks.length > 0) {
@@ -644,6 +644,49 @@ let siteNavigationTileHelpers = {
             fixNavButtons();
         }, false);
     }
+})();
+
+// Reorder UI custom icons
+(function () {
+    let docObserver = new MutationObserver(function (mutationList) {
+        if (!shouldProcessMutations(mutationList)) {
+            return;
+        }
+
+        // make sure the reorder UI is visible; if not, don't try the expensive query
+        let reorderHeader = document.querySelector("header.LGaPf h1._3eD4l._3UytQ._3v0y7._16XsF._8a6xl");
+        if (!reorderHeader || reorderHeader.textContent != "Reorder Courses") {
+            return;
+        }
+
+        // cards in the reorder UI
+        let reorderUiCards = document.querySelectorAll("div._1Z0RM._1tpub._2V6ED._3xHd3.L1I_b._9GENG._3LeCL._34eht._349XD.fjQuT.uQOmx._17X0S._36TKt._3qXK_._3WTX2.Mcjpm._4iu5i.jDhMt._3WDJD.CrxjQ[role=\"dialog\"][aria-labelledby*=\"reorder-ui\"] div._1Z0RM._3skcp._5jizS._1tpub._1SnLN._3LeCL._3lLLU._2gJbx.Card-card-2rORL");
+
+        let reprocessPictures = [];
+
+        for (let classCard of reorderUiCards) {
+            let classImg = classCard.querySelector("img._2oHes");
+            if (!classImg) {
+                continue;
+            }
+
+            // div containing course, section, and school names
+            let descDiv = classCard.querySelector("div._1wP6w._2s0LQ._2qcpH._1XYMV._17Z60._2oHes");
+
+            // <COURSE NAME>: <SECTION NAME>
+            let nameComponents = [];
+            for (let descPart of descDiv.querySelectorAll("div:not([class])")) {
+                nameComponents.push(descPart.textContent);
+            }
+
+            classImg.alt = "Profile picture for " + nameComponents.join(": ");
+            reprocessPictures.push(classImg);
+        }
+
+        Theme.setProfilePictures(reprocessPictures);
+    });
+
+    docObserver.observe(document.body, { childList: true, subtree: true });
 })();
 
 Logger.log("Finished loading all.js");
