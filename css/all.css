@@ -424,6 +424,23 @@ the selector matches inside notifications in the new notifs dropdown
     display: block;
 }
 
+#popups-overlay {
+    width: 100% !important;
+}
+
+.splus-modal-open {
+    overflow: hidden;
+}
+
+.popups-small {
+    left: calc(50vw - 225px) !important;
+}
+
+.popups-large {
+    left: calc(50vw - 300px) !important;
+}
+
+/* I believe this is unused, but we might want it in the future for replacing rainbow with proper CSS animations if easily possible */
 @keyframes rainbow {
     0% {
         background-color: hsl(0, 50%, 50%);

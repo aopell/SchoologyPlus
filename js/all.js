@@ -234,6 +234,7 @@ function openModal(id, options) {
     let mm = modals.find(m => m.id == id);
     if (mm.onopen) mm.onopen(mm, options);
     mm.element.style.display = "block";
+    document.documentElement.classList.add("splus-modal-open");
 }
 
 function modalClose(element) {
@@ -245,6 +246,7 @@ function modalClose(element) {
     }
 
     element.style.display = "none";
+    document.documentElement.classList.remove("splus-modal-open");
 }
 
 /**
