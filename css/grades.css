@@ -157,6 +157,12 @@ input#enable-modify {
     align-items: center;
 }
 
+.splus-gradeedit-checkbox-holder-wrapper > * {
+    display: inline-flex;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 .grade-add-indicator.hidden,
 .report-row.item-row.hidden {
     display: none !important;

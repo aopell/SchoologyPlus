@@ -297,9 +297,31 @@ var fetchQueue = [];
             }
         }
 
-        let timeRow = document.getElementById("past-selector") || document.querySelector(".content-top-upper").insertAdjacentElement('afterend', document.createElement("div"));
+        let timeRow = document.getElementById("past-selector");
+        let gradeModifLabelFirst = true;
+        if (timeRow == null) {
+            // basically a verbose null propagation
+            // timeRow = document.querySelector(".content-top-upper")?.insertAdjacentElement('afterend', document.createElement("div"))
+            let contentTopUpper = document.querySelector(".content-top-upper");
+            if (contentTopUpper) {
+                timeRow = contentTopUpper.insertAdjacentElement('afterend', document.createElement("div"));
+            }
+        }
+        if (timeRow == null) {
+            let downloadBtn = document.querySelector("#main-inner .download-grade-wrapper");
+            if (downloadBtn) {
+                let checkboxHolder = document.createElement("span");
+                checkboxHolder.id = "splus-gradeedit-checkbox-holder";
+                downloadBtn.prepend(checkboxHolder);
 
-        timeRow.appendChild(createElement("label", ["modify-label"], {
+                downloadBtn.classList.add("splus-gradeedit-checkbox-holder-wrapper");
+
+                timeRow = checkboxHolder;
+                gradeModifLabelFirst = false;
+            }
+        }
+
+        let timeRowLabel = createElement("label", ["modify-label"], {
             htmlFor: "enable-modify"
         }, [
                 createElement("span", [], { textContent: "Enable grade modification" }),
@@ -307,7 +329,11 @@ var fetchQueue = [];
                     href: "https://github.com/aopell/SchoologyPlus/wiki/Grade-Edit-Simulator",
                     target: "_blank"
                 }, [createElement("span", ["icon-help"])])
-            ]));
+            ]);
+
+        if (gradeModifLabelFirst) {
+            timeRow.appendChild(timeRowLabel);
+        }
 
         timeRow.appendChild(createElement("input", [], {
             type: "checkbox",
@@ -663,7 +689,7 @@ var fetchQueue = [];
                     for (let kabob of document.getElementsByClassName("kabob-menu")) {
                         kabob.classList.remove("hidden");
                     }
-                // uncheck the grades modify box without having modified grades
+                    // uncheck the grades modify box without having modified grades
                 } else if (!gradesModified) {
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
                         edit.style.display = "none";
@@ -682,16 +708,20 @@ var fetchQueue = [];
                         $.contextMenu("destroy", "#" + courseElement.id + " " + addedAssignRClickSelector);
                     }
                     $.contextMenu("destroy", droppedAssignRClickSelector);
-                // uncheck the edit checkbox, with modified grades existing: prompt: does user confirm?
+                    // uncheck the edit checkbox, with modified grades existing: prompt: does user confirm?
                 } else if (confirm("Disabling grade edits now will reload the page and erase all existing modified grades. Proceed?")) {
                     // not going to try to undo any grade modifications
                     document.location.reload();
-                // attempted to disable grade editing but backed out of confirmation prompt
+                    // attempted to disable grade editing but backed out of confirmation prompt
                 } else {
                     document.getElementById("enable-modify").checked = true;
                 }
             }
         }));
+
+        if (!gradeModifLabelFirst) {
+            timeRow.appendChild(timeRowLabel);
+        }
     }
 
     for (let courseTask of courseLoadTasks) {
