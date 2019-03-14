@@ -209,3 +209,11 @@ input#enable-modify {
     word-spacing:normal;
     letter-spacing:normal; 
 }
+
+img.splus-coursegradebox-taint {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    filter: brightness(0.0625); /* 1/16; corresponds with Schoology's #111111 */
+    padding-right: 0.1em;
+}
