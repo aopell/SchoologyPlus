@@ -378,6 +378,12 @@ h1.setting-title {
     display: inline;
 }
 
+.popups-body .no-answer-provided {
+    background: url('https://lms.lausd.net/sites/all/themes/schoology_theme/images/error_404.png') no-repeat 0 0;
+    padding: 0 0 0 25px;
+    font-weight: bold;
+}
+
 #grading-scale-wrapper {
     margin-top: 7px !important;
 }
