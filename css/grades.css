@@ -217,3 +217,10 @@ img.splus-coursegradebox-taint {
     filter: brightness(0.0625); /* 1/16; corresponds with Schoology's #111111 */
     padding-right: 0.1em;
 }
+
+.splus-weighted-gradebook-indicator {
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 15px;
+    color: #ee00ce;
+}

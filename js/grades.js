@@ -277,6 +277,17 @@ var fetchQueue = [];
             let gradeText = periods[0].querySelector(".awarded-grade");
             setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
 
+            // add weighted indicator to the course section row
+            if (classTotal === 0 && !addMoreClassTotal) {
+                let newElem = createElement("span", ["splus-weighted-gradebook-indicator"], {
+                    textContent: "[Weighted]"
+                });
+                let periodPercent = periods[0].querySelector("span.percentage-contrib");
+                if (periodPercent) {
+                    periodPercent.insertAdjacentElement('beforebegin', newElem);
+                }
+            }
+
             // FIXME this is duplicated logic to get the div.gradebook-course given the period row
             let gradebookCourseContainerDiv = periods[0];
 
@@ -315,7 +326,7 @@ var fetchQueue = [];
                         return intPart + (Math.round(floatPart * Math.pow(10, dec)) / Math.pow(10, dec));
                     }
 
-                    function createSPlusDisclaimerImage(){
+                    function createSPlusDisclaimerImage() {
                         // rationale: we want to be very explicit whenever we're modifying anything in the bottom "Course Grade" box
                         // we put our tweaks here in the first place because it makes sense in the UI, and because it doesn't change with grade edits
                         // yet we want to be clear this is unofficial
