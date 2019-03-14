@@ -395,10 +395,10 @@ h1.setting-title {
 /*
 #139 fix
 We reskin background but not foreground in .popups-buttons
-This reskins the foreground to match our background
+This overrides our reskin of the background to match other cancellations
 */
-.popups-buttons input {
-    color: #fff;
+#popup_cancel {
+    background-color: rgba(0, 0, 0, 0) !important;
 }
 
 /*
