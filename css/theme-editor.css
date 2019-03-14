@@ -611,3 +611,11 @@ textarea#json-output[readonly] {
 .help-icon {
     color: var(--primary-color);
 }
+
+.rs-start, .rs-end {
+    visibility: hidden;
+}
+
+.rs-range-color {
+    background-color: #26a69a;
+}

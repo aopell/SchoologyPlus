@@ -231,7 +231,7 @@ function importFromObject(j) {
 
     colorRainbowHueAnimate.checked = false;
     colorRainbowHueSpeed.value = 50;
-    $(colorRainbowHueRange).slider("values", [0, 359]);
+    $(colorRainbowHueRange).roundSlider("setValue", "0,359");
     colorRainbowHueAlternate.checked = false;
     colorRainbowHueValue.value = 180;
 
@@ -271,20 +271,17 @@ function importFromObject(j) {
             if (!!j.color.rainbow.hue.animate.alternate !== colorRainbowHueAlternate.checked) {
                 colorRainbowHueAlternate.click();
             }
-            $(colorRainbowHueRange).slider("values", [
-                j.color.rainbow.hue.animate.min
-                    && j.color.rainbow.hue.animate.min < j.color.rainbow.hue.animate.max
-                    && j.color.rainbow.hue.animate.min >= 0
-                    && j.color.rainbow.hue.animate.min <= 359
-                    ? j.color.rainbow.hue.animate.min
-                    : 0,
-                j.color.rainbow.hue.animate.max
-                    && j.color.rainbow.hue.animate.max > j.color.rainbow.hue.animate.min
-                    && j.color.rainbow.hue.animate.max >= 0
-                    && j.color.rainbow.hue.animate.max <= 359
-                    ? j.color.rainbow.hue.animate.max
-                    : 359
-            ]);
+            let l = j.color.rainbow.hue.animate.min || 0
+                && j.color.rainbow.hue.animate.min >= 0
+                && j.color.rainbow.hue.animate.min <= 359
+                ? j.color.rainbow.hue.animate.min
+                : 0;
+            let u = j.color.rainbow.hue.animate.max
+                && j.color.rainbow.hue.animate.max >= 0
+                && j.color.rainbow.hue.animate.max <= 359
+                ? j.color.rainbow.hue.animate.max
+                : 359;
+            $(colorRainbowHueRange).roundSlider("setValue", `${l},${u}`);
         } else {
             colorRainbowHueValue.value = j.color.rainbow.hue.value;
         }
@@ -346,11 +343,11 @@ function importFromObject(j) {
         }
     }
 
-    for(let el of themeColorRainbowWrapper.querySelectorAll("input[type=range][data-label]")) {
+    for (let el of themeColorRainbowWrapper.querySelectorAll("input[type=range][data-label]")) {
         document.getElementById(el.dataset.label).textContent = el.value;
     }
 
-    for(let el of [colorRainbowHueRange, colorRainbowSaturationRange, colorRainbowLightnessRange]) {
+    for (let el of [colorRainbowSaturationRange, colorRainbowLightnessRange]) {
         document.getElementById(el.id + "-display").textContent = `${$(el).slider("values")[0]} - ${$(el).slider("values")[1]}`;
     }
 
@@ -488,8 +485,8 @@ function updateOutput() {
                 animate: {
                     speed: +colorRainbowHueSpeed.value,
                     offset: +colorRainbowHueValue.value,
-                    min: $(colorRainbowHueRange).slider("values")[0],
-                    max: $(colorRainbowHueRange).slider("values")[1],
+                    min: +$(colorRainbowHueRange).roundSlider("getValue").split(',')[0],
+                    max: +$(colorRainbowHueRange).roundSlider("getValue").split(',')[1],
                     alternate: colorRainbowHueAlternate.checked
                 }
             }
@@ -815,35 +812,24 @@ function generateRainbowFunction(theme) {
             // if alternate and hue > max: hue = max - (hue - max)
 
             if (theme.color.rainbow.hue.animate) {
-                let { speed, offset, alternate, min, max } = theme.color.rainbow.hue.animate;
-                let range = max - min;
+                let o = theme.color.rainbow.hue.animate;
 
-                hue = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
-                if (alternate && hue > max) {
-                    hue = max - (hue - max);
+                if (o.max < o.min) {
+                    o.max += 360;
                 }
+
+                hue = getComponentValue(o, time);
+
             } else {
                 hue = theme.color.rainbow.hue.value;
             }
             if (theme.color.rainbow.saturation.animate) {
-                let { speed, offset, alternate, min, max } = theme.color.rainbow.saturation.animate;
-                let range = max - min;
-
-                saturation = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
-                if (alternate && saturation > max) {
-                    saturation = max - (saturation - max);
-                }
+                saturation = getComponentValue(theme.color.rainbow.saturaiton.animate, time);
             } else {
                 saturation = theme.color.rainbow.saturation.value;
             }
             if (theme.color.rainbow.lightness.animate) {
-                let { speed, offset, alternate, min, max } = theme.color.rainbow.lightness.animate;
-                let range = max - min;
-
-                lightness = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
-                if (alternate && lightness > max) {
-                    lightness = max - (lightness - max);
-                }
+                lightness = getComponentValue(theme.color.rainbow.lightness.animate, time);
             } else {
                 lightness = theme.color.rainbow.lightness.value;
             }
@@ -856,6 +842,16 @@ function generateRainbowFunction(theme) {
         }
     }
     return undefined;
+
+    function getComponentValue(animateObject, time) {
+        let { speed, offset, alternate, min, max } = animateObject;
+        let range = max - min;
+        let v = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
+        if (alternate && v > max) {
+            v = max - (v - max);
+        }
+        return v;
+    }
 }
 
 function addIcon() {
@@ -1002,7 +998,13 @@ function rangeSliderEvent(event, ui) {
     }
 }
 
+function circleRangeSliderEvent(args) {
+    updateOutput();
+}
+
 $(document).ready(function () {
+    $.fn.roundSlider.prototype._invertRange = true;
+
     $("#theme-hue").slider({
         min: 0,
         max: 359,
@@ -1011,15 +1013,20 @@ $(document).ready(function () {
         change: hueSliderEvent
     });
 
-    $("#color-rainbow-hue-range").slider({
-        min: 0,
+    $("#color-rainbow-hue-range").roundSlider({
+        sliderType: "range",
+        handleShape: "round",
+        width: 15,
+        radius: 75,
+        value: "0,359",
         max: 359,
-        range: true,
-        slide: rangeSliderEvent,
-        stop: rangeSliderEvent,
-        change: rangeSliderEvent,
-        values: [0, 359]
+        startAngle: 90,
+        drag: circleRangeSliderEvent,
+        stop: circleRangeSliderEvent,
+        change: circleRangeSliderEvent
     });
+
+    document.querySelector(".rs-tooltip").style.margin = "-15.5px 0 0 -33.0547px";
 
     $("#color-rainbow-saturation-range").slider({
         min: 0,

@@ -21,7 +21,7 @@ class Theme {
             let t = Setting.getValue("themes").find(x => x.name === Theme.active.name);
             if (t && t.icons && t.icons instanceof Array) {
                 let regexProp, urlProp;
-                switch(t.version) {
+                switch (t.version) {
                     case 2:
                         regexProp = "regex";
                         urlProp = "url";
@@ -116,35 +116,24 @@ class Theme {
                     // if alternate and hue > max: hue = max - (hue - max)
 
                     if (theme.color.rainbow.hue.animate) {
-                        let { speed, offset, alternate, min, max } = theme.color.rainbow.hue.animate;
-                        let range = max - min;
+                        let o = theme.color.rainbow.hue.animate;
 
-                        hue = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
-                        if (alternate && hue > max) {
-                            hue = max - (hue - max);
+                        if (o.max < o.min) {
+                            o.max += 360;
                         }
+
+                        hue = getComponentValue(o, time);
+
                     } else {
                         hue = theme.color.rainbow.hue.value;
                     }
                     if (theme.color.rainbow.saturation.animate) {
-                        let { speed, offset, alternate, min, max } = theme.color.rainbow.saturation.animate;
-                        let range = max - min;
-
-                        saturation = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
-                        if (alternate && saturation > max) {
-                            saturation = max - (saturation - max);
-                        }
+                        saturation = getComponentValue(theme.color.rainbow.saturaiton.animate, time);
                     } else {
                         saturation = theme.color.rainbow.saturation.value;
                     }
                     if (theme.color.rainbow.lightness.animate) {
-                        let { speed, offset, alternate, min, max } = theme.color.rainbow.lightness.animate;
-                        let range = max - min;
-
-                        lightness = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
-                        if (alternate && lightness > max) {
-                            lightness = max - (lightness - max);
-                        }
+                        lightness = getComponentValue(theme.color.rainbow.lightness.animate, time);
                     } else {
                         lightness = theme.color.rainbow.lightness.value;
                     }
@@ -153,6 +142,16 @@ class Theme {
                 }
             }
             return undefined;
+
+            function getComponentValue(animateObject, time) {
+                let { speed, offset, alternate, min, max } = animateObject;
+                let range = max - min;
+                let v = (((time / (150 - speed)) + +offset) % (alternate ? range * 2 : range)) + min;
+                if (alternate && v > max) {
+                    v = max - (v - max);
+                }
+                return v;
+            }
         }
 
         if (!theme.name || (theme.hue && Number.isNaN(Number.parseFloat(theme.hue))) || (theme.colors && theme.colors.length != 4)) return null;
@@ -377,7 +376,7 @@ Theme.profilePictureOverrides = [];
 let tempTheme = undefined;
 
 let themes = [];
-for(let t of __defaultThemes) {
+for (let t of __defaultThemes) {
     themes.push(Theme.loadFromObject(t));
 }
 
