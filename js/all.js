@@ -329,22 +329,6 @@ let siteNavigationTileHelpers = {
 
         Logger.log("Processing courses dropdown mutation");
 
-        if (Setting.getValue("archivedCoursesButton") === "show") {
-            // aims to select the original "My Courses" link in the dropdown
-            let candidateLink = coursesDropdownContainer.querySelector(".CjR09._8a6xl._1tpub > a[href=\"/courses\"]._3ghFm");
-            if (candidateLink) {
-                // the obfuscated class name is the one Schoology uses to float these links right
-                let newContainer = createElement("div", ["courses-mycourses-droppeddown-link-container", "splus-addedtodynamicdropdown", "_3ghFm"], {}, [
-                    createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
-                        href: "/courses",
-                        textContent: "My Courses"
-                    })
-                ]);
-
-                candidateLink.replaceWith(newContainer);
-            }
-        }
-
         // rearrange spacing in the courses dropdown
         // Schoology has 4 tiles per row by default, we want 6
         const targetRowWidth = 6;
