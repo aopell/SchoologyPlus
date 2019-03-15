@@ -9,7 +9,7 @@
             "update_url": "https://aopell.me/SchoologyPlus/update.json"
         }
     },
-    "version": "5.1",
+    "version": "5.2",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -49,6 +49,7 @@
         "lib/data/schoology-reorder-ui-langprops.json",
         "imgs/lausd-legacy.png"
     ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "background": {
         "scripts": [
             "js/background.js"
@@ -156,6 +157,15 @@
             ],
             "css": [
                 "css/user.css"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
+                "https://lms.lausd.net/assignment/*/assessment"
+            ],
+            "js": [
+                "js/assessment.js"
             ],
             "run_at": "document_end"
         },

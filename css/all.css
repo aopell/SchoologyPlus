@@ -378,12 +378,36 @@ h1.setting-title {
     display: inline;
 }
 
+.popups-body .no-answer-provided {
+    background: url('https://lms.lausd.net/sites/all/themes/schoology_theme/images/error_404.png') no-repeat 0 0;
+    padding: 0 0 0 25px;
+    font-weight: bold;
+}
+
 #grading-scale-wrapper {
     margin-top: 7px !important;
 }
 
 .footer-divider, .footer-divider > span {
     margin-left: 15px;
+}
+
+/*
+#139 fix
+We reskin background but not foreground in .popups-buttons
+This overrides our reskin of the background to match other cancellations
+*/
+#popup_cancel {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+/*
+In the same vein as #139, to address stylistic discreptancies between the buttons
+*/
+.popups-buttons span {
+    border: 1px solid !important;
+    border-color: #999 #999 #888 !important;
+    background: url('https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/gray-btn-bg.gif') repeat-x 0 1px !important;
 }
 
 /*
@@ -406,6 +430,23 @@ the selector matches inside notifications in the new notifs dropdown
     display: block;
 }
 
+#popups-overlay {
+    width: 100% !important;
+}
+
+.splus-modal-open {
+    overflow: hidden;
+}
+
+.popups-small {
+    left: calc(50vw - 225px) !important;
+}
+
+.popups-large {
+    left: calc(50vw - 300px) !important;
+}
+
+/* I believe this is unused, but we might want it in the future for replacing rainbow with proper CSS animations if easily possible */
 @keyframes rainbow {
     0% {
         background-color: hsl(0, 50%, 50%);

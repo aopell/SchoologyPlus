@@ -333,3 +333,13 @@
 
     moreGradesModalObserver.observe(document.body, { childList: true });
 })();
+
+(function () {
+    new MutationObserver((mutations, observer) => {
+        if (document.getElementById("body").getAttribute("aria-hidden") == "true") {
+            document.documentElement.style.overflow = "hidden";
+        } else {
+            document.documentElement.style.overflow = "";
+        }
+    }).observe(document.getElementById("body"), { attributes: true, attributeFilter: ["aria-hidden"] });
+})();

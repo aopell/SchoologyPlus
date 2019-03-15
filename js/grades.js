@@ -277,6 +277,92 @@ var fetchQueue = [];
             let gradeText = periods[0].querySelector(".awarded-grade");
             setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
 
+            // add weighted indicator to the course section row
+            if (classTotal === 0 && !addMoreClassTotal) {
+                let newElem = createElement("span", ["splus-weighted-gradebook-indicator"], {
+                    textContent: "[Weighted]"
+                });
+                let periodPercent = periods[0].querySelector("span.percentage-contrib");
+                if (periodPercent) {
+                    periodPercent.insertAdjacentElement('beforebegin', newElem);
+                }
+            }
+
+            // FIXME this is duplicated logic to get the div.gradebook-course given the period row
+            let gradebookCourseContainerDiv = periods[0];
+
+            // FIXME null coalesence hack
+            // .parentElement.parentElement.parentElement.parentElement
+            (function () {
+                for (let i = 0; i < 4; i++) {
+                    if (gradebookCourseContainerDiv != null) {
+                        gradebookCourseContainerDiv = gradebookCourseContainerDiv.parentElement;
+                    }
+                }
+            })();
+
+            // points needed for (next grade) / point buffer from (next lowest grade) logic
+            if (gradebookCourseContainerDiv != null && classTotal != 0) {
+                let summaryPointsContainer = gradebookCourseContainerDiv.querySelector(".gradebook-course-grades .summary-course");
+
+                let gradeScale = Setting.getValue("getGradingScale")(courseId);
+                let myPercentage = (classPoints / classTotal) * 100;
+
+                if (summaryPointsContainer) {
+                    let gradeScaleSorted = Object.keys(gradeScale).sort((a, b) => b - a).map(function (p) { return { symbol: gradeScale[p], minGrade: +p }; });
+
+                    let myGradeIndex = -1;
+
+                    for (let i = 0; i < gradeScaleSorted.length; i++) {
+                        if (myPercentage >= gradeScaleSorted[i].minGrade) {
+                            myGradeIndex = i;
+                            break;
+                        }
+                    }
+
+                    function roundDecimal(num, dec) {
+                        let intPart = Math.floor(num);
+                        let floatPart = num - intPart;
+                        return intPart + (Math.round(floatPart * Math.pow(10, dec)) / Math.pow(10, dec));
+                    }
+
+                    function createSPlusDisclaimerImage() {
+                        // rationale: we want to be very explicit whenever we're modifying anything in the bottom "Course Grade" box
+                        // we put our tweaks here in the first place because it makes sense in the UI, and because it doesn't change with grade edits
+                        // yet we want to be clear this is unofficial
+                        // TODO discuss potentially better alternatives to either this particular or any img in general for making this clarification
+                        return createElement("img", ["splus-coursegradebox-taint"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Predicted by Schoology Plus" });
+                    }
+
+                    // points needed for next highest grade
+                    if (myGradeIndex > 0) {
+                        let targetGrade = gradeScaleSorted[myGradeIndex - 1];
+                        let targetPts = (targetGrade.minGrade / 100) * classTotal;
+                        let neededPts = roundDecimal(targetPts - classPoints, 2);
+
+                        summaryPointsContainer.appendChild(createElement("div", ["total-points-wrapper"], {}, [
+                            createSPlusDisclaimerImage(),
+                            createElement("span", ["total-points-title"], { textContent: "Points Needed:" }),
+                            createElement("span", ["total-points-awarded"], { textContent: neededPts }),
+                            createElement("span", ["total-points-possible"], { textContent: " for " + targetGrade.symbol })
+                        ]));
+                    }
+
+                    if (myGradeIndex < gradeScaleSorted.length - 1) {
+                        let targetGrade = gradeScaleSorted[myGradeIndex + 1];
+                        let targetPts = (gradeScaleSorted[myGradeIndex].minGrade / 100) * classTotal;
+                        let bufferPts = roundDecimal(classPoints - targetPts, 2);
+
+                        summaryPointsContainer.appendChild(createElement("div", ["total-points-wrapper"], {}, [
+                            createSPlusDisclaimerImage(),
+                            createElement("span", ["total-points-title"], { textContent: "Point Buffer:" }),
+                            createElement("span", ["total-points-awarded"], { textContent: bufferPts }),
+                            createElement("span", ["total-points-possible"], { textContent: " from " + targetGrade.symbol })
+                        ]));
+                    }
+                }
+            }
+
             if (invalidatePerTotal && classTotal !== 0) {
                 let perMaxElem = gradeText.parentElement.querySelector(".grade-column-center .max-grade");
                 perMaxElem.classList.add("max-grade-show-error");
@@ -297,9 +383,31 @@ var fetchQueue = [];
             }
         }
 
-        let timeRow = document.getElementById("past-selector") || document.querySelector(".content-top-upper").insertAdjacentElement('afterend', document.createElement("div"));
+        let timeRow = document.getElementById("past-selector");
+        let gradeModifLabelFirst = true;
+        if (timeRow == null) {
+            // basically a verbose null propagation
+            // timeRow = document.querySelector(".content-top-upper")?.insertAdjacentElement('afterend', document.createElement("div"))
+            let contentTopUpper = document.querySelector(".content-top-upper");
+            if (contentTopUpper) {
+                timeRow = contentTopUpper.insertAdjacentElement('afterend', document.createElement("div"));
+            }
+        }
+        if (timeRow == null) {
+            let downloadBtn = document.querySelector("#main-inner .download-grade-wrapper");
+            if (downloadBtn) {
+                let checkboxHolder = document.createElement("span");
+                checkboxHolder.id = "splus-gradeedit-checkbox-holder";
+                downloadBtn.prepend(checkboxHolder);
 
-        timeRow.appendChild(createElement("label", ["modify-label"], {
+                downloadBtn.classList.add("splus-gradeedit-checkbox-holder-wrapper");
+
+                timeRow = checkboxHolder;
+                gradeModifLabelFirst = false;
+            }
+        }
+
+        let timeRowLabel = createElement("label", ["modify-label"], {
             htmlFor: "enable-modify"
         }, [
                 createElement("span", [], { textContent: "Enable grade modification" }),
@@ -307,7 +415,11 @@ var fetchQueue = [];
                     href: "https://github.com/aopell/SchoologyPlus/wiki/Grade-Edit-Simulator",
                     target: "_blank"
                 }, [createElement("span", ["icon-help"])])
-            ]));
+            ]);
+
+        if (gradeModifLabelFirst) {
+            timeRow.appendChild(timeRowLabel);
+        }
 
         timeRow.appendChild(createElement("input", [], {
             type: "checkbox",
@@ -663,7 +775,7 @@ var fetchQueue = [];
                     for (let kabob of document.getElementsByClassName("kabob-menu")) {
                         kabob.classList.remove("hidden");
                     }
-                // uncheck the grades modify box without having modified grades
+                    // uncheck the grades modify box without having modified grades
                 } else if (!gradesModified) {
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
                         edit.style.display = "none";
@@ -682,16 +794,20 @@ var fetchQueue = [];
                         $.contextMenu("destroy", "#" + courseElement.id + " " + addedAssignRClickSelector);
                     }
                     $.contextMenu("destroy", droppedAssignRClickSelector);
-                // uncheck the edit checkbox, with modified grades existing: prompt: does user confirm?
+                    // uncheck the edit checkbox, with modified grades existing: prompt: does user confirm?
                 } else if (confirm("Disabling grade edits now will reload the page and erase all existing modified grades. Proceed?")) {
                     // not going to try to undo any grade modifications
                     document.location.reload();
-                // attempted to disable grade editing but backed out of confirmation prompt
+                    // attempted to disable grade editing but backed out of confirmation prompt
                 } else {
                     document.getElementById("enable-modify").checked = true;
                 }
             }
         }));
+
+        if (!gradeModifLabelFirst) {
+            timeRow.appendChild(timeRowLabel);
+        }
     }
 
     for (let courseTask of courseLoadTasks) {

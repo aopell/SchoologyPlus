@@ -157,6 +157,12 @@ input#enable-modify {
     align-items: center;
 }
 
+.splus-gradeedit-checkbox-holder-wrapper > * {
+    display: inline-flex;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 .grade-add-indicator.hidden,
 .report-row.item-row.hidden {
     display: none !important;
@@ -202,4 +208,19 @@ input#enable-modify {
     visibility: visible;
     word-spacing:normal;
     letter-spacing:normal; 
+}
+
+img.splus-coursegradebox-taint {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    filter: brightness(0.0625); /* 1/16; corresponds with Schoology's #111111 */
+    padding-right: 0.1em;
+}
+
+.splus-weighted-gradebook-indicator {
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 15px;
+    color: #ee00ce;
 }
