@@ -1,5 +1,31 @@
 # Changelog
 
+## Version 5.2 - March 15, 2019
+
+### Added
+
+- Custom course icons now appear in the Reorder Courses UI
+- Theme editor supports hue ranges that cross 0°
+- Point buffer and points-until-grade indicators in the gradebook
+  - Be aware these values are approximate. More precise estimates can be obtained through the grade edit simulator.
+- Warning when submitting a quiz with unanswered questions
+
+### Changed
+
+- Schoology popups can no longer be scrolled away from
+- Performance improvements for Courses in Common dialogs
+- Weighted gradebooks now have a "Weighted" indicator
+  - In the future this may link to an FAQ about weighted gradebooks
+  - It should be clearer when gradebooks are weighted now, which is important because there is a substantial difference in how weighted and unweighted grades are calculated
+- Removed "Past Courses" link and related settings, because LAUSD removed access to past courses
+
+### Fixed
+
+- Submitting assessments in Firefox
+- Theming issues on assessment submission confirmation popup
+- Theme editor documentation links not opening in new tabs
+- Grade editing on the primary grades page now works even when past courses aren't visible
+
 ## Version 5.1 - February 14, 2019
 
 ### Added
