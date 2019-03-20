@@ -164,15 +164,7 @@ function fetchApi(path) {
  * @param {boolean} [useRateLimit=true] Whether or not to use the internal Schoology API rate limit tracker. Defaults to true.
  * @param {string} [bodyReadType="json"] The method with which the body should be read.
  */
-async function fetchWithApiAuthentication(url, baseObj, useRateLimit, bodyReadType) {
-    if (useRateLimit === undefined) {
-        useRateLimit = true;
-    }
-
-    if (bodyReadType === undefined) {
-        bodyReadType = "json";
-    }
-
+async function fetchWithApiAuthentication(url, baseObj, useRateLimit = true, bodyReadType = "json") {
     return await (useRateLimit ? preload_schoologyPlusApiRateLimitedFetch : backgroundPageFetch)(url, {
         headers: createApiAuthenticationHeaders(await getApiKeysInternal(), baseObj)
     }, bodyReadType);
