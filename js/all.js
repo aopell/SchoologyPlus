@@ -338,6 +338,10 @@ let siteNavigationTileHelpers = {
                     createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
                         href: "/courses",
                         textContent: "My Courses"
+                    }),
+                    createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
+                        href: "/courses/mycourses/past",
+                        textContent: "Past Courses"
                     })
                 ]);
 
