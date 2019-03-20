@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 5.2.1 - March 19, 2019
+
+### Changed
+
+- Restore "Past Courses" link and related settings
+  - LAUSD, and subsequently Schoology Plus, had removed Past Courses, but LAUSD has since restored them
+
 ## Version 5.2 - March 15, 2019
 
 ### Added
