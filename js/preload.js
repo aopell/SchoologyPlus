@@ -536,6 +536,28 @@ function updateSettings(callback) {
                     element => element.value
                 ).control,
                 new Setting(
+                    "archivedCoursesButton",
+                    "Archived Courses Button",
+                    'Adds a link to see past/archived courses in the courses dropdown',
+                    "show",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Show",
+                                value: "show"
+                            },
+                            {
+                                text: "Hide",
+                                value: "hide"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).control,
+                new Setting(
                     "sessionCookiePersist",
                     "Stay Logged In",
                     "[Logout/login required] Stay logged in to Schoology when you restart your browser",
