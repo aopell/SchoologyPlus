@@ -153,6 +153,7 @@ var fetchQueue = [];
                         commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
                         if (commentsContentWrapper.querySelector(".comment")) {
                             commentsContentWrapper.style.display = "flex";
+                            commentsContentWrapper.style.justifyContent = "space-between";
                         }
 
                         let createAddAssignmentUi = async function () {
