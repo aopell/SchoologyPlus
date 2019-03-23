@@ -152,7 +152,9 @@ var fetchQueue = [];
 
                         commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
                         if (commentsContentWrapper.querySelector(".comment")) {
+                            // Fixes kabob display issues with long comments
                             commentsContentWrapper.style.display = "flex";
+                            // Fixes kabob display issues with short comments
                             commentsContentWrapper.style.justifyContent = "space-between";
                         }
 
