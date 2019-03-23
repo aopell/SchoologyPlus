@@ -617,6 +617,28 @@ function updateSettings(callback) {
                     element => element.value
                 ).control,
                 new Setting(
+                    "weightedGradebookIndicator",
+                    "Weighted Gradebook Indicator",
+                    "[Refresh required] Adds an indicator next to gradebooks which are weighted",
+                    "enabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Show",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Hide",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).control,
+                new Setting(
                     "sessionCookiePersist",
                     "Stay Logged In",
                     "[Logout/login required] Stay logged in to Schoology when you restart your browser",
