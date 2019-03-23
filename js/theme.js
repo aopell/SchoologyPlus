@@ -3,6 +3,8 @@
 let themeIconLoadElementContainer = document.createElement("div");
 themeIconLoadElementContainer.style.display = "none";
 
+let shownMissingIconsNotification = false;
+
 class Theme {
     constructor(name, onApply, onUpdate) {
         this.name = name;
@@ -269,6 +271,8 @@ class Theme {
             }
         }
 
+        let coursesMissingDefaultIcons = new Set();
+
         for (let arrow of arrows) {
             arrow.classList.add("icon-modified");
             // fallbacks don't work in CSS
@@ -339,6 +343,22 @@ class Theme {
             } else if (arrow.themedIconMode == "coursesDropDown") {
                 arrow.setAttribute("style", `background-image: url(${sourceUrl}); background-size: contain;`);
             }
+
+            // ***** Tracking courses missing icons
+            if (Setting.getValue("toggle_stopTrackingMissingIcons")) continue;
+            let hasDefaultIcon = (function (course) {
+                for (let iconPattern of icons) {
+                    if (iconPattern.regex != "." && course.match(new RegExp(iconPattern.regex, 'i'))) {
+                        return true;
+                    }
+                }
+                return false;
+            })(arrow.courseTitle || arrow.parentElement.textContent);
+
+            if (!hasDefaultIcon) {
+                coursesMissingDefaultIcons.add(arrow.courseTitle || arrow.parentElement.textContent);
+            }
+            // *****
         }
 
         for (let img of pictures) {
@@ -350,6 +370,21 @@ class Theme {
             };
             img.src = Theme.getIcon(img.alt);
             img.classList.add("injected-course-icon");
+        }
+
+        if (!shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0) {
+            showToast("Request New Course Icons?",
+                `${coursesMissingDefaultIcons.size} courses are missing Schoology Plus course icons`,
+                "yellow",
+                {
+                    buttons: [
+                        createToastButton("Request Icons", "suggest-icons-button", _ => alert(`Suggesting ${coursesMissingDefaultIcons}`)),
+                        createToastButton("Remind Me Later", "remind-later-button", _ => alert("Remind Later")),
+                        createToastButton("Don't Ask Again", "dont-ask-button", _ => alert("Don't ask again"))
+                    ]
+                }
+            )
+            shownMissingIconsNotification = true;
         }
     }
 
