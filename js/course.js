@@ -93,6 +93,7 @@ function setCourseOptionsContent(modal, options) {
         }
     }
 
+    document.getElementById("request-course-icon-wrapper").outerHTML = "";
     // Add request icon button only if default icon doesn't already exist
     let hasDefaultIcon = (function (course) {
         for (let iconPattern of icons) {
