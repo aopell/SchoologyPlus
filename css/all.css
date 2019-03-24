@@ -394,6 +394,18 @@ h1.setting-title {
     margin-left: 15px;
 }
 
+.no-margins {
+    margin: 0 !important;
+}
+
+.small-top-margin {
+    margin-top: 4px !important;
+}
+
+.splus-broadcast-title {
+    font-size: 14px;
+}
+
 /*
 #139 fix
 Make accept and cancel buttons similarly styled throughout the UI
