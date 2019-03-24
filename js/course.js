@@ -92,6 +92,26 @@ function setCourseOptionsContent(modal, options) {
             }
         }
     }
+
+    // Add request icon button only if default icon doesn't already exist
+    let hasDefaultIcon = (function (course) {
+        for (let iconPattern of icons) {
+            if (iconPattern.regex != "." && course.match(new RegExp(iconPattern.regex, 'i'))) {
+                return true;
+            }
+        }
+        return false;
+    })(options.courseName);
+    if (!hasDefaultIcon) {
+        modal.element.querySelector(".splus-modal-contents").appendChild(
+            createElement("div", ["setting-entry"], { id: "request-course-icon-wrapper" }, [
+                createElement("h2", ["setting-title"], { textContent: "Request Icon: " }, [
+                    createElement("input", [], { type: "button", id: "request-course-icon-button", value: "Request Icon", onclick: () => window.open(`https://docs.google.com/forms/d/e/1FAIpQLSe-v0vRE4Obwkx6iL37aztz3kmpqYBBVxKEsdVxu8CZqk1OCQ/viewform?entry.50164059=${options.courseName}`, "_blank") })
+                ]),
+                createElement("p", ["setting-description"], { textContent: "Request that Schoology Plus adds a default course icon for this course" })
+            ])
+        );
+    }
 }
 
 function createRow(percentage, symbol) {

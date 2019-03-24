@@ -373,18 +373,19 @@ class Theme {
         }
 
         if (!shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0) {
+            let coursesString = encodeURI(Array.from(coursesMissingDefaultIcons).join("\n"));
             showToast("Request New Course Icons?",
-                `${coursesMissingDefaultIcons.size} courses are missing Schoology Plus course icons`,
+                `${coursesMissingDefaultIcons.size} courses are missing Schoology Plus course icons. Would you like to request that icons be added for these courses?`,
                 "yellow",
                 {
                     buttons: [
-                        createToastButton("Request Icons", "suggest-icons-button", _ => alert(`Suggesting ${coursesMissingDefaultIcons}`)),
-                        createToastButton("Remind Me Later", "remind-later-button", _ => alert("Remind Later")),
-                        createToastButton("Don't Ask Again", "dont-ask-button", _ => alert("Don't ask again"))
+                        createToastButton("Yes", "suggest-icons-button", () => window.open(`https://docs.google.com/forms/d/e/1FAIpQLSe-v0vRE4Obwkx6iL37aztz3kmpqYBBVxKEsdVxu8CZqk1OCQ/viewform?entry.50164059=${coursesString}`, "_blank")),
+                        createToastButton("No", "nothing-button", () => showToast("You can request icons later from course options", "", "hsl(190, 100%, 50%)", { timeout: 5000 })),
                     ]
                 }
             )
             shownMissingIconsNotification = true;
+            Setting.setValue("toggle_stopTrackingMissingIcons", true);
         }
     }
 
