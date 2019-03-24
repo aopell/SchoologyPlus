@@ -100,3 +100,15 @@ if (Setting.getValue("broadcasts") !== "disabled") {
         });
     })();
 }
+
+switch (Setting.getValue("upcomingOverdueVisibility")) {
+    case "hideAll":
+        document.getElementById("right-column-inner").style.visibility = "hidden";
+        break;
+    case "hideOverdue":
+        document.querySelector(".overdue-submissions-wrapper").style.visibility = "hidden";
+        break;
+    case "hideUpcoming":
+        document.querySelector(".upcoming-events-wrapper").style.visibility = "hidden";
+        break;
+}

@@ -347,14 +347,16 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 }
 
 .submit-span-wrapper input[type=button],
-.submit-span-wrapperinput[type=submit] {
+.submit-span-wrapper input[type=submit] {
     height: 25px !important;
     vertical-align: middle !important;
+    color: white !important;
 }
 
 .submit-span-wrapper {
     border: 2px solid var(--border-color) !important;
     background-color: var(--primary-color) !important;
+    background-image: none !important;
 }
 
 .submit-span-wrapper:hover {
@@ -394,20 +396,26 @@ h1.setting-title {
 
 /*
 #139 fix
-We reskin background but not foreground in .popups-buttons
-This overrides our reskin of the background to match other cancellations
+Make accept and cancel buttons similarly styled throughout the UI
 */
-#popup_cancel {
-    background-color: rgba(0, 0, 0, 0) !important;
+#popup_cancel, .cancel-btn {
+    background-color: #666 !important;
+    color: white !important;
 }
 
-/*
-In the same vein as #139, to address stylistic discreptancies between the buttons
-*/
+#popup_cancel:hover, .cancel-btn:hover {
+    background-color: #444 !important;
+}
+
+.cancel-btn {
+    border: 2px solid var(--border-color) !important;
+    background-image: none !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
 .popups-buttons span {
-    border: 1px solid !important;
-    border-color: #999 #999 #888 !important;
-    background: url('https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/gray-btn-bg.gif') repeat-x 0 1px !important;
+    border: none !important;
 }
 
 /*
