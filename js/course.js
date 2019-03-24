@@ -94,20 +94,12 @@ function setCourseOptionsContent(modal, options) {
     }
 
     document.getElementById("request-course-icon-wrapper").outerHTML = "";
-    // Add request icon button only if default icon doesn't already exist
-    let hasDefaultIcon = (function (course) {
-        for (let iconPattern of icons) {
-            if (iconPattern.regex != "." && course.match(new RegExp(iconPattern.regex, 'i'))) {
-                return true;
-            }
-        }
-        return false;
-    })(options.courseName);
-    if (!hasDefaultIcon) {
+    // Add request icon button only if built-in icon doesn't already exist
+    if (!Theme.hasBuiltInIcon(options.courseName)) {
         modal.element.querySelector(".splus-modal-contents").appendChild(
             createElement("div", ["setting-entry"], { id: "request-course-icon-wrapper" }, [
                 createElement("h2", ["setting-title"], { textContent: "Request Icon: " }, [
-                    createElement("input", [], { type: "button", id: "request-course-icon-button", value: "Request Icon", onclick: () => window.open(`https://docs.google.com/forms/d/e/1FAIpQLSe-v0vRE4Obwkx6iL37aztz3kmpqYBBVxKEsdVxu8CZqk1OCQ/viewform?entry.50164059=${options.courseName}`, "_blank") })
+                    createElement("a", [], { id: "request-course-icon-link", textContent: "Request Icon", href: `${ICON_REQUEST_URL}${options.courseName}`, target: "_blank" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Request that Schoology Plus adds a default course icon for this course" })
             ])

@@ -4,6 +4,7 @@ let themeIconLoadElementContainer = document.createElement("div");
 themeIconLoadElementContainer.style.display = "none";
 
 let shownMissingIconsNotification = false;
+const ICON_REQUEST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe-v0vRE4Obwkx6iL37aztz3kmpqYBBVxKEsdVxu8CZqk1OCQ/viewform?entry.50164059=";
 
 class Theme {
     constructor(name, onApply, onUpdate) {
@@ -46,6 +47,15 @@ class Theme {
                 return iconPattern.url;
             }
         }
+    }
+
+    static hasBuiltInIcon(course) {
+        for (let iconPattern of icons) {
+            if (iconPattern.regex != "." && course.match(new RegExp(iconPattern.regex, 'i'))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static loadFromObject(theme) {
@@ -345,17 +355,7 @@ class Theme {
             }
 
             // ***** Tracking courses missing icons
-            if (Setting.getValue("toggle_stopTrackingMissingIcons")) continue;
-            let hasDefaultIcon = (function (course) {
-                for (let iconPattern of icons) {
-                    if (iconPattern.regex != "." && course.match(new RegExp(iconPattern.regex, 'i'))) {
-                        return true;
-                    }
-                }
-                return false;
-            })(arrow.courseTitle || arrow.parentElement.textContent);
-
-            if (!hasDefaultIcon) {
+            if (!Setting.getValue("toggle_stopTrackingMissingIcons") && !Theme.hasBuiltInIcon(arrow.courseTitle || arrow.parentElement.textContent)) {
                 coursesMissingDefaultIcons.add(arrow.courseTitle || arrow.parentElement.textContent);
             }
             // *****
@@ -375,11 +375,11 @@ class Theme {
         if (!shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0) {
             let coursesString = encodeURI(Array.from(coursesMissingDefaultIcons).join("\n"));
             showToast("Request New Course Icons?",
-                `${coursesMissingDefaultIcons.size} courses are missing Schoology Plus course icons. Would you like to request that icons be added for these courses?`,
+                `${coursesMissingDefaultIcons.size} ${coursesMissingDefaultIcons.size == 1 ? "course is missing a Schoology Plus course icon. Would you like to request that an icon be added for this course?" : "courses are missing Schoology Plus course icons. Would you like to request that icons be added for these courses?"}`,
                 "yellow",
                 {
                     buttons: [
-                        createToastButton("Yes", "suggest-icons-button", () => window.open(`https://docs.google.com/forms/d/e/1FAIpQLSe-v0vRE4Obwkx6iL37aztz3kmpqYBBVxKEsdVxu8CZqk1OCQ/viewform?entry.50164059=${coursesString}`, "_blank")),
+                        createToastButton("Yes", "suggest-icons-button", () => window.open(`${ICON_REQUEST_URL}${coursesString}`, "_blank")),
                         createToastButton("No", "nothing-button", () => showToast("You can request icons later from course options", "", "hsl(190, 100%, 50%)", { timeout: 5000 })),
                     ]
                 }
