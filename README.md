@@ -6,33 +6,38 @@
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/fbfppoaockpecjpbdmldojdehdpepfef.svg)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/rating/fbfppoaockpecjpbdmldojdehdpepfef.svg)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [![Firefox Download](https://img.shields.io/badge/dynamic/json.svg?label=firefox%20download&url=https%3A%2F%2Faopell.me%2FSchoologyPlus%2Fupdate.json&query=%24.addons%5B%27schoology.plus%40aopell.me%27%5D.updates%5B0%5D.version&colorB=orange)](http://aopell.me/SchoologyPlus/firefox-download.html)
-[![Discord](https://img.shields.io/discord/526898202495025172.svg?color=7289da&label=discord)](http://discord.gg/PdB8dEn)
+[![Discord](https://img.shields.io/discord/526898202495025172.svg?color=7289da&label=discord)](https://aopell.github.io/SchoologyPlus/discord.html)
 [![Changelog](https://img.shields.io/github/release/aopell/SchoologyPlus.svg?label=changelog&colorB=lightgrey)](https://aopell.me/SchoologyPlus/changelog)
 
 [![Download for Chrome](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [<img src="https://imgur.com/hVupcaT.png" height="58" alt="Download for Firefox">](http://aopell.me/SchoologyPlus/firefox-download.html)
 
-# Features
-
 #### Contents
-- [Interface Improvements](#interface-improvements)
-  - [Blue Theme](#blue-theme)
-  - [Custom Themes](#custom-themes)
-    - [Course Icons](#course-icons)
-  - [Tooltips](#tooltips)
-  - [Courses in Common](#courses-in-common)
-  - [Miscellaneous Improvements](#miscellaneous-interface-improvements)
-- [Grades Page Improvements](#grades-page-improvements)
-  - [Miscellaneous Improvements](#miscellaneous-grades-page-improvements)
-  - [Simulated Grades](#simulated-grades)
-- [Desktop Notifications](#desktop-notifications)
-  - [Schoology Plus Announcements](#schoology-plus-announcements)
-- [Schoology Plus Settings](#schoology-plus-settings)
-  - [Theme Editor](#theme-editor)
-- [Course Options](#course-options)
-  - [Custom Grading Scales](#custom-grading-scales)
-  - [Course Nicknames](#course-nicknames)
+- [Features](#features)
+  - [Interface Improvements](#interface-improvements)
+    - [Blue Theme](#blue-theme)
+    - [Custom Themes](#custom-themes)
+      - [Course Icons](#course-icons)
+    - [Tooltips](#tooltips)
+    - [Courses in Common](#courses-in-common)
+    - [Miscellaneous Improvements](#miscellaneous-interface-improvements)
+  - [Grades Page Improvements](#grades-page-improvements)
+    - [Miscellaneous Improvements](#miscellaneous-grades-page-improvements)
+    - [Simulated Grades](#simulated-grades)
+  - [Desktop Notifications](#desktop-notifications)
+    - [Schoology Plus Announcements](#schoology-plus-announcements)
+  - [Schoology Plus Settings](#schoology-plus-settings)
+    - [Theme Editor](#theme-editor)
+  - [Course Options](#course-options)
+    - [Custom Grading Scales](#custom-grading-scales)
+    - [Course Nicknames](#course-nicknames)
+- [Feedback and Support Discord](#feedback-and-support-discord)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
+- [License](#license)
+- [Disclaimer](#disclaimer)
 
+# Features
 > ***All features below marked with an asterisk\* can be changed or customized with a setting***
 
 ## Interface Improvements
@@ -47,7 +52,7 @@
 
 *Image: Demonstration of the built-in themes*
 - You can create a custom theme or choose one of the small selection of built-in themes (including rainbow mode!)
-- Two of the built-in themes are the "LAUSD Dark Blue" and "LAUSD Orange" themes which restore the interface to the new and old versions of the LAUSD theme (including the logo)
+- Two of the built-in themes are the "LAUSD Dark Blue" and "LAUSD Orange" themes which restore the interface to the new and old versions of the LAUSD theme respectively including the logo)
 - Custom themes can change colors throughout the interface as well as the logo and course icons. Custom themes can even use custom rainbow color patterns!
 - To learn more about creating custom themes, see [Theme Editor](#theme-editor)
 #### Course Icons
@@ -67,7 +72,7 @@
 ### Courses In Common
 ![Courses in Common](https://imgur.com/0tEgPhh.png)
 *Image: Dialog box showing courses in common with another classmate*
-- View all courses you share with a classmate
+- View all courses you share with a classmate by visiting their profile page
 
 ### Miscellaneous Interface Improvements
 - Adds a button to quickly jump to archived courses in the Courses drop-down list*
@@ -158,23 +163,19 @@
 - They will also show as posts in your news feed*
 
 ## Schoology Plus Settings
-![Settings](https://i.imgur.com/KwKmsTo.png)
+![Settings](https://i.imgur.com/NMrweVB.png)
 
 *Image: The Schoology Plus settings dialog box. Click the (+) button on the navigation bar to open.*
 
-Schoology Plus has the following customizable settings:
+Schoology Plus has customizable settings, including but not limited to:
 - Theme
   - Sets the theme for the Schoology Plus interface. Currently, Schoology Plus has 4 built-in themes and a theme editor for you to make your own.
 - Desktop Notifications
   - Displays desktop notifications and a number badge on the extension button when new grades are entered
-- Announcement Notifications
-  - Displays desktop notifications and news feed posts for announcements sent to all Schoology Plus users
 - Custom Grading Scales
   -  Uses custom grading scales (set per-course in Course Options) when courses don't have one defined
 - Order Classes
   - Changes the order of your classes on the grades and mastery pages
-- Override Course Icons
-  -  Replace the course icons with the selected theme's icons
 - Archived Courses Button
   - Shows a button labeled "See Archived" next to the "See All" button in the courses dropdown
 
@@ -184,7 +185,7 @@ Schoology Plus has the following customizable settings:
 
 *Image: The theme editor interface with an example of a custom Black and White theme*
 
-Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the [Theme Editor Help Page](themes/README.md).
+Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the [Theme Editor help page](themes/README.md).
 
 ## Course Options
 
@@ -198,14 +199,11 @@ Schoology Plus is equipped with a fully-featured theme editor, allowing you to c
 - You can create custom grading scales for courses where the teacher does not have a grading scale set for the class.
   - This will be used to calculate letter grades for assignment categories and courses on the grades page
 
-# Bug Reports and Feature Requests
-Please submit bugs and feature requests using [Github issues](https://github.com/aopell/SchoologyPlus/issues/new). Use an informative title and a clear description of your issue or request. For bugs, please provide **steps to reproduce** and **screenshots** of the issue if applicable. You can submit an issue ticket at any time by clicking the "Submit Feedback" link in the footer of the settings page.
-
 # Feedback and Support Discord
 Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. [Click here to join!](https://aopell.github.io/SchoologyPlus/discord.html)
 
 # Contributing
-Pull requests are welcomed! If you would like to add a new feature, the best way of doing so is to submit a pull request. All pull requests will be considered and reviewed thoroughly.
+Please see [CONTRIBUTING.md](https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md) for information about contributing to Schoology Plus. This document also includes methods for reporting bugs and submitting feature requests.
 
 # Contributors
 This extension was created by [Aaron Opell](https://github.com/aopell). Significant development assistance has been provided by [Glen Husman](https://github.com/glen3b). Various other contribution information is located in the Contributors dialog accessible via a link in the footer of Schoology Plus settings.
