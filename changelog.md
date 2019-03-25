@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 5.3 - March 25, 2019
+
+### Added
+- Setting allowing you to hide missing and/or overdue assignments from the home page sidebar
+- Setting allowing you to toggle the new "[Weighted]" weighted gradebook indicator (added in version 5.2)
+- Methods of requesting course icons for courses that don't have them
+  - A popup will ask you if you want to request that Schoology Plus add built-in course icons for all of your classes that don't currently have an icon
+  - You can also request icons for courses individually by visiting the Course Settings page for that course
+- New contributing guidelines (which can be found [here](https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md) and by clicking "Contributors" in Schoology Plus Settings) so you can help contribute to Schoology Plus!
+
+### Fixed
+- Inconsistent button styles located throughout the interface
+- Wrong placement of three-dot (kebab) menu next to assignments with short comments
+- Errors generated when making calls to the Schoology API
+
 ## Version 5.2.1 - March 19, 2019
 
 ### Changed
