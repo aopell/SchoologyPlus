@@ -406,6 +406,10 @@ h1.setting-title {
     font-size: 14px;
 }
 
+#enable-modify {
+    margin-top: 10px !important;
+}
+
 /*
 #139 fix
 Make accept and cancel buttons similarly styled throughout the UI

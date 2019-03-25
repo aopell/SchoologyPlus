@@ -6,6 +6,7 @@
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/fbfppoaockpecjpbdmldojdehdpepfef.svg)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/rating/fbfppoaockpecjpbdmldojdehdpepfef.svg)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [![Firefox Download](https://img.shields.io/badge/dynamic/json.svg?label=firefox%20download&url=https%3A%2F%2Faopell.me%2FSchoologyPlus%2Fupdate.json&query=%24.addons%5B%27schoology.plus%40aopell.me%27%5D.updates%5B0%5D.version&colorB=orange)](http://aopell.me/SchoologyPlus/firefox-download.html)
+[![Discord](https://img.shields.io/discord/526898202495025172.svg?color=7289da&label=discord)](http://discord.gg/PdB8dEn)
 [![Changelog](https://img.shields.io/github/release/aopell/SchoologyPlus.svg?label=changelog&colorB=lightgrey)](https://aopell.me/SchoologyPlus/changelog)
 
 [![Download for Chrome](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
@@ -39,14 +40,15 @@
 ![Navigation Bar](https://i.imgur.com/VbTn30Y.png)
 
 *Image: The blue Schology Plus navigation bar*
-- Replaces the orange LAUSD theme with a blue theme
+- Replaces the default LAUSD theme with a blue theme
 - Replaces the LAUSD logo with the Schoology logo
 ### Custom Themes
 ![Built-in Themes](https://i.imgur.com/Tjfa5tJ.gif)
 
 *Image: Demonstration of the built-in themes*
 - You can create a custom theme or choose one of the small selection of built-in themes (including rainbow mode!)
-- One of the built-in themes is the "LAUSD Orange" theme which restores the interface to the LAUSD theme (including the logo)
+- Two of the built-in themes are the "LAUSD Dark Blue" and "LAUSD Orange" themes which restore the interface to the new and old versions of the LAUSD theme (including the logo)
+- Custom themes can change colors throughout the interface as well as the logo and course icons. Custom themes can even use custom rainbow color patterns!
 - To learn more about creating custom themes, see [Theme Editor](#theme-editor)
 #### Course Icons
 ![Course Icons](https://imgur.com/KybIeXw.png)
@@ -68,9 +70,11 @@
 - View all courses you share with a classmate
 
 ### Miscellaneous Interface Improvements
-- Adds a "Grades" link to the navigation bar for easy access from any page
 - Adds a button to quickly jump to archived courses in the Courses drop-down list*
-- Extends the length of the Courses drop-down list so there is no longer a scroll bar
+- Adds option to hide the upcoming and overdue assignments sidebars on the home page*
+- Indicates when a class is graded on a weighted scale*
+- Changed the courses drop down menu to show 6 courses across instead of 4
+- Notice when submitting a quiz when questions are left blank
 
 ## Grades Page Improvements
 ### Miscellaneous Grades Page Improvements
@@ -79,14 +83,15 @@
 - Classes are sorted by period*
 - Grades are displayed when classes are collapsed
 
-![Point Totals and Letter Grades](https://i.imgur.com/P0cXa7P.png)
+![Point Totals and Letter Grades](https://i.imgur.com/T0hriZt.png)
 
-*Image: Example of point totals for categories and unweighted classes. Also features calculated letter grades.*
+*Image: Example of point totals for categories and unweighted classes. Also features calculated letter grades and point buffers.*
 
 - Displays letter grades for classes that don't provide them*
   - The specific score needed for each grade can be customized, see [Custom Grading Scales](#custom-grading-scales)
 - Point totals are displayed for classes with unweighted categories
 - Point totals are displayed for all assignment categories
+- Displays point buffers from the next lowest letter grade and number of points needed to reach the next highest letter grade for unweighted classes
 
 ![Percentages and Possible Points](https://i.imgur.com/KjWsPjD.png)
 
@@ -195,6 +200,9 @@ Schoology Plus is equipped with a fully-featured theme editor, allowing you to c
 
 # Bug Reports and Feature Requests
 Please submit bugs and feature requests using [Github issues](https://github.com/aopell/SchoologyPlus/issues/new). Use an informative title and a clear description of your issue or request. For bugs, please provide **steps to reproduce** and **screenshots** of the issue if applicable. You can submit an issue ticket at any time by clicking the "Submit Feedback" link in the footer of the settings page.
+
+# Feedback and Support Discord
+Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. [Click here to join!](https://aopell.github.io/SchoologyPlus/discord.html)
 
 # Contributing
 Pull requests are welcomed! If you would like to add a new feature, the best way of doing so is to submit a pull request. All pull requests will be considered and reviewed thoroughly.
