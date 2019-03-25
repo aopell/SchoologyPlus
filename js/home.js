@@ -32,10 +32,10 @@ function postFromBroadcast(broadcast) {
                             createElement("a", ["sExtlink-processed"], { textContent: "Schoology Plus Announcements" }),
                             createElement("span", ["splus-broadcast-close"], { textContent: "×", title: "Dismiss notification" }),
                             createElement("span", ["update-body", "s-rte"], {}, [
-                                createElement("p", [], {}, [
-                                    createElement("strong", [], { textContent: broadcast.title })
+                                createElement("p", ["no-margins"], {}, [
+                                    createElement("strong", ["splus-broadcast-title"], { innerHTML: broadcast.title })
                                 ]),
-                                createElement("p", [], { innerHTML: broadcast.message })
+                                createElement("p", ["small-top-margin"], { innerHTML: broadcast.message })
                             ])
                         ])
                     ]),
@@ -99,4 +99,16 @@ if (Setting.getValue("broadcasts") !== "disabled") {
             attributeFilter: ["style"]
         });
     })();
+}
+
+switch (Setting.getValue("upcomingOverdueVisibility")) {
+    case "hideAll":
+        document.getElementById("right-column-inner").style.visibility = "hidden";
+        break;
+    case "hideOverdue":
+        document.querySelector(".overdue-submissions-wrapper").style.visibility = "hidden";
+        break;
+    case "hideUpcoming":
+        document.querySelector(".upcoming-events-wrapper").style.visibility = "hidden";
+        break;
 }

@@ -93,6 +93,10 @@ let modals = [
                 createElement("p", ["setting-description"], { textContent: "For various ideas and suggestions" })
             ]),
             createElement("div", ["setting-entry"], {}, [
+                createElement("h2", ["setting-title"], { textContent: "Would you like to contribute?" }),
+                createElement("p", ["setting-description"], { innerHTML: 'Please see our <a href="https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md">contributing guidelines</a> for various ways you can help in the development of Schoology Plus. Thanks for your interest in contributing!' })
+            ]),
+            createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], { textContent: "Disclaimer" }),
                 createElement("p", ["setting-description"], { textContent: "Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners." })
             ])

@@ -152,7 +152,10 @@ var fetchQueue = [];
 
                         commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
                         if (commentsContentWrapper.querySelector(".comment")) {
+                            // Fixes kabob display issues with long comments
                             commentsContentWrapper.style.display = "flex";
+                            // Fixes kabob display issues with short comments
+                            commentsContentWrapper.style.justifyContent = "space-between";
                         }
 
                         let createAddAssignmentUi = async function () {
@@ -278,7 +281,7 @@ var fetchQueue = [];
             setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
 
             // add weighted indicator to the course section row
-            if (classTotal === 0 && !addMoreClassTotal) {
+            if (Setting.getValue("weightedGradebookIndicator") == "enabled" && classTotal === 0 && !addMoreClassTotal) {
                 let newElem = createElement("span", ["splus-weighted-gradebook-indicator"], {
                     textContent: "[Weighted]"
                 });

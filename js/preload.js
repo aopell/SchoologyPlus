@@ -50,6 +50,38 @@ function getModalContents() {
     return modalContents;
 }
 
+function backgroundPageFetch(url, init, bodyReadType) {
+    return new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage({ type: "fetch", url: url, params: init, bodyReadType: bodyReadType }, function (response) {
+            if (!response.success) {
+                reject(response.error);
+                return;
+            }
+
+            delete response.success;
+
+            let bodyReadError = response.bodyReadError;
+            delete response.bodyReadError;
+
+            let bodyContent = response[bodyReadType];
+            let readBodyTask = new Promise((readBodyResolve, readBodyReject) => {
+                if (bodyReadError) {
+                    if (bodyReadError === true) {
+                        readBodyReject();
+                    } else {
+                        readBodyReject(bodyReadError);
+                    }
+                } else {
+                    readBodyResolve(bodyContent);
+                }
+            });
+            response[bodyReadType] = () => readBodyTask;
+
+            resolve(response);
+        });
+    });
+}
+
 /**
  * Creates a fetch function wrapper which honors a rate limit.
  * 
@@ -89,7 +121,7 @@ function createFetchRateLimitWrapper(requestsPerInterval, interval) {
 
         if (callsThisCycle < requestsPerInterval) {
             callsThisCycle++;
-            return fetch.apply(this, arguments);
+            return backgroundPageFetch.apply(this, arguments);
         } else {
             // enqueue the request
             // basically try again later
@@ -130,15 +162,12 @@ function fetchApi(path) {
  * @param {string} url The URL to fetch.
  * @param {Object.<string, string>} [baseObj] The base set of headers. 
  * @param {boolean} [useRateLimit=true] Whether or not to use the internal Schoology API rate limit tracker. Defaults to true.
+ * @param {string} [bodyReadType="json"] The method with which the body should be read.
  */
-async function fetchWithApiAuthentication(url, baseObj, useRateLimit) {
-    if (useRateLimit === undefined) {
-        useRateLimit = true;
-    }
-
-    return await (useRateLimit ? preload_schoologyPlusApiRateLimitedFetch : fetch)(url, {
+async function fetchWithApiAuthentication(url, baseObj, useRateLimit = true, bodyReadType = "json") {
+    return await (useRateLimit ? preload_schoologyPlusApiRateLimitedFetch : backgroundPageFetch)(url, {
         headers: createApiAuthenticationHeaders(await getApiKeysInternal(), baseObj)
-    });
+    }, bodyReadType);
 }
 
 /**
@@ -550,6 +579,58 @@ function updateSettings(callback) {
                             {
                                 text: "Hide",
                                 value: "hide"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).control,
+                new Setting(
+                    "upcomingOverdueVisibility",
+                    "Hide Upcoming and Overdue Assignments",
+                    '[Refresh required] Hides the "Upcoming" and "Overdue" sidebars on the homepage',
+                    "showAll",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Show Both",
+                                value: "showAll"
+                            },
+                            {
+                                text: "Hide Upcoming Only",
+                                value: "hideUpcoming"
+                            },
+                            {
+                                text: "Hide Overdue Only",
+                                value: "hideOverdue"
+                            },
+                            {
+                                text: "Hide Both",
+                                value: "hideAll"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).control,
+                new Setting(
+                    "weightedGradebookIndicator",
+                    "Weighted Gradebook Indicator",
+                    "[Refresh required] Adds an indicator next to gradebooks which are weighted",
+                    "enabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Show",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Hide",
+                                value: "disabled"
                             }
                         ]
                     },

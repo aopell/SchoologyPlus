@@ -1,93 +1,114 @@
 FEATURES
-(All features below marked with an asterisk* can be changed or customized with a setting)
+(All features below marked with an asterisk * can be changed or customized with a setting)
 
-Interface Improvements:
-- Blue Theme
-  - Replaces the orange LAUSD theme with a blue theme
-  - Replaces the LAUSD logo with the Schoology logo
-- Custom Themes
-  - You can create a custom theme or choose one of the small selection of built-in themes (including rainbow mode!)
-  - One of the built-in themes is the "LAUSD Orange" theme which restores the interface to the LAUSD theme (including the logo)
-- Course Icons
-  - Built-in course icons for many courses*
-  - Custom themes can also introduce custom icons for courses
-- Tooltips
-  - Toolips for items on the materials page show previews
-    - Assignments show score and grade category
-    - PDF files show previews and number of pages
-- Miscellaneous
-  - Adds a "Grades" link to the navigation bar for easy access from any page
-  - Adds a button to quickly jump to archived courses in the Courses drop-down list*
-  - Extends the length of the Courses drop-down list so there is no longer a scroll bar
+INTERFACE IMPROVEMENTS
 
-Grades Page Improvements:
-- Miscellaneous
-  - Classes are sorted by period*
-  - Grades are displayed when classes are collapsed
-  - Displays letter grades for classes that don't provide them*
-    - The specific score needed for each grade can be customized, see "Custom Grading Scales"
-  - Point totals are displayed for classes with unweighted categories
-  - Point totals are displayed for all assignment categories
-  - The number of possible points for an assignment is shown even when a grade has not yet been entered for that assignment
-  - Percentages are shown for each individual assignment
-  - Removes the useless "(no grading period)" section from all classes
-  - Right click a class to quickly jump to a specific page or to edit that course's settings
-- Simulated Grades
-  - Allows you to locally modify the grade of an assignment
-    - Schoology Plus will recalculate the grades for each category and for the entire class
-    - Weighted categories are taken into account when recalculating grades
-  - Allows you to simulate adding an assignment
-    - Assignments can be added to any category, and can be given any grade
-    - This allows you to see how an upcoming assignment will affect your grade with different scores
-  - Allows you to calculate the minimum grade for an assignment required to reach a certain grade in the class (right click on an assignment)
-    - Useful to see what grade you need on the final to keep your A in the class!
-  - Allows you to simulate dropping a grade (right click on an assignment)
+Blue Theme
+- Replaces the default LAUSD theme with a blue theme
+- Replaces the LAUSD logo with the Schoology logo
 
-Desktop Notifications:
-  - Desktop notifications for when new grades are posted*
-- Extension Icon
-  - Extension icon shows number of new grades posted*
-  - Clicking the extension icon will take you to:
-    - Your notifications if you have newly posted grades
-    - The Schoology homepage if you do not
-- Schoology Plus Announcements
-  - Announcements about Schoology Plus will be sent as desktop notifications*
-  - They will also show as posts in your news feed*
+Custom Themes
+- You can create a custom theme or choose one of the small selection of built-in themes (including rainbow mode!)
+- Two of the built-in themes are the "LAUSD Dark Blue" and "LAUSD Orange" themes which restore the interface to the new and old versions of the LAUSD theme respectively including the logo)
+- Custom themes can change colors throughout the interface as well as the logo and course icons. Custom themes can even use custom rainbow color patterns!
+- To learn more about creating custom themes, see Theme Editor
 
-Schoology Plus Settings:
-- Schoology Plus has the following customizable settings:
-  - Theme
-    - Sets the theme for the Schoology Plus interface. Currently, Schoology Plus has 4 built-in themes and a theme editor for you to make your own.
-  - Desktop Notifications
-    - Displays desktop notifications and a number badge on the extension button when new grades are entered
-  - Announcement Notifications
-    - Displays desktop notifications and news feed posts for announcements sent to all Schoology Plus users
-  - Custom Grading Scales
-    -  Uses custom grading scales (set per-course in Course Options) when courses don't have one defined
-  - Order Classes
-    - Changes the order of your classes on the grades and mastery pages
-  - Override Course Icons
-    -  Replace the course icons with the selected theme's icons
-  - Archived Courses Button
-    - Shows a button labeled "See Archived" next to the "See All" button in the courses dropdown
-- Theme Editor:
-  - Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the theme editor help page.
+Course Icons
+- Built-in course icons for many courses*
+- Custom themes can also introduce custom icons for courses
 
-Course Options:
-- Course Nicknames
-  - You can set a nickname for a course, allowing you to make friendlier and nicer looking names that appear everywhere in the interface where the ugly name appeared previously.
+Tooltips
+- Toolips for items on the materials page show previews
+  - Assignments show score and grade category
+  - PDF files show previews and number of pages
+
+Courses In Common
+- View all courses you share with a classmate by visiting their profile page
+
+Miscellaneous Interface Improvements
+- Adds a button to quickly jump to archived courses in the Courses drop-down list*
+- Adds option to hide the upcoming and overdue assignments sidebars on the home page*
+- Indicates when a class is graded on a weighted scale*
+- Changed the courses drop down menu to show 6 courses across instead of 4
+- Notice when submitting a quiz when questions are left blank
+
+GRADES PAGE IMPROVEMENTS
+
+Miscellaneous Grades Page Improvements
+- Classes are sorted by period*
+- Grades are displayed when classes are collapsed
+- Displays letter grades for classes that don't provide them*
+  - The specific score needed for each grade can be customized, see Custom Grading Scales
+- Point totals are displayed for classes with unweighted categories
+- Point totals are displayed for all assignment categories
+- Displays point buffers from the next lowest letter grade and number of points needed to reach the next highest letter grade for unweighted classes
+- The number of possible points for an assignment is shown even when a grade has not yet been entered for that assignment
+- Percentages are shown for each individual assignment
+- Removes the useless "(no grading period)" section from all classes
+- Right click a class to quickly jump to a specific page or to edit that course's settings
+
+Simulated Grades
+- Allows you to locally modify the grade of an assignment
+  - Schoology Plus will recalculate the grades for each category and for the entire class
+  - Weighted categories are taken into account when recalculating grades
+- Allows you to simulate adding an assignment
+  - Assignments can be added to any category, and can be given any grade
+  - This allows you to see how an upcoming assignment will affect your grade with different scores
+- Allows you to calculate the minimum grade for an assignment required to reach a certain grade in the class (right click on an assignment)
+  - Useful to see what grade you need on the final to keep your A in the class!
+- Allows you to simulate dropping a grade (right click on an assignment)
+
+DESKTOP NOTIFICATIONS
+- Desktop notifications for when new grades are posted*
+
+Extension Icon
+- Extension icon shows number of new grades posted*
+- Clicking the extension icon will take you to:
+  - Your notifications if you have newly posted grades
+  - The Schoology homepage if you do not
+
+Schoology Plus Announcements
+- Announcements about Schoology Plus will be sent as desktop notifications*
+- They will also show as posts in your news feed*
+
+SCHOOLOGY PLUS SETTINGS
+
+Schoology Plus has customizable settings, including but not limited to:
+- Theme
+  - Sets the theme for the Schoology Plus interface. Currently, Schoology Plus has 4 built-in themes and a theme editor for you to make your own.
+- Desktop Notifications
+  - Displays desktop notifications and a number badge on the extension button when new grades are entered
 - Custom Grading Scales
-  - You can create custom grading scales for courses where the teacher does not have a grading scale set for the class.
-    - This will be used to calculate letter grades for assignment categories and courses on the grades page
+  -  Uses custom grading scales (set per-course in Course Options) when courses don't have one defined
+- Order Classes
+  - Changes the order of your classes on the grades and mastery pages
+- Archived Courses Button
+  - Shows a button labeled "See Archived" next to the "See All" button in the courses dropdown
 
-Bug Reports and Feature Requests:
-Please submit bugs and feature requests using GitHub issues at https://github.com/aopell/SchoologyPlus/issues/new.
-Use an informative title and a clear description of your issue or request. For bugs, please provide steps to reproduce and screenshots of the issue if applicable.
-You can submit an issue ticket at any time by clicking the "Submit Feedback" link in the footer of the settings page.
+Theme Editor
 
-Contributors:
-This extension was created by Aaron Opell.
-Significant development assistance has been provided by Glen Husman.
-Various other contribution information is located in the Contributors dialog accessible via a link in the footer of Schoology Plus settings.
+Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the Theme Editor help page.
 
+COURSE OPTIONS
+
+Course Nicknames
+- You can set a nickname for a course, allowing you to make friendlier and nicer looking names that appear everywhere in the interface where the ugly name appeared previously.
+
+Custom Grading Scales
+- You can create custom grading scales for courses where the teacher does not have a grading scale set for the class.
+  - This will be used to calculate letter grades for assignment categories and courses on the grades page
+
+FEEDBACK AND SUPPORT DISCORD
+Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. Visit https://aopell.github.io/SchoologyPlus/discord.html to join.
+
+CONTRIBUTING
+Please see https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md for information about contributing to Schoology Plus. This document also includes methods for reporting bugs and submitting feature requests.
+
+CONTRIBUTORS
+This extension was created by Aaron Opell (https://github.com/aopell). Significant development assistance has been provided by Glen Husman (https://github.com/glen3b). Various other contribution information is located in the Contributors dialog accessible via a link in the footer of Schoology Plus settings.
+
+LICENSE
+This project is open source under the MIT License. See the https://github.com/aopell/SchoologyPlus/blob/develop/LICENSE for more information.
+
+DISCLAIMER
 Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners.
