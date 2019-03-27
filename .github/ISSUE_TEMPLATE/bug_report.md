@@ -1,6 +1,7 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: 'Report a bug you found in Schoology Plus. PLEASE NOTE: Only use issues for
+  bug reports, submit feature requests through our Discord server only please.'
 title: ''
 labels: Bug
 assignees: ''
