@@ -372,7 +372,7 @@ class Theme {
             img.classList.add("injected-course-icon");
         }
 
-        if (!shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0) {
+        if (!shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0 && showToast) {
             let coursesString = encodeURI(Array.from(coursesMissingDefaultIcons).join("\n"));
             showToast("Request New Course Icons?",
                 `${coursesMissingDefaultIcons.size} ${coursesMissingDefaultIcons.size == 1 ? "course is missing a Schoology Plus course icon. Would you like to request that an icon be added for this course?" : "courses are missing Schoology Plus course icons. Would you like to request that icons be added for these courses?"}`,
@@ -383,7 +383,7 @@ class Theme {
                         createToastButton("No", "nothing-button", () => showToast("You can request icons later from course options", "", "hsl(190, 100%, 50%)", { timeout: 5000 })),
                     ]
                 }
-            )
+            );
             shownMissingIconsNotification = true;
             Setting.setValue("toggle_stopTrackingMissingIcons", true);
         }
