@@ -434,7 +434,7 @@ var fetchQueue = [];
 
                 // any state change when editing has been disabled
                 if (editDisableReason) {
-                    alert("An error occurred loading assignments. Editing has been disabled.\nReason: " + editDisableReason);
+                    alert("An error occurred loading assignments. Editing has been disabled.\nReason: " + JSON.stringify(editDisableReason));
                     document.getElementById("enable-modify").checked = false;
                 }
                 // enabling editing
