@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 5.3 - March 27, 2019
+## Version 5.3.1 - March 27, 2019
 
 ### Fixed
 - Grade editing being disabled in some situations
