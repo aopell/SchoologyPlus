@@ -410,6 +410,12 @@ h1.setting-title {
     margin-top: 10px !important;
 }
 
+.course-list-icon {
+    float: left;
+    padding: 7px 16px 7px 7px;
+    width: 64px;
+}
+
 /*
 #139 fix
 Make accept and cancel buttons similarly styled throughout the UI

@@ -171,6 +171,17 @@
         },
         {
             "matches": [
+                "https://lms.lausd.net/courses",
+                "https://lms.lausd.net/courses/*"
+            ],
+            "js": [
+                "js/course.js",
+                "js/courses.js"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
                 "https://lms.lausd.net/*"
             ],
             "js": [
