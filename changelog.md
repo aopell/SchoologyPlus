@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 5.3.2 - April 8, 2019
+
+### Added
+- Course icons for many more course titles
+- Course icons to "My Courses" page
+- More detail to errors that cause grade editing to be disabled
+  - We've been receiving multiple reports recently of grade editing being disabled due to various weird behaviors in gradebooks. We're trying our best to fix these problems but it is very difficult without having access to the broken gradebooks. If you have issues with grade editing, please send us as much information as you can in our Discord server
+
 ## Version 5.3.1 - March 27, 2019
 
 ### Fixed
