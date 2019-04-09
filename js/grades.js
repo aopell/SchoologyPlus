@@ -226,7 +226,8 @@ var fetchQueue = [];
                         try {
                             await processAssignment(assignment);
                         } catch (err) {
-                            addEditDisableReason(err);
+                            addEditDisableReason(err.stack);
+                            addEditDisableReason(`Course: ${course} Assignment: ${assignment}`)
                             if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
                                 // consequential failure: our denominator is invalid
                                 invalidateCatTotal = true;
@@ -269,7 +270,7 @@ var fetchQueue = [];
                         }
                     }
                 } catch (err) {
-                    addEditDisableReason("(category) " + (err || "General Error"));
+                    addEditDisableReason("(category) " + (err.stack || "General Error"));
                 }
             }
 
@@ -434,7 +435,8 @@ var fetchQueue = [];
 
                 // any state change when editing has been disabled
                 if (editDisableReason) {
-                    alert("An error occurred loading assignments. Editing has been disabled.\nReason: " + JSON.stringify(editDisableReason));
+                    Logger.error(JSON.stringify(editDisableReason));
+                    alert("An error occurred loading assignments. Editing has been disabled. Please report this by pressing Ctrl+Shift+J (Cmd+Shift+J on Mac), taking a screenshot of the error messages, and sending it in the Schoology Plus Discord server.\nReason: " + JSON.stringify(editDisableReason));
                     document.getElementById("enable-modify").checked = false;
                 }
                 // enabling editing
