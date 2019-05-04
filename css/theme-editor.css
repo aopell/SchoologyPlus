@@ -621,5 +621,5 @@ textarea#json-output[readonly] {
 }
 
 .highlight {
-    background-color: lightcyan;
+    background-color: lightcyan !important;
 }

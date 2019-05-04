@@ -865,45 +865,9 @@ function addIcon() {
     tr.querySelector(".delete-icon-button").addEventListener("click", deleteIcon);
 
     // Replaces pasted images with data urls
-    tr.querySelector(".icon-url").addEventListener("paste", pasteEvent => {
-        let items = (pasteEvent.clipboardData || pasteEvent.originalEvent.clipboardData).items;
-        let blob = null;
-        for (let i of items) {
-            if (i.type.indexOf("image") === 0) {
-                blob = i.getAsFile();
-            }
-        }
-        if (blob !== null) {
-            pasteEvent.preventDefault();
-            pasteEvent.stopPropagation();
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                let text = e.target.result;
-                pasteEvent.target.dataset.originalText = pasteEvent.target.dataset.text;
-                pasteEvent.target.dataset.text = "Uploading..."
-                imgurUpload(text, result => {
-                    let link = result.data.link;
-                    if (document.queryCommandSupported('insertText')) {
-                        document.execCommand('insertText', false, link);
-                    } else {
-                        document.execCommand('paste', false, link);
-                    }
-                    preview.src = link;
-                    pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
-                    pasteEvent.target.dataset.originalText = "";
-                    updateOutput();
-                }, error => {
-                    pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
-                    pasteEvent.target.dataset.originalText = "";
-                });
-            };
-            reader.readAsDataURL(blob);
-        } else {
-            plainTextPaste(pasteEvent);
-        }
-    });
+    tr.querySelector(".icon-url").addEventListener("paste", uploadAndPaste);
 
-    initializeDragAndDrop(tr.querySelector(".icon-url"), tr.querySelector(".small-icon-preview"));
+    initializeDragAndDrop(tr.querySelector(".icon-url"), tr.querySelector(".small-icon-preview"), "textContent");
 
     // Replaces pasted HTML with plain text
     tr.querySelector(".class-name").addEventListener("paste", plainTextPaste);
@@ -917,6 +881,44 @@ function addIcon() {
         arr.map(x => x.addEventListener("input", updateOutput));
     }
     return tr;
+}
+
+function uploadAndPaste(pasteEvent) {
+    let items = (pasteEvent.clipboardData || pasteEvent.originalEvent.clipboardData).items;
+    let blob = null;
+    for (let i of items) {
+        if (i.type.indexOf("image") === 0) {
+            blob = i.getAsFile();
+        }
+    }
+    if (blob !== null) {
+        pasteEvent.preventDefault();
+        pasteEvent.stopPropagation();
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            let text = e.target.result;
+            pasteEvent.target.dataset.originalText = pasteEvent.target.dataset.text;
+            pasteEvent.target.dataset.text = "Uploading..."
+            imgurUpload(text, result => {
+                let link = result.data.link;
+                if (document.queryCommandSupported('insertText')) {
+                    document.execCommand('insertText', false, link);
+                } else {
+                    document.execCommand('paste', false, link);
+                }
+                preview.src = link;
+                pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
+                pasteEvent.target.dataset.originalText = "";
+                updateOutput();
+            }, error => {
+                pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
+                pasteEvent.target.dataset.originalText = "";
+            });
+        };
+        reader.readAsDataURL(blob);
+    } else {
+        plainTextPaste(pasteEvent);
+    }
 }
 
 function plainTextPaste(e) {
@@ -1018,7 +1020,7 @@ function unhighlight(region) {
     }
 }
 
-function handleDrop(e, region, preview) {
+function handleDrop(e, region, preview, property) {
     try {
         console.log(e.dataTransfer);
         let file = e.dataTransfer.files[0];
@@ -1028,8 +1030,10 @@ function handleDrop(e, region, preview) {
             region.dataset.text = "Uploading..."
 
             imgurUpload(reader.result, result => {
-                preview.src = result.data.link;
-                region.textContent = result.data.link;
+                if (preview) {
+                    preview.src = result.data.link;
+                }
+                region[property] = result.data.link;
                 region.dataset.text = region.dataset.originalText;
                 region.dataset.originalText = "";
                 updateOutput();
@@ -1072,7 +1076,7 @@ function imgurUpload(base64, callback, errorCallback) {
     }).then(x => x.json()).then(callback).catch(errorCallback);
 }
 
-function initializeDragAndDrop(region, preview) {
+function initializeDragAndDrop(region, preview, property) {
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         region.addEventListener(eventName, preventDefaults, false);
     });
@@ -1082,7 +1086,7 @@ function initializeDragAndDrop(region, preview) {
     region.addEventListener("dragleave", e => unhighlight(region), false);
     region.addEventListener('drop', e => {
         unhighlight(region);
-        handleDrop(e, region, preview);
+        handleDrop(e, region, preview, property);
     }, false);
 }
 
@@ -1149,6 +1153,11 @@ $(document).ready(function () {
         change: rangeSliderEvent,
         values: [0, 100]
     });
+
+    initializeDragAndDrop(themeCursor, null, "value");
+    initializeDragAndDrop(themeLogo, null, "value");
+    themeCursor.addEventListener("paste", uploadAndPaste);
+    themeLogo.addEventListener("paste", uploadAndPaste);
 
     let oninput = e => document.getElementById(e.target.dataset.label).textContent = e.target.value;
     for (let input of themeColorRainbowWrapper.querySelectorAll("input[type=range][data-label]")) {
