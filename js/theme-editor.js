@@ -31,6 +31,7 @@ var colorRainbowSaturationAnimateWrapper = document.getElementById("color-rainbo
 var colorRainbowLightnessAnimateWrapper = document.getElementById("color-rainbow-lightness-animate-wrapper");
 var colorRainbowHueSpeed = document.getElementById("color-rainbow-hue-speed");
 var colorRainbowHueValue = document.getElementById("color-rainbow-hue-value");
+var colorRainbowHuePreview = document.getElementById("color-rainbow-hue-preview");
 var colorRainbowSaturationSpeed = document.getElementById("color-rainbow-saturation-speed");
 var colorRainbowSaturationValue = document.getElementById("color-rainbow-saturation-value");
 var colorRainbowLightnessSpeed = document.getElementById("color-rainbow-lightness-speed");
@@ -490,6 +491,16 @@ function updateOutput() {
                     alternate: colorRainbowHueAlternate.checked
                 }
             }
+
+            let steps = [];
+            let max = theme.color.rainbow.hue.animate.min > theme.color.rainbow.hue.animate.max ? theme.color.rainbow.hue.animate.max + 360 : theme.color.rainbow.hue.animate.max;
+            for (let i = 0; i <= 1; i += 0.05) {
+                steps.push(`hsl(${theme.color.rainbow.hue.animate.min * (1 - i) + max * i}, 75%, 50%)`);
+            }
+            if (theme.color.rainbow.hue.animate.alternate) {
+                steps.push(...steps.slice(0, steps.length - 1).reverse());
+            }
+            colorRainbowHuePreview.style.background = `linear-gradient(to right, ${steps.join()})`;
         } else {
             colorRainbowHueAnimateWrapper.classList.add("hidden");
             document.querySelector("label[for=color-rainbow-hue-value]").firstElementChild.textContent = "Hue Value";
