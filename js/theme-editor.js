@@ -892,6 +892,8 @@ function addIcon() {
         }
     });
 
+    initializeDragAndDrop(tr.querySelector(".icon-url"), tr.querySelector(".small-icon-preview"));
+
     // Replaces pasted HTML with plain text
     tr.querySelector(".class-name").addEventListener("paste", plainTextPaste);
 
@@ -983,6 +985,45 @@ function copyThemeToClipboard(themeName) {
 }
 
 function inEditMode() { return !!document.querySelector(".show-editor-controls"); }
+
+function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
+function highlight(region) {
+    region.classList.add("highlight");
+    region.dataset.originalText = region.dataset.text;
+    region.dataset.text = "Drop to Use Image"
+}
+
+function unhighlight(region) {
+    region.classList.remove("highlight");
+    region.dataset.text = region.dataset.originalText;
+    region.dataset.originalText = "";
+}
+
+function handleDrop(e, preview) {
+    try {
+        let file = e.dataTransfer.files[0];
+        let reader = new FileReader();
+        reader.onloadend = () => preview.src = reader.result;
+        reader.readAsDataURL(file);
+    } catch { }
+}
+
+function initializeDragAndDrop(region, preview) {
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        region.addEventListener(eventName, preventDefaults, false);
+    });
+    ['dragenter', 'dragover'].forEach(eventName => {
+        region.addEventListener(eventName, e => highlight(region), false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        region.addEventListener(eventName, e => unhighlight(region), false);
+    });
+    region.addEventListener('drop', e => handleDrop(e, preview), false);
+}
 
 function hueSliderEvent(event, ui) {
     if (event.originalEvent) {

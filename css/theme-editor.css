@@ -619,3 +619,7 @@ textarea#json-output[readonly] {
 .rs-range-color {
     background-color: #26a69a;
 }
+
+.highlight {
+    background-color: lightcyan;
+}
