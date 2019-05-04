@@ -855,7 +855,7 @@ function generateRainbowFunction(theme) {
 }
 
 function addIcon() {
-    let template = `<td style=text-align:center><a class="action-button tooltipped arrow-button move-down"data-tooltip="Move Down"><i class=material-icons>arrow_downward</i> </a><a class="action-button tooltipped arrow-button move-up"data-tooltip="Move Up"><i class=material-icons>arrow_upward</i></a><td class=class-name data-text="Class Name Pattern"><td class=icon-url data-text="Icon URL"><td><img class="small-icon-preview" height=32/></td><td><a class="action-button tooltipped btn-flat delete-icon-button right waves-effect waves-light"data-tooltip=Delete><i class=material-icons>delete</i></a>`;
+    let template = `<td style=text-align:center><a class="action-button tooltipped arrow-button move-down"data-tooltip="Move Down"><i class=material-icons>arrow_downward</i> </a><a class="action-button tooltipped arrow-button move-up"data-tooltip="Move Up"><i class=material-icons>arrow_upward</i></a><td class=class-name data-text="Class Name Pattern"><td class=icon-url data-text="Icon URL or paste/drop image"><td><img class="small-icon-preview" height=32/></td><td><a class="action-button tooltipped btn-flat delete-icon-button right waves-effect waves-light"data-tooltip=Delete><i class=material-icons>delete</i></a>`;
     let tr = document.createElement("tr");
     tr.innerHTML = template;
     iconList.appendChild(tr);
@@ -879,12 +879,23 @@ function addIcon() {
             var reader = new FileReader();
             reader.onload = function (e) {
                 let text = e.target.result;
-                if (document.queryCommandSupported('insertText')) {
-                    document.execCommand('insertText', false, text);
-                } else {
-                    document.execCommand('paste', false, text);
-                }
-                preview.src = pasteEvent.target.textContent;
+                pasteEvent.target.dataset.originalText = pasteEvent.target.dataset.text;
+                pasteEvent.target.dataset.text = "Uploading..."
+                imgurUpload(text, result => {
+                    let link = result.data.link;
+                    if (document.queryCommandSupported('insertText')) {
+                        document.execCommand('insertText', false, link);
+                    } else {
+                        document.execCommand('paste', false, link);
+                    }
+                    preview.src = link;
+                    pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
+                    pasteEvent.target.dataset.originalText = "";
+                    updateOutput();
+                }, error => {
+                    pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
+                    pasteEvent.target.dataset.originalText = "";
+                });
             };
             reader.readAsDataURL(blob);
         } else {
@@ -992,24 +1003,73 @@ function preventDefaults(e) {
 }
 
 function highlight(region) {
-    region.classList.add("highlight");
-    region.dataset.originalText = region.dataset.text;
-    region.dataset.text = "Drop to Use Image"
+    if (!region.classList.contains("highlight")) {
+        region.classList.add("highlight");
+        region.dataset.originalText = region.dataset.text;
+        region.dataset.text = "Drop to Use Image"
+    }
 }
 
 function unhighlight(region) {
-    region.classList.remove("highlight");
-    region.dataset.text = region.dataset.originalText;
-    region.dataset.originalText = "";
+    if (region.classList.contains("highlight")) {
+        region.classList.remove("highlight");
+        region.dataset.text = region.dataset.originalText;
+        region.dataset.originalText = "";
+    }
 }
 
-function handleDrop(e, preview) {
+function handleDrop(e, region, preview) {
     try {
+        console.log(e.dataTransfer);
         let file = e.dataTransfer.files[0];
         let reader = new FileReader();
-        reader.onloadend = () => preview.src = reader.result;
+        reader.onloadend = () => {
+            region.dataset.originalText = region.dataset.text;
+            region.dataset.text = "Uploading..."
+
+            imgurUpload(reader.result, result => {
+                preview.src = result.data.link;
+                region.textContent = result.data.link;
+                region.dataset.text = region.dataset.originalText;
+                region.dataset.originalText = "";
+                updateOutput();
+            }, error => {
+                region.dataset.text = region.dataset.originalText;
+                region.dataset.originalText = "";
+            });
+        };
         reader.readAsDataURL(file);
-    } catch { }
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+function imgurUpload(base64, callback, errorCallback) {
+    if (!localStorage.getItem("imgurPromptViewed")) {
+        if (!confirm("By clicking OK, you consent to have the image you just dropped or pasted uploaded to Imgur. Click cancel to prevent the upload. If you click OK, this message will not be shown again.")) {
+            errorCallback(new Error("User did not give consent to upload"));
+        }
+        localStorage.setItem("imgurPromptViewed", true);
+    }
+
+    const CLIENT_ID = "56755c36eb5772d";
+    fetch("https://api.imgur.com/3/image", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Client-ID ${CLIENT_ID}`
+        },
+        body: JSON.stringify({
+            type: "base64",
+            image: base64.split(',')[1]
+        })
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return response;
+    }).then(x => x.json()).then(callback).catch(errorCallback);
 }
 
 function initializeDragAndDrop(region, preview) {
@@ -1019,10 +1079,11 @@ function initializeDragAndDrop(region, preview) {
     ['dragenter', 'dragover'].forEach(eventName => {
         region.addEventListener(eventName, e => highlight(region), false);
     });
-    ['dragleave', 'drop'].forEach(eventName => {
-        region.addEventListener(eventName, e => unhighlight(region), false);
-    });
-    region.addEventListener('drop', e => handleDrop(e, preview), false);
+    region.addEventListener("dragleave", e => unhighlight(region), false);
+    region.addEventListener('drop', e => {
+        unhighlight(region);
+        handleDrop(e, region, preview);
+    }, false);
 }
 
 function hueSliderEvent(event, ui) {
