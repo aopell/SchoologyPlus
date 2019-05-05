@@ -899,7 +899,9 @@ function uploadAndPaste(pasteEvent) {
             let text = e.target.result;
             pasteEvent.target.dataset.originalText = pasteEvent.target.dataset.text;
             pasteEvent.target.dataset.text = "Uploading..."
+            let t = M.toast({ html: `Uploading image...`, displayLength: Number.MAX_SAFE_INTEGER });
             imgurUpload(text, result => {
+                t.dismiss();
                 let link = result.data.link;
                 if (document.queryCommandSupported('insertText')) {
                     document.execCommand('insertText', false, link);
@@ -911,6 +913,8 @@ function uploadAndPaste(pasteEvent) {
                 pasteEvent.target.dataset.originalText = "";
                 updateOutput();
             }, error => {
+                t.dismiss();
+                M.toast({ html: `Upload failed: ${error.message || error.toString()}` });
                 pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
                 pasteEvent.target.dataset.originalText = "";
             });
@@ -1028,8 +1032,10 @@ function handleDrop(e, region, preview, property) {
         reader.onloadend = () => {
             region.dataset.originalText = region.dataset.text;
             region.dataset.text = "Uploading..."
+            let t = M.toast({ html: `Uploading image...`, displayLength: Number.MAX_SAFE_INTEGER });
 
             imgurUpload(reader.result, result => {
+                t.dismiss();
                 if (preview) {
                     preview.src = result.data.link;
                 }
@@ -1038,6 +1044,8 @@ function handleDrop(e, region, preview, property) {
                 region.dataset.originalText = "";
                 updateOutput();
             }, error => {
+                t.dismiss();
+                M.toast({ html: `Upload failed: ${error.message || error.toString()}` });
                 region.dataset.text = region.dataset.originalText;
                 region.dataset.originalText = "";
             });
@@ -1052,8 +1060,10 @@ function imgurUpload(base64, callback, errorCallback) {
     if (!localStorage.getItem("imgurPromptViewed")) {
         if (!confirm("By clicking OK, you consent to have the image you just dropped or pasted uploaded to Imgur. Click cancel to prevent the upload. If you click OK, this message will not be shown again.")) {
             errorCallback(new Error("User did not give consent to upload"));
+            return;
+        } else {
+            localStorage.setItem("imgurPromptViewed", true);
         }
-        localStorage.setItem("imgurPromptViewed", true);
     }
 
     const CLIENT_ID = "56755c36eb5772d";
@@ -1073,7 +1083,7 @@ function imgurUpload(base64, callback, errorCallback) {
             throw new Error(response.statusText);
         }
         return response;
-    }).then(x => x.json()).then(callback).catch(errorCallback);
+    }).then(x => x.json()).then(callback).catch(err => console.log(err) || errorCallback(err));
 }
 
 function initializeDragAndDrop(region, preview, property) {
