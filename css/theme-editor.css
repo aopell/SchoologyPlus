@@ -572,12 +572,12 @@ textarea#json-output[readonly] {
     box-shadow: inset 0px 0px 4px #666;
 }
 
-#theme-hue {
-    height: 24px;
+#theme-hue, #color-rainbow-hue-value.hue-slider {
+    height: 24px !important;
     background: linear-gradient(to right, hsl(0, 50%, 50%), hsl(36, 50%, 50%), hsl(72, 50%, 50%), hsl(108, 50%, 50%), hsl(144, 50%, 50%), hsl(180, 50%, 50%), hsl(216, 50%, 50%), hsl(252, 50%, 50%), hsl(288, 50%, 50%), hsl(324, 50%, 50%), hsl(359, 50%, 50%));
 }
 
-.ui-slider-handle {
+#theme-hue .ui-slider-handle, #color-rainbow-hue-value.hue-slider .ui-slider-handle {
     height: 32px !important;
     background-color: var(--primary-color) !important;
     border: 2px solid black !important;
@@ -588,7 +588,7 @@ textarea#json-output[readonly] {
     padding-bottom: 32px;
 }
 
-#theme-color-rainbow-wrapper .ui-slider-handle {
+#theme-color-rainbow-wrapper :not(.hue-slider)>.ui-slider-handle {
     background-color: #26a69a !important;
     border: none !important;
     border-radius: 50% !important;
@@ -597,7 +597,7 @@ textarea#json-output[readonly] {
     margin-top: -3px !important;
 }
 
-#theme-color-rainbow-wrapper .ui-slider-horizontal {
+#theme-color-rainbow-wrapper :not(.hue-slider).ui-slider-horizontal {
     height: 3px;
     border: none;
     background-color: #C2C0C2;

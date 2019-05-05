@@ -81,7 +81,7 @@
                         </label>
                         <div class="col s12" id="theme-hue-wrapper" style="width: 90%; padding-left: 7.5%;">
                             <label for="theme-hue">Color Hue<span id="color-hue-value" class="right"></span></label>
-                            <div id="theme-hue"></div>
+                            <div id="theme-hue" data-display="color-hue-value"></div>
                         </div>
                     </p>
                     <p>
@@ -160,10 +160,7 @@
                                         <label for="color-rainbow-hue-value">
                                             <span>Hue Value</span>
                                             <span class="right" id="color-rainbow-hue-display">100</span>
-                                            <div class="range-field">
-                                                <input id="color-rainbow-hue-value" min="0" max="359" type="range"
-                                                    data-label="color-rainbow-hue-display" />
-                                            </div>
+                                            <div id="color-rainbow-hue-value" class="hue-slider" data-display="color-rainbow-hue-display"></div>
                                         </label>
                                     </div>
                                 </div>

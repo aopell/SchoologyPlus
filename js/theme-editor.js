@@ -234,7 +234,7 @@ function importFromObject(j) {
     colorRainbowHueSpeed.value = 50;
     $(colorRainbowHueRange).roundSlider("setValue", "0,359");
     colorRainbowHueAlternate.checked = false;
-    colorRainbowHueValue.value = 180;
+    $(colorRainbowHueValue).slider("value", 180);
 
     colorRainbowSaturationAnimate.checked = false;
     colorRainbowSaturationSpeed.value = 50;
@@ -268,7 +268,7 @@ function importFromObject(j) {
 
         if (j.color.rainbow.hue.animate) {
             colorRainbowHueSpeed.value = j.color.rainbow.hue.animate.speed;
-            colorRainbowHueValue.value = j.color.rainbow.hue.animate.offset;
+            $(colorRainbowHueValue).slider("value", j.color.rainbow.hue.animate.offset);
             if (!!j.color.rainbow.hue.animate.alternate !== colorRainbowHueAlternate.checked) {
                 colorRainbowHueAlternate.click();
             }
@@ -284,7 +284,7 @@ function importFromObject(j) {
                 : 359;
             $(colorRainbowHueRange).roundSlider("setValue", `${l},${u}`);
         } else {
-            colorRainbowHueValue.value = j.color.rainbow.hue.value;
+            $(colorRainbowHueValue).slider("value", j.color.rainbow.hue.value);
         }
 
         if (!!j.color.rainbow.saturation.animate !== colorRainbowSaturationAnimate.checked) {
@@ -482,10 +482,11 @@ function updateOutput() {
         if (colorRainbowHueAnimate.checked) {
             colorRainbowHueAnimateWrapper.classList.remove("hidden");
             document.querySelector("label[for=color-rainbow-hue-value]").firstElementChild.textContent = "Hue Offset";
+            colorRainbowHueValue.classList.remove("hue-slider");
             theme.color.rainbow.hue = {
                 animate: {
                     speed: +colorRainbowHueSpeed.value,
-                    offset: +colorRainbowHueValue.value,
+                    offset: +$(colorRainbowHueValue).slider("value"),
                     min: +$(colorRainbowHueRange).roundSlider("getValue").split(',')[0],
                     max: +$(colorRainbowHueRange).roundSlider("getValue").split(',')[1],
                     alternate: colorRainbowHueAlternate.checked
@@ -495,7 +496,7 @@ function updateOutput() {
             let steps = [];
             let max = theme.color.rainbow.hue.animate.min > theme.color.rainbow.hue.animate.max ? theme.color.rainbow.hue.animate.max + 360 : theme.color.rainbow.hue.animate.max;
             for (let i = 0; i <= 1; i += 0.05) {
-                steps.push(`hsl(${theme.color.rainbow.hue.animate.min * (1 - i) + max * i}, 75%, 50%)`);
+                steps.push(`hsl(${theme.color.rainbow.hue.animate.min * (1 - i) + max * i}, 50%, 50%)`);
             }
             if (theme.color.rainbow.hue.animate.alternate) {
                 steps.push(...steps.slice(0, steps.length - 1).reverse());
@@ -504,8 +505,9 @@ function updateOutput() {
         } else {
             colorRainbowHueAnimateWrapper.classList.add("hidden");
             document.querySelector("label[for=color-rainbow-hue-value]").firstElementChild.textContent = "Hue Value";
+            colorRainbowHueValue.classList.add("hue-slider");
             theme.color.rainbow.hue = {
-                value: colorRainbowHueValue.value
+                value: $(colorRainbowHueValue).slider("value")
             }
         }
 
@@ -551,6 +553,7 @@ function updateOutput() {
 
         let f = generateRainbowFunction(theme);
         if (f) {
+            f();
             rainbowInterval = setInterval(f, 100);
         }
     }
@@ -998,7 +1001,7 @@ function inEditMode() { return !!document.querySelector(".show-editor-controls")
 function hueSliderEvent(event, ui) {
     if (event.originalEvent) {
         updateOutput();
-        document.getElementById("color-hue-value").textContent = ui.value.toString();
+        document.getElementById(event.target.dataset.display).textContent = ui.value.toString();
     }
 }
 
@@ -1017,6 +1020,14 @@ $(document).ready(function () {
     $.fn.roundSlider.prototype._invertRange = true;
 
     $("#theme-hue").slider({
+        min: 0,
+        max: 359,
+        slide: hueSliderEvent,
+        stop: hueSliderEvent,
+        change: hueSliderEvent
+    });
+
+    $(colorRainbowHueValue).slider({
         min: 0,
         max: 359,
         slide: hueSliderEvent,
