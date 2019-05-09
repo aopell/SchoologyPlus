@@ -34,7 +34,7 @@ var icons = [
     { regex: "COMP SCI?|COMPUTER|INTRO COMP", url: "https://image.flaticon.com/icons/svg/626/626570.svg" },
     //US History and other American studies
     //Source: https://www.flaticon.com/free-icon/united-states-of-america_149513 by Smashicons under Flaticon Basic License (CC BY 3.0)
-    { regex: "US HIST|AMER(ICAN?)?", url: "https://image.flaticon.com/icons/svg/149/149513.svg" },
+    { regex: "US HIST|AMER(ICAN?)?|AM DEM", url: "https://image.flaticon.com/icons/svg/149/149513.svg" },
     //Health
     //Source: https://www.flaticon.com/free-icon/first-aid-kit_179555 by Pixel Buddha under Flaticon Basic License (CC BY 3.0)
     { regex: "HEALTH", url: "https://image.flaticon.com/icons/svg/179/179555.svg" },
