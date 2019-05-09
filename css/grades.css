@@ -76,11 +76,12 @@ col.comments-column {
     position: relative;
 }
 
-.grade-column .student-editable {
+.grade-column .student-editable, .editable-assignment-name:focus {
     padding: 1px;
     border-width: 1px;
     border-style: solid;
     border-color: #767676;
+    outline: 0px solid transparent;
 }
 
 

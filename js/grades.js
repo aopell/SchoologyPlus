@@ -167,7 +167,11 @@ var fetchQueue = [];
                             // FIXME add little plus icon
                             addAssignmentThing.innerHTML = '<th scope="row" class="title-column clickable"><div class="reportSpacer-3"><div class="td-content-wrapper"><span class="title"><a class="sExtlink-processed">Add Assignment</a></span></div></div></th><td class="grade-column"><div class="td-content-wrapper"><span class="no-grade">—</span><div class="grade-wrapper"></div></div></td><td class="comment-column"><div class="td-content-wrapper"><span class="visually-hidden">No comment</span></div></td>';
                             addAssignmentThing.getElementsByClassName("title")[0].firstElementChild.addEventListener("click", function () {
-                                addAssignmentThing.querySelector("img.grade-edit-indicator").click();
+                                if (event.target.contentEditable !== "true") {
+                                    addAssignmentThing.querySelector("img.grade-edit-indicator").click();
+                                } else {
+                                    document.execCommand("selectall", null, false);
+                                }
                             });
 
                             if (assignment.classList.contains("hidden")) {
@@ -204,7 +208,16 @@ var fetchQueue = [];
 
                                 assignment.classList.add("added-fake-assignment");
 
-                                assignment.getElementsByClassName("title")[0].firstElementChild.textContent = "Added Assignment";
+                                let assignmentTitle = assignment.getElementsByClassName("title")[0].firstElementChild;
+                                assignmentTitle.textContent = "Added Assignment (Click to Rename)";
+                                assignmentTitle.classList.add("editable-assignment-name");
+                                assignmentTitle.contentEditable = "true";
+                                assignmentTitle.addEventListener("keydown", event => {
+                                    if (event.which === 13) {
+                                        event.target.blur();
+                                        window.getSelection().removeAllRanges();
+                                    }
+                                });
 
                                 let newAddAssignmentPlaceholder = await createAddAssignmentUi();
                                 newAddAssignmentPlaceholder.style.display = "table-row";
