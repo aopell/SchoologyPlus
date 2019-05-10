@@ -59,15 +59,17 @@ newIcon.addEventListener("click", addIcon);
 var iconTestText = document.getElementById("icon-test-text");
 iconTestText.addEventListener("input", iconPreview);
 var saveButton = document.getElementById("save-button");
-saveButton.addEventListener("click", e => saveTheme());
+saveButton.addEventListener("click", e => trySaveTheme());
 var saveCloseButton = document.getElementById("save-close-button");
-saveCloseButton.addEventListener("click", e => saveTheme(true));
+saveCloseButton.addEventListener("click", e => trySaveTheme(true));
 var discardButton = document.getElementById("discard-button");
-discardButton.addEventListener("click", e => confirm("Are you sure you want to discard changes?") && location.reload());
+discardButton.addEventListener("click", e => ConfirmModal.open("Discard Changes?", "Are you sure you want to discard changes? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && location.reload()));
 var closeButton = document.getElementById("close-button");
-closeButton.addEventListener("click", e => (!inEditMode() || confirm('Are you sure you want to close without saving?')) && (location.href = 'https://lms.lausd.net'));
+closeButton.addEventListener("click", e => (!inEditMode() && (location.href = 'https://lms.lausd.net') || ConfirmModal.open("Discard Changes?", "Are you sure you want to close without saving? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && (location.href = 'https://lms.lausd.net'))));
 var createButton = document.getElementById("create-button");
+var importButton = document.getElementById("import-button");
 createButton.addEventListener("click", e => editTheme());
+importButton.addEventListener("click", e => importTheme());
 var lockButton = document.getElementById("lock-button");
 lockButton.addEventListener("click", e => {
     if (previewSection.classList.contains("fixed-on-large-and-up")) {
@@ -84,13 +86,66 @@ lockButton.addEventListener("click", e => {
         lockIcon.textContent = "lock";
     }
 });
-
-// document.querySelector(".move-down").addEventListener("click", moveDown);
-// document.querySelector(".move-up").addEventListener("click", moveUp);
-// document.querySelector(".delete-icon-button").addEventListener("click", deleteIcon);
-
 var previewNavbar = document.getElementById("preview-navbar");
 var previewLogo = document.getElementById("preview-logo");
+
+class Modal {
+    static get ELEMENT() {
+        return document.getElementById("modal");
+    }
+
+    static get CONTENT_CONTAINER() {
+        return document.getElementById("modal-content");
+    }
+
+    static get BUTTONS_CONTAINER() {
+        return document.getElementById("modal-buttons");
+    }
+
+    static open(content, buttons = ["OK"], callback) {
+        Modal.CONTENT_CONTAINER.innerHTML = "";
+        Modal.BUTTONS_CONTAINER.innerHTML = "";
+
+        var selected = null;
+
+        Modal.CONTENT_CONTAINER.appendChild(content);
+        for (let b of buttons) {
+            Modal.BUTTONS_CONTAINER.appendChild(createElement("a", ["modal-close", "waves-effect", "waves-dark", "btn-flat"], { textContent: b, onclick: e => selected = b }));
+        }
+
+        let controller = M.Modal.init(Modal.ELEMENT, { onCloseEnd: () => callback && callback(selected) });
+        controller.open();
+    }
+}
+
+class PromptModal extends Modal {
+    static open(title, placeholder, buttons, callback) {
+        let content = htmlToElement(`
+        <div>
+            <h4>${title}</h4>
+            <div class="input-field">
+                <textarea id="prompt-modal-textarea" class="materialize-textarea"></textarea>
+                <label for="prompt-modal-textarea">${placeholder}</label>
+            </div>
+        </div>
+        `);
+
+        Modal.open(content, buttons, (button) => callback(button, document.getElementById("prompt-modal-textarea").value));
+    }
+}
+
+class ConfirmModal extends Modal {
+    static open(title, text, buttons, callback) {
+        let content = htmlToElement(`
+        <div>
+            <h4>${title}</h4>
+            <p>${text}</p>
+        </div>
+        `);
+
+        Modal.open(content, buttons, callback);
+    }
+}
 
 var origThemeName;
 let warnings = [];
@@ -660,29 +715,41 @@ function updatePreview(updateJSON = true) {
     iconPreview();
 }
 
+function trySaveTheme(apply = false) {
+    try {
+        saveTheme(apply);
+    } catch (err) {
+        alert(err);
+    }
+}
+
 /**
  * Saves the theme currently displayed in the preview with the given name.
  * If the querystring parameter `theme` exists, it will rename the theme with that value
  * @param {boolean} [apply=false] If true, applies the theme and returns to https://lms.lausd.net
  */
 function saveTheme(apply = false) {
-    if (errors.length > 0) return alert("Please fix all errors before saving the theme");
+    if (errors.length > 0) throw new Error("Please fix all errors before saving the theme:\n" + errors.join("\n"));
     let t = JSON.parse(output.value);
     if (origThemeName && t.name != origThemeName) {
-        if (!confirm(`Are you sure you want to rename "${origThemeName}" to "${t.name}"`)) {
-            return;
-        }
+        ConfirmModal.open("Rename Theme?", `Are you sure you want to rename "${origThemeName}" to "${t.name}"?`, ["Rename", "Cancel"], b => b === "Rename" && doSave(t));
+    } else {
+        doSave(t);
     }
-    chrome.storage.sync.get({ themes: [] }, s => {
-        let themes = s.themes.filter(x => x.name != (origThemeName || t.name));
-        themes.push(t);
-        chrome.storage.sync.set({ themes: themes }, () => {
-            alert("Theme saved successfully");
-            origThemeName = t.name;
-            if (apply) chrome.storage.sync.set({ theme: t.name }, () => location.href = "https://lms.lausd.net");
-            else location.reload();
+
+    function doSave(t) {
+        chrome.storage.sync.get({ themes: [] }, s => {
+            let themes = s.themes.filter(x => x.name != (origThemeName || t.name));
+            themes.push(t);
+            chrome.storage.sync.set({ themes: themes }, () => {
+                ConfirmModal.open("Theme saved successfully", "", ["OK"], () => {
+                    origThemeName = t.name;
+                    if (apply) chrome.storage.sync.set({ theme: t.name }, () => location.href = "https://lms.lausd.net");
+                    else location.reload();
+                });
+            });
         });
-    });
+    }
 }
 
 /**
@@ -784,13 +851,13 @@ function applyTheme(t) {
  * @param {string} name The theme's name
  */
 function deleteTheme(name) {
-    if (confirm(`Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`)) {
-        chrome.storage.sync.get(["theme", "themes"], s => {
-            chrome.storage.sync.set({ theme: s.theme == name ? null : s.theme, themes: s.themes.filter(x => x.name != name) }, () => window.location.reload());
-        });
-        return true;
-    }
-    return false;
+    ConfirmModal.open("Delete Theme?", `Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`, ["Delete", "Cancel"], b => {
+        if (b === "Delete") {
+            chrome.storage.sync.get(["theme", "themes"], s => {
+                chrome.storage.sync.set({ theme: s.theme == name ? null : s.theme, themes: s.themes.filter(x => x.name != name) }, () => window.location.reload());
+            });
+        }
+    });
 }
 
 /**
@@ -808,6 +875,33 @@ function editTheme(name) {
     Array.from(iconList.querySelectorAll(".class-name, .icon-url")).map(x => x.setAttribute("contenteditable", "true"));
     origThemeName = name;
     document.querySelector("#json-output + label").textContent = "JSON (Paste to import a theme)";
+}
+
+/**
+ * Opens a modal allowing user to paste a JSON theme string
+ * and then saves the provided theme
+ */
+function importTheme() {
+    PromptModal.open("Import Theme", "Paste theme JSON here", ["Import", "Cancel"], (button, text) => {
+        if (button === "Import") {
+            try {
+                function importAndSave(o) {
+                    importFromObject(o);
+                    saveTheme();
+                }
+
+                let j = JSON.parse(text);
+                if (j.name && j.name in allThemes) {
+                    ConfirmModal.open("Theme Already Exists", `A theme with the name "${j.name}" already exists. Would you like to overwrite it?`, ["Overwrite", "Cancel"], b => b === "Overwrite" && importAndSave(j));
+                } else {
+                    importAndSave(j);
+                }
+            }
+            catch {
+                ConfirmModal.open("Error Importing Theme", errors.length > 0 ? errors.join() : "Please provide a valid JSON string", ["OK"]);
+            }
+        }
+    });
 }
 
 /**
@@ -1092,32 +1186,38 @@ function htmlToElement(html) {
 
 function imgurUpload(base64, callback, errorCallback) {
     if (!localStorage.getItem("imgurPromptViewed")) {
-        if (!confirm("By clicking OK, you consent to have the image you just dropped or pasted uploaded to Imgur. Click cancel to prevent the upload. If you click OK, this message will not be shown again.")) {
-            errorCallback(new Error("User did not give consent to upload"));
-            return;
-        } else {
-            localStorage.setItem("imgurPromptViewed", true);
-        }
+        ConfirmModal.open("Imgur Upload Consent", "By clicking 'agree', you consent to have the image you just dropped or pasted uploaded to Imgur. Click cancel to prevent the upload. If you click 'agree;, this message will not be shown again.", ["Agree", "Cancel"], b => {
+            if (b === "Agree") {
+                localStorage.setItem("imgurPromptViewed", true);
+                doUpload();
+            } else {
+                errorCallback(new Error("User did not give consent to upload"));
+            }
+        })
+    } else {
+        doUpload();
     }
 
-    const CLIENT_ID = "56755c36eb5772d";
-    fetch("https://api.imgur.com/3/image", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Client-ID ${CLIENT_ID}`
-        },
-        body: JSON.stringify({
-            type: "base64",
-            image: base64.split(',')[1]
-        })
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        return response;
-    }).then(x => x.json()).then(callback).catch(err => console.log(err) || errorCallback(err));
+    function doUpload() {
+        const CLIENT_ID = "56755c36eb5772d";
+        fetch("https://api.imgur.com/3/image", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Client-ID ${CLIENT_ID}`
+            },
+            body: JSON.stringify({
+                type: "base64",
+                image: base64.split(',')[1]
+            })
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            return response;
+        }).then(x => x.json()).then(callback).catch(err => console.log(err) || errorCallback(err));
+    }
 }
 
 function initializeDragAndDrop(region, preview, property) {
@@ -1254,9 +1354,10 @@ $(document).ready(function () {
                 dataset: {
                     tooltip: "Apply Theme"
                 },
-                onclick: e => confirm(`Are you sure you want to apply the theme ${t}?`)
-                    ? chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net")
-                    : e.stopPropagation()
+                onclick: e => {
+                    e.stopPropagation();
+                    ConfirmModal.open("Apply Theme?", `Are you sure you want to apply the theme ${t}?`, ["Apply", "Cancel"], b => b === "Apply" && chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net"));
+                }
             };
             let appliedProps = {
                 textContent: "star",
@@ -1293,5 +1394,7 @@ $(document).ready(function () {
         let selected = Array.from(themesList.children).find(x => x.childNodes[0].textContent == s.theme);
         (selected || themesList.firstElementChild).click();
         M.Tooltip.init(document.querySelectorAll('.tooltipped'), { outDuration: 0, inDuration: 300, enterDelay: 0, exitDelay: 10, transition: 10 });
+        var elems = document.querySelectorAll('.fixed-action-btn');
+        M.FloatingActionButton.init(elems, { direction: 'left', hoverEnabled: false });
     });
 });

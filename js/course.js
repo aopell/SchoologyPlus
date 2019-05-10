@@ -99,7 +99,7 @@ function setCourseOptionsContent(modal, options) {
         modal.element.querySelector(".splus-modal-contents").appendChild(
             createElement("div", ["setting-entry"], { id: "request-course-icon-wrapper" }, [
                 createElement("h2", ["setting-title"], { textContent: "Request Icon: " }, [
-                    createElement("a", [], { id: "request-course-icon-link", textContent: "Click here to request a built-in icon for this course", href: `${ICON_REQUEST_URL}${options.courseName.replace("&", "{amp;}")}`, target: "_blank" })
+                    createElement("a", [], { id: "request-course-icon-link", textContent: "Click here to request a built-in icon for this course", href: `${ICON_REQUEST_URL}${options.courseName}`, target: "_blank" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Request that Schoology Plus adds a built-in course icon for this course" })
             ])

@@ -54,9 +54,20 @@
                 <div class="section row">
                     <h5 id="themes-header">
                         Themes
-                        <a id="create-button" data-tooltip="Create Theme"
-                            class="waves-effect waves-light btn-floating right action-button tooltipped"><i
-                                class="material-icons">add</i></a>
+                        <div id="new-theme-container" class="fixed-action-btn horizontal click-to-toggle">
+                            <a id="new-button" class="btn-floating btn-large tooltipped" data-tooltip="New Theme">
+                                <i class="large material-icons">add</i>
+                            </a>
+                            <ul>
+                                <li><a id="import-button" data-tooltip="Import Theme"
+                                        class="btn-floating green waves-effect waves-light tooltipped"><i
+                                            class="material-icons">save_alt</i></a>
+                                </li>
+                                <li><a id="create-button" data-tooltip="Create Theme"
+                                        class="btn-floating red waves-effect waves-light tooltipped"><i
+                                            class="material-icons">mode_edit</i></a></li>
+                            </ul>
+                        </div>
                     </h5>
                     <div class="section">
                         <div id="themes-list" class="collection">
@@ -160,7 +171,8 @@
                                         <label for="color-rainbow-hue-value">
                                             <span>Hue Value</span>
                                             <span class="right" id="color-rainbow-hue-display">100</span>
-                                            <div id="color-rainbow-hue-value" class="hue-slider" data-display="color-rainbow-hue-display"></div>
+                                            <div id="color-rainbow-hue-value" class="hue-slider"
+                                                data-display="color-rainbow-hue-display"></div>
                                         </label>
                                     </div>
                                 </div>
@@ -276,7 +288,8 @@
                         </label>
                         <div id="theme-logo-wrapper" class="input-field col s12 hidden"
                             style="width: 90%; margin-left: 5%; margin-top: 0;">
-                            <input id="theme-logo" type="url" class="validate" placeholder="Direct image URL or paste/drop image">
+                            <input id="theme-logo" type="url" class="validate"
+                                placeholder="Direct image URL or paste/drop image">
                             <label for="theme-logo">Logo Image URL</label>
                         </div>
                     </p>
@@ -284,7 +297,8 @@
                 <div class="row">
                     <h5>Cursor</h5>
                     <div class="input-field col s12">
-                        <input id="theme-cursor" type="url" class="validate" placeholder="Direct image URL or paste/drop image">
+                        <input id="theme-cursor" type="url" class="validate"
+                            placeholder="Direct image URL or paste/drop image">
                         <label for="theme-cursor">Cursor Image URL</label>
                     </div>
                 </div>
@@ -527,6 +541,10 @@
 
                 </div>
             </div>
+        </div>
+        <div id="modal" class="modal">
+            <div id="modal-content" class="modal-content"></div>
+            <div id="modal-buttons" class="modal-footer"></div>
         </div>
     </main>
     <script src="/lib/js/materialize.min.js"></script>
