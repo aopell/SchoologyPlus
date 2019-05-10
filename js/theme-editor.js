@@ -914,7 +914,7 @@ function uploadAndPaste(pasteEvent) {
                 updateOutput();
             }, error => {
                 t.dismiss();
-                M.toast({ html: `Upload failed: ${error.message || error.toString()}` });
+                M.toast({ html: `Uploading image failed: ${error.message || error.toString()}` });
                 pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
                 pasteEvent.target.dataset.originalText = "";
             });
@@ -1045,13 +1045,14 @@ function handleDrop(e, region, preview, property) {
                 updateOutput();
             }, error => {
                 t.dismiss();
-                M.toast({ html: `Upload failed: ${error.message || error.toString()}` });
+                M.toast({ html: `Uploading image failed: ${error.message || error.toString()}` });
                 region.dataset.text = region.dataset.originalText;
                 region.dataset.originalText = "";
             });
         };
         reader.readAsDataURL(file);
     } catch (err) {
+        M.toast({ html: `Error: Invalid image file` });
         console.error(err);
     }
 }
