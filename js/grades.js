@@ -632,10 +632,21 @@ var fetchQueue = [];
                         if (score && maxGrade) {
                             scoreVal = Number.parseFloat(score.textContent);
                             maxVal = Number.parseFloat(maxGrade.textContent.substring(3));
-                        } else if (this[0].querySelector(".exception-icon.missing")) {
+                        } else if (this[0].classList.contains("contains-exception")) {
                             let scoreValues = maxGrade.textContent.split("/");
                             scoreVal = Number.parseFloat(scoreValues[0]);
                             maxVal = Number.parseFloat(scoreValues[1]);
+                            if (Number.isNaN(scoreVal)) {
+                                // exception states are 0 or -, always
+                                // this might be NaN because it's parsing a space
+                                scoreVal = 0;
+                            }
+                            if (!this[0].querySelector(".exception-icon.missing")) {
+                                // non-missing exception means uncounted (incomplete or excused)
+                                // set scores to 0 so we make no mathematical change
+                                scoreVal = 0;
+                                maxVal = 0;
+                            }
                         }
 
                         if (!gradeColContentWrap.querySelector(".modified-score-percent-warning")) {
