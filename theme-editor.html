@@ -276,7 +276,7 @@
                         </label>
                         <div id="theme-logo-wrapper" class="input-field col s12 hidden"
                             style="width: 90%; margin-left: 5%; margin-top: 0;">
-                            <input id="theme-logo" type="url" class="validate">
+                            <input id="theme-logo" type="url" class="validate" placeholder="Direct image URL or paste/drop image">
                             <label for="theme-logo">Logo Image URL</label>
                         </div>
                     </p>
@@ -284,7 +284,7 @@
                 <div class="row">
                     <h5>Cursor</h5>
                     <div class="input-field col s12">
-                        <input id="theme-cursor" type="url" class="validate">
+                        <input id="theme-cursor" type="url" class="validate" placeholder="Direct image URL or paste/drop image">
                         <label for="theme-cursor">Cursor Image URL</label>
                     </div>
                 </div>
@@ -467,7 +467,13 @@
                                                         data-tooltip="Regular expressions are a special way to check if text matches a pattern. Click for more info."
                                                         style="vertical-align: middle; color: black;">help</i></a>
                                             </th>
-                                            <th>Icon URL</th>
+                                            <th>
+                                                <span style="vertical-align: middle;">Icon URL or paste/drop
+                                                    image</span>
+                                                <i class="material-icons tooltipped"
+                                                    data-tooltip="Provide an icon by any of the following methods:<br>- Enter a direct image link<br>- Paste an image directly<br>- Drag and drop and image file into the text box<br><br>Using the paste or drag-and-drop methods will upload your image to Imgur."
+                                                    style="vertical-align: middle; color: black; cursor: help;">help</i>
+                                            </th>
                                             <th>Icon</th>
                                             <th>
                                                 <a class="waves-effect waves-light btn-floating action-button tooltipped right"
