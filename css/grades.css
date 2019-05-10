@@ -225,3 +225,7 @@ img.splus-coursegradebox-taint {
     margin-left: 15px;
     color: #ee00ce;
 }
+
+.item-row.added-fake-assignment {
+    background-color: lightyellow !important;
+}

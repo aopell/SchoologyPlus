@@ -427,9 +427,9 @@ var fetchQueue = [];
         let timeRowLabel = createElement("label", ["modify-label"], {
             htmlFor: "enable-modify"
         }, [
-                createElement("span", [], { textContent: "Enable grade modification" }),
+                createElement("span", [], { textContent: "Enable what-if grades" }),
                 createElement("a", ["splus-grade-help-btn"], {
-                    href: "https://github.com/aopell/SchoologyPlus/wiki/Grade-Edit-Simulator",
+                    href: "https://github.com/aopell/SchoologyPlus/wiki/What-If-Grades",
                     target: "_blank"
                 }, [createElement("span", ["icon-help"])])
             ]);
