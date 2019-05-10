@@ -1026,35 +1026,54 @@ function unhighlight(region) {
 
 function handleDrop(e, region, preview, property) {
     try {
-        console.log(e.dataTransfer);
-        let file = e.dataTransfer.files[0];
-        let reader = new FileReader();
-        reader.onloadend = () => {
-            region.dataset.originalText = region.dataset.text;
-            region.dataset.text = "Uploading..."
-            let t = M.toast({ html: `Uploading image...`, displayLength: Number.MAX_SAFE_INTEGER });
+        if (e.dataTransfer.files.length > 0) {
+            let file = e.dataTransfer.files[0];
+            let reader = new FileReader();
+            reader.onloadend = () => {
+                region.dataset.originalText = region.dataset.text;
+                region.dataset.text = "Uploading..."
+                let t = M.toast({ html: `Uploading image...`, displayLength: Number.MAX_SAFE_INTEGER });
 
-            imgurUpload(reader.result, result => {
-                t.dismiss();
-                if (preview) {
-                    preview.src = result.data.link;
-                }
-                region[property] = result.data.link;
-                region.dataset.text = region.dataset.originalText;
-                region.dataset.originalText = "";
-                updateOutput();
-            }, error => {
-                t.dismiss();
-                M.toast({ html: `Uploading image failed: ${error.message || error.toString()}` });
-                region.dataset.text = region.dataset.originalText;
-                region.dataset.originalText = "";
+                imgurUpload(reader.result, result => {
+                    success(result.data.link, t);
+                }, error => {
+                    t.dismiss();
+                    M.toast({ html: `Uploading image failed: ${error.message || error.toString()}` });
+                    region.dataset.text = region.dataset.originalText;
+                    region.dataset.originalText = "";
+                });
+            };
+            reader.readAsDataURL(file);
+        } else if (e.dataTransfer.items.length >= 3) {
+            e.dataTransfer.items[2].getAsString(s => {
+                let img = htmlToElement(s);
+                success(img.src);
             });
-        };
-        reader.readAsDataURL(file);
+        }
     } catch (err) {
         M.toast({ html: `Error: Invalid image file` });
         console.error(err);
     }
+
+    function success(link, toast) {
+        if (toast) {
+            toast.dismiss();
+        }
+        if (preview) {
+            preview.src = link;
+        }
+        region[property] = link;
+        region.dataset.text = region.dataset.originalText;
+        region.dataset.originalText = "";
+        updateOutput();
+    }
+}
+
+function htmlToElement(html) {
+    var template = document.createElement("template");
+    html = html.trim();
+    template.innerHTML = html;
+    return template.content.firstChild;
 }
 
 function imgurUpload(base64, callback, errorCallback) {
