@@ -54,9 +54,20 @@
                 <div class="section row">
                     <h5 id="themes-header">
                         Themes
-                        <a id="create-button" data-tooltip="Create Theme"
-                            class="waves-effect waves-light btn-floating right action-button tooltipped"><i
-                                class="material-icons">add</i></a>
+                        <div id="new-theme-container" class="fixed-action-btn horizontal click-to-toggle">
+                            <a id="new-button" class="btn-floating btn-large tooltipped" data-tooltip="New Theme">
+                                <i class="large material-icons">add</i>
+                            </a>
+                            <ul>
+                                <li><a id="import-button" data-tooltip="Import Theme"
+                                        class="btn-floating green waves-effect waves-light tooltipped"><i
+                                            class="material-icons">save_alt</i></a>
+                                </li>
+                                <li><a id="create-button" data-tooltip="Create Theme"
+                                        class="btn-floating red waves-effect waves-light tooltipped"><i
+                                            class="material-icons">mode_edit</i></a></li>
+                            </ul>
+                        </div>
                     </h5>
                     <div class="section">
                         <div id="themes-list" class="collection">
@@ -81,7 +92,7 @@
                         </label>
                         <div class="col s12" id="theme-hue-wrapper" style="width: 90%; padding-left: 7.5%;">
                             <label for="theme-hue">Color Hue<span id="color-hue-value" class="right"></span></label>
-                            <div id="theme-hue"></div>
+                            <div id="theme-hue" data-display="color-hue-value"></div>
                         </div>
                     </p>
                     <p>
@@ -144,19 +155,24 @@
                                             Hue Range
                                             <div id="color-rainbow-hue-range"></div>
                                         </label>
+                                        <div style="margin-top: 10px;">
+                                            <label>
+                                                <input id="color-rainbow-hue-alternate" class="filled-in"
+                                                    type="checkbox" />
+                                                <span>Alternate</span>
+                                            </label>
+                                        </div>
                                         <label>
-                                            <input id="color-rainbow-hue-alternate" class="filled-in" type="checkbox" />
-                                            <span>Alternate</span>
+                                            <span>Hue Range Preview (Left to Right)</span>
+                                            <div id="color-rainbow-hue-preview"></div>
                                         </label>
                                     </div>
                                     <div>
                                         <label for="color-rainbow-hue-value">
                                             <span>Hue Value</span>
                                             <span class="right" id="color-rainbow-hue-display">100</span>
-                                            <div class="range-field">
-                                                <input id="color-rainbow-hue-value" min="0" max="359" type="range"
-                                                    data-label="color-rainbow-hue-display" />
-                                            </div>
+                                            <div id="color-rainbow-hue-value" class="hue-slider"
+                                                data-display="color-rainbow-hue-display"></div>
                                         </label>
                                     </div>
                                 </div>
@@ -272,7 +288,8 @@
                         </label>
                         <div id="theme-logo-wrapper" class="input-field col s12 hidden"
                             style="width: 90%; margin-left: 5%; margin-top: 0;">
-                            <input id="theme-logo" type="url" class="validate">
+                            <input id="theme-logo" type="url" class="validate"
+                                placeholder="Direct image URL or paste/drop image">
                             <label for="theme-logo">Logo Image URL</label>
                         </div>
                     </p>
@@ -280,7 +297,8 @@
                 <div class="row">
                     <h5>Cursor</h5>
                     <div class="input-field col s12">
-                        <input id="theme-cursor" type="url" class="validate">
+                        <input id="theme-cursor" type="url" class="validate"
+                            placeholder="Direct image URL or paste/drop image">
                         <label for="theme-cursor">Cursor Image URL</label>
                     </div>
                 </div>
@@ -413,7 +431,8 @@
                                                 </div>
                                             </div>
                                             <div class="splus-modal-footer">
-                                                <p class="splus-modal-footer-text">&copy; Aaron Opell, Glen Husman 2017-2019
+                                                <p class="splus-modal-footer-text">&copy; Aaron Opell, Glen Husman
+                                                    2017-2019
                                                 </p>
                                             </div>
                                         </div>
@@ -462,7 +481,13 @@
                                                         data-tooltip="Regular expressions are a special way to check if text matches a pattern. Click for more info."
                                                         style="vertical-align: middle; color: black;">help</i></a>
                                             </th>
-                                            <th>Icon URL</th>
+                                            <th>
+                                                <span style="vertical-align: middle;">Icon URL or paste/drop
+                                                    image</span>
+                                                <i class="material-icons tooltipped"
+                                                    data-tooltip="Provide an icon by any of the following methods:<br>- Enter a direct image link<br>- Paste an image directly<br>- Drag and drop and image file into the text box<br><br>Using the paste or drag-and-drop methods will upload your image to Imgur."
+                                                    style="vertical-align: middle; color: black; cursor: help;">help</i>
+                                            </th>
                                             <th>Icon</th>
                                             <th>
                                                 <a class="waves-effect waves-light btn-floating action-button tooltipped right"
@@ -517,11 +542,16 @@
                 </div>
             </div>
         </div>
+        <div id="modal" class="modal">
+            <div id="modal-content" class="modal-content"></div>
+            <div id="modal-buttons" class="modal-footer"></div>
+        </div>
     </main>
     <script src="/lib/js/materialize.min.js"></script>
     <script src="/lib/js/jquery-ui.min.js"></script>
     <script src="/lib/js/roundslider.min.js"></script>
     <script src="/js/icons.js"></script>
+    <script src="/js/theme-model.js"></script>
     <script src="/js/default-themes.js"></script>
     <script src="/js/theme-editor.js"></script>
 </body>

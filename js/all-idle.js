@@ -334,6 +334,7 @@
     moreGradesModalObserver.observe(document.body, { childList: true });
 })();
 
+// Prevent scrolling when a modal is open
 (function () {
     new MutationObserver((mutations, observer) => {
         if (document.getElementById("body").getAttribute("aria-hidden") == "true") {

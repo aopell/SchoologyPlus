@@ -31,10 +31,10 @@ var icons = [
     { regex: "CHEM", url: "https://image.flaticon.com/icons/svg/123/123381.svg" },
     //Computer Science and related courses
     //Source: https://www.flaticon.com/free-icon/binary-code_626570 by Freepik under Flaticon Basic License (CC BY 3.0)
-    { regex: "COMP SCI?|COMPUTER", url: "https://image.flaticon.com/icons/svg/626/626570.svg" },
+    { regex: "COMP SCI?|COMPUTER|INTRO COMP", url: "https://image.flaticon.com/icons/svg/626/626570.svg" },
     //US History and other American studies
     //Source: https://www.flaticon.com/free-icon/united-states-of-america_149513 by Smashicons under Flaticon Basic License (CC BY 3.0)
-    { regex: "US HIST|AMER(ICAN?)?", url: "https://image.flaticon.com/icons/svg/149/149513.svg" },
+    { regex: "US HIST|AMER(ICAN?)?|AM DEM", url: "https://image.flaticon.com/icons/svg/149/149513.svg" },
     //Health
     //Source: https://www.flaticon.com/free-icon/first-aid-kit_179555 by Pixel Buddha under Flaticon Basic License (CC BY 3.0)
     { regex: "HEALTH", url: "https://image.flaticon.com/icons/svg/179/179555.svg" },
@@ -67,10 +67,10 @@ var icons = [
     { regex: "BAND|MAR DYN", url: "https://image.flaticon.com/icons/svg/718/718543.svg" },
     //Music
     //Source: https://www.flaticon.com/free-icon/treble-clef_579496 by Twitter under CC BY 3.0
-    { regex: "MUSIC|JAZZ|CHOIR", url: "https://image.flaticon.com/icons/svg/579/579496.svg" },
+    { regex: "MUSIC|JAZZ|CHOIR|INSTRUM", url: "https://image.flaticon.com/icons/svg/579/579496.svg" },
     //Biology
     //Source: https://www.flaticon.com/free-icon/dna_620366 by Freepik under Flaticon Basic License (CC BY 3.0)
-    { regex: "BIO(LOGY)?\\b", url: "https://image.flaticon.com/icons/svg/620/620366.svg" },
+    { regex: "BIO(LOGY|TECH)?\\b", url: "https://image.flaticon.com/icons/svg/620/620366.svg" },
     //Literature
     //Source: https://www.flaticon.com/free-icon/open-book_167755 by Freepik under Flaticon Basic License (CC BY 3.0)
     { regex: "(^|\\b)LIT(ERATURE)?\\b", url: "https://image.flaticon.com/icons/svg/167/167755.svg" },
@@ -97,7 +97,7 @@ var icons = [
     { regex: "GUITAR", url: "https://image.flaticon.com/icons/svg/1586/1586234.svg" },
     //English (Generic), Creative Writing, Composition
     //Source: https://www.flaticon.com/free-icon/signing_254022 by Freepik under Flaticon Basic License (CC BY 3.0)
-    { regex: "ENG(LISH)?\\b|CREAT(IVE)? WRI?T(ING)?|\\bCOMP(OSITION)?\\b", url: "https://image.flaticon.com/icons/svg/254/254022.svg" },
+    { regex: "ENG(LISH)?\\b|CREAT(IVE)? WRI?T(ING)?|\\bCOMP(OSITION)?\\b|\\bERWC\\b", url: "https://image.flaticon.com/icons/svg/254/254022.svg" },
     //Spanish (Generic)
     //Source: https://www.flaticon.com/free-icon/spain_206724 by Freepik under Flaticon Basic License (CC BY 3.0)
     { regex: "SPAN(ISH)?\\b", url: "https://image.flaticon.com/icons/svg/206/206724.svg" },
@@ -116,9 +116,6 @@ var icons = [
     //Geography
     //Source: https://www.flaticon.com/free-icon/globe_717982 by DinosoftLabs under Flaticon Basic License (CC BY 3.0)
     { regex: "GEOG", url: "https://image.flaticon.com/icons/svg/717/717982.svg" },
-    //Science (Generic)
-    //Source: https://image.flaticon.com/icons/svg/167/167733.svg by Freepik under Flaticon Basic License (CC BY 3.0)
-    { regex: "SCIENCE", url: "https://image.flaticon.com/icons/svg/167/167733.svg" },
     //Art (Generic)
     //Source: https://www.flaticon.com/free-icon/creativity_1497573 by Smashicons under Flaticon Basic License (CC BY 3.0)
     { regex: "(^|\\b)ART\\b", url: "https://image.flaticon.com/icons/svg/1497/1497573.svg" },
@@ -140,21 +137,21 @@ var icons = [
     //Leadership
     //Source: https://www.flaticon.com/free-icon/government_1534091 by Freepik under Flaticon Basic License (CC BY 3.0)
     { regex: "LEADERSHIP", url: "https://image.flaticon.com/icons/svg/1534/1534091.svg" },
-    //TA, Peer Counseling
+    //TA, Peer Counseling, Tutor
     //Source: https://www.flaticon.com/free-icon/collaboration_1402119 by Eucalyp under Flaticon Basic License (CC BY 3.0)
-    { regex: "SERVICE|PEER COUNSELING", url: "https://image.flaticon.com/icons/svg/1402/1402119.svg" },
-    // IB Middle Years Program Sci/Tech
+    { regex: "SERVICE|PEER COUNSELING|TUTOR|INTRO SOCIO", url: "https://image.flaticon.com/icons/svg/1402/1402119.svg" },
+    // IB Middle Years Program Sci/Tech, Creative Expression
     //Source: https://www.flaticon.com/free-icon/idea_1460471 by Eucalyp under Flaticon Basic License (CC BY 3.0)
-    { regex: "MYP ST TECH", url: "https://image.flaticon.com/icons/svg/1460/1460471.svg" },
+    { regex: "MYP ST TECH|PRN ENGINEER|CREAT EXP", url: "https://image.flaticon.com/icons/svg/1460/1460471.svg" },
     //Latin
     //Source: https://www.flaticon.com/free-icon/manuscript_1020074 by Freepik under Flaticon Basic License (CC BY 3.0)
     { regex: "LATIN", url: "https://image.flaticon.com/icons/svg/1020/1020074.svg" },
-    //Humanities
+    //Humanities & Life Management
     //Source: https://www.flaticon.com/free-icon/discussion_1205495 by Freepik under Flaticon Basic License (CC BY 3.0)
-    { regex: "HUMANITI?E?S?", url: "https://image.flaticon.com/icons/svg/1205/1205495.svg" },
+    { regex: "HUMANITI?E?S?|LIFE MGMT", url: "https://image.flaticon.com/icons/svg/1205/1205495.svg" },
     //Yearbook
     //Source: https://www.flaticon.com/free-icon/memories_1006107 by Freepik under Flaticon Basic License (CC BY 3.0)
-    { regex: "YEARBOOK", url: "https://image.flaticon.com/icons/svg/1006/1006107.svg" },
+    { regex: "YEARBOOK|DIG IMAG", url: "https://image.flaticon.com/icons/svg/1006/1006107.svg" },
     //Networking
     //Source: https://www.flaticon.com/free-icon/network_1554377 by srip under Flaticon Basic License (CC BY 3.0)
     { regex: "NETWORKING", url: "https://image.flaticon.com/icons/svg/1554/1554377.svg" },
@@ -170,6 +167,36 @@ var icons = [
     //Advisory, Homeroom, No Period
     //Source: https://www.flaticon.com/free-icon/books_167756 by Freepik under Flaticon Basic License (CC BY 3.0)
     { regex: "ADVIS|HOME|SOCIAL COM", url: "https://image.flaticon.com/icons/svg/167/167756.svg" },
+    //Swimming
+    //Source: https://www.flaticon.com/free-icon/swimming_124212 by Freepik under Flaticon Basic License (CC BY 3.0)
+    { regex: "SWIM", url: "https://image.flaticon.com/icons/svg/124/124212.svg" },
+    //Journalism
+    //Source: https://www.flaticon.com/free-icon/communication_1720094 by Freepik under Flaticon Basic License (CC BY 3.0)
+    { regex: "JOURNALISM", url: "https://image.flaticon.com/icons/svg/1720/1720094.svg" },
+    //Tennis
+    //Source: https://www.flaticon.com/free-icon/tennis_1645793 by Eucalyp under Flaticon Basic License (CC BY 3.0)
+    { regex: "TENNIS", url: "https://image.flaticon.com/icons/svg/1645/1645793.svg" },
+    //Speech (and Debate?)
+    //Source: https://www.flaticon.com/free-icon/speak_512500 by Twitter under CC BY 3.0
+    { regex: "SPEECH", url: "https://image.flaticon.com/icons/svg/512/512500.svg" },
+    //Game Design
+    //Source: https://www.flaticon.com/free-icon/computer_1737285 by Eucalyp under Flaticon Basic License (CC BY 3.0)
+    { regex: "GAME DSGN", url: "https://image.flaticon.com/icons/svg/1737/1737285.svg" },
+    //Graphic Design
+    //Source: https://www.flaticon.com/free-icon/layers_148862 by Smashicons under Flaticon Basic License (CC BY 3.0)
+    { regex: "GRAPHIC DESIGN", url: "https://image.flaticon.com/icons/svg/148/148862.svg" },
+    //Water Polo
+    //Source: https://www.flaticon.com/free-icon/water-polo_625383 by Freepik under Flaticon Basic License (CC BY 3.0)
+    { regex: "WATERPOLO", url: "https://image.flaticon.com/icons/svg/625/625383.svg" },
+    //Horticulture
+    //Source: https://www.flaticon.com/free-icon/sprout_346195 by Freepik under Flaticon Basic License (CC BY 3.0)
+    { regex: "HORT", url: "https://image.flaticon.com/icons/svg/346/346195.svg" },
+    //History (Generic)
+    //Source: https://www.flaticon.com/free-icon/parchment_1501478 by surang under Flaticon Basic License (CC BY 3.0)
+    { regex: "HIST", url: "https://image.flaticon.com/icons/svg/1501/1501478.svg" },
+    //Science (Generic)
+    //Source: https://image.flaticon.com/icons/svg/167/167733.svg by Freepik under Flaticon Basic License (CC BY 3.0)
+    { regex: "SCI", url: "https://image.flaticon.com/icons/svg/167/167733.svg" },
     //Math (Generic)
     //Source: https://www.flaticon.com/free-icon/mathematics_1284095 by surang under Flaticon Basic License (CC BY 3.0)
     { regex: "(^|\\b)MATH", url: "https://image.flaticon.com/icons/svg/1284/1284095.svg" },

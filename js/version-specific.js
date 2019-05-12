@@ -215,6 +215,55 @@ let migrationsTo = {
                 ]
             }
         );
+    },
+    "5.4": function(currentVersion, previousVersion) {
+        saveBroadcasts([
+            createBroadcast(
+                540,
+                `<span style="font-size=30px;">Schoology Plus Theme Creation Contest</span>`,
+                `<div style="background-color: lightgreen;padding: 10px;margin-right: 20px;">
+                    <p>
+                        <strong><em>Want your theme to be included in Schoology Plus?</em></strong>
+                    </p>
+                    <p>Then enter the theme creation contest! We want to add more themes to Schoology Plus, and we want them to be made by our users!</p>
+                    <p>The contest is simple:</p>
+                    <ol>
+                        <li>Create a theme using the <a href="${chrome.runtime.getURL("/theme-editor.html")}" target="_blank">theme editor</a></li>
+                        <li><a href="https://github.com/aopell/SchoologyPlus/wiki/Sharing-a-Theme" target="_blank">Copy the theme to your clipboard</a></li>
+                        <li>Submit it to <a href="https://forms.gle/bTJaHBqqZLmhmBMG6" target="_blank">this form</a> by <strong>May 31, 2019 at 11:59 PM PDT</strong></li>
+                    </ol>
+                    <p>We'll pick our favorites and bundle them (giving credit to you of course!) 
+                    in all future versions of Schoology Plus! We'll also send out an announcement with the results of the competition. Good luck!</p>
+                    <p>
+                        <strong><a href="https://github.com/aopell/SchoologyPlus/wiki/Creating-a-Theme" target="_blank">New to making themes? Start here!</a></strong>
+                    </p>
+                    <p>
+                        <strong><a href="https://forms.gle/bTJaHBqqZLmhmBMG6" target="_blank">Submit themes here!</a></strong>
+                    </p>
+                </div>`,
+                new Date(2019, 4 /* May */, 12)
+            ),
+            createBroadcast(
+                540.1,
+                "What-If Grades",
+                `<div style="background-color: lightyellow;padding: 10px;margin-right: 20px;">
+                    What Schoology Plus previously called <strong>"Grade Modification" has been renamed to <em>"What-If Grades."</em></strong>
+                    Only the name has changed, the functionality remains exactly the same.
+                    So don't be confused when you see the new "Enable what-if grades" checkbox.
+                </div>`
+            )
+        ]);
+
+        showToast(
+            "Theme Creation Contest",
+            "Feature your theme in Schoology Plus for everyone to use",
+            "rgb(0,255,0)",
+            {
+                buttons: [
+                    createToastButton("Learn More", "theme-contest-learn-more-button", () => window.open("https://aopell.me/SchoologyPlus/theme-contest", "_blank"))
+                ]
+            }
+        );
     }
 };
 

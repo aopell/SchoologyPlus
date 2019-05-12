@@ -281,6 +281,7 @@ class Theme {
             }
         }
 
+        let missingIconsLastCheck = Setting.getValue("missingIconsLastCheck");
         let coursesMissingDefaultIcons = new Set();
 
         for (let arrow of arrows) {
@@ -355,7 +356,7 @@ class Theme {
             }
 
             // ***** Tracking courses missing icons
-            if (!Setting.getValue("toggle_stopTrackingMissingIcons") && !Theme.hasBuiltInIcon(arrow.courseTitle || arrow.parentElement.textContent)) {
+            if ((!missingIconsLastCheck || beforeThisSemester(missingIconsLastCheck)) && !Theme.hasBuiltInIcon(arrow.courseTitle || arrow.parentElement.textContent)) {
                 coursesMissingDefaultIcons.add(arrow.courseTitle || arrow.parentElement.textContent);
             }
             // *****
@@ -373,7 +374,7 @@ class Theme {
         }
 
         if (!shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0 && showToast) {
-            let coursesString = encodeURI(Array.from(coursesMissingDefaultIcons).join("\n"));
+            let coursesString = encodeURI(Array.from(coursesMissingDefaultIcons).join("\n").replace("&", "{amp;}"));
             showToast("Request New Course Icons?",
                 `${coursesMissingDefaultIcons.size} ${coursesMissingDefaultIcons.size == 1 ? "course is missing a Schoology Plus course icon. Would you like to request that an icon be added for this course?" : "courses are missing Schoology Plus course icons. Would you like to request that icons be added for these courses?"}`,
                 "yellow",
@@ -385,7 +386,7 @@ class Theme {
                 }
             );
             shownMissingIconsNotification = true;
-            Setting.setValue("toggle_stopTrackingMissingIcons", true);
+            Setting.setValue("missingIconsLastCheck", new Date().valueOf());
         }
     }
 
@@ -421,3 +422,23 @@ setInterval(() => {
         Theme.active.onupdate();
     }
 }, 100);
+
+
+/**
+ * Returns true if the date specified is in a semester prior to the current semester
+ * @param {Date|number} oldDate The date to check
+ */
+function beforeThisSemester(oldDate) {
+    let curr = getSemester(new Date());
+    let prev = getSemester(new Date(oldDate));
+    if (prev.year < curr.year || prev.year === curr.year && prev.semester !== curr.semester && prev.semester === "Spring") {
+        return true;
+    }
+    return false;
+
+    function getSemester(date) {
+        let m = date.getMonth();
+        let y = date.getFullYear();
+        return { semester: m > 0 && m < 8 ? "Spring" : "Fall", year: m == 0 ? y - 1 : y };
+    }
+}

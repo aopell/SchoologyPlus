@@ -19,18 +19,19 @@
     - [Custom Themes](#custom-themes)
       - [Course Icons](#course-icons)
     - [Tooltips](#tooltips)
-    - [Courses in Common](#courses-in-common)
-    - [Miscellaneous Improvements](#miscellaneous-interface-improvements)
+    - [Courses In Common](#courses-in-common)
+    - [Miscellaneous Interface Improvements](#miscellaneous-interface-improvements)
   - [Grades Page Improvements](#grades-page-improvements)
-    - [Miscellaneous Improvements](#miscellaneous-grades-page-improvements)
-    - [Simulated Grades](#simulated-grades)
+    - [Miscellaneous Grades Page Improvements](#miscellaneous-grades-page-improvements)
+    - [What-If Grades](#what-if-grades)
   - [Desktop Notifications](#desktop-notifications)
+    - [Extension Icon](#extension-icon)
     - [Schoology Plus Announcements](#schoology-plus-announcements)
   - [Schoology Plus Settings](#schoology-plus-settings)
     - [Theme Editor](#theme-editor)
   - [Course Options](#course-options)
-    - [Custom Grading Scales](#custom-grading-scales)
     - [Course Nicknames](#course-nicknames)
+    - [Custom Grading Scales](#custom-grading-scales)
 - [Feedback and Support Discord](#feedback-and-support-discord)
 - [Contributing](#contributing)
 - [Contributors](#contributors)
@@ -83,12 +84,12 @@
 
 ## Grades Page Improvements
 ### Miscellaneous Grades Page Improvements
-![Grades Page](https://i.imgur.com/grwjmL3.png)
+![Grades Page](https://i.imgur.com/k6MZRKE.png)
 *Image: Example of the grades page showing grades for collapsed courses.*
 - Classes are sorted by period*
 - Grades are displayed when classes are collapsed
 
-![Point Totals and Letter Grades](https://i.imgur.com/T0hriZt.png)
+![Point Totals and Letter Grades](https://i.imgur.com/WBSmgvr.png)
 
 *Image: Example of point totals for categories and unweighted classes. Also features calculated letter grades and point buffers.*
 
@@ -111,9 +112,9 @@
 *Image: Right click a class to view a context menu*
 
 - Right click a class to quickly jump to a specific page or to edit that [course's settings](#course-settings)
-### Simulated Grades
+### What-If Grades
 
-![Grade Modification](https://i.imgur.com/59NzSOd.gif)
+![What-If Grades](https://i.imgur.com/frX2S3G.gif)
 
 *Image: Example of locally modifying a grade. Notice the change in the category and class grade.*
 
@@ -121,7 +122,7 @@
   - Schoology Plus will recalculate the grades for each category and for the entire class
   - Weighted categories are taken into account when recalculating grades
 
-![Add Assignment](https://i.imgur.com/E5qp6jI.gif)
+![Add Assignment](https://i.imgur.com/O8vTzOX.gif)
 
 *Image: Example of adding a simulated assignment*
 
@@ -129,7 +130,7 @@
   - Assignments can be added to any category, and can be given any grade
   - This allows you to see how an upcoming assignment will affect your grade with different scores
 
-![Calculate Minimum Score](https://i.imgur.com/k8JQiGH.gif)
+![Calculate Minimum Score](https://i.imgur.com/553vhqR.gif)
 
 *Image: Example of calculating the minimum score necessary on the final to keep an A in the class. Also demonstrates dropping and un-dropping a grade.*
 
