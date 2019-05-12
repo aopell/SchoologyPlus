@@ -1,5 +1,26 @@
 # Changelog
 
+## Version 5.4 - May 12, 2019
+
+> **Enter the Schoology Plus Theme Creation Contest! [Click here for more details.](https://aopell.me/SchoologyPlus/theme-contest)**
+
+### Added
+- Ability to rename added assignments
+- More course icons from user requests
+- A preview of rainbow hue animations in the theme editor
+- Import theme button to the theme editor to make importing themes easier
+
+### Changed
+- "Grade Modification" is now called "What-If Grades." The name has changed, but the functionality remains the same.
+- You can now drag and drop or paste images into the theme editor where only an image link was previously allowed
+- Added a rainbow gradient to the hue value slider in the rainbow section of the theme editor
+- Updated the look of pop-up boxes in the theme editor
+- Missing course icons pop-up shows once per semester
+
+### Fixed
+- Themes with animated saturation causing crashes
+- Grades showing as `NaN` when dropping missing or excused assignments in some cases
+
 ## Version 5.3.2 - April 8, 2019
 
 ### Added
