@@ -2,7 +2,7 @@
 
 ## Version 5.4 - May 12, 2019
 
-> **Enter the Schoology Plus Theme Creation Contest! [Click here for more details.](https://aopell.me/SchoologyPlus/theme-contest)**
+> **Enter the Schoology Plus Theme Creation Contest! <a target="_blank" href="https://aopell.me/SchoologyPlus/theme-contest">Click here for more details.</a>**
 
 ### Added
 - Ability to rename added assignments
