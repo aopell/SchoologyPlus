@@ -60,7 +60,7 @@ let modals = [
                                 }
                             }
                             return retVal;
-                        })(["DinosoftLabs", "Eucalyp", "Flat Icons", "Freepik", "Maxim Basinski", "Pixel Buddha", "Smashicons", "Twitter", "Vectors Market", "srip", "surang", "Pixelmeetup"])
+                        })(["DinosoftLabs", "Eucalyp", "Flat Icons", "Freepik", "Maxim Basinski", "Pixel Buddha", "Smashicons", "Twitter", "Vectors Market", "Vitaly Gorbachev", "srip", "surang", "Pixelmeetup"])
                     }),
                     createElement("span", [], { textContent: " from " }),
                     createElement("a", [], { href: "https://www.flaticon.com/", textContent: "flaticon.com" })
