@@ -856,6 +856,11 @@ var fetchQueue = [];
     function queueNonenteredAssignment(assignment, courseId) {
         let noGrade = assignment.getElementsByClassName("no-grade")[0];
 
+        if(!noGrade) {
+            Logger.log(`Error loading potentially nonentered assignment with ID ${assignment.dataset.id.substr(2)}`);
+            return;
+        }
+
         if (noGrade.parentElement.classList.contains("exception-grade-wrapper")) {
             noGrade.remove();
             assignment.classList.add("contains-exception")
