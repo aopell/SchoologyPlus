@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 5.5 - September 15, 2019
+
+### Added
+- More course icons that were requested by users
+- Link to new Schoology Plus Survey 2019: **[take it here!](https://forms.gle/zAxh8gR3HRj3AuKZ8)**
+
+### Fixed
+- Some issues preventing what-if grades from functioning properly
+
 ## Version 5.4 - May 12, 2019
 
 > **Enter the Schoology Plus Theme Creation Contest! <a target="_blank" href="https://aopell.me/SchoologyPlus/theme-contest">Click here for more details.</a>**
