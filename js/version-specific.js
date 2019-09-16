@@ -264,7 +264,32 @@ let migrationsTo = {
                 ]
             }
         );
-    }
+    },
+    "5.5": function(currentVersion, previousVersion) {
+        saveBroadcasts([
+            createBroadcast(
+                550,
+                `<span style="font-size=30px;">Schoology Plus Survey 2019</span>`,
+                `<div style="background-color: lightblue; padding: 10px; margin-right: 20px;">
+                <h2><strong><em>Want a chance to win an Amazon gift card?</em></strong></h2>
+                <p>Then complete the 2019 Schoology Plus Survey! Simply answer all of the questions on the survey and submit before October 15 at 11:59 PM PDT to be eligible to win one of <strong style="background-color: yellow">two $5 Amazon gift cards!</strong></p>
+                  <p><a href="https://forms.gle/iLL2XdJMowtUMmdTA" style="font-weight:bold; background-color:#00FF00; color: blue">Click here to take the survey!</a> Your participation helps us improve Schoology Plus going on!</p>
+                </div>`,
+                new Date(2019, 8 /* September */, 15)
+            )
+        ]);
+
+        showToast(
+            "Schoology Plus Survey 2019",
+            "Complete for a chance to win an Amazon gift card!",
+            "rgb(0,255,0)",
+            {
+                buttons: [
+                    createToastButton("Take The Survey!", "survey2019-take-survey-button", () => window.open("https://forms.gle/iLL2XdJMowtUMmdTA", "_blank"))
+                ]
+            }
+        );
+    },
 };
 
 function versionSpecificFirstLaunch(currentVersion, previousVersion) {
