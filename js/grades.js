@@ -242,7 +242,7 @@ var fetchQueue = [];
                         try {
                             await processAssignment(assignment);
                         } catch (err) {
-                            addEditDisableReason({error: err, course, assignment});
+                            addEditDisableReason({error: JSON.stringify(err, Object.getOwnPropertyNames(err)), courseId, course: title.textContent, assignment: assignment.textContent});
                             if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
                                 // consequential failure: our denominator is invalid
                                 invalidateCatTotal = true;
@@ -285,7 +285,7 @@ var fetchQueue = [];
                         }
                     }
                 } catch (err) {
-                    addEditDisableReason({error: err, category})
+                    addEditDisableReason({error: JSON.stringify(err, Object.getOwnPropertyNames(err)), category: category.textContent})
                 }
             }
 
