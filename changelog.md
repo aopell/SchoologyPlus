@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 5.6 - November 21, 2019
+
+### Added
+- New bug reporting options when what-if grades fails to load due to errors
+
 ## Version 5.5 - September 15, 2019
 
 ### Added
