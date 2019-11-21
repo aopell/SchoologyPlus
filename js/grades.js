@@ -1,9 +1,12 @@
 const timeout = ms => new Promise(res => setTimeout(res, ms));
+const BUG_REPORT_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLScF1_MZofOWT9pkWp3EfKSvzCPpyevYtqbAucp1K5WKGlckiA/viewform?entry.118199430=";
 var editDisableReason = null;
 
-function addEditDisableReason(err) {
-    let strErr = (err || "General Error") + "";
-    editDisableReason = editDisableReason ? editDisableReason + "\n" + strErr : strErr;
+function addEditDisableReason(err = "Unknown Error") {
+    if(!editDisableReason) {
+        editDisableReason = {errors: []};
+    }
+    editDisableReason.errors.push(err);
 }
 
 $.contextMenu({
@@ -239,8 +242,7 @@ var fetchQueue = [];
                         try {
                             await processAssignment(assignment);
                         } catch (err) {
-                            addEditDisableReason(err.stack);
-                            addEditDisableReason(`Course: ${course} Assignment: ${assignment}`)
+                            addEditDisableReason({error: err, course, assignment});
                             if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
                                 // consequential failure: our denominator is invalid
                                 invalidateCatTotal = true;
@@ -283,7 +285,7 @@ var fetchQueue = [];
                         }
                     }
                 } catch (err) {
-                    addEditDisableReason("(category) " + (err.stack || "General Error"));
+                    addEditDisableReason({error: err, category})
                 }
             }
 
@@ -448,8 +450,13 @@ var fetchQueue = [];
 
                 // any state change when editing has been disabled
                 if (editDisableReason) {
-                    Logger.error(JSON.stringify(editDisableReason));
-                    alert("An error occurred loading assignments. Editing has been disabled. Please report this by pressing Ctrl+Shift+J (Cmd+Shift+J on Mac), taking a screenshot of the error messages, and sending it in the Schoology Plus Discord server.\nReason: " + JSON.stringify(editDisableReason));
+                    Logger.error("Editing disabled due to error", editDisableReason);
+                    let formLink = `${BUG_REPORT_FORM_LINK}${encodeURI(JSON.stringify(editDisableReason))}`
+                    
+                    if(confirm("Grade editing has been disabled due to an error. Would you like to report this issue? (It will help us fix it faster!)")) {
+                        window.open(formLink, "_blank");
+                    }
+
                     document.getElementById("enable-modify").checked = false;
                 }
                 // enabling editing
