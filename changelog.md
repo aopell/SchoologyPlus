@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 5.6.1 - November 21, 2019
+
+### Fixed
+- Empty error messages in new what-if grades bug reporting options
+
 ## Version 5.6 - November 21, 2019
 
 ### Added
