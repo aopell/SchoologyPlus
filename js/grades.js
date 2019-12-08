@@ -242,7 +242,7 @@ var fetchQueue = [];
                         try {
                             await processAssignment(assignment);
                         } catch (err) {
-                            addEditDisableReason({error: JSON.stringify(err, Object.getOwnPropertyNames(err)), courseId, course: title.textContent, assignment: assignment.textContent});
+                            addEditDisableReason({error: {message: err.message, name: err.name, stack: err.stack, full: err.toString()}, courseId, course: title.textContent, assignment: assignment.textContent});
                             if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
                                 // consequential failure: our denominator is invalid
                                 invalidateCatTotal = true;
