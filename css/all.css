@@ -32,17 +32,19 @@
     border-color: var(--border-color) !important;
 }
 
-/* Drop down menus (grades and user menu) */
+/* Drop down menus (grades, applications, and user menu) */
 
 .Header-header-drop-menu-3SaYV {
     background-color: var(--hover-color) !important;
 }
 
-a.Header-header-drop-menu-3SaYV:hover {
+a.Header-header-drop-menu-3SaYV:hover,
+.Header-header-drop-menu-3SaYV li a:hover {
     background-color: var(--background-color) !important;
 }
 
-.Header-header-drop-menu-item-3d3IZ {
+[class*="Header-header-drop-menu-item-"],
+[class*="Header-header-drop-menu-"] li a * {
     color: white !important;
 }
 
