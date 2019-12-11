@@ -146,7 +146,7 @@ chrome.runtime.onMessage.addListener(
                 }
 
                 return finalResponse;
-            })().then(x => sendResponse(x));
+            })().then(x => sendResponse(x)).catch(err => sendResponse({success: false, error: err}));
 
             return true;
         }

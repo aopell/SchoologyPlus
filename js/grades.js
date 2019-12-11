@@ -1,5 +1,6 @@
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 const BUG_REPORT_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLScF1_MZofOWT9pkWp3EfKSvzCPpyevYtqbAucp1K5WKGlckiA/viewform?entry.118199430=";
+const SINGLE_COURSE = window.location.href.includes("/course/");
 var editDisableReason = null;
 
 function addEditDisableReason(err = "Unknown Error") {
@@ -716,7 +717,7 @@ var fetchQueue = [];
                                 calculateMinimumGrade(this[0], desiredPercentage);
                             },
                             items: {}
-                        }
+                        }                        
                     };
 
                     let undroppedAssignContextMenuItems = {
@@ -744,12 +745,25 @@ var fetchQueue = [];
                         for (let gradeValue of Object.keys(gradingScale).sort((a, b) => b - a)) {
                             let letterGrade = gradingScale[gradeValue];
                             calcMinFor["calculateMinGradeFor" + gradeValue] = {
-                                name: "For " + letterGrade,
+                                name: "For " + letterGrade + " (" + gradeValue + "%)",
                                 callback: function (key, opt) {
                                     calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
                                 }
                             };
                         }
+
+                        calcMinFor.separator = "-----";
+                        calcMinFor.courseOptions = {
+                            name: "Change Grade Boundaries",
+                            callback: function() {
+                                let courseElem = this[0].closest(".gradebook-course");
+                                let titleElem = SINGLE_COURSE ? document.querySelector(".page-title") : courseElem.querySelector(".gradebook-course-title");
+                                openModal("course-settings-modal", {
+                                    courseId: courseElem.id.match(/\d+/)[0],
+                                    courseName: titleElem.querySelector("a span:nth-child(3)") ? titleElem.querySelector("a span:nth-child(2)").textContent : titleElem.innerText.split('\n')[0]
+                                });
+                            }
+                        };
 
                         let normalContextMenuObject = Object.assign({}, baseContextMenuObject);
                         normalContextMenuObject.selector += normalAssignRClickSelector;
@@ -962,7 +976,7 @@ var fetchQueue = [];
             let percent = Number.parseFloat(elem.textContent.substr(0, elem.textContent.length - 1));
             let letterGrade = getLetterGrade(gradingScale, percent);
             elem.textContent = `${letterGrade} (${percent}%)`;
-            elem.title = `Letter grade calculated using the following grading scale:\n${Object.keys(gradingScale).sort((a, b) => a - b).reverse().map(x => `${gradingScale[x]}: ${x}%`).join('\n')}`;
+            elem.title = `Letter grade calculated by Schoology Plus using the following grading scale:\n${Object.keys(gradingScale).sort((a, b) => a - b).reverse().map(x => `${gradingScale[x]}: ${x}%`).join('\n')}\nTo change this grading scale, find 'Course Options' on the page for this course`;
         }
     }
 

@@ -6,7 +6,7 @@ let __defaultThemes = [
             "hue": 210
         },
         "logo": {
-            "preset": "schoology_logo"
+            "preset": "schoology_plus"
         }
     },
     {
@@ -32,7 +32,7 @@ let __defaultThemes = [
             }
         },
         "logo": {
-            "preset": "schoology_logo"
+            "preset": "schoology_plus"
         }
     },
     {
@@ -42,7 +42,7 @@ let __defaultThemes = [
             "hue": 150
         },
         "logo": {
-            "preset": "schoology_logo"
+            "preset": "schoology_plus"
         },
         "cursor": {
             "primary": chrome.runtime.getURL("/imgs/toy-mode.png")

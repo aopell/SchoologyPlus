@@ -1,3 +1,4 @@
+const schoologyPlusLogoImageUrl = chrome.runtime.getURL("/imgs/schoology-plus-wide.svg");
 const schoologyLogoImageUrl = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg";
 const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
 const lausdNewImageUrl = "https://lms.lausd.net/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/Asset%202_5c15191c5dd7e.png";
@@ -12,6 +13,7 @@ var themePrimaryColor = document.getElementById("theme-primary-color");
 var themeSecondaryColor = document.getElementById("theme-secondary-color");
 var themeBackgroundColor = document.getElementById("theme-background-color");
 var themeBorderColor = document.getElementById("theme-border-color");
+var themeSchoologyPlusLogo = document.getElementById("theme-schoology-plus-logo");
 var themeSchoologyLogo = document.getElementById("theme-schoology-logo");
 var themeNewLAUSDLogo = document.getElementById("theme-new-lausd-logo");
 var themeLAUSDLogo = document.getElementById("theme-lausd-logo");
@@ -319,6 +321,9 @@ function renderTheme(t) {
     themeName.value = t.name;
     themeLogo.value = "";
     switch (t.logo.preset) {
+        case "schoology_plus":
+            themeSchoologyPlusLogo.click();
+            break;
         case "schoology_logo":
             themeSchoologyLogo.click();
             break;
@@ -630,7 +635,10 @@ function updateOutput() {
 
     // Logo
     themeLogoWrapper.classList.add("hidden");
-    if (themeSchoologyLogo.checked) {
+    if (themeSchoologyPlusLogo.checked) {
+        theme.logo = new ThemeLogo(undefined, "schoology_plus");
+        setCSSVariable("background-url", `url(${schoologyPlusLogoImageUrl})`);
+    } else if (themeSchoologyLogo.checked) {
         theme.logo = new ThemeLogo(undefined, "schoology_logo");
         setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
     } else if (themeNewLAUSDLogo.checked) {

@@ -127,7 +127,7 @@ class ThemeLogo {
     /**
      * Defines a logo image
      * @param {string} url Link to an image
-     * @param {"schoology_logo"|"lausd_legacy"|"lausd_2019"} preset Built-in image
+     * @param {"schoology_plus"|"schoology_logo"|"lausd_legacy"|"lausd_2019"} preset Built-in image
      */
     constructor(url, preset) {
         this.url = url;
@@ -140,7 +140,7 @@ class ThemeLogo {
      * @returns {ThemeLogo}
      */
     static loadFromObject(o) {
-        return o ? new ThemeLogo(o.url, o.preset) : new ThemeLogo(undefined, "schoology_logo");
+        return o ? new ThemeLogo(o.url, o.preset) : new ThemeLogo(undefined, "schoology_plus");
     }
 }
 
