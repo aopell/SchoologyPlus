@@ -229,3 +229,7 @@ img.splus-coursegradebox-taint {
 .item-row.added-fake-assignment {
     background-color: lightyellow !important;
 }
+
+.splus-weighted-gradebook-indicator {
+    display: var(--weighted-gradebook-indicator-display) !important;
+}

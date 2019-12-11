@@ -298,7 +298,7 @@ var fetchQueue = [];
             setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
 
             // add weighted indicator to the course section row
-            if (Setting.getValue("weightedGradebookIndicator") == "enabled" && classTotal === 0 && !addMoreClassTotal) {
+            if (classTotal === 0 && !addMoreClassTotal) {
                 let newElem = createElement("span", ["splus-weighted-gradebook-indicator"], {
                     textContent: "[Weighted]"
                 });
