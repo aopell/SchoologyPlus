@@ -1,5 +1,25 @@
 # Changelog
 
+## Version 5.7 - December 11, 2019
+
+### Added
+- Assignments can now be added to empty categories through what-if grades
+  - This was a highly requested feature, sorry it took so long to get added!
+- Setting to show/hide the "S" button in the bottom right corner that shows the Schoology Help Center
+  - The default for this setting is to **hide** the button, so if you want it to show again you must change the setting in Schoology Plus Settings
+- New "Schooolgy+" logo for default themes
+- "Change Grade Boundaries" button has been added to "Calculate Minimum Grade For..." menu in what-if grades
+
+### Changed
+- Some settings that previously required a page reload to update now update instantly
+- Hover text on letter grades calculated by Schoology Plus has been updated for clarity
+
+### Fixed
+- The "applications" menu on the top toolbar now properly uses theme colors
+- Potentially fixed some issues causing what-if grades to fail to load
+- Issue causing the bug report form to not properly include the full error message
+
+
 ## Version 5.6.1 - November 21, 2019
 
 ### Fixed
