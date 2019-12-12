@@ -35,7 +35,7 @@ var Logger = {
 }
 
 // Process options
-Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version}`);
+Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' (development version)'}`);
 var firstLoad = true;
 updateSettings();
 

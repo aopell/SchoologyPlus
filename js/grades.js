@@ -5,7 +5,7 @@ var editDisableReason = null;
 
 function addEditDisableReason(err = "Unknown Error") {
     if (!editDisableReason) {
-        editDisableReason = { errors: [] };
+        editDisableReason = { version: chrome.runtime.getManifest().version, errors: [] };
     }
     editDisableReason.errors.push(err);
 }

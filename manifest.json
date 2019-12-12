@@ -9,7 +9,7 @@
             "update_url": "https://aopell.me/SchoologyPlus/update.json"
         }
     },
-    "version": "5.6.1",
+    "version": "5.7",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
