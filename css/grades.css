@@ -233,3 +233,7 @@ img.splus-coursegradebox-taint {
 .splus-weighted-gradebook-indicator {
     display: var(--weighted-gradebook-indicator-display) !important;
 }
+
+.injected-empty-category-expand-icon {
+    visibility: hidden;
+}
