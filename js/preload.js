@@ -35,7 +35,7 @@ var Logger = {
 }
 
 // Process options
-Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version}`);
+Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' (development version)'}`);
 var firstLoad = true;
 updateSettings();
 
@@ -589,7 +589,7 @@ function updateSettings(callback) {
                 new Setting(
                     "upcomingOverdueVisibility",
                     "Hide Upcoming and Overdue Assignments",
-                    '[Refresh required] Hides the "Upcoming" and "Overdue" sidebars on the homepage',
+                    'Hides the "Upcoming" and "Overdue" sidebars on the homepage',
                     "showAll",
                     "select",
                     {
@@ -612,14 +612,30 @@ function updateSettings(callback) {
                             }
                         ]
                     },
-                    value => value,
-                    undefined,
+                    value => {
+                        setCSSVariable("overdue-assignments-display", "block");
+                        setCSSVariable("upcoming-assignments-display", "block");
+                        switch(value) {
+                            case "hideUpcoming":
+                                setCSSVariable("upcoming-assignments-display", "none");
+                                break;
+                            case "hideOverdue":
+                                setCSSVariable("overdue-assignments-display", "none");
+                                break;
+                            case "hideAll":
+                                setCSSVariable("upcoming-assignments-display", "none");
+                                setCSSVariable("overdue-assignments-display", "none");
+                                break;
+                        }
+                        return value;
+                    },
+                    function (event) { this.onload(event.target.value) },
                     element => element.value
                 ).control,
                 new Setting(
                     "weightedGradebookIndicator",
                     "Weighted Gradebook Indicator",
-                    "[Refresh required] Adds an indicator next to gradebooks which are weighted",
+                    "Adds an indicator next to gradebooks which are weighted",
                     "enabled",
                     "select",
                     {
@@ -634,8 +650,36 @@ function updateSettings(callback) {
                             }
                         ]
                     },
-                    value => value,
-                    undefined,
+                    value => {
+                        setCSSVariable("weighted-gradebook-indicator-display", value == "enabled" ? "inline" : "none")
+                        return value;
+                    },
+                    function (event) { this.onload(event.target.value) },
+                    element => element.value
+                ).control,
+                new Setting(
+                    "helpCenterFAB",
+                    "Schoology Help Button",
+                    "Controls the visibility of the S button in the bottom right that shows the Schoology Guide Center",
+                    "hidden",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Show",
+                                value: "visible"
+                            },
+                            {
+                                text: "Hide",
+                                value: "hidden"
+                            }
+                        ]
+                    },
+                    value => {
+                        setCSSVariable("help-center-fab-visibility", value);
+                        return value;
+                    },
+                    function (event) { this.onload(event.target.value) },
                     element => element.value
                 ).control,
                 new Setting(

@@ -70,12 +70,15 @@ class Theme {
                         }
 
                         if (!theme.logo) {
-                            theme.logo = { preset: "schoology_logo" };
+                            theme.logo = { preset: "schoology_plus" };
                         }
                         Theme.setLAUSDLogoVisibility(false);
                         if (theme.logo.url) {
                             Theme.setLogoUrl(theme.logo.url);
                         } else switch (theme.logo.preset) {
+                            case "schoology_plus":
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/schoology-plus-wide.svg"));
+                                break;
                             case "schoology_logo":
                                 Theme.setLogoUrl();
                                 break;

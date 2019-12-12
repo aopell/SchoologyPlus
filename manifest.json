@@ -9,7 +9,7 @@
             "update_url": "https://aopell.me/SchoologyPlus/update.json"
         }
     },
-    "version": "5.6.1",
+    "version": "5.7",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -37,17 +37,10 @@
         "cookies"
     ],
     "web_accessible_resources": [
-        "imgs/plus-icon.png",
-        "imgs/toy-mode.png",
-        "imgs/icon@128.png",
+        "imgs/*",
         "js/materials.pdfhandler.js",
         "theme-editor.html",
-        "imgs/exclamation-mark.svg",
-        "imgs/fallback-course-icon.svg",
-        "imgs/edit-pencil.svg",
-        "imgs/new-plus-icon.svg",
-        "lib/data/schoology-reorder-ui-langprops.json",
-        "imgs/lausd-legacy.png"
+        "lib/data/schoology-reorder-ui-langprops.json"
     ],
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "background": {

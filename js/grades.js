@@ -1,10 +1,11 @@
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 const BUG_REPORT_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLScF1_MZofOWT9pkWp3EfKSvzCPpyevYtqbAucp1K5WKGlckiA/viewform?entry.118199430=";
+const SINGLE_COURSE = window.location.href.includes("/course/");
 var editDisableReason = null;
 
 function addEditDisableReason(err = "Unknown Error") {
-    if(!editDisableReason) {
-        editDisableReason = {errors: []};
+    if (!editDisableReason) {
+        editDisableReason = { version: chrome.runtime.getManifest().version, errors: [] };
     }
     editDisableReason.errors.push(err);
 }
@@ -162,20 +163,7 @@ var fetchQueue = [];
                         }
 
                         let createAddAssignmentUi = async function () {
-                            //.insertAdjacentElement('afterend', document.createElement("div"))
-                            let addAssignmentThing = createElement("tr", ["report-row", "item-row", "last-row-of-tier", "grade-add-indicator"]);
-                            addAssignmentThing.dataset.parentId = category.dataset.id;
-                            // to avoid a hugely annoying DOM construction
-                            // edit indicator will be added later
-                            // FIXME add little plus icon
-                            addAssignmentThing.innerHTML = '<th scope="row" class="title-column clickable"><div class="reportSpacer-3"><div class="td-content-wrapper"><span class="title"><a class="sExtlink-processed">Add Assignment</a></span></div></div></th><td class="grade-column"><div class="td-content-wrapper"><span class="no-grade">—</span><div class="grade-wrapper"></div></div></td><td class="comment-column"><div class="td-content-wrapper"><span class="visually-hidden">No comment</span></div></td>';
-                            addAssignmentThing.getElementsByClassName("title")[0].firstElementChild.addEventListener("click", function () {
-                                if (event.target.contentEditable !== "true") {
-                                    addAssignmentThing.querySelector("img.grade-edit-indicator").click();
-                                } else {
-                                    document.execCommand("selectall", null, false);
-                                }
-                            });
+                            let addAssignmentThing = createAddAssignmentElement(category);
 
                             if (assignment.classList.contains("hidden")) {
                                 addAssignmentThing.classList.add("hidden");
@@ -242,7 +230,7 @@ var fetchQueue = [];
                         try {
                             await processAssignment(assignment);
                         } catch (err) {
-                            addEditDisableReason({error: JSON.stringify(err, Object.getOwnPropertyNames(err)), courseId, course: title.textContent, assignment: assignment.textContent});
+                            addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: err.toString() }, courseId, course: title.textContent, assignment: assignment.textContent });
                             if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
                                 // consequential failure: our denominator is invalid
                                 invalidateCatTotal = true;
@@ -253,6 +241,22 @@ var fetchQueue = [];
 
                     if (assignments.length === 0) {
                         category.querySelector(".grade-column").classList.add("grade-column-center");
+
+                        let createAddAssignmentUi = async function () {
+                            let addAssignmentThing = createAddAssignmentElement(category);
+
+                            category.insertAdjacentElement('afterend', addAssignmentThing);
+                            await processAssignment(addAssignmentThing);
+
+                            return addAssignmentThing;
+                        };
+
+                        let categoryArrow = createElement("img", ["expandable-icon-grading-report", "injected-empty-category-expand-icon"], { src: "/sites/all/themes/schoology_theme/images/expandable-sprite.png" });
+                        category.querySelector("th .td-content-wrapper").prepend(categoryArrow);
+
+                        if (!category.classList.contains("hidden")) {
+                            await createAddAssignmentUi();
+                        }
                     }
 
                     let gradeText = category.querySelector(".awarded-grade") || category.querySelector(".no-grade");
@@ -285,7 +289,7 @@ var fetchQueue = [];
                         }
                     }
                 } catch (err) {
-                    addEditDisableReason({error: JSON.stringify(err, Object.getOwnPropertyNames(err)), category: category.textContent})
+                    addEditDisableReason({ error: JSON.stringify(err, Object.getOwnPropertyNames(err)), category: category.textContent })
                 }
             }
 
@@ -297,7 +301,7 @@ var fetchQueue = [];
             setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
 
             // add weighted indicator to the course section row
-            if (Setting.getValue("weightedGradebookIndicator") == "enabled" && classTotal === 0 && !addMoreClassTotal) {
+            if (classTotal === 0 && !addMoreClassTotal) {
                 let newElem = createElement("span", ["splus-weighted-gradebook-indicator"], {
                     textContent: "[Weighted]"
                 });
@@ -429,12 +433,12 @@ var fetchQueue = [];
         let timeRowLabel = createElement("label", ["modify-label"], {
             htmlFor: "enable-modify"
         }, [
-                createElement("span", [], { textContent: "Enable what-if grades" }),
-                createElement("a", ["splus-grade-help-btn"], {
-                    href: "https://github.com/aopell/SchoologyPlus/wiki/What-If-Grades",
-                    target: "_blank"
-                }, [createElement("span", ["icon-help"])])
-            ]);
+            createElement("span", [], { textContent: "Enable what-if grades" }),
+            createElement("a", ["splus-grade-help-btn"], {
+                href: "https://github.com/aopell/SchoologyPlus/wiki/What-If-Grades",
+                target: "_blank"
+            }, [createElement("span", ["icon-help"])])
+        ]);
 
         if (gradeModifLabelFirst) {
             timeRow.appendChild(timeRowLabel);
@@ -452,8 +456,8 @@ var fetchQueue = [];
                 if (editDisableReason) {
                     Logger.error("Editing disabled due to error", editDisableReason);
                     let formLink = `${BUG_REPORT_FORM_LINK}${encodeURI(JSON.stringify(editDisableReason))}`
-                    
-                    if(confirm("Grade editing has been disabled due to an error. Would you like to report this issue? (It will help us fix it faster!)")) {
+
+                    if (confirm("Grade editing has been disabled due to an error. Would you like to report this issue? (It will help us fix it faster!)")) {
                         window.open(formLink, "_blank");
                     }
 
@@ -469,6 +473,9 @@ var fetchQueue = [];
                         if (edit.previousElementSibling.classList.contains("item-row") && edit.previousElementSibling.classList.contains("last-row-of-tier")) {
                             edit.previousElementSibling.classList.remove("last-row-of-tier");
                         }
+                    }
+                    for (let arrow of document.getElementsByClassName("injected-empty-category-expand-icon")) {
+                        arrow.style.visibility = "visible";
                     }
 
                     let calculateMinimumGrade = function (element, desiredGrade) {
@@ -744,12 +751,25 @@ var fetchQueue = [];
                         for (let gradeValue of Object.keys(gradingScale).sort((a, b) => b - a)) {
                             let letterGrade = gradingScale[gradeValue];
                             calcMinFor["calculateMinGradeFor" + gradeValue] = {
-                                name: "For " + letterGrade,
+                                name: "For " + letterGrade + " (" + gradeValue + "%)",
                                 callback: function (key, opt) {
                                     calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
                                 }
                             };
                         }
+
+                        calcMinFor.separator = "-----";
+                        calcMinFor.courseOptions = {
+                            name: "Change Grade Boundaries",
+                            callback: function () {
+                                let courseElem = this[0].closest(".gradebook-course");
+                                let titleElem = SINGLE_COURSE ? document.querySelector(".page-title") : courseElem.querySelector(".gradebook-course-title");
+                                openModal("course-settings-modal", {
+                                    courseId: courseElem.id.match(/\d+/)[0],
+                                    courseName: titleElem.querySelector("a span:nth-child(3)") ? titleElem.querySelector("a span:nth-child(2)").textContent : titleElem.innerText.split('\n')[0]
+                                });
+                            }
+                        };
 
                         let normalContextMenuObject = Object.assign({}, baseContextMenuObject);
                         normalContextMenuObject.selector += normalAssignRClickSelector;
@@ -829,6 +849,9 @@ var fetchQueue = [];
                         $.contextMenu("destroy", "#" + courseElement.id + " " + normalAssignRClickSelector);
                         $.contextMenu("destroy", "#" + courseElement.id + " " + addedAssignRClickSelector);
                     }
+                    for (let arrow of document.getElementsByClassName("injected-empty-category-expand-icon")) {
+                        arrow.style.visibility = "hidden";
+                    }
                     $.contextMenu("destroy", droppedAssignRClickSelector);
                     // uncheck the edit checkbox, with modified grades existing: prompt: does user confirm?
                 } else if (confirm("Disabling grade edits now will reload the page and erase all existing modified grades. Proceed?")) {
@@ -863,7 +886,7 @@ var fetchQueue = [];
     function queueNonenteredAssignment(assignment, courseId) {
         let noGrade = assignment.getElementsByClassName("no-grade")[0];
 
-        if(!noGrade) {
+        if (!noGrade) {
             Logger.log(`Error loading potentially nonentered assignment with ID ${assignment.dataset.id.substr(2)}`);
             return;
         }
@@ -962,7 +985,7 @@ var fetchQueue = [];
             let percent = Number.parseFloat(elem.textContent.substr(0, elem.textContent.length - 1));
             let letterGrade = getLetterGrade(gradingScale, percent);
             elem.textContent = `${letterGrade} (${percent}%)`;
-            elem.title = `Letter grade calculated using the following grading scale:\n${Object.keys(gradingScale).sort((a, b) => a - b).reverse().map(x => `${gradingScale[x]}: ${x}%`).join('\n')}`;
+            elem.title = `Letter grade calculated by Schoology Plus using the following grading scale:\n${Object.keys(gradingScale).sort((a, b) => a - b).reverse().map(x => `${gradingScale[x]}: ${x}%`).join('\n')}\nTo change this grading scale, find 'Course Options' on the page for this course`;
         }
     }
 
@@ -1065,7 +1088,7 @@ var fetchQueue = [];
                 let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
                 if (colMatch) {
                     let scorePercent = Number.parseFloat(colMatch[1]);
-                    if (scorePercent && !Number.isNaN(scorePercent)) {
+                    if (!Number.isNaN(scorePercent)) {
                         total += (weightPercent.slice(1, -2) / 100) * scorePercent;
                         totalPercentWeight += Number.parseFloat(weightPercent.slice(1, -2));
                     }
@@ -1361,6 +1384,24 @@ var fetchQueue = [];
 }).catch(reason => {
     Logger.error("Error running grades page modification script: ", reason);
 });
+
+function createAddAssignmentElement(category) {
+    let addAssignmentThing = createElement("tr", ["report-row", "item-row", "last-row-of-tier", "grade-add-indicator"]);
+    addAssignmentThing.dataset.parentId = category.dataset.id;
+    // to avoid a hugely annoying DOM construction
+    // edit indicator will be added later
+    // FIXME add little plus icon
+    addAssignmentThing.innerHTML = '<th scope="row" class="title-column clickable"><div class="reportSpacer-3"><div class="td-content-wrapper"><span class="title"><a class="sExtlink-processed">Add Assignment</a></span></div></div></th><td class="grade-column"><div class="td-content-wrapper"><span class="no-grade">—</span><div class="grade-wrapper"></div></div></td><td class="comment-column"><div class="td-content-wrapper"><span class="visually-hidden">No comment</span></div></td>';
+    addAssignmentThing.getElementsByClassName("title")[0].firstElementChild.addEventListener("click", function () {
+        if (event.target.contentEditable !== "true") {
+            addAssignmentThing.querySelector("img.grade-edit-indicator").click();
+        }
+        else {
+            document.execCommand("selectall", null, false);
+        }
+    });
+    return addAssignmentThing;
+}
 
 function processNonenteredAssignments(sleep) {
     if (fetchQueue.length > 0) {
