@@ -9,7 +9,7 @@
             "update_url": "https://aopell.me/SchoologyPlus/update.json"
         }
     },
-    "version": "5.7",
+    "version": "5.8",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -34,7 +34,9 @@
         "storage",
         "alarms",
         "notifications",
-        "cookies"
+        "cookies",
+        "webRequest",
+        "webRequestBlocking"
     ],
     "web_accessible_resources": [
         "imgs/*",
@@ -47,7 +49,7 @@
         "scripts": [
             "js/background.js"
         ],
-        "persistent": false
+        "persistent": true
     },
     "content_scripts": [
         {

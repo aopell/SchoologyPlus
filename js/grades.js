@@ -2,12 +2,14 @@ const timeout = ms => new Promise(res => setTimeout(res, ms));
 const BUG_REPORT_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLScF1_MZofOWT9pkWp3EfKSvzCPpyevYtqbAucp1K5WKGlckiA/viewform?entry.118199430=";
 const SINGLE_COURSE = window.location.href.includes("/course/");
 var editDisableReason = null;
+var invalidCategories = [];
 
-function addEditDisableReason(err = "Unknown Error") {
+function addEditDisableReason(err = "Unknown Error", causedBy403 = false) {
     if (!editDisableReason) {
-        editDisableReason = { version: chrome.runtime.getManifest().version, errors: [] };
+        editDisableReason = { version: chrome.runtime.getManifest().version, errors: [], allCausedBy403: causedBy403 };
     }
     editDisableReason.errors.push(err);
+    editDisableReason.allCausedBy403 = editDisableReason.allCausedBy403 && causedBy403;
 }
 
 $.contextMenu({
@@ -127,6 +129,7 @@ var fetchQueue = [];
                             p.textContent = "0%";
                             p.title = "Assignment missing";
                             Logger.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
+
                             let json = await fetchApiJson(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
 
                             let pts = Number.parseFloat(json.max_points);
@@ -146,6 +149,7 @@ var fetchQueue = [];
                                 $(assignment).contextMenu({ x: event.pageX, y: event.pageY });
                             }
                         });
+                        kabobMenuButton.dataset.parentId = assignment.dataset.parentId;
 
                         let editEnableCheckbox = document.getElementById("enable-modify");
 
@@ -184,6 +188,7 @@ var fetchQueue = [];
                             width: 12,
                             style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
                         });
+                        editGradeImg.dataset.parentId = assignment.dataset.parentId;
                         let gradeAddEditHandler = null;
                         if (assignment.classList.contains("grade-add-indicator")) {
                             // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
@@ -230,11 +235,26 @@ var fetchQueue = [];
                         try {
                             await processAssignment(assignment);
                         } catch (err) {
-                            addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: err.toString() }, courseId, course: title.textContent, assignment: assignment.textContent });
                             if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
                                 // consequential failure: our denominator is invalid
                                 invalidateCatTotal = true;
+                                invalidCategories.push(category.dataset.id);
+
+                                if ("status" in err && err.status === 403) {
+                                    addEditDisableReason({
+                                        error: {
+                                            message: err.error,
+                                            status: err.status
+                                        },
+                                        courseId,
+                                        course: title.textContent,
+                                        assignment: assignment.textContent
+                                    }, true);
+                                    continue;
+                                }
                             }
+
+                            addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: err.toString() }, courseId, course: title.textContent, assignment: assignment.textContent });
                             Logger.error("Error loading assignment for " + courseId + ": ", assignment, err);
                         }
                     }
@@ -453,22 +473,31 @@ var fetchQueue = [];
                 let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator)";
 
                 // any state change when editing has been disabled
-                if (editDisableReason) {
+                if (editDisableReason && !editDisableReason.allCausedBy403) {
                     Logger.error("Editing disabled due to error", editDisableReason);
-                    let formLink = `${BUG_REPORT_FORM_LINK}${encodeURI(JSON.stringify(editDisableReason))}`
 
                     if (confirm("Grade editing has been disabled due to an error. Would you like to report this issue? (It will help us fix it faster!)")) {
-                        window.open(formLink, "_blank");
+                        window.open(`${BUG_REPORT_FORM_LINK}${encodeURI(JSON.stringify(editDisableReason))}`, "_blank");
                     }
 
                     document.getElementById("enable-modify").checked = false;
                 }
                 // enabling editing
                 else if (document.getElementById("enable-modify").checked) {
+                    if (editDisableReason && editDisableReason.allCausedBy403) {
+                        if (confirm("WARNING!!!\n\nYou have one or more missing assignments for which the total points are unknown due to restrictions put in place by your teacher. Grade editing may work in some categories if this is a weighted gradebook, however it will be disabled in others. We are working on a fix for this issue, but until then please click 'OK' to submit a bug report so we can gague how large this problem is. Thank you!")) {
+                            window.open(`${BUG_REPORT_FORM_LINK}${encodeURI(JSON.stringify(editDisableReason))}`, "_blank");
+                        }
+                    }
+
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
+                        if(invalidCategories.includes(edit.dataset.parentId)) continue;
+
                         edit.style.display = "unset";
                     }
                     for (let edit of document.getElementsByClassName("grade-add-indicator")) {
+                        if(invalidCategories.includes(edit.dataset.parentId)) continue;
+
                         edit.style.display = "table-row";
                         if (edit.previousElementSibling.classList.contains("item-row") && edit.previousElementSibling.classList.contains("last-row-of-tier")) {
                             edit.previousElementSibling.classList.remove("last-row-of-tier");
@@ -829,6 +858,8 @@ var fetchQueue = [];
                     });
 
                     for (let kabob of document.getElementsByClassName("kabob-menu")) {
+                        if(invalidCategories.includes(kabob.dataset.parentId)) continue;
+
                         kabob.classList.remove("hidden");
                     }
                     // uncheck the grades modify box without having modified grades
@@ -919,7 +950,7 @@ var fetchQueue = [];
                 Logger.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
                 let response = await fetchApi(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
                 if (!response.ok) {
-                    throw new Error(response.statusText);
+                    throw { status: response.status, error: response.statusText };
                 }
                 let json = await response.json();
 
@@ -1403,16 +1434,24 @@ function createAddAssignmentElement(category) {
     return addAssignmentThing;
 }
 
-function processNonenteredAssignments(sleep) {
+function processNonenteredAssignments(sleep, attempts = 0) {
+    if (attempts > 3) {
+        // Remove the first element
+        fetchQueue.shift();
+        attempts = 0;
+    }
     if (fetchQueue.length > 0) {
         setTimeout(() => {
             fetchQueue[0]().then(x => {
                 fetchQueue.splice(0, 1);
                 processNonenteredAssignments();
             }).catch(err => {
-                Logger.warn("Caught error: " + err);
+                Logger.warn("Caught error: ", err);
                 Logger.log("Waiting 3 seconds to avoid rate limit");
-                processNonenteredAssignments(true);
+                if ("status" in err && err.status === 403) {
+                    attempts = 100;
+                }
+                processNonenteredAssignments(true, attempts + 1);
             });
         }, sleep ? 3000 : 0);
     }

@@ -215,6 +215,13 @@ let migrationsTo = {
                 ]
             }
         );
+    },
+    "5.8": function(currentVersion, previousVersion) {
+        showToast(
+            "What-If Grades Fixed",
+            "A few errors affecting what-if grades have been fixed and we're working on fixing more! Thanks for submitting bugs!",
+            "rgb(255,0,255)"
+        );
     }
 };
 

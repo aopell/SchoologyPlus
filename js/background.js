@@ -146,7 +146,7 @@ chrome.runtime.onMessage.addListener(
                 }
 
                 return finalResponse;
-            })().then(x => sendResponse(x)).catch(err => sendResponse({success: false, error: err}));
+            })().then(x => sendResponse(x)).catch(err => sendResponse({ success: false, error: err }));
 
             return true;
         }
@@ -299,3 +299,18 @@ function getBrowser() {
 function createLogPrefix(color) {
     return `color:${color};border:1px solid #2A2A2A;border-radius:100%;font-size:14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A`;
 }
+
+chrome.webRequest.onHeadersReceived.addListener(details => {
+    let exists = false;
+    details.responseHeaders.map(item => {
+        if (item.name.toLowerCase() === 'access-control-allow-origin') {
+            item.value = '*';
+            exists = true;
+        }
+    });
+    if(!exists) {
+        details.responseHeaders.push({name: "access-control-allow-origin", value: "*"});
+        details.responseHeaders.push({name: "access-control-allow-headers", value: "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"});
+    }
+    return { responseHeaders: details.responseHeaders };
+}, { urls: ['*://*.schoology.com/*'] }, ['blocking', 'responseHeaders', 'extraHeaders']);
