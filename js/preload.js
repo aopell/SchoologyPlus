@@ -69,7 +69,7 @@ function backgroundPageFetch(url, init, bodyReadType) {
                     if (bodyReadError === true) {
                         readBodyReject();
                     } else {
-                        readBodyReject(bodyReadError);
+                        readBodyReject({ status: response.status, bodyReadError: bodyReadError });
                     }
                 } else {
                     readBodyResolve(bodyContent);
@@ -176,7 +176,17 @@ async function fetchWithApiAuthentication(url, baseObj, useRateLimit = true, bod
  * @param {string} path The API path, e.g. "/sections/12345/assignments/12"
  */
 async function fetchApiJson(path) {
-    return await (await fetchApi(path)).json();
+    let response;
+    try {
+        response = await fetchApi(path);
+    }
+    catch (err) {
+        throw err;
+    }
+    if (!response.ok) {
+        throw response;
+    }
+    return await response.json();
 }
 
 /**
@@ -615,7 +625,7 @@ function updateSettings(callback) {
                     value => {
                         setCSSVariable("overdue-assignments-display", "block");
                         setCSSVariable("upcoming-assignments-display", "block");
-                        switch(value) {
+                        switch (value) {
                             case "hideUpcoming":
                                 setCSSVariable("upcoming-assignments-display", "none");
                                 break;
