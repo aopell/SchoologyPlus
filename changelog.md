@@ -2,7 +2,7 @@
 
 ## Version 5.8.1 - March 4, 2020
 
-## Changed
+### Changed
 - Removed `activeTab` permission
 
 ### Fixed
