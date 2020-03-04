@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 5.8 - March 4, 2020
+
+### Fixed
+- What-if grades failing due to issues relating to new versions of the Chrome browser
+  - Added new permission `webRequests` to alleviate this issue
+- What-if grades failing due to teacher's locking access to assignment details
+  - Only affected categories will be locked if there is a missing assignment that cannot be accessed; other categories will still work
+
+More fixes for obscure issues with what-if grades will come in future updates
+
 ## Version 5.7 - December 11, 2019
 
 ### Added
