@@ -1,6 +1,9 @@
 # Changelog
 
-## Version 5.8 - March 4, 2020
+## Version 5.8.1 - March 4, 2020
+
+## Changed
+- Removed `activeTab` permission
 
 ### Fixed
 - What-if grades failing due to issues relating to new versions of the Chrome browser
