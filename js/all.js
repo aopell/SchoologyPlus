@@ -12,7 +12,7 @@ let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2019 | <a hre
 let modalFooterText = "Schoology Plus";
 
 let frame = document.createElement("iframe");
-frame.src = "https://aopell.me/SchoologyPlus/changelog";
+frame.src = `https://aopell.me/SchoologyPlus/changelog?version=${chrome.runtime.getManifest().version}`;
 
 let modals = [
     new Modal(

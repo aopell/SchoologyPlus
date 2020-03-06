@@ -4,6 +4,12 @@ const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
 const lausdNewImageUrl = "https://lms.lausd.net/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/Asset%202_5c15191c5dd7e.png";
 const CURRENT_VERSION = SchoologyTheme.CURRENT_VERSION;
 
+var defaultDomain = "lms.lausd.net";
+
+chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
+    defaultDomain = s.defaultDomain;
+});
+
 var allThemes = {};
 var defaultThemes = [];
 var rainbowInterval = null;
@@ -67,7 +73,7 @@ saveCloseButton.addEventListener("click", e => trySaveTheme(true));
 var discardButton = document.getElementById("discard-button");
 discardButton.addEventListener("click", e => ConfirmModal.open("Discard Changes?", "Are you sure you want to discard changes? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && location.reload()));
 var closeButton = document.getElementById("close-button");
-closeButton.addEventListener("click", e => (!inEditMode() && (location.href = 'https://lms.lausd.net') || ConfirmModal.open("Discard Changes?", "Are you sure you want to close without saving? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && (location.href = 'https://lms.lausd.net'))));
+closeButton.addEventListener("click", e => (!inEditMode() && (location.href = `https://${defaultDomain}`) || ConfirmModal.open("Discard Changes?", "Are you sure you want to close without saving? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && (location.href = `https://${defaultDomain}`))));
 var createButton = document.getElementById("create-button");
 var importButton = document.getElementById("import-button");
 createButton.addEventListener("click", e => editTheme());
@@ -736,7 +742,7 @@ function trySaveTheme(apply = false) {
 /**
  * Saves the theme currently displayed in the preview with the given name.
  * If the querystring parameter `theme` exists, it will rename the theme with that value
- * @param {boolean} [apply=false] If true, applies the theme and returns to https://lms.lausd.net
+ * @param {boolean} [apply=false] If true, applies the theme and returns to defaultDomain
  */
 function saveTheme(apply = false) {
     if (errors.length > 0) throw new Error("Please fix all errors before saving the theme:\n" + errors.join("\n"));
@@ -754,7 +760,7 @@ function saveTheme(apply = false) {
             chrome.storage.sync.set({ themes: themes }, () => {
                 ConfirmModal.open("Theme saved successfully", "", ["OK"], () => {
                     origThemeName = t.name;
-                    if (apply) chrome.storage.sync.set({ theme: t.name }, () => location.href = "https://lms.lausd.net");
+                    if (apply) chrome.storage.sync.set({ theme: t.name }, () => location.href = `https://${defaultDomain}`);
                     else location.reload();
                 });
             });
@@ -1366,7 +1372,7 @@ $(document).ready(function () {
                 },
                 onclick: e => {
                     e.stopPropagation();
-                    ConfirmModal.open("Apply Theme?", `Are you sure you want to apply the theme ${t}?`, ["Apply", "Cancel"], b => b === "Apply" && chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net"));
+                    ConfirmModal.open("Apply Theme?", `Are you sure you want to apply the theme ${t}?`, ["Apply", "Cancel"], b => b === "Apply" && chrome.storage.sync.set({ theme: t }, () => location.href = `https://${defaultDomain}`));
                 }
             };
             let appliedProps = {
@@ -1374,7 +1380,7 @@ $(document).ready(function () {
                 dataset: {
                     tooltip: "Theme Applied"
                 },
-                onclick: () => location.href = "https://lms.lausd.net"
+                onclick: () => location.href = `https://${defaultDomain}`
             };
 
             function createActionButton(properties) {

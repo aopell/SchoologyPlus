@@ -53,7 +53,8 @@
     "content_scripts": [
         {
             "matches": [
-                "https://lms.lausd.net/*"
+                "https://lms.lausd.net/*",
+                "https://*.schoology.com/*"
             ],
             "css": [
                 "css/all.css"
@@ -68,7 +69,8 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/*"
+                "https://lms.lausd.net/*",
+                "https://*.schoology.com/*"
             ],
             "css": [
                 "lib/css/contextmenu.css",
@@ -86,7 +88,9 @@
         {
             "matches": [
                 "https://lms.lausd.net/grades/grades*",
-                "https://lms.lausd.net/course/*/student_grades"
+                "https://lms.lausd.net/course/*/student_grades",
+                "https://*.schoology.com/grades/grades*",
+                "https://*.schoology.com/course/*/student_grades"
             ],
             "css": [
                 "css/grades.css"
@@ -99,7 +103,8 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/course/*/materials*"
+                "https://lms.lausd.net/course/*/materials*",
+                "https://*.schoology.com/course/*/materials*"
             ],
             "css": [
                 "css/materials.css"
@@ -114,7 +119,8 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/mastery*"
+                "https://lms.lausd.net/mastery*",
+                "https://*.schoology.com/mastery*"
             ],
             "js": [
                 "js/mastery.js"
@@ -126,7 +132,11 @@
                 "https://lms.lausd.net/",
                 "https://lms.lausd.net/home",
                 "https://lms.lausd.net/home#*",
-                "https://lms.lausd.net/home/recent-activity*"
+                "https://lms.lausd.net/home/recent-activity*",
+                "https://*.schoology.com/",
+                "https://*.schoology.com/home",
+                "https://*.schoology.com/home#*",
+                "https://*.schoology.com/home/recent-activity*"
             ],
             "js": [
                 "js/home.js"
@@ -135,7 +145,8 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/course/*"
+                "https://lms.lausd.net/course/*",
+                "https://*.schoology.com/course/*"
             ],
             "js": [
                 "js/course.js"
@@ -144,7 +155,8 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/user/*"
+                "https://lms.lausd.net/user/*",
+                "https://*.schoology.com/user/*"
             ],
             "js": [
                 "js/user.js"
@@ -156,7 +168,8 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/assignment/*/assessment"
+                "https://lms.lausd.net/assignment/*/assessment",
+                "https://*.schoology.com/assignment/*/assessment"
             ],
             "js": [
                 "js/assessment.js"
@@ -166,7 +179,9 @@
         {
             "matches": [
                 "https://lms.lausd.net/courses",
-                "https://lms.lausd.net/courses/*"
+                "https://lms.lausd.net/courses/*",
+                "https://*.schoology.com/courses",
+                "https://*.schoology.com/courses/*"
             ],
             "js": [
                 "js/course.js",
@@ -176,7 +191,8 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/*"
+                "https://lms.lausd.net/*",
+                "https://*.schoology.com/*"
             ],
             "js": [
                 "js/all-idle.js"

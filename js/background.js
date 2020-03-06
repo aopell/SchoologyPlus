@@ -34,7 +34,14 @@ var Logger = {
     debug: (() => console.debug.bind(window.console, `%c+`, createLogPrefix("lightgreen")))(),
 }
 
-const assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filter=all";
+var assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filter=all";
+var defaultDomain = "lms.lausd.net";
+
+chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
+    defaultDomain = s.defaultDomain;
+    assignmentNotificationUrl = `https://${defaultDomain}/home/notifications?filter=all`;
+});
+
 
 Logger.log("Loaded event page");
 Logger.log("Adding alarm listener");
@@ -45,11 +52,11 @@ chrome.notifications.onClicked.addListener(function (id) {
     chrome.notifications.clear(id, null);
     switch (id) {
         case "assignment":
-            chrome.tabs.create({ url: "https://lms.lausd.net/home/notifications" }, null);
+            chrome.tabs.create({ url: `https://${defaultDomain}/home/notifications` }, null);
             chrome.browserAction.setBadgeText({ text: "" });
             break;
         default:
-            chrome.tabs.create({ url: "https://lms.lausd.net" });
+            chrome.tabs.create({ url: `https://${defaultDomain}` });
             break;
     }
 });
@@ -60,14 +67,14 @@ chrome.browserAction.onClicked.addListener(function () {
     chrome.browserAction.getBadgeText({}, x => {
         Logger.log(`Browser action text: "${x}"`);
         let n = Number.parseInt(x);
-        if (n) chrome.tabs.create({ url: "https://lms.lausd.net/home/notifications" }, null);
-        else chrome.tabs.create({ url: "https://lms.lausd.net" }, null);
+        if (n) chrome.tabs.create({ url: `https://${defaultDomain}/home/notifications` }, null);
+        else chrome.tabs.create({ url: `https://${defaultDomain}` }, null);
         chrome.browserAction.setBadgeText({ text: "" });
     });
 });
 Logger.log("Adding cookie change listener");
 chrome.cookies.onChanged.addListener(function (changeInfo) {
-    if (changeInfo.cookie.domain == ".lms.lausd.net" && changeInfo.cookie.name.startsWith("SESS")) {
+    if (changeInfo.cookie.domain == `.${defaultDomain}` && changeInfo.cookie.name.startsWith("SESS")) {
         chrome.storage.sync.get({ sessionCookiePersist: "disabled" }, settings => {
             let rewriteCookie = false;
             if (settings.sessionCookiePersist == "enabled") {
@@ -88,7 +95,7 @@ chrome.cookies.onChanged.addListener(function (changeInfo) {
             let expiryTime = new Date(new Date().setDate(new Date().getDate() + 60));
 
             let cookie = changeInfo.cookie;
-            cookie.url = "https://lms.lausd.net/";
+            cookie.url = `https://${defaultDomain}/`;
             delete cookie.session;
             delete cookie.hostOnly;
             cookie.expirationDate = expiryTime.getTime() / 1000;
@@ -149,6 +156,9 @@ chrome.runtime.onMessage.addListener(
             })().then(x => sendResponse(x)).catch(err => sendResponse({ success: false, error: err }));
 
             return true;
+        } else if (request.type == "updateDefaultDomain" && request.domain !== undefined) {
+            defaultDomain = request.domain;
+            assignmentNotificationUrl = `https://${defaultDomain}/home/notifications?filter=all`;
         }
     }
 );

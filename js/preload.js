@@ -357,7 +357,7 @@ async function getApiKeysDirect() {
     let userId = getUserId();
     var apiKeys = null;
     Logger.log(`Fetching API key for user ${userId}`);
-    let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();
+    let html = await (await fetch(`https://${Setting.getValue("defaultDomain")}/api`, { credentials: "same-origin" })).text();
     let docParser = new DOMParser();
     let doc = docParser.parseFromString(html, "text/html");
 
@@ -369,7 +369,7 @@ async function getApiKeysDirect() {
     } else {
         Logger.log("API key not found - generating and trying again");
         let submitData = new FormData(doc.getElementById("s-api-register-form"));
-        let generateFetch = await fetch("https://lms.lausd.net/api", {
+        let generateFetch = await fetch(`https://${Setting.getValue("defaultDomain")}/api`, {
             credentials: "same-origin",
             body: submitData,
             method: "post"
@@ -713,6 +713,19 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
+                ).control,
+                new Setting(
+                    "defaultDomain",
+                    "Default Schoology Domain",
+                    "The website on which Schoology Plus runs. Cannot be changed here.",
+                    "lms.lausd.net",
+                    "text",
+                    {
+                        disabled: true
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
                 ).control
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
@@ -926,6 +939,10 @@ Setting.getValue = function (name) {
  */
 Setting.setValue = function (name, value, callback = undefined) {
     Setting.saveModified({ [name]: value }, false, callback, false);
+
+    if (name === "defaultDomain") {
+        chrome.runtime.sendMessage({ type: "updateDefaultDomain", domain: value });
+    }
 }
 
 /**

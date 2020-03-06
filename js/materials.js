@@ -329,7 +329,7 @@
 
     // grade drops
     // unfortunately it doesn't look like the API returns grade drop status, so we have to scrape it from the gradebook
-    let ourGradebookHtml = await (await fetch(`https://lms.lausd.net/course/${classId}/student_grades`)).text();
+    let ourGradebookHtml = await (await fetch(`https://${Setting.getValue("defaultDomain")}/course/${classId}/student_grades`)).text();
     let ourGradebookParser = new DOMParser();
     let ourGradebookDoc = ourGradebookParser.parseFromString(ourGradebookHtml, "text/html");
 

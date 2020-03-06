@@ -21,23 +21,23 @@ $.contextMenu({
         separator: "-----",
         materials: {
             name: "Materials",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/materials`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/materials`, "_blank") }
         },
         updates: {
             name: "Updates",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/updates`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/updates`, "_blank") }
         },
         student_grades: {
             name: "Grades",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/student_grades`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/student_grades`, "_blank") }
         },
         mastery: {
             name: "Mastery",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/mastery`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/mastery`, "_blank") }
         },
         members: {
             name: "Members",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/members`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].querySelector(".section-item").id.match(/\d+/)[0]}/members`, "_blank") }
         }
     }
 });
