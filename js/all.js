@@ -1,3 +1,13 @@
+// Check Schoology domain
+{
+    let dd = Setting.getValue("defaultDomain");
+    if (dd !== window.location.host) {
+        Setting.setValue("defaultDomain", window.location.host);
+        alert(`Updated default Schoology domain!\nPrevious: ${dd}\nNew: ${window.location.host}`);
+        location.reload();
+    }
+}
+
 // Page Modifications
 
 document.head.appendChild(createElement("meta", [], { name: "viewport", content: "width=device-width, initial-scale=1" }));
