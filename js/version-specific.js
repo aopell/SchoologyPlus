@@ -154,17 +154,6 @@ let migrationsTo = {
         });
     },
     "5.0": function (currentVersion, previousVersion) {
-        saveBroadcasts([
-            createBroadcast(
-                500,
-                "Schoology Plus Fall 2018 Survey Closed",
-                "Thank you to all that participated in the survey. Winners of the Amazon gift card drawing will be contacted before New Year's. We look forward to using your ideas to make Schoology Plus even better. Thanks for your support!",
-                new Date(2018, 11 /* don't you just love JavaScript */, 20)
-            )
-        ], () => {
-            deleteBroadcasts(432, 440);
-        });
-
         chrome.storage.sync.get(["hue", "theme", "themes"], values => {
             if (values.hue) {
                 if (!values.theme || values.theme == "Custom Color" || values.theme == "Schoology Plus") {
@@ -204,24 +193,6 @@ let migrationsTo = {
                 new Date(2019, 11 /* December */, 11)
             )
         ]);
-
-        showToast(
-            "Love Schoology Plus? Leave a review!",
-            "We'd really appreciate if you reviewed Schoology Plus on the Chrome Web Store",
-            "rgb(0,255,0)",
-            {
-                buttons: [
-                    createToastButton("Leave a Review", "leave-review-button", () => window.open("https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef", "_blank"))
-                ]
-            }
-        );
-    },
-    "5.8": function(currentVersion, previousVersion) {
-        showToast(
-            "What-If Grades Fixed",
-            "A few errors affecting what-if grades have been fixed and we're working on fixing more! Thanks for submitting bugs!",
-            "rgb(255,0,255)"
-        );
     }
 };
 

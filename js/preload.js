@@ -713,19 +713,6 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
-                ).control,
-                new Setting(
-                    "defaultDomain",
-                    "Default Schoology Domain",
-                    "The website on which Schoology Plus runs. Cannot be changed here.",
-                    "lms.lausd.net",
-                    "text",
-                    {
-                        disabled: true
-                    },
-                    value => value,
-                    undefined,
-                    element => element.value
                 ).control
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
@@ -968,3 +955,17 @@ function createLogPrefix(color) {
 function setCSSVariable(name, val) {
     document.documentElement.style.setProperty(`--${name}`, val);
 }
+
+new Setting(
+    "defaultDomain",
+    "Default Schoology Domain",
+    "The website on which Schoology Plus runs. Cannot be changed here.",
+    "lms.lausd.net",
+    "text",
+    {
+        disabled: true
+    },
+    value => value,
+    undefined,
+    element => element.value
+);
