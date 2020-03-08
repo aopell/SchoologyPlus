@@ -77,7 +77,7 @@ class Theme {
                         if (!theme.logo) {
                             theme.logo = { preset: "schoology_plus" };
                         }
-                        Theme.setLAUSDLogoVisibility(false);
+                        Theme.setDefaultLogoVisibility(false);
                         if (theme.logo.url) {
                             Theme.setLogoUrl(theme.logo.url);
                         } else switch (theme.logo.preset) {
@@ -91,7 +91,10 @@ class Theme {
                                 Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
                                 break;
                             case "lausd_2019":
-                                Theme.setLAUSDLogoVisibility(true);
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-2019.png"));
+                                break;
+                            case "default":
+                                Theme.setDefaultLogoVisibility(true);
                                 break;
                         }
 
@@ -105,7 +108,6 @@ class Theme {
                         if (theme.colors) {
                             Theme.setBackgroundColor(theme.colors[0], theme.colors[1], theme.colors[2], theme.colors[3]);
                         }
-                        Theme.setLAUSDLogoVisibility(theme.logo == "lausd_new");
                         Theme.setCursorUrl(theme.cursor);
                         theme.logo = theme.logo || "schoology";
                         switch (theme.logo) {
@@ -116,6 +118,7 @@ class Theme {
                                 Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
                                 break;
                             case "lausd_new":
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-2019.png"));
                                 break;
                             default:
                                 Theme.setLogoUrl(theme.logo);
@@ -185,7 +188,7 @@ class Theme {
     static apply(theme) {
         Theme.setBackgroundHue(210);
         Theme.setCursorUrl();
-        Theme.setLAUSDLogoVisibility(false);
+        Theme.setDefaultLogoVisibility(false);
         Theme.setLogoUrl();
         theme.onapply();
         Theme.setProfilePictures();
@@ -398,7 +401,7 @@ class Theme {
         }
     }
 
-    static setLAUSDLogoVisibility(visible) {
+    static setDefaultLogoVisibility(visible) {
         // False: show Schoology/custom logo; True: show LAUSD logo
         if (visible) {
             document.documentElement.classList.remove("use-custom-url");

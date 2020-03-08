@@ -1,14 +1,32 @@
 const schoologyPlusLogoImageUrl = chrome.runtime.getURL("/imgs/schoology-plus-wide.svg");
 const schoologyLogoImageUrl = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg";
 const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
-const lausdNewImageUrl = "https://lms.lausd.net/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/Asset%202_5c15191c5dd7e.png";
+const lausdNewImageUrl = chrome.runtime.getURL("/imgs/lausd-2019.png");
 const CURRENT_VERSION = SchoologyTheme.CURRENT_VERSION;
+const placeholderUrl = "https://via.placeholder.com/200x50?text=School+Logo";
+const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue"];
 
 var defaultDomain = "lms.lausd.net";
 
 chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
     defaultDomain = s.defaultDomain;
+
+    if(isLAUSD()) {
+        setCSSVariable("lausd-visible", "block");
+        setCSSVariable("lausd-hidden", "none");
+    } else {
+        setCSSVariable("lausd-visible", "none");
+        setCSSVariable("lausd-hidden", "block");
+    }
 });
+
+/**
+ * Returns `true` if current domain is `lms.lausd.net`
+ * @returns {boolean}
+ */
+function isLAUSD() {
+    return defaultDomain === "lms.lausd.net";
+}
 
 var allThemes = {};
 var defaultThemes = [];
@@ -23,6 +41,7 @@ var themeSchoologyPlusLogo = document.getElementById("theme-schoology-plus-logo"
 var themeSchoologyLogo = document.getElementById("theme-schoology-logo");
 var themeNewLAUSDLogo = document.getElementById("theme-new-lausd-logo");
 var themeLAUSDLogo = document.getElementById("theme-lausd-logo");
+var themeDefaultLogo = document.getElementById("theme-default-logo");
 var themeCustomLogo = document.getElementById("theme-custom-logo");
 var themeLogo = document.getElementById("theme-logo");
 var themeCursor = document.getElementById("theme-cursor");
@@ -339,6 +358,9 @@ function renderTheme(t) {
         case "lausd_2019":
             themeNewLAUSDLogo.click();
             break;
+        case "default":
+            themeDefaultLogo.click();
+            break;
         default:
             themeLogo.value = t.logo.url;
             themeCustomLogo.click();
@@ -653,6 +675,9 @@ function updateOutput() {
     } else if (themeLAUSDLogo.checked) {
         theme.logo = new ThemeLogo(undefined, "lausd_legacy");
         setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
+    } else if (themeDefaultLogo.checked) {
+        theme.logo = new ThemeLogo(undefined, "default");
+        setCSSVariable("background-url", `url(${placeholderUrl})`);
     } else if (themeCustomLogo.checked) {
         themeLogoWrapper.classList.remove("hidden");
         if (themeLogo.value) {
@@ -1093,7 +1118,7 @@ function deleteIcon(e) {
 function iconPreview(e) {
     testIcon.src = (s => {
         if (!s) {
-            return "https://image.flaticon.com/icons/svg/164/164949.svg";
+            return chrome.runtime.getURL("imgs/fallback-course-icon.svg");
         }
 
         s += " ";
@@ -1106,11 +1131,15 @@ function iconPreview(e) {
             }
         }
 
-        for (let iconPattern of icons) {
-            if (s.match(new RegExp(iconPattern.regex, 'i'))) {
-                return iconPattern.url;
+        if (isLAUSD()) {
+            for (let iconPattern of icons) {
+                if (s.match(new RegExp(iconPattern.regex, 'i'))) {
+                    return iconPattern.url;
+                }
             }
         }
+
+        return chrome.runtime.getURL("imgs/fallback-course-icon.svg");
     })(iconTestText.value);
 }
 
@@ -1334,6 +1363,9 @@ $(document).ready(function () {
     }
 
     for (let t of __defaultThemes) {
+        if(!isLAUSD() && LAUSD_THEMES.includes(t.name)) {
+            continue;
+        }
         allThemes[t.name] = t;
         defaultThemes.push(t.name);
     }
