@@ -3,7 +3,7 @@
     let dd = Setting.getValue("defaultDomain");
     if (dd !== window.location.host) {
         Setting.setValue("defaultDomain", window.location.host);
-        alert(`Updated default Schoology domain!\nPrevious: ${dd}\nNew: ${window.location.host}`);
+        alert(`Schoology Plus has updated the domain on which it runs. Click OK to reload the page.\nPrevious: ${dd}\nNew: ${window.location.host}`);
         location.reload();
     }
 }

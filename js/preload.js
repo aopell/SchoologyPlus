@@ -235,18 +235,27 @@ function createButton(id, text, callback) {
 
 /**
  * Returns the name of the current browser
- * @returns {"Chrome"|"Firefox"|"Edge"} Name of the current browser
+ * @returns {"Chrome"|"Firefox"|"Other"} Name of the current browser
  */
 function getBrowser() {
     if (typeof chrome !== "undefined") {
         if (typeof browser !== "undefined") {
             return "Firefox";
         } else {
+            // Likely captures all Chromium-based browsers
             return "Chrome";
         }
     } else {
-        return "Edge";
+        return "Other";
     }
+}
+
+/**
+ * Returns `true` if current domain is `lms.lausd.net`
+ * @returns {boolean}
+ */
+function isLAUSD() {
+    return Setting.getValue("defaultDomain") === "lms.lausd.net";
 }
 
 /**
@@ -439,6 +448,8 @@ function updateSettings(callback) {
             firstLoad = false;
         }
 
+        let noControl = document.createElement("div");
+
         modalContents = createElement("div", [], undefined, [
             createElement("div", ["splus-modal-contents"], {}, [
                 new Setting(
@@ -526,7 +537,7 @@ function updateSettings(callback) {
                     undefined,
                     element => element.value
                 ).control,
-                new Setting(
+                isLAUSD() ? new Setting(
                     "orderClasses",
                     "Order Classes",
                     "[Refresh required] Changes the order of your classes on the grades and mastery pages",
@@ -547,7 +558,7 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
-                ).control,
+                ).control : noControl,
                 new Setting(
                     "courseIcons",
                     "Override Course Icons",

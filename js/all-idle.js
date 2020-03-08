@@ -205,7 +205,7 @@
         }
     }
 
-    let notifsMenuContainer = document.querySelector("#header nav button[aria-label$=\"notifications\"]").parentElement;
+    let notifsMenuContainer = document.querySelector("#header nav button[aria-label$=\"notifications\"], #header nav button[aria-label$=\"notification\"]").parentElement;
     let gradesLoadedPromise = (async function () {
         let myGrades = await fetchApiJson(`/users/${getUserId()}/grades`);
 
