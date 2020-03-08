@@ -94,14 +94,15 @@ function setCourseOptionsContent(modal, options) {
     }
 
     (document.getElementById("request-course-icon-wrapper") || {}).outerHTML = "";
-    // Add request icon button only if built-in icon doesn't already exist
-    if (!Theme.hasBuiltInIcon(options.courseName)) {
+
+    if (isLAUSD()) {
+        let iconExists = Theme.hasBuiltInIcon(options.courseName);
         modal.element.querySelector(".splus-modal-contents").appendChild(
             createElement("div", ["setting-entry"], { id: "request-course-icon-wrapper" }, [
-                createElement("h2", ["setting-title"], { textContent: "Request Icon: " }, [
-                    createElement("a", [], { id: "request-course-icon-link", textContent: "Click here to request a built-in icon for this course", href: `${ICON_REQUEST_URL}${options.courseName}`, target: "_blank" })
+                createElement("h2", ["setting-title"], { textContent: iconExists ? "Report Incorrect Icon: " : "Request Icon: " }, [
+                    createElement("a", [], { id: "request-course-icon-link", textContent: iconExists ? "Click here to report that the icon for this course is not correct" : "Click here to request a built-in icon for this course", href: `${ICON_REQUEST_URL}${options.courseName}(WRONG ICON!!!)`, target: "_blank" })
                 ]),
-                createElement("p", ["setting-description"], { textContent: "Request that Schoology Plus adds a built-in course icon for this course" })
+                createElement("p", ["setting-description"], { textContent: iconExists ? "Request that Schoology Plus change the built-in course icon for this course" : "Request that Schoology Plus adds a built-in course icon for this course" })
             ])
         );
     }

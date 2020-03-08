@@ -1,10 +1,59 @@
+// Inform user about theme
+{
+    if (localStorage["splus-temp-generatedtheme"]) {
+        localStorage.removeItem("splus-temp-generatedtheme");
+
+        showToast(
+            "Theme Generated",
+            "Schoology Plus created a theme that matches your school's theme",
+            "green",
+            {
+                buttons: [
+                    createToastButton("View Themes", "view-themes-button", () => location.href = chrome.runtime.getURL("/theme-editor.html"))
+                ]
+            }
+        );
+    }
+}
+
 // Check Schoology domain
 {
+    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com"];
     let dd = Setting.getValue("defaultDomain");
-    if (dd !== window.location.host) {
+
+    if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host)) {
         Setting.setValue("defaultDomain", window.location.host);
-        alert(`Schoology Plus has updated the domain on which it runs. Click OK to reload the page.\nPrevious: ${dd}\nNew: ${window.location.host}`);
-        location.reload();
+
+        let bgColor = document.querySelector("#header header").style.backgroundColor || null;
+        let bgImg = document.querySelector("#header>header nav>ul>li>a._2JX1Q").style.backgroundImage || null;
+        let bgImgUrl = bgImg ? bgImg.match(/url\("(.*)"\)/)[1] : null;
+
+        let t = {
+            "name": `Auto Generated Theme for ${window.location.host}`,
+            "version": 2,
+            "color": {
+                "custom": {
+                    "primary": bgColor,
+                    "hover": "rgb(2, 79, 125)",
+                    "background": "rgb(2, 79, 125)",
+                    "border": "rgb(2, 79, 125)"
+                }
+            },
+            "logo": {
+                "url": bgImgUrl
+            }
+        };
+
+        localStorage["splus-temp-generatedtheme"] = true;
+
+        chrome.storage.sync.get({ themes: [] }, s => {
+            let themes = s.themes.filter(x => x.name !== `Auto Generated Theme for ${window.location.host}`);
+            themes.push(t);
+            chrome.storage.sync.set({ themes: themes }, () => {
+                alert(`Schoology Plus has updated the domain on which it runs. Click OK to reload the page.\nPrevious: ${dd}\nNew: ${window.location.host}`);
+                location.reload();
+            });
+        });
     }
 }
 
