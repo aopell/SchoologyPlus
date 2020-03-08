@@ -411,8 +411,11 @@ var fetchQueue = [];
                 perMaxElem.classList.add("max-grade-show-error");
             }
 
-            for (let i = 1; i < periods.length; i++) {
-                periods[i].remove();
+            // Remove (no grading period)
+            if (isLAUSD()) { // To avoid making assumptions about how other schools use Schoology
+                for (let i = 1; i < periods.length; i++) {
+                    periods[i].remove();
+                }
             }
         })());
     }
@@ -491,12 +494,12 @@ var fetchQueue = [];
                     }
 
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
-                        if(invalidCategories.includes(edit.dataset.parentId)) continue;
+                        if (invalidCategories.includes(edit.dataset.parentId)) continue;
 
                         edit.style.display = "unset";
                     }
                     for (let edit of document.getElementsByClassName("grade-add-indicator")) {
-                        if(invalidCategories.includes(edit.dataset.parentId)) continue;
+                        if (invalidCategories.includes(edit.dataset.parentId)) continue;
 
                         edit.style.display = "table-row";
                         if (edit.previousElementSibling.classList.contains("item-row") && edit.previousElementSibling.classList.contains("last-row-of-tier")) {
@@ -858,7 +861,7 @@ var fetchQueue = [];
                     });
 
                     for (let kabob of document.getElementsByClassName("kabob-menu")) {
-                        if(invalidCategories.includes(kabob.dataset.parentId)) continue;
+                        if (invalidCategories.includes(kabob.dataset.parentId)) continue;
 
                         kabob.classList.remove("hidden");
                     }

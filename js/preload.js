@@ -563,7 +563,7 @@ function updateSettings(callback) {
                     "courseIcons",
                     "Override Course Icons",
                     "[Refresh required to disable] Replace the course icons with the selected theme's icons",
-                    "enabled",
+                    isLAUSD() ? "enabled" : "defaultOnly",
                     "select",
                     {
                         options: [

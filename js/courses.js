@@ -3,7 +3,7 @@ for (let course of document.querySelectorAll("li.course-item.list-item")) {
     let wrapper = document.createElement("div");
     parent.replaceChild(wrapper, course);
     wrapper.appendChild(course);
-    course.prepend(createElement("img", ["course-list-icon"], { src: Theme.getIcon(course.querySelector(".course-title").textContent) }));
+    course.prepend(createElement("img", ["course-list-icon"], { src: Theme.getIcon(course.querySelector(".course-title").textContent) || chrome.runtime.getURL("imgs/fallback-course-icon.svg") }));
 }
 
 $.contextMenu({

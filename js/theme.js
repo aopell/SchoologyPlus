@@ -42,11 +42,16 @@ class Theme {
             }
         }
 
-        for (let iconPattern of icons) {
-            if (course.match(new RegExp(iconPattern.regex, 'i'))) {
-                return iconPattern.url;
+        // Default icons are for LAUSD only
+        if (isLAUSD()) {
+            for (let iconPattern of icons) {
+                if (course.match(new RegExp(iconPattern.regex, 'i'))) {
+                    return iconPattern.url;
+                }
             }
         }
+
+        return null;
     }
 
     static hasBuiltInIcon(course) {
@@ -293,7 +298,7 @@ class Theme {
             // implement our own thing for it, based on img and onerror
             let sourceUrl = Theme.getIcon(arrow.courseTitle || arrow.parentElement.textContent);
             let fallbackUrl = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
-            let matches = sourceUrl.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+            let matches = sourceUrl && sourceUrl.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
             let domain = matches && matches[1];
 
             if (!domain) {
