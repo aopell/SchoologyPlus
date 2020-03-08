@@ -48,6 +48,7 @@ A Schoology Plus theme has the following format and components (each component w
     "logo": {
         // Only one of the following properties
         "url": "https://example.com/my-logo-image.png",
+        "preset": "schoology_plus",
         "preset": "schoology_logo",
         "preset": "lausd_legacy",
         "preset": "lausd_2019"
@@ -203,7 +204,7 @@ A Schoology Plus theme has the following format and components (each component w
 |Default Value|![Schoology logo](https://i.imgur.com/y64kiCY.png)
 |Description|Describes the logo to be displayed on the left side of the navbar.
 |Subkey Options (Must contain ***exactly one*** of these subkeys)|<table><tr><td>Key</td><td>Description</td></tr><tr><td>`url`</td><td>A direct link to an image to be used as the logo. Should be **160x50** or smaller for best results.</td></tr><tr><td>`preset`</td><td>One of the values described below that results in a preset image being used as the logo.</td></tr></table>
-|`preset` Values|<table><tr><th>Value</th><th>Preview</th></tr><tr><td>`"schoology_logo"`</td><td>![Schoology logo](https://i.imgur.com/y64kiCY.png)</td></tr><tr><td>`"lausd_legacy"`</td><td>![LAUSD legacy](https://imgur.com/Mm7FXhD.png)</td></tr><tr><td>`"lausd_2019"`</td><td>![LAUSD 2019](https://imgur.com/NOuGRyZ.png)</td></tr></table>**NOTE**: The Schoology logo has a transparent background, however the LAUSD logo backgrounds are orange or dark blue as shown.
+|`preset` Values|<table><tr><th>Value</th><th>Preview</th></tr><tr><td>`"schoology_plus"`</td><td>![Schoology Plus](https://imgur.com/znq2Mc1.png)</td></tr><tr><td>`"schoology_logo"`</td><td>![Schoology logo](https://i.imgur.com/y64kiCY.png)</td></tr><tr><td>`"lausd_legacy"`</td><td>![LAUSD legacy](https://imgur.com/Mm7FXhD.png)</td></tr><tr><td>`"lausd_2019"`</td><td>![LAUSD 2019](https://imgur.com/NOuGRyZ.png)</td></tr></table>**NOTE**: The Schoology and Schoology Plus logos have a transparent background, however the LAUSD logo backgrounds are orange or dark blue as shown.
 **Examples**
 ```json
 // Example using "url"
@@ -242,7 +243,7 @@ A Schoology Plus theme has the following format and components (each component w
 |Default Value|Schoology Plus default course icon set
 |Description|An array of two-key objects, where the key `regex` is a regular expression and the key `url` is an image URL to be used as an icon for courses with names matching the regular expression.
 |Value Restrictions|An array of objects where all values of `regex` keys are valid regular expressions and all values of `url` keys are direct image links. Images should be square and at least `32x32` in size, but this is not required.
-|Special Notes|Course names are checked against regular expressions in array order, meaning the regexes in the objects with lower indecies in the array are checked first *in a non-case-sensitive manor*. If no regular expression matches a specific course, Schoology Plus will fallback to the default Schoology Plus icon set. If you want to prevent this behavior, add an entry such as `".": "https://example.com/my-image.png"` that will match all course titles.
+|Special Notes|Course names are checked against regular expressions in array order, meaning the regexes in the objects with lower indecies in the array are checked first *in a non-case-sensitive manner*. If no regular expression matches a specific course, Schoology Plus will fallback to the default Schoology Plus icon set. If you want to prevent this behavior, add an entry such as `".": "https://example.com/my-image.png"` that will match all course titles.
 **Example**
 ```json
 "icons": [
