@@ -381,7 +381,7 @@ class Theme {
             img.classList.add("injected-course-icon");
         }
 
-        if (!shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0 && showToast) {
+        if (isLAUSD() && !shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0 && showToast) {
             let coursesString = encodeURI(Array.from(coursesMissingDefaultIcons).join("\n").replace("&", "{amp;}"));
             showToast("Request New Course Icons?",
                 `${coursesMissingDefaultIcons.size} ${coursesMissingDefaultIcons.size == 1 ? "course is missing a Schoology Plus course icon. Would you like to request that an icon be added for this course?" : "courses are missing Schoology Plus course icons. Would you like to request that icons be added for these courses?"}`,
