@@ -68,6 +68,8 @@ footer._2T2dA {
     background-image: var(--background-url) !important;
     background-size: 160px !important;
     background-position: center center !important;
+    height: 60px !important;
+    margin-top: 0 !important;
 }
 
 /* links inside the container for the added "Archived Courses" link within the Courses dropdown */
