@@ -56,6 +56,9 @@
                 "https://lms.lausd.net/*",
                 "https://*.schoology.com/*"
             ],
+            "exclude_matches": [
+                "https://*.schoology.com/login*"
+            ],
             "css": [
                 "css/all.css"
             ],
@@ -71,6 +74,9 @@
             "matches": [
                 "https://lms.lausd.net/*",
                 "https://*.schoology.com/*"
+            ],
+            "exclude_matches": [
+                "https://*.schoology.com/login*"
             ],
             "css": [
                 "lib/css/contextmenu.css",
@@ -193,6 +199,9 @@
             "matches": [
                 "https://lms.lausd.net/*",
                 "https://*.schoology.com/*"
+            ],
+            "exclude_matches": [
+                "https://*.schoology.com/login*"
             ],
             "js": [
                 "js/all-idle.js"
