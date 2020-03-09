@@ -130,13 +130,13 @@ var fetchQueue = [];
                             p.title = "Assignment missing";
                             Logger.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
 
-                            let json = await fetchApiJson(`users/${getUserId()}/grades?section_id=${courseId}&assignment_id=${assignment.dataset.id.substr(2)}`);
+                            let json = await fetchApiJson(`users/${getUserId()}/grades?section_id=${courseId}`);
 
                             if(json.section.length === 0) {
                                 throw new Error("Assignment details could not be read");
                             }
 
-                            let pts = Number.parseFloat(json.section[0].period[0].assignment[0].max_points);
+                            let pts = Number.parseFloat(json.section[0].period[0].assignment.filter(x=>x.assignment_id == Number.parseInt(assignment.dataset.id.substr(2)))[0].max_points);
                             if (!assignment.classList.contains("dropped")) {
                                 max += pts;
                                 Logger.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
@@ -955,16 +955,16 @@ var fetchQueue = [];
 
             let f = async () => {
                 Logger.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
-                let response = await fetchApi(`users/${getUserId()}/grades?section_id=${courseId}&assignment_id=${assignment.dataset.id.substr(2)}`);
+                let response = await fetchApi(`users/${getUserId()}/grades?section_id=${courseId}`);
                 if (!response.ok) {
                     throw { status: response.status, error: response.statusText };
                 }
                 let json = await response.json();
 
-                if (json && json.section.length > 0 && json.section[0].period[0].assignment[0].max_points) {
+                if (json && json.section.length > 0) {
                     // success case
                     // note; even if maxGrade is removed from the DOM, this will still work
-                    maxGrade.textContent = " / " + json.section[0].period[0].assignment[0].max_points;
+                    maxGrade.textContent = " / " + json.section[0].period[0].assignment.filter(x=>x.assignment_id == Number.parseInt(assignment.dataset.id.substr(2)))[0].max_points;
                     maxGrade.classList.remove("no-grade");
                 }
             };
