@@ -321,7 +321,7 @@ var fetchQueue = [];
 
             addLetterGrade(grade, courseId);
 
-            let gradeText = periods[0].querySelector(".awarded-grade");
+            let gradeText = periods[0].querySelector(".awarded-grade") || periods[0].querySelector(".no-grade");
             setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
 
             // add weighted indicator to the course section row
@@ -961,9 +961,7 @@ var fetchQueue = [];
                 }
                 let json = await response.json();
 
-                console.log(json);
-
-                if (json && json.section[0].period[0].assignment[0].max_points) {
+                if (json && json.section.length > 0 && json.section[0].period[0].assignment[0].max_points) {
                     // success case
                     // note; even if maxGrade is removed from the DOM, this will still work
                     maxGrade.textContent = " / " + json.section[0].period[0].assignment[0].max_points;
