@@ -4,12 +4,13 @@ FEATURES
 INTERFACE IMPROVEMENTS
 
 Blue Theme
-- Replaces the default LAUSD theme with a blue theme
-- Replaces the LAUSD logo with the Schoology logo
+- Replaces your school's theme with a blue theme
+- Replaces your school's logo with the Schoology logo
 
 Custom Themes
 - You can create a custom theme or choose one of the small selection of built-in themes (including rainbow mode!)
 - Two of the built-in themes are the "LAUSD Dark Blue" and "LAUSD Orange" themes which restore the interface to the new and old versions of the LAUSD theme respectively including the logo)
+  - For non-LAUSD schools, an auto-generated theme will be created to match your school's default theme
 - Custom themes can change colors throughout the interface as well as the logo and course icons. Custom themes can even use custom rainbow color patterns!
 - To learn more about creating custom themes, see Theme Editor
 
