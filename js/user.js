@@ -65,7 +65,7 @@ function setCourseListModalContent(modal, options) {
             for (let section of coursesInCommon) {
                 listElem.appendChild(createElement("li", [], {}, [
                     createElement("img", [], { src: section.profile_url, alt: `Profile picture for ${section.course_title}: ${section.section_title}` }),
-                    createElement("a", [], { href: `https://lms.lausd.net/course/${section.id}`, textContent: aliases[section.id] || `${section.course_title}: ${section.section_title}` })
+                    createElement("a", [], { href: `https://${Setting.getValue("defaultDomain")}/course/${section.id}`, textContent: aliases[section.id] || `${section.course_title}: ${section.section_title}` })
                 ]));
             }
         }

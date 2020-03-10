@@ -1,8 +1,32 @@
 const schoologyPlusLogoImageUrl = chrome.runtime.getURL("/imgs/schoology-plus-wide.svg");
 const schoologyLogoImageUrl = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg";
 const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
-const lausdNewImageUrl = "https://lms.lausd.net/system/files/imagecache/node_themes/sites/all/themes/schoology_theme/node_themes/424392825/Asset%202_5c15191c5dd7e.png";
+const lausdNewImageUrl = chrome.runtime.getURL("/imgs/lausd-2019.png");
 const CURRENT_VERSION = SchoologyTheme.CURRENT_VERSION;
+const placeholderUrl = "https://via.placeholder.com/200x50?text=School+Logo";
+const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue"];
+
+var defaultDomain = "lms.lausd.net";
+
+chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
+    defaultDomain = s.defaultDomain;
+
+    if(isLAUSD()) {
+        setCSSVariable("lausd-visible", "block");
+        setCSSVariable("lausd-hidden", "none");
+    } else {
+        setCSSVariable("lausd-visible", "none");
+        setCSSVariable("lausd-hidden", "block");
+    }
+});
+
+/**
+ * Returns `true` if current domain is `lms.lausd.net`
+ * @returns {boolean}
+ */
+function isLAUSD() {
+    return defaultDomain === "lms.lausd.net";
+}
 
 var allThemes = {};
 var defaultThemes = [];
@@ -17,6 +41,7 @@ var themeSchoologyPlusLogo = document.getElementById("theme-schoology-plus-logo"
 var themeSchoologyLogo = document.getElementById("theme-schoology-logo");
 var themeNewLAUSDLogo = document.getElementById("theme-new-lausd-logo");
 var themeLAUSDLogo = document.getElementById("theme-lausd-logo");
+var themeDefaultLogo = document.getElementById("theme-default-logo");
 var themeCustomLogo = document.getElementById("theme-custom-logo");
 var themeLogo = document.getElementById("theme-logo");
 var themeCursor = document.getElementById("theme-cursor");
@@ -67,7 +92,7 @@ saveCloseButton.addEventListener("click", e => trySaveTheme(true));
 var discardButton = document.getElementById("discard-button");
 discardButton.addEventListener("click", e => ConfirmModal.open("Discard Changes?", "Are you sure you want to discard changes? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && location.reload()));
 var closeButton = document.getElementById("close-button");
-closeButton.addEventListener("click", e => (!inEditMode() && (location.href = 'https://lms.lausd.net') || ConfirmModal.open("Discard Changes?", "Are you sure you want to close without saving? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && (location.href = 'https://lms.lausd.net'))));
+closeButton.addEventListener("click", e => (!inEditMode() && (location.href = `https://${defaultDomain}`) || ConfirmModal.open("Discard Changes?", "Are you sure you want to close without saving? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && (location.href = `https://${defaultDomain}`))));
 var createButton = document.getElementById("create-button");
 var importButton = document.getElementById("import-button");
 createButton.addEventListener("click", e => editTheme());
@@ -332,6 +357,9 @@ function renderTheme(t) {
             break;
         case "lausd_2019":
             themeNewLAUSDLogo.click();
+            break;
+        case "default":
+            themeDefaultLogo.click();
             break;
         default:
             themeLogo.value = t.logo.url;
@@ -647,6 +675,9 @@ function updateOutput() {
     } else if (themeLAUSDLogo.checked) {
         theme.logo = new ThemeLogo(undefined, "lausd_legacy");
         setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
+    } else if (themeDefaultLogo.checked) {
+        theme.logo = new ThemeLogo(undefined, "default");
+        setCSSVariable("background-url", `url(${placeholderUrl})`);
     } else if (themeCustomLogo.checked) {
         themeLogoWrapper.classList.remove("hidden");
         if (themeLogo.value) {
@@ -736,7 +767,7 @@ function trySaveTheme(apply = false) {
 /**
  * Saves the theme currently displayed in the preview with the given name.
  * If the querystring parameter `theme` exists, it will rename the theme with that value
- * @param {boolean} [apply=false] If true, applies the theme and returns to https://lms.lausd.net
+ * @param {boolean} [apply=false] If true, applies the theme and returns to defaultDomain
  */
 function saveTheme(apply = false) {
     if (errors.length > 0) throw new Error("Please fix all errors before saving the theme:\n" + errors.join("\n"));
@@ -754,7 +785,7 @@ function saveTheme(apply = false) {
             chrome.storage.sync.set({ themes: themes }, () => {
                 ConfirmModal.open("Theme saved successfully", "", ["OK"], () => {
                     origThemeName = t.name;
-                    if (apply) chrome.storage.sync.set({ theme: t.name }, () => location.href = "https://lms.lausd.net");
+                    if (apply) chrome.storage.sync.set({ theme: t.name }, () => location.href = `https://${defaultDomain}`);
                     else location.reload();
                 });
             });
@@ -1087,7 +1118,7 @@ function deleteIcon(e) {
 function iconPreview(e) {
     testIcon.src = (s => {
         if (!s) {
-            return "https://image.flaticon.com/icons/svg/164/164949.svg";
+            return chrome.runtime.getURL("imgs/fallback-course-icon.svg");
         }
 
         s += " ";
@@ -1100,11 +1131,15 @@ function iconPreview(e) {
             }
         }
 
-        for (let iconPattern of icons) {
-            if (s.match(new RegExp(iconPattern.regex, 'i'))) {
-                return iconPattern.url;
+        if (isLAUSD()) {
+            for (let iconPattern of icons) {
+                if (s.match(new RegExp(iconPattern.regex, 'i'))) {
+                    return iconPattern.url;
+                }
             }
         }
+
+        return chrome.runtime.getURL("imgs/fallback-course-icon.svg");
     })(iconTestText.value);
 }
 
@@ -1328,6 +1363,9 @@ $(document).ready(function () {
     }
 
     for (let t of __defaultThemes) {
+        if(!isLAUSD() && LAUSD_THEMES.includes(t.name)) {
+            continue;
+        }
         allThemes[t.name] = t;
         defaultThemes.push(t.name);
     }
@@ -1366,7 +1404,7 @@ $(document).ready(function () {
                 },
                 onclick: e => {
                     e.stopPropagation();
-                    ConfirmModal.open("Apply Theme?", `Are you sure you want to apply the theme ${t}?`, ["Apply", "Cancel"], b => b === "Apply" && chrome.storage.sync.set({ theme: t }, () => location.href = "https://lms.lausd.net"));
+                    ConfirmModal.open("Apply Theme?", `Are you sure you want to apply the theme ${t}?`, ["Apply", "Cancel"], b => b === "Apply" && chrome.storage.sync.set({ theme: t }, () => location.href = `https://${defaultDomain}`));
                 }
             };
             let appliedProps = {
@@ -1374,7 +1412,7 @@ $(document).ready(function () {
                 dataset: {
                     tooltip: "Theme Applied"
                 },
-                onclick: () => location.href = "https://lms.lausd.net"
+                onclick: () => location.href = `https://${defaultDomain}`
             };
 
             function createActionButton(properties) {

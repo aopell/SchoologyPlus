@@ -1,3 +1,62 @@
+// Inform user about theme
+{
+    if (localStorage["splus-temp-generatedtheme"]) {
+        localStorage.removeItem("splus-temp-generatedtheme");
+
+        showToast(
+            "Theme Generated",
+            "Schoology Plus created a theme that matches your school's theme",
+            "rgb(0,255,0)",
+            {
+                buttons: [
+                    createToastButton("View Themes", "view-themes-button", () => location.href = chrome.runtime.getURL("/theme-editor.html"))
+                ]
+            }
+        );
+    }
+}
+
+// Check Schoology domain
+{
+    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com"];
+    let dd = Setting.getValue("defaultDomain");
+
+    if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host)) {
+        Setting.setValue("defaultDomain", window.location.host);
+
+        let bgColor = document.querySelector("#header header").style.backgroundColor;
+
+        if (bgColor) {
+            let t = {
+                "name": `Auto Generated Theme for ${window.location.host}`,
+                "version": 2,
+                "color": {
+                    "custom": {
+                        "primary": bgColor,
+                        "hover": "rgb(2, 79, 125)",
+                        "background": "rgb(2, 79, 125)",
+                        "border": "rgb(2, 79, 125)"
+                    }
+                },
+                "logo": {
+                    "preset": "default"
+                }
+            };
+
+            localStorage["splus-temp-generatedtheme"] = true;
+
+            chrome.storage.sync.get({ themes: [] }, s => {
+                let themes = s.themes.filter(x => x.name !== `Auto Generated Theme for ${window.location.host}`);
+                themes.push(t);
+                chrome.storage.sync.set({ themes: themes }, () => {
+                    alert(`Schoology Plus has updated the domain on which it runs. Click OK to reload the page.\nPrevious: ${dd}\nNew: ${window.location.host}`);
+                    location.reload();
+                });
+            });
+        }
+    }
+}
+
 // Page Modifications
 
 document.head.appendChild(createElement("meta", [], { name: "viewport", content: "width=device-width, initial-scale=1" }));
@@ -8,11 +67,11 @@ bottom.appendChild(createElement("span", ["footer-divider"], { textContent: "|" 
 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
-let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2019 | <a href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://github.com/aopell/SchoologyPlus/releases/latest"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://aopell.github.io/SchoologyPlus/discord.html" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Support Server</a> | <a href="https://github.com/aopell/SchoologyPlus">GitHub</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog"> Changelog</a>`;
+let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2020 | <a href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://github.com/aopell/SchoologyPlus/releases/latest"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://aopell.github.io/SchoologyPlus/discord.html" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Support Server</a> | <a href="https://github.com/aopell/SchoologyPlus">GitHub</a> | <a href="#" id="open-contributors">Contributors</a> | <a href="#" id="open-changelog"> Changelog</a>`;
 let modalFooterText = "Schoology Plus";
 
 let frame = document.createElement("iframe");
-frame.src = "https://aopell.me/SchoologyPlus/changelog";
+frame.src = `https://aopell.me/SchoologyPlus/changelog?version=${chrome.runtime.getManifest().version}`;
 
 let modals = [
     new Modal(

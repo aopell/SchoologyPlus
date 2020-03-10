@@ -5,6 +5,8 @@
     --hover-color: hsl(var(--color-hue), 55%, 40%);
     --border-color: hsl(var(--color-hue), 60%, 25%);
     --cursor: auto;
+    --lausd-visible: block;
+    --lausd-hidden: none;
     --background-url: url(https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg);
 }
 
@@ -646,4 +648,16 @@ textarea#json-output[readonly] {
 
 .highlight {
     background-color: lightcyan !important;
+}
+
+.setting-link {
+    color: var(--hover-color);
+}
+
+.show-lausd {
+    display: var(--lausd-visible);
+}
+
+.hide-lausd {
+    display: var(--lausd-hidden);
 }

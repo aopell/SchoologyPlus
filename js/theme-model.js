@@ -127,7 +127,7 @@ class ThemeLogo {
     /**
      * Defines a logo image
      * @param {string} url Link to an image
-     * @param {"schoology_plus"|"schoology_logo"|"lausd_legacy"|"lausd_2019"} preset Built-in image
+     * @param {"schoology_plus"|"schoology_logo"|"lausd_legacy"|"lausd_2019"|"default"} preset Built-in image
      */
     constructor(url, preset) {
         this.url = url;
@@ -175,7 +175,7 @@ class ThemeIcon {
     }
 
     /**
-     * Creates and returns a `ThemeIcon` given a valid JSON array
+     * Creates and returns a `ThemeIcon[]` given a valid JSON array
      * @param {[]} array JSON representation of a `ThemeIcon[]`
      * @returns {ThemeIcon[]}
      */

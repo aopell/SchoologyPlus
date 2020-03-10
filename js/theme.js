@@ -42,11 +42,16 @@ class Theme {
             }
         }
 
-        for (let iconPattern of icons) {
-            if (course.match(new RegExp(iconPattern.regex, 'i'))) {
-                return iconPattern.url;
+        // Default icons are for LAUSD only
+        if (isLAUSD()) {
+            for (let iconPattern of icons) {
+                if (course.match(new RegExp(iconPattern.regex, 'i'))) {
+                    return iconPattern.url;
+                }
             }
         }
+
+        return null;
     }
 
     static hasBuiltInIcon(course) {
@@ -72,7 +77,7 @@ class Theme {
                         if (!theme.logo) {
                             theme.logo = { preset: "schoology_plus" };
                         }
-                        Theme.setLAUSDLogoVisibility(false);
+                        Theme.setDefaultLogoVisibility(false);
                         if (theme.logo.url) {
                             Theme.setLogoUrl(theme.logo.url);
                         } else switch (theme.logo.preset) {
@@ -86,7 +91,10 @@ class Theme {
                                 Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
                                 break;
                             case "lausd_2019":
-                                Theme.setLAUSDLogoVisibility(true);
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-2019.png"));
+                                break;
+                            case "default":
+                                Theme.setDefaultLogoVisibility(true);
                                 break;
                         }
 
@@ -100,7 +108,6 @@ class Theme {
                         if (theme.colors) {
                             Theme.setBackgroundColor(theme.colors[0], theme.colors[1], theme.colors[2], theme.colors[3]);
                         }
-                        Theme.setLAUSDLogoVisibility(theme.logo == "lausd_new");
                         Theme.setCursorUrl(theme.cursor);
                         theme.logo = theme.logo || "schoology";
                         switch (theme.logo) {
@@ -111,6 +118,7 @@ class Theme {
                                 Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
                                 break;
                             case "lausd_new":
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-2019.png"));
                                 break;
                             default:
                                 Theme.setLogoUrl(theme.logo);
@@ -180,7 +188,7 @@ class Theme {
     static apply(theme) {
         Theme.setBackgroundHue(210);
         Theme.setCursorUrl();
-        Theme.setLAUSDLogoVisibility(false);
+        Theme.setDefaultLogoVisibility(false);
         Theme.setLogoUrl();
         theme.onapply();
         Theme.setProfilePictures();
@@ -293,7 +301,7 @@ class Theme {
             // implement our own thing for it, based on img and onerror
             let sourceUrl = Theme.getIcon(arrow.courseTitle || arrow.parentElement.textContent);
             let fallbackUrl = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
-            let matches = sourceUrl.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+            let matches = sourceUrl && sourceUrl.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
             let domain = matches && matches[1];
 
             if (!domain) {
@@ -376,7 +384,7 @@ class Theme {
             img.classList.add("injected-course-icon");
         }
 
-        if (!shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0 && showToast) {
+        if (isLAUSD() && !shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0 && showToast) {
             let coursesString = encodeURI(Array.from(coursesMissingDefaultIcons).join("\n").replace("&", "{amp;}"));
             showToast("Request New Course Icons?",
                 `${coursesMissingDefaultIcons.size} ${coursesMissingDefaultIcons.size == 1 ? "course is missing a Schoology Plus course icon. Would you like to request that an icon be added for this course?" : "courses are missing Schoology Plus course icons. Would you like to request that icons be added for these courses?"}`,
@@ -393,7 +401,7 @@ class Theme {
         }
     }
 
-    static setLAUSDLogoVisibility(visible) {
+    static setDefaultLogoVisibility(visible) {
         // False: show Schoology/custom logo; True: show LAUSD logo
         if (visible) {
             document.documentElement.classList.remove("use-custom-url");

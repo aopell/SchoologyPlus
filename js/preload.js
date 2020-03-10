@@ -235,18 +235,27 @@ function createButton(id, text, callback) {
 
 /**
  * Returns the name of the current browser
- * @returns {"Chrome"|"Firefox"|"Edge"} Name of the current browser
+ * @returns {"Chrome"|"Firefox"|"Other"} Name of the current browser
  */
 function getBrowser() {
     if (typeof chrome !== "undefined") {
         if (typeof browser !== "undefined") {
             return "Firefox";
         } else {
+            // Likely captures all Chromium-based browsers
             return "Chrome";
         }
     } else {
-        return "Edge";
+        return "Other";
     }
+}
+
+/**
+ * Returns `true` if current domain is `lms.lausd.net`
+ * @returns {boolean}
+ */
+function isLAUSD() {
+    return Setting.getValue("defaultDomain") === "lms.lausd.net";
 }
 
 /**
@@ -357,7 +366,7 @@ async function getApiKeysDirect() {
     let userId = getUserId();
     var apiKeys = null;
     Logger.log(`Fetching API key for user ${userId}`);
-    let html = await (await fetch("https://lms.lausd.net/api", { credentials: "same-origin" })).text();
+    let html = await (await fetch(`https://${Setting.getValue("defaultDomain")}/api`, { credentials: "same-origin" })).text();
     let docParser = new DOMParser();
     let doc = docParser.parseFromString(html, "text/html");
 
@@ -369,7 +378,7 @@ async function getApiKeysDirect() {
     } else {
         Logger.log("API key not found - generating and trying again");
         let submitData = new FormData(doc.getElementById("s-api-register-form"));
-        let generateFetch = await fetch("https://lms.lausd.net/api", {
+        let generateFetch = await fetch(`https://${Setting.getValue("defaultDomain")}/api`, {
             credentials: "same-origin",
             body: submitData,
             method: "post"
@@ -438,6 +447,8 @@ function updateSettings(callback) {
             Theme.apply(Theme.active);
             firstLoad = false;
         }
+
+        let noControl = document.createElement("div");
 
         modalContents = createElement("div", [], undefined, [
             createElement("div", ["splus-modal-contents"], {}, [
@@ -526,7 +537,7 @@ function updateSettings(callback) {
                     undefined,
                     element => element.value
                 ).control,
-                new Setting(
+                isLAUSD() ? new Setting(
                     "orderClasses",
                     "Order Classes",
                     "[Refresh required] Changes the order of your classes on the grades and mastery pages",
@@ -547,12 +558,12 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
-                ).control,
+                ).control : noControl,
                 new Setting(
                     "courseIcons",
                     "Override Course Icons",
                     "[Refresh required to disable] Replace the course icons with the selected theme's icons",
-                    "enabled",
+                    isLAUSD() ? "enabled" : "defaultOnly",
                     "select",
                     {
                         options: [
@@ -926,6 +937,10 @@ Setting.getValue = function (name) {
  */
 Setting.setValue = function (name, value, callback = undefined) {
     Setting.saveModified({ [name]: value }, false, callback, false);
+
+    if (name === "defaultDomain") {
+        chrome.runtime.sendMessage({ type: "updateDefaultDomain", domain: value });
+    }
 }
 
 /**
@@ -951,3 +966,17 @@ function createLogPrefix(color) {
 function setCSSVariable(name, val) {
     document.documentElement.style.setProperty(`--${name}`, val);
 }
+
+new Setting(
+    "defaultDomain",
+    "Default Schoology Domain",
+    "The website on which Schoology Plus runs. Cannot be changed here.",
+    "lms.lausd.net",
+    "text",
+    {
+        disabled: true
+    },
+    value => value,
+    undefined,
+    element => element.value
+);

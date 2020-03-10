@@ -68,6 +68,8 @@ footer._2T2dA {
     background-image: var(--background-url) !important;
     background-size: 160px !important;
     background-position: center center !important;
+    height: 60px !important;
+    margin-top: 0 !important;
 }
 
 /* links inside the container for the added "Archived Courses" link within the Courses dropdown */
@@ -160,6 +162,7 @@ video.easter-egg {
         top: -300px;
         opacity: 0
     }
+
     to {
         top: 0;
         opacity: 1
@@ -171,6 +174,7 @@ video.easter-egg {
         top: -300px;
         opacity: 0
     }
+
     to {
         top: 0;
         opacity: 1
@@ -392,7 +396,8 @@ h1.setting-title {
     margin-top: 7px !important;
 }
 
-.footer-divider, .footer-divider > span {
+.footer-divider,
+.footer-divider>span {
     margin-left: 15px;
 }
 
@@ -415,19 +420,21 @@ h1.setting-title {
 .course-list-icon {
     float: left;
     padding: 7px 16px 7px 7px;
-    width: 64px;
+    width: 48px;
 }
 
 /*
 #139 fix
 Make accept and cancel buttons similarly styled throughout the UI
 */
-#popup_cancel, .cancel-btn {
+#popup_cancel,
+.cancel-btn {
     background-color: #666 !important;
     color: white !important;
 }
 
-#popup_cancel:hover, .cancel-btn:hover {
+#popup_cancel:hover,
+.cancel-btn:hover {
     background-color: #444 !important;
 }
 
@@ -488,4 +495,29 @@ the selector matches inside notifications in the new notifs dropdown
 
 .upcoming-events-wrapper {
     display: var(--upcoming-assignments-display) !important;
+}
+
+body a,
+body .clickable,
+body .smart-box .filter-block li a,
+body #content-left-top .item-list li a,
+body .popups-tab,
+body .enrollment-filters span,
+body .grading-groups-list .grading-group,
+body #grading-group-
+span.ajax-post-comment,
+.period-row .title,
+.category-row .title {
+    color: var(--hover-color) !important;
+}
+
+body a.link-btn {
+    color: #333333 !important;
+}
+
+footer li a,
+header li a,
+.splus-modal-footer-text a,
+body a.link-btn.active {
+    color: white !important;
 }

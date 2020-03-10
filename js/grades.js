@@ -27,23 +27,23 @@ $.contextMenu({
         separator: "-----",
         materials: {
             name: "Materials",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/materials`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/materials`, "_blank") }
         },
         updates: {
             name: "Updates",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/updates`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/updates`, "_blank") }
         },
         student_grades: {
             name: "Grades",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/student_grades`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/student_grades`, "_blank") }
         },
         mastery: {
             name: "Mastery",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/mastery`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/mastery`, "_blank") }
         },
         members: {
             name: "Members",
-            callback: function (key, opt) { window.open(`https://lms.lausd.net/course/${this[0].parentElement.id.match(/\d+/)[0]}/members`, "_blank") }
+            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/members`, "_blank") }
         }
     }
 });
@@ -130,9 +130,13 @@ var fetchQueue = [];
                             p.title = "Assignment missing";
                             Logger.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
 
-                            let json = await fetchApiJson(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
+                            let json = await fetchApiJson(`users/${getUserId()}/grades?section_id=${courseId}`);
 
-                            let pts = Number.parseFloat(json.max_points);
+                            if (json.section.length === 0) {
+                                throw new Error("Assignment details could not be read");
+                            }
+
+                            let pts = Number.parseFloat(json.section[0].period[0].assignment.filter(x => x.assignment_id == Number.parseInt(assignment.dataset.id.substr(2)))[0].max_points);
                             if (!assignment.classList.contains("dropped")) {
                                 max += pts;
                                 Logger.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
@@ -280,16 +284,22 @@ var fetchQueue = [];
                     }
 
                     let gradeText = category.querySelector(".awarded-grade") || category.querySelector(".no-grade");
-                    if (gradeText) {
+                    if (!gradeText) {
+                        gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
+                        category.querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
                         setGradeText(gradeText, sum, max, category);
-                        gradeText.classList.remove("no-grade");
-                        gradeText.classList.add("awarded-grade");
+                        recalculateCategoryScore(category, 0, 0, false);
+                    } else {
+                        setGradeText(gradeText, sum, max, category);
+                    }
+                    
+                    gradeText.classList.remove("no-grade");
+                    gradeText.classList.add("awarded-grade");
 
-                        if (invalidateCatTotal) {
-                            let catMaxElem = gradeText.parentElement.querySelector(".grade-column-center .max-grade");
-                            catMaxElem.classList.add("max-grade-show-error");
-                            invalidatePerTotal = true;
-                        }
+                    if (invalidateCatTotal) {
+                        let catMaxElem = gradeText.parentElement.querySelector(".grade-column-center .max-grade");
+                        catMaxElem.classList.add("max-grade-show-error");
+                        invalidatePerTotal = true;
                     }
 
                     let weightText = category.querySelector(".percentage-contrib");
@@ -317,8 +327,15 @@ var fetchQueue = [];
 
             addLetterGrade(grade, courseId);
 
-            let gradeText = periods[0].querySelector(".awarded-grade");
-            setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
+            let gradeText = periods[0].querySelector(".awarded-grade") || periods[0].querySelector(".no-grade");
+            if (!gradeText) {
+                gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
+                periods[0].querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
+                setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
+                recalculatePeriodScore(periods[0], 0, 0, false);
+            } else {
+                setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
+            }
 
             // add weighted indicator to the course section row
             if (classTotal === 0 && !addMoreClassTotal) {
@@ -411,8 +428,11 @@ var fetchQueue = [];
                 perMaxElem.classList.add("max-grade-show-error");
             }
 
-            for (let i = 1; i < periods.length; i++) {
-                periods[i].remove();
+            // Remove (no grading period)
+            if (isLAUSD()) { // To avoid making assumptions about how other schools use Schoology
+                for (let i = 1; i < periods.length; i++) {
+                    periods[i].remove();
+                }
             }
         })());
     }
@@ -491,12 +511,12 @@ var fetchQueue = [];
                     }
 
                     for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
-                        if(invalidCategories.includes(edit.dataset.parentId)) continue;
+                        if (invalidCategories.includes(edit.dataset.parentId)) continue;
 
                         edit.style.display = "unset";
                     }
                     for (let edit of document.getElementsByClassName("grade-add-indicator")) {
-                        if(invalidCategories.includes(edit.dataset.parentId)) continue;
+                        if (invalidCategories.includes(edit.dataset.parentId)) continue;
 
                         edit.style.display = "table-row";
                         if (edit.previousElementSibling.classList.contains("item-row") && edit.previousElementSibling.classList.contains("last-row-of-tier")) {
@@ -858,7 +878,7 @@ var fetchQueue = [];
                     });
 
                     for (let kabob of document.getElementsByClassName("kabob-menu")) {
-                        if(invalidCategories.includes(kabob.dataset.parentId)) continue;
+                        if (invalidCategories.includes(kabob.dataset.parentId)) continue;
 
                         kabob.classList.remove("hidden");
                     }
@@ -948,16 +968,16 @@ var fetchQueue = [];
 
             let f = async () => {
                 Logger.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
-                let response = await fetchApi(`/sections/${courseId}/assignments/${assignment.dataset.id.substr(2)}`);
+                let response = await fetchApi(`users/${getUserId()}/grades?section_id=${courseId}`);
                 if (!response.ok) {
                     throw { status: response.status, error: response.statusText };
                 }
                 let json = await response.json();
 
-                if (json && json.max_points !== null && json.max_points !== undefined) {
+                if (json && json.section.length > 0) {
                     // success case
                     // note; even if maxGrade is removed from the DOM, this will still work
-                    maxGrade.textContent = " / " + json.max_points;
+                    maxGrade.textContent = " / " + json.section[0].period[0].assignment.filter(x => x.assignment_id == Number.parseInt(assignment.dataset.id.substr(2)))[0].max_points;
                     maxGrade.classList.remove("no-grade");
                 }
             };
@@ -1027,7 +1047,7 @@ var fetchQueue = [];
         });
     }
 
-    function recalculateCategoryScore(catRow, deltaPoints, deltaMax) {
+    function recalculateCategoryScore(catRow, deltaPoints, deltaMax, warn = true) {
         // category always has a numeric score, unlike period
         // awarded grade in our constructed element contains both rounded and max
         let awardedCategoryPoints = catRow.querySelector(".rounded-grade").parentNode;
@@ -1037,7 +1057,7 @@ var fetchQueue = [];
         let newCatMax = Number.parseFloat(catMaxElem.textContent.substring(3)) + deltaMax;
         catScoreElem.textContent = newCatScore;
         catMaxElem.textContent = " / " + newCatMax;
-        if (!awardedCategoryPoints.querySelector(".modified-score-percent-warning")) {
+        if (warn && !awardedCategoryPoints.querySelector(".modified-score-percent-warning")) {
             awardedCategoryPoints.appendChild(generateScoreModifyWarning());
         }
         // category percentage
@@ -1064,12 +1084,12 @@ var fetchQueue = [];
         awardedCategoryPercent.title = newCatPercent + "%";
         awardedCategoryPercent.textContent = (Math.round(newCatPercent * 100) / 100) + "%";
 
-        if (!awardedCategoryPercentContainer.querySelector(".modified-score-percent-warning")) {
+        if (warn && !awardedCategoryPercentContainer.querySelector(".modified-score-percent-warning")) {
             awardedCategoryPercentContainer.prepend(generateScoreModifyWarning());
         }
     }
 
-    function recalculatePeriodScore(perRow, deltaPoints, deltaMax) {
+    function recalculatePeriodScore(perRow, deltaPoints, deltaMax, warn = true) {
         let awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right").firstElementChild;
         let awardedPeriodPercent = awardedPeriodPercentContainer;
         // clear existing percentage indicator
@@ -1098,7 +1118,7 @@ var fetchQueue = [];
             let newPerMax = Number.parseFloat(perMaxElem.textContent.substring(3)) + deltaMax;
             perScoreElem.textContent = newPerScore;
             perMaxElem.textContent = " / " + newPerMax;
-            if (!awardedPeriodPoints.querySelector(".modified-score-percent-warning")) {
+            if (warn && !awardedPeriodPoints.querySelector(".modified-score-percent-warning")) {
                 awardedPeriodPoints.appendChild(generateScoreModifyWarning());
             }
 
@@ -1143,7 +1163,7 @@ var fetchQueue = [];
             awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
         }
 
-        if (!awardedPeriodPercentContainer.querySelector(".modified-score-percent-warning")) {
+        if (warn && !awardedPeriodPercentContainer.querySelector(".modified-score-percent-warning")) {
             awardedPeriodPercentContainer.prepend(generateScoreModifyWarning());
         }
     }
@@ -1439,6 +1459,7 @@ function processNonenteredAssignments(sleep, attempts = 0) {
         // Remove the first element
         fetchQueue.shift();
         attempts = 0;
+        Logger.warn("Maximum attempts reached; aborting");
     }
     if (fetchQueue.length > 0) {
         setTimeout(() => {

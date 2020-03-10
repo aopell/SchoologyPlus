@@ -15,7 +15,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Schoology Plus Theme Editor</title>
+    <title>Theme Editor - Schoology Plus</title>
 
 </head>
 
@@ -275,16 +275,22 @@
                             <span>Schoology Logo</span>
                         </label>
                     </p>
-                    <p>
+                    <p class="show-lausd">
                         <label>
                             <input id="theme-new-lausd-logo" class="with-gap" name="logo-group" type="radio" />
                             <span>New LAUSD Logo</span>
                         </label>
                     </p>
-                    <p>
+                    <p class="show-lausd">
                         <label>
                             <input id="theme-lausd-logo" class="with-gap" name="logo-group" type="radio" />
                             <span>Old LAUSD Logo</span>
+                        </label>
+                    </p>
+                    <p class="hide-lausd">
+                        <label>
+                            <input id="theme-default-logo" class="with-gap" name="logo-group" type="radio" />
+                            <span>Your School's Default Logo</span>
                         </label>
                     </p>
                     <p>
@@ -424,11 +430,11 @@
                                                         <p class="setting-description">Some text</p>
                                                     </div>
                                                     <div class="setting-entry">
-                                                        <h3 class="setting-title">Subtitle</h3>
+                                                        <a class="setting-link" href="#"><h3 class="setting-title">Clickable Link</h3></a>
                                                         <p class="setting-description">Some text</p>
                                                     </div>
                                                     <div class="setting-entry">
-                                                        <h3 class="setting-title">Subtitle</h3>
+                                                        <a class="setting-link" href="#"><h3 class="setting-title">Clickable Link</h3></a>
                                                         <p class="setting-description">Some text</p>
                                                     </div>
                                                     <span class="submit-span-wrapper splus-modal-button">
@@ -438,7 +444,7 @@
                                             </div>
                                             <div class="splus-modal-footer">
                                                 <p class="splus-modal-footer-text">&copy; Aaron Opell, Glen Husman
-                                                    2017-2019
+                                                    2017-2020
                                                 </p>
                                             </div>
                                         </div>
@@ -527,7 +533,7 @@
                                 <p style="text-align: center; color: grey; padding-top: 20px;">
                                     Schoology Plus will attempt to match a class name to one of the
                                     regular expressions above first (from top to bottom), but if it
-                                    doesn't find a match it will use the default icon set.
+                                    doesn't find a match it will use <a href="default-icons.html">the default icon set</a>.
                                     To avoid this behavior, create a default icon for your theme by
                                     adding an icon with pattern "." (a single period) as the last
                                     icon in your list.
