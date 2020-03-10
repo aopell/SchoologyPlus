@@ -18,7 +18,7 @@
 
 // Check Schoology domain
 {
-    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com"];
+    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "www.schoology.com", "schoology.com"];
     let dd = Setting.getValue("defaultDomain");
 
     if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host)) {
