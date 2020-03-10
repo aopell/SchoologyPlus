@@ -1,5 +1,36 @@
 # Changelog
 
+## Version 6.0 - March 10, 2020
+
+### Added
+- Support for domains other than `lms.lausd.net`
+  - Supports all domains following the `???.schoology.com` pattern
+  - Not all features are supported on other domains (though most of them are!)
+  - This is a major change that could definitely result in new bugs, though we've tested and hope there aren't any!
+- A way to view the default course icon set from the theme editor
+- Added and updated many default course icons
+- You can now report that a default course icon is incorrect in course settings
+- New "default" option for a theme's logo
+  - Only available on domains other than `lms.lausd.net`
+  - Prevents modifying the logo image in the navbar, leaving the school's default logo intact
+- Schoology Plus now automatically calculates and displays your course grade (and individual category grades) when a teacher hides them by default
+
+### Changed
+- The selected theme's "hover" color is now additionally used to color links throughout Schoology
+- Updated copyright notices to reflect the current year and represent all developers
+
+### Removed
+- The "(no grading period)" section of each class is no longer hidden by Schoology Plus
+  - This had the potential to break things on other domains and it's possible some teachers within LAUSD use this feature too
+
+### Fixed
+- Multiple issues with what-if grades
+  - Fixed an issue where teachers making assignment details inaccessible from students prevented what-if grades from working
+  - Fixed an issue where teachers making course or category grades hidden prevented what-if grades from working
+  - Fixed an issue where editing an assignment when there are no graded assignments yet caused what-if grades to fail
+  - Fixed an issue where assignments that are actually "external tools" marked as missing caused what-if grades to fail
+
+
 ## Version 5.8.1 - March 4, 2020
 
 ### Changed
