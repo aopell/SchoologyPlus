@@ -109,7 +109,7 @@ A Schoology Plus theme has the following format and components (each component w
 |Key|`hue`
 |Value Type|`number`|
 |Description|The theme's HSL color hue, used to color the interface by modifying the saturation and lightness values. The default Schoology Plus theme uses hue 210, and this value will be used by default if no color definitions are present.
-|Value Restrictions|Hues are integers between 0 and 359, however decimal numbers still work and numbers over 359 are subject to a modus of 360 (i.e. actual hue value will be `providedHueValue % 360`).
+|Value Restrictions|Hues are integers between 0 and 359, however decimal numbers still work and numbers over 359 are subject to a modulus of 360 (i.e. actual hue value will be `providedHueValue % 360`).
 |Special Notes|N/A|
 **Example**
 ```json
@@ -243,7 +243,7 @@ A Schoology Plus theme has the following format and components (each component w
 |Default Value|Schoology Plus default course icon set
 |Description|An array of two-key objects, where the key `regex` is a regular expression and the key `url` is an image URL to be used as an icon for courses with names matching the regular expression.
 |Value Restrictions|An array of objects where all values of `regex` keys are valid regular expressions and all values of `url` keys are direct image links. Images should be square and at least `32x32` in size, but this is not required.
-|Special Notes|Course names are checked against regular expressions in array order, meaning the regexes in the objects with lower indecies in the array are checked first *in a non-case-sensitive manner*. If no regular expression matches a specific course, Schoology Plus will fallback to the default Schoology Plus icon set. If you want to prevent this behavior, add an entry such as `".": "https://example.com/my-image.png"` that will match all course titles.
+|Special Notes|Course names are checked against regular expressions in array order, meaning the regexes in the objects with lower indices in the array are checked first *in a non-case-sensitive manner*. If no regular expression matches a specific course, Schoology Plus will fallback to the default Schoology Plus icon set. If you want to prevent this behavior, add an entry such as `{ regex: ".", url: "https://example.com/my-image.png" }` that will match all course titles.
 **Example**
 ```json
 "icons": [
