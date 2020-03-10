@@ -2,11 +2,10 @@
     "manifest_version": 2,
     "name": "Schoology Plus",
     "short_name": "Schoology+",
-    "description": "Schoology Plus enhances your LAUSD Schoology experience with numerous interface improvements",
+    "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
     "applications": {
         "gecko": {
-            "id": "schoology.plus@aopell.me",
-            "update_url": "https://aopell.me/SchoologyPlus/update.json"
+            "id": "schoology.plus@aopell.me"
         }
     },
     "version": "6.0",
