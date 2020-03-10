@@ -511,7 +511,13 @@ span.ajax-post-comment,
     color: var(--hover-color) !important;
 }
 
+body a.link-btn {
+    color: #333333 !important;
+}
+
 footer li a,
-header li a {
+header li a,
+.splus-modal-footer-text a,
+body a.link-btn.active {
     color: white !important;
 }

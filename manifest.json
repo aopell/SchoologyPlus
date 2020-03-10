@@ -41,6 +41,7 @@
         "imgs/*",
         "js/materials.pdfhandler.js",
         "theme-editor.html",
+        "default-icons.html",
         "lib/data/schoology-reorder-ui-langprops.json"
     ],
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
