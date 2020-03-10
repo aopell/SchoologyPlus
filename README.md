@@ -1,6 +1,6 @@
 [![Schoology Plus](https://imgur.com/QdAPxXN.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 
-### Schoology Plus is a web extension that enhances your LAUSD Schoology experience with numerous interface improvements.
+### Schoology Plus is a web extension that enhances your Schoology experience with numerous interface improvements.
 
 [![Chrome Download](https://img.shields.io/chrome-web-store/v/fbfppoaockpecjpbdmldojdehdpepfef.svg?label=chrome%20download)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/fbfppoaockpecjpbdmldojdehdpepfef.svg)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
@@ -46,21 +46,22 @@
 ![Navigation Bar](https://i.imgur.com/VbTn30Y.png)
 
 *Image: The blue Schology Plus navigation bar*
-- Replaces the default LAUSD theme with a blue theme
-- Replaces the LAUSD logo with the Schoology logo
+- Replaces your school's theme with a blue theme
+- Replaces your school's logo with the Schoology logo
 ### Custom Themes
 ![Built-in Themes](https://i.imgur.com/Tjfa5tJ.gif)
 
 *Image: Demonstration of the built-in themes*
 - You can create a custom theme or choose one of the small selection of built-in themes (including rainbow mode!)
 - Two of the built-in themes are the "LAUSD Dark Blue" and "LAUSD Orange" themes which restore the interface to the new and old versions of the LAUSD theme respectively including the logo)
+  - For non-LAUSD schools, an auto-generated theme will be created to match your school's default theme
 - Custom themes can change colors throughout the interface as well as the logo and course icons. Custom themes can even use custom rainbow color patterns!
 - To learn more about creating custom themes, see [Theme Editor](#theme-editor)
 #### Course Icons
 ![Course Icons](https://imgur.com/KybIeXw.png)
 
 *Image: Example of built-in course icons*
-- Built-in course icons for many courses*
+- Built-in course icons for many courses* (LAUSD schools only)
 - Custom themes can also introduce custom icons for courses
 ### Tooltips
 ![Tooltips](https://i.imgur.com/9AOrZkC.gif)
@@ -86,7 +87,7 @@
 ### Miscellaneous Grades Page Improvements
 ![Grades Page](https://i.imgur.com/k6MZRKE.png)
 *Image: Example of the grades page showing grades for collapsed courses.*
-- Classes are sorted by period*
+- Classes are sorted by period* (LAUSD schools only)
 - Grades are displayed when classes are collapsed
 
 ![Point Totals and Letter Grades](https://i.imgur.com/WBSmgvr.png)
@@ -97,6 +98,7 @@
   - The specific score needed for each grade can be customized, see [Custom Grading Scales](#custom-grading-scales)
 - Point totals are displayed for classes with unweighted categories
 - Point totals are displayed for all assignment categories
+- Point totals and percentages are displayed on classes that hide them by default
 - Displays point buffers from the next lowest letter grade and number of points needed to reach the next highest letter grade for unweighted classes
 
 ![Percentages and Possible Points](https://i.imgur.com/KjWsPjD.png)
@@ -105,7 +107,6 @@
 
 - The number of possible points for an assignment is shown even when a grade has not yet been entered for that assignment
 - Percentages are shown for each individual assignment
-- Removes the useless "(no grading period)" section from all classes
 
 ![Context Menu](https://i.imgur.com/HSlsOpW.png)
 
@@ -175,7 +176,7 @@ Schoology Plus has customizable settings, including but not limited to:
   - Displays desktop notifications and a number badge on the extension button when new grades are entered
 - Custom Grading Scales
   -  Uses custom grading scales (set per-course in Course Options) when courses don't have one defined
-- Order Classes
+- Order Classes (LAUSD schools only)
   - Changes the order of your classes on the grades and mastery pages
 - Archived Courses Button
   - Shows a button labeled "See Archived" next to the "See All" button in the courses dropdown
