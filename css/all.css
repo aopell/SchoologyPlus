@@ -254,7 +254,7 @@ video.easter-egg {
 }
 
 .restore-defaults {
-    color: red;
+    color: red !important;
     margin-top: 10px;
     font-weight: normal;
 }
