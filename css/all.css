@@ -507,7 +507,8 @@ body .grading-groups-list .grading-group,
 body #grading-group-
 span.ajax-post-comment,
 .period-row .title,
-.category-row .title {
+.category-row .title,
+._2mWUT a {
     color: var(--hover-color) !important;
 }
 
@@ -518,6 +519,7 @@ body a.link-btn {
 footer li a,
 header li a,
 .splus-modal-footer-text a,
-body a.link-btn.active {
+body a.link-btn.active,
+a._3_bfp {
     color: white !important;
 }

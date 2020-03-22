@@ -183,16 +183,6 @@ let migrationsTo = {
                 new Date(2019, 1 /* February - don't you just love JavaScript */, 14)
             )
         ]);
-    },
-    "5.7": function(currentVersion, previousVersion) {
-        saveBroadcasts([
-            createBroadcast(
-                570,
-                '<span style="font-size: 20px;">Leave a review for Schoology Plus!</span>',
-                '<div style="border: 1px solid black; background-color: lightgray; padding: 5px; font-size: 14px;">Do you love Schoology Plus?<br/>If so, we\'d really appreciate if you\'d leave us a review on the Chrome Web Store!<br/><br/><a href="https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef" target="_blank"><strong style="font-weight: 900">Click here to visit the page for Schoology Plus on the Chrome Web Store</strong></a></div>',
-                new Date(2019, 11 /* December */, 11)
-            )
-        ]);
     }
 };
 
