@@ -46,6 +46,7 @@
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "background": {
         "scripts": [
+            "lib/js/purify.min.js",
             "js/background.js"
         ],
         "persistent": true

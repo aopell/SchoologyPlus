@@ -241,7 +241,7 @@ function loadAssignmentNotifications(storageContent) {
             timeModified = true;
         }
         let div = document.querySelector("div") || document.body.appendChild(document.createElement("div"));
-        div.innerHTML = response.output;
+        div.innerHTML = DOMPurify.sanitize(response.output);
         let notifications = div.querySelectorAll(".edge-sentence");
         let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let totalAssignments = 0;
