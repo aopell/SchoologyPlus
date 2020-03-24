@@ -2,14 +2,13 @@
     "manifest_version": 2,
     "name": "Schoology Plus",
     "short_name": "Schoology+",
-    "description": "Schoology Plus enhances your LAUSD Schoology experience with numerous interface improvements",
+    "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
     "applications": {
         "gecko": {
-            "id": "schoology.plus@aopell.me",
-            "update_url": "https://aopell.me/SchoologyPlus/update.json"
+            "id": "schoology.plus@aopell.me"
         }
     },
-    "version": "6.0",
+    "version": "6.1",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -44,9 +43,10 @@
         "default-icons.html",
         "lib/data/schoology-reorder-ui-langprops.json"
     ],
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "content_security_policy": "script-src 'self'; object-src 'self'",
     "background": {
         "scripts": [
+            "lib/js/purify.min.js",
             "js/background.js"
         ],
         "persistent": true
