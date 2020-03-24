@@ -273,7 +273,7 @@ input[type=text].setting-item {
 }
 
 .close-button {
-    color: red;
+    color: red !important;
     font-weight: normal;
     font-size: 20px;
 }
