@@ -29,3 +29,7 @@ Although most changes are likely to be minor, Schoology Plus may change its Priv
 ## Disclaimer
 
 Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners.
+
+## Contact
+
+The developers of Schoology Plus can be contacted by email at [schoologyplus@aopell.me](mailto:schoologyplus@aopell.me) or through Discord at [this link](https://aopell.me/SchoologyPlus/discord).
