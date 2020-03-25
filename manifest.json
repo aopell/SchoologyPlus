@@ -186,9 +186,9 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/courses",
+                "https://lms.lausd.net/courses*",
                 "https://lms.lausd.net/courses/*",
-                "https://*.schoology.com/courses",
+                "https://*.schoology.com/courses*",
                 "https://*.schoology.com/courses/*"
             ],
             "js": [

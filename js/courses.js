@@ -41,3 +41,7 @@ $.contextMenu({
         }
     }
 });
+
+if(location.search.includes("reorder")) {
+    document.querySelector("#reorder-ui .link-btn").click();
+}
