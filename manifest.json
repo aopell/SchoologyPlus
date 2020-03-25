@@ -84,6 +84,7 @@
                 "lib/css/iziToast.min.css"
             ],
             "js": [
+                "lib/js/jquery-3.3.1.min.js",
                 "lib/js/contextmenu.js",
                 "lib/js/iziToast.min.js",
                 "js/version-specific.js",
@@ -119,7 +120,7 @@
             "js": [
                 "lib/js/jquery-3.3.1.min.js",
                 "lib/js/jquery-migrate-3.0.1.js",
-                "lib/js/jquery.tipsy.min.js",
+                "lib/js/jquery.tipsy.js",
                 "js/materials.js"
             ],
             "run_at": "document_end"
