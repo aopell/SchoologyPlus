@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 6.1.1 - March 25, 2020
+
+### Changed
+- Clicking the "reorder courses" button in the courses dropdown now takes you to the courses page with the reorder window open
+- Modified how PDF previews are generated on the materials page
+- Updated libraries to match official versions
+
 ## Version 6.1 - March 23, 2020
 > This version of Schoology Plus will not be accessible from the Firefox addon store. This should hopefully be resolved by the next version.
 
