@@ -108,13 +108,8 @@
         // blank because null becomes "null" in the dataset, which is truthy; blank is falsey
         let documentUrlFromApi = "";
         let materialId = value.id.match(/\d+/)[0];
-        let documentInfoFromApi;
-        try {
-            documentInfoFromApi = await fetchApiJson(`/sections/${classId}/documents/${materialId}`);
-        } catch (e) {
-            Logger.error(e);
-        }
-
+        let documentInfoFromApi = await fetchApiJson(`/sections/${classId}/documents/${materialId}`);
+        
         if (!documentInfoFromApi.attachments.files || !documentInfoFromApi.attachments.files.file[0]) {
             // dynamic nonfile (probably link) element
             // abort creation of tooltip
@@ -122,7 +117,7 @@
             return;
         }
         let fileData = documentInfoFromApi.attachments.files.file[0];
-        if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
+        if (fileData.converted_download_path && (fileData.converted_filemime == "application/pdf" || new URL(fileData.converted_download_path).pathname.endsWith(".pdf"))) {
             // get the URL of the doc we want
             // it's an unauthenticated CDN url that expires (experimentation), returned as a redirect
             // unfortunately we need permissions for the extra domain
