@@ -6,16 +6,41 @@
 "use strict";
 
 (async function () {
-    // initialize pdfjs
-    // FIXME this is an awful hack because we're trying to avoid webpack and pdfjs is a module
-    // also putting it here is a hack to give it time to load
-    let injectLib = document.createElement("script");
-    injectLib.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.js";
-    injectLib.type = "text/javascript";
-    injectLib.async = false;
-    injectLib.defer = false;
-    document.head.appendChild(injectLib);
+    pdfjsLib.GlobalWorkerOptions.workerSrc = chrome.runtime.getURL("lib/js/pdf.worker.js");
+    function createPDFThumbnail(filePath, callback, imgWidth = null, imgHeight = null) {
+        if (typeof pdfjsLib === 'undefined') {
+            throw Error("pdf.js is not loaded");
+        }
+        pdfjsLib.disableWorker = true;
 
+        pdfjsLib.getDocument(filePath).then(function (pdf) {
+            pdf.getPage(1).then(function (page) {
+                var canvas = document.createElement("canvas");
+                var viewport = page.getViewport(1.0);
+                var context = canvas.getContext('2d');
+
+                if (imgWidth) {
+                    viewport = page.getViewport(imgWidth / viewport.width);
+                } else if (imgHeight) {
+                    viewport = page.getViewport(imgHeight / viewport.height);
+                }
+
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                }).then(function () {
+                    callback(canvas.toDataURL(), pdf.numPages);
+                });
+            }).catch(function () {
+                Logger.log("could not open page 1 of document " + filePath + ". Not a pdf ?");
+            });
+        }).catch(function () {
+            Logger.log("could not find or open document " + filePath + ". Not a pdf ?");
+        });
+    };
 
     // utility function
     function escapeForHtml(text) {
@@ -236,13 +261,36 @@
         }
     });
 
+    let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
+
+    for (let value of document.querySelectorAll("#course-profile-materials tr.type-document")) {
+        let materialId = value.id.match(/\d+/)[0];
+        let documentInfo = (await fetchApiJson(`/sections/${classId}/documents/${materialId}`));
+
+        // preexisting document isn't a 'real' document (i.e. link or whatever)
+        if (!documentInfo.attachments.files || !documentInfo.attachments.files.file[0]) {
+            continue;
+        }
+
+        let fileData = documentInfo.attachments.files.file[0];
+        if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
+            let documentUrl = (await fetchWithApiAuthentication(fileData.converted_download_path)).url;
+            let tooltip = document.getElementById("tooltip-holder-" + value.id);
+
+            createPDFThumbnail(documentUrl, (data, numPages) => {
+                tooltip.dataset.tooltipHtml = `<img src="${data}" /><p style="text-align:center">${numPages} pages</p>`
+            }, 200);
+        } else {
+            // it's a file but not a supported type. TODO what to do? probably at least should show an unsupported message
+        }
+    }
+
     userId = getUserId();
 
     // watch for new material DOM elements, and process them as they're added
     // needs a corresponding handler in the pagescript
     materialsMutationObserver.observe(courseProfileMaterials, { childList: true, subtree: true });
 
-    let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
 
     // load grade information for this class, call grade hooks
 
@@ -352,46 +400,5 @@
     for (let eventHook of gradeLoadHooks) {
         eventHook(loadedGradeContainer);
     }
-
-    // do our API calls
-    // FIXME this code is duplicated
-    let documentInfoFromApi = {};
-    // note that these CDN urls expire
-    let documentUrlsFromApi = {};
-    for (let value of document.querySelectorAll("#course-profile-materials tr.type-document")) {
-        let materialId = value.id.match(/\d+/)[0];
-        documentInfoFromApi[materialId] = (await fetchApiJson(`/sections/${classId}/documents/${materialId}`));
-    }
-
-    for (let documentId in documentInfoFromApi) {
-        // TODO this isn't the cleanest, not sure if this is accurate for all cases
-        if (!documentInfoFromApi[documentId].attachments.files || !documentInfoFromApi[documentId].attachments.files.file[0]) {
-            // preexisting document isn't a 'real' document (i.e. link or whatever)
-            // delete it from our list
-            delete documentInfoFromApi[documentId];
-            continue;
-        }
-        let fileData = documentInfoFromApi[documentId].attachments.files.file[0];
-        if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
-            // get the URL of the doc we want
-            // it's an unauthenticated CDN url that expires (experimentation), returned as a redirect
-            // unfortunately we need permissions for the extra domain
-            documentUrlsFromApi[documentId] = (await fetchWithApiAuthentication(fileData.converted_download_path)).url;
-        } else {
-            // it's a file but not a supported type. TODO what to do? probably at least should show an unsupported method
-        }
-    }
-
-    Logger.log("Injecting document tooltip handler...");
-    let injectScript = document.createElement("script");
-    let scriptText = (await (await fetch(chrome.runtime.getURL("js/materials.pdfhandler.js"))).text());
-    // awful hack
-    scriptText = scriptText.replace("/* SUBSTITUTE_API_DOCUMENT_INFO */", `let documentInfoFromApi = ${JSON.stringify(documentInfoFromApi)};`);
-    scriptText = scriptText.replace("/* SUBSTITUTE_API_DOCUMENT_URLS */", `let documentUrlsFromApi = ${JSON.stringify(documentUrlsFromApi)};`);
-    scriptText = scriptText.replace("/* SUBSTITUTE_HTML_BUILDER_UTIL */", `${escapeForHtml.toString()}\n${wrapHtml.toString()}`);
-    injectScript.text = scriptText;
-    injectScript.async = false;
-    injectScript.defer = false;
-    document.head.appendChild(injectScript);
 })();
 

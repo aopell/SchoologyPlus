@@ -8,7 +8,7 @@
             "id": "schoology.plus@aopell.me"
         }
     },
-    "version": "6.1",
+    "version": "6.1.1",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -38,10 +38,9 @@
     ],
     "web_accessible_resources": [
         "imgs/*",
-        "js/materials.pdfhandler.js",
+        "lib/js/pdf.worker.js",
         "theme-editor.html",
-        "default-icons.html",
-        "lib/data/schoology-reorder-ui-langprops.json"
+        "default-icons.html"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'",
     "background": {
@@ -84,6 +83,7 @@
                 "lib/css/iziToast.min.css"
             ],
             "js": [
+                "lib/js/jquery-3.3.1.min.js",
                 "lib/js/contextmenu.js",
                 "lib/js/iziToast.min.js",
                 "js/version-specific.js",
@@ -117,9 +117,10 @@
                 "css/materials.css"
             ],
             "js": [
+                "lib/js/pdf.js",
                 "lib/js/jquery-3.3.1.min.js",
                 "lib/js/jquery-migrate-3.0.1.js",
-                "lib/js/jquery.tipsy.min.js",
+                "lib/js/jquery.tipsy.js",
                 "js/materials.js"
             ],
             "run_at": "document_end"
@@ -185,9 +186,9 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/courses",
+                "https://lms.lausd.net/courses*",
                 "https://lms.lausd.net/courses/*",
-                "https://*.schoology.com/courses",
+                "https://*.schoology.com/courses*",
                 "https://*.schoology.com/courses/*"
             ],
             "js": [
