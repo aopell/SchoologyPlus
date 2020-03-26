@@ -6,12 +6,15 @@
 "use strict";
 
 (async function () {
+    let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
+
     pdfjsLib.GlobalWorkerOptions.workerSrc = chrome.runtime.getURL("lib/js/pdf.worker.js");
+    pdfjsLib.disableWorker = true;
+
     function createPDFThumbnail(filePath, callback, imgWidth = null, imgHeight = null) {
         if (typeof pdfjsLib === 'undefined') {
             throw Error("pdf.js is not loaded");
         }
-        pdfjsLib.disableWorker = true;
 
         pdfjsLib.getDocument(filePath).then(function (pdf) {
             pdf.getPage(1).then(function (page) {
@@ -33,6 +36,8 @@
                     viewport: viewport
                 }).then(function () {
                     callback(canvas.toDataURL(), pdf.numPages);
+                }).catch(function (e) {
+                    Logger.error("Unexpected PDF render error: " + e);
                 });
             }).catch(function () {
                 Logger.log("could not open page 1 of document " + filePath + ". Not a pdf ?");
@@ -40,7 +45,7 @@
         }).catch(function () {
             Logger.log("could not find or open document " + filePath + ". Not a pdf ?");
         });
-    };
+    }
 
     // utility function
     function escapeForHtml(text) {
@@ -85,54 +90,54 @@
 
     // FIXME the container element in question (the list of assignments) can be recreated; we should handle this case
 
-    // document tooltips
-    // this is a hack to pass data back and forth between our page context script
-    let documentTooltipDataHolder = document.createElement("div");
-    documentTooltipDataHolder.id = "schoologyplus-material-tooltip-data-container";
-    document.body.appendChild(documentTooltipDataHolder);
-
     let courseProfileMaterials = document.getElementById("course-profile-materials");
 
     // data handler from page context, logic is there
     // tr.type-document
-    async function processDocumentElement(value, dynamic) {
+    async function processDocumentElement(value) {
         let loadedTextHolder = document.createElement("span");
         loadedTextHolder.id = "tooltip-holder-" + value.id;
         loadedTextHolder.classList.add("type-document");
         loadedTextHolder.dataset.domElementId = value.id;
-
-        if (dynamic) {
-            // FIXME code duplication
-            // note that these CDN urls expire
-
-            // blank because null becomes "null" in the dataset, which is truthy; blank is falsey
-            let documentUrlFromApi = "";
-            let materialId = value.id.match(/\d+/)[0];
-            let documentInfoFromApi = await fetchApiJson(`/sections/${classId}/documents/${materialId}`);
-
-            if (!documentInfoFromApi.attachments.files || !documentInfoFromApi.attachments.files.file[0]) {
-                // dynamic nonfile (probably link) element
-                // abort creation of tooltip
-                value.dataset.schoologyPlusProcessedTooltip = true;
-                return;
-            }
-            let fileData = documentInfoFromApi.attachments.files.file[0];
-            if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
-                // get the URL of the doc we want
-                // it's an unauthenticated CDN url that expires (experimentation), returned as a redirect
-                // unfortunately we need permissions for the extra domain
-                documentUrlFromApi = (await fetchWithApiAuthentication(fileData.converted_download_path)).url;
-            }
-
-            loadedTextHolder.dataset.docInfo = JSON.stringify(documentInfoFromApi);
-            loadedTextHolder.dataset.docUrl = documentUrlFromApi;
-        }
-
-        documentTooltipDataHolder.appendChild(loadedTextHolder);
         loadedTextHolder.dataset.tooltipHtml = "Loading...";
+
         // title already has a tooltip (full filename), so we'll use the filesize instead
         // if there's no filesize (e.g. because this document isn't a file), we won't create the tooltip, so no problems
         $(value).find(".attachments-file-name>a").tipsy({ gravity: "w", html: true, title: () => loadedTextHolder.dataset.tooltipHtml });
+
+        // blank because null becomes "null" in the dataset, which is truthy; blank is falsey
+        let documentUrlFromApi = "";
+        let materialId = value.id.match(/\d+/)[0];
+        let documentInfoFromApi;
+        try {
+            documentInfoFromApi = await fetchApiJson(`/sections/${classId}/documents/${materialId}`);
+        } catch (e) {
+            Logger.error(e);
+        }
+
+        if (!documentInfoFromApi.attachments.files || !documentInfoFromApi.attachments.files.file[0]) {
+            // dynamic nonfile (probably link) element
+            // abort creation of tooltip
+            value.dataset.schoologyPlusProcessedTooltip = true;
+            return;
+        }
+        let fileData = documentInfoFromApi.attachments.files.file[0];
+        if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
+            // get the URL of the doc we want
+            // it's an unauthenticated CDN url that expires (experimentation), returned as a redirect
+            // unfortunately we need permissions for the extra domain
+            documentUrlFromApi = (await fetchWithApiAuthentication(fileData.converted_download_path)).url;
+        } else {
+            value.dataset.schoologyPlusProcessedTooltip = true;
+            return;
+        }
+
+        loadedTextHolder.dataset.docInfo = JSON.stringify(documentInfoFromApi);
+        loadedTextHolder.dataset.docUrl = documentUrlFromApi;
+
+        createPDFThumbnail(documentUrlFromApi, (data, numPages) => {
+            loadedTextHolder.dataset.tooltipHtml = `<img src="${data}" /><p style="text-align:center">${numPages} pages</p>`
+        }, 200);
 
         value.dataset.schoologyPlusProcessedTooltip = true;
     }
@@ -221,7 +226,7 @@
     }
 
     for (let docElem of courseProfileMaterials.querySelectorAll("tr.type-document")) {
-        processDocumentElement(docElem, false);
+        processDocumentElement(docElem);
     }
 
     for (let assignElem of courseProfileMaterials.querySelectorAll("tr.type-assignment")) {
@@ -253,37 +258,13 @@
 
             if (addedNode.nodeName == "TR") {
                 if (addedNode.classList.contains("type-document")) {
-                    processDocumentElement(addedNode, true);
+                    processDocumentElement(addedNode);
                 } else if (addedNode.classList.contains("type-assignment")) {
                     processAssignmentElement(addedNode);
                 }
             }
         }
     });
-
-    let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
-
-    for (let value of document.querySelectorAll("#course-profile-materials tr.type-document")) {
-        let materialId = value.id.match(/\d+/)[0];
-        let documentInfo = (await fetchApiJson(`/sections/${classId}/documents/${materialId}`));
-
-        // preexisting document isn't a 'real' document (i.e. link or whatever)
-        if (!documentInfo.attachments.files || !documentInfo.attachments.files.file[0]) {
-            continue;
-        }
-
-        let fileData = documentInfo.attachments.files.file[0];
-        if (fileData.converted_filemime == "application/pdf" && fileData.converted_download_path) {
-            let documentUrl = (await fetchWithApiAuthentication(fileData.converted_download_path)).url;
-            let tooltip = document.getElementById("tooltip-holder-" + value.id);
-
-            createPDFThumbnail(documentUrl, (data, numPages) => {
-                tooltip.dataset.tooltipHtml = `<img src="${data}" /><p style="text-align:center">${numPages} pages</p>`
-            }, 200);
-        } else {
-            // it's a file but not a supported type. TODO what to do? probably at least should show an unsupported message
-        }
-    }
 
     userId = getUserId();
 
@@ -400,5 +381,6 @@
     for (let eventHook of gradeLoadHooks) {
         eventHook(loadedGradeContainer);
     }
-})();
-
+})().catch(reason => {
+    Logger.error("Error running materials page modification script: ", reason);
+});
