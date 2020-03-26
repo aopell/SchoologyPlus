@@ -38,10 +38,9 @@
     ],
     "web_accessible_resources": [
         "imgs/*",
-        "js/materials.pdfhandler.js",
+        "lib/js/pdf.worker.js",
         "theme-editor.html",
-        "default-icons.html",
-        "lib/data/schoology-reorder-ui-langprops.json"
+        "default-icons.html"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'",
     "background": {
@@ -118,6 +117,7 @@
                 "css/materials.css"
             ],
             "js": [
+                "lib/js/pdf.js",
                 "lib/js/jquery-3.3.1.min.js",
                 "lib/js/jquery-migrate-3.0.1.js",
                 "lib/js/jquery.tipsy.js",
