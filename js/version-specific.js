@@ -188,12 +188,14 @@ let migrationsTo = {
         ]);
     },
     "6.2": function (currentVersion, previousVersion) {
-        var modalExistsInterval = setInterval(function () {
-            if (document.readyState === "complete" && openModal && document.getElementById("analytics-modal")) {
-                clearInterval(modalExistsInterval);
-                openModal("analytics-modal");
-            }
-        }, 10);
+        if (getBrowser() !== "Firefox") {
+            var modalExistsInterval = setInterval(function () {
+                if (document.readyState === "complete" && openModal && document.getElementById("analytics-modal")) {
+                    clearInterval(modalExistsInterval);
+                    openModal("analytics-modal");
+                }
+            }, 10);
+        }
     }
 };
 
