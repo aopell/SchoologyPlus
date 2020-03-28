@@ -67,7 +67,7 @@ bottom.appendChild(createElement("span", ["footer-divider"], { textContent: "|" 
 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
-let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2020 | <a href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://github.com/aopell/SchoologyPlus/releases/latest"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://aopell.github.io/SchoologyPlus/discord.html" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus">GitHub</a> | <a href="#" id="open-contributors">Contributors</a> | <a target="_blank" href="https://aopell.me/SchoologyPlus/privacy-policy">Privacy Policy</a> | <a href="#" id="open-changelog"> Changelog</a>`;
+let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2020 | <a id="open-webstore" class="splus-track-clicks" href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://addons.mozilla.org/en-US/firefox/addon/schoology-plus/"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://aopell.github.io/SchoologyPlus/discord.html" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://aopell.me/SchoologyPlus/privacy-policy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
 let modalFooterText = "Schoology Plus";
 
 let frame = document.createElement("iframe");
@@ -85,6 +85,52 @@ let modals = [
         "changelog-modal",
         "Schoology Plus Changelog",
         createElement("div", ["splus-modal-contents"], {}, [frame]),
+        modalFooterText
+    ),
+    new Modal(
+        "analytics-modal",
+        "Schoology Plus",
+        createElement("div", ["splus-modal-contents"], {}, [
+            createElement("h2", ["setting-entry"], { textContent: "Anonymous Usage Statistics" }),
+            createElement("p", ["setting-description"], { style: { fontSize: "14px" } }, [
+                createElement("span", [], { textContent: "Schoology Plus would like to collect anonymous usage statistics to better understand how people use this extension. Per our " }),
+                createElement("a", ["splus-track-clicks"], { id: "analytics-privacy-policy-link", href: "https://aopell.me/SchoologyPlus/privacy-policy", textContent: "privacy policy" }),
+                createElement("strong", [], { textContent: " we don't collect ANY personal information." }),
+            ]),
+            createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px", paddingBottom: "10px" } }, [
+                createElement("strong", [], { textContent: "We encourage you to leave this enabled" }),
+                createElement("span", [], { textContent: " so we can better understand how people use Schoology Plus, and we promise to be transparent about what we collect by providing aggregated statistics periodically in our Discord server." })
+            ]),
+            new Setting(
+                "analytics",
+                "Anonymous Usage Statistics",
+                "[Reload required] Allow Schoology Plus to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy.",
+                getBrowser() === "Firefox" ? "disabled" : "enabled",
+                "select",
+                {
+                    options: [
+                        {
+                            text: "Enabled",
+                            value: "enabled"
+                        },
+                        {
+                            text: "Disabled",
+                            value: "disabled"
+                        }
+                    ]
+                },
+                value => value,
+                undefined,
+                element => element.value
+            ).control,
+            createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px" }, textContent: "You can change your choice at any point in Schoology Plus settings" }),
+            createElement("div", ["settings-buttons-wrapper"], undefined, [
+                createButton("save-analytics-settings", "Save and Close", () => {
+                    Setting.saveModified();
+                    modalClose(document.getElementById("analytics-modal"));
+                })
+            ])
+        ]),
         modalFooterText
     ),
     new Modal(
@@ -182,6 +228,7 @@ let modals = [
                     instance.hide({
                         transitionOut: 'fadeOutRight',
                         onClosing: function (instance, toast, closedBy) {
+                            trackEvent('viewChangelogButton', "click", "Toast Button");
                             openModal("changelog-modal");
                         }
                     }, toast, 'viewChangelogButton');
@@ -245,6 +292,7 @@ document.body.onkeydown = (data) => {
         video.style.visibility = "visible";
         video.currentTime = 0;
         video.play();
+        trackEvent("Easter Egg", "play");
     }
     else if (data.key === "Escape") {
         video.style.visibility = "hidden";
@@ -293,6 +341,8 @@ function openModal(id, options) {
     for (let m of modals) {
         modalClose(m.element);
     }
+
+    trackEvent(id, "open", "Modal");
 
     let mm = modals.find(m => m.id == id);
     if (mm.onopen) mm.onopen(mm, options);

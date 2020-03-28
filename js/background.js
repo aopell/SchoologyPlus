@@ -49,6 +49,7 @@ chrome.alarms.onAlarm.addListener(onAlarm);
 Logger.log("Adding notification listener");
 chrome.notifications.onClicked.addListener(function (id) {
     Logger.log("Notification clicked");
+    trackEvent(id, "notification click", "Notifications");
     chrome.notifications.clear(id, null);
     switch (id) {
         case "assignment":
@@ -65,8 +66,9 @@ Logger.log("Adding browser action listener");
 chrome.browserAction.onClicked.addListener(function () {
     Logger.log("Browser action clicked");
     chrome.browserAction.getBadgeText({}, x => {
-        Logger.log(`Browser action text: "${x}"`);
         let n = Number.parseInt(x);
+        trackEvent("Browser Action", n ? `browser action clicked: ${n}` : "browser action clicked: 0", "Notifications");
+        Logger.log(`Browser action text: "${x}"`);
         if (n) chrome.tabs.create({ url: `https://${defaultDomain}/home/notifications` }, null);
         else chrome.tabs.create({ url: `https://${defaultDomain}` }, null);
         chrome.browserAction.setBadgeText({ text: "" });
@@ -189,8 +191,7 @@ function sendNotification(notification, name, count) {
         if (getBrowser() == "Firefox") {
             delete notification.requireInteraction;
         }
-        Logger.warn("New notification!");
-        Logger.log(notification);
+        Logger.log("New notification!", notification);
 
         if (count > 0 && (!storageContent.notifications || storageContent.notifications == "enabled" || storageContent.notifications == "badge")) {
             chrome.browserAction.getBadgeText({}, x => {
@@ -303,7 +304,7 @@ function getBrowser() {
         }
     } else {
         // Does not actually differentiate Chrome and Edge, since new Edge is Chromium
-        return "Edge";
+        return "Other";
     }
 }
 

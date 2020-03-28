@@ -75,7 +75,10 @@ function createToastButton(text, id, onClick, transition = "fadeOutRight") {
     return [`<button>${text}</button>`, function (instance, toast) {
         instance.hide({
             transitionOut: transition,
-            onClosing: onClick
+            onClosing: function (instance, toast, closedBy) {
+                trackEvent(id || text, "click", "Toast Button");
+                onClick(instance, toast, closedBy);
+            }
         }, toast, id);
     }];
 }
@@ -179,10 +182,18 @@ let migrationsTo = {
             createBroadcast(
                 510,
                 "New Schoology Plus Discord Server",
-                "Schoology Plus has a new Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. <a href=\"https://aopell.github.io/SchoologyPlus/discord.html\">Click here</a> to join!",
+                "Schoology Plus has a new Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. <a href=\"https://aopell.github.io/SchoologyPlus/discord.html\" id=\"announcement-discord-link\" class=\"splus-track-clicks\">Click here</a> to join!",
                 new Date(2019, 1 /* February - don't you just love JavaScript */, 14)
             )
         ]);
+    },
+    "6.2": function (currentVersion, previousVersion) {
+        var modalExistsInterval = setInterval(function () {
+            if (document.readyState === "complete" && openModal && document.getElementById("analytics-modal")) {
+                clearInterval(modalExistsInterval);
+                openModal("analytics-modal");
+            }
+        }, 10);
     }
 };
 
@@ -192,8 +203,10 @@ function versionSpecificFirstLaunch(currentVersion, previousVersion) {
     // TODO add special handling if any migrations return a Promise such that we run in order
     for (let migrateTo in migrationsTo) {
         if (!previousVersion) {
+            trackEvent("Install", currentVersion, "Versions");
             migrationsTo[migrateTo](currentVersion, previousVersion);
         } else if (compareVersions(migrateTo, currentVersion) <= 0 && compareVersions(migrateTo, previousVersion) > 0) {
+            trackEvent("Update", `${previousVersion} to ${currentVersion}`, "Versions");
             migrationsTo[migrateTo](currentVersion, previousVersion);
         }
     }

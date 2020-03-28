@@ -27,23 +27,38 @@ $.contextMenu({
         separator: "-----",
         materials: {
             name: "Materials",
-            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/materials`, "_blank") }
+            callback: function (key, opt) {
+                trackEvent("Materials", "click", "Grades Context Menu");
+                window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/materials`, "_blank")
+            }
         },
         updates: {
             name: "Updates",
-            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/updates`, "_blank") }
+            callback: function (key, opt) {
+                trackEvent("Updates", "click", "Grades Context Menu");
+                window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/updates`, "_blank")
+            }
         },
         student_grades: {
             name: "Grades",
-            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/student_grades`, "_blank") }
+            callback: function (key, opt) {
+                trackEvent("Grades", "click", "Grades Context Menu");
+                window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/student_grades`, "_blank")
+            }
         },
         mastery: {
             name: "Mastery",
-            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/mastery`, "_blank") }
+            callback: function (key, opt) {
+                trackEvent("Mastery", "click", "Grades Context Menu");
+                window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/mastery`, "_blank")
+            }
         },
         members: {
             name: "Members",
-            callback: function (key, opt) { window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/members`, "_blank") }
+            callback: function (key, opt) {
+                trackEvent("Members", "click", "Grades Context Menu");
+                window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/members`, "_blank")
+            }
         }
     }
 });
@@ -207,6 +222,7 @@ var fetchQueue = [];
                                 assignment.classList.remove("last-row-of-tier");
 
                                 assignment.classList.add("added-fake-assignment");
+                                trackEvent("assignment", "create-fake", "What-If Grades");
 
                                 let assignmentTitle = assignment.getElementsByClassName("title")[0].firstElementChild;
                                 assignmentTitle.textContent = "Added Assignment (Click to Rename)";
@@ -292,7 +308,7 @@ var fetchQueue = [];
                     } else {
                         setGradeText(gradeText, sum, max, category);
                     }
-                    
+
                     gradeText.classList.remove("no-grade");
                     gradeText.classList.add("awarded-grade");
 
@@ -484,9 +500,12 @@ var fetchQueue = [];
             timeRow.appendChild(timeRowLabel);
         }
 
-        timeRow.appendChild(createElement("input", [], {
+        timeRow.appendChild(createElement("input", ["splus-track-clicks"], {
             type: "checkbox",
             id: "enable-modify",
+            dataset: {
+                splusTrackingLabel: "What-If Grades"
+            },
             onclick: function () {
                 let normalAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.added-fake-assignment)";
                 let addedAssignRClickSelector = ".item-row.added-fake-assignment:not(.dropped):not(.grade-add-indicator)";
@@ -683,6 +702,7 @@ var fetchQueue = [];
                     };
 
                     let dropGradeThis = function () {
+                        trackEvent("assignment", "drop", "What-If Grades");
                         this[0].classList.add("dropped");
                         // alter grade
                         let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
@@ -769,6 +789,7 @@ var fetchQueue = [];
                                     }
                                 }
 
+                                trackEvent("assignment", "calc-min", "What-If Grades");
                                 calculateMinimumGrade(this[0], desiredPercentage);
                             },
                             items: {}
@@ -802,6 +823,7 @@ var fetchQueue = [];
                             calcMinFor["calculateMinGradeFor" + gradeValue] = {
                                 name: "For " + letterGrade + " (" + gradeValue + "%)",
                                 callback: function (key, opt) {
+                                    trackEvent("assignment", `calc-min-for-${letterGrade}`, "What-If Grades");
                                     calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
                                 }
                             };
@@ -813,6 +835,7 @@ var fetchQueue = [];
                             callback: function () {
                                 let courseElem = this[0].closest(".gradebook-course");
                                 let titleElem = SINGLE_COURSE ? document.querySelector(".page-title") : courseElem.querySelector(".gradebook-course-title");
+                                trackEvent("assignment", "change-boundaries", "What-If Grades");
                                 openModal("course-settings-modal", {
                                     courseId: courseElem.id.match(/\d+/)[0],
                                     courseName: titleElem.querySelector("a span:nth-child(3)") ? titleElem.querySelector("a span:nth-child(2)").textContent : titleElem.innerText.split('\n')[0]
@@ -840,6 +863,7 @@ var fetchQueue = [];
                             undrop: {
                                 name: "Undrop",
                                 callback: function (key, opt) {
+                                    trackEvent("assignment", "undrop", "What-If Grades");
                                     this[0].classList.remove("dropped");
                                     // alter grade
                                     let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
@@ -1266,6 +1290,7 @@ var fetchQueue = [];
 
     function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
+            trackEvent("assignment", "change-grade", "What-If Grades");
             removeExceptionState(assignment, gradeColContentWrap);
 
             let noGrade = gradeColContentWrap.querySelector(".no-grade");

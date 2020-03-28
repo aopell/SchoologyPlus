@@ -42,9 +42,11 @@
         "theme-editor.html",
         "default-icons.html"
     ],
-    "content_security_policy": "script-src 'self'; object-src 'self'",
+    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
     "background": {
         "scripts": [
+            "js/analytics.js",
+            "lib/js/analytics.js",
             "lib/js/purify.min.js",
             "js/background.js"
         ],
@@ -63,6 +65,8 @@
                 "css/all.css"
             ],
             "js": [
+                "js/analytics.js",
+                "lib/js/analytics.js",
                 "js/icons.js",
                 "js/default-themes.js",
                 "js/theme.js",

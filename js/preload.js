@@ -230,7 +230,7 @@ function createElement(tag, classList, properties, children) {
  * @param {(e: Event)=>void} callback A function to be called when the button is clicked
  */
 function createButton(id, text, callback) {
-    return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit"], { type: "button", value: text, id: id })]);
+    return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit", "splus-track-clicks"], { type: "button", value: text, id: id, dataset: { splusTrackingLabel: "S+ Button" } })]);
 }
 
 /**
@@ -724,7 +724,13 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
-                ).control
+                ).control,
+                createElement("div", ["setting-entry"], {}, [
+                    createElement("h2", ["setting-title"], {}, [
+                        createElement("a", [], { href: "#", textContent: "Anonymous Usage Statistics", onclick: () => openModal("analytics-modal"), style: {fontSize: ""} })
+                    ]),
+                    createElement("p", ["setting-description"], { textContent: "[Reload required] Allow Schoology Plus to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy." })
+                ])
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
                 createButton("save-settings", "Save Settings", () => Setting.saveModified()),
@@ -849,6 +855,10 @@ Setting.saveModified = function (modifiedValues, updateButtonText = true, callba
             if (!setting) {
                 continue;
             }
+            trackEvent(settingName, `set value: ${newValues[settingName]}`, "Setting");
+            if (!setting.getElement()) {
+                continue;
+            }
             let settingModifiedIndicator = setting.getElement().parentElement.querySelector(".setting-modified");
             if (settingModifiedIndicator) {
                 settingModifiedIndicator.remove();
@@ -872,6 +882,7 @@ Setting.saveModified = function (modifiedValues, updateButtonText = true, callba
  */
 Setting.restoreDefaults = function () {
     if (confirm("Are you sure you want to delete all settings?\nTHIS CANNOT BE UNDONE")) {
+        trackEvent("restore-defaults", "restore default values", "Setting");
         for (let setting in __settings) {
             delete __storage[setting];
             chrome.storage.sync.remove(setting);
