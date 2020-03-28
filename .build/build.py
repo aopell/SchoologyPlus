@@ -85,7 +85,7 @@ for target in targets:
         removePathFromManifest(targetManifest, path)
 
     with open(f".build/{target}/manifest.json", "w") as manifestFile:
-        manifestFile.write(json.dumps(targetManifest))
+        manifestFile.write(json.dumps(targetManifest, indent=4))
         manifestFile.close()
 
     print(f"Wrote modified .build/{target}/manifest.json")
