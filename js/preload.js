@@ -725,12 +725,12 @@ function updateSettings(callback) {
                     undefined,
                     element => element.value
                 ).control,
-                createElement("div", ["setting-entry"], {}, [
+                getBrowser() !== "Firefox" ? createElement("div", ["setting-entry"], {}, [
                     createElement("h2", ["setting-title"], {}, [
                         createElement("a", [], { href: "#", textContent: "Anonymous Usage Statistics", onclick: () => openModal("analytics-modal"), style: {fontSize: ""} })
                     ]),
                     createElement("p", ["setting-description"], { textContent: "[Reload required] Allow Schoology Plus to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy." })
-                ])
+                ]) : noControl
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
                 createButton("save-settings", "Save Settings", () => Setting.saveModified()),

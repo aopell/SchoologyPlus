@@ -18,7 +18,7 @@
 
 // Check Schoology domain
 {
-    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "ui.schoology.com", "www.schoology.com", "schoology.com"];
+    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com"];
     let dd = Setting.getValue("defaultDomain");
 
     if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host)) {
@@ -53,6 +53,9 @@
                     location.reload();
                 });
             });
+        } else {
+            alert(`Schoology Plus has updated the domain on which it runs. Click OK to reload the page.\nPrevious: ${dd}\nNew: ${window.location.host}`);
+            location.reload();
         }
     }
 }

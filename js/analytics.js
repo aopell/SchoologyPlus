@@ -1,5 +1,6 @@
 /**
  * Tracks an event using Google Analytics if the user did not opt out
+ * NOTE: The Firefox version of the extension has no support for Google Analytics
  * @param {string} target The target of the event
  * @param {string} action The action of the event
  * @param {string} [label] Used to group related events
@@ -30,17 +31,20 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
     });
 
     function enableAnalytics() {
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-        })(window, undefined, undefined, undefined, 'ga');
+        // isogram
+        let r = 'ga';
+        window['GoogleAnalyticsObject'] = r;
+        window[r] = window[r] || function () {
+            window[r].q = window[r].q || [];
+            window[r].q.push(arguments);
+        };
+        window[r].l = 1 * new Date();
 
         ga('create', 'UA-55873395-2', 'auto');
         ga('set', 'checkProtocolTask', null); // Disable file protocol checking.
         ga('set', 'dimension1', chrome.runtime.getManifest().version);
         ga('set', 'dimension2', location.host);
-        ga('send', 'pageview');
+        ga('send', 'pageview', location.pathname + location.search);
 
         trackEvent = function (target, action, label = undefined, value = undefined) {
             ga('send', 'event', target, action, label, value);

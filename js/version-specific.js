@@ -200,15 +200,19 @@ let migrationsTo = {
 };
 
 function versionSpecificFirstLaunch(currentVersion, previousVersion) {
-    Logger.log("[Updater] Version specific first launch: ", currentVersion, " from ", previousVersion);
+    Logger.log("[Updater] First launch after update, updating to ", currentVersion, " from ", previousVersion);
+
+    if(!previousVersion) {
+        trackEvent("Install", currentVersion, "Versions");
+    } else {
+        trackEvent("Update", `${previousVersion} to ${currentVersion}`, "Versions");
+    }
 
     // TODO add special handling if any migrations return a Promise such that we run in order
     for (let migrateTo in migrationsTo) {
-        if (!previousVersion) {
-            trackEvent("Install", currentVersion, "Versions");
+        if (!previousVersion) {     
             migrationsTo[migrateTo](currentVersion, previousVersion);
         } else if (compareVersions(migrateTo, currentVersion) <= 0 && compareVersions(migrateTo, previousVersion) > 0) {
-            trackEvent("Update", `${previousVersion} to ${currentVersion}`, "Versions");
             migrationsTo[migrateTo](currentVersion, previousVersion);
         }
     }
