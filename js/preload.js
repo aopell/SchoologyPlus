@@ -39,6 +39,11 @@ Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version
 var firstLoad = true;
 updateSettings();
 
+var beta_tests = {
+    // "darktheme": "https://aopell.me",
+    // "newgrades": "https://aopell.me"
+};
+
 var defaultCourseIconUrlRegex = /\/sites\/[a-zA-Z0-9_-]+\/themes\/[%a-zA-Z0-9_-]+\/images\/course-default.(?:svg|png|jpe?g|gif)(\?[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?(&[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?)*)?$/;
 
 // Functions
@@ -727,7 +732,7 @@ function updateSettings(callback) {
                 ).control,
                 getBrowser() !== "Firefox" ? createElement("div", ["setting-entry"], {}, [
                     createElement("h2", ["setting-title"], {}, [
-                        createElement("a", [], { href: "#", textContent: "Anonymous Usage Statistics", onclick: () => openModal("analytics-modal"), style: {fontSize: ""} })
+                        createElement("a", [], { href: "#", textContent: "Anonymous Usage Statistics", onclick: () => openModal("analytics-modal"), style: { fontSize: "" } })
                     ]),
                     createElement("p", ["setting-description"], { textContent: "[Reload required] Allow Schoology Plus to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy." })
                 ]) : noControl

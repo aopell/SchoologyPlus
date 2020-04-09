@@ -71,7 +71,7 @@ bottom.appendChild(createElement("span", ["footer-divider"], { textContent: "|" 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
 let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2020 | <a id="open-webstore" class="splus-track-clicks" href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://addons.mozilla.org/en-US/firefox/addon/schoology-plus/"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://aopell.github.io/SchoologyPlus/discord.html" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://aopell.me/SchoologyPlus/privacy-policy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
-let modalFooterText = "Schoology Plus";
+let modalFooterText = "Schoology Plus &copy; Aaron Opell, Glen Husman 2017-2020";
 
 let frame = document.createElement("iframe");
 frame.src = `https://aopell.me/SchoologyPlus/changelog?version=${chrome.runtime.getManifest().version}`;
@@ -131,6 +131,68 @@ let modals = [
                 createButton("save-analytics-settings", "Save and Close", () => {
                     Setting.saveModified();
                     modalClose(document.getElementById("analytics-modal"));
+                })
+            ])
+        ]),
+        modalFooterText
+    ),
+    new Modal(
+        "beta-modal",
+        "Schoology Plus βeta",
+        createElement("div", ["splus-modal-contents"], {}, [
+            createElement("h2", ["setting-entry"], { textContent: "Enable βeta Testing" }),
+            createElement("p", ["setting-description"], { style: { fontSize: "14px" } }, [
+                createElement("span", [], { textContent: "If you have been given a Schoology Plus βeta code, you can enter it below to enable that beta test. If you don't know what this is, you should probably close this window, or you can " }),
+                createElement("a", ["splus-track-clicks"], { id: "beta-discord-link", href: "https://aopell.me/SchoologyPlus/discord", textContent: "join our Discord server" }),
+                createElement("span", [], { textContent: " if you want to learn more." }),
+            ]),
+            createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px", paddingBottom: "10px" } }, [
+                createElement("strong", [], { textContent: "You must" }),
+                createElement("span", [], { textContent: " have anonymous usage statistics enabled in order to participate in beta tests" })
+            ]),
+            new Setting(
+                "beta",
+                "Schoology Plus βeta Code",
+                "[Reload required] Enables a beta test of a new Schoology Plus feature if you enter a valid code",
+                "",
+                "text",
+                {
+                    enabled: Setting.getValue("analytics") === "enabled"
+                },
+                value => value,
+                undefined,
+                element => element.value
+            ).control,
+            createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px" }, textContent: "You can change this setting at any point to disable or change the beta test. Access this page by pressing Alt+B (Option+B on Mac)." }),
+            createElement("div", ["settings-buttons-wrapper"], undefined, [
+                createButton("save-beta-settings", "Save", () => {
+                    let new_test = document.getElementById("setting-input-beta").value;
+                    let test_link = beta_tests[new_test];
+                    let current_test = Setting.getValue("beta");
+
+                    if (new_test === "" && current_test) {
+                        if (confirm(`Are you sure you want to disable the "${current_test}" beta test? This will reload the page.`)) {
+                            Setting.saveModified();
+                            location.reload();
+                        }
+                    } else if (test_link) {
+                        if (new_test === current_test) {
+                            return;
+                        } else if (current_test) {
+                            if (!confirm(`Are you sure you want to disable the "${current_test}" beta test and enable the "${new_test}" beta test? This will reload the page and open a document with information about how the new test works.`)) {
+                                return;
+                            }
+                        } else {
+                            if (!confirm(`Are you sure you want to enable the "${new_test}" beta test? This will reload the page and open a document with information about how the test works.`)) {
+                                return;
+                            }
+                        }
+                        Setting.saveModified();
+                        window.open(test_link, "_blank");
+                        location.reload();
+                    } else {
+                        alert("The βeta Code you entered was invalid");
+                    }
                 })
             ])
         ]),
@@ -287,7 +349,7 @@ let source = createElement("source", [], {
 let sourceSet = false;
 
 document.body.onkeydown = (data) => {
-    if (data.altKey && data.code === "KeyC") {
+    if (data.altKey && data.key === "c") {
         if (!sourceSet) {
             video.appendChild(source);
             sourceSet = true;
@@ -296,6 +358,8 @@ document.body.onkeydown = (data) => {
         video.currentTime = 0;
         video.play();
         trackEvent("Easter Egg", "play");
+    } else if (data.altKey && data.key === "b") {
+        openModal("beta-modal");
     }
     else if (data.key === "Escape") {
         video.style.visibility = "hidden";
@@ -356,7 +420,7 @@ function openModal(id, options) {
 function modalClose(element) {
     element = element.target ? document.getElementById(element.target.dataset.parent) : element;
 
-    if (element == modals.find(m => m.id == "settings-modal").element && Setting.anyModified()) {
+    if (element.id === "settings-modal" && Setting.anyModified()) {
         if (!confirm("You have unsaved settings.\nAre you sure you want to exit?")) return;
         updateSettings();
     }
