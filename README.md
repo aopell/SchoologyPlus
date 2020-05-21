@@ -226,7 +226,7 @@ Schoology Plus is equipped with a fully-featured theme editor, allowing you to c
 
 # Feedback and Support Discord
 
-Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. [Click here to join!](https://schoologypl.us/discord)
+Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. [Click here to join!](http://discord.schoologypl.us)
 
 # Contributing
 
