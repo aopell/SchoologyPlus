@@ -7,7 +7,7 @@
 [![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/rating/fbfppoaockpecjpbdmldojdehdpepfef.svg)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [![Mozilla Add-on](https://img.shields.io/amo/v/schoology-plus?color=orange&label=firefox%20download)](https://addons.mozilla.org/en-US/firefox/addon/schoology-plus/)
 [![Edge Extension](https://img.shields.io/github/release/aopell/SchoologyPlus.svg?label=edge%20download&colorB=0c2b5a)](https://microsoftedge.microsoft.com/addons/detail/fflijjibhgbhdgjgjkbbnamafdelcoal)
-[![Discord](https://img.shields.io/discord/526898202495025172.svg?color=7289da&label=discord)](https://aopell.github.io/SchoologyPlus/discord.html)
+[![Discord](https://img.shields.io/discord/526898202495025172.svg?color=7289da&label=discord)](http://discord.schoologypl.us)
 [![Changelog](https://img.shields.io/github/release/aopell/SchoologyPlus.svg?label=changelog&colorB=lightgrey)](https://aopell.me/SchoologyPlus/changelog)
 
 [![Download for Chrome](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
