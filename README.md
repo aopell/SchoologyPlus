@@ -44,13 +44,17 @@
 > ***All features below marked with an asterisk\* can be changed or customized with a setting***
 
 ## Interface Improvements
+
 ### Blue Theme
+
 ![Navigation Bar](https://i.imgur.com/VbTn30Y.png)
 
 *Image: The blue Schology Plus navigation bar*
 - Replaces your school's theme with a blue theme
 - Replaces your school's logo with the Schoology logo
+
 ### Custom Themes
+
 ![Built-in Themes](https://i.imgur.com/Tjfa5tJ.gif)
 
 *Image: Demonstration of the built-in themes*
@@ -59,13 +63,17 @@
   - For non-LAUSD schools, an auto-generated theme will be created to match your school's default theme
 - Custom themes can change colors throughout the interface as well as the logo and course icons. Custom themes can even use custom rainbow color patterns!
 - To learn more about creating custom themes, see [Theme Editor](#theme-editor)
+
 #### Course Icons
+
 ![Course Icons](https://imgur.com/KybIeXw.png)
 
 *Image: Example of built-in course icons*
 - Built-in course icons for many courses* (LAUSD schools only)
 - Custom themes can also introduce custom icons for courses
+
 ### Tooltips
+
 ![Tooltips](https://i.imgur.com/9AOrZkC.gif)
 
 *Image: Demonstration of material tooltips*
@@ -74,11 +82,13 @@
   - PDF files show previews and number of pages
 
 ### Courses In Common
+
 ![Courses in Common](https://imgur.com/0tEgPhh.png)
 *Image: Dialog box showing courses in common with another classmate*
 - View all courses you share with a classmate by visiting their profile page
 
 ### Miscellaneous Interface Improvements
+
 - Adds a button to quickly jump to archived courses in the Courses drop-down list*
 - Adds option to hide the upcoming and overdue assignments sidebars on the home page*
 - Indicates when a class is graded on a weighted scale*
@@ -86,7 +96,9 @@
 - Notice when submitting a quiz when questions are left blank
 
 ## Grades Page Improvements
+
 ### Miscellaneous Grades Page Improvements
+
 ![Grades Page](https://i.imgur.com/k6MZRKE.png)
 *Image: Example of the grades page showing grades for collapsed courses.*
 - Classes are sorted by period* (LAUSD schools only)
@@ -115,6 +127,7 @@
 *Image: Right click a class to view a context menu*
 
 - Right click a class to quickly jump to a specific page or to edit that [course's settings](#course-settings)
+
 ### What-If Grades
 
 ![What-If Grades](https://i.imgur.com/frX2S3G.gif)
@@ -158,7 +171,9 @@
 - Clicking the extension icon will take you to:
   - Your notifications if you have newly posted grades
   - The Schoology homepage if you do not
+
 ### Schoology Plus Announcements
+
 ![Announcement](https://i.imgur.com/jJ93rt7.png)
 
 *Image: An example of a Schoology Plus announcement*
@@ -167,6 +182,7 @@
 - They will also show as posts in your news feed*
 
 ## Schoology Plus Settings
+
 ![Settings](https://i.imgur.com/NMrweVB.png)
 
 *Image: The Schoology Plus settings dialog box. Click the (+) button on the navigation bar to open.*
@@ -198,22 +214,33 @@ Schoology Plus is equipped with a fully-featured theme editor, allowing you to c
 *Image: The course options dialog box. To access, click on the "Course Options" button on the sidebar of any course page.*
 
 ### Course Nicknames
+
 - You can set a nickname for a course, allowing you to make friendlier and nicer looking names that appear everywhere in the interface where the ugly name appeared previously.
+
 ### Custom Grading Scales
+
 - You can create custom grading scales for courses where the teacher does not have a grading scale set for the class.
   - This will be used to calculate letter grades for assignment categories and courses on the grades page
 
 # Feedback and Support Discord
-Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. [Click here to join!](https://aopell.github.io/SchoologyPlus/discord.html)
+
+Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. [Click here to join!](https://schoologypl.us/discord)
 
 # Contributing
+
 Please see [CONTRIBUTING.md](https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md) for information about contributing to Schoology Plus. This document also includes methods for reporting bugs and submitting feature requests.
 
 # Contributors
+
 This extension was created by [Aaron Opell](https://github.com/aopell). Significant development assistance has been provided by [Glen Husman](https://github.com/glen3b). Various other contribution information is located in the Contributors dialog accessible via a link in the footer of Schoology Plus settings.
 
 # License
-This project is open source under the MIT License. See the [LICENSE file](LICENSE) for more information.
+
+This project is open source under the MIT License. See the [LICENSE file](https://github.com/aopell/SchoologyPlus/blob/develop/LICENSE) for more information.
+
+# Privacy Policy
+
+Schoology Plus respects your privacy and will NEVER collect or sell your personally identifying information. View our full privacy policy [here](https://schoologypl.us/privacy).
 
 # Disclaimer
 
