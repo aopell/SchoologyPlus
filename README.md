@@ -38,6 +38,7 @@
 - [Contributing](#contributing)
 - [Contributors](#contributors)
 - [License](#license)
+- [Privacy Policy](#privacy-policy)
 - [Disclaimer](#disclaimer)
 
 # Features
@@ -84,6 +85,7 @@
 ### Courses In Common
 
 ![Courses in Common](https://imgur.com/0tEgPhh.png)
+
 *Image: Dialog box showing courses in common with another classmate*
 - View all courses you share with a classmate by visiting their profile page
 
@@ -100,6 +102,7 @@
 ### Miscellaneous Grades Page Improvements
 
 ![Grades Page](https://i.imgur.com/k6MZRKE.png)
+
 *Image: Example of the grades page showing grades for collapsed courses.*
 - Classes are sorted by period* (LAUSD schools only)
 - Grades are displayed when classes are collapsed
@@ -205,7 +208,7 @@ Schoology Plus has customizable settings, including but not limited to:
 
 *Image: The theme editor interface with an example of a custom Black and White theme*
 
-Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the [Theme Editor help page](themes/README.md).
+Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the [Theme Editor help page](/docs/themes).
 
 ## Course Options
 
@@ -224,7 +227,7 @@ Schoology Plus is equipped with a fully-featured theme editor, allowing you to c
 
 # Feedback and Support Discord
 
-Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. [Click here to join!](https://schoologypl.us/discord)
+Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. [Click here to join!](https://discord.schoologypl.us)
 
 # Contributing
 
