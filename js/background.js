@@ -49,6 +49,7 @@ chrome.alarms.onAlarm.addListener(onAlarm);
 Logger.log("Adding notification listener");
 chrome.notifications.onClicked.addListener(function (id) {
     Logger.log("Notification clicked");
+    trackEvent(id, "notification click", "Notifications");
     chrome.notifications.clear(id, null);
     switch (id) {
         case "assignment":
@@ -65,8 +66,9 @@ Logger.log("Adding browser action listener");
 chrome.browserAction.onClicked.addListener(function () {
     Logger.log("Browser action clicked");
     chrome.browserAction.getBadgeText({}, x => {
-        Logger.log(`Browser action text: "${x}"`);
         let n = Number.parseInt(x);
+        trackEvent("Browser Action", n ? `browser action clicked: ${n}` : "browser action clicked: 0", "Notifications");
+        Logger.log(`Browser action text: "${x}"`);
         if (n) chrome.tabs.create({ url: `https://${defaultDomain}/home/notifications` }, null);
         else chrome.tabs.create({ url: `https://${defaultDomain}` }, null);
         chrome.browserAction.setBadgeText({ text: "" });
@@ -189,8 +191,7 @@ function sendNotification(notification, name, count) {
         if (getBrowser() == "Firefox") {
             delete notification.requireInteraction;
         }
-        Logger.warn("New notification!");
-        Logger.log(notification);
+        Logger.log("New notification!", notification);
 
         if (count > 0 && (!storageContent.notifications || storageContent.notifications == "enabled" || storageContent.notifications == "badge")) {
             chrome.browserAction.getBadgeText({}, x => {
@@ -302,7 +303,8 @@ function getBrowser() {
             return "Chrome";
         }
     } else {
-        return "Edge";
+        // Does not actually differentiate Chrome and Edge, since new Edge is Chromium
+        return "Other";
     }
 }
 
@@ -310,17 +312,21 @@ function createLogPrefix(color) {
     return `color:${color};border:1px solid #2A2A2A;border-radius:100%;font-size:14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A`;
 }
 
-chrome.webRequest.onHeadersReceived.addListener(details => {
-    let exists = false;
-    details.responseHeaders.map(item => {
-        if (item.name.toLowerCase() === 'access-control-allow-origin') {
-            item.value = '*';
-            exists = true;
+if (getBrowser() !== "Firefox") {
+
+    chrome.webRequest.onHeadersReceived.addListener(details => {
+        let exists = false;
+        details.responseHeaders.map(item => {
+            if (item.name.toLowerCase() === 'access-control-allow-origin') {
+                item.value = '*';
+                exists = true;
+            }
+        });
+        if(!exists) {
+            details.responseHeaders.push({name: "access-control-allow-origin", value: "*"});
+            details.responseHeaders.push({name: "access-control-allow-headers", value: "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"});
         }
-    });
-    if(!exists) {
-        details.responseHeaders.push({name: "access-control-allow-origin", value: "*"});
-        details.responseHeaders.push({name: "access-control-allow-headers", value: "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"});
-    }
-    return { responseHeaders: details.responseHeaders };
-}, { urls: ['*://*.schoology.com/*'] }, ['blocking', 'responseHeaders', 'extraHeaders']);
+        return { responseHeaders: details.responseHeaders };
+    }, { urls: ['*://*.schoology.com/*'] }, ['blocking', 'responseHeaders', 'extraHeaders']);
+
+}

@@ -11,7 +11,7 @@ var defaultDomain = "lms.lausd.net";
 chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
     defaultDomain = s.defaultDomain;
 
-    if(isLAUSD()) {
+    if (isLAUSD()) {
         setCSSVariable("lausd-visible", "block");
         setCSSVariable("lausd-hidden", "none");
     } else {
@@ -894,6 +894,7 @@ function applyTheme(t) {
 function deleteTheme(name) {
     ConfirmModal.open("Delete Theme?", `Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`, ["Delete", "Cancel"], b => {
         if (b === "Delete") {
+            trackEvent(`Theme: ${name}`, "delete", "Theme List");
             chrome.storage.sync.get(["theme", "themes"], s => {
                 chrome.storage.sync.set({ theme: s.theme == name ? null : s.theme, themes: s.themes.filter(x => x.name != name) }, () => window.location.reload());
             });
@@ -907,6 +908,7 @@ function deleteTheme(name) {
  * @param {string} [name] The theme to edit
  */
 function editTheme(name) {
+    trackEvent(`Theme: ${name}`, "edit", "Theme List");
     clearInterval(rainbowInterval);
     themesListSection.classList.add("hidden");
     themeEditorSection.classList.remove("hidden");
@@ -1057,6 +1059,7 @@ function uploadAndPaste(pasteEvent) {
                 } else {
                     document.execCommand('paste', false, link);
                 }
+                trackEvent("icon-image", "paste", "Theme Editor");
                 preview.src = link;
                 pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
                 pasteEvent.target.dataset.originalText = "";
@@ -1144,6 +1147,7 @@ function iconPreview(e) {
 }
 
 function copyThemeToClipboard(themeName) {
+    trackEvent(`Theme: ${themeName}`, "copy", "Theme List");
     let text = JSON.stringify(allThemes[themeName]);
     var copyFrom = $('<textarea/>');
     copyFrom.text(text);
@@ -1209,6 +1213,7 @@ function handleDrop(e, region, preview, property) {
     }
 
     function success(link, toast) {
+        trackEvent("icon-image", "drop", "Theme Editor");
         if (toast) {
             toast.dismiss();
         }
@@ -1231,7 +1236,7 @@ function htmlToElement(html) {
 
 function imgurUpload(base64, callback, errorCallback) {
     if (!localStorage.getItem("imgurPromptViewed")) {
-        ConfirmModal.open("Imgur Upload Consent", "By clicking 'agree', you consent to have the image you just dropped or pasted uploaded to Imgur. Click cancel to prevent the upload. If you click 'agree;, this message will not be shown again.", ["Agree", "Cancel"], b => {
+        ConfirmModal.open("Imgur Upload Consent", "By clicking 'agree', you consent to have the image you just dropped or pasted uploaded to Imgur. Click cancel to prevent the upload. If you click 'agree' this message will not be shown again.", ["Agree", "Cancel"], b => {
             if (b === "Agree") {
                 localStorage.setItem("imgurPromptViewed", true);
                 doUpload();
@@ -1363,7 +1368,7 @@ $(document).ready(function () {
     }
 
     for (let t of __defaultThemes) {
-        if(!isLAUSD() && LAUSD_THEMES.includes(t.name)) {
+        if (!isLAUSD() && LAUSD_THEMES.includes(t.name)) {
             continue;
         }
         allThemes[t.name] = t;
@@ -1404,7 +1409,12 @@ $(document).ready(function () {
                 },
                 onclick: e => {
                     e.stopPropagation();
-                    ConfirmModal.open("Apply Theme?", `Are you sure you want to apply the theme ${t}?`, ["Apply", "Cancel"], b => b === "Apply" && chrome.storage.sync.set({ theme: t }, () => location.href = `https://${defaultDomain}`));
+                    ConfirmModal.open("Apply Theme?", `Are you sure you want to apply the theme ${t}?`, ["Apply", "Cancel"], b => {
+                        if (b === "Apply") {
+                            trackEvent(`Theme: ${t}`, "apply", "Theme List");
+                            chrome.storage.sync.set({ theme: t }, () => location.href = `https://${defaultDomain}`);
+                        }
+                    });
                 }
             };
             let appliedProps = {

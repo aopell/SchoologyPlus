@@ -30,7 +30,7 @@ function postFromBroadcast(broadcast) {
                                 createElement("span", ["visually-hidden"], { textContent: "posted to" })
                             ]),
                             createElement("a", ["sExtlink-processed"], { textContent: "Schoology Plus Announcements" }),
-                            createElement("span", ["splus-broadcast-close"], { textContent: "×", title: "Dismiss notification" }),
+                            createElement("span", ["splus-broadcast-close"], { textContent: "×", title: "Dismiss notification", onclick: () => trackEvent(`broadcast${broadcast.id}`, "close", "Broadcast") }),
                             createElement("span", ["update-body", "s-rte"], {}, [
                                 createElement("p", ["no-margins"], {}, [
                                     createElement("strong", ["splus-broadcast-title"], { innerHTML: broadcast.title })

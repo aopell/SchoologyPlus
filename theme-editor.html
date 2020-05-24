@@ -20,14 +20,16 @@
 </head>
 
 <body>
+    <script src="/js/analytics.js"></script>
     <header>
         <div class="navbar-fixed">
             <nav class="splus-blue">
                 <div class="nav-wrapper">
                     <ul id="nav-mobile" class="left">
                         <li>
-                            <a data-position="right" data-tooltip="Help" class="waves-effect waves-light tooltipped"
+                            <a data-position="right" data-tooltip="Help" class="waves-effect waves-light tooltipped splus-track-clicks"
                                 href="https://github.com/aopell/SchoologyPlus/wiki/Theme-Editor#wiki-content"
+                                id="help-navbar"
                                 target="_blank">
                                 <i class="material-icons">help</i>
                             </a>
@@ -60,11 +62,11 @@
                             </a>
                             <ul>
                                 <li><a id="import-button" data-tooltip="Import Theme"
-                                        class="btn-floating green waves-effect waves-light tooltipped"><i
+                                        class="btn-floating green waves-effect waves-light tooltipped splus-track-clicks"><i
                                             class="material-icons">save_alt</i></a>
                                 </li>
                                 <li><a id="create-button" data-tooltip="Create Theme"
-                                        class="btn-floating red waves-effect waves-light tooltipped"><i
+                                        class="btn-floating red waves-effect waves-light tooltipped splus-track-clicks"><i
                                             class="material-icons">mode_edit</i></a></li>
                             </ul>
                         </div>
@@ -131,6 +133,7 @@
                                 <p>
                                     This section contains advanced features. Please consult <a
                                         style="color: black; text-decoration: underline" target="_blank"
+                                        id="help-documentation-rainbow" class="splus-track-clicks"
                                         href="https://github.com/aopell/SchoologyPlus/wiki/Creating-a-Theme#Rainbow">the
                                         documentation</a> for how to use rainbow colors in your theme.
                                 </p>
@@ -324,13 +327,13 @@
                         </a>
                         Preview
                         <a id="save-close-button" data-tooltip="Save and Apply"
-                            class="waves-effect waves-light btn-flat right action-button tooltipped"><i
+                            class="waves-effect waves-light btn-flat right action-button tooltipped splus-track-clicks"><i
                                 class="material-icons">done</i></a>
                         <a id="save-button" data-tooltip="Save Theme"
-                            class="waves-effect waves-light btn-flat right action-button tooltipped"><i
+                            class="waves-effect waves-light btn-flat right action-button tooltipped splus-track-clicks"><i
                                 class="material-icons">save</i></a>
                         <a id="discard-button" data-tooltip="Discard Changes"
-                            class="waves-effect waves-light btn-flat right action-button tooltipped"><i
+                            class="waves-effect waves-light btn-flat right action-button tooltipped splus-track-clicks"><i
                                 class="material-icons">settings_backup_restore</i></a>
                     </h5>
                     <div id="error-card" class="col s12" style="display:none;">
@@ -469,6 +472,7 @@
                                     <p>
                                         This section contains advanced features. Please consult <a
                                             style="color: black; text-decoration: underline" target="_blank"
+                                            id="help-documentation-icons" class="splus-track-clicks"
                                             href="https://github.com/aopell/SchoologyPlus/wiki/Creating-a-Theme#Icons">the
                                             documentation</a> for how to use custom icons in your theme.
                                     </p>
@@ -489,7 +493,8 @@
                                                     Expression</span>
                                                 <a target="_blank"
                                                     href="https://www.regular-expressions.info/quickstart.html"><i
-                                                        class="material-icons tooltipped"
+                                                        class="material-icons tooltipped splus-track-clicks"
+                                                        id="help-regex"
                                                         data-tooltip="Regular expressions are a special way to check if text matches a pattern. Click for more info."
                                                         style="vertical-align: middle; color: black;">help</i></a>
                                             </th>
@@ -562,6 +567,7 @@
     <script src="/lib/js/materialize.min.js"></script>
     <script src="/lib/js/jquery-ui.min.js"></script>
     <script src="/lib/js/roundslider.min.js"></script>
+    <script src="/lib/js/analytics.js"></script>
     <script src="/js/icons.js"></script>
     <script src="/js/theme-model.js"></script>
     <script src="/js/default-themes.js"></script>

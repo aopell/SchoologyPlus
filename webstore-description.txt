@@ -100,7 +100,7 @@ Custom Grading Scales
   - This will be used to calculate letter grades for assignment categories and courses on the grades page
 
 FEEDBACK AND SUPPORT DISCORD
-Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. Visit https://aopell.github.io/SchoologyPlus/discord.html to join.
+Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. Visit https://discord.schoologypl.us to join.
 
 CONTRIBUTING
 Please see https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md for information about contributing to Schoology Plus. This document also includes methods for reporting bugs and submitting feature requests.
