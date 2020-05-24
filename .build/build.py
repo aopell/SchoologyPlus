@@ -8,17 +8,22 @@ import errno
 class BuildRules:
     def __init__(self, config):
         self.excluded_files = config["excluded_files"] or []
+        self.properties = config["properties"] or {}
 
 EXCLUDED_FILES = [".build", ".git", ".github", ".vscode", "SchoologyPlus.zip", "webstore-description.txt"]
 
 chrome_rules = BuildRules({
-    "excluded_files": []
+    "excluded_files": [],
+    "properties": {
+        "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
+    }
 })
 
 firefox_rules = BuildRules({
     "excluded_files": [
         "lib/js/analytics.js"
-    ]
+    ],
+    "properties": { }
 })
 
 targets = {
@@ -82,7 +87,13 @@ for target in targets:
     targetManifest = copy.deepcopy(manifest)
     
     for path in rules.excluded_files:
+        print(f"Removing path {path}")
         removePathFromManifest(targetManifest, path)
+        if os.path.exists(f".build/{target}/{path}"):
+            os.remove(f".build/{target}/{path}")
+
+    print("Copying properties")
+    targetManifest.update(rules.properties)
 
     with open(f".build/{target}/manifest.json", "w") as manifestFile:
         manifestFile.write(json.dumps(targetManifest, indent=4))
