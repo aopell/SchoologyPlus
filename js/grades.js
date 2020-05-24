@@ -491,7 +491,7 @@ var fetchQueue = [];
         }, [
             createElement("span", [], { textContent: "Enable what-if grades" }),
             createElement("a", ["splus-grade-help-btn"], {
-                href: "https://github.com/aopell/SchoologyPlus/wiki/What-If-Grades",
+                href: "https://schoologypl.us/docs/grades",
                 target: "_blank"
             }, [createElement("span", ["icon-help"])])
         ]);
