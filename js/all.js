@@ -421,7 +421,7 @@ function openModal(id, options) {
 function modalClose(element) {
     element = element.target ? document.getElementById(element.target.dataset.parent) : element;
 
-    if (element.id === "settings-modal" && Setting.anyModified()) {
+    if (element.id === "settings-modal" && element.style.display !== "none" && Setting.anyModified()) {
         if (!confirm("You have unsaved settings.\nAre you sure you want to exit?")) return;
         updateSettings();
     }
