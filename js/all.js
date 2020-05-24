@@ -70,11 +70,11 @@ bottom.appendChild(createElement("span", ["footer-divider"], { textContent: "|" 
 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
-let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2020 | <a id="open-webstore" class="splus-track-clicks" href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://addons.mozilla.org/en-US/firefox/addon/schoology-plus/"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://aopell.github.io/SchoologyPlus/discord.html" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://aopell.me/SchoologyPlus/privacy-policy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
+let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2020 | <a id="open-webstore" class="splus-track-clicks" href="${getBrowser() == "Chrome" ? `https://chrome.google.com/webstore/detail/${chrome.runtime.id}` : "https://addons.mozilla.org/en-US/firefox/addon/schoology-plus/"}">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://aopell.github.io/SchoologyPlus/discord.html" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://schoologypl.us/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
 let modalFooterText = "Schoology Plus &copy; Aaron Opell, Glen Husman 2017-2020";
 
 let frame = document.createElement("iframe");
-frame.src = `https://aopell.me/SchoologyPlus/changelog?version=${chrome.runtime.getManifest().version}`;
+frame.src = `https://schoologypl.us/changelog?version=${chrome.runtime.getManifest().version}`;
 
 let modals = [
     new Modal(
@@ -97,7 +97,7 @@ let modals = [
             createElement("h2", ["setting-entry"], { textContent: "Anonymous Usage Statistics" }),
             createElement("p", ["setting-description"], { style: { fontSize: "14px" } }, [
                 createElement("span", [], { textContent: "Schoology Plus would like to collect anonymous usage statistics to better understand how people use this extension. Per our " }),
-                createElement("a", ["splus-track-clicks"], { id: "analytics-privacy-policy-link", href: "https://aopell.me/SchoologyPlus/privacy-policy", textContent: "privacy policy" }),
+                createElement("a", ["splus-track-clicks"], { id: "analytics-privacy-policy-link", href: "https://schoologypl.us/privacy", textContent: "privacy policy" }),
                 createElement("strong", [], { textContent: " we don't collect ANY personal information." }),
             ]),
             createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px", paddingBottom: "10px" } }, [
@@ -143,7 +143,7 @@ let modals = [
             createElement("h2", ["setting-entry"], { textContent: "Enable βeta Testing" }),
             createElement("p", ["setting-description"], { style: { fontSize: "14px" } }, [
                 createElement("span", [], { textContent: "If you have been given a Schoology Plus βeta code, you can enter it below to enable that beta test. If you don't know what this is, you should probably close this window, or you can " }),
-                createElement("a", ["splus-track-clicks"], { id: "beta-discord-link", href: "https://aopell.me/SchoologyPlus/discord", textContent: "join our Discord server" }),
+                createElement("a", ["splus-track-clicks"], { id: "beta-discord-link", href: "https://discord.schoologypl.us", textContent: "join our Discord server" }),
                 createElement("span", [], { textContent: " if you want to learn more." }),
             ]),
             createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px", paddingBottom: "10px" } }, [

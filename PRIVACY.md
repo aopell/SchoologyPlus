@@ -32,4 +32,4 @@ Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified 
 
 ## Contact
 
-The developers of Schoology Plus can be contacted by email at [schoologyplus@aopell.me](mailto:schoologyplus@aopell.me) or through Discord at [this link](https://aopell.me/SchoologyPlus/discord).
+The developers of Schoology Plus can be contacted by email at [hello@schoologypl.us](mailto:hello@schoologypl.us) or through Discord at [this link](https://discord.schoologypl.us).
