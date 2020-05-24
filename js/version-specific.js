@@ -182,7 +182,7 @@ let migrationsTo = {
             createBroadcast(
                 510,
                 "New Schoology Plus Discord Server",
-                "Schoology Plus has a new Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. <a href=\"https://aopell.github.io/SchoologyPlus/discord.html\" id=\"announcement-discord-link\" class=\"splus-track-clicks\">Click here</a> to join!",
+                "Schoology Plus has a new Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. <a href=\"https://discord.schoologypl.us\" id=\"announcement-discord-link\" class=\"splus-track-clicks\">Click here</a> to join!",
                 new Date(2019, 1 /* February - don't you just love JavaScript */, 14)
             )
         ]);
