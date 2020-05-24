@@ -1,4 +1,4 @@
-[![Schoology Plus](https://imgur.com/QdAPxXN.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
+[![Schoology Plus](https://imgur.com/QdAPxXN.png)](https://schoologypl.us)
 
 ### Schoology Plus is a web extension that enhances your Schoology experience with numerous interface improvements.
 
