@@ -44,7 +44,7 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         ga('set', 'checkProtocolTask', null); // Disable file protocol checking.
         ga('set', 'dimension1', chrome.runtime.getManifest().version);
         ga('set', 'dimension2', location.host);
-        ga('send', 'pageview', location.pathname + location.search);
+        ga('send', 'pageview', location.pathname.replace(/\/\d{3,}\b/g, "/*") + location.search);
 
         trackEvent = function (target, action, label = undefined, value = undefined) {
             ga('send', 'event', target, action, label, value);
