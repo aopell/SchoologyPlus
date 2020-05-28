@@ -8,7 +8,7 @@
             "id": "schoology.plus@aopell.me"
         }
     },
-    "version": "6.2",
+    "version": "6.2.1",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -42,7 +42,7 @@
         "theme-editor.html",
         "default-icons.html"
     ],
-    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+    "content_security_policy": "script-src 'self'; object-src 'self'",
     "background": {
         "scripts": [
             "js/analytics.js",

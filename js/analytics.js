@@ -24,13 +24,13 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         }
     }
 
-    chrome.storage.sync.get({ analytics: getBrowser() === "Firefox" ? "disabled" : "enabled" }, s => {
+    chrome.storage.sync.get({ analytics: getBrowser() === "Firefox" ? "disabled" : "enabled", theme: "<unset>" }, s => {
         if (s.analytics === "enabled") {
-            enableAnalytics();
+            enableAnalytics(s.theme);
         }
     });
 
-    function enableAnalytics() {
+    function enableAnalytics(selectedTheme) {
         // isogram
         let r = 'ga';
         window['GoogleAnalyticsObject'] = r;
@@ -44,7 +44,8 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         ga('set', 'checkProtocolTask', null); // Disable file protocol checking.
         ga('set', 'dimension1', chrome.runtime.getManifest().version);
         ga('set', 'dimension2', location.host);
-        ga('send', 'pageview', location.pathname + location.search);
+        ga('set', 'dimension3', selectedTheme);
+        ga('send', 'pageview', location.pathname.replace(/\/\d{3,}\b/g, "/*") + location.search);
 
         trackEvent = function (target, action, label = undefined, value = undefined) {
             ga('send', 'event', target, action, label, value);
