@@ -78,7 +78,9 @@ for target in targets:
     try:
         os.makedirs(f".build/{target}")
     except FileExistsError:
-        pass
+        print("Deleting existing directory")
+        shutil.rmtree(f".build/{target}")
+        os.makedirs(f".build/{target}")
 
     for path in os.listdir():
         if path not in EXCLUDED_FILES and path not in rules.excluded_files:
