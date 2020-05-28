@@ -198,7 +198,11 @@ video.easter-egg {
 .splus-modal-header {
     padding: 2px 16px;
     background-color: var(--primary-color);
-    color: white;
+    color: white !important;
+}
+
+.splus-modal-title {
+    color: white !important;
 }
 
 .splus-modal-body {
@@ -504,12 +508,35 @@ body #content-left-top .item-list li a,
 body .popups-tab,
 body .enrollment-filters span,
 body .grading-groups-list .grading-group,
-body #grading-group-
-span.ajax-post-comment,
+body #grading-group- span.ajax-post-comment,
+span[role=button],
 .period-row .title,
 .category-row .title,
 ._2mWUT a {
     color: var(--hover-color) !important;
+}
+
+body #nav ul li a:hover,
+body #nav #primary-home a:hover,
+body #nav #profile a:hover,
+body .primary-activities .clickable:hover,
+body .primary-activities .active,
+body #nav ul li.active-trail a,
+body .ac_results ul .ac_over .ac-top,
+body .schoology:hover,
+body .ac_over .schoology,
+body .action-links a:hover,
+body .action-links span:hover,
+body .edit-profile-picture-hover:hover,
+body .edit-profile-picture-hover.active,
+body #sidebar-left .action-links a:hover,
+.component-add-link:hover,
+body .search-toggle:hover,
+#edit-course-switcher-select-nid-menu .ui-selectmenu-group li a:hover,
+body #primary-settings .unfold:hover,
+#nav ul li a:hover {
+    background-color: var(--hover-color) !important;
+    color: white !important;
 }
 
 body a.link-btn {
@@ -521,6 +548,7 @@ header li a,
 .splus-modal-footer-text a,
 body a.link-btn.active,
 div.courses-left-menu,
+.portfolio-list a.btn,
 a._3_bfp {
     color: white !important;
 }

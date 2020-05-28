@@ -18,10 +18,10 @@
 
 // Check Schoology domain
 {
-    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com"];
+    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "support.schoology.com"];
     let dd = Setting.getValue("defaultDomain");
 
-    if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host)) {
+    if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host) && !dd.match(/.*\.app\.schoology\.com/)) {
         Setting.setValue("defaultDomain", window.location.host);
 
         let bgColor = document.querySelector("#header header").style.backgroundColor;
