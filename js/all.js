@@ -358,7 +358,7 @@ document.body.onkeydown = (data) => {
         video.style.visibility = "visible";
         video.currentTime = 0;
         video.play();
-        trackEvent("Easter Egg", "play");
+        trackEvent("Easter Egg", "play", "Easter Egg");
     } else if (data.altKey && data.key === "b") {
         openModal("beta-modal");
     }
