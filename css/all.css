@@ -534,12 +534,14 @@ body #sidebar-left .action-links a:hover,
 body .search-toggle:hover,
 #edit-course-switcher-select-nid-menu .ui-selectmenu-group li a:hover,
 body #primary-settings .unfold:hover,
+ul.tabs li a.active,
 #nav ul li a:hover {
     background-color: var(--hover-color) !important;
     color: white !important;
 }
 
-body a.link-btn {
+body a.link-btn,
+ul.tabs li a {
     color: #333333 !important;
 }
 
