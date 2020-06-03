@@ -20,6 +20,7 @@ $.contextMenu({
         options: {
             name: "Course Options",
             callback: function (key, opt) {
+                trackEvent("Course Options", "click", "Courses Context Menu");
                 openModal("course-settings-modal", {
                     courseId: this[0].querySelector(".section-item").id.match(/\d+/)[0],
                     courseName: `${this[0].querySelector(".course-title").textContent}: ${this[0].querySelector(".section-item").textContent}`

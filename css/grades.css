@@ -191,6 +191,13 @@ input#enable-modify {
     display: none;
 }
 
+.grades-kabob-menu {
+    font-size: 20px;
+    vertical-align: sub;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
 /* undo exception's .no-grade styling for unknown .max-grade elements */
 .exception-grade-wrapper .max-grade.no-grade {
     width: unset !important;
