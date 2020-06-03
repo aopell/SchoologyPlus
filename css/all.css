@@ -501,6 +501,12 @@ the selector matches inside notifications in the new notifs dropdown
     display: var(--upcoming-assignments-display) !important;
 }
 
+.courses-kabob-menu {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 body a,
 body .clickable,
 body .smart-box .filter-block li a,

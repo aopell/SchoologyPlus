@@ -4,6 +4,14 @@ for (let course of document.querySelectorAll("li.course-item.list-item")) {
     parent.replaceChild(wrapper, course);
     wrapper.appendChild(course);
     course.prepend(createElement("img", ["course-list-icon"], { src: Theme.getIcon(course.querySelector(".course-title").textContent) || chrome.runtime.getURL("imgs/fallback-course-icon.svg") }));
+    
+    let kabobMenuButton = createElement("span", ["courses-kabob-menu"], {
+        textContent: "⠇",
+        onclick: function (event) {
+            $(course).contextMenu({ x: event.pageX, y: event.pageY });
+        }
+    });
+    course.querySelector("p.course-info").appendChild(kabobMenuButton);
 }
 
 $.contextMenu({
