@@ -8,7 +8,7 @@
             "id": "schoology.plus@aopell.me"
         }
     },
-    "version": "6.2.2",
+    "version": "6.3",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -151,6 +151,7 @@
                 "https://*.schoology.com/home/recent-activity*"
             ],
             "js": [
+                "js/course.js",
                 "js/home.js"
             ],
             "run_at": "document_end"

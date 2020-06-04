@@ -18,6 +18,17 @@ $.contextMenu({
         options: {
             name: "Course Options",
             callback: function (key, opt) {
+                trackEvent("Course Options", "click", "Grades Context Menu");
+                openModal("course-settings-modal", {
+                    courseId: this[0].parentElement.id.match(/\d+/)[0],
+                    courseName: this[0].querySelector("a span:nth-child(3)") ? this[0].querySelector("a span:nth-child(2)").textContent : this[0].innerText.split('\n')[0]
+                });
+            }
+        },
+        grades: {
+            name: "Change Grading Scale",
+            callback: function (key, opt) {
+                trackEvent("Change Grading Scale", "click", "Grades Context Menu");
                 openModal("course-settings-modal", {
                     courseId: this[0].parentElement.id.match(/\d+/)[0],
                     courseName: this[0].querySelector("a span:nth-child(3)") ? this[0].querySelector("a span:nth-child(2)").textContent : this[0].innerText.split('\n')[0]
@@ -106,7 +117,16 @@ var fetchQueue = [];
                 createElement("col", ["comments-column"])
             ]));
 
+            let kabobMenuButton = createElement("span", ["grades-kabob-menu"], {
+                textContent: "⠇",
+                onclick: function (event) {
+                    $(title).contextMenu({ x: event.pageX, y: event.pageY });
+                    // hacky way to prevent the course from expanding
+                    title.click();
+                }
+            });
             let grade = createElement("span", ["awarded-grade", "injected-title-grade", courseGrade ? "grade-active-color" : "grade-none-color"], { textContent: "LOADING" });
+            title.appendChild(kabobMenuButton);
             title.appendChild(grade);
 
             let invalidatePerTotal = false;

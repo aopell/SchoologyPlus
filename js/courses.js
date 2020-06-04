@@ -4,6 +4,14 @@ for (let course of document.querySelectorAll("li.course-item.list-item")) {
     parent.replaceChild(wrapper, course);
     wrapper.appendChild(course);
     course.prepend(createElement("img", ["course-list-icon"], { src: Theme.getIcon(course.querySelector(".course-title").textContent) || chrome.runtime.getURL("imgs/fallback-course-icon.svg") }));
+    
+    let kabobMenuButton = createElement("span", ["courses-kabob-menu"], {
+        textContent: "⠇",
+        onclick: function (event) {
+            $(course).contextMenu({ x: event.pageX, y: event.pageY });
+        }
+    });
+    course.querySelector("p.course-info").appendChild(kabobMenuButton);
 }
 
 $.contextMenu({
@@ -12,6 +20,7 @@ $.contextMenu({
         options: {
             name: "Course Options",
             callback: function (key, opt) {
+                trackEvent("Course Options", "click", "Courses Context Menu");
                 openModal("course-settings-modal", {
                     courseId: this[0].querySelector(".section-item").id.match(/\d+/)[0],
                     courseName: `${this[0].querySelector(".course-title").textContent}: ${this[0].querySelector(".section-item").textContent}`

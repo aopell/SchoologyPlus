@@ -48,18 +48,25 @@ function createIconPreview(icon, i) {
 
 function displayFilteredIcons(text = "") {
     container.innerHTML = "";
-    let v = Number.parseInt(text) || 0;
+
+    let m = text.match(/#(\d+)/);
+    m = m ? m[1] : false;
+    if (m && m <= icons.length) {
+        container.appendChild(createIconPreview(icons[m - 1], m));
+        return;
+    }
+
     let i = 0;
     for (let icon of icons) {
         i++;
-        if (v !== i && text !== "" && !text.match(new RegExp(icon.regex, "i"))) continue;
+        if (text !== "" && !text.match(new RegExp(icon.regex, "i"))) continue;
         container.appendChild(createIconPreview(icon, i));
     }
 }
 
 function iconClick(e) {
     let indx = +e.target.dataset.index;
-    textbox.value = indx;
+    textbox.value = `#${indx}`;
     displayFilteredIcons(textbox.value);
     if (document.body.classList.contains("condensed")) {
         toggleCondensed();
