@@ -344,3 +344,27 @@
         }
     }).observe(document.getElementById("body"), { attributes: true, attributeFilter: ["aria-hidden"] });
 })();
+
+function parseSettingsHash() {
+    let hashes = location.hash.split('#');
+    if (hashes.length > 1 && hashes[1] === "splus-settings") {
+        openModal("settings-modal");
+        if (hashes.length > 2) {
+            setTimeout(() => {
+                location.hash = hashes[2];
+                document.getElementById(hashes[2]).parentElement.parentElement.style.backgroundColor = "lightyellow";
+                location.hash = "";
+            }, 500);
+        }
+        else {
+            location.hash = "";
+        }
+    }
+}
+
+parseSettingsHash();
+
+// Handle opening Schoology Plus Settings
+window.addEventListener("hashchange", event => {
+    parseSettingsHash();
+});
