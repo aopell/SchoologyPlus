@@ -613,6 +613,31 @@ function updateSettings(callback) {
                     element => element.value
                 ).control,
                 new Setting(
+                    "quickAccessVisibility",
+                    "Quick Access",
+                    "Enables or disables the quick access panel on the home page",
+                    "enabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => {
+                        setCSSVariable("quick-access-display", value === "disabled" ? "none" : "block");
+                        return value;
+                    },
+                    function (event) { this.onload(event.target.value) },
+                    element => element.value
+                ).control,
+                new Setting(
                     "upcomingOverdueVisibility",
                     "Hide Upcoming and Overdue Assignments",
                     'Hides the "Upcoming" and "Overdue" sidebars on the homepage',

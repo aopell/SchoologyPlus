@@ -54,7 +54,7 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
 
         function trackClick(event) {
             let target = event.currentTarget || event.target;
-            trackEvent(target.dataset.splusTrackingTarget || target.id || "Unlabeled Button", "click", target.dataset.splusTrackingLabel || "Tracking Link", target.dataset.splusTrackingValue);
+            trackEvent(target.dataset.splusTrackingTarget || target.id || "Unlabeled Button", "click", target.dataset.splusTrackingLabel || "Tracking Link", target.dataset.splusTrackingValue || event.button);
         }
 
         let trackedElements = new Set();
@@ -62,16 +62,13 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
             for (let m of mutations) {
                 for (let n of m.addedNodes) {
                     if (n.classList && n.classList.contains("splus-track-clicks") && !trackedElements.has(n)) {
+                        Logger.debug("Added node", n);
                         n.addEventListener("click", trackClick);
+                        n.addEventListener("auxclick", trackClick);
                         trackedElements.add(n);
                     }
                 }
             }
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
         });
 
         var readyStateCheckInterval = setInterval(function () {
@@ -82,9 +79,15 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         }, 10);
 
         function init() {
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+            
             for (let elem of document.querySelectorAll(".splus-track-clicks")) {
                 if (!trackedElements.has(elem)) {
                     elem.addEventListener("click", trackClick);
+                    elem.addEventListener("auxclick", trackClick);
                     trackedElements.add(elem);
                 }
             }

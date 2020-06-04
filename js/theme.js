@@ -261,7 +261,7 @@ class Theme {
             pictures = pictures.concat(courseImgs);
         }
 
-        let arrows = Array.from(document.querySelectorAll(".gradebook-course-title .arrow"));
+        let arrows = Array.from(document.querySelectorAll(".gradebook-course-title .arrow, .splus-course-icon"));
 
         for (let arrow of arrows) {
             arrow.themedIconMode = "gradesPageArrow";
@@ -299,7 +299,7 @@ class Theme {
             arrow.classList.add("icon-modified");
             // fallbacks don't work in CSS
             // implement our own thing for it, based on img and onerror
-            let sourceUrl = Theme.getIcon(arrow.courseTitle || arrow.parentElement.textContent);
+            let sourceUrl = Theme.getIcon(arrow.dataset.courseTitle || arrow.courseTitle || arrow.parentElement.textContent);
             let fallbackUrl = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
             let matches = sourceUrl && sourceUrl.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
             let domain = matches && matches[1];
@@ -367,8 +367,8 @@ class Theme {
             }
 
             // ***** Tracking courses missing icons
-            if ((!missingIconsLastCheck || beforeThisSemester(missingIconsLastCheck)) && !Theme.hasBuiltInIcon(arrow.courseTitle || arrow.parentElement.textContent)) {
-                coursesMissingDefaultIcons.add(arrow.courseTitle || arrow.parentElement.textContent);
+            if ((!missingIconsLastCheck || beforeThisSemester(missingIconsLastCheck)) && !Theme.hasBuiltInIcon(arrow.dataset.courseTitle || arrow.courseTitle || arrow.parentElement.textContent)) {
+                coursesMissingDefaultIcons.add(arrow.dataset.courseTitle || arrow.courseTitle || arrow.parentElement.textContent);
             }
             // *****
         }

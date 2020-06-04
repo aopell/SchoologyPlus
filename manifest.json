@@ -151,6 +151,7 @@
                 "https://*.schoology.com/home/recent-activity*"
             ],
             "js": [
+                "js/course.js",
                 "js/home.js"
             ],
             "run_at": "document_end"

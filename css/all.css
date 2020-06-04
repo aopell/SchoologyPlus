@@ -501,6 +501,95 @@ the selector matches inside notifications in the new notifs dropdown
     display: var(--upcoming-assignments-display) !important;
 }
 
+.quick-access-wrapper {
+    display: var(--quick-access-display) !important;
+}
+
+.quick-link-wrapper {
+    padding-top: 5px;
+}
+
+.quick-course-link {
+    max-width: 250px;
+    display: inline-block;
+}
+
+.quick-access-course .splus-course-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+    border: none !important;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.quick-link:not(:first-of-type)::before,
+.quick-link:not(:first-of-type):hover::before {
+    content: "•";
+    padding: 0 4px;
+    display: inline-block;
+}
+
+.quick-right-link {
+    float: right;
+    text-transform: none !important;
+    font-weight: normal !important;
+    font-size: 12px !important;
+}
+
+.quick-access-course .icon {
+    width: 22px;
+    height: 22px;
+    padding-left: 3px;
+    background-image: url(https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_med.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.quick-access-course .icons-container {
+    float: right;
+}
+
+.quick-access-course .icon.icon-grades {
+    background-position: 5px -125px;
+}
+
+.quick-access-course .icon.icon-mastery {
+    background-position: 5px -1325px;
+}
+
+.quick-access-course .icon.icon-settings {
+    background-position: 5px -475px;
+}
+
+.quick-access-course .icon.icon-grades:hover {
+    background-position: 5px -100px;
+}
+
+.quick-access-course .icon.icon-mastery:hover {
+    background-position: 5px -1300px;
+}
+
+.quick-access-course .icon.icon-settings:hover {
+    background-position: 5px -450px;
+}
+
+.quick-access-no-courses {
+    padding-top: 5px;
+}
+
+.quick-access-course {
+    padding-top: 5px;
+}
+
+.splus-logo-inline {
+    height: 22px;
+    filter: brightness(0.4);
+    vertical-align: middle;
+    padding-right: 3px;
+}
+
 .courses-kabob-menu {
     float: right;
     font-size: 20px;
