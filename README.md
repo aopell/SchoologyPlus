@@ -20,6 +20,7 @@
     - [Blue Theme](#blue-theme)
     - [Custom Themes](#custom-themes)
       - [Course Icons](#course-icons)
+    - [Quick Access](#quick-access)
     - [Tooltips](#tooltips)
     - [Courses In Common](#courses-in-common)
     - [Miscellaneous Interface Improvements](#miscellaneous-interface-improvements)
@@ -72,6 +73,16 @@
 *Image: Example of built-in course icons*
 - Built-in course icons for many courses* (LAUSD schools only)
 - Custom themes can also introduce custom icons for courses
+
+### Quick Access
+
+![Quick access](https://i.imgur.com/VGnwHpq.png)
+
+*Image: Example of the Quick Access pane on the homepage*
+- Quick Access panel on the right sidebar on the homepage with one-click access to important pages*
+- Links for grade report, courses, mastery, and more
+- Each class has a link to its home page, grades page, and mastery page
+  - Click the icons next to each course to access its specific pages
 
 ### Tooltips
 

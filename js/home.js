@@ -83,7 +83,7 @@ async function createQuickAccess() {
         createElement("h3", ["h3-med"], {}, [
             createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
             createElement("span", [], { textContent: "Quick Access" }),
-            createElement("a", ["quick-right-link"], { textContent: "Settings", href: "#splus-settings#setting-input-quickAccessVisibility" })
+            createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-splus-settings", textContent: "Settings", href: "#splus-settings#setting-input-quickAccessVisibility" })
         ]),
         createElement("div", ["date-header", "first"], {}, [
             createElement("h4", [], { textContent: "Pages" })
@@ -108,7 +108,7 @@ async function createQuickAccess() {
         createElement("div", ["date-header"], {}, [
             createElement("h4", [], {}, [
                 createElement("span", [], { textContent: "Courses" }),
-                createElement("a", ["quick-right-link"], { textContent: "Reorder", href: "/courses?reorder" })
+                createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-reorder", textContent: "Reorder", href: "/courses?reorder" })
             ])
         ])
     );
