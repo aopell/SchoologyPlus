@@ -103,6 +103,9 @@ footer div {
     color: #f44336 !important;
 }
 
+.setting-highlight {
+    background-color: rgb(184, 134, 11, 0.2) !important;
+}
 
 /* Home Page */
 #body,
@@ -131,6 +134,10 @@ footer div {
 
 img.splus-logo-inline {
     filter: brightness(1) !important;
+}
+
+.splus-broadcast-post {
+    background-color: rgba(0, 255, 255, 0.1) !important;
 }
 
 /* Grades Page */
@@ -170,4 +177,32 @@ div.summary-course {
 
 img.splus-coursegradebox-taint {
     filter: brightness(1) !important;
+}
+
+/* Mastery Page */
+#s-js-student-mastery-report-view-content {
+    background-color: var(--primary) !important;
+}
+
+/* Courses Page */
+.course-action-btns,
+.group-action-btns {
+    padding: 10px !important;
+    border-radius: 5px !important;
+}
+
+#secondary-tabs-wrapper {
+    border-right: none !important;
+}
+
+/* Search Bar */
+ul.Search-dropdown-3huUv {
+    border: none !important;
+    background-color: var(--accent) !important;
+}
+
+.Search-dropdown-3huUv input {
+    background-color: var(--input) !important;
+    color: var(--text) !important;
+    border-bottom: 1px solid transparent !important;
 }

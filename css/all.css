@@ -650,3 +650,7 @@ div.courses-left-menu,
 a._3_bfp {
     color: white !important;
 }
+
+.setting-highlight {
+    color: lightyellow !important;
+}
