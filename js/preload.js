@@ -615,14 +615,22 @@ function updateSettings(callback) {
                 new Setting(
                     "quickAccessVisibility",
                     "Quick Access",
-                    "Enables or disables the quick access panel on the home page",
+                    "[Reload Required to Reposition] Changes the visibility of the Quick Access panel on the homepage",
                     "enabled",
                     "select",
                     {
                         options: [
                             {
-                                text: "Enabled",
+                                text: "Top of Right Sidebar",
                                 value: "enabled"
+                            },
+                            {
+                                text: "Between Overdue and Upcoming",
+                                value: "belowOverdue"
+                            },
+                            {
+                                text: "Bottom of Right Sidebar",
+                                value: "bottom"
                             },
                             {
                                 text: "Disabled",

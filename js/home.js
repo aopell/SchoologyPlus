@@ -140,7 +140,17 @@ async function createQuickAccess() {
         }
     }
 
-    rightCol.prepend(wrapper);
+    switch (Setting.getValue("quickAccessVisibility")) {
+        case "belowOverdue":
+            rightCol.querySelector(".overdue-submissions").insertAdjacentElement("afterend", wrapper);
+            break;
+        case "bottom":
+            rightCol.append(wrapper);
+            break;
+        default:
+            rightCol.prepend(wrapper);
+            break;
+    }
 }
 
 if (Setting.getValue("broadcasts") !== "disabled") {
