@@ -1011,18 +1011,60 @@ var fetchQueue = [];
             noGrade.insertAdjacentElement("afterend", maxGrade);
 
             let f = async () => {
-                Logger.log(`Fetching max points for (nonentered) assignment ${assignment.dataset.id.substr(2)}`);
-                let response = await fetchApi(`users/${getUserId()}/grades?section_id=${courseId}`);
-                if (!response.ok) {
-                    throw { status: response.status, error: response.statusText };
-                }
-                let json = await response.json();
+                let domAssignId = assignment.dataset.id.substr(2);
+                Logger.log(`Fetching max points for (nonentered) assignment ${domAssignId}`);
+                
+                let response = null;
+                let firstTryError = null;
 
-                if (json && json.section.length > 0) {
-                    // success case
-                    // note; even if maxGrade is removed from the DOM, this will still work
-                    maxGrade.textContent = " / " + json.section[0].period[0].assignment.filter(x => x.assignment_id == Number.parseInt(assignment.dataset.id.substr(2)))[0].max_points;
-                    maxGrade.classList.remove("no-grade");
+                try {
+                    response = await fetchApi(`sections/${courseId}/assignments/${domAssignId}`);
+                } catch (err) {
+                    firstTryError = err;
+                }
+                
+                if (response && !response.ok) {
+                    firstTryError = { status: response.status, error: response.statusText };
+                } else if (response) {
+                    try {
+                        let json = await response.json();
+
+                        if (json && json.max_points !== undefined) {
+                            // success case
+                            // note; even if maxGrade is removed from the DOM, this will still work
+                            maxGrade.textContent = " / " + json.max_points;
+                            maxGrade.classList.remove("no-grade");
+                        } else {
+                            firstTryError = "JSON returned without max points";
+                        }
+                    } catch (err) {
+                        firstTryError = err;
+                    }
+                } else if (!firstTryError) {
+                    firstTryError + "Unknown error fetching API response";
+                }
+
+                if (!firstTryError) return;
+
+                Logger.log(`Error directly fetching max points for (nonentered) assignment ${domAssignId}, reverting to list-search`);
+
+                try {
+                    response = await fetchApi(`users/${getUserId()}/grades?section_id=${courseId}`);
+                    if (!response.ok) {
+                        throw { status: response.status, error: response.statusText };
+                    }
+                    let json = await response.json();
+    
+                    if (json && json.section.length > 0) {
+                        // success case
+                        // note; even if maxGrade is removed from the DOM, this will still work
+                        maxGrade.textContent = " / " + json.section[0].period[0].assignment.filter(x => x.assignment_id == Number.parseInt(domAssignId))[0].max_points;
+                        maxGrade.classList.remove("no-grade");
+                    } else {
+                        throw "List search failed to obtain meaningful response";
+                    }
+                } catch (err) {
+                    throw { listSearchErr: err, firstTryError: firstTryError };
                 }
             };
             fetchQueue.push(f);
