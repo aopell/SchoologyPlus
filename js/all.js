@@ -14,6 +14,10 @@
             }
         );
     }
+
+    if(Setting.getValue("beta") == "darktheme") {
+        document.head.append(createElement("link", [], {rel: "stylesheet", href: chrome.runtime.getURL("/css/dark.css") }));
+    }
 }
 
 // Check Schoology domain

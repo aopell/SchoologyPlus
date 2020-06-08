@@ -607,7 +607,8 @@ body #grading-group- span.ajax-post-comment,
 span[role=button],
 .period-row .title,
 .category-row .title,
-._2mWUT a {
+._2mWUT a,
+div._3U8Br {
     color: var(--hover-color) !important;
 }
 

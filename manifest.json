@@ -40,7 +40,8 @@
         "imgs/*",
         "lib/js/pdf.worker.js",
         "theme-editor.html",
-        "default-icons.html"
+        "default-icons.html",
+        "css/dark.css"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'",
     "background": {

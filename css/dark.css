@@ -1,0 +1,173 @@
+* {
+    --primary: #36393F;
+    --accent: #2F3136;
+    --dark: #202225;
+    --text: #DCDDDE;
+    --muted-text: #72767D;
+    --input: #40444B;
+}
+
+/* General */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    color: var(--text) !important;
+}
+
+textarea,
+select,
+input[type=text] {
+    background-color: var(--input) !important;
+    color: var(--text) !important;
+    border: none !important;
+    border-radius: 5px !important;
+}
+
+ul.context-menu-list,
+ul.context-menu-list li.context-menu-item {
+    background-color: var(--dark) !important;
+    color: var(--text) !important;
+    border-color: var(--accent) !important;
+}
+
+ul.context-menu-list li.context-menu-item:hover {
+    color: var(--primary) !important;
+    background-color: var(--text) !important;
+}
+
+/* Courses and Groups Dropdown */
+.splus-courses-navbar-button div[role=menu],
+.splus-groups-navbar-button div[role=menu] {
+    background-color: var(--accent) !important;
+}
+
+.splus-coursesdropdown-reorder-btn {
+    filter: invert(1) !important;
+}
+
+.splus-courses-navbar-button article,
+.splus-courses-navbar-button article a,
+.splus-groups-navbar-button article,
+.splus-groups-navbar-button article a {
+    border: 2px solid transparent !important;
+    outline: none !important;
+}
+
+.splus-courses-navbar-button article a:hover,
+.splus-groups-navbar-button article a:hover {
+    border: 2px solid var(--text) !important;
+    border-radius: 5px !important;
+}
+
+.Card-card-image-uV6Bu {
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+}
+
+.Card-card-data-17m6S,
+.Card-card-data-17m6S div {
+    border-bottom-left-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
+.splus-courses-navbar-button article a div,
+.splus-groups-navbar-button article a div {
+    background-color: var(--primary) !important;
+}
+
+.splus-courses-navbar-button article a div div._1wP6w,
+.splus-groups-navbar-button article a div div._1wP6w {
+    color: var(--text) !important;
+}
+
+.splus-courses-navbar-button article a div div._2wOCj,
+.splus-groups-navbar-button article a div div._2wOCj {
+    color: var(--muted-text) !important;
+}
+
+/* Footer */
+#site-navigation-footer,
+footer,
+footer div {
+    background-color: var(--dark) !important;
+}
+
+/* Modal Red Color */
+.close-button,
+.restore-defaults {
+    color: #f44336 !important;
+}
+
+
+/* Home Page */
+#body,
+#center div#main,
+#main-inner,
+.splus-modal-body {
+    background-color: var(--primary) !important;
+    color: var(--text) !important;
+}
+
+#right-column-inner div,
+#home-feed-container,
+.feed-comments {
+    background-color: var(--accent) !important;
+    color: var(--text) !important;
+}
+
+.date-header h4 span {
+    color: var(--text) !important;
+}
+
+.gray,
+.upcoming-time {
+    color: var(--muted-text) !important;
+}
+
+img.splus-logo-inline {
+    filter: brightness(1) !important;
+}
+
+/* Grades Page */
+#main-content-wrapper,
+#center-top {
+    background-color: var(--primary) !important;
+    color: var(--text) !important;
+    border: none !important;
+}
+
+.gradebook-course.hierarchical-grading-report .period-row .grade-column,
+.gradebook-course.hierarchical-grading-report .category-row .grade-column,
+.gradebook-course.hierarchical-grading-report .item-row .grade-column,
+.grade-active-color,
+.awarded-grade span {
+    color: #8bc34a !important;
+}
+
+.due-date,
+.max-grade,
+.percentage-contrib,
+span.comment,
+.grade-none-color,
+.course-grade-text,
+.total-points-wrapper *,
+.percentage-grade,
+.no-grade {
+    color: var(--text) !important;
+}
+
+div.summary-course {
+    background-color: var(--accent) !important;
+    color: var(--text) !important;
+    border: none !important;
+    border-radius: 5px !important;
+}
+
+img.splus-coursegradebox-taint {
+    filter: brightness(1) !important;
+}

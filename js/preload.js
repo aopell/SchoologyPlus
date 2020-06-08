@@ -40,7 +40,7 @@ var firstLoad = true;
 updateSettings();
 
 var beta_tests = {
-    // "darktheme": "https://schoologypl.us",
+    "darktheme": "https://schoologypl.us",
     // "newgrades": "https://schoologypl.us"
 };
 
