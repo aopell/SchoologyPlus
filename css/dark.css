@@ -1,10 +1,17 @@
-* {
+:root {
     --primary: #36393F;
     --accent: #2F3136;
     --dark: #202225;
     --text: #DCDDDE;
     --muted-text: #72767D;
     --input: #40444B;
+    --error: #F44336;
+    --highlight: rgba(184, 134, 11, 0.2);
+    --active: rgba(0, 255, 255, 0.1);
+    --grades: #8BC34A;
+    --border-radius: 5px;
+    --border-size: 2px;
+    --padding: 10px;
 }
 
 /* General */
@@ -25,7 +32,7 @@ input[type=text] {
     background-color: var(--input) !important;
     color: var(--text) !important;
     border: none !important;
-    border-radius: 5px !important;
+    border-radius: var(--border-radius) !important;
 }
 
 ul.context-menu-list,
@@ -68,25 +75,25 @@ ul.context-menu-list li.context-menu-item:hover {
 .splus-courses-navbar-button article a,
 .splus-groups-navbar-button article,
 .splus-groups-navbar-button article a {
-    border: 2px solid transparent !important;
+    border: var(--border-size) solid transparent !important;
     outline: none !important;
 }
 
 .splus-courses-navbar-button article a:hover,
 .splus-groups-navbar-button article a:hover {
-    border: 2px solid var(--text) !important;
-    border-radius: 5px !important;
+    border: var(--border-size) solid var(--text) !important;
+    border-radius: var(--border-radius) !important;
 }
 
 .Card-card-image-uV6Bu {
-    border-top-left-radius: 5px !important;
-    border-top-right-radius: 5px !important;
+    border-top-left-radius: var(--border-radius) !important;
+    border-top-right-radius: var(--border-radius) !important;
 }
 
 .Card-card-data-17m6S,
 .Card-card-data-17m6S div {
-    border-bottom-left-radius: 5px !important;
-    border-bottom-right-radius: 5px !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
 }
 
 .splus-courses-navbar-button article a div,
@@ -114,11 +121,11 @@ footer div {
 /* Modal Red Color */
 .close-button,
 .restore-defaults {
-    color: #f44336 !important;
+    color: var(--error) !important;
 }
 
 .setting-highlight {
-    background-color: rgb(184, 134, 11, 0.2) !important;
+    background-color: var(--highlight) !important;
 }
 
 /* Home Page */
@@ -135,6 +142,7 @@ footer div {
 .feed-comments {
     background-color: var(--accent) !important;
     color: var(--text) !important;
+    border-radius: var(--border-radius) !important;
 }
 
 .date-header h4 span {
@@ -151,7 +159,7 @@ img.splus-logo-inline {
 }
 
 .splus-broadcast-post {
-    background-color: rgba(0, 255, 255, 0.1) !important;
+    background-color: var(--active) !important;
 }
 
 /* Grades Page */
@@ -167,7 +175,7 @@ img.splus-logo-inline {
 .gradebook-course.hierarchical-grading-report .item-row .grade-column,
 .grade-active-color,
 .awarded-grade span {
-    color: #8bc34a !important;
+    color: var(--grades) !important;
 }
 
 .due-date,
@@ -186,7 +194,7 @@ div.summary-course {
     background-color: var(--accent) !important;
     color: var(--text) !important;
     border: none !important;
-    border-radius: 5px !important;
+    border-radius: var(--border-radius) !important;
 }
 
 img.splus-coursegradebox-taint {
@@ -201,8 +209,8 @@ img.splus-coursegradebox-taint {
 /* Courses Page */
 .course-action-btns,
 .group-action-btns {
-    padding: 10px !important;
-    border-radius: 5px !important;
+    padding: var(--padding) !important;
+    border-radius: var(--border-radius) !important;
 }
 
 #secondary-tabs-wrapper {
@@ -216,12 +224,12 @@ img.splus-coursegradebox-taint {
 }
 
 #library-wrapper a.active {
-    background-color: rgba(0, 255, 255, 0.2) !important;
+    background-color: var(--active) !important;
 }
 
 #library-wrapper .library-collections a:hover,
 #library-left td:hover {
-    background-color: rgba(0, 255, 255, 0.05) !important;
+    background-color: var(--active) !important;
 }
 
 #library-search-form-container div {
@@ -234,12 +242,12 @@ img.splus-coursegradebox-taint {
 
 /* Profile Page */
 .right-block-big-wrapper {
-    padding: 10px !important;
-    border-radius: 5px !important;
+    padding: var(--padding) !important;
+    border-radius: var(--border-radius) !important;
 }
 
 #sidebar-left #left-nav #menu-s-main ul li a.active {
-    background-color: rgba(0, 255, 255, 0.2) !important;
+    background-color: var(--active) !important;
     border: none !important;
 }
 
@@ -249,8 +257,8 @@ th.profile-header {
 
 /* School Page */
 #school-events {
-    padding: 10px !important;
-    border-radius: 5px !important;
+    padding: var(--padding) !important;
+    border-radius: var(--border-radius) !important;
 }
 
 #main {
@@ -260,21 +268,21 @@ th.profile-header {
 /* Course Dashboard */
 .course-dashboard section {
     border: none !important;
-    border-radius: 5px !important;
+    border-radius: var(--border-radius) !important;
 }
 
 .course-dashboard section.sgy-card,
 .course-dashboard .sgy-card-lens {
     background-color: var(--accent) !important;
-    border-radius: 5px !important;
+    border-radius: var(--border-radius) !important;
 }
 
 .course-dashboard .sgy-card {
-    border: 2px solid transparent !important;
+    border: var(--border-size) solid transparent !important;
 }
 
 .course-dashboard .sgy-card:hover {
-    border: 2px solid var(--text) !important;
+    border: var(--border-size) solid var(--text) !important;
 }
 
 .course-dashboard .sgy-card:hover .sgy-card-lens::after {
