@@ -159,6 +159,17 @@
         },
         {
             "matches": [
+                "https://lms.lausd.net/home/course-dashboard*",
+                "https://*.schoology.com/home/course-dashboard*"
+            ],
+            "js": [
+                "js/course.js",
+                "js/dashboard.js"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
                 "https://lms.lausd.net/course/*",
                 "https://*.schoology.com/course/*"
             ],

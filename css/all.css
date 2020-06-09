@@ -654,3 +654,7 @@ a._3_bfp {
 .setting-highlight {
     color: lightyellow !important;
 }
+
+.course-dashboard section.sgy-card img.injected-course-icon {
+    height: 80% !important;
+}

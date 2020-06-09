@@ -2,7 +2,6 @@
 
 let homeFeedContainer = document.getElementById("home-feed-container");
 let feed = homeFeedContainer.querySelector(".feed .item-list .s-edge-feed");
-let rightCol = document.getElementById("right-column-inner");
 
 /**
  * Creates a post from a broadcast
@@ -74,83 +73,6 @@ function dismissNotification(event) {
 
 function formatDateAsString(date) {
     return `${date.toLocaleString("en-US", { weekday: "short" })} ${date.toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })} at ${date.toLocaleString("en-US", { hour: "numeric", minute: "2-digit" }).toLowerCase()}`;
-}
-
-async function createQuickAccess() {
-    let linkWrap;
-
-    let wrapper = createElement("div", ["quick-access-wrapper"], {}, [
-        createElement("h3", ["h3-med"], {}, [
-            createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
-            createElement("span", [], { textContent: "Quick Access" }),
-            createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-splus-settings", textContent: "Settings", href: "#splus-settings#setting-input-quickAccessVisibility" })
-        ]),
-        createElement("div", ["date-header", "first"], {}, [
-            createElement("h4", [], { textContent: "Pages" })
-        ]),
-        (linkWrap = createElement("div", ["quick-link-wrapper"]))
-    ]);
-
-    const PAGES = [
-        { textContent: "Grade Report", href: "/grades/grades", id: "quick-access-grades" },
-        { textContent: "Courses", href: "/courses", id: "quick-access-courses" },
-        { textContent: "Mastery", href: "/mastery", id: "quick-access-mastery" },
-        { textContent: "Groups", href: "/groups", id: "quick-access-groups" },
-        { textContent: "Messages", href: "/messages", id: "quick-access-messages" },
-    ];
-
-    for (let page of PAGES) {
-        let a = linkWrap.appendChild(createElement("a", ["quick-link", "splus-track-clicks"], page));
-        a.dataset.splusTrackingLabel = "Quick Access";
-    }
-
-    wrapper.appendChild(
-        createElement("div", ["date-header"], {}, [
-            createElement("h4", [], {}, [
-                createElement("span", [], { textContent: "Courses" }),
-                createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-reorder", textContent: "Reorder", href: "/courses?reorder" })
-            ])
-        ])
-    );
-
-    let sectionsList = (await fetchApiJson(`users/${getUserId()}/sections`)).section;
-
-    if (!sectionsList || sectionsList.length == 0) {
-        wrapper.appendChild(createElement("p", ["quick-access-no-courses"], { textContent: "No courses found" }));
-    } else {
-        let courseOptionsButton;
-        let iconImage;
-        for (let section of sectionsList) {
-            wrapper.appendChild(createElement("div", ["quick-access-course"], {}, [
-                (iconImage = createElement("div", ["splus-course-icon"], { dataset: { courseTitle: `${section.course_title}: ${section.section_title}` } })),
-                createElement("a", ["splus-track-clicks", "quick-course-link"], { textContent: `${section.course_title}: ${section.section_title}`, href: `/course/${section.id}`, dataset: { splusTrackingTarget: "quick-access-course-link", splusTrackingLabel: "Quick Access" } }),
-                createElement("div", ["icons-container"], {}, [
-                    createElement("a", ["icon", "icon-grades", "splus-track-clicks"], { href: `/course/${section.id}/student_grades`, title: "Grades", dataset: { splusTrackingTarget: "quick-access-grades-link", splusTrackingLabel: "Quick Access" } }),
-                    createElement("a", ["icon", "icon-mastery", "splus-track-clicks"], { href: `/course/${section.id}/student_mastery`, title: "Mastery", dataset: { splusTrackingTarget: "quick-access-mastery-link", splusTrackingLabel: "Quick Access" } }),
-                    (courseOptionsButton = createElement("a", ["icon", "icon-settings", "splus-track-clicks"], { href: "#", dataset: { splusTrackingTarget: "quick-access-settings-link", splusTrackingLabel: "Quick Access" } }))
-                ])
-            ]));
-
-            iconImage.style.backgroundImage = `url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")})`;
-
-            courseOptionsButton.addEventListener("click", () => openModal("course-settings-modal", {
-                courseId: section.id,
-                courseName: `${section.course_title}: ${section.section_title}`
-            }));
-        }
-    }
-
-    switch (Setting.getValue("quickAccessVisibility")) {
-        case "belowOverdue":
-            rightCol.querySelector(".overdue-submissions").insertAdjacentElement("afterend", wrapper);
-            break;
-        case "bottom":
-            rightCol.append(wrapper);
-            break;
-        default:
-            rightCol.prepend(wrapper);
-            break;
-    }
 }
 
 if (Setting.getValue("broadcasts") !== "disabled") {
