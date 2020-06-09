@@ -40,6 +40,20 @@ ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--text) !important;
 }
 
+/* Schoology Popups */
+.popups-box .popups-body {
+    background-color: var(--primary) !important;
+    color: var(--text) !important;
+}
+
+.popups-box .submit-buttons {
+    background-color: var(--accent) !important;
+}
+
+.popups-box .popups-title {
+    background-color: var(--dark) !important;
+}
+
 /* Courses and Groups Dropdown */
 .splus-courses-navbar-button div[role=menu],
 .splus-groups-navbar-button div[role=menu] {
@@ -193,6 +207,54 @@ img.splus-coursegradebox-taint {
 
 #secondary-tabs-wrapper {
     border-right: none !important;
+}
+
+/* Resources Page */
+#library-wrapper {
+    background-color: var(--accent) !important;
+    border: none !important;
+}
+
+#library-wrapper a.active {
+    background-color: rgba(0, 255, 255, 0.2) !important;
+}
+
+#library-wrapper .library-collections a:hover,
+#library-left td:hover {
+    background-color: rgba(0, 255, 255, 0.05) !important;
+}
+
+#library-search-form-container div {
+    background-color: var(--dark) !important;
+}
+
+#library-search-form-container div::before {
+    display: none !important;
+}
+
+/* Profile Page */
+.right-block-big-wrapper {
+    padding: 10px !important;
+    border-radius: 5px !important;
+}
+
+#sidebar-left #left-nav #menu-s-main ul li a.active {
+    background-color: rgba(0, 255, 255, 0.2) !important;
+    border: none !important;
+}
+
+th.profile-header {
+    color: var(--text) !important;
+}
+
+/* School Page */
+#school-events {
+    padding: 10px !important;
+    border-radius: 5px !important;
+}
+
+#main {
+    background-color: var(--accent) !important;
 }
 
 /* Course Dashboard */
