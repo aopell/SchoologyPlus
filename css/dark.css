@@ -195,6 +195,38 @@ img.splus-coursegradebox-taint {
     border-right: none !important;
 }
 
+/* Course Dashboard */
+.course-dashboard section {
+    border: none !important;
+    border-radius: 5px !important;
+}
+
+.course-dashboard section.sgy-card,
+.course-dashboard .sgy-card-lens {
+    background-color: var(--accent) !important;
+    border-radius: 5px !important;
+}
+
+.course-dashboard .sgy-card {
+    border: 2px solid transparent !important;
+}
+
+.course-dashboard .sgy-card:hover {
+    border: 2px solid var(--text) !important;
+}
+
+.course-dashboard .sgy-card:hover .sgy-card-lens::after {
+    display: none !important;
+}
+
+.course-dashboard section.sgy-card .sgy-multiline-ellipsis__split-part {
+    color: var(--text) !important;
+}
+
+.course-dashboard section.sgy-card .sgy-card-subcontext {
+    color: var(--muted-text) !important;
+}
+
 /* Search Bar */
 ul.Search-dropdown-3huUv {
     border: none !important;
