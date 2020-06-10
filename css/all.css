@@ -659,17 +659,21 @@ a._3_bfp {
     height: 80% !important;
 }
 
-.beta-tag {
+.splus-beta-tag {
     position: fixed;
     cursor: pointer;
     color: white !important;
     border: 2px solid white;
     background-color: dodgerblue;
     left: 3px;
-    top: 10px;
+    top: 12px;
     padding: 5px 8px;
-    font-size: 20px;
-    border-radius: 25%;
+    font-size: 16px;
+    border-radius: 10px;
     z-index: 1000;
     font-weight: bold;
+}
+
+.splus-beta-tag:hover::after {
+    content: "eta Enabled";
 }
