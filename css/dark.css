@@ -47,6 +47,24 @@ ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--text) !important;
 }
 
+#body {
+    background-color: var(--primary) !important;
+}
+
+#main-content-wrapper {
+    background-color: var(--accent) !important;
+    color: var(--text) !important;
+    border: none !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
+}
+
+#right-column-inner div {
+    background-color: var(--dark) !important;
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+}
+
 /* Schoology Popups */
 .popups-box .popups-body {
     background-color: var(--primary) !important;
@@ -129,17 +147,23 @@ footer div {
 }
 
 /* Home Page */
-#body,
-#center div#main,
-#main-inner,
+[page^="/home"] #center div#main,
+[page^="/home"] #main-inner,
+[page^="/home"] #main-content-wrapper,
+[page="/"] #center div#main,
+[page="/"] #main-inner,
+[page="/"] #main-content-wrapper,
 .splus-modal-body {
     background-color: var(--primary) !important;
     color: var(--text) !important;
 }
 
-#right-column-inner div,
-#home-feed-container,
-.feed-comments {
+[page^="/home"] #right-column-inner div,
+[page^="/home"] #home-feed-container,
+[page^="/home"] .feed-comments,
+[page="/"] #right-column-inner div,
+[page="/"] #home-feed-container,
+[page="/"] .feed-comments {
     background-color: var(--accent) !important;
     color: var(--text) !important;
     border-radius: var(--border-radius) !important;
@@ -163,9 +187,8 @@ img.splus-logo-inline {
 }
 
 /* Grades Page */
-#main-content-wrapper,
 #center-top {
-    background-color: var(--primary) !important;
+    background-color: var(--accent) !important;
     color: var(--text) !important;
     border: none !important;
 }
@@ -203,7 +226,7 @@ img.splus-coursegradebox-taint {
 
 /* Mastery Page */
 #s-js-student-mastery-report-view-content {
-    background-color: var(--primary) !important;
+    background-color: var(--accent) !important;
 }
 
 /* Courses Page */
