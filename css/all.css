@@ -658,3 +658,18 @@ a._3_bfp {
 .course-dashboard section.sgy-card img.injected-course-icon {
     height: 80% !important;
 }
+
+.beta-tag {
+    position: fixed;
+    cursor: pointer;
+    color: white !important;
+    border: 2px solid white;
+    background-color: dodgerblue;
+    left: 3px;
+    top: 10px;
+    padding: 5px 8px;
+    font-size: 20px;
+    border-radius: 25%;
+    z-index: 1000;
+    font-weight: bold;
+}

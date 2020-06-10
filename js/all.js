@@ -14,8 +14,19 @@
             }
         );
     }
+}
 
-    if (Setting.getValue("beta") == "darktheme") {
+{
+    let betaCode = Setting.getValue("beta");
+    if (betaCode in beta_tests) {
+        // Beta Enabled Notice
+        let betaTag = createElement("span", ["beta-tag", "splus-track-clicks"], { textContent: "β", id: "beta-tag" });
+        betaTag.addEventListener("click", event => openModal("beta-modal"));
+        document.body.append(betaTag);
+    }
+
+    // Dark Theme Beta
+    if (betaCode == "darktheme") {
         document.head.append(createElement("link", [], { rel: "stylesheet", href: chrome.runtime.getURL("/css/dark.css") }));
 
         Theme.apply(Theme.loadFromObject({
