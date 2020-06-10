@@ -27,7 +27,8 @@
 
     // Dark Theme Beta
     if (betaCode == "darktheme") {
-        document.head.append(createElement("link", [], { rel: "stylesheet", href: chrome.runtime.getURL("/css/dark.css") }));
+        let darkSheet = createElement("link", [], { rel: "stylesheet", href: chrome.runtime.getURL("/css/dark.css") });
+        document.head.append(darkSheet);
 
         Theme.apply(Theme.loadFromObject({
             "color":
@@ -46,6 +47,18 @@
             "name": "Dark Theme Test",
             "version": 2
         }));
+
+        let darkToggle = createElement("div", ["dark-theme-toggle"], {}, [
+            createElement("label", [], { textContent: "Enable dark theme" }),
+            createElement("input", [], { type: "checkbox", checked: true })
+        ]);
+
+        darkToggle.addEventListener("click", event => {
+            Logger.log(event.target, event.target.checked);
+            darkSheet.disabled = !event.target.checked;
+        });
+
+        document.body.append(darkToggle);
     }
 }
 

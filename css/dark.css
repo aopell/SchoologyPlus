@@ -59,20 +59,30 @@ ul.context-menu-list li.context-menu-item:hover {
     border-bottom-right-radius: var(--border-radius) !important;
 }
 
-#right-column-inner div {
+#right-column-inner > div {
     background-color: var(--dark) !important;
     border: none !important;
     border-radius: var(--border-radius) !important;
+    padding: var(--padding) !important;
+}
+
+#center-top {
+    background: unset !important;
+    background-color: var(--accent) !important;
+    color: var(--text) !important;
+    border: none !important;
 }
 
 /* Schoology Popups */
-.popups-box .popups-body {
+.popups-box .popups-body,
+#popups-loading div {
     background-color: var(--primary) !important;
     color: var(--text) !important;
 }
 
 .popups-box .submit-buttons {
     background-color: var(--accent) !important;
+    border-top: none !important;
 }
 
 .popups-box .popups-title {
@@ -130,9 +140,7 @@ ul.context-menu-list li.context-menu-item:hover {
 }
 
 /* Footer */
-#site-navigation-footer,
-footer,
-footer div {
+footer._2T2dA {
     background-color: var(--dark) !important;
 }
 
@@ -160,16 +168,16 @@ footer div {
 
 [page^="/home"] #right-column-inner div,
 [page^="/home"] #home-feed-container,
-[page^="/home"] .feed-comments,
 [page="/"] #right-column-inner div,
 [page="/"] #home-feed-container,
-[page="/"] .feed-comments {
+.feed-comments {
     background-color: var(--accent) !important;
     color: var(--text) !important;
     border-radius: var(--border-radius) !important;
 }
 
-.date-header h4 span {
+.date-header h4 span,
+.s-like-sentence {
     color: var(--text) !important;
 }
 
@@ -187,12 +195,6 @@ img.splus-logo-inline {
 }
 
 /* Grades Page */
-#center-top {
-    background-color: var(--accent) !important;
-    color: var(--text) !important;
-    border: none !important;
-}
-
 .gradebook-course.hierarchical-grading-report .period-row .grade-column,
 .gradebook-course.hierarchical-grading-report .category-row .grade-column,
 .gradebook-course.hierarchical-grading-report .item-row .grade-column,
@@ -214,7 +216,7 @@ span.comment,
 }
 
 div.summary-course {
-    background-color: var(--accent) !important;
+    background-color: var(--dark) !important;
     color: var(--text) !important;
     border: none !important;
     border-radius: var(--border-radius) !important;
@@ -241,9 +243,24 @@ img.splus-coursegradebox-taint {
 }
 
 /* Resources Page */
+[page^="/resources"] #main-content-wrapper {
+    background-color: var(--primary) !important;
+}
+
+#library-main {
+    border-right: none !important;
+}
+
+#library-main iframe {
+    /* iframe must be white, because we can't change styles within it */
+    background-color: white !important;
+}
+
 #library-wrapper {
     background-color: var(--accent) !important;
     border: none !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
 }
 
 #library-wrapper a.active {
@@ -271,20 +288,45 @@ img.splus-coursegradebox-taint {
 
 #sidebar-left #left-nav #menu-s-main ul li a.active {
     background-color: var(--active) !important;
-    border: none !important;
+    border: 2px solid var(--accent) !important;
+    border-right: none !important;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 th.profile-header {
     color: var(--text) !important;
 }
 
-/* School Page */
+/* School / Group Page */
 #school-events {
     padding: var(--padding) !important;
     border-radius: var(--border-radius) !important;
 }
 
 #main {
+    background-color: var(--accent) !important;
+}
+
+[page^="/school/"] #content-wrapper,
+[page^="/school/"] td,
+[page^="/group/"] #content-wrapper,
+[page^="/group/"] td {
+    background-color: var(--accent) !important;
+    color: var(--text) !important;
+}
+
+.left-block dd {
+    color: var(--text) !important;
+}
+
+.left-block dt {
+    color: var(--muted-text) !important;
+}
+
+.enrollment-view-wrapper,
+.roster-top,
+.active-loader {
     background-color: var(--accent) !important;
 }
 
@@ -330,4 +372,46 @@ ul.Search-dropdown-3huUv {
     background-color: var(--input) !important;
     color: var(--text) !important;
     border-bottom: 1px solid transparent !important;
+}
+
+/* Settings Page */
+ul.primary,
+.with-tabs #center-top {
+    background: unset !important;
+    background-color: var(--dark) !important;
+}
+
+ul.primary li a {
+    background: unset !important;
+    background-color: var(--dark) !important;
+    color: var(--text) !important;
+}
+
+ul.primary li.active a,
+.email-notify,
+fieldset {
+    background-color: var(--accent) !important;
+    color: var(--text) !important;
+}
+
+.sticky-header *,
+.ui-selectmenu-status {
+    background-color: var(--dark) !important;
+    color: var(--text) !important;
+}
+
+div.cellphone-container {
+    background-color: var(--dark) !important;
+    color: var(--text) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+#s-user-set-notifications-form thead tr:hover {
+    background-color: var(--accent) !important;
+}
+
+/* Error Page */
+#error-page {
+    background-color: var(--dark) !important;
+    color: var(--text) !important;
 }

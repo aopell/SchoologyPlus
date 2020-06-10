@@ -677,3 +677,17 @@ a._3_bfp {
 .splus-beta-tag:hover::after {
     content: "eta Enabled";
 }
+
+.dark-theme-toggle {
+    position: fixed;
+    color: orangered;
+    top: 70px;
+    left: 10px;
+    z-index: 1000;
+}
+
+.dark-theme-toggle input {
+    vertical-align: middle;
+    float: left;
+    margin-right: 10px;
+}
