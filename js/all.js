@@ -54,11 +54,19 @@
         ]);
 
         darkToggle.addEventListener("click", event => {
-            Logger.log(event.target, event.target.checked);
             darkSheet.disabled = !event.target.checked;
         });
 
-        document.body.append(darkToggle);
+        let crazyToggle = createElement("div", ["crazy-theme-toggle"], {}, [
+            createElement("label", [], { textContent: "Enable color test" }),
+            createElement("input", [], { type: "checkbox" })
+        ]);
+
+        crazyToggle.addEventListener("click", event => {
+            document.documentElement.setAttribute("crazy", event.target.checked);
+        });
+
+        document.body.append(darkToggle, crazyToggle);
     }
 }
 

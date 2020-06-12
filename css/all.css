@@ -678,7 +678,8 @@ a._3_bfp {
     content: "eta Enabled";
 }
 
-.dark-theme-toggle {
+.dark-theme-toggle,
+.crazy-theme-toggle {
     position: fixed;
     color: orangered;
     top: 70px;
@@ -686,8 +687,13 @@ a._3_bfp {
     z-index: 1000;
 }
 
-.dark-theme-toggle input {
+.dark-theme-toggle input,
+.crazy-theme-toggle input {
     vertical-align: middle;
     float: left;
     margin-right: 10px;
+}
+
+.crazy-theme-toggle {
+    top: 90px;
 }

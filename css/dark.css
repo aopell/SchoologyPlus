@@ -14,6 +14,26 @@
     --padding: 10px;
 }
 
+:root[crazy=true] {
+    --primary: magenta;
+    --accent: purple;
+    --dark: maroon;
+
+    --text: yellow;
+    --muted-text: orange;
+
+    --input: blue;
+    --error: red;
+    --highlight: rgba(0,255,0,0.3);
+    --active: rgba(0,0,255,0.3);
+    --grades: aqua;
+    --border-radius: 5px;
+    --border-size: 2px;
+    --padding: 10px;
+
+    --hover-color: lime !important;
+}
+
 /* General */
 
 h1,
@@ -23,7 +43,7 @@ h4,
 h5,
 h6,
 p {
-    color: var(--text) !important;
+    color:  var(--text) !important;
 }
 
 textarea,
@@ -177,8 +197,27 @@ footer._2T2dA {
 }
 
 .date-header h4 span,
+.s-poll-option-title,
 .s-like-sentence {
     color: var(--text) !important;
+}
+
+.s-polls-poll-option,
+#edge-filters-menu {
+    background: none !important;
+    background-color: var(--dark) !important;
+    color: var(--text) !important;
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+}
+
+#edge-filters-menu .edge-filter-option {
+    background-position: 0 -257px !important;
+}
+
+#edge-filters-menu .edge-filter-option:hover,
+#edge-filters-menu .edge-filter-option.active:hover {
+    background-color: var(--active) !important;
 }
 
 .gray,
