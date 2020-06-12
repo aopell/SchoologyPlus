@@ -75,7 +75,7 @@
     const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "support.schoology.com"];
     let dd = Setting.getValue("defaultDomain");
 
-    if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host) && !window.location.host.match(/.*\.app\.schoology\.com/)) {
+    if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host) && !window.location.host.match(/.*[-\.]app\.schoology\.com/)) {
         Setting.setValue("defaultDomain", window.location.host);
 
         let bgColor = document.querySelector("#header header").style.backgroundColor;

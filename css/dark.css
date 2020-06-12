@@ -4,6 +4,7 @@
     --dark: #202225;
     --text: #DCDDDE;
     --muted-text: #72767D;
+    --light-border: #DCDDDE;
     --input: #40444B;
     --error: #F44336;
     --highlight: rgba(184, 134, 11, 0.2);
@@ -12,6 +13,7 @@
     --border-radius: 5px;
     --border-size: 2px;
     --padding: 10px;
+    --theme-is-dark: 1;
 }
 
 :root[crazy=true] {
@@ -22,6 +24,7 @@
     --text: yellow;
     --muted-text: orange;
 
+    --light-border: gold;
     --input: blue;
     --error: red;
     --highlight: rgba(0,255,0,0.3);
@@ -30,6 +33,7 @@
     --border-radius: 5px;
     --border-size: 2px;
     --padding: 10px;
+    --theme-is-dark: 1;
 
     --hover-color: lime !important;
 }
@@ -93,6 +97,26 @@ ul.context-menu-list li.context-menu-item:hover {
     border: none !important;
 }
 
+body a.link-btn,
+body button.link-btn {
+    background: none !important;
+    background-color: var(--dark) !important;
+    color: var(--text) !important;
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.inline-popup-wrapper {
+    background-color: var(--dark) !important;
+    color: var(--text) !important;
+    border: var(--border-size) solid var(--light-border) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.inline-popup-wrapper .arrow-top {
+    display: none !important;
+}
+
 /* Schoology Popups */
 .popups-box .popups-body,
 #popups-loading div {
@@ -116,7 +140,7 @@ ul.context-menu-list li.context-menu-item:hover {
 }
 
 .splus-coursesdropdown-reorder-btn {
-    filter: invert(1) !important;
+    filter: invert(var(--theme-is-dark)) !important;
 }
 
 .splus-courses-navbar-button article,
@@ -129,7 +153,7 @@ ul.context-menu-list li.context-menu-item:hover {
 
 .splus-courses-navbar-button article a:hover,
 .splus-groups-navbar-button article a:hover {
-    border: var(--border-size) solid var(--text) !important;
+    border: var(--border-size) solid var(--light-border) !important;
     border-radius: var(--border-radius) !important;
 }
 
@@ -203,12 +227,21 @@ footer._2T2dA {
 }
 
 .s-polls-poll-option,
+#edge-filters,
 #edge-filters-menu {
     background: none !important;
     background-color: var(--dark) !important;
     color: var(--text) !important;
     border: none !important;
     border-radius: var(--border-radius) !important;
+}
+
+#edge-filters-btn {
+    background-color: var(--dark) !important;
+    color: var(--text) !important;
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+    opacity: unset !important;
 }
 
 #edge-filters-menu .edge-filter-option {
@@ -226,7 +259,7 @@ footer._2T2dA {
 }
 
 img.splus-logo-inline {
-    filter: brightness(1) !important;
+    filter: brightness(var(--theme-is-dark)) !important;
 }
 
 .splus-broadcast-post {
@@ -262,7 +295,7 @@ div.summary-course {
 }
 
 img.splus-coursegradebox-taint {
-    filter: brightness(1) !important;
+    filter: brightness(var(--theme-is-dark)) !important;
 }
 
 /* Mastery Page */
@@ -279,6 +312,36 @@ img.splus-coursegradebox-taint {
 
 #secondary-tabs-wrapper {
     border-right: none !important;
+}
+
+body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div {
+    background-color: var(--primary) !important;
+}
+
+body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div button {
+    filter: grayscale(var(--theme-is-dark)) invert(var(--theme-is-dark));
+}
+
+body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div .Card-card-2rORL {
+    background-color: var(--accent) !important;
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+}
+
+body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div {
+    color: var(--text) !important;
+}
+
+body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div._2wOCj {
+    color: var(--muted-text) !important;
+}
+
+#reorder-ui button.link-btn {
+    background-color: var(--primary) !important;
+}
+
+#reorder-ui button.link-btn span {
+    filter: invert(var(--theme-is-dark)) !important;
 }
 
 /* Resources Page */
@@ -327,7 +390,7 @@ img.splus-coursegradebox-taint {
 
 #sidebar-left #left-nav #menu-s-main ul li a.active {
     background-color: var(--active) !important;
-    border: 2px solid var(--accent) !important;
+    border: var(--border-size) solid var(--light-border) !important;
     border-right: none !important;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -369,6 +432,11 @@ th.profile-header {
     background-color: var(--accent) !important;
 }
 
+#s-user-realm-profile-notification-setting-form label:hover {
+    background: none !important;
+    background-color: var(--active) !important;
+}
+
 /* Course Dashboard */
 .course-dashboard section {
     border: none !important;
@@ -386,7 +454,7 @@ th.profile-header {
 }
 
 .course-dashboard .sgy-card:hover {
-    border: var(--border-size) solid var(--text) !important;
+    border: var(--border-size) solid var(--light-border) !important;
 }
 
 .course-dashboard .sgy-card:hover .sgy-card-lens::after {
@@ -401,10 +469,19 @@ th.profile-header {
     color: var(--muted-text) !important;
 }
 
+.course-dashboard .ui-state-highlight {
+    border: var(--border-size) dashed var(--light-border) !important;
+    background-color: var(--dark) !important;
+}
+
 /* Search Bar */
 ul.Search-dropdown-3huUv {
     border: none !important;
     background-color: var(--accent) !important;
+}
+
+.Search-dropdown-3huUv svg {
+    filter: invert(var(--theme-is-dark)) !important;
 }
 
 .Search-dropdown-3huUv input {
@@ -453,4 +530,33 @@ div.cellphone-container {
 #error-page {
     background-color: var(--dark) !important;
     color: var(--text) !important;
+}
+
+/* Calendar */
+.fc-state-highlight {
+    background: var(--active) !important;
+}
+
+.fc-view-month td:hover {
+    background-color: var(--highlight) !important;
+}
+
+table.fc-border-separate td {
+    border: var(--border-size) solid var(--light-border) !important;
+}
+
+table.fc-border-separate .fc-widget-header {
+    border-bottom: var(--border-size) solid var(--light-border) !important;
+}
+
+.fc-agenda-slots td,
+.fc-agenda-slots th,
+body .fc-widget-header,
+.fc-agenda-allday th {
+    border-color: var(--light-border) !important;
+}
+
+body .fc-widget-header .fc-agenda-divider-inner {
+    background: var(--light-border) !important;
+    border-color: var(--light-border) !important;
 }
