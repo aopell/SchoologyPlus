@@ -440,6 +440,28 @@ body .action-links a:hover {
     color: var(--muted-text) !important;
 }
 
+#edit-course-switcher-select-nid-menu {
+    border: var(--border-size) solid var(--light-border) !important;
+    background-color: var(--dark);
+    border-radius: var(--border-radius) !important;
+}
+
+#edit-course-switcher-select-nid-menu .ui-selectmenu-group li a:hover {
+    color: var(--text) !important;
+    background-color: var(--active) !important;
+}
+
+#edit-course-switcher-select-nid-button {
+    border: none !important;
+    background: none !important;
+    background-color: var(--dark) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+#edit-course-switcher-select-nid-button:not(.ui-state-active) .edit-course-inline-dropdown-arrow {
+    filter: invert(var(--theme-is-dark)) !important;
+}
+
 /* School / Group Page */
 #school-events {
     padding: var(--padding) !important;
