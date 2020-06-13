@@ -298,6 +298,10 @@ img.splus-coursegradebox-taint {
     filter: brightness(var(--theme-is-dark)) !important;
 }
 
+.grade-edit-indicator {
+    filter: grayscale(var(--theme-is-dark)) invert(var(--theme-is-dark)) !important;
+}
+
 /* Mastery Page */
 #s-js-student-mastery-report-view-content {
     background-color: var(--accent) !important;
@@ -398,6 +402,42 @@ body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div._2wOCj {
 
 th.profile-header {
     color: var(--text) !important;
+}
+
+/* Course Page */
+.action-links {
+    background-color: var(--dark) !important;
+    border: var(--border-size) solid var(--light-border) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.action-links .selected {
+    background-position: 0 -257px !important;
+}
+
+body .action-links a:hover {
+    background-color: var(--active) !important;
+    color: var(--text) !important;
+}
+
+.materials-top,
+#folder-contents-table td,
+#right-column h3 {
+    border: none !important;
+    border-bottom: var(--border-size) solid var(--light-border) !important;
+}
+
+.s-edge-feed li {
+    border-top: var(--border-size) solid var(--light-border) !important;
+}
+
+.s-like-sentence {
+    border-bottom: var(--border-size) solid var(--light-border) !important;
+}
+
+.pre-fill,
+.upcoming-list .empty {
+    color: var(--muted-text) !important;
 }
 
 /* School / Group Page */
