@@ -405,10 +405,12 @@ th.profile-header {
 }
 
 /* Course Page */
-.action-links {
+.action-links,
+.comment.no-comments {
     background-color: var(--dark) !important;
     border: var(--border-size) solid var(--light-border) !important;
     border-radius: var(--border-radius) !important;
+    color: var(--text) !important;
 }
 
 .action-links .selected {
@@ -436,7 +438,8 @@ body .action-links a:hover {
 }
 
 .pre-fill,
-.upcoming-list .empty {
+.upcoming-list .empty,
+.no-attendance-status-dates {
     color: var(--muted-text) !important;
 }
 
