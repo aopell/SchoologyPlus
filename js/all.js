@@ -30,7 +30,7 @@
         let darkSheet = createElement("link", [], { rel: "stylesheet", href: chrome.runtime.getURL("/css/dark.css") });
         document.head.append(darkSheet);
 
-        Theme.apply(Theme.loadFromObject({
+        var darkThemeTheme = Theme.loadFromObject({
             "color":
             {
                 "custom":
@@ -46,7 +46,9 @@
             },
             "name": "Dark Theme Test",
             "version": 2
-        }));
+        });
+
+        Theme.apply(darkThemeTheme);
 
         let darkToggle = createElement("div", ["dark-theme-toggle"], {}, [
             createElement("label", [], { textContent: "Enable dark theme" }),
@@ -55,6 +57,7 @@
 
         darkToggle.addEventListener("click", event => {
             darkSheet.disabled = !event.target.checked;
+            Theme.apply(event.target.checked ? darkThemeTheme : Theme.byName(Setting.getValue("theme")));            
         });
 
         let crazyToggle = createElement("div", ["crazy-theme-toggle"], {}, [
@@ -425,11 +428,11 @@ document.body.onkeydown = (data) => {
 
 document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(createElement("li", ["_24avl", "_3Rh90", "_349XD"], {}, [
     createElement(
-        "a",
+        "button",
         ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
-        { href: "#", onclick: () => openModal("settings-modal") },
+        { onclick: () => openModal("settings-modal") },
         [
-            createElement("img", ["Header-two-point-two-ONgMZ", "Header-two-point-two-ONgMZ", "_1I3mg"], { src: chrome.runtime.getURL("imgs/new-plus-icon.svg") })
+            createSvgLogo("_3ESp2", "dlCBz", "_1I3mg", "fjQuT", "uQOmx")
         ]
     )
 ]));

@@ -27,8 +27,8 @@
     --light-border: gold;
     --input: blue;
     --error: red;
-    --highlight: rgba(0,255,0,0.3);
-    --active: rgba(0,0,255,0.3);
+    --highlight: rgba(0, 255, 0, 0.3);
+    --active: rgba(0, 0, 255, 0.3);
     --grades: aqua;
     --border-radius: 5px;
     --border-size: 2px;
@@ -47,7 +47,7 @@ h4,
 h5,
 h6,
 p {
-    color:  var(--text) !important;
+    color: var(--text) !important;
 }
 
 textarea,
@@ -67,8 +67,7 @@ ul.context-menu-list li.context-menu-item {
 }
 
 ul.context-menu-list li.context-menu-item:hover {
-    color: var(--primary) !important;
-    background-color: var(--text) !important;
+    background-color: var(--active) !important;
 }
 
 #body {
@@ -83,7 +82,7 @@ ul.context-menu-list li.context-menu-item:hover {
     border-bottom-right-radius: var(--border-radius) !important;
 }
 
-#right-column-inner > div {
+#right-column-inner>div {
     background-color: var(--dark) !important;
     border: none !important;
     border-radius: var(--border-radius) !important;
@@ -115,6 +114,25 @@ body button.link-btn {
 
 .inline-popup-wrapper .arrow-top {
     display: none !important;
+}
+
+.splus-modal-title,
+.submit-span-wrapper input[type="button"],
+.submit-span-wrapper input[type="submit"],
+:not(.submit-span-wrapper)>input[type="button"],
+:not(.submit-span-wrapper)>input[type="submit"],
+footer li a,
+header li a,
+.splus-modal-footer-text a,
+body a.link-btn.active,
+div.courses-left-menu,
+.portfolio-list a.btn,
+a._3_bfp,
+footer,
+footer button,
+.Header-header-button-1EE8Y,
+.LGaPf svg {
+    color: var(--text) !important;
 }
 
 /* Schoology Popups */
@@ -232,7 +250,7 @@ footer._2T2dA {
     background: none !important;
     background-color: var(--dark) !important;
     color: var(--text) !important;
-    border: none !important;
+    border: var(--border-size) solid var(--light-border) !important;
     border-radius: var(--border-radius) !important;
 }
 
@@ -245,7 +263,7 @@ footer._2T2dA {
 }
 
 #edge-filters-menu .edge-filter-option {
-    background-position: 0 -257px !important;
+    background-position: 0 calc(-237px - 20px * var(--theme-is-dark)) !important;
 }
 
 #edge-filters-menu .edge-filter-option:hover,
@@ -302,6 +320,23 @@ img.splus-coursegradebox-taint {
     filter: grayscale(var(--theme-is-dark)) invert(var(--theme-is-dark)) !important;
 }
 
+.gradebook-course.hierarchical-grading-report .item-row .td-content-wrapper {
+    border-top: var(--border-size) dotted var(--light-border) !important;
+}
+
+.gradebook-course.hierarchical-grading-report .period-row .td-content-wrapper,
+.gradebook-course.hierarchical-grading-report .final-row .td-content-wrapper {
+    border-top: var(--border-size) solid var(--light-border) !important;
+}
+
+.item-row.added-fake-assignment {
+    background-color: var(--highlight) !important;
+}
+
+.splus-grade-help-btn .icon-help {
+    background-position: calc(0px - 22px * var(--theme-is-dark)) -127px !important;
+}
+
 /* Mastery Page */
 #s-js-student-mastery-report-view-content {
     background-color: var(--accent) !important;
@@ -318,25 +353,25 @@ img.splus-coursegradebox-taint {
     border-right: none !important;
 }
 
-body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div {
+body>div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div {
     background-color: var(--primary) !important;
 }
 
-body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div button {
+body>div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div button {
     filter: grayscale(var(--theme-is-dark)) invert(var(--theme-is-dark));
 }
 
-body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div .Card-card-2rORL {
+body>div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div .Card-card-2rORL {
     background-color: var(--accent) !important;
     border: none !important;
     border-radius: var(--border-radius) !important;
 }
 
-body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div {
+body>div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div div {
     color: var(--text) !important;
 }
 
-body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div._2wOCj {
+body>div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div div._2wOCj {
     color: var(--muted-text) !important;
 }
 
@@ -393,7 +428,7 @@ body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div._2wOCj {
 }
 
 #sidebar-left #left-nav #menu-s-main ul li a.active {
-    background-color: var(--active) !important;
+    background-color: var(--accent) !important;
     border: var(--border-size) solid var(--light-border) !important;
     border-right: none !important;
     border-top-left-radius: 5px;
@@ -406,15 +441,21 @@ th.profile-header {
 
 /* Course Page */
 .action-links,
-.comment.no-comments {
+.comment.no-comments,
+.materials-filter-wrapper {
     background-color: var(--dark) !important;
     border: var(--border-size) solid var(--light-border) !important;
     border-radius: var(--border-radius) !important;
     color: var(--text) !important;
 }
 
+.materials-filter-wrapper .action-links-wrapper .action-links-unfold,
+.action-links-wrapper-gearless .action-links-unfold.active, .action-links-wrapper-gearless .action-links-unfold:active {
+    color: var(--text) !important;
+}
+
 .action-links .selected {
-    background-position: 0 -257px !important;
+    background-position: 0 calc(-237px - 20px * var(--theme-is-dark)) !important;
 }
 
 body .action-links a:hover {

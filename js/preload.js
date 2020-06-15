@@ -1017,6 +1017,37 @@ function setCSSVariable(name, val) {
     document.documentElement.style.setProperty(`--${name}`, val);
 }
 
+function createSvgLogo(...classes) {
+    let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", 250);
+    circle.setAttribute("cy", 250);
+    circle.setAttribute("r", 230);
+    circle.setAttribute("style", "fill: none; stroke-width: 35px; stroke: currentColor;");
+    let line1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line1.setAttribute("x1", 250);
+    line1.setAttribute("y1", 125);
+    line1.setAttribute("x2", 250);
+    line1.setAttribute("y2", 375);
+    line1.setAttribute("style", "stroke-linecap: round; stroke-width: 35px; stroke: currentColor;");
+    let line2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line2.setAttribute("x1", 125);
+    line2.setAttribute("y1", 250);
+    line2.setAttribute("x2", 375);
+    line2.setAttribute("y2", 250);
+    line2.setAttribute("style", "stroke-linecap: round; stroke-width: 35px; stroke: currentColor;");
+
+    let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 500 500");
+
+    svg.append(circle, line1, line2);
+
+    if (classes) {
+        svg.classList.add(...classes);
+    }
+
+    return svg;
+}
+
 new Setting(
     "defaultDomain",
     "Default Schoology Domain",
