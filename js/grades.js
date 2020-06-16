@@ -427,7 +427,7 @@ var fetchQueue = [];
                         // we put our tweaks here in the first place because it makes sense in the UI, and because it doesn't change with grade edits
                         // yet we want to be clear this is unofficial
                         // TODO discuss potentially better alternatives to either this particular or any img in general for making this clarification
-                        return createElement("img", ["splus-coursegradebox-taint"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Predicted by Schoology Plus" });
+                        return createSvgLogo("splus-coursegradebox-taint");
                     }
 
                     // points needed for next highest grade

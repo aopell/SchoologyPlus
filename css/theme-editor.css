@@ -3,6 +3,7 @@
     --primary-color: hsl(var(--color-hue), 50%, 50%);
     --background-color: hsl(var(--color-hue), 60%, 30%);
     --hover-color: hsl(var(--color-hue), 55%, 40%);
+    --link-color: var(--hover-color);
     --border-color: hsl(var(--color-hue), 60%, 25%);
     --cursor: auto;
     --lausd-visible: block;
@@ -490,7 +491,7 @@ input[type=button] {
 }
 
 .tabs>li>a.active {
-    color: var(--hover-color) !important;
+    color: var(--link-color) !important;
 }
 
 .tabs>li>a {
@@ -498,7 +499,7 @@ input[type=button] {
 }
 
 .tabs>li>a:hover:not(.active) {
-    color: var(--hover-color) !important;
+    color: var(--link-color) !important;
 }
 
 .tabs a:focus.active {
@@ -651,7 +652,7 @@ textarea#json-output[readonly] {
 }
 
 .setting-link {
-    color: var(--hover-color);
+    color: var(--link-color);
 }
 
 .show-lausd {

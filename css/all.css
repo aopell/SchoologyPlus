@@ -357,6 +357,7 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
     background-color: var(--hover-color) !important;
 }
 
+.submit-span-wrapper,
 .submit-span-wrapper input[type=button],
 .submit-span-wrapper input[type=submit] {
     height: 25px !important;
@@ -664,7 +665,7 @@ a._3_bfp {
     position: fixed;
     left: 3px;
     top: 12px;
-    z-index: 1000;
+    z-index: 9999;
     color: white !important;
     border: 2px solid white;
     border-radius: 10px;

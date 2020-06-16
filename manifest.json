@@ -61,18 +61,18 @@
             ],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
-                "*://asset-cdn.schoology.com",
-                "*://developer.schoology.com",
-                "*://support.schoology.com",
-                "*://info.schoology.com",
-                "*://files-cdn.schoology.com",
-                "*://status.schoology.com",
-                "*://ui.schoology.com",
-                "*://www.schoology.com",
-                "*://api.schoology.com",
-                "*://developers.schoology.com",
-                "*://schoology.com",
-                "*://support.schoology.com"
+                "*://asset-cdn.schoology.com/*",
+                "*://developer.schoology.com/*",
+                "*://support.schoology.com/*",
+                "*://info.schoology.com/*",
+                "*://files-cdn.schoology.com/*",
+                "*://status.schoology.com/*",
+                "*://ui.schoology.com/*",
+                "*://www.schoology.com/*",
+                "*://api.schoology.com/*",
+                "*://developers.schoology.com/*",
+                "*://schoology.com/*",
+                "*://support.schoology.com/*"
             ],
             "css": [
                 "css/all.css"
