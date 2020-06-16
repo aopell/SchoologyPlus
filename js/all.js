@@ -18,17 +18,35 @@
 
 {
     let betaCode = Setting.getValue("beta");
+    let betaSection = null;
     if (betaCode in beta_tests) {
         // Beta Enabled Notice
         let betaTag = createElement("span", ["splus-beta-tag", "splus-track-clicks"], { textContent: "β", id: "beta-tag" });
         betaTag.addEventListener("click", event => openModal("beta-modal"));
-        document.body.append(betaTag);
+        let betaContainer = createElement("div", ["splus-beta-container"], {}, [betaTag]);
+        document.body.append(betaContainer);
+        betaSection = createBetaSection(betaCode);
+        betaContainer.append(betaSection);
+    }
+
+    function createBetaSection(name) {
+        return createElement("div", ["splus-beta-section"], { id: `splus-beta-section-${name}` }, [
+            createElement("h3", [], { textContent: name })
+        ]);
+    }
+
+    function createBetaToggleCheckbox(name, onchange, checked = false, nestingLevel = 1) {
+        return createElement("div", ["splus-beta-toggle"], { style: { paddingLeft: `${(nestingLevel - 1) * 10}px` } }, [
+            createElement("label", [], { textContent: name }),
+            createElement("input", [], { type: "checkbox", checked: checked, onchange: onchange })
+        ]);
     }
 
     // Dark Theme Beta
     if (betaCode == "darktheme") {
-        let darkSheet = createElement("link", [], { rel: "stylesheet", href: chrome.runtime.getURL("/css/dark.css") });
-        document.head.append(darkSheet);
+        let newThemeSheet = createElement("link", [], { rel: "stylesheet", href: chrome.runtime.getURL("/css/modern.css") });
+        document.head.append(newThemeSheet);
+        document.documentElement.setAttribute("test-mode", "crazy");
 
         var darkThemeTheme = Theme.loadFromObject({
             "color":
@@ -50,26 +68,15 @@
 
         Theme.apply(darkThemeTheme);
 
-        let darkToggle = createElement("div", ["dark-theme-toggle"], {}, [
-            createElement("label", [], { textContent: "Enable dark theme" }),
-            createElement("input", [], { type: "checkbox", checked: true })
-        ]);
-
-        darkToggle.addEventListener("click", event => {
-            darkSheet.disabled = !event.target.checked;
-            Theme.apply(event.target.checked ? darkThemeTheme : Theme.byName(Setting.getValue("theme")));            
-        });
-
-        let crazyToggle = createElement("div", ["crazy-theme-toggle"], {}, [
-            createElement("label", [], { textContent: "Enable color test" }),
-            createElement("input", [], { type: "checkbox" })
-        ]);
-
-        crazyToggle.addEventListener("click", event => {
-            document.documentElement.setAttribute("crazy", event.target.checked);
-        });
-
-        document.body.append(darkToggle, crazyToggle);
+        betaSection.append(
+            createBetaToggleCheckbox("Enable new theme engine", event => newThemeSheet.disabled = !event.target.checked, true),
+            createBetaToggleCheckbox("Enable dark theme", event => {
+                document.documentElement.setAttribute("dark", event.target.checked);
+                Theme.apply(event.target.checked ? darkThemeTheme : Theme.byName(Setting.getValue("theme")));
+            }, true),
+            createBetaToggleCheckbox("Enable color test", event => document.documentElement.setAttribute("test", event.target.checked)),
+            createBetaToggleCheckbox("Crazy mode", event => document.documentElement.setAttribute("test-mode", event.target.checked ? "crazy" : "standard"), true, 2)
+        );
     }
 }
 
@@ -921,7 +928,8 @@ async function createQuickAccess() {
 
     let wrapper = createElement("div", ["quick-access-wrapper"], {}, [
         createElement("h3", ["h3-med"], {}, [
-            createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
+            createSvgLogo("splus-logo-inline"),
+            // createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
             createElement("span", [], { textContent: "Quick Access" }),
             createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-splus-settings", textContent: "Settings", href: "#splus-settings#setting-input-quickAccessVisibility" })
         ]),

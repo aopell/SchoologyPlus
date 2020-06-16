@@ -3,6 +3,7 @@
     --primary-color: hsl(var(--color-hue), 50%, 50%);
     --background-color: hsl(var(--color-hue), 60%, 30%);
     --hover-color: hsl(var(--color-hue), 55%, 40%);
+    --link-color: var(--hover-color);
     --border-color: hsl(var(--color-hue), 60%, 25%);
     --cursor: auto;
     --background-url: none;
@@ -54,7 +55,7 @@ footer button {
 }
 
 footer._2T2dA {
-    background-color: rgb(51, 51, 51) !important;
+    background-color: var(--primary-color) !important;
 }
 
 /* Logo */
@@ -584,8 +585,8 @@ the selector matches inside notifications in the new notifs dropdown
 }
 
 .splus-logo-inline {
-    height: 22px;
-    filter: brightness(0.4);
+    height: 18px;
+    color: currentColor;
     vertical-align: middle;
     padding-right: 3px;
 }
@@ -609,7 +610,7 @@ span[role=button],
 .category-row .title,
 ._2mWUT a,
 div._3U8Br {
-    color: var(--hover-color) !important;
+    color: var(--link-color) !important;
 }
 
 body #nav ul li a:hover,
@@ -632,7 +633,7 @@ body .search-toggle:hover,
 body #primary-settings .unfold:hover,
 ul.tabs li a.active,
 #nav ul li a:hover {
-    background-color: var(--hover-color) !important;
+    background-color: var(--link-color) !important;
     color: white !important;
 }
 
@@ -659,41 +660,51 @@ a._3_bfp {
     height: 80% !important;
 }
 
-.splus-beta-tag {
+.splus-beta-container {
     position: fixed;
-    cursor: pointer;
-    color: white !important;
-    border: 2px solid white;
-    background-color: dodgerblue;
     left: 3px;
     top: 12px;
-    padding: 5px 8px;
-    font-size: 16px;
-    border-radius: 10px;
     z-index: 1000;
+    color: white !important;
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: dodgerblue;
+    padding: 5px 8px;
+    width: 10px;
+    height: 20px;
+}
+
+.splus-beta-container:hover {
+    width: unset;
+    height: unset;
+}
+
+.splus-beta-container h3 {
+    color: white !important;
+    border-bottom: 1px solid white !important;
+}
+
+.splus-beta-tag {
+    cursor: pointer;
+    font-size: 16px;
     font-weight: bold;
 }
 
-.splus-beta-tag:hover::after {
+.splus-beta-container:hover .splus-beta-tag::after {
     content: "eta Enabled";
 }
 
-.dark-theme-toggle,
-.crazy-theme-toggle {
-    position: fixed;
-    color: orangered;
-    top: 70px;
-    left: 10px;
-    z-index: 1000;
+.splus-beta-container div {
+    display: none;
 }
 
-.dark-theme-toggle input,
-.crazy-theme-toggle input {
+.splus-beta-container:hover div {
+    display: block;
+    padding-top: 5px;
+}
+
+.splus-beta-container div input[type=checkbox] {
     vertical-align: middle;
     float: left;
     margin-right: 10px;
-}
-
-.crazy-theme-toggle {
-    top: 90px;
 }
