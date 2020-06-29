@@ -137,6 +137,7 @@ ul.context-menu-list li.context-menu-item:hover {
 
 body a.link-btn,
 body button.link-btn {
+    box-shadow: none !important;
     background: none !important;
     background-color: var(--secondary) !important;
     color: var(--text) !important;
@@ -459,6 +460,32 @@ div.summary-course {
     opacity: 1 !important;
 }
 
+.empty.grades-empty {
+    color: var(--muted-text) !important;
+}
+
+.download-grade-wrapper a.link-btn {
+    background-color: var(--primary) !important;
+}
+
+#past-selector .item-list a.link-btn.active {
+    background-color: var(--active) !important;
+}
+
+body ul.primary li.active a,
+body ul.primary li.active a:hover,
+body ul.primary li a,
+body ul.primary li a:hover,
+body ul.primary li a:visited,
+body ul.primary {
+    border-color: var(--contrast-border) !important;
+    border-width: var(--border-size) !important;
+}
+
+.gradebook-course, .attendance-course {
+    border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
 /* Mastery Page */
 #s-js-student-mastery-report-view-content {
     background-color: var(--accent) !important;
@@ -477,6 +504,7 @@ div.summary-course {
 
 #secondary-tabs-wrapper {
     border-right: none !important;
+    background-color: var(--accent) !important;
 }
 
 body>div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div {
@@ -533,6 +561,15 @@ body #right-column-inner a.link-btn {
     border: none !important;
 }
 
+.listing .course-item.list-item,
+.courses-listing.mycourses h3 {
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+#main .courses-listing.listing {
+    border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
 /* Resources Page */
 [page^="/resources"] #main-content-wrapper {
     background-color: var(--primary) !important;
@@ -569,6 +606,50 @@ body #right-column-inner a.link-btn {
 
 #library-search-form-container div::before {
     display: none !important;
+}
+
+#collection-view-contents .collection-row-empty td {
+    color: var(--text) !important;
+}
+
+body.library-view #library-main {
+    border-left: var(--border-size) solid var(--contrast-border) !important;
+}
+
+#collection-toolbar,
+#collection-view-contents { 
+    border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+#collection-view-contents th,
+#collection-view-contents td,
+#library-left .collections-list-wrapper {
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+body.library-view #library-left {
+    border-right: var(--border-size) solid var(--contrast-border) !important;
+}
+
+#collection-toolbar .action-links-unfold {
+    box-shadow: none !important;
+    border: none !important;
+    background: var(--secondary) !important;
+    border-radius: var(--border-radius) !important;
+    color: var(--text) !important;
+}
+
+.action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+    color: var(--text) !important;
+}
+
+#reorder-collections-btn {
+    color: var(--text) !important;
+}
+
+#reorder-collections-btn:hover {
+    background-color: var(--active) !important;
+    color: var(--text) !important;
 }
 
 /* Profile Page */
@@ -664,8 +745,12 @@ body .action-links a:hover {
 }
 
 /* User Page */
-.info-tab th {
+.info-tab th,
+.info-tab td,
+.enrollment-view-wrapper td,
+.enrollment-view-wrapper th {
     color: var(--muted-text) !important;
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
 
 .info-tab .profile-header {
@@ -707,6 +792,10 @@ body .action-links a:hover {
 #s-user-realm-profile-notification-setting-form label:hover {
     background: none !important;
     background-color: var(--active) !important;
+}
+
+#content-left .s-enrollment-realm-actions {
+    border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
 /* Course Dashboard */
