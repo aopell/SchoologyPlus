@@ -318,7 +318,6 @@ header div.Je0RK button._1SIMq {
 }
 
 .s-polls-poll-option,
-#edge-filters,
 #edge-filters-menu {
     background: none !important;
     background-color: var(--secondary) !important;
@@ -327,11 +326,17 @@ header div.Je0RK button._1SIMq {
     border-radius: var(--border-radius) !important;
 }
 
+#edge-filters {
+    background: none !important;
+    border: none !important;
+}
+
 #edge-filters-btn,
 .feed-comments {
+    background-position-y: calc(-576px - 18px * var(--theme-is-dark)) !important;
     background-color: var(--secondary) !important;
     color: var(--text) !important;
-    border: none !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
     border-radius: var(--border-radius) !important;
     opacity: unset !important;
 }
@@ -486,6 +491,16 @@ body ul.primary {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
+[page*="/student_attendance"] table thead th {
+    border-color: var(--contrast-border) !important;
+    border-width: var(--border-size) 0 !important;
+}
+
+.attendance-course-attendance table th,
+.attendance-course-attendance table td {
+    border: var(--border-size) solid var(--contrast-border) !important;
+}
+
 /* Mastery Page */
 #s-js-student-mastery-report-view-content {
     background-color: var(--accent) !important;
@@ -568,6 +583,34 @@ body #right-column-inner a.link-btn {
 
 #main .courses-listing.listing {
     border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+/* Members Page */
+.enrollment-search .go-btn {
+    background-color: inherit !important;
+}
+
+.roster-top {
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+body .enrollment-filters span.active, body .grading-groups-list .grading-group.active {
+    background-color: var(--active) !important;
+}
+
+.enrollment-filters span:hover {
+    background-color: var(--active) !important;
+}
+
+/* Breadcrumbs */
+
+#site-navigation-breadcrumbs nav {
+    background-color: var(--accent) !important;
+}
+
+#site-navigation-breadcrumbs nav li a,
+#site-navigation-breadcrumbs nav li span {
+    color: var(--text) !important;
 }
 
 /* Resources Page */
