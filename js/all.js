@@ -927,7 +927,7 @@ async function createQuickAccess() {
     let linkWrap;
 
     let wrapper = createElement("div", ["quick-access-wrapper"], {}, [
-        createElement("h3", ["h3-med"], {}, [
+        createElement("h3", ["h3-med"], { title: "Added by Schoology Plus" }, [
             createSvgLogo("splus-logo-inline"),
             // createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
             createElement("span", [], { textContent: "Quick Access" }),

@@ -196,6 +196,16 @@ let migrationsTo = {
                 }
             }, 10);
         }
+    },
+    "6.4": function (currentVersion, previousVersion) {
+        saveBroadcasts([
+            createBroadcast(
+                640,
+                "Schoology Plus Dark Theme Beta",
+                "Schoology Plus is beta testing a new dark theme option! Join our Discord if you want to participate! <a href=\"https://discord.schoologypl.us\" id=\"announcement-darktheme-discord-link\" class=\"splus-track-clicks\">Click here</a> to join!",
+                new Date(2020, 7 /* August */, 16)
+            )
+        ]);
     }
 };
 

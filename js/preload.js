@@ -41,7 +41,7 @@ document.documentElement.setAttribute("page", location.pathname);
 updateSettings();
 
 var beta_tests = {
-    "darktheme": "https://schoologypl.us",
+    "darktheme": "https://schoologypl.us/docs/beta/darktheme",
     "newgrades": "https://schoologypl.us"
 };
 
