@@ -16,12 +16,76 @@
     }
 }
 
+{
+    let betaCode = Setting.getValue("beta");
+    let betaSection = null;
+    if (betaCode in beta_tests) {
+        // Beta Enabled Notice
+        let betaTag = createElement("span", ["splus-beta-tag", "splus-track-clicks"], { textContent: "β", id: "beta-tag" });
+        betaTag.addEventListener("click", event => openModal("beta-modal"));
+        let betaContainer = createElement("div", ["splus-beta-container"], {}, [betaTag]);
+        document.body.append(betaContainer);
+        betaSection = createBetaSection(betaCode);
+        betaContainer.append(betaSection);
+    }
+
+    function createBetaSection(name) {
+        return createElement("div", ["splus-beta-section"], { id: `splus-beta-section-${name}` }, [
+            createElement("h3", [], { textContent: name })
+        ]);
+    }
+
+    function createBetaToggleCheckbox(name, onchange, checked = false, nestingLevel = 1) {
+        return createElement("div", ["splus-beta-toggle"], { style: { paddingLeft: `${(nestingLevel - 1) * 10}px` } }, [
+            createElement("label", [], { textContent: name }),
+            createElement("input", [], { type: "checkbox", checked: checked, onchange: onchange })
+        ]);
+    }
+
+    // Dark Theme Beta
+    if (betaCode == "darktheme") {
+        let newThemeSheet = createElement("link", [], { rel: "stylesheet", href: chrome.runtime.getURL("/css/modern.css") });
+        document.head.append(newThemeSheet);
+        document.documentElement.setAttribute("test-mode", "crazy");
+
+        var darkThemeTheme = Theme.loadFromObject({
+            "color":
+            {
+                "custom":
+                {
+                    "background": "#36393f",
+                    "border": "#40444b",
+                    "hover": "#6fa8dc",
+                    "primary": "#202225"
+                }
+            }, "logo":
+            {
+                "preset": "schoology_plus"
+            },
+            "name": "Dark Theme Test",
+            "version": 2
+        });
+
+        Theme.apply(darkThemeTheme);
+
+        betaSection.append(
+            createBetaToggleCheckbox("Enable new theme engine", event => newThemeSheet.disabled = !event.target.checked, true),
+            createBetaToggleCheckbox("Enable dark theme", event => {
+                document.documentElement.setAttribute("dark", event.target.checked);
+                Theme.apply(event.target.checked ? darkThemeTheme : Theme.byName(Setting.getValue("theme")));
+            }, true),
+            createBetaToggleCheckbox("Enable color test", event => document.documentElement.setAttribute("test", event.target.checked)),
+            createBetaToggleCheckbox("Crazy mode", event => document.documentElement.setAttribute("test-mode", event.target.checked ? "crazy" : "standard"), true, 2)
+        );
+    }
+}
+
 // Check Schoology domain
 {
     const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "support.schoology.com"];
     let dd = Setting.getValue("defaultDomain");
 
-    if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host) && !window.location.host.match(/.*\.apps\.schoology\.com/)) {
+    if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host) && !window.location.host.match(/.*[-\.]app\.schoology\.com/)) {
         Setting.setValue("defaultDomain", window.location.host);
 
         let bgColor = document.querySelector("#header header").style.backgroundColor;
@@ -371,11 +435,11 @@ document.body.onkeydown = (data) => {
 
 document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(createElement("li", ["_24avl", "_3Rh90", "_349XD"], {}, [
     createElement(
-        "a",
+        "button",
         ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
-        { href: "#", onclick: () => openModal("settings-modal") },
+        { onclick: () => openModal("settings-modal") },
         [
-            createElement("img", ["Header-two-point-two-ONgMZ", "Header-two-point-two-ONgMZ", "_1I3mg"], { src: chrome.runtime.getURL("imgs/new-plus-icon.svg") })
+            createSvgLogo("_3ESp2", "dlCBz", "_1I3mg", "fjQuT", "uQOmx")
         ]
     )
 ]));
@@ -857,5 +921,84 @@ let siteNavigationTileHelpers = {
 
     docObserver.observe(document.body, { childList: true, subtree: true });
 })();
+
+async function createQuickAccess() {
+    let rightCol = document.getElementById("right-column-inner");
+    let linkWrap;
+
+    let wrapper = createElement("div", ["quick-access-wrapper"], {}, [
+        createElement("h3", ["h3-med"], { title: "Added by Schoology Plus" }, [
+            createSvgLogo("splus-logo-inline"),
+            // createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
+            createElement("span", [], { textContent: "Quick Access" }),
+            createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-splus-settings", textContent: "Settings", href: "#splus-settings#setting-input-quickAccessVisibility" })
+        ]),
+        createElement("div", ["date-header", "first"], {}, [
+            createElement("h4", [], { textContent: "Pages" })
+        ]),
+        (linkWrap = createElement("div", ["quick-link-wrapper"]))
+    ]);
+
+    const PAGES = [
+        { textContent: "Grade Report", href: "/grades/grades", id: "quick-access-grades" },
+        { textContent: "Courses", href: "/courses", id: "quick-access-courses" },
+        { textContent: "Mastery", href: "/mastery", id: "quick-access-mastery" },
+        { textContent: "Groups", href: "/groups", id: "quick-access-groups" },
+        { textContent: "Messages", href: "/messages", id: "quick-access-messages" },
+    ];
+
+    for (let page of PAGES) {
+        let a = linkWrap.appendChild(createElement("a", ["quick-link", "splus-track-clicks"], page));
+        a.dataset.splusTrackingLabel = "Quick Access";
+    }
+
+    wrapper.appendChild(
+        createElement("div", ["date-header"], {}, [
+            createElement("h4", [], {}, [
+                createElement("span", [], { textContent: "Courses" }),
+                createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-reorder", textContent: "Reorder", href: "/courses?reorder" })
+            ])
+        ])
+    );
+
+    let sectionsList = (await fetchApiJson(`users/${getUserId()}/sections`)).section;
+
+    if (!sectionsList || sectionsList.length == 0) {
+        wrapper.appendChild(createElement("p", ["quick-access-no-courses"], { textContent: "No courses found" }));
+    } else {
+        let courseOptionsButton;
+        let iconImage;
+        for (let section of sectionsList) {
+            wrapper.appendChild(createElement("div", ["quick-access-course"], {}, [
+                (iconImage = createElement("div", ["splus-course-icon"], { dataset: { courseTitle: `${section.course_title}: ${section.section_title}` } })),
+                createElement("a", ["splus-track-clicks", "quick-course-link"], { textContent: `${section.course_title}: ${section.section_title}`, href: `/course/${section.id}`, dataset: { splusTrackingTarget: "quick-access-course-link", splusTrackingLabel: "Quick Access" } }),
+                createElement("div", ["icons-container"], {}, [
+                    createElement("a", ["icon", "icon-grades", "splus-track-clicks"], { href: `/course/${section.id}/student_grades`, title: "Grades", dataset: { splusTrackingTarget: "quick-access-grades-link", splusTrackingLabel: "Quick Access" } }),
+                    createElement("a", ["icon", "icon-mastery", "splus-track-clicks"], { href: `/course/${section.id}/student_mastery`, title: "Mastery", dataset: { splusTrackingTarget: "quick-access-mastery-link", splusTrackingLabel: "Quick Access" } }),
+                    (courseOptionsButton = createElement("a", ["icon", "icon-settings", "splus-track-clicks"], { href: "#", dataset: { splusTrackingTarget: "quick-access-settings-link", splusTrackingLabel: "Quick Access" } }))
+                ])
+            ]));
+
+            iconImage.style.backgroundImage = `url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")})`;
+
+            courseOptionsButton.addEventListener("click", () => openModal("course-settings-modal", {
+                courseId: section.id,
+                courseName: `${section.course_title}: ${section.section_title}`
+            }));
+        }
+    }
+
+    switch (Setting.getValue("quickAccessVisibility")) {
+        case "belowOverdue":
+            rightCol.querySelector(".overdue-submissions").insertAdjacentElement("afterend", wrapper);
+            break;
+        case "bottom":
+            rightCol.append(wrapper);
+            break;
+        default:
+            rightCol.prepend(wrapper);
+            break;
+    }
+}
 
 Logger.log("Finished loading all.js");

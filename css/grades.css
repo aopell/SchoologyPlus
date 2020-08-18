@@ -218,12 +218,11 @@ input#enable-modify {
     letter-spacing:normal; 
 }
 
-img.splus-coursegradebox-taint {
-    width: 1em;
-    height: 1em;
+svg.splus-coursegradebox-taint {
+    width: 1.2em;
+    height: 1.2em;
     vertical-align: middle;
-    filter: brightness(0.0625); /* 1/16; corresponds with Schoology's #111111 */
-    padding-right: 0.1em;
+    padding-right: 0.2em;
 }
 
 .splus-weighted-gradebook-indicator {

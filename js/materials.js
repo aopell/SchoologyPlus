@@ -271,10 +271,10 @@
     // load grade information for this class, call grade hooks
 
     // this object contains ALL grades from this Schoology account, "keyed" by annoying IDs
-    // TODO Schoology API docs say this is paged, we should possible account for that? 
-    let myGrades = await fetchApiJson(`/users/${userId}/grades`);
+    // they're filtered to this section though
+    let myGrades = await fetchApiJson(`/users/${userId}/grades?section_id=${classId}`);
 
-    let thisClassGrades = myGrades.section.find(x => x.section_id == classId);
+    let thisClassGrades = myGrades.section[0];
 
     // start building our return object, which will follow a nicer format
     loadedGradeContainer = {};
@@ -284,23 +284,27 @@
     loadedGradeContainer.dropboxes = {};
     loadedGradeContainer.gradeDrops = {};
 
-    // gradebook categories
-    for (let gradeCategory of thisClassGrades.grading_category) {
-        loadedGradeContainer.categories[gradeCategory.id] = gradeCategory;
-        Object.freeze(gradeCategory);
+    if (thisClassGrades) {
+
+        // gradebook categories
+        for (let gradeCategory of thisClassGrades.grading_category) {
+            loadedGradeContainer.categories[gradeCategory.id] = gradeCategory;
+            Object.freeze(gradeCategory);
+        }
+
+        Object.freeze(loadedGradeContainer.categories);
+
+        // assignment grades
+        // period is an array of object
+        // period[x].assignment is an array of grade objects (the ones we want to enumerate)
+        for (let assignment of thisClassGrades.period.reduce((accum, curr) => accum.concat(curr.assignment), [])) {
+            loadedGradeContainer.grades[assignment.assignment_id] = assignment;
+            Object.freeze(assignment);
+        }
+
+        Object.freeze(loadedGradeContainer.grades);
+
     }
-
-    Object.freeze(loadedGradeContainer.categories);
-
-    // assignment grades
-    // period is an array of object
-    // period[x].assignment is an array of grade objects (the ones we want to enumerate)
-    for (let assignment of thisClassGrades.period.reduce((accum, curr) => accum.concat(curr.assignment), [])) {
-        loadedGradeContainer.grades[assignment.assignment_id] = assignment;
-        Object.freeze(assignment);
-    }
-
-    Object.freeze(loadedGradeContainer.grades);
 
     let missingAssignmentCt = 0;
     let missingAssignmentErrorCt = 0;

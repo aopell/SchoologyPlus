@@ -352,7 +352,7 @@ function parseSettingsHash() {
         if (hashes.length > 2) {
             setTimeout(() => {
                 location.hash = hashes[2];
-                document.getElementById(hashes[2]).parentElement.parentElement.style.backgroundColor = "lightyellow";
+                document.getElementById(hashes[2]).parentElement.parentElement.classList.add("setting-highlight");
                 location.hash = "";
             }, 500);
         }

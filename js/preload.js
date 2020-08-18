@@ -37,11 +37,12 @@ var Logger = {
 // Process options
 Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' (development version)'}`);
 var firstLoad = true;
+document.documentElement.setAttribute("page", location.pathname);
 updateSettings();
 
 var beta_tests = {
-    // "darktheme": "https://schoologypl.us",
-    // "newgrades": "https://schoologypl.us"
+    "darktheme": "https://schoologypl.us/docs/beta/darktheme",
+    "newgrades": "https://schoologypl.us"
 };
 
 var defaultCourseIconUrlRegex = /\/sites\/[a-zA-Z0-9_-]+\/themes\/[%a-zA-Z0-9_-]+\/images\/course-default.(?:svg|png|jpe?g|gif)(\?[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?(&[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?)*)?$/;
@@ -615,14 +616,22 @@ function updateSettings(callback) {
                 new Setting(
                     "quickAccessVisibility",
                     "Quick Access",
-                    "Enables or disables the quick access panel on the home page",
+                    "[Reload Required to Reposition] Changes the visibility of the Quick Access panel on the homepage",
                     "enabled",
                     "select",
                     {
                         options: [
                             {
-                                text: "Enabled",
+                                text: "Top of Right Sidebar",
                                 value: "enabled"
+                            },
+                            {
+                                text: "Between Overdue and Upcoming",
+                                value: "belowOverdue"
+                            },
+                            {
+                                text: "Bottom of Right Sidebar",
+                                value: "bottom"
                             },
                             {
                                 text: "Disabled",
@@ -1006,6 +1015,37 @@ function createLogPrefix(color) {
  */
 function setCSSVariable(name, val) {
     document.documentElement.style.setProperty(`--${name}`, val);
+}
+
+function createSvgLogo(...classes) {
+    let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", 250);
+    circle.setAttribute("cy", 250);
+    circle.setAttribute("r", 230);
+    circle.setAttribute("style", "fill: none; stroke-width: 35px; stroke: currentColor;");
+    let line1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line1.setAttribute("x1", 250);
+    line1.setAttribute("y1", 125);
+    line1.setAttribute("x2", 250);
+    line1.setAttribute("y2", 375);
+    line1.setAttribute("style", "stroke-linecap: round; stroke-width: 35px; stroke: currentColor;");
+    let line2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line2.setAttribute("x1", 125);
+    line2.setAttribute("y1", 250);
+    line2.setAttribute("x2", 375);
+    line2.setAttribute("y2", 250);
+    line2.setAttribute("style", "stroke-linecap: round; stroke-width: 35px; stroke: currentColor;");
+
+    let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 500 500");
+
+    svg.append(circle, line1, line2);
+
+    if (classes) {
+        svg.classList.add(...classes);
+    }
+
+    return svg;
 }
 
 new Setting(

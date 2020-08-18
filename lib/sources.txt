@@ -35,9 +35,9 @@ spectrum v1.8.0
 https://github.com/bgrins/spectrum/blob/1.8.0/spectrum.js
 https://github.com/bgrins/spectrum/blob/1.8.0/spectrum.css
 
-contextmenu v2.9.0
-https://github.com/swisnl/jQuery-contextMenu/blob/2.9.0/dist/jquery.contextMenu.min.css
-https://github.com/swisnl/jQuery-contextMenu/blob/2.9.0/dist/jquery.contextMenu.min.js
+contextmenu v2.9.2
+https://github.com/swisnl/jQuery-contextMenu/blob/2.9.2/dist/jquery.contextMenu.min.css
+https://github.com/swisnl/jQuery-contextMenu/blob/2.9.2/dist/jquery.contextMenu.min.js
 
 pdfjs v2.3.200
 https://github.com/mozilla/pdf.js/releases/download/v2.3.200/pdfjs-2.3.200-dist.zip

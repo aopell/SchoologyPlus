@@ -202,12 +202,12 @@ class Theme {
         return themes.find(x => x.name == name) || Theme.byName("Schoology Plus");
     }
 
-    static setBackgroundColor(primaryColor, primaryLight, primaryDark, primaryVeryDark) {
-        if (primaryColor && primaryLight && primaryDark && primaryVeryDark) {
+    static setBackgroundColor(primaryColor, backgroundColor, hoverColor, borderColor) {
+        if (primaryColor && backgroundColor && hoverColor && borderColor) {
             document.documentElement.style.setProperty("--primary-color", primaryColor);
-            document.documentElement.style.setProperty("--background-color", primaryLight);
-            document.documentElement.style.setProperty("--hover-color", primaryDark);
-            document.documentElement.style.setProperty("--border-color", primaryVeryDark);
+            document.documentElement.style.setProperty("--background-color", backgroundColor);
+            document.documentElement.style.setProperty("--hover-color", hoverColor);
+            document.documentElement.style.setProperty("--border-color", borderColor);
         }
     }
 
