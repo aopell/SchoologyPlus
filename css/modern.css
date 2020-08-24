@@ -730,7 +730,8 @@ body.library-view #library-left {
     border-radius: var(--border-radius) !important;
 }
 
-#sidebar-left #left-nav #menu-s-main ul li a.active {
+#sidebar-left #left-nav #menu-s-main ul li a.active,
+#sidebar-left #menu-s-main .active-trail .active-trail a.course-materials-left-menu {
     background-color: var(--accent) !important;
     border: var(--border-size) solid var(--contrast-border) !important;
     border-right: none !important;
@@ -750,6 +751,25 @@ th.profile-header {
     border: var(--border-size) solid var(--contrast-border) !important;
     border-radius: var(--border-radius) !important;
     color: var(--text) !important;
+}
+
+#wrapper {
+    background-color: var(--primary) !important;
+}
+
+.navigator-buttons a.navbtn.link-btn {
+    background-color: var(--primary) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.has-folder-player #center-top .content-top-upper,
+.has-materials-player #center-top .content-top-upper {
+    background-color: var(--secondary) !important;
+    border: none !important;
+}
+
+#course-profile-materials {
+    background-color: var(--accent) !important;
 }
 
 .materials-filter-wrapper .action-links-wrapper .action-links-unfold,
@@ -775,8 +795,9 @@ body .action-links a:hover {
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
 
-.s-edge-feed li {
+.s-edge-feed li, .s-edge-feed span[style] {
     border-top: var(--border-size) solid var(--contrast-border) !important;
+    color: var(--text) !important;
 }
 
 .s-like-sentence:not(:last-child) {
@@ -819,6 +840,23 @@ body .action-links a:hover {
 span#updates-count {
     color: var(--text) !important;
     background-color: var(--active) !important;
+}
+
+/* Messages */
+.privatemsg-list td {
+    background-color: var(--accent) !important;
+}
+
+.privatemsg-list .privatemsg-unread td {
+    background-color: var(--active) !important;
+}
+
+table.privatemsg-list {
+    border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+table.privatemsg-list td.no-messages {
+    color: var(--muted-text) !important;
 }
 
 /* User Page */
