@@ -414,7 +414,7 @@ let source = createElement("source", [], {
 let sourceSet = false;
 
 document.body.onkeydown = (data) => {
-    if (data.altKey && data.key === "c") {
+    if (data.altKey && data.code === "KeyC") {
         if (!sourceSet) {
             video.appendChild(source);
             sourceSet = true;
@@ -423,7 +423,7 @@ document.body.onkeydown = (data) => {
         video.currentTime = 0;
         video.play();
         trackEvent("Easter Egg", "play", "Easter Egg");
-    } else if (data.altKey && data.key === "b") {
+    } else if (data.altKey && data.code === "KeyB") {
         openModal("beta-modal");
     }
     else if (data.key === "Escape") {
