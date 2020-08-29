@@ -89,6 +89,11 @@ p {
     color: var(--text) !important;
 }
 
+pre {
+    background-color: var(--input);
+    color: var(--contrast-text);
+}
+
 textarea,
 select,
 input[type=text] {
@@ -154,6 +159,18 @@ body button.link-btn {
 
 .inline-popup-wrapper .arrow-top {
     display: none !important;
+}
+
+.s-polls-results-overlay {
+    background-color: var(--input) !important;
+}
+
+.s-notifications-mini .edge-sentence {
+    color: var(--text);
+}
+
+#main .s-notifications-mini .edge-time, #main .s-notifications-mini .created {
+    color: var(--muted-text) !important;
 }
 
 .splus-modal-title,
