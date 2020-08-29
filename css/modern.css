@@ -258,13 +258,15 @@ footer button,
 .splus-courses-navbar-button article,
 .splus-courses-navbar-button article a,
 .splus-groups-navbar-button article,
-.splus-groups-navbar-button article a {
+.splus-groups-navbar-button article a,
+.JoinCard-card-1qWtS {
     border: var(--border-size) solid transparent !important;
     outline: none !important;
 }
 
 .splus-courses-navbar-button article a:hover,
-.splus-groups-navbar-button article a:hover {
+.splus-groups-navbar-button article a:hover,
+.JoinCard-card-1qWtS:hover {
     border: var(--border-size) solid var(--contrast-border) !important;
     border-radius: var(--border-radius) !important;
 }
@@ -307,10 +309,14 @@ header div.Je0RK button._1SIMq {
     border: var(--border-size) solid var(--contrast-border) !important;
 }
 
+.JoinCard-card-1qWtS ._1Z0RM {
+    background-color: var(--primary) !important;
+}
+
 /* Calendar Page */
 .fcalendar-filter-menu-wrapper {
     background-color: var(--secondary) !important;
-    border-radius: 3px;
+    border-radius: var(--border-radius);
 }
 
 .color-codes-box {
