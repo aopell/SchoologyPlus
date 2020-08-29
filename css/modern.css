@@ -94,6 +94,11 @@ pre {
     color: var(--contrast-text);
 }
 
+#youtube-disclaimer {
+    color: var(--contrast-text);
+    background-color: var(--secondary);
+}
+
 textarea,
 select,
 input[type=text] {
