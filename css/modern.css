@@ -848,7 +848,6 @@ body .action-links a:hover {
 }
 
 .s-edge-feed li, .s-edge-feed span[style] {
-    border-top: var(--border-size) solid var(--contrast-border) !important;
     color: var(--text) !important;
 }
 
@@ -908,6 +907,174 @@ table.privatemsg-list {
 }
 
 table.privatemsg-list td.no-messages {
+    color: var(--muted-text) !important;
+}
+
+#attachment-selector {
+    background: var(--secondary) !important;
+    border: none !important;
+    border-bottom-left-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
+#attachment-selector li {
+    border-right: none !important;
+}
+
+#ids {
+    background: none !important;
+    border: none !important;
+}
+
+#ids .userlist_input {
+    border: none !important;
+}
+
+#ids .name-wrapper {
+    background: var(--secondary) !important;
+    color: var(--text) !important;
+}
+
+.ac_results {
+    background: var(--secondary) !important;
+    color: var(--text) !important;
+}
+
+.ac_results ul li {
+    background: var(--secondary) !important;
+    border-color: var(--contrast-border) !important;
+}
+
+.ac-name, .ac-top {
+    color: var(--text) !important;
+}
+
+.ac-row .ac-bot, .ac-row .ac-school {
+    color: var(--muted-text) !important;
+}
+
+.ac_results .ac_over {
+    border-color: var(--contrast-border) !important;
+    background: var(--active) !important;
+}
+
+#sUserAutocomplete-recipient-helper {
+    background-color: var(--secondary) !important;
+    color: var(--muted-text) !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.message-participants {
+    color: var(--muted-text) !important;
+}
+
+.message-title, .message-view-row {
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+/* Discussion Board */
+
+.discussion-view .sticky-wrapper h2.page-title {
+    background: var(--primary) !important;
+}
+
+.discussion-view #content-wrapper {
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.discussion-view #center-top h2.page-title {
+    border: none !important;
+}
+
+.grade-title {
+    color: var(--text) !important;
+}
+
+.received-grade {
+    color: var(--grades) !important;
+}
+
+.grading-grade .max-points {
+    color: var(--muted-text) !important;
+}
+
+.assignment-details, .extra-details {
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+.discussion-view .sticky-wrapper .s-comments-post-form, .discussion-view .sticky-wrapper .s-comments-post-form-new {
+    background: var(--primary) !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
+}
+
+.discussion-action-bar {
+    background: var(--secondary) !important;
+    border: none !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
+}
+
+.discussion-view .discussion-content #s_comments .discussion-card {
+    background: var(--primary) !important;
+    box-shadow: none !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.discussion-view #content-wrapper .discussion-content div#s_comments .s_comments_level .s_comments_level, .discussion-view #content-wrapper .s-comments-post-form-new div#s_comments .s_comments_level .s_comments_level {
+    background: var(--accent) !important;
+    border: none !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
+}
+
+.discussion-view .expander-bar {
+    background: var(--accent) !important;
+    border: none !important;
+    border-top-left-radius: var(--border-radius) !important;
+}
+
+.discussion-view .comment-body-wrapper span[style] {
+    color: var(--text) !important;
+}
+
+.post-count {
+    color: var(--muted-text) !important;
+}
+
+.discussion-view .discussion-content {
+    border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+.bar-right-wrapper, .comment-counts {
+    border-color: var(--contrast-border) !important;
+}
+
+.discussion-view #comment-placeholder {
+    background: var(--accent) !important;
+    border-radius: var(--border-radius) !important;
+    border: none !important;
+    color: var(--muted-text) !important;
+}
+
+.content-top-wrapper .info-container.not-admin .link-btn {
+    background: var(--secondary) !important;
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+}
+
+#comment-navigator td {
+    background: var(--primary) !important;
+    border: none !important;
+}
+
+#comment-navigator td.slide-toggler-cell {
+    background: var(--secondary) !important;
+}
+
+.num-comments-wrapper {
     color: var(--muted-text) !important;
 }
 
