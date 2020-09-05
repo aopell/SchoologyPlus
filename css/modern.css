@@ -89,6 +89,16 @@ p {
     color: var(--text) !important;
 }
 
+pre {
+    background-color: var(--input);
+    color: var(--contrast-text);
+}
+
+#youtube-disclaimer {
+    color: var(--contrast-text);
+    background-color: var(--secondary);
+}
+
 textarea,
 select,
 input[type=text] {
@@ -156,6 +166,18 @@ body button.link-btn {
     display: none !important;
 }
 
+.s-polls-results-overlay {
+    background-color: var(--input) !important;
+}
+
+.s-notifications-mini .edge-sentence {
+    color: var(--text);
+}
+
+#main .s-notifications-mini .edge-time, #main .s-notifications-mini .created {
+    color: var(--muted-text) !important;
+}
+
 .splus-modal-title,
 .submit-span-wrapper,
 .submit-span-wrapper input[type="button"],
@@ -210,8 +232,13 @@ footer button,
     border: none !important;
 }
 
+.popups-close:hover a {
+    background-color: var(--input) !important;
+}
+
 .popups-close a {
     background-position-y: calc(-80px - (20px * var(--theme-is-dark))) !important;
+    border-radius: 2px;
 }
 
 .likers li:not(.last) {
@@ -231,13 +258,15 @@ footer button,
 .splus-courses-navbar-button article,
 .splus-courses-navbar-button article a,
 .splus-groups-navbar-button article,
-.splus-groups-navbar-button article a {
+.splus-groups-navbar-button article a,
+.JoinCard-card-1qWtS {
     border: var(--border-size) solid transparent !important;
     outline: none !important;
 }
 
 .splus-courses-navbar-button article a:hover,
-.splus-groups-navbar-button article a:hover {
+.splus-groups-navbar-button article a:hover,
+.JoinCard-card-1qWtS:hover {
     border: var(--border-size) solid var(--contrast-border) !important;
     border-radius: var(--border-radius) !important;
 }
@@ -278,6 +307,25 @@ header div.Je0RK button._1SIMq {
 ._3gfrT:focus:not(:active),
 .oUq3j:hover:not(:active) {
     border: var(--border-size) solid var(--contrast-border) !important;
+}
+
+.JoinCard-card-1qWtS ._1Z0RM {
+    background-color: var(--primary) !important;
+}
+
+/* Calendar Page */
+.fcalendar-filter-menu-wrapper {
+    background-color: var(--secondary) !important;
+    border-radius: var(--border-radius);
+}
+
+.color-codes-box {
+    /* Does not fix the left-pointing arrow, as that's a PNG */
+    background-color: var(--accent) !important;
+}
+
+.fcalendar-filter-menu-wrapper .checkbox.filter-selected {
+    background-position-y: -19px !important;
 }
 
 /* Navbar menus */
@@ -410,6 +458,10 @@ img.splus-logo-inline {
 
 .sgy-tabbed-navigation li.active {
     border-bottom: 5px solid var(--contrast-border) !important;
+}
+
+.s-edge-type-update-post .update-body, .s-edge-type-update-poll .update-body {
+    color: var(--text) !important;
 }
 
 /* Grades Page */

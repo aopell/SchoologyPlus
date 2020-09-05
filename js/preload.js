@@ -543,10 +543,10 @@ function updateSettings(callback) {
                     undefined,
                     element => element.value
                 ).control,
-                isLAUSD() ? new Setting(
+                new Setting(
                     "orderClasses",
                     "Order Classes",
-                    "[Refresh required] Changes the order of your classes on the grades and mastery pages",
+                    "[Refresh required] Changes the order of your classes on the grades and mastery pages (only works if your course names contain PER N or PERIOD N)",
                     "period",
                     "select",
                     {
@@ -564,7 +564,7 @@ function updateSettings(callback) {
                     value => value,
                     undefined,
                     element => element.value
-                ).control : noControl,
+                ).control,
                 new Setting(
                     "courseIcons",
                     "Override Course Icons",
