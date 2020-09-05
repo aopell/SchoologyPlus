@@ -151,7 +151,7 @@ class Theme {
                         hue = theme.color.rainbow.hue.value;
                     }
                     if (theme.color.rainbow.saturation.animate) {
-                        saturation = getComponentValue(theme.color.rainbow.saturaiton.animate, time);
+                        saturation = getComponentValue(theme.color.rainbow.saturation.animate, time);
                     } else {
                         saturation = theme.color.rainbow.saturation.value;
                     }
