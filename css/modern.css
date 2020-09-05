@@ -464,6 +464,14 @@ img.splus-logo-inline {
     color: var(--text) !important;
 }
 
+.user span.name-wrapper {
+    background: var(--secondary) !important;
+}
+
+.selected-realm .name-text {
+    color: var(--text) !important;
+}
+
 /* Grades Page */
 .gradebook-course.hierarchical-grading-report .period-row .grade-column,
 .gradebook-course.hierarchical-grading-report .category-row .grade-column,
