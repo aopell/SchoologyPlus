@@ -1298,3 +1298,25 @@ body .fc-widget-header .fc-agenda-divider-inner {
     background: var(--contrast-border) !important;
     border-color: var(--contrast-border) !important;
 }
+
+/* Assignment page -- Please put wherever it goes :) */
+
+#dropbox-viewer-right-toggle {
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--secondary) !important;
+}
+
+#dropbox-viewer-right {
+    background: var(--primary) !important;
+    color: var(--text) !important;
+}
+
+#dropbox-viewer-comments {
+    background: var(--accent) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.dropbox-viewer-submission-activity, .dropbox-viewer-submission-activity-inner {
+    background-color: var(--background-color) !important;
+    color: var(--text) !important;
+}
