@@ -1320,3 +1320,8 @@ body .fc-widget-header .fc-agenda-divider-inner {
     background-color: var(--background-color) !important;
     color: var(--text) !important;
 }
+
+/* Notifications Page */
+.popups-buttons-inner {
+    background: var(--secondary);
+}
