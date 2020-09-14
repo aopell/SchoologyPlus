@@ -245,6 +245,18 @@ footer button,
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
 
+fieldset div div div label span {
+    color: var(--text);
+}
+
+._2WC16 span._24avl._17Z60 {
+    color: var(--accent);
+}
+
+.popups-buttons-inner {
+    background: var(--secondary);
+}
+
 /* Courses and Groups Dropdown */
 .splus-courses-navbar-button div[role=menu],
 .splus-groups-navbar-button div[role=menu] {
@@ -1331,9 +1343,3 @@ body .fc-widget-header .fc-agenda-divider-inner {
     background-color: var(--background-color) !important;
     color: var(--text) !important;
 }
-
-/* Notifications Page */
-.popups-buttons-inner {
-    background: var(--secondary);
-}
-
