@@ -1150,6 +1150,11 @@ table.privatemsg-list td.no-messages {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
+/* Unsure if this is used on other pages too, but it should fix there too if present */
+#edit-body_fontsizeselect_text {
+    background: transparent;
+}
+
 /* Course Dashboard */
 .course-dashboard section {
     border: none !important;
