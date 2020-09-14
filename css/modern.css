@@ -901,6 +901,12 @@ span#updates-count {
     background-color: var(--active) !important;
 }
 
+[page^="/course/"] .sExtlink-processed:hover > .inline-icon.mini, [page^="/course/"] .inline-icon.mini:hover {
+    background: url(/sites/all/themes/schoology_theme/images/icons_sprite_new.png?5f5c25b861784536), var(--muted-text);
+    border: 2px solid var(--muted-text);
+    background-position: 0 -1450px;
+}
+
 /* Messages */
 .privatemsg-list td {
     background-color: var(--accent) !important;
@@ -1330,3 +1336,4 @@ body .fc-widget-header .fc-agenda-divider-inner {
 .popups-buttons-inner {
     background: var(--secondary);
 }
+
