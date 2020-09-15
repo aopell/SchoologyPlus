@@ -919,10 +919,8 @@ span#updates-count {
     background-color: var(--active) !important;
 }
 
-[page^="/course/"] .sExtlink-processed:hover > .inline-icon.mini, [page^="/course/"] .inline-icon.mini:hover {
-    background: url(/sites/all/themes/schoology_theme/images/icons_sprite_new.png?5f5c25b861784536), var(--muted-text);
-    border: 2px solid var(--muted-text);
-    background-position: 0 -1450px;
+.link_view .page-title a:hover .external-link-icon {
+    background-position: 0 -1425px !important;
 }
 
 /* Messages */
@@ -1328,7 +1326,7 @@ body .fc-widget-header .fc-agenda-divider-inner {
     border-color: var(--contrast-border) !important;
 }
 
-/* Assignment page -- Please put wherever it goes :) */
+/* Assignment page */
 
 #dropbox-viewer-right-toggle {
     border: 1px solid var(--border-color) !important;
