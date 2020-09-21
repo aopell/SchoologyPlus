@@ -215,6 +215,16 @@
         },
         {
             "matches": [
+                "https://lms.lausd.net/page/*",
+                "https://*.schoology.com/page/*"
+            ],
+            "js": [
+                "js/page.js"
+            ],
+            "run_at":"document_end"
+        },
+        {
+            "matches": [
                 "https://lms.lausd.net/courses*",
                 "https://lms.lausd.net/courses/*",
                 "https://*.schoology.com/courses*",
