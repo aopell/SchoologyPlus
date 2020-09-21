@@ -1,20 +1,15 @@
 (async function () {
-    let page = document.getElementById("main-inner");
-    let loadCommonCourses = null;
-
-    const userID = document.location.href.match(/\/(\d+)\//)[1]
-    if (page) {
-        if (loadCommonCourses == null) {
-            loadCommonCourses = getCoursesInCommon(userID);
-        }
-        let container = createElement("div", ["splus-modal-contents"], {}, [
-                            createElement("ul", ["setting-entry", "common-realm-list"], { id: "user-courses-in-common-list" }, [])
-                        ])
-        page.appendChild(createElement("h4", [], {textContent: "Courses In Common"}))
-        page.appendChild(container)
-        setCourseListModalContent({loadCommonCourses })
-
-    }
+    const page = document.getElementById("main-inner");
+    if (!page) return;
+    const userID = document.location.href.match(/\/(\d+)\//)[1];
+    const loadCommonCourses = getCoursesInCommon(userID);
+    const container = createElement("div", ["splus-modal-contents"], {}, [
+                        createElement("ul", ["setting-entry", "common-realm-list"], { id: "user-courses-in-common-list" }, [])
+                    ]);
+    const title = createElement("h4", [], {textContent: "Courses In Common"});
+    page.appendChild(title);
+    page.appendChild(container);
+    setCourseListModalContent({loadCommonCourses });
 })();
 function clearNodeChildren(node) {
     while (node.firstChild) {
