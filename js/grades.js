@@ -222,7 +222,12 @@ var fetchQueue = [];
                         let gradeWrapper = assignment.querySelector(".grade-wrapper");
 
                         let checkbox = document.getElementById("enable-modify");
-
+                        let editGradeImg = createElement("img", ["grade-edit-indicator"], {
+                            src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
+                            width: 12,
+                            style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
+                        });
+                        editGradeImg.dataset.parentId = assignment.dataset.parentId;
                         let gradeAddEditHandler = null;
                         if (assignment.classList.contains("grade-add-indicator")) {
                             // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
@@ -256,8 +261,8 @@ var fetchQueue = [];
                                 hasHandledGradeEdit = true;
                             };
                         }
-                        const gradeText = assignment.querySelector(".awarded-grade") || assignment.querySelector(".no-grade")
-                        gradeText.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
+                        editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
+                        gradeWrapper.appendChild(editGradeImg);
 
                         if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
                             await createAddAssignmentUi();
