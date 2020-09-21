@@ -1,24 +1,21 @@
-(function () {
-    let sidebar = document.getElementById("content-left");
+(async function () {
+    let page = document.getElementById("main-inner");
     let loadCommonCourses = null;
 
-    if (sidebar) {
-        let button = createButton("splus-user-courses-in-common-btn", "Courses in Common");
-        let img = createElement("img", [], { src: chrome.runtime.getURL("imgs/plus-icon.png"), width: 18, style: { verticalAlign: "middle", paddingLeft: "4px" } });
-        button.prepend(img);
-        button.querySelector("input").style.paddingLeft = "4px";
-        button.style.cursor = "pointer";
-        button.addEventListener("click", () => {
-            if (loadCommonCourses == null) {
-                loadCommonCourses = getCoursesInCommon(document.location.href.match(/\/(\d+)\//)[1]);
-            }
-            openModal("user-courses-in-common-modal", { loadCommonCourses: loadCommonCourses, userId: document.location.href.match(/\/(\d+)\//)[1] });
-        });
+    const userID = document.location.href.match(/\/(\d+)\//)[1]
+    if (page) {
+        if (loadCommonCourses == null) {
+            loadCommonCourses = getCoursesInCommon(userID);
+        }
+        let container = createElement("div", ["splus-modal-contents"], {}, [
+                            createElement("ul", ["setting-entry", "common-realm-list"], { id: "user-courses-in-common-list" }, [])
+                        ])
+        page.appendChild(createElement("h4", [], {textContent: "Courses In Common"}))
+        page.appendChild(container)
+        setCourseListModalContent({loadCommonCourses })
 
-        sidebar.appendChild(button);
     }
 })();
-
 function clearNodeChildren(node) {
     while (node.firstChild) {
         node.removeChild(node.firstChild);
@@ -50,7 +47,7 @@ async function getCoursesInCommon(otherUserId) {
     return coursesInCommon;
 }
 
-function setCourseListModalContent(modal, options) {
+function setCourseListModalContent(options) {
     let listElem = document.getElementById("user-courses-in-common-list");
     clearNodeChildren(listElem);
     listElem.appendChild(createElement("li", [], { textContent: "Loading..." }));
@@ -73,11 +70,3 @@ function setCourseListModalContent(modal, options) {
     })
     .catch(err => Logger.error("Error building courses in common: ", err));
 }
-
-modals.push(new Modal("user-courses-in-common-modal", "Courses In Common", createElement("div", [], {}, [
-    createElement("div", ["splus-modal-contents"], {}, [
-        createElement("ul", ["setting-entry", "common-realm-list"], { id: "user-courses-in-common-list" }, [])
-    ])
-]), modalFooterText, setCourseListModalContent));
-
-document.querySelector("#user-courses-in-common-modal .close").onclick = modalClose;
