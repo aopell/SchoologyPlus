@@ -10,7 +10,7 @@
     padding-right: 6px;
 }
 .mimic-profile-header {
-    color: var(--text);
+    color: #333;
     font-size: 14px;
     font-weight: bold;
 }
