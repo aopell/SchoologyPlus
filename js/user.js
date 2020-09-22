@@ -1,16 +1,23 @@
 (async function () {
-    const page = document.getElementById("main-inner");
-    if (!page) return;
-    const userID = document.location.href.match(/\/(\d+)\//)[1];
-    const loadCommonCourses = getCoursesInCommon(userID);
-    const container = createElement("div", ["splus-modal-contents"], {}, [
-                        createElement("ul", ["setting-entry", "common-realm-list"], { id: "user-courses-in-common-list" }, [])
-                    ]);
-    const title = createElement("h4", [], {textContent: "Courses In Common"});
-    page.appendChild(title);
-    page.appendChild(container);
-    setCourseListModalContent({loadCommonCourses });
+    // I hate try..catch but It will work
+    try {
+        const inCommonID = "user-courses-in-common-list";
+        const page = document.getElementById("main-inner");
+        if (!page) return;
+        const userID = document.location.href.match(/\/(\d+)\//)[1];
+        const loadCommonCourses = getCoursesInCommon(userID);
+        const container = createElement("div", [], {}, [
+            createElement("ul", ["setting-entry", "common-realm-list"], { id: inCommonID }, [])
+        ]);
+        const title = createElement("h4", ["mimic-profile-header"], {textContent: "Courses In Common"});
+        page.appendChild(title);
+        page.appendChild(container);
+        populateCourseList(inCommonID, loadCommonCourses);
+    } catch (err) {
+        Logger.error(err);
+    }
 })();
+
 function clearNodeChildren(node) {
     while (node.firstChild) {
         node.removeChild(node.firstChild);
@@ -42,11 +49,11 @@ async function getCoursesInCommon(otherUserId) {
     return coursesInCommon;
 }
 
-function setCourseListModalContent(options) {
-    let listElem = document.getElementById("user-courses-in-common-list");
+function populateCourseList(targetListElem, loadCourseFunction) {
+    let listElem = document.getElementById(targetListElem );
     clearNodeChildren(listElem);
     listElem.appendChild(createElement("li", [], { textContent: "Loading..." }));
-    options.loadCommonCourses.then(coursesInCommon => {
+    loadCourseFunction.then(coursesInCommon => {
         clearNodeChildren(listElem);
 
         let aliases = Setting.getValue("courseAliases") || {};
