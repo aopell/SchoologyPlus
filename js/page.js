@@ -1,19 +1,21 @@
 (function() {
-    const buttonWrapper = document.querySelector(".course-info-wrapper dl");
-    const iframe = document.querySelector("iframe")
-    let button = createButton("s-plus-course-options", "Open in new tab", () => {
-        const url = processIframeSrc(iframe.src);
-        chrome.runtime.sendMessage({type: "openURL", url});
+    const iframeWrapper = document.querySelector(".s-page-summary");
+    const iframe = iframeWrapper.querySelector('iframe');
+    console.log(iframe,'--')
+    if (!iframe) return; // no iframe detected
+
+    let iframeURL = processIframeSrc(iframe.src);
+    const link = createElement("a", ["splus-modal-button"], {
+        textContent: "Open in new tab",
+        href: iframe.src,
+        target: '_blank'
     });
-    let img = createSvgLogo();
-    Object.assign(img.style, {
-        verticalAlign: "middle",
-        paddingLeft: "4px",
-        width: "18px"
-    });
-    button.prepend(img);
-    button.querySelector("input").style.paddingLeft = "4px";
-    buttonWrapper.appendChild(button)
+    if (link.host.match(/.*s\.google\.com/g)) {
+        // yeah yeah you could do an extensive regex match OR you can just be lazy
+        link.href = link.href.replace('/preview','/edit');
+        link.href = link.href.replace('pub?embedded=true', 'pub?embedded=false');
+    }
+    iframeWrapper.appendChild(createElement('p',[],{},[link]));
 })();
 
 function processIframeSrc(src) {
