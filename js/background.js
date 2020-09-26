@@ -161,8 +161,6 @@ chrome.runtime.onMessage.addListener(
         } else if (request.type == "updateDefaultDomain" && request.domain !== undefined) {
             defaultDomain = request.domain;
             assignmentNotificationUrl = `https://${defaultDomain}/home/notifications?filter=all`;
-        } else if (request.type == "openURL") {
-            chrome.tabs.create({url: request.url})
         }
     }
 );
