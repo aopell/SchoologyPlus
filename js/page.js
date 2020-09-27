@@ -1,3 +1,4 @@
+// Adds an "Open in New Tab" link to /page pages which simply embed something.
 (function () {
     const iframe = document.querySelector('.s-page-summary iframe');
     if (!iframe) return; // no iframe detected
@@ -20,9 +21,10 @@
 function processIframeSrc(link) {
     // Google docs/sheets/slides
     if (link.host.match(/.*s\.google\.com/g)) {
-        // yeah yeah you could do an extensive regex match OR you can just be lazy
-        link.href = link.href.replace('/preview', '/edit');
-        link.href = link.href.replace('pub?embedded=true', 'pub?embedded=false');
+        // convert preview to edit
+        link.pathname = link.pathname.replace(/\/preview(\/?)$/, "/edit")
+        // strip embedded param
+        link.search = link.search.replace(/(&|\?)embedded=true/,'')
     }
     return link.href;
 }
