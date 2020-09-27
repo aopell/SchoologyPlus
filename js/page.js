@@ -7,7 +7,7 @@
         href: iframe.src,
         title: 'Open in a new tab',
         target: '_blank',
-        style: 'background: none; margin-top: 2px;'
+        style: 'background: none;' // clear assignment icon
     }, [pageTitle.cloneNode(true), createElement('span', [], {
         textContent: ' ⇨'
     })]);
