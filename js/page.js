@@ -1,27 +1,30 @@
-(function() {
-    const iframeWrapper = document.querySelector(".s-page-summary");
-    const iframe = iframeWrapper.querySelector('iframe');
-    console.log(iframe,'--')
+(function () {
+    const iframe = document.querySelector('.s-page-summary iframe');
     if (!iframe) return; // no iframe detected
 
-    let iframeURL = processIframeSrc(iframe.src);
-    const link = createElement("a", ["splus-modal-button"], {
-        textContent: "Open in new tab",
+    const pageTitle = document.querySelector('.s-page-title');
+    const link = createElement("a", [], {
         href: iframe.src,
-        target: '_blank'
-    });
-    if (link.host.match(/.*s\.google\.com/g)) {
-        // yeah yeah you could do an extensive regex match OR you can just be lazy
-        link.href = link.href.replace('/preview','/edit');
-        link.href = link.href.replace('pub?embedded=true', 'pub?embedded=false');
-    }
-    iframeWrapper.appendChild(createElement('p',[],{},[link]));
+        title: 'Open in a new tab',
+        target: '_blank',
+        style: 'background: none; margin-top: 2px;'
+    }, [pageTitle.cloneNode(true), createElement('span', [], {
+        textContent: ' ⇨'
+    })]);
+    // turn span to link element
+    pageTitle.replaceWith(link);
+
+    link.href = processIframeSrc(link);
 })();
 
-function processIframeSrc(src) {
+function processIframeSrc(link) {
     // Google docs/sheets/slides
-    src = src.replace('/preview','/edit');
-    return src;
+    if (link.host.match(/.*s\.google\.com/g)) {
+        // yeah yeah you could do an extensive regex match OR you can just be lazy
+        link.href = link.href.replace('/preview', '/edit');
+        link.href = link.href.replace('pub?embedded=true', 'pub?embedded=false');
+    }
+    return link.href;
 }
 
 Logger.log("Loaded page script");
