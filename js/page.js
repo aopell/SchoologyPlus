@@ -15,16 +15,17 @@
     // turn span to link element
     pageTitle.replaceWith(link);
 
-    link.href = processIframeSrc(link);
+    link.href = processIframeSrc(link.href);
 })();
 
-function processIframeSrc(link) {
+function processIframeSrc(rawLink) {
+    let link = new URL(rawLink);
     // Google docs/sheets/slides
     if (link.host.match(/.*s\.google\.com/g)) {
         // convert preview to edit
-        link.pathname = link.pathname.replace(/\/preview(\/?)$/, "/edit")
-        // strip embedded param
-        link.search = link.search.replace(/(&|\?)embedded=true/,'')
+        link.pathname = link.pathname.replace(/\/preview(\/?)$/, "/edit");
+        // remove embedded param
+        link.searchParams.delete('embedded');
     }
     return link.href;
 }
