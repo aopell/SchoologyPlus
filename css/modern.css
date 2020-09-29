@@ -345,6 +345,33 @@ header div.Je0RK button._1SIMq {
 .fcalendar-filter-menu-wrapper .checkbox.filter-selected {
     background-position-y: -19px !important;
 }
+body .fc-event-skin {
+    color: var(--text);
+}
+.color-1 {
+    background-color: #422a0d !important;
+    border-color: #352108 !important;
+}
+.color-10 {
+    background-color: #2d3c1e !important;
+    border-color: #232F16 !important;
+}
+.color-11 {
+    background-color: #44233e !important;
+    border-color: #291325 !important;
+}
+.color-12 {
+    background-color: #164152 !important;
+    border-color: #082632 !important;
+}
+.color-13 {
+    background-color: #50501d !important;
+    border-color: #32320E !important;
+}
+.color-14 {
+    background-color: #461b2d !important;
+    border-color: #3E1526 !important;
+}
 
 /* Navbar menus */
 div.les2- {
