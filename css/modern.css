@@ -372,7 +372,14 @@ body .fc-event-skin {
     background-color: #461b2d !important;
     border-color: #3E1526 !important;
 }
-
+.color-15 {
+    background-color: #1B5AAB !important;
+    border-color: #06489c !important;
+}
+.color-16 {
+    background-color: #C42F32 !important;
+    border-color: #9c090c !important;
+}
 /* Navbar menus */
 div.les2- {
     background-color: var(--secondary) !important;
