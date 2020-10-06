@@ -15,6 +15,7 @@
     --border-size: 1px;
     --padding: 10px;
     --theme-is-dark: 1;
+    background-color: var(--background-color);
 }
 
 :root[dark=false] {
