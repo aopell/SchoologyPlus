@@ -865,6 +865,13 @@ th.profile-header {
     color: var(--text) !important;
 }
 
+#profile-form-tab {
+    background-color: var(--accent);
+}
+.tab-nav.active, .tab-nav.active:hover {
+    background-color: var(--input);
+}
+
 /* Course Page */
 .action-links,
 .comment.no-comments,
