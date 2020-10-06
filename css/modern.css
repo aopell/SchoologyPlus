@@ -263,6 +263,16 @@ fieldset div div div label span {
     background: var(--background-color);
 }
 
+._pendo-step-container-styles {
+    background-color: var(--accent) !important;
+}
+.pendo-mock-flexbox-element:nth-child(2)>button {
+    background-color: var(--background-color) !important;
+    border-color: var(--contrast-border) !important;
+    color: var(--text) !important;
+}
+    
+
 /* Courses and Groups Dropdown */
 .splus-courses-navbar-button div[role=menu],
 .splus-groups-navbar-button div[role=menu] {
