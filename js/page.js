@@ -22,8 +22,8 @@ function processIframeSrc(rawLink) {
     let link = new URL(rawLink);
     // Google docs/sheets/slides
     if (link.host.match(/(docs|drive)\.google\.com/g)) {
-        // convert preview to edit
-        link.pathname = link.pathname.replace(/\/preview(\/?)$/, "/edit");
+        // convert htmlembed, preview to edit
+        link.pathname = link.pathname.replace(/(\/preview|\/htmlembed)(\/?)$/, "/edit");
         // remove embedded param
         link.searchParams.delete('embedded');
     }
