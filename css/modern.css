@@ -16,6 +16,27 @@
     --padding: 10px;
     --theme-is-dark: 1;
     background-color: var(--background-color);
+    
+    --cal1: 206;
+    --cal2: 101;
+    --cal3: 34;
+    --cal4: 317;
+    --cal5: 60;
+    --cal6: 335; /* Color-2 */
+    --cal7: 214;
+    --cal8: 359;
+    --cal9: 119; 
+    --cal10: 294;
+    --cal11: 61;
+    --cal12: 165; 
+    --cal13: 340;
+    --cal14: 83; /* Color-10 */ /* WIP : HERE'S NEXT ONE TO CHANGE IN DARK THEME! */
+    --cal15: 266;
+    --cal16: 29;
+    --cal17: 32;
+    --cal18: 143;
+    --cal19: 311;
+    --cal20: 240;
 }
 
 :root[dark=false] {
@@ -35,6 +56,23 @@
     --border-size: 1px;
     --padding: 10px;
     --theme-is-dark: 0;
+    
+    --cal5: 336;
+    --cal6: 49; /* Color-2 */
+    --cal7: 197;
+    --cal8: 332;
+    --cal9: 358;
+    --cal10: 62;
+    --cal11: 217;
+    --cal12: 338; 
+    --cal13: 15;
+    --cal14: 83; /* Color-10 */
+    --cal15: 266;
+    --cal16: 29;
+    --cal17: 32;
+    --cal18: 143;
+    --cal19: 311;
+    --cal20: 240;
 }
 
 :root[test=true] {
@@ -57,6 +95,23 @@
     --padding: 10px;
 
     --hover-color: black !important;
+    
+    --cal5: 0;
+    --cal6: 0; /* Color-2 */
+    --cal7: 0;
+    --cal8: 0;
+    --cal9: 0;
+    --cal10: 0;
+    --cal11: 0;
+    --cal12: 0; 
+    --cal13: 0;
+    --cal14: 0; /* Color-10 */
+    --cal15: 0;
+    --cal16: 0;
+    --cal17: 0;
+    --cal18: 0;
+    --cal19: 0;
+    --cal20: 0;
 }
 
 :root[test=true][test-mode=crazy] {
@@ -76,6 +131,23 @@
     --grades: aqua;
 
     --hover-color: lime !important;
+    
+    --cal5: 89;
+    --cal6: 107; /* Color-2 */
+    --cal7: 125;
+    --cal8: 143;
+    --cal9: 161;
+    --cal10: 179;
+    --cal11: 197;
+    --cal12: 215; 
+    --cal13: 233;
+    --cal14: 251; /* Color-10 */
+    --cal15: 269;
+    --cal16: 287;
+    --cal17: 305;
+    --cal18: 323;
+    --cal19: 341;
+    --cal20: 359;
 }
 
 /* General */
@@ -359,37 +431,85 @@ header div.Je0RK button._1SIMq {
 body .fc-event-skin {
     color: var(--text);
 }
+.color-default-personal {
+    background-color: hsl(var(--cal1), 61%, 48%)  !important;
+    border-color: hsl(var(--cal1), 61%, 28%) !important;
+}
+.color-default-groups {
+    background-color: hsl(var(--cal2), 61%, 48%)  !important;
+    border-color: hsl(var(--cal2), 61%, 28%) !important;
+}
+.color-default-courses {
+    background-color: hsl(var(--cal3), 61%, 48%)  !important;
+    border-color: hsl(var(--cal3), 61%, 28%) !important;
+}
+.color-default-school {
+    background-color: hsl(var(--cal4), 61%, 48%)  !important;
+    border-color: hsl(var(--cal4), 61%, 28%) !important;
+}
 .color-1 {
-    background-color: #422a0d !important;
-    border-color: #352108 !important;
+    background-color: hsl(var(--cal5), 61%, 48%)  !important;
+    border-color: hsl(var(--cal5), 61%, 28%) !important;
+}
+.color-2 {
+    background-color: hsl(var(--cal6), 61%, 48%)  !important;
+    border-color: hsl(var(--cal6), 61%, 28%) !important;
+}
+.color-3 {
+    background-color: hsl(var(--cal7), 61%, 48%)  !important;
+    border-color: hsl(var(--cal7), 61%, 28%) !important;
+}
+.color-4 {
+    background-color: hsl(var(--cal8), 61%, 48%)  !important;
+    border-color: hsl(var(--cal8), 61%, 28%) !important;
+}
+.color-5 {
+    background-color: hsl(var(--cal9), 61%, 48%)  !important;
+    border-color: hsl(var(--cal9), 61%, 28%) !important;
+}
+.color-6 {
+    background-color: hsl(var(--cal10), 61%, 48%)  !important;
+    border-color: hsl(var(--cal10), 61%, 28%) !important;
+}
+.color-7 {
+    background-color: hsl(var(--cal11), 61%, 48%)  !important;
+    border-color: hsl(var(--cal11), 61%, 28%) !important;
+}
+.color-8 {
+    background-color: hsl(var(--cal12), 61%, 48%)  !important;
+    border-color: hsl(var(--cal12), 61%, 28%) !important;
+}
+.color-9 {
+    background-color: hsl(var(--cal13), 61%, 48%)  !important;
+    border-color: hsl(var(--cal13), 61%, 28%) !important;
 }
 .color-10 {
-    background-color: #2d3c1e !important;
-    border-color: #232F16 !important;
+    background-color: hsl(var(--cal14), 61%, 48%)  !important;
+    border-color: hsl(var(--cal14), 61%, 28%) !important;
 }
 .color-11 {
-    background-color: #44233e !important;
-    border-color: #291325 !important;
+    background-color: hsl(var(--cal15), 61%, 48%)  !important;
+    border-color: hsl(var(--cal15), 61%, 28%) !important;
 }
 .color-12 {
-    background-color: #164152 !important;
-    border-color: #082632 !important;
+    background-color: hsl(var(--cal16), 61%, 48%)  !important;
+    border-color: hsl(var(--cal16), 61%, 28%) !important;
 }
 .color-13 {
-    background-color: #50501d !important;
-    border-color: #32320E !important;
+    background-color: hsl(var(--cal17), 61%, 48%)  !important;
+    border-color: hsl(var(--cal17), 61%, 28%) !important;
 }
 .color-14 {
-    background-color: #461b2d !important;
-    border-color: #3E1526 !important;
+    background-color: hsl(var(--cal18), 61%, 48%)  !important;
+    border-color: hsl(var(--cal18), 61%, 28%) !important;
 }
 .color-15 {
-    background-color: #1B5AAB !important;
-    border-color: #06489c !important;
+    background-color: hsl(var(--cal19), 61%, 48%)  !important;
+    border-color: hsl(var(--cal19), 61%, 28%) !important;
 }
 .color-16 {
-    background-color: #C42F32 !important;
-    border-color: #9c090c !important;
+    background-color: hsl(var(--cal20), 61%, 48%)  !important;
+    border-color: hsl(var(--cal20), 61%, 28%) !important;
 }
 /* Navbar menus */
 div.les2- {
