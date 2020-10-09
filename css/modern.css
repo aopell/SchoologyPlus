@@ -1553,3 +1553,18 @@ table#collection-view-contents tbody tr td {
 .dropbox-viewer-item-wrapper {
     background-color: var(--background-color);
 }
+
+/* New Layout */
+._1wP6w, ._2pDDZ:hover:not(:active), ._3senP:focus:not(:active), .wL3MX:active {
+    color: var(--text);
+}
+
+._1IGEH:focus:not(:active), ._1oxpz:hover:not(:active), ._1Z0RM, .Dkh_K:active {
+    background-color:var(--accent);
+    color: var(--text);
+}
+
+.StudentTable-table-wrapper-classname-2qr2_>div {
+    background-color:var(--background-color) !important;
+    color:var(--text);
+}
