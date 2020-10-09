@@ -346,6 +346,11 @@ fieldset div div div label span {
 }
     
 
+div.error, tr.error {
+    background-color: var(--error);
+    border-color: var(--error);
+}
+
 /* Courses and Groups Dropdown */
 .splus-courses-navbar-button div[role=menu],
 .splus-groups-navbar-button div[role=menu] {
