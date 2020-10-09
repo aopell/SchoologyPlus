@@ -1549,3 +1549,7 @@ table#collection-view-contents tbody tr td {
 .comment-container {
     border-color: var(--contrast-border) !important;
 }
+
+.dropbox-viewer-item-wrapper {
+    background-color: var(--background-color);
+}
