@@ -787,6 +787,19 @@ body ul.primary {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
+.highcharts-container>svg>rect {
+  fill: var(--background-color);
+}
+
+.highcharts-axis-labels>text {
+  color: var(--text) !important;
+  fill: var(--text) !important;
+}
+
+.score-value {
+  color: var(--text) !important;
+}
+
 /* Courses Page */
 .course-action-btns,
 .group-action-btns {
@@ -1098,6 +1111,11 @@ span#updates-count {
 
 .link_view .page-title a:hover .external-link-icon {
     background-position: 0 -1425px !important;
+}
+
+.access-code.left-block-wrapper, #roster-wrapper .parent-code {
+    background-color: var(--accent);
+    color: var(--text);
 }
 
 /* Messages */
