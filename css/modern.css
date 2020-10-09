@@ -1535,3 +1535,12 @@ ul#attachment-selector li:hover > a {
 table#collection-view-contents tbody tr td {
     background-color: var(--primary);
 }
+
+.s_comments_level {
+    background: var(--background-color) !important;
+    border-color: var(--contrast-border) !important;
+}
+
+.comment-container {
+    border-color: var(--contrast-border) !important;
+}
