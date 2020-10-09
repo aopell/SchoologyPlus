@@ -433,6 +433,9 @@ header div.Je0RK button._1SIMq {
 .fcalendar-filter-menu-wrapper .checkbox.filter-selected {
     background-position-y: -19px !important;
 }
+
+/* Commented out due to contrast issue, want to get these other issues solved, and I'll add this bit as another PR some other time (when I fix the contrast issue) */
+/*
 body .fc-event-skin {
     color: var(--text);
 }
@@ -515,7 +518,7 @@ body .fc-event-skin {
 .color-16 {
     background-color: hsl(var(--cal20), 61%, 48%)  !important;
     border-color: hsl(var(--cal20), 61%, 28%) !important;
-}
+}*/
 /* Navbar menus */
 div.les2- {
     background-color: var(--secondary) !important;
