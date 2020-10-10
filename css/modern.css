@@ -1575,6 +1575,15 @@ table#collection-view-contents tbody tr td {
     background-color: var(--background-color);
 }
 
+#grading-rubric-edit-grades-slider .bottom, #district-mastery-grading-rubric-edit-grades-slider .bottom, .s-slider .right-column, .rubric-scroll .rubric-table tbody {
+    background-color: var(--background-color);
+    color:var(--text);
+}
+
+.view-only .rubric-table .rubric-row-rating span.input-top, .view-only .rubric-table .rubric-row-rating .input-bottom {
+    color: var(--text);
+}
+
 /* New Layout */
 ._1wP6w, ._2pDDZ:hover:not(:active), ._3senP:focus:not(:active), .wL3MX:active {
     color: var(--text);
