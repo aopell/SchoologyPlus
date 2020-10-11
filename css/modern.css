@@ -15,6 +15,28 @@
     --border-size: 1px;
     --padding: 10px;
     --theme-is-dark: 1;
+    background-color: var(--background-color);
+    
+    --cal1: 206;
+    --cal2: 101;
+    --cal3: 34;
+    --cal4: 317;
+    --cal5: 60;
+    --cal6: 335; /* Color-2 */
+    --cal7: 214;
+    --cal8: 359;
+    --cal9: 119; 
+    --cal10: 294;
+    --cal11: 61;
+    --cal12: 165; 
+    --cal13: 340;
+    --cal14: 83; /* Color-10 */ /* WIP : HERE'S NEXT ONE TO CHANGE IN DARK THEME! */
+    --cal15: 266;
+    --cal16: 29;
+    --cal17: 32;
+    --cal18: 143;
+    --cal19: 311;
+    --cal20: 240;
 }
 
 :root[dark=false] {
@@ -34,6 +56,23 @@
     --border-size: 1px;
     --padding: 10px;
     --theme-is-dark: 0;
+    
+    --cal5: 336;
+    --cal6: 49; /* Color-2 */
+    --cal7: 197;
+    --cal8: 332;
+    --cal9: 358;
+    --cal10: 62;
+    --cal11: 217;
+    --cal12: 338; 
+    --cal13: 15;
+    --cal14: 83; /* Color-10 */
+    --cal15: 266;
+    --cal16: 29;
+    --cal17: 32;
+    --cal18: 143;
+    --cal19: 311;
+    --cal20: 240;
 }
 
 :root[test=true] {
@@ -56,6 +95,23 @@
     --padding: 10px;
 
     --hover-color: black !important;
+    
+    --cal5: 0;
+    --cal6: 0; /* Color-2 */
+    --cal7: 0;
+    --cal8: 0;
+    --cal9: 0;
+    --cal10: 0;
+    --cal11: 0;
+    --cal12: 0; 
+    --cal13: 0;
+    --cal14: 0; /* Color-10 */
+    --cal15: 0;
+    --cal16: 0;
+    --cal17: 0;
+    --cal18: 0;
+    --cal19: 0;
+    --cal20: 0;
 }
 
 :root[test=true][test-mode=crazy] {
@@ -75,6 +131,23 @@
     --grades: aqua;
 
     --hover-color: lime !important;
+    
+    --cal5: 89;
+    --cal6: 107; /* Color-2 */
+    --cal7: 125;
+    --cal8: 143;
+    --cal9: 161;
+    --cal10: 179;
+    --cal11: 197;
+    --cal12: 215; 
+    --cal13: 233;
+    --cal14: 251; /* Color-10 */
+    --cal15: 269;
+    --cal16: 287;
+    --cal17: 305;
+    --cal18: 323;
+    --cal19: 341;
+    --cal20: 359;
 }
 
 /* General */
@@ -263,6 +336,21 @@ fieldset div div div label span {
     background: var(--background-color);
 }
 
+._pendo-step-container-styles {
+    background-color: var(--accent) !important;
+}
+.pendo-mock-flexbox-element:nth-child(2)>button {
+    background-color: var(--background-color) !important;
+    border-color: var(--contrast-border) !important;
+    color: var(--text) !important;
+}
+    
+
+div.error, tr.error {
+    background-color: var(--error);
+    border-color: var(--error);
+}
+
 /* Courses and Groups Dropdown */
 .splus-courses-navbar-button div[role=menu],
 .splus-groups-navbar-button div[role=menu] {
@@ -346,6 +434,91 @@ header div.Je0RK button._1SIMq {
     background-position-y: -19px !important;
 }
 
+/* Commented out due to contrast issue, want to get these other issues solved, and I'll add this bit as another PR some other time (when I fix the contrast issue) */
+/*
+body .fc-event-skin {
+    color: var(--text);
+}
+.color-default-personal {
+    background-color: hsl(var(--cal1), 61%, 48%)  !important;
+    border-color: hsl(var(--cal1), 61%, 28%) !important;
+}
+.color-default-groups {
+    background-color: hsl(var(--cal2), 61%, 48%)  !important;
+    border-color: hsl(var(--cal2), 61%, 28%) !important;
+}
+.color-default-courses {
+    background-color: hsl(var(--cal3), 61%, 48%)  !important;
+    border-color: hsl(var(--cal3), 61%, 28%) !important;
+}
+.color-default-school {
+    background-color: hsl(var(--cal4), 61%, 48%)  !important;
+    border-color: hsl(var(--cal4), 61%, 28%) !important;
+}
+.color-1 {
+    background-color: hsl(var(--cal5), 61%, 48%)  !important;
+    border-color: hsl(var(--cal5), 61%, 28%) !important;
+}
+.color-2 {
+    background-color: hsl(var(--cal6), 61%, 48%)  !important;
+    border-color: hsl(var(--cal6), 61%, 28%) !important;
+}
+.color-3 {
+    background-color: hsl(var(--cal7), 61%, 48%)  !important;
+    border-color: hsl(var(--cal7), 61%, 28%) !important;
+}
+.color-4 {
+    background-color: hsl(var(--cal8), 61%, 48%)  !important;
+    border-color: hsl(var(--cal8), 61%, 28%) !important;
+}
+.color-5 {
+    background-color: hsl(var(--cal9), 61%, 48%)  !important;
+    border-color: hsl(var(--cal9), 61%, 28%) !important;
+}
+.color-6 {
+    background-color: hsl(var(--cal10), 61%, 48%)  !important;
+    border-color: hsl(var(--cal10), 61%, 28%) !important;
+}
+.color-7 {
+    background-color: hsl(var(--cal11), 61%, 48%)  !important;
+    border-color: hsl(var(--cal11), 61%, 28%) !important;
+}
+.color-8 {
+    background-color: hsl(var(--cal12), 61%, 48%)  !important;
+    border-color: hsl(var(--cal12), 61%, 28%) !important;
+}
+.color-9 {
+    background-color: hsl(var(--cal13), 61%, 48%)  !important;
+    border-color: hsl(var(--cal13), 61%, 28%) !important;
+}
+.color-10 {
+    background-color: hsl(var(--cal14), 61%, 48%)  !important;
+    border-color: hsl(var(--cal14), 61%, 28%) !important;
+}
+.color-11 {
+    background-color: hsl(var(--cal15), 61%, 48%)  !important;
+    border-color: hsl(var(--cal15), 61%, 28%) !important;
+}
+.color-12 {
+    background-color: hsl(var(--cal16), 61%, 48%)  !important;
+    border-color: hsl(var(--cal16), 61%, 28%) !important;
+}
+.color-13 {
+    background-color: hsl(var(--cal17), 61%, 48%)  !important;
+    border-color: hsl(var(--cal17), 61%, 28%) !important;
+}
+.color-14 {
+    background-color: hsl(var(--cal18), 61%, 48%)  !important;
+    border-color: hsl(var(--cal18), 61%, 28%) !important;
+}
+.color-15 {
+    background-color: hsl(var(--cal19), 61%, 48%)  !important;
+    border-color: hsl(var(--cal19), 61%, 28%) !important;
+}
+.color-16 {
+    background-color: hsl(var(--cal20), 61%, 48%)  !important;
+    border-color: hsl(var(--cal20), 61%, 28%) !important;
+}*/
 /* Navbar menus */
 div.les2- {
     background-color: var(--secondary) !important;
@@ -617,6 +790,19 @@ body ul.primary {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
+.highcharts-container>svg>rect {
+  fill: var(--background-color);
+}
+
+.highcharts-axis-labels>text {
+  color: var(--text) !important;
+  fill: var(--text) !important;
+}
+
+.score-value {
+  color: var(--text) !important;
+}
+
 /* Courses Page */
 .course-action-btns,
 .group-action-btns {
@@ -821,6 +1007,13 @@ th.profile-header {
     color: var(--text) !important;
 }
 
+#profile-form-tab {
+    background-color: var(--accent);
+}
+.tab-nav.active, .tab-nav.active:hover {
+    background-color: var(--input);
+}
+
 /* Course Page */
 .action-links,
 .comment.no-comments,
@@ -921,6 +1114,11 @@ span#updates-count {
 
 .link_view .page-title a:hover .external-link-icon {
     background-position: 0 -1425px !important;
+}
+
+.access-code.left-block-wrapper, #roster-wrapper .parent-code {
+    background-color: var(--accent);
+    color: var(--text);
 }
 
 /* Messages */
@@ -1362,4 +1560,41 @@ ul#attachment-selector li:hover > a {
 
 table#collection-view-contents tbody tr td {
     background-color: var(--primary);
+}
+
+.s_comments_level {
+    background: var(--background-color) !important;
+    border-color: var(--contrast-border) !important;
+}
+
+.comment-container {
+    border-color: var(--contrast-border) !important;
+}
+
+.dropbox-viewer-item-wrapper {
+    background-color: var(--background-color);
+}
+
+#grading-rubric-edit-grades-slider .bottom, #district-mastery-grading-rubric-edit-grades-slider .bottom, .s-slider .right-column, .rubric-scroll .rubric-table tbody {
+    background-color: var(--background-color);
+    color:var(--text);
+}
+
+.view-only .rubric-table .rubric-row-rating span.input-top, .view-only .rubric-table .rubric-row-rating .input-bottom {
+    color: var(--text);
+}
+
+/* New Layout */
+._1wP6w, ._2pDDZ:hover:not(:active), ._3senP:focus:not(:active), .wL3MX:active {
+    color: var(--text);
+}
+
+._1IGEH:focus:not(:active), ._1oxpz:hover:not(:active), ._1Z0RM, .Dkh_K:active {
+    background-color:var(--accent);
+    color: var(--text);
+}
+
+.StudentTable-table-wrapper-classname-2qr2_>div {
+    background-color:var(--background-color) !important;
+    color:var(--text);
 }
