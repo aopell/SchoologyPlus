@@ -1487,6 +1487,14 @@ div.cellphone-container {
     background-color: var(--accent) !important;
 }
 
+#s-user-custom-notifications-form #edit-select-all-wrapper label {
+    background: var(--accent) !important;
+}
+
+#s-user-custom-notifications-form label {
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
 .ui-selectmenu {
     border: none !important;
     border-radius: var(--border-radius) !important;
