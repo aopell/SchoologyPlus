@@ -57,6 +57,7 @@
     --padding: 10px;
     --theme-is-dark: 0;
     
+
     --cal1: #d6e7f4;
     --cal2: #d7e8cf;
     --cal3: #f9e9d4;
@@ -116,6 +117,7 @@
     --cal18: #000;
     --cal19: #000;
     --cal20: #000;
+
 }
 
 :root[test=true][test-mode=crazy] {
@@ -136,6 +138,7 @@
 
     --hover-color: lime !important;
     
+
     --cal5: red;
     --cal6: green; /* Color-2 */
     --cal7: blue;
@@ -438,7 +441,6 @@ header div.Je0RK button._1SIMq {
     background-position-y: -19px !important;
 }
 
-/* Commented out due to contrast issue, want to get these other issues solved, and I'll add this bit as another PR some other time (when I fix the contrast issue) */
 
 body .fc-event-skin {
     color: var(--text);
@@ -506,6 +508,7 @@ body .fc-event-skin {
 .color-16 {
     background-color: var(--cal20)  !important;
 }
+
 /* Navbar menus */
 div.les2- {
     background-color: var(--secondary) !important;
