@@ -82,7 +82,7 @@
 
 // Check Schoology domain
 {
-    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "support.schoology.com"];
+    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "support.schoology.com", "error-page.schoology.com", "app-msft-teams.schoology.com"];
     let dd = Setting.getValue("defaultDomain");
 
     if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host) && !window.location.host.match(/.*[-\.]app\.schoology\.com/)) {
@@ -279,6 +279,14 @@ let modals = [
                     createElement("a", [], { href: "https://github.com/glen3b", textContent: "Glen Husman" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Lead developer" })
+            ]),
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h3", ["setting-title"], {}, [
+                    createElement("a", [], { href: "https://github.com/Roguim", textContent: "Roguim" }),
+                    createElement("span", [], { textContent: " and " }),
+                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger" })
+                ]),
+                createElement("p", ["setting-description"], { textContent: "Various code contributions" })
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [

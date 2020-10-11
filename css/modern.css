@@ -15,17 +15,39 @@
     --border-size: 1px;
     --padding: 10px;
     --theme-is-dark: 1;
+    background-color: var(--background-color);
+    
+    --cal1: #457da5;
+    --cal2: #547c41;
+    --cal3: #926c37;
+    --cal4: #7c3d6b;
+    --cal5: #0b4c9c;
+    --cal6: #00209c; /* Color-2 */
+    --cal7: #004a09;
+    --cal8: #72721a;
+    --cal9: #44233e; 
+    --cal10: #683131;
+    --cal11: #770a0a;
+    --cal12: #a72413;
+    --cal13: #E0024C;
+    --cal14: #188C16; /* Color-10 */
+    --cal15: #bd7304;
+    --cal16: #80168C;
+    --cal17: #164152;
+    --cal18: #00543f;
+    --cal19: #633e11;
+    --cal20: #461b2d;
 }
 
 :root[dark=false] {
-    --primary: #EEEEEE;
-    --accent: white;
+    --primary: #EAEAEA;
+    --accent: #F7F7F7;
     --secondary: #DDD;
     --text: #2A2A2A;
     --contrast-text: white;
     --muted-text: #677583;
     --contrast-border: #BABABA;
-    --input: #CCCCCC;
+    --input: #C2C2C2;
     --error: #F44336;
     --highlight: rgba(255, 183, 2, 0.2);
     --active: #98d4e4;
@@ -34,6 +56,28 @@
     --border-size: 1px;
     --padding: 10px;
     --theme-is-dark: 0;
+    
+
+    --cal1: #d6e7f4;
+    --cal2: #d7e8cf;
+    --cal3: #f9e9d4;
+    --cal4: #e7e0e5;
+    --cal5: #e6b5c9;
+    --cal6: #f9f1cf; /* Color-2 */
+    --cal7: #daf0f9;
+    --cal8: #f9ddea;
+    --cal9: #fbd7d8;
+    --cal10: #f1f2d1;
+    --cal11: #e0e8f5;
+    --cal12: #fbd7e4; 
+    --cal13: #fcddd3;
+    --cal14: #e7f2d5; /* Color-10 */
+    --cal15: #e6e0ee;
+    --cal16: #f0e5db;
+    --cal17: #fce8d1;
+    --cal18: #e1f1e7;
+    --cal19: #f0dfed;
+    --cal20: #e9e9ea;
 }
 
 :root[test=true] {
@@ -56,6 +100,23 @@
     --padding: 10px;
 
     --hover-color: black !important;
+    
+    --cal5: #000;
+    --cal6: #000; /* Color-2 */
+    --cal7: #000;
+    --cal8: #000;
+    --cal9: #000;
+    --cal10: #000;
+    --cal11: #000;
+    --cal12: #000; 
+    --cal13: #000;
+    --cal14: #000; /* Color-10 */
+    --cal15: #000;
+    --cal16: #000;
+    --cal17: #000;
+    --cal18: #000;
+    --cal19: #000;
+    --cal20: #000;
 }
 
 :root[test=true][test-mode=crazy] {
@@ -75,6 +136,24 @@
     --grades: aqua;
 
     --hover-color: lime !important;
+    
+
+    --cal5: red;
+    --cal6: green; /* Color-2 */
+    --cal7: blue;
+    --cal8: orange;
+    --cal9: yellow;
+    --cal10: lightblue;
+    --cal11: lime;
+    --cal12: powderblue; 
+    --cal13: purple;
+    --cal14: magenta; /* Color-10 */
+    --cal15: darkred;
+    --cal16: maroon;
+    --cal17: brown;
+    --cal18: pink;
+    --cal19: aliceblue;
+    --cal20: antiquewhite;
 }
 
 /* General */
@@ -117,6 +196,30 @@ ul.context-menu-list li.context-menu-item {
 
 ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--active) !important;
+}
+
+*::-webkit-scrollbar {
+    background: transparent !important;
+    width: 15px;
+}
+
+*::-webkit-scrollbar-track-piece {
+    background: var(--accent) !important;
+}
+
+*::-webkit-scrollbar-button, *::-webkit-scrollbar-corner {
+    display: none !important;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--input) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+* {
+    scrollbar-color: var(--input) var(--accent) !important;
+    scrollbar-width: 15px !important;
+    scrollbar-arrow-color: var(--contrast-text) !important;
 }
 
 #body {
@@ -238,11 +341,52 @@ footer button,
 
 .popups-close a {
     background-position-y: calc(-80px - (20px * var(--theme-is-dark))) !important;
-    border-radius: 2px;
+    border-radius: 2px !important;
 }
 
 .likers li:not(.last) {
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+fieldset div div div label span {
+    color: var(--text) !important;
+}
+
+._2WC16 span._24avl._17Z60 {
+    color: var(--accent) !important;
+}
+
+.popups-buttons-inner {
+    background: var(--secondary) !important;
+}
+.popups-tab, .popups-tabs {
+    background: var(--accent) !important;
+}
+.popups-tab.active {
+    background: var(--background-color) !important;
+}
+
+._pendo-step-container-styles {
+    background-color: var(--accent) !important;
+}
+.pendo-mock-flexbox-element:nth-child(2)>button {
+    background-color: var(--background-color) !important;
+    border-color: var(--contrast-border) !important;
+    color: var(--text) !important;
+}
+
+.popups-box.popups-library #resources-left-menu-wrapper {
+    background: var(--accent) !important;
+}
+
+.popups-box #library-wrapper {
+    background: var(--primary) !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+}
+
+div.error, tr.error {
+    background-color: var(--error) !important;
+    border-color: var(--error) !important;
 }
 
 /* Courses and Groups Dropdown */
@@ -326,6 +470,80 @@ header div.Je0RK button._1SIMq {
 
 .fcalendar-filter-menu-wrapper .checkbox.filter-selected {
     background-position-y: -19px !important;
+}
+
+
+body .fc-event-skin {
+    color: var(--text);
+}
+.color-default-personal, .color-default-groups, .color-default-courses, .color-default-school, .color-1, .color-2, .color-3, .color-4, .color-5, .color-6, .color-7, .color-8, .color-9, .color-10, .color-11, .color-12, .color-13, .color-14, .color-15, .color-16 {
+    border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.fc-event-skin.ev-course, .legend-course { background: var(--cal3); border-color: rgba(0, 0, 0, 0.4) !important; }
+.fc-event-skin.ev-group, .legend-group { background: var(--cal2); border-color: rgba(0, 0, 0, 0.4) !important; }
+.fc-event-skin.ev-user, .legend-user { background: var(--cal1); border-color: rgba(0, 0, 0, 0.4) !important; }
+.fc-event-skin.ev-school, .legend-school { background: var(--cal4); border-color: rgba(0, 0, 0, 0.4) !important; }
+
+.color-default-personal {
+    background: var(--cal1)  !important;
+}
+.color-default-groups {
+    background: var(--cal2)  !important;
+}
+.color-default-courses {
+    background: var(--cal3)  !important;
+}
+.color-default-school {
+    background: var(--cal4)  !important;
+}
+.color-1 {
+    background: var(--cal5)  !important;
+}
+.color-2 {
+    background: var(--cal6)  !important;
+}
+.color-3 {
+    background: var(--cal7)  !important;
+}
+.color-4 {
+    background: var(--cal8)  !important;
+}
+.color-5 {
+    background: var(--cal9)  !important;
+}
+.color-6 {
+    background: var(--cal10)  !important;
+}
+.color-7 {
+    background: var(--cal11)  !important;
+}
+.color-8 {
+    background: var(--cal12)  !important;
+}
+.color-9 {
+    background: var(--cal13)  !important;
+}
+.color-10 {
+    background: var(--cal14)  !important;
+}
+.color-11 {
+    background: var(--cal15)  !important;
+}
+.color-12 {
+    background: var(--cal16)  !important;
+}
+.color-13 {
+    background: var(--cal17)  !important;
+}
+.color-14 {
+    background: var(--cal18)  !important;
+}
+.color-15 {
+    background: var(--cal19)  !important;
+}
+.color-16 {
+    background: var(--cal20)  !important;
 }
 
 /* Navbar menus */
@@ -413,7 +631,7 @@ div.les2- h3 {
     background-position-y: calc(-576px - 18px * var(--theme-is-dark)) !important;
     background-color: var(--secondary) !important;
     color: var(--text) !important;
-    border: var(--border-size) solid var(--contrast-border) !important;
+    border: none !important;
     border-radius: var(--border-radius) !important;
     opacity: unset !important;
 }
@@ -597,6 +815,19 @@ body ul.primary {
 
 .s-js-chart-and-pager-area .empty {
     border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+.highcharts-container>svg>rect {
+  fill: var(--background-color);
+}
+
+.highcharts-axis-labels>text {
+  color: var(--text) !important;
+  fill: var(--text) !important;
+}
+
+.score-value {
+  color: var(--text) !important;
 }
 
 /* Courses Page */
@@ -803,6 +1034,13 @@ th.profile-header {
     color: var(--text) !important;
 }
 
+#profile-form-tab {
+    background-color: var(--accent);
+}
+.tab-nav.active, .tab-nav.active:hover {
+    background-color: var(--input);
+}
+
 /* Course Page */
 .action-links,
 .comment.no-comments,
@@ -855,6 +1093,10 @@ body .action-links a:hover {
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
 
+.s-edge-feed>li {
+    border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
 .s-edge-feed li, .s-edge-feed span[style] {
     color: var(--text) !important;
 }
@@ -899,6 +1141,15 @@ body .action-links a:hover {
 span#updates-count {
     color: var(--text) !important;
     background-color: var(--active) !important;
+}
+
+.link_view .page-title a:hover .external-link-icon {
+    background-position: 0 -1425px !important;
+}
+
+.access-code.left-block-wrapper, #roster-wrapper .parent-code {
+    background-color: var(--accent);
+    color: var(--text);
 }
 
 /* Messages */
@@ -1150,6 +1401,11 @@ table.privatemsg-list td.no-messages {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
+/* Unsure if this is used on other pages too, but it should fix there too if present */
+#edit-body_fontsizeselect_text {
+    background: transparent;
+}
+
 /* Course Dashboard */
 .course-dashboard section {
     border: none !important;
@@ -1239,6 +1495,14 @@ div.cellphone-container {
     background-color: var(--accent) !important;
 }
 
+#s-user-custom-notifications-form #edit-select-all-wrapper label {
+    background: var(--accent) !important;
+}
+
+#s-user-custom-notifications-form label {
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
 .ui-selectmenu {
     border: none !important;
     border-radius: var(--border-radius) !important;
@@ -1297,4 +1561,101 @@ body .fc-widget-header,
 body .fc-widget-header .fc-agenda-divider-inner {
     background: var(--contrast-border) !important;
     border-color: var(--contrast-border) !important;
+}
+
+/* Assignment page */
+
+#dropbox-viewer-right-toggle {
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--secondary) !important;
+}
+
+#dropbox-viewer-right {
+    background: var(--primary) !important;
+    color: var(--text) !important;
+}
+
+#dropbox-viewer-comments {
+    background: var(--accent) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.dropbox-viewer-submission-activity, .dropbox-viewer-submission-activity-inner {
+    background-color: var(--background-color) !important;
+    color: var(--text) !important;
+}
+
+ul#attachment-selector li:hover > a {
+    background-color: var(--accent);
+}
+
+.popups-box.popups-library #resources-left-menu-wrapper {
+    background-color: var(--background);
+}
+
+.drop-items li:hover {
+    background: var(--accent);
+}
+
+table#collection-view-contents tbody tr td {
+    background-color: var(--primary);
+}
+
+.s_comments_level {
+    background: var(--background-color) !important;
+    border-color: var(--contrast-border) !important;
+}
+
+.comment-container {
+    border-color: var(--contrast-border) !important;
+}
+
+.dropbox-viewer-item-wrapper {
+    background-color: var(--background-color);
+}
+
+#grading-rubric-edit-grades-slider .bottom, #district-mastery-grading-rubric-edit-grades-slider .bottom, .s-slider .right-column, .rubric-scroll .rubric-table tbody {
+    background-color: var(--background-color);
+    color:var(--text);
+}
+
+.view-only .rubric-table .rubric-row-rating span.input-top, .view-only .rubric-table .rubric-row-rating .input-bottom {
+    color: var(--text);
+}
+
+.s_grade_item_assessment .assessment-status-wrapper {
+    color: var(--muted-text) !important;
+}
+
+.grading-grade-translated {
+    color: var(--muted-text) !important;
+}
+
+.grading-info {
+    background: var(--secondary) !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.param-name {
+    color: var(--text) !important;
+}
+
+.assignment-param {
+    color: var(--muted-text) !important;
+}
+
+/* New Layout */
+._1wP6w, ._2pDDZ:hover:not(:active), ._3senP:focus:not(:active), .wL3MX:active {
+    color: var(--text);
+}
+
+._1IGEH:focus:not(:active), ._1oxpz:hover:not(:active), ._1Z0RM, .Dkh_K:active {
+    background-color:var(--accent);
+    color: var(--text);
+}
+
+.StudentTable-table-wrapper-classname-2qr2_>div {
+    background-color:var(--background-color) !important;
+    color:var(--text);
 }

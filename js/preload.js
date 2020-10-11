@@ -28,7 +28,7 @@ var Logger = {
      */
     trace: (() => console.trace.bind(window.console, `%c+`, createLogPrefix("orange")))(),
     /**
-     * Logs each argument to the console ("debug" log level). Provides identical functionality to `console.trace`, but WITHOUT format specifiers. 
+     * Logs each argument to the console ("debug" log level). Provides identical functionality to `console.debug`, but WITHOUT format specifiers. 
      * @type {(...args)=>void}
      */
     debug: (() => console.debug.bind(window.console, `%c+`, createLogPrefix("lightgreen")))(),

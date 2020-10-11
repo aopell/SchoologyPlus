@@ -8,7 +8,7 @@
             "id": "schoology.plus@aopell.me"
         }
     },
-    "version": "6.4.1",
+    "version": "6.4.2",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -212,6 +212,16 @@
                 "js/assessment.js"
             ],
             "run_at": "document_end"
+        },
+        {
+            "matches": [
+                "https://lms.lausd.net/page/*",
+                "https://*.schoology.com/page/*"
+            ],
+            "js": [
+                "js/page.js"
+            ],
+            "run_at":"document_end"
         },
         {
             "matches": [
