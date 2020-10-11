@@ -17,26 +17,26 @@
     --theme-is-dark: 1;
     background-color: var(--background-color);
     
-    --cal1: #57656f;
-    --cal2: #596d50;
-    --cal3: #6f6250;
-    --cal4: #694f62;
-    --cal5: #422a0d;
-    --cal6: #2d3c1e; /* Color-2 */
-    --cal7: #44233e;
-    --cal8: #164152;
-    --cal9: #50501d; 
-    --cal10: #461b2d;
-    --cal11: #264a77;
-    --cal12: #C42F32; 
-    --cal13: #188C16;
-    --cal14: #80168C; /* Color-10 */
-    --cal15: #805300;
-    --cal16: #00543f;
-    --cal17: #E0024C;
-    --cal18: #00209c;
-    --cal19: #004a09;
-    --cal20: #770a0a;
+    --cal1: #457da5;
+    --cal2: #547c41;
+    --cal3: #926c37;
+    --cal4: #7c3d6b;
+    --cal5: #0b4c9c;
+    --cal6: #00209c; /* Color-2 */
+    --cal7: #004a09;
+    --cal8: #72721a;
+    --cal9: #44233e; 
+    --cal10: #683131;
+    --cal11: #770a0a;
+    --cal12: #a72413;
+    --cal13: #E0024C;
+    --cal14: #188C16; /* Color-10 */
+    --cal15: #bd7304;
+    --cal16: #80168C;
+    --cal17: #164152;
+    --cal18: #00543f;
+    --cal19: #633e11;
+    --cal20: #461b2d;
 }
 
 :root[dark=false] {
@@ -117,7 +117,6 @@
     --cal18: #000;
     --cal19: #000;
     --cal20: #000;
-
 }
 
 :root[test=true][test-mode=crazy] {
@@ -472,65 +471,71 @@ body .fc-event-skin {
 .color-default-personal, .color-default-groups, .color-default-courses, .color-default-school, .color-1, .color-2, .color-3, .color-4, .color-5, .color-6, .color-7, .color-8, .color-9, .color-10, .color-11, .color-12, .color-13, .color-14, .color-15, .color-16 {
     border-color: rgba(0, 0, 0, 0.4) !important;
 }
+
+.fc-event-skin.ev-course, .legend-course { background: var(--cal3); border-color: rgba(0, 0, 0, 0.4) !important; }
+.fc-event-skin.ev-group, .legend-group { background: var(--cal2); border-color: rgba(0, 0, 0, 0.4) !important; }
+.fc-event-skin.ev-user, .legend-user { background: var(--cal1); border-color: rgba(0, 0, 0, 0.4) !important; }
+.fc-event-skin.ev-school, .legend-school { background: var(--cal4); border-color: rgba(0, 0, 0, 0.4) !important; }
+
 .color-default-personal {
-    background-color: var(--cal1)  !important;
+    background: var(--cal1)  !important;
 }
 .color-default-groups {
-    background-color: var(--cal2)  !important;
+    background: var(--cal2)  !important;
 }
 .color-default-courses {
-    background-color: var(--cal3)  !important;
+    background: var(--cal3)  !important;
 }
 .color-default-school {
-    background-color: var(--cal4)  !important;
+    background: var(--cal4)  !important;
 }
 .color-1 {
-    background-color: var(--cal5)  !important;
+    background: var(--cal5)  !important;
 }
 .color-2 {
-    background-color: var(--cal6)  !important;
+    background: var(--cal6)  !important;
 }
 .color-3 {
-    background-color: var(--cal7)  !important;
+    background: var(--cal7)  !important;
 }
 .color-4 {
-    background-color: var(--cal8)  !important;
+    background: var(--cal8)  !important;
 }
 .color-5 {
-    background-color: var(--cal9)  !important;
+    background: var(--cal9)  !important;
 }
 .color-6 {
-    background-color: var(--cal10)  !important;
+    background: var(--cal10)  !important;
 }
 .color-7 {
-    background-color: var(--cal11)  !important;
+    background: var(--cal11)  !important;
 }
 .color-8 {
-    background-color: var(--cal12)  !important;
+    background: var(--cal12)  !important;
 }
 .color-9 {
-    background-color: var(--cal13)  !important;
+    background: var(--cal13)  !important;
 }
 .color-10 {
-    background-color: var(--cal14)  !important;
+    background: var(--cal14)  !important;
 }
 .color-11 {
-    background-color: var(--cal15)  !important;
+    background: var(--cal15)  !important;
 }
 .color-12 {
-    background-color: var(--cal16)  !important;
+    background: var(--cal16)  !important;
 }
 .color-13 {
-    background-color: var(--cal17)  !important;
+    background: var(--cal17)  !important;
 }
 .color-14 {
-    background-color: var(--cal18)  !important;
+    background: var(--cal18)  !important;
 }
 .color-15 {
-    background-color: var(--cal19)  !important;
+    background: var(--cal19)  !important;
 }
 .color-16 {
-    background-color: var(--cal20)  !important;
+    background: var(--cal20)  !important;
 }
 
 /* Navbar menus */
