@@ -341,7 +341,7 @@ footer button,
 
 .popups-close a {
     background-position-y: calc(-80px - (20px * var(--theme-is-dark))) !important;
-    border-radius: 2px;
+    border-radius: 2px !important;
 }
 
 .likers li:not(.last) {
@@ -349,21 +349,21 @@ footer button,
 }
 
 fieldset div div div label span {
-    color: var(--text);
+    color: var(--text) !important;
 }
 
 ._2WC16 span._24avl._17Z60 {
-    color: var(--accent);
+    color: var(--accent) !important;
 }
 
 .popups-buttons-inner {
-    background: var(--secondary);
+    background: var(--secondary) !important;
 }
 .popups-tab, .popups-tabs {
-    background: var(--accent);
+    background: var(--accent) !important;
 }
 .popups-tab.active {
-    background: var(--background-color);
+    background: var(--background-color) !important;
 }
 
 ._pendo-step-container-styles {
@@ -374,11 +374,19 @@ fieldset div div div label span {
     border-color: var(--contrast-border) !important;
     color: var(--text) !important;
 }
-    
+
+.popups-box.popups-library #resources-left-menu-wrapper {
+    background: var(--accent) !important;
+}
+
+.popups-box #library-wrapper {
+    background: var(--primary) !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+}
 
 div.error, tr.error {
-    background-color: var(--error);
-    border-color: var(--error);
+    background-color: var(--error) !important;
+    border-color: var(--error) !important;
 }
 
 /* Courses and Groups Dropdown */
@@ -1613,6 +1621,28 @@ table#collection-view-contents tbody tr td {
 
 .view-only .rubric-table .rubric-row-rating span.input-top, .view-only .rubric-table .rubric-row-rating .input-bottom {
     color: var(--text);
+}
+
+.s_grade_item_assessment .assessment-status-wrapper {
+    color: var(--muted-text) !important;
+}
+
+.grading-grade-translated {
+    color: var(--muted-text) !important;
+}
+
+.grading-info {
+    background: var(--secondary) !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+.param-name {
+    color: var(--text) !important;
+}
+
+.assignment-param {
+    color: var(--muted-text) !important;
 }
 
 /* New Layout */
