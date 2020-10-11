@@ -1021,6 +1021,7 @@ body.library-view #library-left {
 }
 
 #sidebar-left #left-nav #menu-s-main ul li a.active,
+.app-link-wrapper .active, .app-link-wrapper .active:hover,
 #sidebar-left #menu-s-main .active-trail .active-trail a.course-materials-left-menu {
     background-color: var(--accent) !important;
     border: var(--border-size) solid var(--contrast-border) !important;
