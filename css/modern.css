@@ -17,23 +17,23 @@
     --theme-is-dark: 1;
     background-color: var(--background-color);
     
-    --cal1: 206;
-    --cal2: 101;
-    --cal3: 34;
-    --cal4: 317;
-    --cal5: 60;
-    --cal6: 335; /* Color-2 */
-    --cal7: 214;
-    --cal8: 359;
-    --cal9: 119; 
-    --cal10: 294;
-    --cal11: 61;
-    --cal12: 165; 
-    --cal13: 340;
-    --cal14: 83; /* Color-10 */ /* WIP : HERE'S NEXT ONE TO CHANGE IN DARK THEME! */
-    --cal15: 266;
-    --cal16: 29;
-    --cal17: 32;
+    --cal1: #57656f;
+    --cal2: #596d50;
+    --cal3: #6f6250;
+    --cal4: #694f62;
+    --cal5: #422a0d;
+    --cal6: #2d3c1e; /* Color-2 */
+    --cal7: #44233e;
+    --cal8: #164152;
+    --cal9: #50501d; 
+    --cal10: #461b2d;
+    --cal11: #1B5AAB;
+    --cal12: #C42F32; 
+    --cal13: #188C16;
+    --cal14: #80168C; /* Color-10 */
+    --cal15: #DDE002;
+    --cal16: #02E0A9;
+    --cal17: #E0024C;
     --cal18: 143;
     --cal19: 311;
     --cal20: 240;
@@ -57,22 +57,26 @@
     --padding: 10px;
     --theme-is-dark: 0;
     
-    --cal5: 336;
-    --cal6: 49; /* Color-2 */
-    --cal7: 197;
-    --cal8: 332;
-    --cal9: 358;
-    --cal10: 62;
-    --cal11: 217;
-    --cal12: 338; 
-    --cal13: 15;
-    --cal14: 83; /* Color-10 */
-    --cal15: 266;
-    --cal16: 29;
-    --cal17: 32;
-    --cal18: 143;
-    --cal19: 311;
-    --cal20: 240;
+    --cal1: #d6e7f4;
+    --cal2: #d7e8cf;
+    --cal3: #f9e9d4;
+    --cal4: #e7e0e5;
+    --cal5: #e6b5c9;
+    --cal6: #f9f1cf; /* Color-2 */
+    --cal7: #daf0f9;
+    --cal8: #f9ddea;
+    --cal9: #fbd7d8;
+    --cal10: #f1f2d1;
+    --cal11: #e0e8f5;
+    --cal12: #fbd7e4; 
+    --cal13: #fcddd3;
+    --cal14: #e7f2d5; /* Color-10 */
+    --cal15: #e6e0ee;
+    --cal16: #f0e5db;
+    --cal17: #fce8d1;
+    --cal18: #e1f1e7;
+    --cal19: #f0dfed;
+    --cal20: #e9e9ea;
 }
 
 :root[test=true] {
@@ -96,22 +100,22 @@
 
     --hover-color: black !important;
     
-    --cal5: 0;
-    --cal6: 0; /* Color-2 */
-    --cal7: 0;
-    --cal8: 0;
-    --cal9: 0;
-    --cal10: 0;
-    --cal11: 0;
-    --cal12: 0; 
-    --cal13: 0;
-    --cal14: 0; /* Color-10 */
-    --cal15: 0;
-    --cal16: 0;
-    --cal17: 0;
-    --cal18: 0;
-    --cal19: 0;
-    --cal20: 0;
+    --cal5: #000;
+    --cal6: #000; /* Color-2 */
+    --cal7: #000;
+    --cal8: #000;
+    --cal9: #000;
+    --cal10: #000;
+    --cal11: #000;
+    --cal12: #000; 
+    --cal13: #000;
+    --cal14: #000; /* Color-10 */
+    --cal15: #000;
+    --cal16: #000;
+    --cal17: #000;
+    --cal18: #000;
+    --cal19: #000;
+    --cal20: #000;
 }
 
 :root[test=true][test-mode=crazy] {
@@ -132,22 +136,22 @@
 
     --hover-color: lime !important;
     
-    --cal5: 89;
-    --cal6: 107; /* Color-2 */
-    --cal7: 125;
-    --cal8: 143;
-    --cal9: 161;
-    --cal10: 179;
-    --cal11: 197;
-    --cal12: 215; 
-    --cal13: 233;
-    --cal14: 251; /* Color-10 */
-    --cal15: 269;
-    --cal16: 287;
-    --cal17: 305;
-    --cal18: 323;
-    --cal19: 341;
-    --cal20: 359;
+    --cal5: red;
+    --cal6: green; /* Color-2 */
+    --cal7: blue;
+    --cal8: orange;
+    --cal9: yellow;
+    --cal10: lightblue;
+    --cal11: lime;
+    --cal12: powderblue; 
+    --cal13: purple;
+    --cal14: magenta; /* Color-10 */
+    --cal15: darkred;
+    --cal16: maroon;
+    --cal17: brown;
+    --cal18: pink;
+    --cal19: aliceblue;
+    --cal20: antiquewhite;
 }
 
 /* General */
@@ -435,90 +439,73 @@ header div.Je0RK button._1SIMq {
 }
 
 /* Commented out due to contrast issue, want to get these other issues solved, and I'll add this bit as another PR some other time (when I fix the contrast issue) */
-/*
+
 body .fc-event-skin {
     color: var(--text);
 }
+.color-default-personal, .color-default-groups, .color-default-courses, .color-default-school, .color-1, .color-2, .color-3, .color-4, .color-5, .color-6, .color-7, .color-8, .color-9, .color-10, .color-11, .color-12, .color-13, .color-14, .color-15, .color-16 {
+    border-color: rgba(0, 0, 0, 0.4) !important;
+}
 .color-default-personal {
-    background-color: hsl(var(--cal1), 61%, 48%)  !important;
-    border-color: hsl(var(--cal1), 61%, 28%) !important;
+    background-color: var(--cal1)  !important;
 }
 .color-default-groups {
-    background-color: hsl(var(--cal2), 61%, 48%)  !important;
-    border-color: hsl(var(--cal2), 61%, 28%) !important;
+    background-color: var(--cal2)  !important;
 }
 .color-default-courses {
-    background-color: hsl(var(--cal3), 61%, 48%)  !important;
-    border-color: hsl(var(--cal3), 61%, 28%) !important;
+    background-color: var(--cal3)  !important;
 }
 .color-default-school {
-    background-color: hsl(var(--cal4), 61%, 48%)  !important;
-    border-color: hsl(var(--cal4), 61%, 28%) !important;
+    background-color: var(--cal4)  !important;
 }
 .color-1 {
-    background-color: hsl(var(--cal5), 61%, 48%)  !important;
-    border-color: hsl(var(--cal5), 61%, 28%) !important;
+    background-color: var(--cal5)  !important;
 }
 .color-2 {
-    background-color: hsl(var(--cal6), 61%, 48%)  !important;
-    border-color: hsl(var(--cal6), 61%, 28%) !important;
+    background-color: var(--cal6)  !important;
 }
 .color-3 {
-    background-color: hsl(var(--cal7), 61%, 48%)  !important;
-    border-color: hsl(var(--cal7), 61%, 28%) !important;
+    background-color: var(--cal7)  !important;
 }
 .color-4 {
-    background-color: hsl(var(--cal8), 61%, 48%)  !important;
-    border-color: hsl(var(--cal8), 61%, 28%) !important;
+    background-color: var(--cal8)  !important;
 }
 .color-5 {
-    background-color: hsl(var(--cal9), 61%, 48%)  !important;
-    border-color: hsl(var(--cal9), 61%, 28%) !important;
+    background-color: var(--cal9)  !important;
 }
 .color-6 {
-    background-color: hsl(var(--cal10), 61%, 48%)  !important;
-    border-color: hsl(var(--cal10), 61%, 28%) !important;
+    background-color: var(--cal10)  !important;
 }
 .color-7 {
-    background-color: hsl(var(--cal11), 61%, 48%)  !important;
-    border-color: hsl(var(--cal11), 61%, 28%) !important;
+    background-color: var(--cal11)  !important;
 }
 .color-8 {
-    background-color: hsl(var(--cal12), 61%, 48%)  !important;
-    border-color: hsl(var(--cal12), 61%, 28%) !important;
+    background-color: var(--cal12)  !important;
 }
 .color-9 {
-    background-color: hsl(var(--cal13), 61%, 48%)  !important;
-    border-color: hsl(var(--cal13), 61%, 28%) !important;
+    background-color: var(--cal13)  !important;
 }
 .color-10 {
-    background-color: hsl(var(--cal14), 61%, 48%)  !important;
-    border-color: hsl(var(--cal14), 61%, 28%) !important;
+    background-color: var(--cal14)  !important;
 }
 .color-11 {
-    background-color: hsl(var(--cal15), 61%, 48%)  !important;
-    border-color: hsl(var(--cal15), 61%, 28%) !important;
+    background-color: var(--cal15)  !important;
 }
 .color-12 {
-    background-color: hsl(var(--cal16), 61%, 48%)  !important;
-    border-color: hsl(var(--cal16), 61%, 28%) !important;
+    background-color: var(--cal16)  !important;
 }
 .color-13 {
-    background-color: hsl(var(--cal17), 61%, 48%)  !important;
-    border-color: hsl(var(--cal17), 61%, 28%) !important;
+    background-color: var(--cal17)  !important;
 }
 .color-14 {
-    background-color: hsl(var(--cal18), 61%, 48%)  !important;
-    border-color: hsl(var(--cal18), 61%, 28%) !important;
+    background-color: var(--cal18)  !important;
 }
 .color-15 {
-    background-color: hsl(var(--cal19), 61%, 48%)  !important;
-    border-color: hsl(var(--cal19), 61%, 28%) !important;
+    background-color: var(--cal19)  !important;
 }
 .color-16 {
-    background-color: hsl(var(--cal20), 61%, 48%)  !important;
-    border-color: hsl(var(--cal20), 61%, 28%) !important;
-}*/
+    background-color: var(--cal20)  !important;
+}
 /* Navbar menus */
 div.les2- {
     background-color: var(--secondary) !important;
