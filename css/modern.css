@@ -40,14 +40,14 @@
 }
 
 :root[dark=false] {
-    --primary: #EEEEEE;
-    --accent: white;
+    --primary: #EAEAEA;
+    --accent: #F7F7F7;
     --secondary: #DDD;
     --text: #2A2A2A;
     --contrast-text: white;
     --muted-text: #677583;
     --contrast-border: #BABABA;
-    --input: #CCCCCC;
+    --input: #C2C2C2;
     --error: #F44336;
     --highlight: rgba(255, 183, 2, 0.2);
     --active: #98d4e4;
@@ -197,6 +197,30 @@ ul.context-menu-list li.context-menu-item {
 
 ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--active) !important;
+}
+
+*::-webkit-scrollbar {
+    background: transparent !important;
+    width: 15px;
+}
+
+*::-webkit-scrollbar-track-piece {
+    background: var(--accent) !important;
+}
+
+*::-webkit-scrollbar-button, *::-webkit-scrollbar-corner {
+    display: none !important;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--input) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+* {
+    scrollbar-color: var(--input) var(--accent) !important;
+    scrollbar-width: 15px !important;
+    scrollbar-arrow-color: var(--contrast-text) !important;
 }
 
 #body {
@@ -594,7 +618,7 @@ div.les2- h3 {
     background-position-y: calc(-576px - 18px * var(--theme-is-dark)) !important;
     background-color: var(--secondary) !important;
     color: var(--text) !important;
-    border: var(--border-size) solid var(--contrast-border) !important;
+    border: none !important;
     border-radius: var(--border-radius) !important;
     opacity: unset !important;
 }
@@ -1054,6 +1078,10 @@ body .action-links a:hover {
 .left-block-wrapper h3 {
     border: none !important;
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+.s-edge-feed>li {
+    border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
 .s-edge-feed li, .s-edge-feed span[style] {

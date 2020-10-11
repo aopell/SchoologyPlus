@@ -28,7 +28,7 @@ var Logger = {
      */
     trace: (() => console.trace.bind(window.console, `%c+`, createLogPrefix("orange")))(),
     /**
-     * Logs each argument to the console ("debug" log level). Provides identical functionality to `console.trace`, but WITHOUT format specifiers. 
+     * Logs each argument to the console ("debug" log level). Provides identical functionality to `console.debug`, but WITHOUT format specifiers. 
      * @type {(...args)=>void}
      */
     debug: (() => console.debug.bind(window.console, `%c+`, createLogPrefix("lightgreen")))(),
@@ -42,6 +42,10 @@ chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
     assignmentNotificationUrl = `https://${defaultDomain}/home/notifications?filter=all`;
 });
 
+chrome.runtime.onInstalled.addListener(function (details) {
+    // TODO: Open window here to ask new users to select their domain
+    // chrome.tabs.create({ url: "https://schoologypl.us" })
+});
 
 Logger.log("Loaded event page");
 Logger.log("Adding alarm listener");
@@ -322,9 +326,9 @@ if (getBrowser() !== "Firefox") {
                 exists = true;
             }
         });
-        if(!exists) {
-            details.responseHeaders.push({name: "access-control-allow-origin", value: "*"});
-            details.responseHeaders.push({name: "access-control-allow-headers", value: "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization"});
+        if (!exists) {
+            details.responseHeaders.push({ name: "access-control-allow-origin", value: "*" });
+            details.responseHeaders.push({ name: "access-control-allow-headers", value: "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization" });
         }
         return { responseHeaders: details.responseHeaders };
     }, { urls: ['*://*.schoology.com/*'] }, ['blocking', 'responseHeaders', 'extraHeaders']);
