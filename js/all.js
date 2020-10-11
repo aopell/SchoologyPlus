@@ -282,6 +282,14 @@ let modals = [
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
+                    createElement("a", [], { href: "https://github.com/Roguim", textContent: "Roguim" }),
+                    createElement("span", [], { textContent: " and " }),
+                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger" })
+                ]),
+                createElement("p", ["setting-description"], { textContent: "Various code contributions" })
+            ]),
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h3", ["setting-title"], {}, [
                     // contributors list
                     createElement("span", [], {
                         innerHTML: (function (contribs) {
