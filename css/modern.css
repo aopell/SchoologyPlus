@@ -276,6 +276,10 @@ body button.link-btn {
     color: var(--text);
 }
 
+.s-edge-type-grade-add .grade-data {
+    color: var(--grades) !important;
+}
+
 #main .s-notifications-mini .edge-time, #main .s-notifications-mini .created {
     color: var(--muted-text) !important;
 }
@@ -1012,6 +1016,10 @@ body.library-view #library-left {
 #reorder-collections-btn:hover {
     background-color: var(--active) !important;
     color: var(--text) !important;
+}
+
+.progressContainer, .link-attachment, .attachment-block, .resource-attachment {
+    background: var(--primary) !important;
 }
 
 /* Profile Page */
