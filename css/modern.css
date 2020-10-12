@@ -225,6 +225,11 @@ ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--primary) !important;
 }
 
+iframe {
+    /* iframe must be white, because we can't change styles within it */
+    background-color: white !important;
+}
+
 #main-content-wrapper {
     background-color: var(--accent) !important;
     color: var(--text) !important;
@@ -245,6 +250,10 @@ ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--accent) !important;
     color: var(--text) !important;
     border: none !important;
+}
+
+.has-right-col #center-inner {
+    background: none !important;
 }
 
 body a.link-btn,
@@ -945,11 +954,6 @@ body .enrollment-filters span.active, body .grading-groups-list .grading-group.a
     border-right: none !important;
 }
 
-#library-main iframe {
-    /* iframe must be white, because we can't change styles within it */
-    background-color: white !important;
-}
-
 #library-wrapper {
     background-color: var(--accent) !important;
     border: none !important;
@@ -957,7 +961,7 @@ body .enrollment-filters span.active, body .grading-groups-list .grading-group.a
     border-bottom-right-radius: var(--border-radius) !important;
 }
 
-#library-wrapper a.active {
+#library-wrapper a.active:not(.item-title) {
     background-color: var(--active) !important;
 }
 
@@ -1020,6 +1024,14 @@ body.library-view #library-left {
 
 .progressContainer, .link-attachment, .attachment-block, .resource-attachment {
     background: var(--primary) !important;
+}
+
+.options-reorder-btn, .options-auto-arrange-btn {
+    color: var(--text) !important;
+}
+
+.options-reorder-btn:hover, .options-auto-arrange-btn:hover {
+    background-color: var(--active) !important;
 }
 
 /* Profile Page */
@@ -1105,7 +1117,8 @@ body .action-links a:hover {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
-.s-edge-feed li, .s-edge-feed span[style], .s-edge-feed div[style], .s-edge-feed p[style] {
+.s-edge-feed li, .s-edge-feed span[style], .s-edge-feed div[style], .s-edge-feed p[style],
+.discussion-view .discussion-prompt span[style], .discussion-view .discussion-prompt div[style], .discussion-view .discussion-prompt p[style] {
     color: var(--text) !important;
 }
 
