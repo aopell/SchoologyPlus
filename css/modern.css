@@ -1361,6 +1361,45 @@ table.privatemsg-list td.no-messages {
     border-color: var(--contrast-border) !important;
 }
 
+.portfolio-list {
+    border: none !important;
+}
+
+.tw-bs .portfolio-list__no-portfolios-text {
+    color: var(--muted-text) !important;
+}
+
+.tw-bs .portfolio-list__add-new, .tw-bs .portfolio-view__add-new {
+    background: transparent !important;
+}
+
+.tw-bs .portfolio-list__add-new-bg, .tw-bs .portfolio-view__add-new-bg {
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+.portfolio-route-content {
+    border: var(--border-size) solid var(--contrast-border) !important;
+    border-radius: var(--border-radius) !important;
+    background: var(--secondary) !important;
+}
+
+.tw-bs .portfolio-title-bar {
+    background: var(--secondary) !important;
+}
+
+.portfolio-view__content {
+    background: var(--accent) !important;
+}
+
+.portfolio-card {
+    background: var(--primary) !important;
+}
+
+.tw-bs .portfolio-list__list-view>.ui-state-highlight, .tw-bs .portfolio-item-list>.ui-state-highlight {
+    background: var(--primary) !important;
+    border-radius: var(--border-radius) !important;
+}
+
 /* School / Group Page */
 #school-events {
     padding: var(--padding) !important;
