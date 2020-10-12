@@ -276,7 +276,7 @@ body button.link-btn {
     color: var(--text);
 }
 
-.s-edge-type-grade-add .grade-data {
+.grade-data {
     color: var(--grades) !important;
 }
 
