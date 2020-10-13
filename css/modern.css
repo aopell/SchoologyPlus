@@ -641,7 +641,7 @@ div.les2- h3 {
 #edge-filters-btn,
 .feed-comments {
     background-position-y: calc(-576px - 18px * var(--theme-is-dark)) !important;
-    background-color: var(--secondary) !important;
+    background-color: var(--primary) !important;
     color: var(--text) !important;
     border: none !important;
     border-radius: var(--border-radius) !important;
@@ -1120,6 +1120,10 @@ body .action-links a:hover {
 .s-edge-feed li, .s-edge-feed span[style], .s-edge-feed div[style], .s-edge-feed p[style],
 .discussion-view .discussion-prompt span[style], .discussion-view .discussion-prompt div[style], .discussion-view .discussion-prompt p[style] {
     color: var(--text) !important;
+}
+
+.s-edge-feed table[bgcolor] {
+    background-color: var(--accent) !important;
 }
 
 .s-like-sentence:not(:last-child) {
