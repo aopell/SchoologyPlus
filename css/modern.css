@@ -1675,10 +1675,11 @@ table#collection-view-contents tbody tr td {
 }
 
 ._3dHTa {
-    background-image:var(--background-color) !important;
+    background: var(--background-color) !important;
 }
 
-.UELBU {background-image:var(--background-color) !important;
+.UELBU {
+    background: var(--background-color) !important;
 }
 
 .lrn {
