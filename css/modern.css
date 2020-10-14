@@ -1659,3 +1659,32 @@ table#collection-view-contents tbody tr td {
     background-color:var(--background-color) !important;
     color:var(--text);
 }
+
+/* Assesments */
+
+._1IGEH:focus:not(:active), ._1oxpz:hover:not(:active), ._1Z0RM, .Dkh_K:active {
+    background-color: var(--accent) !important;
+}
+
+._2q19q {
+    background-color: var(--background-color) !important;
+}
+
+._1wP6w, ._2pDDZ:hover:not(:active), ._3senP:focus:not(:active), .wL3MX:active {
+    color: var(--text) !important;
+}
+
+._3dHTa {
+    background-image:var(--background-color) !important;
+}
+
+.UELBU {background-image:var(--background-color) !important;
+}
+
+.lrn {
+    color: var(--text) !important;
+}
+
+.lrn_widget .lrn_valid, .lrn_widget .lrn_selected {
+    background-color: var(--highlight) !important;
+}
