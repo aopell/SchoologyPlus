@@ -1602,7 +1602,7 @@ table#collection-view-contents tbody tr td {
 }
 
 .s_comments_level {
-    background: var(--background-color) !important;
+    background: var(--accent) !important;
     border-color: var(--contrast-border) !important;
 }
 
