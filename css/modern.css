@@ -15,7 +15,6 @@
     --border-size: 1px;
     --padding: 10px;
     --theme-is-dark: 1;
-    background-color: var(--background-color);
     
     --cal1: #457da5;
     --cal2: #547c41;
@@ -226,6 +225,11 @@ ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--primary) !important;
 }
 
+iframe {
+    /* iframe must be white, because we can't change styles within it */
+    background-color: white !important;
+}
+
 #main-content-wrapper {
     background-color: var(--accent) !important;
     color: var(--text) !important;
@@ -246,6 +250,10 @@ ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--accent) !important;
     color: var(--text) !important;
     border: none !important;
+}
+
+.has-right-col #center-inner {
+    background: none !important;
 }
 
 body a.link-btn,
@@ -275,6 +283,10 @@ body button.link-btn {
 
 .s-notifications-mini .edge-sentence {
     color: var(--text);
+}
+
+.grade-data {
+    color: var(--grades) !important;
 }
 
 #main .s-notifications-mini .edge-time, #main .s-notifications-mini .created {
@@ -363,14 +375,14 @@ fieldset div div div label span {
     background: var(--accent) !important;
 }
 .popups-tab.active {
-    background: var(--background-color) !important;
+    background: var(--primary) !important;
 }
 
 ._pendo-step-container-styles {
     background-color: var(--accent) !important;
 }
 .pendo-mock-flexbox-element:nth-child(2)>button {
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
     border-color: var(--contrast-border) !important;
     color: var(--text) !important;
 }
@@ -818,7 +830,7 @@ body ul.primary {
 }
 
 .highcharts-container>svg>rect {
-  fill: var(--background-color);
+  fill: var(--primary);
 }
 
 .highcharts-axis-labels>text {
@@ -942,11 +954,6 @@ body .enrollment-filters span.active, body .grading-groups-list .grading-group.a
     border-right: none !important;
 }
 
-#library-main iframe {
-    /* iframe must be white, because we can't change styles within it */
-    background-color: white !important;
-}
-
 #library-wrapper {
     background-color: var(--accent) !important;
     border: none !important;
@@ -954,7 +961,7 @@ body .enrollment-filters span.active, body .grading-groups-list .grading-group.a
     border-bottom-right-radius: var(--border-radius) !important;
 }
 
-#library-wrapper a.active {
+#library-wrapper a.active:not(.item-title) {
     background-color: var(--active) !important;
 }
 
@@ -1015,6 +1022,18 @@ body.library-view #library-left {
     color: var(--text) !important;
 }
 
+.progressContainer, .link-attachment, .attachment-block, .resource-attachment {
+    background: var(--primary) !important;
+}
+
+.options-reorder-btn, .options-auto-arrange-btn {
+    color: var(--text) !important;
+}
+
+.options-reorder-btn:hover, .options-auto-arrange-btn:hover {
+    background-color: var(--active) !important;
+}
+
 /* Profile Page */
 .right-block-big-wrapper {
     padding: var(--padding) !important;
@@ -1022,6 +1041,7 @@ body.library-view #library-left {
 }
 
 #sidebar-left #left-nav #menu-s-main ul li a.active,
+.app-link-wrapper .active, .app-link-wrapper .active:hover,
 #sidebar-left #menu-s-main .active-trail .active-trail a.course-materials-left-menu {
     background-color: var(--accent) !important;
     border: var(--border-size) solid var(--contrast-border) !important;
@@ -1097,7 +1117,8 @@ body .action-links a:hover {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
-.s-edge-feed li, .s-edge-feed span[style] {
+.s-edge-feed li, .s-edge-feed span[style], .s-edge-feed div[style], .s-edge-feed p[style],
+.discussion-view .discussion-prompt span[style], .discussion-view .discussion-prompt div[style], .discussion-view .discussion-prompt p[style] {
     color: var(--text) !important;
 }
 
@@ -1241,6 +1262,7 @@ table.privatemsg-list td.no-messages {
 .discussion-view #content-wrapper {
     border: none !important;
     border-radius: var(--border-radius) !important;
+    background: var(--accent) !important;
 }
 
 .discussion-view #center-top h2.page-title {
@@ -1358,6 +1380,45 @@ table.privatemsg-list td.no-messages {
 
 .private-profile h3 {
     border-color: var(--contrast-border) !important;
+}
+
+.portfolio-list {
+    border: none !important;
+}
+
+.tw-bs .portfolio-list__no-portfolios-text {
+    color: var(--muted-text) !important;
+}
+
+.tw-bs .portfolio-list__add-new, .tw-bs .portfolio-view__add-new {
+    background: transparent !important;
+}
+
+.tw-bs .portfolio-list__add-new-bg, .tw-bs .portfolio-view__add-new-bg {
+    border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+.portfolio-route-content {
+    border: var(--border-size) solid var(--contrast-border) !important;
+    border-radius: var(--border-radius) !important;
+    background: var(--secondary) !important;
+}
+
+.tw-bs .portfolio-title-bar {
+    background: var(--secondary) !important;
+}
+
+.portfolio-view__content {
+    background: var(--accent) !important;
+}
+
+.portfolio-card {
+    background: var(--primary) !important;
+}
+
+.tw-bs .portfolio-list__list-view>.ui-state-highlight, .tw-bs .portfolio-item-list>.ui-state-highlight {
+    background: var(--primary) !important;
+    border-radius: var(--border-radius) !important;
 }
 
 /* School / Group Page */
@@ -1581,7 +1642,7 @@ body .fc-widget-header .fc-agenda-divider-inner {
 }
 
 .dropbox-viewer-submission-activity, .dropbox-viewer-submission-activity-inner {
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
     color: var(--text) !important;
 }
 
@@ -1602,7 +1663,7 @@ table#collection-view-contents tbody tr td {
 }
 
 .s_comments_level {
-    background: var(--background-color) !important;
+    background: var(--primary) !important;
     border-color: var(--contrast-border) !important;
 }
 
@@ -1611,11 +1672,11 @@ table#collection-view-contents tbody tr td {
 }
 
 .dropbox-viewer-item-wrapper {
-    background-color: var(--background-color);
+    background-color: var(--primary);
 }
 
 #grading-rubric-edit-grades-slider .bottom, #district-mastery-grading-rubric-edit-grades-slider .bottom, .s-slider .right-column, .rubric-scroll .rubric-table tbody {
-    background-color: var(--background-color);
+    background-color: var(--primary);
     color:var(--text);
 }
 
@@ -1656,7 +1717,7 @@ table#collection-view-contents tbody tr td {
 }
 
 .StudentTable-table-wrapper-classname-2qr2_>div {
-    background-color:var(--background-color) !important;
+    background-color:var(--primary) !important;
     color:var(--text);
 }
 
@@ -1667,7 +1728,7 @@ table#collection-view-contents tbody tr td {
 }
 
 ._2q19q {
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
 }
 
 ._1wP6w, ._2pDDZ:hover:not(:active), ._3senP:focus:not(:active), .wL3MX:active {
@@ -1675,11 +1736,11 @@ table#collection-view-contents tbody tr td {
 }
 
 ._3dHTa {
-    background: var(--background-color) !important;
+    background: var(--primary) !important;
 }
 
 .UELBU {
-    background: var(--background-color) !important;
+    background: var(--primary) !important;
 }
 
 .lrn {
