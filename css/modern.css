@@ -1692,7 +1692,15 @@ table#collection-view-contents tbody tr td {
 
 /* Quizes */
 
-#s-assessment-view-submission-form .selected.correct span.option-span {
+#s-assessment-view-submission-form .selected.correct  span.option-span {
     background-color: var(--active) !important;
+    color: var(--text) !important;
+}
+
+
+
+
+#s-assessment-view-submission-form .incorrect span.option-span.legacy-true-false-question, #s-assessment-view-submission-form .incorrect span.option-span.legacy-multiple-choice-question {
+    background-color: var(--highlight) !important;
     color: var(--text) !important;
 }
