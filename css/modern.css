@@ -1751,6 +1751,7 @@ table#collection-view-contents tbody tr td {
     background-color: var(--highlight) !important;
 }
 
+
 /* Quizes */
 
 #s-assessment-view-submission-form .selected.correct  span.option-span {
@@ -1759,9 +1760,106 @@ table#collection-view-contents tbody tr td {
 }
 
 
-
-
 #s-assessment-view-submission-form .incorrect span.option-span.legacy-true-false-question, #s-assessment-view-submission-form .incorrect span.option-span.legacy-multiple-choice-question {
     background-color: var(--highlight) !important;
     color: var(--text) !important;
+}
+
+/* California Assesment */
+
+.ca-assessment-delivery-take-assessment {
+    background-color: var(--background-color) !important;
+}
+
+.lrn-assess > div {
+    background-color: var(--background-color) !important;
+}
+
+.lrn.lrn-assess .lrn-right-region .right-wrapper .menu-overlay {
+    background-color: var(--border-color) !important;
+    color: var(--text) !important;
+}
+
+
+.lrn .pagination>li>a, .lrn .pagination>li>span {
+    background-color: var(--border-color) !important;
+
+}
+
+.lrn .pagination>li>a, .lrn .pagination>li>span {
+    background-color: var(--border-color);
+    color: var(--text)!important;
+}
+
+.lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:focus, .lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:hover, .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:focus, .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:hover {
+    background: var(--border-color) !important;
+    color: #333 !important;
+}
+
+.lrn.lrn-assess .test-title-text {
+    color: var(--text) !important;
+}
+
+.lrn.lrn-assess .app-panel.review-screen .panel-content {
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--background-color) !important;
+}
+
+.lrn.lrn-assess .app-panel.review-screen .item-card .overlay {
+    background: var(--background-color);
+}
+
+.lrn.lrn-assess .app-panel.review-screen .item-number {
+    color:var(--text) !important;
+}
+
+.lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
+    background-color: var(--border-color);
+}
+
+.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
+    border: 1px solid var(--text) !important;
+    background: var(--border-color) !important;
+    box-shadow: none;
+}
+
+
+.lrn-assess .item-count {
+    color: var(--text) !important;
+}
+
+.lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
+    background-color: var(--background-color);
+}
+
+.lrn.lrn-assess .app-panel.review-screen .item-card {
+    background-color: var(--border-color) !important; /*Unattempted*/
+}
+
+.lrn-assess-switch .lrn-assess-switch-trigger {
+    background: var(--border-color); /* Unattempted Legend */
+}
+
+.lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
+    background-color: var(--background-color) !important;
+}
+
+.dialogs {
+    background-color: var(--background-color) !important;
+}
+
+.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue .btn-label {
+    color: lightgrey !important;
+}
+
+.lrn.lrn-assess .app-panel.review-screen .item-card {
+    border: 1px solid var(--background-color) !important;
+}
+
+.lrn.lrn-assess .app-panel.review-screen .panel-header {
+    border-bottom: 1px solid var(--background-color) !important;
+}
+
+.lrn_btn.item-prev.pos-right {
+    background-color: var(--muted-text) !important;
 }
