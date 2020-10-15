@@ -1688,3 +1688,10 @@ table#collection-view-contents tbody tr td {
 .lrn_widget .lrn_valid, .lrn_widget .lrn_selected {
     background-color: var(--highlight) !important;
 }
+
+/* Quizes */
+
+#s-assessment-view-submission-form .selected.correct span.option-span {
+    background-color: var(--active) !important;
+    color: var(--text) !important;
+}
