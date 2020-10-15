@@ -1847,7 +1847,6 @@ table#collection-view-contents tbody tr td {
     color:var(--text);
 }
 
-
 :root[dark=true] img#loader {
     filter: grayscale(1) brightness(0.3) !important;
 }
@@ -2193,246 +2192,243 @@ table#collection-view-contents tbody tr td {
     background: var(--input) !important; /* Webcam Record */
 } 
 
-            /* Text Box for Assesments */
+/* Text Box for Assesments */
 
+.lrn_response_input_wrapper {
+    border-radius: var(--border-radius) !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
+    border: none !important;
+}
 
-            .lrn_response_input_wrapper {
-                border-radius: var(--border-radius) !important;
-                border: var(--border-size) solid var(--contrast-border) !important;
-                border: none !important;
-            }
+.lrn_widget.lrn_texteditor {
+    border-radius: var(--border-radius) !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
+    border: none !important;
 
-            .lrn_widget.lrn_texteditor {
-                border-radius: var(--border-radius) !important;
-                border: var(--border-size) solid var(--contrast-border) !important;
-                border: none !important;
+}
 
-            }
 
+.lrn_widget.lrn_chemistryessayV2 .lrn_texteditor_editable.wysihtml-placeholder, .lrn_widget.lrn_formulaessayV2 .lrn_texteditor_editable.wysihtml-placeholder, .lrn_widget.lrn_longtextV2 .lrn_texteditor_editable.wysihtml-placeholder {
+    color: var(--text) !important;
+    background: var(--accent) !important;
+    border: none !important;
 
-            .lrn_widget.lrn_chemistryessayV2 .lrn_texteditor_editable.wysihtml-placeholder, .lrn_widget.lrn_formulaessayV2 .lrn_texteditor_editable.wysihtml-placeholder, .lrn_widget.lrn_longtextV2 .lrn_texteditor_editable.wysihtml-placeholder {
-                color: var(--text) !important;
-                background: var(--accent) !important;
-                border: none !important;
+}
 
-            }
+.lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.wysihtml-sandbox.wysihtml-editor {
+    color: var(--text) !important;
+    background: var(--input) !important;
+    border: none !important;
 
-            .lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.wysihtml-sandbox.wysihtml-editor {
-                color: var(--text) !important;
-                background: var(--input) !important;
-                border: none !important;
 
-            
-            }
- 
-            .lrn-wysihtml-toolbar.lrn_clearfix {
-                color: var(--text) !important;
-                background: var(--secondary) !important;
-                border: none !important;
+}
 
-            }
+.lrn-wysihtml-toolbar.lrn_clearfix {
+    color: var(--text) !important;
+    background: var(--secondary) !important;
+    border: none !important;
 
+}
 
-            .lrn-toolbar {
-                background: var(--secondary) !important;
-                border: none !important;
 
-            }
+.lrn-toolbar {
+    background: var(--secondary) !important;
+    border: none !important;
 
-            .lrn_icon.lrn-icon-bold {
-                color: var(--text) !important;
-                background: transparent !important;
-            }
+}
 
-            .lrn_icon.lrn-icon-italic {
-                color: var(--text) !important;
-                background: transparent !important;
-            }
+.lrn_icon.lrn-icon-bold {
+    color: var(--text) !important;
+    background: transparent !important;
+}
 
-            .lrn_icon.lrn-icon-underline {
-                color: var(--text) !important;
-                background: transparent !important;
-            }
+.lrn_icon.lrn-icon-italic {
+    color: var(--text) !important;
+    background: transparent !important;
+}
 
-            .lrn_icon.lrn-icon-list-bulleted {
-                color: var(--text) !important;
-                background: transparent !important;
-            }
+.lrn_icon.lrn-icon-underline {
+    color: var(--text) !important;
+    background: transparent !important;
+}
 
-            .lrn_icon.lrn-icon-list-numbered {
-                color: var(--text) !important;
-                background: transparent !important;
-            }
+.lrn_icon.lrn-icon-list-bulleted {
+    color: var(--text) !important;
+    background: transparent !important;
+}
 
-            .lrn-toolbar-footer.lrn_clearfix {
-                background: var(--accent) !important;
-                color: var(--text) !important;
-                border: none !important;
+.lrn_icon.lrn-icon-list-numbered {
+    color: var(--text) !important;
+    background: transparent !important;
+}
 
-            }
+.lrn-toolbar-footer.lrn_clearfix {
+    background: var(--accent) !important;
+    color: var(--text) !important;
+    border: none !important;
 
-            .lrn_word_count {
-                color: var(--text) !important;
-                border: none !important;
+}
 
-            
-            }
+.lrn_word_count {
+    color: var(--text) !important;
+    border: none !important;
 
-            .lrn_word_limit {
-                color: var(--text) !important;
-                border: none !important;
 
-            
-            }
+}
 
+.lrn_word_limit {
+    color: var(--text) !important;
+    border: none !important;
 
-            /* Assesesment Rubric */ 
 
-            
-            .clock {
-                color: var(--text) !important;
-            }
-            
-            .lrn-assess .timer {
-                color: var(--text) !important;
-            }
+}
 
-            .counter {
-                color: var(--text) !important;
-            }
 
-            .max-time {
-                color: var(--text) !important;
-            }
+/* Assesesment Rubric */ 
 
-            .lrn-assess .timer {
 
-                color: var(--text) !important;
+.clock {
+    color: var(--text) !important;
+}
 
-            }
+.lrn-assess .timer {
+    color: var(--text) !important;
+}
 
+.counter {
+    color: var(--text) !important;
+}
 
+.max-time {
+    color: var(--text) !important;
+}
 
-            /* Assesment Rubric */
+.lrn-assess .timer {
 
-            #grading-rubric-edit-slider .controls, #district-mastery-grading-rubric-edit-slider .controls { /* Left side Menu*/
-                background: var(--accent) !important;
-                color: var(--text) !important;
-                border: none !important;
+    color: var(--text) !important;
 
-            }
+}
 
-            .rubric-row.ng-scope {
-                background: var(--acent) !important; /* rubric Background color */
-            }
 
-            #grading-rubric-edit-slider .rubric-table .input-top, .rubric-table span.input-bottom, #district-mastery-grading-rubric-edit-slider .rubric-table .input-top, .rubric-table span.input-bottom {
-                color: var(--contrast-text) !important; /* Top part of each row */
-            }
 
-            #grading-rubric-edit-slider .rubric-table tr.header-row, #district-mastery-grading-rubric-edit-slider .rubric-table tr.header-row {
-                border-top: 1px solid var(--border-color) !important; /* Border for header */
-                border-bottom: 1px solid var(--border-color) !important;
-                border: none !important;
+/* Assesment Rubric */
 
-            }
+#grading-rubric-edit-slider .controls, #district-mastery-grading-rubric-edit-slider .controls { /* Left side Menu*/
+    background: var(--accent) !important;
+    color: var(--text) !important;
+    border: none !important;
 
-            #grading-rubric-edit-slider .rubric-table .header-row th, #district-mastery-grading-rubric-edit-slider .rubric-table .header-row th {
-                background-color: var(--accent) !important; /* Header Color */
-            }
+}
 
-           
+.rubric-row.ng-scope {
+    background: var(--acent) !important; /* rubric Background color */
+}
 
-            .rubric-scroll {
-                background: var(---accent) !important;
-            }
+#grading-rubric-edit-slider .rubric-table .input-top, .rubric-table span.input-bottom, #district-mastery-grading-rubric-edit-slider .rubric-table .input-top, .rubric-table span.input-bottom {
+    color: var(--contrast-text) !important; /* Top part of each row */
+}
 
-            #grading-rubric-edit-slider .bottom-ctrls-wrapper, #district-mastery-grading-rubric-edit-slider .bottom-ctrls-wrapper {
-                background: var(--accent) !important;
-                border: none !important;
-                color: var(--text) !important;
+#grading-rubric-edit-slider .rubric-table tr.header-row, #district-mastery-grading-rubric-edit-slider .rubric-table tr.header-row {
+    border-top: 1px solid var(--border-color) !important; /* Border for header */
+    border-bottom: 1px solid var(--border-color) !important;
+    border: none !important;
 
-            }
+}
 
-            .s-slider.s-grading-rubric-edit-slider.s-grading-rubric.ng-scope.ui-resizable.opened.grade-setup-rubric-edit.new-rubric-edit.read-only {
-                border: none !important;
+#grading-rubric-edit-slider .rubric-table .header-row th, #district-mastery-grading-rubric-edit-slider .rubric-table .header-row th {
+    background-color: var(--accent) !important; /* Header Color */
+}
 
-            }
 
 
-            /* Assesment Review*/
+.rubric-scroll {
+    background: var(---accent) !important;
+}
 
-            .lrn_widget .lrn_valid, .lrn_widget .lrn_selected {
-                background-color: var(--input) !important;
-            }
+#grading-rubric-edit-slider .bottom-ctrls-wrapper, #district-mastery-grading-rubric-edit-slider .bottom-ctrls-wrapper {
+    background: var(--accent) !important;
+    border: none !important;
+    color: var(--text) !important;
 
-            .lrn_widget .lrn_incorrect {
-                background-color: var(--highlight) !important;
-            }
+}
 
-            .lrn_widget .lrn_correct {
-                background-color: var(--active) !important;
-            }
+.s-slider.s-grading-rubric-edit-slider.s-grading-rubric.ng-scope.ui-resizable.opened.grade-setup-rubric-edit.new-rubric-edit.read-only {
+    border: none !important;
 
-            .lrn_assoc_table {
-                background-color: var(--accent) !important;
-            }
+}
 
-            .lrn_assoc_col2.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_incorrect_marker.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_incorrect {
-                background-color: var(--highlight) !important;
-            }
 
-            .lrn_qr.lrn_association .lrn_possibilityList.lrn_list_bottom {
-                margin-top: 0 !important;
-            }
+/* Assesment Review*/
 
-            .lrn_widget .lrn_correctAnswers {
-                background-color: var(--primary) !important;
-                color: var(--text) !important;
-            }
-            .lrn_widget .lrn_correctAnswerList>li {
-                background-color: var(--input) !important;
-            }
+.lrn_widget .lrn_valid, .lrn_widget .lrn_selected {
+    background-color: var(--input) !important;
+}
 
-            .lrn_btn_sort.lrn_sortable.lrn_button.lrn_correct.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
-                background-color: var(--active) !important;
-            }
+.lrn_widget .lrn_incorrect {
+    background-color: var(--highlight) !important;
+}
 
-            .lrn_display_correct_answer_enabled {
-                padding: 20px !important;
-            }
+.lrn_widget .lrn_correct {
+    background-color: var(--active) !important;
+}
 
-            .lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.lrn_response_input_wrapper {
-                background-color: var(--input) !important;
-            }
+.lrn_assoc_table {
+    background-color: var(--accent) !important;
+}
 
-            .lrn_assoc_col2.lrn_correct_marker.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_correct {
-                background-color: var(--active) !important;
-            }
+.lrn_assoc_col2.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_incorrect_marker.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_incorrect {
+    background-color: var(--highlight) !important;
+}
 
-            .lrn_btn_sort.lrn_sortable.lrn_button.lrn_incorrect.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
-                background-color: var(--highlight) !important;
-            }
+.lrn_qr.lrn_association .lrn_possibilityList.lrn_list_bottom {
+    margin-top: 0 !important;
+}
 
-            .lrn_widget .lrn_suggested_answer_item {
-                background: var(--accent) !important;
-            }
-            
-            .lrn_suggested_answer_item.lrn_clearfix > .lrn_suggested.lrn_btn_sort.lrn_btn_no_handle.lrn_disabled.lrn_sort_block.lrn_button {
-                background-color: var(--active) !important;
-            }
+.lrn_widget .lrn_correctAnswers {
+    background-color: var(--primary) !important;
+    color: var(--text) !important;
+}
+.lrn_widget .lrn_correctAnswerList>li {
+    background-color: var(--input) !important;
+}
 
-            .lrn_response.lrn_clearfix.lrn_style_button > .lrn-response-validate-wrapper.lrn_response_input.lrn_incorrect {
-                background-color: var(--accent) !important;
-            }
+.lrn_btn_sort.lrn_sortable.lrn_button.lrn_correct.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
+    background-color: var(--active) !important;
+}
 
-            .lrn-response-validation-wrapper > .lrn_correctAnswers  {
-                background-color: var(--active) !important;
-            }
+.lrn_display_correct_answer_enabled {
+    padding: 20px !important;
+}
 
+.lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.lrn_response_input_wrapper {
+    background-color: var(--input) !important;
+}
 
+.lrn_assoc_col2.lrn_correct_marker.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_correct {
+    background-color: var(--active) !important;
+}
 
-/* Quizes */
+.lrn_btn_sort.lrn_sortable.lrn_button.lrn_incorrect.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
+    background-color: var(--highlight) !important;
+}
+
+.lrn_widget .lrn_suggested_answer_item {
+    background: var(--accent) !important;
+}
+
+.lrn_suggested_answer_item.lrn_clearfix > .lrn_suggested.lrn_btn_sort.lrn_btn_no_handle.lrn_disabled.lrn_sort_block.lrn_button {
+    background-color: var(--active) !important;
+}
+
+.lrn_response.lrn_clearfix.lrn_style_button > .lrn-response-validate-wrapper.lrn_response_input.lrn_incorrect {
+    background-color: var(--accent) !important;
+}
+
+.lrn-response-validation-wrapper > .lrn_correctAnswers  {
+    background-color: var(--active) !important;
+}
+
+/* Quizzes */
 
 #s-assessment-view-submission-form .selected.correct span.option-span {
     background-color: var(--active) !important;
