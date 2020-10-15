@@ -472,7 +472,6 @@ the selector matches inside notifications in the new notifs dropdown
 .popups-body li .user-item .grade-data {
     font-size: 11px;
     color: #3aa406;
-    display: block;
 }
 
 #popups-overlay {
