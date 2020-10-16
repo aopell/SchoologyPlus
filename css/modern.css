@@ -645,7 +645,7 @@ div.les2- h3 {
 #edge-filters-btn,
 .feed-comments {
     background-position-y: calc(-576px - 18px * var(--theme-is-dark)) !important;
-    background-color: var(--secondary) !important;
+    background-color: var(--primary) !important;
     color: var(--text) !important;
     border: none !important;
     border-radius: var(--border-radius) !important;
@@ -1124,6 +1124,10 @@ body .action-links a:hover {
 .s-edge-feed li, .s-edge-feed span[style], .s-edge-feed div[style], .s-edge-feed p[style],
 .discussion-view .discussion-prompt span[style], .discussion-view .discussion-prompt div[style], .discussion-view .discussion-prompt p[style] {
     color: var(--text) !important;
+}
+
+.s-edge-feed table[bgcolor] {
+    background-color: var(--accent) !important;
 }
 
 .s-like-sentence:not(:last-child) {
@@ -1755,6 +1759,7 @@ table#collection-view-contents tbody tr td {
     background-color: var(--highlight) !important;
 }
 
+<<<<<<< HEAD
 
 /* Quizes */
 
@@ -1867,3 +1872,11 @@ table#collection-view-contents tbody tr td {
 .lrn_btn.item-prev.pos-right {
     background-color: var(--muted-text) !important;
 }
+=======
+/* Quizes */
+
+#s-assessment-view-submission-form .selected.correct span.option-span {
+    background-color: var(--active) !important;
+    color: var(--text) !important;
+}
+>>>>>>> 3570d1a7610febb19bd14e9e3e31b4ecc6b45669
