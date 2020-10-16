@@ -197,6 +197,10 @@ ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--active) !important;
 }
 
+.menu-459.group-discussion-left-menu.sExtlink-processed{
+    background-color: var(--background-color) !important;
+}
+
 *::-webkit-scrollbar {
     background: transparent !important;
     width: 15px;
