@@ -1598,7 +1598,7 @@ div.cellphone-container {
 .settings-table tbody td {
     background-color: var(--primary) !important;
 }
-.settings-table tbody td.realm-disabled, .settings-table tbody td.realm-disabled:hover {
+.settings-table tbody td.realm-disabled, .settings-table tbody td.realm-disabled:hover, .settings-table tbody td.area-disabled {
     background-color: transparent !important;
 }
 
