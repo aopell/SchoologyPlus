@@ -317,10 +317,11 @@ footer button,
 }
 
 
+
 .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
     background-color:var(--text) !important;
     color:var(--secondary) !important;
-    filter: invert(1) !important;
+    filter: invert(var(--theme-is-dark)) !important;
     border-radius: var(--border-radius) !important;
 }
 .action-links-unfold {
@@ -328,7 +329,12 @@ footer button,
     background-color: var(--secondary) !important;
     border-radius: var(--border-radius) !important;
 }
-.action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover, .action-links-unfold:hover {
+
+:root[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+    background-color:var(--secondary) !important;
+    color:var(--text) !important;
+}
+.action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover, .action-links-unfold:hover, :root[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover, :root[dark=false] .action-links-unfold:hover {
     background-color:var(--muted-text) !important;
 }
 
