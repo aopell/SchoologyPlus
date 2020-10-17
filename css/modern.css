@@ -1734,7 +1734,7 @@ table#collection-view-contents tbody tr td {
     color:var(--text);
 }
 
-img#loader {
+:root[dark=true] img#loader {
     filter: grayscale(1) brightness(0.3) !important;
 }
 
