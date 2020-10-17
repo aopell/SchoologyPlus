@@ -198,7 +198,7 @@ ul.context-menu-list li.context-menu-item:hover {
 }
 
 .menu-459.group-discussion-left-menu.sExtlink-processed{
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
 }
 
 *::-webkit-scrollbar {
@@ -1659,7 +1659,7 @@ ul#attachment-selector li:hover > a {
 }
 
 .popups-box.popups-library #resources-left-menu-wrapper {
-    background-color: var(--background);
+    background-color: var(--primary);
 }
 
 .drop-items li:hover {
@@ -1671,8 +1671,14 @@ table#collection-view-contents tbody tr td {
 }
 
 .s_comments_level {
-    background: var(--primary) !important;
+    background: var(--accent) !important;
     border-color: var(--contrast-border) !important;
+}
+
+.discussion-card > .s_comments_level  {
+    background: var(--secondary) !important;
+    border: none !important;
+    border-radius: var(--border-radius) !important;
 }
 
 .comment-container {
@@ -1759,7 +1765,6 @@ table#collection-view-contents tbody tr td {
     background-color: var(--highlight) !important;
 }
 
-<<<<<<< HEAD
 
 /* Quizes */
 
@@ -1777,11 +1782,11 @@ table#collection-view-contents tbody tr td {
 /* California Assesment */
 
 .ca-assessment-delivery-take-assessment {
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
 }
 
 .lrn-assess > div {
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
 }
 
 .lrn.lrn-assess .lrn-right-region .right-wrapper .menu-overlay {
@@ -1809,13 +1814,18 @@ table#collection-view-contents tbody tr td {
     color: var(--text) !important;
 }
 
+.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.menu-expand-button {
+    box-shadow: none !important;
+}
+
+
 .lrn.lrn-assess .app-panel.review-screen .panel-content {
     border: 1px solid var(--border-color) !important;
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
 }
 
 .lrn.lrn-assess .app-panel.review-screen .item-card .overlay {
-    background: var(--background-color);
+    background: var(--primary);
 }
 
 .lrn.lrn-assess .app-panel.review-screen .item-number {
@@ -1828,7 +1838,6 @@ table#collection-view-contents tbody tr td {
 
 .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
     border: 1px solid var(--text) !important;
-    background: var(--border-color) !important;
     box-shadow: none;
 }
 
@@ -1838,7 +1847,7 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
-    background-color: var(--background-color);
+    background-color: var(--primary);
 }
 
 .lrn.lrn-assess .app-panel.review-screen .item-card {
@@ -1850,33 +1859,465 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
 }
 
 .dialogs {
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
+}
+
+.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue {
+    background-color: var(--accent) !important;
+    border: none !important;
+}
+
+.lrn.lrn-assess .lrn-right-region .right-wrapper.menu-with-scroll:after {
+    background-image: none !important;
 }
 
 .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue .btn-label {
-    color: lightgrey !important;
+    color: var(--text) !important; /* Menu Icons Color */
+}
+
+.lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn, .lrn.lrn-assess .dialogs .lrn_btn {
+       color: var(--text) !important;
+}
+
+.menumask > ::-webkit-scrollbar-track-piece {
+    background: white !important;
 }
 
 .lrn.lrn-assess .app-panel.review-screen .item-card {
-    border: 1px solid var(--background-color) !important;
+    border: none !important;
 }
 
+.lrn-region.lrn-right-region {
+    border: none !important;
+}
+
+
 .lrn.lrn-assess .app-panel.review-screen .panel-header {
-    border-bottom: 1px solid var(--background-color) !important;
+    border-bottom: 1px solid var(--primary) !important;
 }
 
 .lrn_btn.item-prev.pos-right {
-    background-color: var(--muted-text) !important;
+    background-color: var(--secondary) !important;
 }
-=======
+
+.lrn_btn.item-prev.pos-right {
+    border: none !important;
+}
+
+
+.lrn.lrn-assess .app-panel.review-screen button.lrn_btn.lrn-assess-close-review-screen-btn {
+    background: var(--accent) !important;
+}
+
+.lrn-assess {
+    background: var(--primary) !important;
+}
+
+.lrn-assess > div ::-webkit-scrollbar-thumb {
+    background: var(--primary) !important;
+    box-shadow: inset 1px 1px 2px black;
+}
+
+.lrn-assess .timer {
+    background: var(--text) !important;
+}
+
+.lrn-timer-wrapper.pos-right {
+    background: var(--text) !important;
+}
+
+.lrn .modal-content {
+    background-color: var(--accent) !important; /* Timeout Alert */
+}
+
+.lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn, .lrn.lrn-assess .dialogs .lrn_btn {
+    background-color: var(--accent) !important;
+}
+
+.lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn-mcq-option .lrn-label {
+    background-color: var(--accent) !important; /* MC Questions */
+    color: var(--text) !important
+}
+
+.lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn_choiceLabel {
+    background-color: var(--accent) !important; /* MC Questions */
+    color: var(--text) !important
+
+}
+
+.lrn .lrn_possibilityList, .lrn .lrn_possibilityListContainer { /* Drag Blank */
+    background-color: var(--accent) !important;
+}
+
+.lrn .lrn_possibilityList, .lrn .lrn_possibilityListContainer {
+    border-top: none !important;
+}
+
+.lrn .lrn_possibilityList.lrn_list_bottom:before, .lrn .lrn_possibilityListContainer.lrn_list_bottom:before {
+    border-bottom: 12px solid var(--muted-text) !important; /* Just trust me, it's needed for contrast */
+}
+
+.lrn_dropzone {
+    background-color: var(--primary) !important; 
+}
+
+.lrn .lrn_btn_drag {
+    background-color: var(--primary) !important;
+    color: var(--text) !important;
+}
+
+.lrn-annotations-c-modal--notepad {
+    background: var(--accent) !important /* Notepad Tool */
+}
+
+.lrn .lrn-mask rect {
+    fill: var(--primary) !important; /* Remove Options Tool */
+}
+
+.lrn_calc_column {
+    background: var(--accent) !important; /* Calculator tool */
+}
+
+.lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt, .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt:disabled:hover {
+    background-color: var(--accent) !important;
+    color: var(--text) !important;
+}
+
+.lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt_dark {
+    background-color: var(--input) !important;
+    color: var(--text) !important;
+}
+
+.lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_cover {
+    background: var(--secondary) url(../../images/calc-cover.png) no-repeat center center !important;
+}
+
+.lrn_calc_column > .lrn_btn_grid {
+    background: var(--primary) !important;
+}
+
+.lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_btn_grid {
+    background-color: var(--primary); 
+}
+
+.lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_btn_grid {
+    color: var(--text) !important;
+}
+
+.lrn .lrn_btn_sort {
+    background-color: var(--accent) !important; /* Reorder Choices */
+    color: var(--text) !important;
+}
+
+.lrn_box_skin_wrapper {
+    background-color: var(--accent) !important; /* Audio recording */
+}
+
+
+.lrn_box_skin_wrapper .lrn_audioblock_right {
+    background-color: var(--accent) !important;
+}
+
+.lrn_box_skin_wrapper .lrn_audioblock_right .lrn_audiomiclevelmask {
+    background-color: var(--accent) !important;
+}
+
+.lrn_box_skin_wrapper .lrn_audioblock_right {
+    border-left: none !important;
+}
+
+.lrn_wfgraphic.lrn_wfcanvas {
+    background-color: var(--accent) !important;
+}
+
+.lrn_toolbar {
+    background-color: var(--input) !important;
+    color: var(--text) !important;
+}
+
+.lrn .lrn_btn {
+    background-color: var(--input) !important;
+    color: var(--text) !important;
+}
+
+.lrn_box_skin_wrapper .lrn_widget_footer .lrn_toolbar_left .lrn_btn {
+    border-right: none !important;
+}
+
+.lrn-audio-content {
+    background-color: var(--accent) !important;
+}
+
+.lrn_waveform {
+    filter: invert(var(--theme-is-dark)) !important;
+} 
+
+.lrn_qr.lrn_video .lrn-video-display {
+    background: var(--input) !important; /* Webcam Record */
+} 
+
+            /* Text Box for Assesments */
+
+
+            .lrn_response_input_wrapper {
+                border-radius: var(--border-radius) !important;
+                border: var(--border-size) solid var(--contrast-border) !important;
+                border: none !important;
+            }
+
+            .lrn_widget.lrn_texteditor {
+                border-radius: var(--border-radius) !important;
+                border: var(--border-size) solid var(--contrast-border) !important;
+                border: none !important;
+
+            }
+
+
+            .lrn_widget.lrn_chemistryessayV2 .lrn_texteditor_editable.wysihtml-placeholder, .lrn_widget.lrn_formulaessayV2 .lrn_texteditor_editable.wysihtml-placeholder, .lrn_widget.lrn_longtextV2 .lrn_texteditor_editable.wysihtml-placeholder {
+                color: var(--text) !important;
+                background: var(--accent) !important;
+                border: none !important;
+
+            }
+
+            .lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.wysihtml-sandbox.wysihtml-editor {
+                color: var(--text) !important;
+                background: var(--input) !important;
+                border: none !important;
+
+            
+            }
+ 
+            .lrn-wysihtml-toolbar.lrn_clearfix {
+                color: var(--text) !important;
+                background: var(--secondary) !important;
+                border: none !important;
+
+            }
+
+
+            .lrn-toolbar {
+                background: var(--secondary) !important;
+                border: none !important;
+
+            }
+
+            .lrn_icon.lrn-icon-bold {
+                color: var(--text) !important;
+                background: transparent !important;
+            }
+
+            .lrn_icon.lrn-icon-italic {
+                color: var(--text) !important;
+                background: transparent !important;
+            }
+
+            .lrn_icon.lrn-icon-underline {
+                color: var(--text) !important;
+                background: transparent !important;
+            }
+
+            .lrn_icon.lrn-icon-list-bulleted {
+                color: var(--text) !important;
+                background: transparent !important;
+            }
+
+            .lrn_icon.lrn-icon-list-numbered {
+                color: var(--text) !important;
+                background: transparent !important;
+            }
+
+            .lrn-toolbar-footer.lrn_clearfix {
+                background: var(--accent) !important;
+                color: var(--text) !important;
+                border: none !important;
+
+            }
+
+            .lrn_word_count {
+                color: var(--text) !important;
+                border: none !important;
+
+            
+            }
+
+            .lrn_word_limit {
+                color: var(--text) !important;
+                border: none !important;
+
+            
+            }
+
+
+            /* Assesesment Rubric */ 
+
+            
+            .clock {
+                color: var(--text) !important;
+            }
+            
+            .lrn-assess .timer {
+                color: var(--text) !important;
+            }
+
+            .counter {
+                color: var(--text) !important;
+            }
+
+            .max-time {
+                color: var(--text) !important;
+            }
+
+            .lrn-assess .timer {
+
+                color: var(--text) !important;
+
+            }
+
+
+
+            /* Assesment Rubric */
+
+            #grading-rubric-edit-slider .controls, #district-mastery-grading-rubric-edit-slider .controls { /* Left side Menu*/
+                background: var(--accent) !important;
+                color: var(--text) !important;
+                border: none !important;
+
+            }
+
+            .rubric-row.ng-scope {
+                background: var(--acent) !important; /* rubric Background color */
+            }
+
+            #grading-rubric-edit-slider .rubric-table .input-top, .rubric-table span.input-bottom, #district-mastery-grading-rubric-edit-slider .rubric-table .input-top, .rubric-table span.input-bottom {
+                color: var(--contrast-text) !important; /* Top part of each row */
+            }
+
+            #grading-rubric-edit-slider .rubric-table tr.header-row, #district-mastery-grading-rubric-edit-slider .rubric-table tr.header-row {
+                border-top: 1px solid var(--border-color) !important; /* Border for header */
+                border-bottom: 1px solid var(--border-color) !important;
+                border: none !important;
+
+            }
+
+            #grading-rubric-edit-slider .rubric-table .header-row th, #district-mastery-grading-rubric-edit-slider .rubric-table .header-row th {
+                background-color: var(--accent) !important; /* Header Color */
+            }
+
+           
+
+            .rubric-scroll {
+                background: var(---accent) !important;
+            }
+
+            #grading-rubric-edit-slider .bottom-ctrls-wrapper, #district-mastery-grading-rubric-edit-slider .bottom-ctrls-wrapper {
+                background: var(--accent) !important;
+                border: none !important;
+                color: var(--text) !important;
+
+            }
+
+            .s-slider.s-grading-rubric-edit-slider.s-grading-rubric.ng-scope.ui-resizable.opened.grade-setup-rubric-edit.new-rubric-edit.read-only {
+                border: none !important;
+
+            }
+
+
+
 /* Quizes */
 
 #s-assessment-view-submission-form .selected.correct span.option-span {
     background-color: var(--active) !important;
     color: var(--text) !important;
 }
->>>>>>> 3570d1a7610febb19bd14e9e3e31b4ecc6b45669
+
+
+.layout-row-outer-1441760367 {
+    background-color: var(--primary) !important;
+}
+
+.profile-header-2536997237 {
+    background-color: var(--primary) !important;
+}
+
+.profile-container-4015500229 {
+    background-color: var(--primary) !important;
+}
+
+.content-box-container-3232021855 {
+    background-color: var(--accent) !important;
+    border-radius: var(--border-radius) !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
+    font-family: muli !important;
+}
+
+.rubric-table-row-row-3856304603.rubric-table-row-zebraStripe-4015500229.fjQuT.uQOmx._2NVPS._1Sb_q.WnfJn._3ARYD._3t4oF {
+    background-color: var(--accent) !important;
+}
+
+.rubric-grader-header-header-212800519 {
+    background-color: var(--accent) !important;
+}
+
+.typography-smallheader-light-bg-text-1999437409 {
+    color: var(--text) !important ;
+}
+
+.rubric-grader-manage-rubric-studentLabel-3923154451 {
+    color: var(--cal1) !important;
+}
+
+.rubric-grader-scrollContainer-634066954 {
+    background-color: var(--accent) !important;
+}
+
+.rubric-criteria-drawer-handle-drawerHandleActive-30552431 {
+    background-color: var(--accent) !important;
+    color: var(--text) !important;
+}
+
+.rubric-criteria-drawer-handle-copy-1446048478 {
+    color: var(--text) !important;
+}
+
+.rubric-grader-gradebook-comment-gradebookCommentContainer-1923026448 {
+    background-color: var(--accent) !important;
+}
+
+.rubric-grader-gradebook-comment-container-3347344084 {
+    color: var(--text) !important;
+}
+
+
+
+
+.chart-wrapper .highchart-obj .no-data-overlay {
+    background: transparent !important;
+}
+
+.no-data-message-wrapper {
+    background:  var(--secondary) !important;
+    color: var(--text) !important;
+    padding: 3px !important;
+    border-radius: var(--border-radius);
+    
+}
+
+/* Text Boxes for Discussions */
+
+.defaultSkin .mceListBox .mceText {
+    background: var(--accent) !important;
+}
+
+.discussion-content #attachments, .s-comments-post-form-new #attachments {
+    background: var(--accent) !important;
+}
+
+
+
+
+
