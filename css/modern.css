@@ -921,6 +921,37 @@ body #right-column-inner a.link-btn {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
+
+
+.sgy-course-search-form__submit-row {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+.sgy-react-select .Select-control, .sgy-react-select .Select-menu-outer {
+    color: var(--text) !important;
+    border-color: transparent !important;
+    border-radius: var(--border-radius) !important;
+}
+
+
+.sgy-react-select .Select-control {
+    background-color: var(--input) !important;
+}
+.sgy-react-select .Select-placeholder {
+    color: var(--text) !important;
+}
+
+.sgy-react-select .Select-menu-outer {
+    background-color: var(--accent) !important;
+}
+.sgy-react-select .Select-option {
+    color: var(--text);
+}
+.sgy-react-select .Select-option:hover {
+    background-color: var(--active);
+}
+
+
 /* Members Page */
 .enrollment-search .go-btn {
     background-color: inherit !important;
@@ -1674,4 +1705,12 @@ table#collection-view-contents tbody tr td {
 .StudentTable-table-wrapper-classname-2qr2_>div {
     background-color:var(--background-color) !important;
     color:var(--text);
+}
+
+
+/* Blog Page */
+
+.active-trail>div>a {
+    background-color:var(--accent) !important;
+    color: var(--text) !important;
 }
