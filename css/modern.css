@@ -571,7 +571,7 @@ body .fc-event-skin {
 
 .fc-state-default, .fc-state-default .fc-button-inner {
     background-color: var(--primary) !important;
-    border-color: transparent !important;
+    border-color: none !important;
     color: var(--text) !important;
     border-width: var(--border-width) !important;
 }
@@ -589,7 +589,7 @@ body .fc-event-skin {
 .fc-state-disabled, .fc-state-disabled .fc-button-inner {
     background-color: var(--secondary) !important;
     color: var(--muted-text) !important;
-    border-color: transparent !important;
+    border-color: none !important;
 }
 
 .fc-state-active, .fc-state-active .fc-button-inner {
@@ -975,12 +975,12 @@ body #right-column-inner a.link-btn {
 
 
 .sgy-course-search-form__submit-row {
-    background-color: transparent !important;
-    border-color: transparent !important;
+    background-color: none !important;
+    border-color: none !important;
 }
 .sgy-react-select .Select-control, .sgy-react-select .Select-menu-outer {
     color: var(--text) !important;
-    border-color: transparent !important;
+    border-color: none !important;
     border-radius: var(--border-radius) !important;
 }
 
@@ -1633,7 +1633,7 @@ div.cellphone-container {
     background-color: var(--primary) !important;
 }
 .settings-table tbody td.realm-disabled, .settings-table tbody td.realm-disabled:hover, .settings-table tbody td.area-disabled {
-    background-color: transparent !important;
+    background-color: none !important;
 }
 
 /* Error Page */
