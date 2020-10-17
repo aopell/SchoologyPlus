@@ -1884,7 +1884,6 @@ table#collection-view-contents tbody tr td {
 }
 
 
-
 .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn, .lrn.lrn-assess .dialogs .lrn_btn {
        color: var(--text) !important;
 }
@@ -2320,15 +2319,19 @@ table#collection-view-contents tbody tr td {
 
 /* Text Boxes for Discussions */
 
-.defaultSkin .mceListBox .mceText {
-    background: var(--accent) !important;
+
+.s_comments_level {
+    background: var(--primary) !important;
+    border-radius: var(--border-radius) !important;
+    padding: 10px !important;
 }
 
-.discussion-content #attachments, .s-comments-post-form-new #attachments {
-    background: var(--accent) !important;
+.discussion-card > .s_comments_level {
+    background: var(--input) !important;
 }
 
-
-
+.iziToast-body img {
+    max-width: 24px !important;
+}
 
 
