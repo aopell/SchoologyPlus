@@ -198,7 +198,7 @@ ul.context-menu-list li.context-menu-item:hover {
 }
 
 .menu-459.group-discussion-left-menu.sExtlink-processed{
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
 }
 
 *::-webkit-scrollbar {
@@ -1777,11 +1777,11 @@ table#collection-view-contents tbody tr td {
 /* California Assesment */
 
 .ca-assessment-delivery-take-assessment {
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
 }
 
 .lrn-assess > div {
-    background-color: var(--background-color) !important;
+    background-color: var(--primary) !important;
 }
 
 .lrn.lrn-assess .lrn-right-region .right-wrapper .menu-overlay {
@@ -1802,7 +1802,7 @@ table#collection-view-contents tbody tr td {
 
 .lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:focus, .lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:hover, .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:focus, .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:hover {
     background: var(--border-color) !important;
-    color: #333 !important;
+    color: var(--accent) !important;
 }
 
 .lrn.lrn-assess .test-title-text {
@@ -1810,7 +1810,7 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .app-panel.review-screen .panel-content {
-    border: 1px solid var(--border-color) !important;
+    border: var(--border-width) solid var(--contrast-border) !important;
     background-color: var(--background-color) !important;
 }
 
@@ -1827,7 +1827,7 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
-    border: 1px solid var(--text) !important;
+    border: var(--border-width) solid var(--contrast-border) !important;
     background: var(--border-color) !important;
     box-shadow: none;
 }
@@ -1858,11 +1858,11 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue .btn-label {
-    color: lightgrey !important;
+    color: var(--contrast-text) !important;
 }
 
 .lrn.lrn-assess .app-panel.review-screen .item-card {
-    border: 1px solid var(--background-color) !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
 }
 
 .lrn.lrn-assess .app-panel.review-screen .panel-header {
@@ -1872,11 +1872,9 @@ table#collection-view-contents tbody tr td {
 .lrn_btn.item-prev.pos-right {
     background-color: var(--muted-text) !important;
 }
-=======
 /* Quizes */
 
 #s-assessment-view-submission-form .selected.correct span.option-span {
     background-color: var(--active) !important;
     color: var(--text) !important;
 }
->>>>>>> 3570d1a7610febb19bd14e9e3e31b4ecc6b45669
