@@ -706,6 +706,23 @@ img.splus-logo-inline {
     color: var(--text) !important;
 }
 
+#edge-filters-btn {
+    background-color: var(--text) !important;
+    color: var(--secondary) !important;
+    filter: invert(1) !important;
+    background-position-y: -577px !important;
+    background-position-x: right !important;
+    background-image: url('/sites/all/themes/schoology_theme/images/btn-sprite.png?2f89e2e4127348b5') !important;
+}
+
+:root[dark=false] #edge-filters-btn {
+    background-color: var(--secondary) !important;
+    color: var(--text) !important;
+    filter: none !important;
+    background-image: url('url('/sites/all/themes/schoology_theme/images/btn-sprite.png?5f89e2e4127348b5') !important;
+}
+
+
 /* Grades Page */
 .gradebook-course.hierarchical-grading-report .period-row .grade-column,
 .gradebook-course.hierarchical-grading-report .category-row .grade-column,
