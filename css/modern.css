@@ -562,6 +562,34 @@ body .fc-event-skin {
     background: var(--cal20)  !important;
 }
 
+
+.fc-state-default, .fc-state-default .fc-button-inner {
+    background-color: var(--primary) !important;
+    border-color: transparent !important;
+    color: var(--text) !important;
+    border-width: var(--border-width) !important;
+}
+
+.fc-button.fc-corner-left {
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-top-left-radius: var(--border-radius) !important;
+}
+
+.fc-button.fc-corner-right {
+    border-bottom-right-radius: var(--border-radius) !important;
+    border-top-right-radius: var(--border-radius) !important;
+}
+
+.fc-state-disabled, .fc-state-disabled .fc-button-inner {
+    background-color: var(--secondary) !important;
+    color: var(--muted-text) !important;
+    border-color: transparent !important;
+}
+
+.fc-state-active, .fc-state-active .fc-button-inner {
+    background-color: var(--active) !important;
+}
+
 /* Navbar menus */
 div.les2- {
     background-color: var(--secondary) !important;
