@@ -1575,6 +1575,16 @@ div.cellphone-container {
 }
 
 
+.settings-table tbody td.selected, .settings-table tbody td.selected:hover {
+    background-color: var(--active) !important;
+}
+.settings-table tbody td {
+    background-color: var(--primary) !important;
+}
+.settings-table tbody td.realm-disabled, .settings-table tbody td.realm-disabled:hover {
+    background-color: transparent !important;
+}
+
 /* Error Page */
 #error-page {
     background-color: var(--secondary) !important;
