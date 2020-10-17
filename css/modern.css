@@ -1734,6 +1734,9 @@ table#collection-view-contents tbody tr td {
     color:var(--text);
 }
 
+img#loader {
+    filter: grayscale(1) brightness(0.3) !important;
+}
 
 /* Blog Page */
 
