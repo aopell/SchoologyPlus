@@ -1099,9 +1099,8 @@ body.library-view #library-left {
     border-radius: var(--border-radius) !important;
     color: var(--text) !important;
 }
-
-.action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
-    color: var(--text) !important;
+#collection-toolbar .action-links-unfold:hover {
+    background-color: var(--muted-text) !important;
 }
 
 #reorder-collections-btn {
@@ -1110,6 +1109,10 @@ body.library-view #library-left {
 
 #reorder-collections-btn:hover {
     background-color: var(--active) !important;
+    color: var(--text) !important;
+}
+
+.action-links > li > span {
     color: var(--text) !important;
 }
 
