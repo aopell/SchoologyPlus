@@ -708,10 +708,3 @@ a._3_bfp {
     float: left;
     margin-right: 10px;
 }
-
-
-/* Fixes Theme Generated Popup Bug */
-
-.iziToast-body img {
-    max-width: 24px !important;
-}
