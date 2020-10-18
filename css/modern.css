@@ -1846,6 +1846,8 @@ table#collection-view-contents tbody tr td {
 
 .active-trail>div>a {
     background-color:var(--accent) !important;
+}
+
 /* Assesments */
 
 ._1IGEH:focus:not(:active), ._1oxpz:hover:not(:active), ._1Z0RM, .Dkh_K:active {
