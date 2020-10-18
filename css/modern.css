@@ -2237,6 +2237,77 @@ table#collection-view-contents tbody tr td {
             }
 
 
+            /* Assesment Review*/
+
+            .lrn_widget .lrn_valid, .lrn_widget .lrn_selected {
+                background-color: var(--input) !important;
+            }
+
+            .lrn_widget .lrn_incorrect {
+                background-color: var(--highlight) !important;
+            }
+
+            .lrn_widget .lrn_correct {
+                background-color: var(--active) !important;
+            }
+
+            .lrn_assoc_table {
+                background-color: var(--accent) !important;
+            }
+
+            .lrn_assoc_col2.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_incorrect_marker.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_incorrect {
+                background-color: var(--highlight) !important;
+            }
+
+            .lrn_qr.lrn_association .lrn_possibilityList.lrn_list_bottom {
+                margin-top: 0 !important;
+            }
+
+            .lrn_widget .lrn_correctAnswers {
+                background-color: var(--primary) !important;
+                color: var(--text) !important;
+            }
+            .lrn_widget .lrn_correctAnswerList>li {
+                background-color: var(--input) !important;
+            }
+
+            .lrn_btn_sort.lrn_sortable.lrn_button.lrn_correct.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
+                background-color: var(--active) !important;
+            }
+
+            .lrn_display_correct_answer_enabled {
+                padding: 20px !important;
+            }
+
+            .lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.lrn_response_input_wrapper {
+                background-color: var(--input) !important;
+            }
+
+            .lrn_assoc_col2.lrn_correct_marker.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_correct {
+                background-color: var(--active) !important;
+            }
+
+            .lrn_btn_sort.lrn_sortable.lrn_button.lrn_incorrect.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
+                background-color: var(--highlight) !important;
+            }
+
+            .lrn_widget .lrn_suggested_answer_item {
+                background: var(--accent) !important;
+            }
+            
+            .lrn_suggested_answer_item.lrn_clearfix > .lrn_suggested.lrn_btn_sort.lrn_btn_no_handle.lrn_disabled.lrn_sort_block.lrn_button {
+                background-color: var(--active) !important;
+            }
+
+            .lrn_response.lrn_clearfix.lrn_style_button > .lrn-response-validate-wrapper.lrn_response_input.lrn_incorrect {
+                background-color: var(--accent) !important;
+            }
+
+            .lrn-response-validation-wrapper > .lrn_correctAnswers  {
+                background-color: var(--active) !important;
+            }
+
+
 
 /* Quizes */
 
@@ -2335,3 +2406,23 @@ table#collection-view-contents tbody tr td {
 }
 
 
+/* Fix for comment Reply*/
+
+#main .s_comments_level #s-comment-reply-form {
+    background: var(--accent) !important;
+}
+
+#s-comment-reply-form {
+    width: auto !important;
+    border-radius: var(--border-radius) !important;
+    border: none !important;
+}
+
+.compose-message.sMessagingProcessed fieldset {
+    padding: 20px !important;
+    border-radius: var(--border-radius) !important;
+}
+
+#ids .name-wrapper {
+    background:transparent !important; 
+}
