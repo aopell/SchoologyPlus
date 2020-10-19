@@ -20,8 +20,8 @@
     --cal3: #926c37;
     --cal4: #7c3d6b;
     --cal5: #0b4c9c;
-    --cal6: #00209c;
     /* Color-2 */
+    --cal6: #00209c;
     --cal7: #004a09;
     --cal8: #72721a;
     --cal9: #44233e;
@@ -29,8 +29,8 @@
     --cal11: #770a0a;
     --cal12: #a72413;
     --cal13: #E0024C;
-    --cal14: #188C16;
     /* Color-10 */
+    --cal14: #188C16;
     --cal15: #bd7304;
     --cal16: #80168C;
     --cal17: #164152;
@@ -61,8 +61,8 @@
     --cal3: #f9e9d4;
     --cal4: #e7e0e5;
     --cal5: #e6b5c9;
-    --cal6: #f9f1cf;
     /* Color-2 */
+    --cal6: #f9f1cf;
     --cal7: #daf0f9;
     --cal8: #f9ddea;
     --cal9: #fbd7d8;
@@ -70,8 +70,8 @@
     --cal11: #e0e8f5;
     --cal12: #fbd7e4;
     --cal13: #fcddd3;
-    --cal14: #e7f2d5;
     /* Color-10 */
+    --cal14: #e7f2d5;
     --cal15: #e6e0ee;
     --cal16: #f0e5db;
     --cal17: #fce8d1;
@@ -98,8 +98,8 @@
     --padding: 10px;
     --hover-color: black !important;
     --cal5: #000;
-    --cal6: #000;
     /* Color-2 */
+    --cal6: #000;
     --cal7: #000;
     --cal8: #000;
     --cal9: #000;
@@ -107,8 +107,8 @@
     --cal11: #000;
     --cal12: #000;
     --cal13: #000;
-    --cal14: #000;
     /* Color-10 */
+    --cal14: #000;
     --cal15: #000;
     --cal16: #000;
     --cal17: #000;
@@ -132,8 +132,8 @@
     --grades: aqua;
     --hover-color: lime !important;
     --cal5: red;
-    --cal6: green;
     /* Color-2 */
+    --cal6: green;
     --cal7: blue;
     --cal8: orange;
     --cal9: yellow;
@@ -141,8 +141,8 @@
     --cal11: lime;
     --cal12: powderblue;
     --cal13: purple;
-    --cal14: magenta;
     /* Color-10 */
+    --cal14: magenta;
     --cal15: darkred;
     --cal16: maroon;
     --cal17: brown;
