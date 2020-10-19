@@ -733,7 +733,7 @@ img.splus-logo-inline {
 #edge-filters-btn {
     background-color: var(--text) !important;
     color: var(--secondary) !important;
-    filter: invert(1) !important;
+    filter: invert(var(--theme-is-dark)) !important;
     background-position-y: -577px !important;
     background-position-x: right !important;
     background-image: url('/sites/all/themes/schoology_theme/images/btn-sprite.png?2f89e2e4127348b5') !important;
@@ -1786,8 +1786,8 @@ table#collection-view-contents tbody tr td {
     color: var(--text);
 }
 
-:root[dark=true] img#loader {
-    filter: grayscale(1) brightness(0.3) !important;
+img#loader {
+    filter: grayscale(var(--theme-is-dark)) brightness(0.3) !important;
 }
 
 /* Blog Page */
