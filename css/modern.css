@@ -1758,6 +1758,10 @@ table#collection-view-contents tbody tr td {
     border-radius: var(--border-radius) !important;
 }
 
+.not-editable .score-grade-score span {
+    color: var(--text) !important;
+}
+
 .param-name {
     color: var(--text) !important;
 }
