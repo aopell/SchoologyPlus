@@ -105,6 +105,7 @@ if (Setting.getValue("broadcasts") !== "disabled") {
     let upcomingList = document.querySelector(".upcoming-events .upcoming-list");
     // Indicate submitted assignments in Upcoming
     function indicateSubmitted() {
+        Logger.log("Checking to see if upcoming assignments are submitted");
         upcomingList = document.querySelector(".upcoming-events .upcoming-list");
         switch (Setting.getValue("indicateSubmission")) {
             case "strikethrough":
@@ -139,7 +140,7 @@ if (Setting.getValue("broadcasts") !== "disabled") {
 
     upcomingList.querySelector("button.button-reset.refresh-button").addEventListener("click", () => setTimeout(indicateSubmitted, 2000));
 
-    indicateSubmitted();
+    setTimeout(indicateSubmitted, 3000);
 })();
 
 createQuickAccess();
