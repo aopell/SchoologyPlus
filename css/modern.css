@@ -15,21 +15,22 @@
     --border-size: 1px;
     --padding: 10px;
     --theme-is-dark: 1;
-    
     --cal1: #457da5;
     --cal2: #547c41;
     --cal3: #926c37;
     --cal4: #7c3d6b;
     --cal5: #0b4c9c;
-    --cal6: #00209c; /* Color-2 */
+    --cal6: #00209c;
+    /* Color-2 */
     --cal7: #004a09;
     --cal8: #72721a;
-    --cal9: #44233e; 
+    --cal9: #44233e;
     --cal10: #683131;
     --cal11: #770a0a;
     --cal12: #a72413;
     --cal13: #E0024C;
-    --cal14: #188C16; /* Color-10 */
+    --cal14: #188C16;
+    /* Color-10 */
     --cal15: #bd7304;
     --cal16: #80168C;
     --cal17: #164152;
@@ -55,22 +56,22 @@
     --border-size: 1px;
     --padding: 10px;
     --theme-is-dark: 0;
-    
-
     --cal1: #d6e7f4;
     --cal2: #d7e8cf;
     --cal3: #f9e9d4;
     --cal4: #e7e0e5;
     --cal5: #e6b5c9;
-    --cal6: #f9f1cf; /* Color-2 */
+    --cal6: #f9f1cf;
+    /* Color-2 */
     --cal7: #daf0f9;
     --cal8: #f9ddea;
     --cal9: #fbd7d8;
     --cal10: #f1f2d1;
     --cal11: #e0e8f5;
-    --cal12: #fbd7e4; 
+    --cal12: #fbd7e4;
     --cal13: #fcddd3;
-    --cal14: #e7f2d5; /* Color-10 */
+    --cal14: #e7f2d5;
+    /* Color-10 */
     --cal15: #e6e0ee;
     --cal16: #f0e5db;
     --cal17: #fce8d1;
@@ -83,11 +84,9 @@
     --primary: black;
     --accent: black;
     --secondary: black;
-
     --text: black;
     --contrast-text: black;
     --muted-text: black;
-
     --contrast-border: black;
     --input: black;
     --error: black;
@@ -97,19 +96,19 @@
     --border-radius: 5px;
     --border-size: 1px;
     --padding: 10px;
-
     --hover-color: black !important;
-    
     --cal5: #000;
-    --cal6: #000; /* Color-2 */
+    --cal6: #000;
+    /* Color-2 */
     --cal7: #000;
     --cal8: #000;
     --cal9: #000;
     --cal10: #000;
     --cal11: #000;
-    --cal12: #000; 
+    --cal12: #000;
     --cal13: #000;
-    --cal14: #000; /* Color-10 */
+    --cal14: #000;
+    /* Color-10 */
     --cal15: #000;
     --cal16: #000;
     --cal17: #000;
@@ -122,31 +121,28 @@
     --primary: magenta;
     --accent: purple;
     --secondary: maroon;
-
     --text: yellow;
     --contrast-text: mediumspringgreen;
     --muted-text: orange;
-
     --contrast-border: gold;
     --input: blue;
     --error: red;
     --highlight: rgba(0, 255, 0, 0.3);
     --active: rgba(0, 0, 255, 0.3);
     --grades: aqua;
-
     --hover-color: lime !important;
-    
-
     --cal5: red;
-    --cal6: green; /* Color-2 */
+    --cal6: green;
+    /* Color-2 */
     --cal7: blue;
     --cal8: orange;
     --cal9: yellow;
     --cal10: lightblue;
     --cal11: lime;
-    --cal12: powderblue; 
+    --cal12: powderblue;
     --cal13: purple;
-    --cal14: magenta; /* Color-10 */
+    --cal14: magenta;
+    /* Color-10 */
     --cal15: darkred;
     --cal16: maroon;
     --cal17: brown;
@@ -157,13 +153,7 @@
 
 /* General */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
+h1, h2, h3, h4, h5, h6, p {
     color: var(--text) !important;
 }
 
@@ -177,17 +167,14 @@ pre {
     background-color: var(--secondary);
 }
 
-textarea,
-select,
-input[type=text] {
+textarea, select, input[type=text] {
     background-color: var(--input) !important;
     color: var(--text) !important;
     border: none !important;
     border-radius: var(--border-radius) !important;
 }
 
-ul.context-menu-list,
-ul.context-menu-list li.context-menu-item {
+ul.context-menu-list, ul.context-menu-list li.context-menu-item {
     background-color: var(--secondary) !important;
     color: var(--text) !important;
     border-color: var(--accent) !important;
@@ -197,7 +184,7 @@ ul.context-menu-list li.context-menu-item:hover {
     background-color: var(--active) !important;
 }
 
-.menu-459.group-discussion-left-menu.sExtlink-processed{
+.menu-459.group-discussion-left-menu {
     background-color: var(--primary) !important;
 }
 
@@ -260,8 +247,7 @@ iframe {
     background: none !important;
 }
 
-body a.link-btn,
-body button.link-btn {
+body a.link-btn, body button.link-btn {
     box-shadow: none !important;
     background: none !important;
     background-color: var(--secondary) !important;
@@ -297,27 +283,7 @@ body button.link-btn {
     color: var(--muted-text) !important;
 }
 
-.splus-modal-title,
-.submit-span-wrapper,
-.submit-span-wrapper input[type="button"],
-.submit-span-wrapper input[type="submit"],
-:not(.submit-span-wrapper)>input[type="button"],
-:not(.submit-span-wrapper)>input[type="submit"],
-footer li a,
-header li a,
-.splus-modal-footer-text,
-.splus-modal-footer-text a,
-body a.link-btn.active,
-div.courses-left-menu,
-.portfolio-list a.btn,
-a._3_bfp,
-footer,
-footer button,
-.Header-header-button-1EE8Y,
-[class*="Header-header-drop-menu-item-"],
-[class*="Header-header-drop-menu-"] li a *,
-.Header-header-button-active-GnvKh,
-.LGaPf svg {
+.splus-modal-title, .submit-span-wrapper, .submit-span-wrapper input[type="button"], .submit-span-wrapper input[type="submit"], :not(.submit-span-wrapper)>input[type="button"], :not(.submit-span-wrapper)>input[type="submit"], footer li a, header li a, .splus-modal-footer-text, .splus-modal-footer-text a, body a.link-btn.active, div.courses-left-menu, .portfolio-list a.btn, a._3_bfp, footer, footer button, .Header-header-button-1EE8Y, [class*="Header-header-drop-menu-item-"], [class*="Header-header-drop-menu-"] li a *, .Header-header-button-active-GnvKh, .LGaPf svg {
     color: var(--contrast-text) !important;
 }
 
@@ -326,20 +292,18 @@ footer button,
     opacity: 0.8 !important;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     opacity: 1 !important;
     color: var(--contrast-text) !important;
 }
 
-
-
 .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
-    background-color:var(--text) !important;
-    color:var(--secondary) !important;
+    background-color: var(--text) !important;
+    color: var(--secondary) !important;
     filter: invert(var(--theme-is-dark)) !important;
     border-radius: var(--border-radius) !important;
 }
+
 .action-links-unfold {
     background-image: none !important;
     background-color: var(--secondary) !important;
@@ -347,16 +311,17 @@ footer button,
 }
 
 :root[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
-    background-color:var(--secondary) !important;
-    color:var(--text) !important;
+    background-color: var(--secondary) !important;
+    color: var(--text) !important;
 }
+
 .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover, .action-links-unfold:hover, :root[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover, :root[dark=false] .action-links-unfold:hover {
-    background-color:var(--muted-text) !important;
+    background-color: var(--muted-text) !important;
 }
 
 /* Schoology Popups */
-.popups-box .popups-body,
-#popups-loading div {
+
+.popups-box .popups-body, #popups-loading div {
     background-color: var(--primary) !important;
     color: var(--text) !important;
     border: none !important;
@@ -397,9 +362,11 @@ fieldset div div div label span {
 .popups-buttons-inner {
     background: var(--secondary) !important;
 }
+
 .popups-tab, .popups-tabs {
     background: var(--accent) !important;
 }
+
 .popups-tab.active {
     background: var(--primary) !important;
 }
@@ -407,6 +374,7 @@ fieldset div div div label span {
 ._pendo-step-container-styles {
     background-color: var(--accent) !important;
 }
+
 .pendo-mock-flexbox-element:nth-child(2)>button {
     background-color: var(--primary) !important;
     border-color: var(--contrast-border) !important;
@@ -428,8 +396,8 @@ div.error, tr.error {
 }
 
 /* Courses and Groups Dropdown */
-.splus-courses-navbar-button div[role=menu],
-.splus-groups-navbar-button div[role=menu] {
+
+.splus-courses-navbar-button div[role=menu], .splus-groups-navbar-button div[role=menu] {
     background-color: var(--accent) !important;
 }
 
@@ -437,18 +405,12 @@ div.error, tr.error {
     filter: invert(var(--theme-is-dark)) !important;
 }
 
-.splus-courses-navbar-button article,
-.splus-courses-navbar-button article a,
-.splus-groups-navbar-button article,
-.splus-groups-navbar-button article a,
-.JoinCard-card-1qWtS {
+.splus-courses-navbar-button article, .splus-courses-navbar-button article a, .splus-groups-navbar-button article, .splus-groups-navbar-button article a, .JoinCard-card-1qWtS {
     border: var(--border-size) solid transparent !important;
     outline: none !important;
 }
 
-.splus-courses-navbar-button article a:hover,
-.splus-groups-navbar-button article a:hover,
-.JoinCard-card-1qWtS:hover {
+.splus-courses-navbar-button article a:hover, .splus-groups-navbar-button article a:hover, .JoinCard-card-1qWtS:hover {
     border: var(--border-size) solid var(--contrast-border) !important;
     border-radius: var(--border-radius) !important;
 }
@@ -458,24 +420,20 @@ div.error, tr.error {
     border-top-right-radius: var(--border-radius) !important;
 }
 
-.Card-card-data-17m6S,
-.Card-card-data-17m6S div {
+.Card-card-data-17m6S, .Card-card-data-17m6S div {
     border-bottom-left-radius: var(--border-radius) !important;
     border-bottom-right-radius: var(--border-radius) !important;
 }
 
-.splus-courses-navbar-button article a div,
-.splus-groups-navbar-button article a div {
+.splus-courses-navbar-button article a div, .splus-groups-navbar-button article a div {
     background-color: var(--primary) !important;
 }
 
-.splus-courses-navbar-button article a div div._1wP6w,
-.splus-groups-navbar-button article a div div._1wP6w {
+.splus-courses-navbar-button article a div div._1wP6w, .splus-groups-navbar-button article a div div._1wP6w {
     color: var(--text) !important;
 }
 
-.splus-courses-navbar-button article a div div._2wOCj,
-.splus-groups-navbar-button article a div div._2wOCj {
+.splus-courses-navbar-button article a div div._2wOCj, .splus-groups-navbar-button article a div div._2wOCj {
     color: var(--muted-text) !important;
 }
 
@@ -485,9 +443,7 @@ header div.Je0RK button._1SIMq {
     border-radius: var(--border-radius) !important;
 }
 
-._1DD87,
-._3gfrT:focus:not(:active),
-.oUq3j:hover:not(:active) {
+._1DD87, ._3gfrT:focus:not(:active), .oUq3j:hover:not(:active) {
     border: var(--border-size) solid var(--contrast-border) !important;
 }
 
@@ -496,6 +452,7 @@ header div.Je0RK button._1SIMq {
 }
 
 /* Calendar Page */
+
 .fcalendar-filter-menu-wrapper {
     background-color: var(--secondary) !important;
     border-radius: var(--border-radius);
@@ -510,80 +467,113 @@ header div.Je0RK button._1SIMq {
     background-position-y: -19px !important;
 }
 
-
 body .fc-event-skin {
     color: var(--text);
 }
+
 .color-default-personal, .color-default-groups, .color-default-courses, .color-default-school, .color-1, .color-2, .color-3, .color-4, .color-5, .color-6, .color-7, .color-8, .color-9, .color-10, .color-11, .color-12, .color-13, .color-14, .color-15, .color-16 {
     border-color: rgba(0, 0, 0, 0.4) !important;
 }
 
-.fc-event-skin.ev-course, .legend-course { background: var(--cal3); border-color: rgba(0, 0, 0, 0.4) !important; }
-.fc-event-skin.ev-group, .legend-group { background: var(--cal2); border-color: rgba(0, 0, 0, 0.4) !important; }
-.fc-event-skin.ev-user, .legend-user { background: var(--cal1); border-color: rgba(0, 0, 0, 0.4) !important; }
-.fc-event-skin.ev-school, .legend-school { background: var(--cal4); border-color: rgba(0, 0, 0, 0.4) !important; }
+.fc-event-skin.ev-course, .legend-course {
+    background: var(--cal3);
+    border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.fc-event-skin.ev-group, .legend-group {
+    background: var(--cal2);
+    border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.fc-event-skin.ev-user, .legend-user {
+    background: var(--cal1);
+    border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.fc-event-skin.ev-school, .legend-school {
+    background: var(--cal4);
+    border-color: rgba(0, 0, 0, 0.4) !important;
+}
 
 .color-default-personal {
-    background: var(--cal1)  !important;
-}
-.color-default-groups {
-    background: var(--cal2)  !important;
-}
-.color-default-courses {
-    background: var(--cal3)  !important;
-}
-.color-default-school {
-    background: var(--cal4)  !important;
-}
-.color-1 {
-    background: var(--cal5)  !important;
-}
-.color-2 {
-    background: var(--cal6)  !important;
-}
-.color-3 {
-    background: var(--cal7)  !important;
-}
-.color-4 {
-    background: var(--cal8)  !important;
-}
-.color-5 {
-    background: var(--cal9)  !important;
-}
-.color-6 {
-    background: var(--cal10)  !important;
-}
-.color-7 {
-    background: var(--cal11)  !important;
-}
-.color-8 {
-    background: var(--cal12)  !important;
-}
-.color-9 {
-    background: var(--cal13)  !important;
-}
-.color-10 {
-    background: var(--cal14)  !important;
-}
-.color-11 {
-    background: var(--cal15)  !important;
-}
-.color-12 {
-    background: var(--cal16)  !important;
-}
-.color-13 {
-    background: var(--cal17)  !important;
-}
-.color-14 {
-    background: var(--cal18)  !important;
-}
-.color-15 {
-    background: var(--cal19)  !important;
-}
-.color-16 {
-    background: var(--cal20)  !important;
+    background: var(--cal1) !important;
 }
 
+.color-default-groups {
+    background: var(--cal2) !important;
+}
+
+.color-default-courses {
+    background: var(--cal3) !important;
+}
+
+.color-default-school {
+    background: var(--cal4) !important;
+}
+
+.color-1 {
+    background: var(--cal5) !important;
+}
+
+.color-2 {
+    background: var(--cal6) !important;
+}
+
+.color-3 {
+    background: var(--cal7) !important;
+}
+
+.color-4 {
+    background: var(--cal8) !important;
+}
+
+.color-5 {
+    background: var(--cal9) !important;
+}
+
+.color-6 {
+    background: var(--cal10) !important;
+}
+
+.color-7 {
+    background: var(--cal11) !important;
+}
+
+.color-8 {
+    background: var(--cal12) !important;
+}
+
+.color-9 {
+    background: var(--cal13) !important;
+}
+
+.color-10 {
+    background: var(--cal14) !important;
+}
+
+.color-11 {
+    background: var(--cal15) !important;
+}
+
+.color-12 {
+    background: var(--cal16) !important;
+}
+
+.color-13 {
+    background: var(--cal17) !important;
+}
+
+.color-14 {
+    background: var(--cal18) !important;
+}
+
+.color-15 {
+    background: var(--cal19) !important;
+}
+
+.color-16 {
+    background: var(--cal20) !important;
+}
 
 .fc-state-default, .fc-state-default .fc-button-inner {
     background-color: var(--primary) !important;
@@ -613,6 +603,7 @@ body .fc-event-skin {
 }
 
 /* Navbar menus */
+
 div.les2- {
     background-color: var(--secondary) !important;
 }
@@ -642,8 +633,8 @@ div.les2- h3 {
 }
 
 /* Modal Red Color */
-.close-button,
-.restore-defaults {
+
+.close-button, .restore-defaults {
     color: var(--error) !important;
 }
 
@@ -652,34 +643,23 @@ div.les2- h3 {
 }
 
 /* Home Page */
-[page^="/home"] #center div#main,
-[page^="/home"] #main-inner,
-[page^="/home"] #main-content-wrapper,
-[page="/"] #center div#main,
-[page="/"] #main-inner,
-[page="/"] #main-content-wrapper,
-.splus-modal-body {
+
+[page^="/home"] #center div#main, [page^="/home"] #main-inner, [page^="/home"] #main-content-wrapper, [page="/"] #center div#main, [page="/"] #main-inner, [page="/"] #main-content-wrapper, .splus-modal-body {
     background-color: var(--primary) !important;
     color: var(--text) !important;
 }
 
-[page^="/home"] #right-column-inner div,
-[page^="/home"] #home-feed-container,
-[page="/"] #right-column-inner div,
-[page="/"] #home-feed-container {
+[page^="/home"] #right-column-inner div, [page^="/home"] #home-feed-container, [page="/"] #right-column-inner div, [page="/"] #home-feed-container {
     background-color: var(--accent) !important;
     color: var(--text) !important;
     border-radius: var(--border-radius) !important;
 }
 
-.date-header h4 span,
-.s-poll-option-title,
-.s-like-sentence {
+.date-header h4 span, .s-poll-option-title, .s-like-sentence {
     color: var(--text) !important;
 }
 
-.s-polls-poll-option,
-#edge-filters-menu {
+.s-polls-poll-option, #edge-filters-menu {
     background: none !important;
     background-color: var(--secondary) !important;
     color: var(--text) !important;
@@ -692,8 +672,7 @@ div.les2- h3 {
     border: none !important;
 }
 
-#edge-filters-btn,
-.feed-comments {
+#edge-filters-btn, .feed-comments {
     background-position-y: calc(-576px - 18px * var(--theme-is-dark)) !important;
     background-color: var(--primary) !important;
     color: var(--text) !important;
@@ -706,14 +685,12 @@ div.les2- h3 {
     background-position: 0 calc(-237px - 20px * var(--theme-is-dark)) !important;
 }
 
-#edge-filters-menu .edge-filter-option:hover,
-#edge-filters-menu .edge-filter-option.active:hover {
+#edge-filters-menu .edge-filter-option:hover, #edge-filters-menu .edge-filter-option.active:hover {
     background-color: var(--active) !important;
     color: var(--text) !important;
 }
 
-.gray,
-.upcoming-time {
+.gray, .upcoming-time {
     color: var(--muted-text) !important;
 }
 
@@ -725,14 +702,11 @@ img.splus-logo-inline {
     background-color: var(--active) !important;
 }
 
-.theme-2016 .date-header h4,
-#home-feed-container #smart-box {
+.theme-2016 .date-header h4, #home-feed-container #smart-box {
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
 
-.view-file-popup,
-.view-btn-disabled,
-.edit-external-tool-attachment {
+.view-file-popup, .view-btn-disabled, .edit-external-tool-attachment {
     border-left: var(--border-size) solid var(--contrast-border) !important;
 }
 
@@ -772,25 +746,13 @@ img.splus-logo-inline {
     background-image: url('/sites/all/themes/schoology_theme/images/btn-sprite.png?5f89e2e4127348b5') !important;
 }
 
-
 /* Grades Page */
-.gradebook-course.hierarchical-grading-report .period-row .grade-column,
-.gradebook-course.hierarchical-grading-report .category-row .grade-column,
-.gradebook-course.hierarchical-grading-report .item-row .grade-column,
-.grade-active-color,
-.awarded-grade span {
+
+.gradebook-course.hierarchical-grading-report .period-row .grade-column, .gradebook-course.hierarchical-grading-report .category-row .grade-column, .gradebook-course.hierarchical-grading-report .item-row .grade-column, .grade-active-color, .awarded-grade span {
     color: var(--grades) !important;
 }
 
-.due-date,
-.gradebook-course.hierarchical-grading-report .grade-column .max-grade,
-.percentage-contrib,
-span.comment,
-.grade-none-color,
-.course-grade-text,
-.total-points-wrapper *,
-.percentage-grade,
-.no-grade {
+.due-date, .gradebook-course.hierarchical-grading-report .grade-column .max-grade, .percentage-contrib, span.comment, .grade-none-color, .course-grade-text, .total-points-wrapper *, .percentage-grade, .no-grade {
     color: var(--text) !important;
 }
 
@@ -809,9 +771,7 @@ div.summary-course {
     border-top: var(--border-size) dotted var(--contrast-border) !important;
 }
 
-.gradebook-course.hierarchical-grading-report .period-row .td-content-wrapper,
-.gradebook-course.hierarchical-grading-report .final-row .td-content-wrapper,
-.gradebook-course.hierarchical-grading-report .td-content-wrapper {
+.gradebook-course.hierarchical-grading-report .period-row .td-content-wrapper, .gradebook-course.hierarchical-grading-report .final-row .td-content-wrapper, .gradebook-course.hierarchical-grading-report .td-content-wrapper {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
@@ -867,12 +827,7 @@ div.summary-course {
     background-color: var(--active) !important;
 }
 
-body ul.primary li.active a,
-body ul.primary li.active a:hover,
-body ul.primary li a,
-body ul.primary li a:hover,
-body ul.primary li a:visited,
-body ul.primary {
+body ul.primary li.active a, body ul.primary li.active a:hover, body ul.primary li a, body ul.primary li a:hover, body ul.primary li a:visited, body ul.primary {
     border-color: var(--contrast-border) !important;
     border-width: var(--border-size) !important;
 }
@@ -886,12 +841,12 @@ body ul.primary {
     border-width: var(--border-size) 0 !important;
 }
 
-.attendance-course-attendance table th,
-.attendance-course-attendance table td {
+.attendance-course-attendance table th, .attendance-course-attendance table td {
     border: var(--border-size) solid var(--contrast-border) !important;
 }
 
 /* Mastery Page */
+
 #s-js-student-mastery-report-view-content {
     background-color: var(--accent) !important;
 }
@@ -901,21 +856,21 @@ body ul.primary {
 }
 
 .highcharts-container>svg>rect {
-  fill: var(--primary);
+    fill: var(--primary);
 }
 
 .highcharts-axis-labels>text {
-  color: var(--text) !important;
-  fill: var(--text) !important;
+    color: var(--text) !important;
+    fill: var(--text) !important;
 }
 
 .score-value {
-  color: var(--text) !important;
+    color: var(--text) !important;
 }
 
 /* Courses Page */
-.course-action-btns,
-.group-action-btns {
+
+.course-action-btns, .group-action-btns {
     padding: var(--padding) !important;
     border-radius: var(--border-radius) !important;
 }
@@ -947,8 +902,7 @@ body>div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div div._2wOCj {
     color: var(--muted-text) !important;
 }
 
-body #right-column-inner button.link-btn,
-body #right-column-inner a.link-btn {
+body #right-column-inner button.link-btn, body #right-column-inner a.link-btn {
     background-color: var(--primary) !important;
 }
 
@@ -979,8 +933,7 @@ body #right-column-inner a.link-btn {
     border: none !important;
 }
 
-.listing .course-item.list-item,
-.courses-listing.mycourses h3 {
+.listing .course-item.list-item, .courses-listing.mycourses h3 {
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
 
@@ -988,22 +941,21 @@ body #right-column-inner a.link-btn {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
-
-
 .sgy-course-search-form__submit-row {
     background-color: none !important;
     border-color: none !important;
 }
+
 .sgy-react-select .Select-control, .sgy-react-select .Select-menu-outer {
     color: var(--text) !important;
     border-color: none !important;
     border-radius: var(--border-radius) !important;
 }
 
-
 .sgy-react-select .Select-control {
     background-color: var(--input) !important;
 }
+
 .sgy-react-select .Select-placeholder {
     color: var(--text) !important;
 }
@@ -1011,15 +963,17 @@ body #right-column-inner a.link-btn {
 .sgy-react-select .Select-menu-outer {
     background-color: var(--accent) !important;
 }
+
 .sgy-react-select .Select-option {
     color: var(--text);
 }
+
 .sgy-react-select .Select-option:hover {
     background-color: var(--active);
 }
 
-
 /* Members Page */
+
 .enrollment-search .go-btn {
     background-color: inherit !important;
 }
@@ -1042,12 +996,12 @@ body .enrollment-filters span.active, body .grading-groups-list .grading-group.a
     background-color: var(--accent) !important;
 }
 
-#site-navigation-breadcrumbs nav li a,
-#site-navigation-breadcrumbs nav li span {
+#site-navigation-breadcrumbs nav li a, #site-navigation-breadcrumbs nav li span {
     color: var(--text) !important;
 }
 
 /* Resources Page */
+
 [page^="/resources"] #main-content-wrapper {
     background-color: var(--primary) !important;
 }
@@ -1067,8 +1021,7 @@ body .enrollment-filters span.active, body .grading-groups-list .grading-group.a
     background-color: var(--active) !important;
 }
 
-#library-wrapper .library-collections a:hover,
-#library-left td:hover {
+#library-wrapper .library-collections a:hover, #library-left td:hover {
     background-color: var(--active) !important;
 }
 
@@ -1088,14 +1041,11 @@ body.library-view #library-main {
     border-left: var(--border-size) solid var(--contrast-border) !important;
 }
 
-#collection-toolbar,
-#collection-view-contents { 
+#collection-toolbar, #collection-view-contents {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
-#collection-view-contents th,
-#collection-view-contents td,
-#library-left .collections-list-wrapper {
+#collection-view-contents th, #collection-view-contents td, #library-left .collections-list-wrapper {
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
 
@@ -1110,6 +1060,7 @@ body.library-view #library-left {
     border-radius: var(--border-radius) !important;
     color: var(--text) !important;
 }
+
 #collection-toolbar .action-links-unfold:hover {
     background-color: var(--muted-text) !important;
 }
@@ -1123,10 +1074,9 @@ body.library-view #library-left {
     color: var(--text) !important;
 }
 
-.action-links > li > span {
+.action-links>li>span {
     color: var(--text) !important;
 }
-
 
 .progressContainer, .link-attachment, .attachment-block, .resource-attachment {
     background: var(--primary) !important;
@@ -1141,14 +1091,13 @@ body.library-view #library-left {
 }
 
 /* Profile Page */
+
 .right-block-big-wrapper {
     padding: var(--padding) !important;
     border-radius: var(--border-radius) !important;
 }
 
-#sidebar-left #left-nav #menu-s-main ul li a.active,
-.app-link-wrapper .active, .app-link-wrapper .active:hover,
-#sidebar-left #menu-s-main .active-trail .active-trail a.course-materials-left-menu {
+#sidebar-left #left-nav #menu-s-main ul li a.active, .app-link-wrapper .active, .app-link-wrapper .active:hover, #sidebar-left #menu-s-main .active-trail .active-trail a.course-materials-left-menu {
     background-color: var(--accent) !important;
     border: var(--border-size) solid var(--contrast-border) !important;
     border-right: none !important;
@@ -1163,14 +1112,14 @@ th.profile-header {
 #profile-form-tab {
     background-color: var(--accent);
 }
+
 .tab-nav.active, .tab-nav.active:hover {
     background-color: var(--input);
 }
 
 /* Course Page */
-.action-links,
-.comment.no-comments,
-.materials-filter-wrapper {
+
+.action-links, .comment.no-comments, .materials-filter-wrapper {
     background-color: var(--secondary) !important;
     border: var(--border-size) solid var(--contrast-border) !important;
     border-radius: var(--border-radius) !important;
@@ -1186,8 +1135,7 @@ th.profile-header {
     border-radius: var(--border-radius) !important;
 }
 
-.has-folder-player #center-top .content-top-upper,
-.has-materials-player #center-top .content-top-upper {
+.has-folder-player #center-top .content-top-upper, .has-materials-player #center-top .content-top-upper {
     background-color: var(--secondary) !important;
     border: none !important;
 }
@@ -1196,9 +1144,7 @@ th.profile-header {
     background-color: var(--accent) !important;
 }
 
-.materials-filter-wrapper .action-links-wrapper .action-links-unfold,
-.action-links-wrapper-gearless .action-links-unfold.active,
-.action-links-wrapper-gearless .action-links-unfold:active {
+.materials-filter-wrapper .action-links-wrapper .action-links-unfold, .action-links-wrapper-gearless .action-links-unfold.active, .action-links-wrapper-gearless .action-links-unfold:active {
     color: var(--text) !important;
 }
 
@@ -1211,10 +1157,7 @@ body .action-links a:hover {
     color: var(--text) !important;
 }
 
-.materials-top,
-#folder-contents-table td,
-#right-column h3,
-.left-block-wrapper h3 {
+.materials-top, #folder-contents-table td, #right-column h3, .left-block-wrapper h3 {
     border: none !important;
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
@@ -1223,8 +1166,7 @@ body .action-links a:hover {
     border-top: var(--border-size) solid var(--contrast-border) !important;
 }
 
-.s-edge-feed li, .s-edge-feed span[style], .s-edge-feed div[style], .s-edge-feed p[style],
-.discussion-view .discussion-prompt span[style], .discussion-view .discussion-prompt div[style], .discussion-view .discussion-prompt p[style] {
+.s-edge-feed li, .s-edge-feed span[style], .s-edge-feed div[style], .s-edge-feed p[style], .discussion-view .discussion-prompt span[style], .discussion-view .discussion-prompt div[style], .discussion-view .discussion-prompt p[style] {
     color: var(--text) !important;
 }
 
@@ -1236,9 +1178,7 @@ body .action-links a:hover {
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
 
-.pre-fill,
-.upcoming-list .empty,
-.no-attendance-status-dates {
+.pre-fill, .upcoming-list .empty, .no-attendance-status-dates {
     color: var(--muted-text) !important;
 }
 
@@ -1284,6 +1224,7 @@ span#updates-count {
 }
 
 /* Messages */
+
 .privatemsg-list td {
     background-color: var(--accent) !important;
 }
@@ -1470,10 +1411,8 @@ table.privatemsg-list td.no-messages {
 }
 
 /* User Page */
-.info-tab th,
-.info-tab td,
-.enrollment-view-wrapper td,
-.enrollment-view-wrapper th {
+
+.info-tab th, .info-tab td, .enrollment-view-wrapper td, .enrollment-view-wrapper th {
     color: var(--muted-text) !important;
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
@@ -1532,6 +1471,7 @@ table.privatemsg-list td.no-messages {
 }
 
 /* School / Group Page */
+
 #school-events {
     padding: var(--padding) !important;
     border-radius: var(--border-radius) !important;
@@ -1541,10 +1481,7 @@ table.privatemsg-list td.no-messages {
     background-color: var(--accent) !important;
 }
 
-[page^="/school/"] #content-wrapper,
-[page^="/school/"] td,
-[page^="/group/"] #content-wrapper,
-[page^="/group/"] td {
+[page^="/school/"] #content-wrapper, [page^="/school/"] td, [page^="/group/"] #content-wrapper, [page^="/group/"] td {
     background-color: var(--accent) !important;
     color: var(--text) !important;
 }
@@ -1557,9 +1494,7 @@ table.privatemsg-list td.no-messages {
     color: var(--muted-text) !important;
 }
 
-.enrollment-view-wrapper,
-.roster-top,
-.active-loader {
+.enrollment-view-wrapper, .roster-top, .active-loader {
     background-color: var(--accent) !important;
 }
 
@@ -1573,18 +1508,19 @@ table.privatemsg-list td.no-messages {
 }
 
 /* Unsure if this is used on other pages too, but it should fix there too if present */
+
 #edit-body_fontsizeselect_text {
     background: transparent;
 }
 
 /* Course Dashboard */
+
 .course-dashboard section {
     border: none !important;
     border-radius: var(--border-radius) !important;
 }
 
-.course-dashboard section.sgy-card,
-.course-dashboard .sgy-card-lens {
+.course-dashboard section.sgy-card, .course-dashboard .sgy-card-lens {
     background-color: var(--accent) !important;
     border-radius: var(--border-radius) !important;
 }
@@ -1615,6 +1551,7 @@ table.privatemsg-list td.no-messages {
 }
 
 /* Search Bar */
+
 ul.Search-dropdown-3huUv {
     border: none !important;
     background-color: var(--accent) !important;
@@ -1631,8 +1568,8 @@ ul.Search-dropdown-3huUv {
 }
 
 /* Settings Page */
-ul.primary,
-.with-tabs #center-top {
+
+ul.primary, .with-tabs #center-top {
     background: unset !important;
     background-color: var(--secondary) !important;
 }
@@ -1643,15 +1580,12 @@ ul.primary li a {
     color: var(--text) !important;
 }
 
-ul.primary li.active a,
-.email-notify,
-fieldset {
+ul.primary li.active a, .email-notify, fieldset {
     background-color: var(--accent) !important;
     color: var(--text) !important;
 }
 
-.sticky-header *,
-.ui-selectmenu-status {
+.sticky-header *, .ui-selectmenu-status {
     background-color: var(--secondary) !important;
     color: var(--text) !important;
 }
@@ -1698,24 +1632,27 @@ div.cellphone-container {
     background-position: 0 calc(-242px - 20px * var(--theme-is-dark)) !important;
 }
 
-
 .settings-table tbody td.selected, .settings-table tbody td.selected:hover {
     background-color: var(--active) !important;
 }
+
 .settings-table tbody td {
     background-color: var(--primary) !important;
 }
+
 .settings-table tbody td.realm-disabled, .settings-table tbody td.realm-disabled:hover, .settings-table tbody td.area-disabled {
     background-color: none !important;
 }
 
 /* Error Page */
+
 #error-page {
     background-color: var(--secondary) !important;
     color: var(--text) !important;
 }
 
 /* Calendar */
+
 .fc-state-highlight {
     background: var(--active) !important;
 }
@@ -1732,10 +1669,7 @@ table.fc-border-separate .fc-widget-header {
     border-bottom: var(--border-size) solid var(--contrast-border) !important;
 }
 
-.fc-agenda-slots td,
-.fc-agenda-slots th,
-body .fc-widget-header,
-.fc-agenda-allday th {
+.fc-agenda-slots td, .fc-agenda-slots th, body .fc-widget-header, .fc-agenda-allday th {
     border-color: var(--contrast-border) !important;
 }
 
@@ -1766,7 +1700,7 @@ body .fc-widget-header .fc-agenda-divider-inner {
     color: var(--text) !important;
 }
 
-ul#attachment-selector li:hover > a {
+ul#attachment-selector li:hover>a {
     background-color: var(--accent);
 }
 
@@ -1787,7 +1721,7 @@ table#collection-view-contents tbody tr td {
     border-color: var(--contrast-border) !important;
 }
 
-.discussion-card > .s_comments_level  {
+.discussion-card>.s_comments_level {
     background: var(--secondary) !important;
     border: none !important;
     border-radius: var(--border-radius) !important;
@@ -1803,7 +1737,7 @@ table#collection-view-contents tbody tr td {
 
 #grading-rubric-edit-grades-slider .bottom, #district-mastery-grading-rubric-edit-grades-slider .bottom, .s-slider .right-column, .rubric-scroll .rubric-table tbody {
     background-color: var(--primary);
-    color:var(--text);
+    color: var(--text);
 }
 
 .view-only .rubric-table .rubric-row-rating span.input-top, .view-only .rubric-table .rubric-row-rating .input-bottom {
@@ -1833,18 +1767,19 @@ table#collection-view-contents tbody tr td {
 }
 
 /* New Layout */
+
 ._1wP6w, ._2pDDZ:hover:not(:active), ._3senP:focus:not(:active), .wL3MX:active {
     color: var(--text);
 }
 
 ._1IGEH:focus:not(:active), ._1oxpz:hover:not(:active), ._1Z0RM, .Dkh_K:active {
-    background-color:var(--accent);
+    background-color: var(--accent);
     color: var(--text);
 }
 
 .StudentTable-table-wrapper-classname-2qr2_>div {
-    background-color:var(--primary) !important;
-    color:var(--text);
+    background-color: var(--primary) !important;
+    color: var(--text);
 }
 
 :root[dark=true] img#loader {
@@ -1854,7 +1789,7 @@ table#collection-view-contents tbody tr td {
 /* Blog Page */
 
 .active-trail>div>a {
-    background-color:var(--accent) !important;
+    background-color: var(--accent) !important;
 }
 
 /* Assesments */
@@ -1887,14 +1822,12 @@ table#collection-view-contents tbody tr td {
     background-color: var(--highlight) !important;
 }
 
-
 /* Quizes */
 
-#s-assessment-view-submission-form .selected.correct  span.option-span {
+#s-assessment-view-submission-form .selected.correct span.option-span {
     background-color: var(--active) !important;
     color: var(--text) !important;
 }
-
 
 #s-assessment-view-submission-form .incorrect span.option-span.legacy-true-false-question, #s-assessment-view-submission-form .incorrect span.option-span.legacy-multiple-choice-question {
     background-color: var(--highlight) !important;
@@ -1907,7 +1840,7 @@ table#collection-view-contents tbody tr td {
     background-color: var(--primary) !important;
 }
 
-.lrn-assess > div {
+.lrn-assess>div {
     background-color: var(--primary) !important;
 }
 
@@ -1916,10 +1849,8 @@ table#collection-view-contents tbody tr td {
     color: var(--text) !important;
 }
 
-
 .lrn .pagination>li>a, .lrn .pagination>li>span {
     background-color: var(--border-color) !important;
-
 }
 
 .lrn .pagination>li>a, .lrn .pagination>li>span {
@@ -1940,7 +1871,6 @@ table#collection-view-contents tbody tr td {
     box-shadow: none !important;
 }
 
-
 .lrn.lrn-assess .app-panel.review-screen .panel-content {
     border: 1px solid var(--border-color) !important;
     background-color: var(--primary) !important;
@@ -1953,20 +1883,19 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .app-panel.review-screen .item-number {
-    color:var(--text) !important;
+    color: var(--text) !important;
 }
 
 .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
     background-color: var(--border-color);
 }
 
-.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
+.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature>button.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
     border: 1px solid var(--text) !important;
     border: var(--border-width) solid var(--contrast-border) !important;
     background: var(--border-color) !important;
     box-shadow: none;
 }
-
 
 .lrn-assess .item-count {
     color: var(--text) !important;
@@ -1977,11 +1906,13 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .app-panel.review-screen .item-card {
-    background-color: var(--border-color) !important; /*Unattempted*/
+    background-color: var(--border-color) !important;
+    /*Unattempted*/
 }
 
 .lrn-assess-switch .lrn-assess-switch-trigger {
-    background: var(--border-color); /* Unattempted Legend */
+    background: var(--border-color);
+    /* Unattempted Legend */
 }
 
 .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
@@ -1992,7 +1923,7 @@ table#collection-view-contents tbody tr td {
     background-color: var(--primary) !important;
 }
 
-.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue {
+.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature>button, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue {
     background-color: var(--accent) !important;
     border: none !important;
 }
@@ -2001,16 +1932,16 @@ table#collection-view-contents tbody tr td {
     background-image: none !important;
 }
 
-.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue .btn-label {
-    color: var(--text) !important; /* Menu Icons Color */
+.lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature>button:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature>button .btn-label, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue:before, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue .btn-label {
+    color: var(--text) !important;
+    /* Menu Icons Color */
 }
-
 
 .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn, .lrn.lrn-assess .dialogs .lrn_btn {
-       color: var(--text) !important;
+    color: var(--text) !important;
 }
 
-.menumask > ::-webkit-scrollbar-track-piece {
+.menumask> ::-webkit-scrollbar-track-piece {
     background: white !important;
 }
 
@@ -2039,7 +1970,6 @@ table#collection-view-contents tbody tr td {
     border: none !important;
 }
 
-
 .lrn.lrn-assess .app-panel.review-screen button.lrn_btn.lrn-assess-close-review-screen-btn {
     background: var(--accent) !important;
 }
@@ -2048,7 +1978,7 @@ table#collection-view-contents tbody tr td {
     background: var(--primary) !important;
 }
 
-.lrn-assess > div ::-webkit-scrollbar-thumb {
+.lrn-assess>div ::-webkit-scrollbar-thumb {
     background: var(--primary) !important;
     box-shadow: inset 1px 1px 2px black;
 }
@@ -2062,7 +1992,8 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn .modal-content {
-    background-color: var(--accent) !important; /* Timeout Alert */
+    background-color: var(--accent) !important;
+    /* Timeout Alert */
 }
 
 .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn, .lrn.lrn-assess .dialogs .lrn_btn {
@@ -2070,17 +2001,19 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn-mcq-option .lrn-label {
-    background-color: var(--accent) !important; /* MC Questions */
+    background-color: var(--accent) !important;
+    /* MC Questions */
     color: var(--text) !important
 }
 
 .lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn_choiceLabel {
-    background-color: var(--accent) !important; /* MC Questions */
+    background-color: var(--accent) !important;
+    /* MC Questions */
     color: var(--text) !important
-
 }
 
-.lrn .lrn_possibilityList, .lrn .lrn_possibilityListContainer { /* Drag Blank */
+.lrn .lrn_possibilityList, .lrn .lrn_possibilityListContainer {
+    /* Drag Blank */
     background-color: var(--accent) !important;
 }
 
@@ -2089,11 +2022,12 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn .lrn_possibilityList.lrn_list_bottom:before, .lrn .lrn_possibilityListContainer.lrn_list_bottom:before {
-    border-bottom: 12px solid var(--muted-text) !important; /* Just trust me, it's needed for contrast */
+    border-bottom: 12px solid var(--muted-text) !important;
+    /* Just trust me, it's needed for contrast */
 }
 
 .lrn_dropzone {
-    background-color: var(--primary) !important; 
+    background-color: var(--primary) !important;
 }
 
 .lrn .lrn_btn_drag {
@@ -2102,15 +2036,17 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn-annotations-c-modal--notepad {
-    background: var(--accent) !important /* Notepad Tool */
+    background: var(--accent) !important/* Notepad Tool */
 }
 
 .lrn .lrn-mask rect {
-    fill: var(--primary) !important; /* Remove Options Tool */
+    fill: var(--primary) !important;
+    /* Remove Options Tool */
 }
 
 .lrn_calc_column {
-    background: var(--accent) !important; /* Calculator tool */
+    background: var(--accent) !important;
+    /* Calculator tool */
 }
 
 .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt, .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt:disabled:hover {
@@ -2127,12 +2063,12 @@ table#collection-view-contents tbody tr td {
     background: var(--secondary) url(../../images/calc-cover.png) no-repeat center center !important;
 }
 
-.lrn_calc_column > .lrn_btn_grid {
+.lrn_calc_column>.lrn_btn_grid {
     background: var(--primary) !important;
 }
 
 .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_btn_grid {
-    background-color: var(--primary); 
+    background-color: var(--primary);
 }
 
 .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_btn_grid {
@@ -2140,14 +2076,15 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn .lrn_btn_sort {
-    background-color: var(--accent) !important; /* Reorder Choices */
+    background-color: var(--accent) !important;
+    /* Reorder Choices */
     color: var(--text) !important;
 }
 
 .lrn_box_skin_wrapper {
-    background-color: var(--accent) !important; /* Audio recording */
+    background-color: var(--accent) !important;
+    /* Audio recording */
 }
-
 
 .lrn_box_skin_wrapper .lrn_audioblock_right {
     background-color: var(--accent) !important;
@@ -2185,11 +2122,12 @@ table#collection-view-contents tbody tr td {
 
 .lrn_waveform {
     filter: invert(var(--theme-is-dark)) !important;
-} 
+}
 
 .lrn_qr.lrn_video .lrn-video-display {
-    background: var(--input) !important; /* Webcam Record */
-} 
+    background: var(--input) !important;
+    /* Webcam Record */
+}
 
 /* Text Box for Assesments */
 
@@ -2203,37 +2141,29 @@ table#collection-view-contents tbody tr td {
     border-radius: var(--border-radius) !important;
     border: var(--border-size) solid var(--contrast-border) !important;
     border: none !important;
-
 }
-
 
 .lrn_widget.lrn_chemistryessayV2 .lrn_texteditor_editable.wysihtml-placeholder, .lrn_widget.lrn_formulaessayV2 .lrn_texteditor_editable.wysihtml-placeholder, .lrn_widget.lrn_longtextV2 .lrn_texteditor_editable.wysihtml-placeholder {
     color: var(--text) !important;
     background: var(--accent) !important;
     border: none !important;
-
 }
 
 .lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.wysihtml-sandbox.wysihtml-editor {
     color: var(--text) !important;
     background: var(--input) !important;
     border: none !important;
-
-
 }
 
 .lrn-wysihtml-toolbar.lrn_clearfix {
     color: var(--text) !important;
     background: var(--secondary) !important;
     border: none !important;
-
 }
-
 
 .lrn-toolbar {
     background: var(--secondary) !important;
     border: none !important;
-
 }
 
 .lrn_icon.lrn-icon-bold {
@@ -2265,26 +2195,19 @@ table#collection-view-contents tbody tr td {
     background: var(--accent) !important;
     color: var(--text) !important;
     border: none !important;
-
 }
 
 .lrn_word_count {
     color: var(--text) !important;
     border: none !important;
-
-
 }
 
 .lrn_word_limit {
     color: var(--text) !important;
     border: none !important;
-
-
 }
 
-
-/* Assesesment Rubric */ 
-
+/* Assesesment Rubric */
 
 .clock {
     color: var(--text) !important;
@@ -2303,42 +2226,39 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn-assess .timer {
-
     color: var(--text) !important;
-
 }
-
-
 
 /* Assesment Rubric */
 
-#grading-rubric-edit-slider .controls, #district-mastery-grading-rubric-edit-slider .controls { /* Left side Menu*/
+#grading-rubric-edit-slider .controls, #district-mastery-grading-rubric-edit-slider .controls {
+    /* Left side Menu*/
     background: var(--accent) !important;
     color: var(--text) !important;
     border: none !important;
-
 }
 
 .rubric-row.ng-scope {
-    background: var(--acent) !important; /* rubric Background color */
+    background: var(--acent) !important;
+    /* rubric Background color */
 }
 
 #grading-rubric-edit-slider .rubric-table .input-top, .rubric-table span.input-bottom, #district-mastery-grading-rubric-edit-slider .rubric-table .input-top, .rubric-table span.input-bottom {
-    color: var(--contrast-text) !important; /* Top part of each row */
+    color: var(--contrast-text) !important;
+    /* Top part of each row */
 }
 
 #grading-rubric-edit-slider .rubric-table tr.header-row, #district-mastery-grading-rubric-edit-slider .rubric-table tr.header-row {
-    border-top: 1px solid var(--border-color) !important; /* Border for header */
+    border-top: 1px solid var(--border-color) !important;
+    /* Border for header */
     border-bottom: 1px solid var(--border-color) !important;
     border: none !important;
-
 }
 
 #grading-rubric-edit-slider .rubric-table .header-row th, #district-mastery-grading-rubric-edit-slider .rubric-table .header-row th {
-    background-color: var(--accent) !important; /* Header Color */
+    background-color: var(--accent) !important;
+    /* Header Color */
 }
-
-
 
 .rubric-scroll {
     background: var(---accent) !important;
@@ -2348,14 +2268,11 @@ table#collection-view-contents tbody tr td {
     background: var(--accent) !important;
     border: none !important;
     color: var(--text) !important;
-
 }
 
 .s-slider.s-grading-rubric-edit-slider.s-grading-rubric.ng-scope.ui-resizable.opened.grade-setup-rubric-edit.new-rubric-edit.read-only {
     border: none !important;
-
 }
-
 
 /* Assesment Review*/
 
@@ -2375,7 +2292,7 @@ table#collection-view-contents tbody tr td {
     background-color: var(--accent) !important;
 }
 
-.lrn_assoc_col2.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_incorrect_marker.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_incorrect {
+.lrn_assoc_col2.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_incorrect_marker.lrn_response_container>.lrn_btn_drag.lrn_draggable.lrn_incorrect {
     background-color: var(--highlight) !important;
 }
 
@@ -2387,6 +2304,7 @@ table#collection-view-contents tbody tr td {
     background-color: var(--primary) !important;
     color: var(--text) !important;
 }
+
 .lrn_widget .lrn_correctAnswerList>li {
     background-color: var(--input) !important;
 }
@@ -2403,7 +2321,7 @@ table#collection-view-contents tbody tr td {
     background-color: var(--input) !important;
 }
 
-.lrn_assoc_col2.lrn_correct_marker.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_correct {
+.lrn_assoc_col2.lrn_correct_marker.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_response_container>.lrn_btn_drag.lrn_draggable.lrn_correct {
     background-color: var(--active) !important;
 }
 
@@ -2415,15 +2333,15 @@ table#collection-view-contents tbody tr td {
     background: var(--accent) !important;
 }
 
-.lrn_suggested_answer_item.lrn_clearfix > .lrn_suggested.lrn_btn_sort.lrn_btn_no_handle.lrn_disabled.lrn_sort_block.lrn_button {
+.lrn_suggested_answer_item.lrn_clearfix>.lrn_suggested.lrn_btn_sort.lrn_btn_no_handle.lrn_disabled.lrn_sort_block.lrn_button {
     background-color: var(--active) !important;
 }
 
-.lrn_response.lrn_clearfix.lrn_style_button > .lrn-response-validate-wrapper.lrn_response_input.lrn_incorrect {
+.lrn_response.lrn_clearfix.lrn_style_button>.lrn-response-validate-wrapper.lrn_response_input.lrn_incorrect {
     background-color: var(--accent) !important;
 }
 
-.lrn-response-validation-wrapper > .lrn_correctAnswers  {
+.lrn-response-validation-wrapper>.lrn_correctAnswers {
     background-color: var(--active) !important;
 }
 
@@ -2433,7 +2351,6 @@ table#collection-view-contents tbody tr td {
     background-color: var(--active) !important;
     color: var(--text) !important;
 }
-
 
 .layout-row-outer-1441760367 {
     background-color: var(--primary) !important;
@@ -2463,7 +2380,7 @@ table#collection-view-contents tbody tr td {
 }
 
 .typography-smallheader-light-bg-text-1999437409 {
-    color: var(--text) !important ;
+    color: var(--text) !important;
 }
 
 .rubric-grader-manage-rubric-studentLabel-3923154451 {
@@ -2491,23 +2408,18 @@ table#collection-view-contents tbody tr td {
     color: var(--text) !important;
 }
 
-
-
-
 .chart-wrapper .highchart-obj .no-data-overlay {
     background: transparent !important;
 }
 
 .no-data-message-wrapper {
-    background:  var(--secondary) !important;
+    background: var(--secondary) !important;
     color: var(--text) !important;
     padding: 3px !important;
     border-radius: var(--border-radius);
-    
 }
 
 /* Text Boxes for Discussions */
-
 
 .s_comments_level {
     background: var(--primary) !important;
@@ -2515,14 +2427,13 @@ table#collection-view-contents tbody tr td {
     padding: 10px !important;
 }
 
-.discussion-card > .s_comments_level {
+.discussion-card>.s_comments_level {
     background: var(--input) !important;
 }
 
 .iziToast-body img {
     max-width: 24px !important;
 }
-
 
 /* Fix for comment Reply*/
 
@@ -2542,5 +2453,5 @@ table#collection-view-contents tbody tr td {
 }
 
 #ids .name-wrapper {
-    background:transparent !important; 
+    background: transparent !important;
 }
