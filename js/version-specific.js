@@ -206,6 +206,27 @@ let migrationsTo = {
                 new Date(2020, 7 /* August */, 16)
             )
         ]);
+    },
+    "6.6": function (currentVersion, previousVersion) {
+        saveBroadcasts([
+            createBroadcast(
+                660,
+                "Checkmarks for submitted assignments!",
+                `
+                <div>
+                    <strong style="background: rgba(0,255,0,50%) !important;">Schoology Plus now shows checkmarks for submitted assingments in the Upcoming box!</strong>
+
+                    <p>By default, green check marks <span style="color: green !important;">✔</span> are shown on all
+                    assignments you've submitted. There are also options for putting a <span style="text-decoration: line-through;">strikethrough</span>
+                    through the assignment title or hiding the assignments completely. Of course you can also turn this feature off in settings.</p>
+                    
+                    <p><a href="#splus-settings#setting-input-indicateSubmission" style="font-weight: bold; font-size: 14px;">Click here to change this setting</a></p>
+                </div>
+                <img style="padding-top: 10px;" src="https://i.imgur.com/mrE2Iec.png"/>
+                `,
+                new Date(2020, 9 /* October */, 19)
+            )
+        ]);
     }
 };
 

@@ -647,6 +647,36 @@ function updateSettings(callback) {
                     element => element.value
                 ).control,
                 new Setting(
+                    "indicateSubmission",
+                    "Show Submitted Upcoming Assignments",
+                    '[Reload required] Shows a checkmark, shows a strikethrough, or hides items in "Upcoming Assignments" that have been submitted',
+                    "check",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Show Check Mark ✔",
+                                value: "check"
+                            },
+                            {
+                                text: "Show Strikethrough",
+                                value: "strikethrough"
+                            },
+                            {
+                                text: "Hide Assignment",
+                                value: "hide"
+                            },
+                            {
+                                text: "Do Nothing",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).control,
+                new Setting(
                     "upcomingOverdueVisibility",
                     "Hide Upcoming and Overdue Assignments",
                     'Hides the "Upcoming" and "Overdue" sidebars on the homepage',
