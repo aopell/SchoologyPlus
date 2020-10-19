@@ -323,7 +323,7 @@
                     let assignmentId = assignmentWrapper.getElementsByTagName("a")[1].href.match(/\d+/)[0];
 
                     gradesLoadedPromise.then(gradeContainer => {
-                        assignmentWrapper.querySelector(".grade-added").insertAdjacentElement("beforebegin", createElement("span", ["grade-data"], { textContent: ` (${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0})` }))
+                        assignmentWrapper.insertAdjacentElement("beforeend", createElement("span", ["grade-data"], { textContent: `${gradeContainer[assignmentId].grade} / ${gradeContainer[assignmentId].max_points || 0}` }))
                     });
                 }
                 return;

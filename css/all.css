@@ -472,6 +472,7 @@ the selector matches inside notifications in the new notifs dropdown
 .popups-body li .user-item .grade-data {
     font-size: 11px;
     color: #3aa406;
+    display: block;
 }
 
 #popups-overlay {
@@ -707,25 +708,4 @@ a._3_bfp {
     vertical-align: middle;
     float: left;
     margin-right: 10px;
-}
-
-.iziToast-body>img.iziToast-icon {
-    max-width: 24px !important;
-    display: block !important;
-}
-
-.splus-mark-completed-check .splus-assignment-complete .infotip a[href]::after {
-    content: "✔" !important;
-    float: right !important;
-    color: green !important;
-    font-size: 150% !important;
-    display: block !important;
-}
-
-.splus-mark-completed-strikethrough .splus-assignment-complete .infotip a[href] {
-    text-decoration: line-through !important;
-}
-
-.splus-mark-completed-hide .splus-assignment-complete {
-    display: none !important;
 }

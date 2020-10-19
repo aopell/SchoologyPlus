@@ -283,10 +283,8 @@ let modals = [
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
                     createElement("a", [], { href: "https://github.com/Roguim", textContent: "Roguim" }),
-                    createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger" }),
-                    createElement("span", [], { textContent: ", and " }),
-                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "xd-arsenic" })
+                    createElement("span", [], { textContent: " and " }),
+                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Various code contributions" })
             ]),
