@@ -24,6 +24,10 @@ Quick Access
 - Each class has a link to its home page, grades page, and mastery page
   - Click the icons next to each course to access its specific pages
 
+Check Marks for Submitted Upcoming Assignments*
+- By default, green check marks ✔ are shown on all assignments you've submitted.
+- There are also options for putting a strikethrough through the assignment title or hiding the assignments completely.
+
 Tooltips
 - Toolips for items on the materials page show previews
   - Assignments show score and grade category
