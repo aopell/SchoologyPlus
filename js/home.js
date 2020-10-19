@@ -138,7 +138,10 @@ if (Setting.getValue("broadcasts") !== "disabled") {
         }
     }
 
-    upcomingList.querySelector("button.button-reset.refresh-button").addEventListener("click", () => setTimeout(indicateSubmitted, 2000));
+    let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
+    if (reloadButton) {
+        reloadButton.addEventListener("click", () => setTimeout(indicateSubmitted, 2000));
+    }
 
     setTimeout(indicateSubmitted, 3000);
 })();
