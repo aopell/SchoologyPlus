@@ -3,7 +3,8 @@
     try {
         const inCommonID = "user-courses-in-common-list";
         const page = document.getElementById("main-inner");
-        if (!page) return;
+        const tab = document.querySelector("table.info-tab");
+        if (!page || !tab) return;
         const userID = document.location.href.match(/\/(\d+)\//)[1];
         const loadCommonCourses = getCoursesInCommon(userID);
         const container = createElement("div", [], {}, [
