@@ -1010,7 +1010,3 @@ async function createQuickAccess() {
 }
 
 Logger.log("Finished loading all.js");
-
-
-
-
