@@ -20,6 +20,7 @@
     - [Custom Themes](#custom-themes)
       - [Course Icons](#course-icons)
     - [Quick Access](#quick-access)
+    - [Check Marks for Submitted Upcoming Assignments](#check-marks-for-submitted-upcoming-assignments)
     - [Tooltips](#tooltips)
     - [Courses In Common](#courses-in-common)
     - [Miscellaneous Interface Improvements](#miscellaneous-interface-improvements)
@@ -82,6 +83,14 @@
 - Links for grade report, courses, mastery, and more
 - Each class has a link to its home page, grades page, and mastery page
   - Click the icons next to each course to access its specific pages
+
+### Check Marks for Submitted Upcoming Assignments
+
+![Upcoming Check Marks](https://i.imgur.com/mrE2Iec.png)
+
+*Image: Upcoming assignments with check marks*
+- By default, green check marks ✔ are shown on all assignments you've submitted*
+- There are also options for putting a ~~strikethrough~~ through the assignment title or hiding the assignments completely.
 
 ### Tooltips
 
