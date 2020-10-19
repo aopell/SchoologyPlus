@@ -127,9 +127,11 @@ if (Setting.getValue("broadcasts") !== "disabled") {
             let assignmentElement = eventElement.querySelector(".infotip a[href]");
             let assignmentId = assignmentElement.href.match(/\/\d+/);
             fetchApiJson(`/dropbox${assignmentId}/${getUserId()}`).then(j => {
-                Logger.log(`Marking assignment ${assignmentId} as complete ✔`);
                 if (j.revision && j.revision.length) {
+                    Logger.log(`Marking submitted assignment ${assignmentId} as complete ✔`);
                     eventElement.classList.add("splus-assignment-complete");
+                } else {
+                    Logger.log(`Assignment ${assignmentId} is not submitted`);
                 }
             });
         }

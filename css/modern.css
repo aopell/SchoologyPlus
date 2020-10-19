@@ -579,7 +579,7 @@ body .fc-event-skin {
     background-color: var(--primary) !important;
     border-color: none !important;
     color: var(--text) !important;
-    border-width: var(--border-width) !important;
+    border-width: var(--border-size) !important;
 }
 
 .fc-button.fc-corner-left {
@@ -625,7 +625,7 @@ div.les2- ._2wOCj {
 }
 
 ._33zXx {
-    background-color: var(--text) !important;
+    background-color: var(--active) !important;
 }
 
 div.les2- h3 {
@@ -1564,7 +1564,7 @@ ul.Search-dropdown-3huUv {
 .Search-dropdown-3huUv input {
     background-color: var(--input) !important;
     color: var(--text) !important;
-    border-bottom: 1px solid transparent !important;
+    border-bottom: var(--border-size) solid transparent !important;
 }
 
 /* Settings Page */
@@ -1681,7 +1681,7 @@ body .fc-widget-header .fc-agenda-divider-inner {
 /* Assignment page */
 
 #dropbox-viewer-right-toggle {
-    border: 1px solid var(--border-color) !important;
+    border: var(--border-size) solid var(--border-color) !important;
     background-color: var(--secondary) !important;
 }
 
@@ -1692,7 +1692,7 @@ body .fc-widget-header .fc-agenda-divider-inner {
 
 #dropbox-viewer-comments {
     background: var(--accent) !important;
-    border-bottom: 1px solid var(--border-color) !important;
+    border-bottom: var(--border-size) solid var(--border-color) !important;
 }
 
 .dropbox-viewer-submission-activity, .dropbox-viewer-submission-activity-inner {
@@ -1811,7 +1811,7 @@ table#collection-view-contents tbody tr td {
 }
 
 ._3dHTa {
-    background: var(--primary) !important;
+    background: var(--active) !important;
 }
 
 .UELBU {
@@ -1826,7 +1826,7 @@ table#collection-view-contents tbody tr td {
     background-color: var(--highlight) !important;
 }
 
-/* Quizes */
+/* Quizzes */
 
 #s-assessment-view-submission-form .selected.correct span.option-span {
     background-color: var(--active) !important;
@@ -1876,9 +1876,9 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .app-panel.review-screen .panel-content {
-    border: 1px solid var(--border-color) !important;
+    border: var(--border-size) solid var(--border-color) !important;
     background-color: var(--primary) !important;
-    border: var(--border-width) solid var(--contrast-border) !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
     background-color: var(--background-color) !important;
 }
 
@@ -1895,8 +1895,8 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature>button.lrn_active, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
-    border: 1px solid var(--text) !important;
-    border: var(--border-width) solid var(--contrast-border) !important;
+    border: var(--border-size) solid var(--text) !important;
+    border: var(--border-size) solid var(--contrast-border) !important;
     background: var(--border-color) !important;
     box-shadow: none;
 }
@@ -1963,7 +1963,7 @@ table#collection-view-contents tbody tr td {
 }
 
 .lrn.lrn-assess .app-panel.review-screen .panel-header {
-    border-bottom: 1px solid var(--primary) !important;
+    border-bottom: var(--border-size) solid var(--primary) !important;
 }
 
 .lrn_btn.item-prev.pos-right {
@@ -2008,6 +2008,10 @@ table#collection-view-contents tbody tr td {
     background-color: var(--accent) !important;
     /* MC Questions */
     color: var(--text) !important
+}
+
+.lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn-mcq-option.lrn_selected .lrn-label {
+    background-color: var(--highlight) !important;
 }
 
 .lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn_choiceLabel {
@@ -2253,9 +2257,9 @@ table#collection-view-contents tbody tr td {
 }
 
 #grading-rubric-edit-slider .rubric-table tr.header-row, #district-mastery-grading-rubric-edit-slider .rubric-table tr.header-row {
-    border-top: 1px solid var(--border-color) !important;
+    border-top: var(--border-size) solid var(--border-color) !important;
     /* Border for header */
-    border-bottom: 1px solid var(--border-color) !important;
+    border-bottom: var(--border-size) solid var(--border-color) !important;
     border: none !important;
 }
 
