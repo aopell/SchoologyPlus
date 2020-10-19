@@ -104,7 +104,7 @@ if (Setting.getValue("broadcasts") !== "disabled") {
 (function () {
     let upcomingList = document.querySelector(".upcoming-events .upcoming-list");
     // Indicate submitted assignments in Upcoming
-    function indicateSubmitted() {
+    async function indicateSubmitted() {
         Logger.log("Checking to see if upcoming assignments are submitted");
         upcomingList = document.querySelector(".upcoming-events .upcoming-list");
         switch (Setting.getValue("indicateSubmission")) {
@@ -127,14 +127,14 @@ if (Setting.getValue("broadcasts") !== "disabled") {
         for (let eventElement of upcomingEventElements) {
             let assignmentElement = eventElement.querySelector(".infotip a[href]");
             let assignmentId = assignmentElement.href.match(/\/\d+/);
-            fetchApiJson(`/dropbox${assignmentId}/${getUserId()}`).then(j => {
-                if (j.revision && j.revision.length) {
-                    Logger.log(`Marking submitted assignment ${assignmentId} as complete ✔`);
-                    eventElement.classList.add("splus-assignment-complete");
-                } else {
-                    Logger.log(`Assignment ${assignmentId} is not submitted`);
-                }
-            });
+            let revisions = await fetchApiJson(`dropbox${assignmentId}/${getUserId()}`).revision;
+
+            if (revisions && revisions.length) {
+                Logger.log(`Marking submitted assignment ${assignmentId} as complete ✔`);
+                eventElement.classList.add("splus-assignment-complete");
+            } else {
+                Logger.log(`Assignment ${assignmentId} is not submitted`);
+            }
         }
     }
 
