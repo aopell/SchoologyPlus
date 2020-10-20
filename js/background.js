@@ -317,7 +317,7 @@ function createLogPrefix(color) {
 }
 
 if (getBrowser() !== "Firefox") {
-
+    // See https://bugs.chromium.org/p/chromium/issues/detail?id=966223#c3
     chrome.webRequest.onHeadersReceived.addListener(details => {
         let exists = false;
         details.responseHeaders.map(item => {
