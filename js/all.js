@@ -270,23 +270,23 @@ let modals = [
             createElement("h2", ["setting-entry"], { textContent: "Contributors" }),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/aopell", textContent: "Aaron Opell" })
+                    createElement("a", [], { href: "https://github.com/aopell", textContent: "Aaron Opell (@aopell)" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Extension creator; lead developer" })
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/glen3b", textContent: "Glen Husman" })
+                    createElement("a", [], { href: "https://github.com/glen3b", textContent: "Glen Husman (@glen3b)" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Lead developer" })
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/Roguim", textContent: "Roguim" }),
+                    createElement("a", [], { href: "https://github.com/Roguim", textContent: "@Roguim" }),
                     createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger" }),
+                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger (@reteps)" }),
                     createElement("span", [], { textContent: ", and " }),
-                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "Alexander (xd-arsenic)" })
+                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "Alexander (@xd-arsenic)" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Various code contributions" })
             ]),
