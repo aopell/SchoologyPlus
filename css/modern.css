@@ -1923,9 +1923,9 @@ img#loader {
     background-color: var(--primary) !important;
 }
 
-.dialogs {
+/* .dialogs {
     background-color: var(--primary) !important;
-}
+} */
 
 .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature>button, .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue {
     background-color: var(--accent) !important;
@@ -1985,14 +1985,6 @@ img#loader {
 .lrn-assess>div ::-webkit-scrollbar-thumb {
     background: var(--primary) !important;
     box-shadow: inset 1px 1px 2px black;
-}
-
-.lrn-assess .timer {
-    background: var(--text) !important;
-}
-
-.lrn-timer-wrapper.pos-right {
-    background: var(--text) !important;
 }
 
 .lrn .modal-content {

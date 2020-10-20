@@ -91,7 +91,12 @@ function createToastButton(text, id, onClick, transition = "fadeOutRight") {
 function saveBroadcasts(broadcasts, callback = undefined) {
     chrome.storage.sync.get(["unreadBroadcasts"], values => {
         let b = values.unreadBroadcasts || [];
-        b.push(...broadcasts);
+        let ids = b.map(x => x.id);
+        for(let br of broadcasts) {
+            if (!ids.includes(br.id)) {
+                b.push(br);
+            }
+        }
         chrome.storage.sync.set({ unreadBroadcasts: b }, callback);
     });
 }
@@ -113,9 +118,16 @@ function createBroadcast(id, title, message, timestamp = Date.now()) {
  * @param  {...number} ids Broadcasts to delete
  */
 function deleteBroadcasts(...ids) {
-    chrome.storage.sync.get(["unreadBroadcasts"], v => {
-        chrome.storage.sync.set({ unreadBroadcasts: v.unreadBroadcasts.filter(x => !ids.includes(x.id)) });
-    });
+    for (let id of ids) {
+        let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
+        unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == id), 1);
+        Setting.setValue("unreadBroadcasts", unreadBroadcasts);
+
+        let broadcastElement = document.getElementById(`broadcast${id}`);
+        if (broadcastElement) {
+            broadcastElement.outerHTML = "";
+        }
+    }
 }
 
 /*
@@ -227,13 +239,45 @@ let migrationsTo = {
                 new Date(2020, 9 /* October */, 19)
             )
         ]);
+    },
+    "6.6.4": function (currentVersion, previousVersion) {
+        if (currentVersion === "6.6.4") {
+            saveBroadcasts([
+                createBroadcast(
+                    660,
+                    "Checkmarks for submitted assignments!",
+                    `
+                    <div>
+                        <strong style="background: rgba(0,255,0,50%) !important;">Schoology Plus now shows checkmarks for submitted assingments in the Upcoming box!</strong>
+
+                        <p>By default, green check marks <span style="color: green !important;">✔</span> are shown on all
+                        assignments you've submitted. There are also options for putting a <span style="text-decoration: line-through;">strikethrough</span>
+                        through the assignment title or hiding the assignments completely. Of course you can also turn this feature off in settings.</p>
+                        
+                        <p><a href="#splus-settings#setting-input-indicateSubmission" style="font-weight: bold; font-size: 14px;">Click here to change this setting</a></p>
+                    </div>
+                    <img style="padding-top: 10px;" src="https://i.imgur.com/mrE2Iec.png"/>
+                    `,
+                    new Date(2020, 9 /* October */, 19)
+                ),
+                createBroadcast(
+                    664,
+                    "Checkmarks work now!",
+                    `There was a major bug causing check marks not to appear in the last release (also sometimes causing Quick Access to disappear). 
+                    The bug has been fixed and both features should work again. Sorry about that!`,
+                    new Date(2020, 9 /* October */, 20)
+                )
+            ]);
+
+            deleteBroadcasts(660);
+        }
     }
 };
 
 function versionSpecificFirstLaunch(currentVersion, previousVersion) {
     Logger.log("[Updater] First launch after update, updating to ", currentVersion, " from ", previousVersion);
 
-    if(!previousVersion) {
+    if (!previousVersion) {
         trackEvent("Install", currentVersion, "Versions");
     } else {
         trackEvent("Update", `${previousVersion} to ${currentVersion}`, "Versions");
@@ -241,7 +285,7 @@ function versionSpecificFirstLaunch(currentVersion, previousVersion) {
 
     // TODO add special handling if any migrations return a Promise such that we run in order
     for (let migrateTo in migrationsTo) {
-        if (!previousVersion) {     
+        if (!previousVersion) {
             migrationsTo[migrateTo](currentVersion, previousVersion);
         } else if (compareVersions(migrateTo, currentVersion) <= 0 && compareVersions(migrateTo, previousVersion) > 0) {
             migrationsTo[migrateTo](currentVersion, previousVersion);
