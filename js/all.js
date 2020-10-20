@@ -286,7 +286,7 @@ let modals = [
                     createElement("span", [], { textContent: ", " }),
                     createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger" }),
                     createElement("span", [], { textContent: ", and " }),
-                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "xd-arsenic" })
+                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "Alexander (xd-arsenic)" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Various code contributions" })
             ]),
