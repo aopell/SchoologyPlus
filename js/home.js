@@ -127,7 +127,7 @@ if (Setting.getValue("broadcasts") !== "disabled") {
         for (let eventElement of upcomingEventElements) {
             let assignmentElement = eventElement.querySelector(".infotip a[href]");
             let assignmentId = assignmentElement.href.match(/\/\d+/);
-            let revisions = await fetchApiJson(`dropbox${assignmentId}/${getUserId()}`).revision;
+            let revisions = (await fetchApiJson(`dropbox${assignmentId}/${getUserId()}`)).revision;
 
             if (revisions && revisions.length) {
                 Logger.log(`Marking submitted assignment ${assignmentId} as complete ✔`);
