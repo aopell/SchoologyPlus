@@ -212,15 +212,13 @@ class ModernColorDefinition {
     /**
      * Utilizes the modern theme engine to control significantly more of the interface's colors.
      * @param {boolean} dark Whether the theme is dark or light
-     * @param {CustomColorDefinition} navbar Colors for the navigation bar
      * @param {ModernInterfaceColorDefinition} interface Colors for main interface components
      * @param {string[]} calendar Colors for Schoology calendar events (specify exactly 20)
      * @param {ModernTextColorDefinition} text Colors for text elements
      * @param {ModernOptionsDefinition} options Style options for the interface
      */
-    constructor(dark, navbar, interface, calendar, text, options) {
+    constructor(dark, interface, calendar, text, options) {
         this.dark = dark;
-        this.navbar = navbar;
         this.interface = interface;
         this.calendar = calendar;
         this.text = text;
@@ -236,7 +234,6 @@ class ModernColorDefinition {
         return o
             ? new ModernColorDefinition(
                 o.dark,
-                CustomColorDefinition.loadFromObject(o.navbar),
                 ModernInterfaceColorDefinition.loadFromObject(o.interface),
                 o.calendar,
                 ModernTextColorDefinition.loadFromObject(o.text),

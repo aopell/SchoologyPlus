@@ -46,12 +46,6 @@ A Schoology Plus theme has the following format and components (each component w
         },
         "modern": {
             "dark": true,
-            "navbar": {
-                "primary": "red",
-                "hover": "rgb(0,0,255)",
-                "background": "hsl(150,50%,50%)",
-                "border": "#000000"
-            },
             "interface": {
                 "primary": "",
                 "accent": "",
