@@ -694,6 +694,12 @@ a._3_bfp {
     content: "eta Enabled";
 }
 
+.splus-beta-container:hover .splus-beta-tag::before {
+    content: "⚙";
+    float: right;
+    padding-left: 5px;
+}
+
 .splus-beta-container div {
     display: none;
 }
