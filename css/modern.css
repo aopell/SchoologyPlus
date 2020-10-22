@@ -172,8 +172,8 @@ pre {
     display: inline-block !important;
     color: var(--text) !important;
     background-color: var(--secondary) !important;
-    padding: 10px !important;
-    margin-top: 10px !important;
+    padding: var(--padding) !important;
+    margin-top: var(--padding) !important;
     border-radius: var(--border-radius) !important;
 }
 
@@ -1258,8 +1258,8 @@ body.library-view #library-left {
     background-color: var(--accent) !important;
     border: var(--border-size) solid var(--contrast-border) !important;
     border-right: none !important;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-left-radius: var(--border-radius) !important;
+    border-bottom-left-radius: var(--border-radius) !important;
 }
 
 th.profile-header {
@@ -1413,8 +1413,8 @@ table.privatemsg-list td.no-messages {
 #attachment-selector {
     background: var(--secondary) !important;
     border: none !important;
-    border-bottom-left-radius: 5px !important;
-    border-bottom-right-radius: 5px !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
 }
 
 #attachment-selector li {
@@ -2674,7 +2674,7 @@ img#loader {
 .s_comments_level {
     background: var(--primary) !important;
     border-radius: var(--border-radius) !important;
-    padding: 10px !important;
+    padding: var(--padding) !important;
 }
 
 .discussion-card>.s_comments_level {

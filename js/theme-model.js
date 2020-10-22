@@ -100,17 +100,165 @@ class RainbowColorDefinition {
     }
 }
 
+class ModernInterfaceColorDefinition {
+    /**
+     * Defines individual colors for different Schoology interface components
+     * @param {string} primary Primary interface color -- should be the lightest of the main colors
+     * @param {string} accent Accent interface color -- should be darker than primary, but lighter than secondary
+     * @param {string} secondary Secondary interface color -- should be the darkest of the main colors
+     * @param {string} input Color for textboxes and other input fields
+     * @param {string} border Color for element borders
+     * @param {string} highlight Color for highlights, warnings, and wrong answers
+     * @param {string} active Color for active elements, selected items, and correct answers
+     * @param {string} grades Color for grades and scores
+     * @param {string} error Color for error messages and icons
+     */
+    constructor(primary, accent, secondary, input, border, highlight, active, grades, error) {
+        this.primary = primary;
+        this.accent = accent;
+        this.secondary = secondary;
+        this.input = input;
+        this.border = border;
+        this.highlight = highlight;
+        this.active = active;
+        this.grades = grades;
+        this.error = error;
+    }
+
+    /**
+     * Creates and returns a `ModernInterfaceColorDefinition` given a valid JSON object
+     * @param {*} o JSON representation of a `ModernInterfaceColorDefinition`
+     * @returns {ModernInterfaceColorDefinition}
+     */
+    static loadFromObject(o) {
+        return o
+            ? new ModernInterfaceColorDefinition(
+                o.primary,
+                o.accent,
+                o.secondary,
+                o.input,
+                o.border,
+                o.highlight,
+                o.active,
+                o.grades,
+                o.error
+            )
+            : undefined;
+    }
+}
+
+class ModernTextColorDefinition {
+    /**
+     * Defines colors for textual elements of the Schoology interface
+     * @param {string} primary Main text color, should contrast with `interface.primary`
+     * @param {string} muted Muted text color, should stand out less than primary
+     * @param {string} contrast Contrast text color, should contrast with primary text color
+     * @param {string} link Color for links and other interactive text
+     */
+    constructor(primary, muted, contrast, link) {
+        this.primary = primary;
+        this.muted = muted;
+        this.contrast = contrast;
+        this.link = link;
+    }
+
+    /**
+     * Creates and returns a `ModernTextColorDefinition` given a valid JSON object
+     * @param {*} o JSON representation of a `ModernTextColorDefinition`
+     * @returns {ModernTextColorDefinition}
+     */
+    static loadFromObject(o) {
+        return o
+            ? new ModernTextColorDefinition(
+                o.primary,
+                o.muted,
+                o.contrast,
+                o.link
+            )
+            : undefined;
+    }
+}
+
+class ModernOptionsDefinition {
+    /**
+     * Configures style options for the modern theme engine
+     * @param {number} borderRadius The size of border radius rounded corners (in pixels)
+     * @param {number} borderSize The width of borders (in pixels)
+     * @param {number} padding The amount of padding for certain elements (in pixels)
+     */
+    constructor(borderRadius, borderSize, padding) {
+        this.borderRadius = borderRadius;
+        this.borderSize = borderSize;
+        this.padding = padding;
+    }
+
+    /**
+     * Creates and returns a `ModernOptionsDefinition` given a valid JSON object
+     * @param {*} o JSON representation of a `ModernOptionsDefinition`
+     * @returns {ModernOptionsDefinition}
+     */
+    static loadFromObject(o) {
+        return o
+            ? new ModernOptionsDefinition(
+                o.borderRadius,
+                o.borderSize,
+                o.padding
+            )
+            : undefined;
+    }
+}
+
+class ModernColorDefinition {
+    /**
+     * Utilizes the modern theme engine to control significantly more of the interface's colors.
+     * @param {boolean} dark Whether the theme is dark or light
+     * @param {CustomColorDefinition} navbar Colors for the navigation bar
+     * @param {ModernInterfaceColorDefinition} interface Colors for main interface components
+     * @param {string[]} calendar Colors for Schoology calendar events (specify exactly 20)
+     * @param {ModernTextColorDefinition} text Colors for text elements
+     * @param {ModernOptionsDefinition} options Style options for the interface
+     */
+    constructor(dark, navbar, interface, calendar, text, options) {
+        this.dark = dark;
+        this.navbar = navbar;
+        this.interface = interface;
+        this.calendar = calendar;
+        this.text = text;
+        this.options = options;
+    }
+
+    /**
+     * Creates and returns a `ModernColorDefinition` given a valid JSON object
+     * @param {*} o JSON representation of a `ModernColorDefinition`
+     * @returns {ModernColorDefinition}
+     */
+    static loadFromObject(o) {
+        return o
+            ? new ModernColorDefinition(
+                o.dark,
+                CustomColorDefinition.loadFromObject(o.navbar),
+                ModernInterfaceColorDefinition.loadFromObject(o.interface),
+                o.calendar,
+                ModernTextColorDefinition.loadFromObject(o.text),
+                ModernOptionsDefinition.loadFromObject(o.options)
+            )
+            : undefined;
+    }
+}
+
 class ThemeColor {
     /**
      * Describes the colors to use for the Schoology interface
      * @param {number} hue The theme's HSL color hue, used to color the interface by modifying the saturation and lightness values
      * @param {CustomColorDefinition} custom Allows fine control over individual colors in the interface
      * @param {RainbowColorDefinition} rainbow Allows for animations of hue, saturation, and lightness of interface colors
+     * @param {ModernColorDefinition} modern Utilizes the modern theme engine to control significantly more of the interface's colors 
      */
-    constructor(hue, custom, rainbow) {
+    constructor(hue, custom, rainbow, modern) {
         this.hue = hue;
         this.custom = custom;
         this.rainbow = rainbow;
+        this.modern = modern;
     }
 
     /**
@@ -119,7 +267,7 @@ class ThemeColor {
      * @returns {ThemeColor}
      */
     static loadFromObject(o) {
-        return o ? new ThemeColor(o.hue, CustomColorDefinition.loadFromObject(o.custom), RainbowColorDefinition.loadFromObject(o.rainbow)) : new ThemeColor(210);
+        return o ? new ThemeColor(o.hue, CustomColorDefinition.loadFromObject(o.custom), RainbowColorDefinition.loadFromObject(o.rainbow), ModernColorDefinition.loadFromObject(o.modern)) : new ThemeColor(210);
     }
 }
 
