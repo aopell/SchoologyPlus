@@ -120,6 +120,7 @@ function createBroadcast(id, title, message, timestamp = Date.now()) {
 function deleteBroadcasts(...ids) {
     for (let id of ids) {
         let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
+        if(!unreadBroadcasts) continue;
         unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == id), 1);
         Setting.setValue("unreadBroadcasts", unreadBroadcasts);
 
@@ -241,7 +242,7 @@ let migrationsTo = {
         ]);
     },
     "6.6.4": function (currentVersion, previousVersion) {
-        if (currentVersion === "6.6.4") {
+        if (previousVersion && currentVersion === "6.6.4") {
             saveBroadcasts([
                 createBroadcast(
                     660,
