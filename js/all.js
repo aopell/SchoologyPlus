@@ -113,12 +113,12 @@
                 let themes = s.themes.filter(x => x.name !== `Auto Generated Theme for ${window.location.host}`);
                 themes.push(t);
                 chrome.storage.sync.set({ themes: themes }, () => {
-                    alert(`Schoology Plus has updated the domain on which it runs. Click OK to reload the page.\nPrevious: ${dd}\nNew: ${window.location.host}`);
+                    Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.host}`);
                     location.reload();
                 });
             });
         } else {
-            alert(`Schoology Plus has updated the domain on which it runs. Click OK to reload the page.\nPrevious: ${dd}\nNew: ${window.location.host}`);
+            Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.host}`);
             location.reload();
         }
     }
