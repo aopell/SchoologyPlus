@@ -3,6 +3,7 @@
     "name": "Schoology Plus",
     "short_name": "Schoology+",
     "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
+    "homepage_url": "https://schoologypl.us?utm_source=ext-homepage-link",
     "applications": {
         "gecko": {
             "id": "schoology.plus@aopell.me"
