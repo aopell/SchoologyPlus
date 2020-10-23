@@ -1354,6 +1354,7 @@ body .action-links a:hover {
 
 .pre-fill,
 .upcoming-list .empty,
+.readonly-title,
 .no-attendance-status-dates {
     color: var(--muted-text) !important;
 }
