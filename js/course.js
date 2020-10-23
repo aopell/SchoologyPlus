@@ -25,7 +25,7 @@ modals.push(new Modal("course-settings-modal", "Course Options", createElement("
                 createElement("label", ["centered-label"], { textContent: "Nickname: ", htmlFor: "setting-input-course-alias" }),
                 createElement("input", [], { type: "text", id: "setting-input-course-alias" }, [])
             ]),
-            createElement("p", ["setting-description"], { textContent: "A frendlier name for a course that shows anywhere the full name for the course would normally" })
+            createElement("p", ["setting-description"], { textContent: "A friendlier name for a course that shows anywhere the full name for the course would normally" })
         ]),
         createElement("div", ["setting-entry"], {}, [
             createElement("h2", [], { textContent: "Grading Scale" }),
