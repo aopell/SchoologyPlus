@@ -62,6 +62,7 @@
             ],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
+                "https://*.schoology.com/register*",
                 "*://asset-cdn.schoology.com/*",
                 "*://developer.schoology.com/*",
                 "*://support.schoology.com/*",
@@ -94,6 +95,7 @@
                 "https://*.schoology.com/*"
             ],
             "exclude_matches": [
+                "https://*.schoology.com/register*",
                 "https://*.schoology.com/login*"
             ],
             "css": [
@@ -243,6 +245,7 @@
                 "https://*.schoology.com/*"
             ],
             "exclude_matches": [
+                "https://*.schoology.com/register*",
                 "https://*.schoology.com/login*"
             ],
             "js": [
