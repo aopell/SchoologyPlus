@@ -722,6 +722,10 @@ div.les2- ._2wOCj {
     background-color: var(--active) !important;
 }
 
+.util-focus-background-color-cloud-grey-3x07X:focus {
+    background-color: var(--active) !important;
+}
+
 ._33zXx {
     background-color: var(--active) !important;
 }
@@ -1295,6 +1299,10 @@ th.profile-header {
     border-radius: var(--border-radius) !important;
 }
 
+.navigator-buttons a.navbtn.link-btn {
+    color: var(--text) !important;
+}
+
 .has-folder-player #center-top .content-top-upper,
 .has-materials-player #center-top .content-top-upper {
     background-color: var(--secondary) !important;
@@ -1764,13 +1772,15 @@ ul.primary,
     background-color: var(--secondary) !important;
 }
 
-ul.primary li a {
+ul.primary li a,
+ul.primary li .link-wrapper a {
     background: unset !important;
     background-color: var(--secondary) !important;
     color: var(--text) !important;
 }
 
 ul.primary li.active a,
+ul.primary li.active .link-wrapper a,
 .email-notify,
 fieldset {
     background-color: var(--accent) !important;
@@ -1839,6 +1849,10 @@ div.cellphone-container {
 .settings-table tbody td.realm-disabled:hover,
 .settings-table tbody td.area-disabled {
     background: none !important;
+}
+
+.terms-msg {
+    color: var(--text) !important;
 }
 
 /* Error Page */
