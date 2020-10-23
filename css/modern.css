@@ -186,7 +186,7 @@ input[type=text] {
     border-radius: var(--border-radius) !important;
 }
 
-/* All user-styled elements -- should be for dark only */
+/* All user-styled elements -- should be for override user styles only */
 .s-edge-feed .edge-item *[style],
 .discussion-view .discussion-prompt *[style],
 .discussion-view .comment-body-wrapper *[style],
