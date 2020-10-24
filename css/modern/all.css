@@ -1,0 +1,2679 @@
+[modern=true]:root {
+  --primary: #36393F;
+  --accent: #2F3136;
+  --secondary: #202225;
+  --text: #DCDDDE;
+  --contrast-text: #EEEEEE;
+  --muted-text: #72767D;
+  --contrast-border: #DCDDDE;
+  --input: #40444B;
+  --error: #F44336;
+  --highlight: rgba(184, 134, 11, 0.2);
+  --active: rgba(0, 255, 255, 0.1);
+  --grades: #8BC34A;
+  --border-radius: 5px;
+  --border-size: 1px;
+  --padding: 10px;
+  --theme-is-dark: 1;
+  --cal1: #457da5;
+  --cal2: #547c41;
+  --cal3: #926c37;
+  --cal4: #7c3d6b;
+  --cal5: #0b4c9c;
+  --cal6: #00209c;
+  --cal7: #004a09;
+  --cal8: #72721a;
+  --cal9: #44233e;
+  --cal10: #683131;
+  --cal11: #770a0a;
+  --cal12: #a72413;
+  --cal13: #E0024C;
+  --cal14: #188C16;
+  --cal15: #bd7304;
+  --cal16: #80168C;
+  --cal17: #164152;
+  --cal18: #00543f;
+  --cal19: #633e11;
+  --cal20: #461b2d;
+}
+
+[modern=true][dark=false]:root {
+  --primary: #EAEAEA;
+  --accent: #F7F7F7;
+  --secondary: #DDD;
+  --text: #2A2A2A;
+  --contrast-text: white;
+  --muted-text: #677583;
+  --contrast-border: #BABABA;
+  --input: #D0D0D0;
+  --error: #F44336;
+  --highlight: rgba(255, 183, 2, 0.2);
+  --active: #98d4e4;
+  --grades: #009400;
+  --border-radius: 5px;
+  --border-size: 1px;
+  --padding: 10px;
+  --theme-is-dark: 0;
+  --cal1: #d6e7f4;
+  --cal2: #d7e8cf;
+  --cal3: #f9e9d4;
+  --cal4: #e7e0e5;
+  --cal5: #e6b5c9;
+  --cal6: #f9f1cf;
+  --cal7: #daf0f9;
+  --cal8: #f9ddea;
+  --cal9: #fbd7d8;
+  --cal10: #f1f2d1;
+  --cal11: #e0e8f5;
+  --cal12: #fbd7e4;
+  --cal13: #fcddd3;
+  --cal14: #e7f2d5;
+  --cal15: #e6e0ee;
+  --cal16: #f0e5db;
+  --cal17: #fce8d1;
+  --cal18: #e1f1e7;
+  --cal19: #f0dfed;
+  --cal20: #e9e9ea;
+}
+
+[modern=true][test=true]:root {
+  --primary: black;
+  --accent: black;
+  --secondary: black;
+  --text: black;
+  --contrast-text: black;
+  --muted-text: black;
+  --contrast-border: black;
+  --input: black;
+  --error: black;
+  --highlight: black;
+  --active: black;
+  --grades: black;
+  --border-radius: 5px;
+  --border-size: 1px;
+  --padding: 10px;
+  --hover-color: black !important;
+  --cal5: #000;
+  --cal6: #000;
+  --cal7: #000;
+  --cal8: #000;
+  --cal9: #000;
+  --cal10: #000;
+  --cal11: #000;
+  --cal12: #000;
+  --cal13: #000;
+  --cal14: #000;
+  --cal15: #000;
+  --cal16: #000;
+  --cal17: #000;
+  --cal18: #000;
+  --cal19: #000;
+  --cal20: #000;
+}
+
+[modern=true][test=true][test-mode=crazy]:root {
+  --primary: magenta;
+  --accent: purple;
+  --secondary: maroon;
+  --text: yellow;
+  --contrast-text: mediumspringgreen;
+  --muted-text: orange;
+  --contrast-border: gold;
+  --input: blue;
+  --error: red;
+  --highlight: rgba(0, 255, 0, 0.3);
+  --active: rgba(0, 0, 255, 0.3);
+  --grades: aqua;
+  --hover-color: lime !important;
+  --cal5: red;
+  --cal6: green;
+  --cal7: blue;
+  --cal8: orange;
+  --cal9: yellow;
+  --cal10: lightblue;
+  --cal11: lime;
+  --cal12: powderblue;
+  --cal13: purple;
+  --cal14: magenta;
+  --cal15: darkred;
+  --cal16: maroon;
+  --cal17: brown;
+  --cal18: pink;
+  --cal19: aliceblue;
+  --cal20: antiquewhite;
+}
+
+[modern=true]:root h1,
+[modern=true]:root h2,
+[modern=true]:root h3,
+[modern=true]:root h4,
+[modern=true]:root h5,
+[modern=true]:root h6,
+[modern=true]:root p {
+  color: var(--text) !important;
+}
+
+[modern=true]:root pre {
+  background-color: var(--input);
+  color: var(--contrast-text);
+}
+
+[modern=true]:root #youtube-disclaimer {
+  display: inline-block !important;
+  color: var(--text) !important;
+  background-color: var(--secondary) !important;
+  padding: var(--padding) !important;
+  margin-top: var(--padding) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root textarea,
+[modern=true]:root select,
+[modern=true]:root input[type=text] {
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true][style-override=true]:root .s-edge-feed .edge-item *[style] {
+  color: var(--text) !important;
+  background: none !important;
+}
+
+[modern=true][style-override=true]:root .discussion-view .discussion-prompt *[style],
+[modern=true][style-override=true]:root .discussion-view .comment-body-wrapper *[style] {
+  color: var(--text) !important;
+  background: none !important;
+}
+
+[modern=true][style-override=true]:root #important-post-body *[style],
+[modern=true][style-override=true]:root #main-inner .info-container *[style],
+[modern=true][style-override=true]:root .standard-page .s-page-content-full *[style],
+[modern=true][style-override=true]:root .discussion-prompt *[style],
+[modern=true][style-override=true]:root .comment-comment .comment-body-wrapper *[style],
+[modern=true][style-override=true]:root .instructions-content *[style],
+[modern=true][style-override=true]:root .lrn_stimulus .lrn_stimulus_content *[style],
+[modern=true][style-override=true]:root .lrn-possible-answer *[style] {
+  color: var(--text) !important;
+  background: none !important;
+}
+
+[modern=true]:root ul.context-menu-list {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-color: var(--accent) !important;
+}
+
+[modern=true]:root ul.context-menu-list li.context-menu-item {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-color: var(--accent) !important;
+}
+
+[modern=true]:root ul.context-menu-list li.context-menu-item:hover {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .menu-459.group-discussion-left-menu {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root * {
+  scrollbar-color: var(--input) var(--accent) !important;
+  scrollbar-width: 15px !important;
+  scrollbar-arrow-color: var(--contrast-text) !important;
+}
+
+[modern=true]:root *::-webkit-scrollbar {
+  background: transparent !important;
+  width: 15px;
+}
+
+[modern=true]:root *::-webkit-scrollbar-track-piece {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root *::-webkit-scrollbar-button, [modern=true]:root *::-webkit-scrollbar-corner {
+  display: none !important;
+}
+
+[modern=true]:root *::-webkit-scrollbar-thumb {
+  background: var(--input) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #body {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root iframe {
+  background-color: white !important;
+}
+
+[modern=true]:root #main-content-wrapper {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #right-column-inner > div:not(:empty) {
+  background-color: var(--secondary) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  padding: var(--padding) !important;
+}
+
+[modern=true]:root #center-top {
+  background: unset !important;
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+[modern=true]:root .has-right-col #center-inner {
+  background: none !important;
+}
+
+[modern=true]:root body a.link-btn,
+[modern=true]:root body button.link-btn {
+  box-shadow: none !important;
+  background: none !important;
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .inline-popup-wrapper {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .inline-popup-wrapper .arrow-top {
+  display: none !important;
+}
+
+[modern=true]:root .s-polls-results-overlay {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root .s-notifications-mini .edge-sentence {
+  color: var(--text);
+}
+
+[modern=true]:root .grade-data {
+  color: var(--grades) !important;
+}
+
+[modern=true]:root #main .s-notifications-mini .edge-time,
+[modern=true]:root #main .s-notifications-mini .created {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .splus-modal-title {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .submit-span-wrapper {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .submit-span-wrapper input[type="button"], [modern=true]:root .submit-span-wrapper input[type="submit"] {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root :not(.submit-span-wrapper) > input[type="button"], [modern=true]:root :not(.submit-span-wrapper) > input[type="submit"] {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root footer li a,
+[modern=true]:root header li a {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .splus-modal-footer-text {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .splus-modal-footer-text a {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root body a.link-btn.active,
+[modern=true]:root div.courses-left-menu,
+[modern=true]:root .portfolio-list a.btn,
+[modern=true]:root a._3_bfp {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root footer {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root footer button {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .Header-header-button-1EE8Y,
+[modern=true]:root [class*="Header-header-drop-menu-item-"],
+[modern=true]:root [class*="Header-header-drop-menu-"] li a *,
+[modern=true]:root .Header-header-button-active-GnvKh,
+[modern=true]:root .LGaPf svg {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .close {
+  color: var(--contrast-text) !important;
+  opacity: 0.8 !important;
+}
+
+[modern=true]:root .close:hover, [modern=true]:root .close:focus {
+  opacity: 1 !important;
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+  background-color: var(--text) !important;
+  color: var(--secondary) !important;
+  filter: Invert(var(--theme-is-dark)) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .action-links-unfold {
+  background-image: none !important;
+  background-color: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root [dark=false]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
+[modern=true]:root .action-links-unfold:hover {
+  background-color: var(--muted-text) !important;
+}
+
+[modern=true]:root [dark=false]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
+[modern=true]:root [dark=false]:root .action-links-unfold:hover {
+  background-color: var(--muted-text) !important;
+}
+
+[modern=true]:root .popups-box .popups-body,
+[modern=true]:root #popups-loading div {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+[modern=true]:root .popups-box .submit-buttons {
+  background-color: var(--accent) !important;
+  border-top: none !important;
+}
+
+[modern=true]:root .popups-box .popups-title {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+[modern=true]:root .popups-close:hover a {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root .popups-close a {
+  background-position-y: calc(-80px - (20px * var(--theme-is-dark))) !important;
+  border-radius: 2px !important;
+}
+
+[modern=true]:root .likers li:not(.last) {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root fieldset div div div label span {
+  color: var(--text) !important;
+}
+
+[modern=true]:root ._2WC16 span._24avl._17Z60 {
+  color: var(--accent) !important;
+}
+
+[modern=true]:root .popups-buttons-inner {
+  background: var(--secondary) !important;
+}
+
+[modern=true]:root .popups-tab,
+[modern=true]:root .popups-tabs {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root .popups-tab.active {
+  background: var(--primary) !important;
+}
+
+[modern=true]:root ._pendo-step-container-styles {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .pendo-mock-flexbox-element:nth-child(2) > button {
+  background-color: var(--primary) !important;
+  border-color: var(--contrast-border) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .popups-box.popups-library #resources-left-menu-wrapper {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root .popups-box #library-wrapper {
+  background: var(--primary) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root div.error,
+[modern=true]:root tr.error {
+  background-color: var(--error) !important;
+  border-color: var(--error) !important;
+}
+
+[modern=true]:root .splus-courses-navbar-button div[role=menu],
+[modern=true]:root .splus-groups-navbar-button div[role=menu] {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .splus-coursesdropdown-reorder-btn {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root .splus-courses-navbar-button article,
+[modern=true]:root .splus-groups-navbar-button article {
+  border: var(--border-size) solid transparent !important;
+  outline: none !important;
+}
+
+[modern=true]:root .splus-courses-navbar-button article a,
+[modern=true]:root .splus-groups-navbar-button article a {
+  border: var(--border-size) solid transparent !important;
+  outline: none !important;
+}
+
+[modern=true]:root .JoinCard-card-1qWtS {
+  border: var(--border-size) solid transparent !important;
+  outline: none !important;
+}
+
+[modern=true]:root .splus-courses-navbar-button article a:hover,
+[modern=true]:root .splus-groups-navbar-button article a:hover,
+[modern=true]:root .JoinCard-card-1qWtS:hover {
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .Card-card-image-uV6Bu {
+  border-top-left-radius: var(--border-radius) !important;
+  border-top-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .Card-card-data-17m6S {
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .Card-card-data-17m6S div {
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .splus-courses-navbar-button article a div,
+[modern=true]:root .splus-groups-navbar-button article a div {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root .splus-courses-navbar-button article a div div._1wP6w,
+[modern=true]:root .splus-groups-navbar-button article a div div._1wP6w {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .splus-courses-navbar-button article a div div._2wOCj,
+[modern=true]:root .splus-groups-navbar-button article a div div._2wOCj {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root header div.Je0RK button._1SIMq {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root ._1DD87,
+[modern=true]:root ._3gfrT:focus:not(:active),
+[modern=true]:root .oUq3j:hover:not(:active) {
+  border: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .JoinCard-card-1qWtS ._1Z0RM {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root .fcalendar-filter-menu-wrapper {
+  background-color: var(--secondary) !important;
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root .color-codes-box {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .fcalendar-filter-menu-wrapper .checkbox.filter-selected {
+  background-position-y: -19px !important;
+}
+
+[modern=true]:root body .fc-event-skin {
+  color: var(--text);
+}
+
+[modern=true]:root .color-default-personal,
+[modern=true]:root .color-default-groups,
+[modern=true]:root .color-default-courses,
+[modern=true]:root .color-default-school,
+[modern=true]:root .color-1,
+[modern=true]:root .color-2,
+[modern=true]:root .color-3,
+[modern=true]:root .color-4,
+[modern=true]:root .color-5,
+[modern=true]:root .color-6,
+[modern=true]:root .color-7,
+[modern=true]:root .color-8,
+[modern=true]:root .color-9,
+[modern=true]:root .color-10,
+[modern=true]:root .color-11,
+[modern=true]:root .color-12,
+[modern=true]:root .color-13,
+[modern=true]:root .color-14,
+[modern=true]:root .color-15,
+[modern=true]:root .color-16 {
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+[modern=true]:root .fc-event-skin.ev-course,
+[modern=true]:root .legend-course {
+  background: var(--cal3);
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+[modern=true]:root .fc-event-skin.ev-group,
+[modern=true]:root .legend-group {
+  background: var(--cal2);
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+[modern=true]:root .fc-event-skin.ev-user,
+[modern=true]:root .legend-user {
+  background: var(--cal1);
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+[modern=true]:root .fc-event-skin.ev-school,
+[modern=true]:root .legend-school {
+  background: var(--cal4);
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+[modern=true]:root .color-default-personal {
+  background: var(--cal1) !important;
+}
+
+[modern=true]:root .color-default-groups {
+  background: var(--cal2) !important;
+}
+
+[modern=true]:root .color-default-courses {
+  background: var(--cal3) !important;
+}
+
+[modern=true]:root .color-default-school {
+  background: var(--cal4) !important;
+}
+
+[modern=true]:root .color-1 {
+  background: var(--cal5) !important;
+}
+
+[modern=true]:root .color-2 {
+  background: var(--cal6) !important;
+}
+
+[modern=true]:root .color-3 {
+  background: var(--cal7) !important;
+}
+
+[modern=true]:root .color-4 {
+  background: var(--cal8) !important;
+}
+
+[modern=true]:root .color-5 {
+  background: var(--cal9) !important;
+}
+
+[modern=true]:root .color-6 {
+  background: var(--cal10) !important;
+}
+
+[modern=true]:root .color-7 {
+  background: var(--cal11) !important;
+}
+
+[modern=true]:root .color-8 {
+  background: var(--cal12) !important;
+}
+
+[modern=true]:root .color-9 {
+  background: var(--cal13) !important;
+}
+
+[modern=true]:root .color-10 {
+  background: var(--cal14) !important;
+}
+
+[modern=true]:root .color-11 {
+  background: var(--cal15) !important;
+}
+
+[modern=true]:root .color-12 {
+  background: var(--cal16) !important;
+}
+
+[modern=true]:root .color-13 {
+  background: var(--cal17) !important;
+}
+
+[modern=true]:root .color-14 {
+  background: var(--cal18) !important;
+}
+
+[modern=true]:root .color-15 {
+  background: var(--cal19) !important;
+}
+
+[modern=true]:root .color-16 {
+  background: var(--cal20) !important;
+}
+
+[modern=true]:root .fc-state-default {
+  background-color: var(--primary) !important;
+  border-color: none !important;
+  color: var(--text) !important;
+  border-width: var(--border-size) !important;
+}
+
+[modern=true]:root .fc-state-default .fc-button-inner {
+  background-color: var(--primary) !important;
+  border-color: none !important;
+  color: var(--text) !important;
+  border-width: var(--border-size) !important;
+}
+
+[modern=true]:root .fc-button.fc-corner-left {
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-top-left-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .fc-button.fc-corner-right {
+  border-bottom-right-radius: var(--border-radius) !important;
+  border-top-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .fc-state-disabled {
+  background-color: var(--secondary) !important;
+  color: var(--muted-text) !important;
+  border-color: none !important;
+}
+
+[modern=true]:root .fc-state-disabled .fc-button-inner {
+  background-color: var(--secondary) !important;
+  color: var(--muted-text) !important;
+  border-color: none !important;
+}
+
+[modern=true]:root .fc-state-active {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .fc-state-active .fc-button-inner {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root div.les2- {
+  background-color: var(--secondary) !important;
+}
+
+[modern=true]:root div.les2- ._3skcp {
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root div.les2- ._1wP6w {
+  color: var(--text) !important;
+}
+
+[modern=true]:root div.les2- ._2wOCj {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .util-hover-background-color-cloud-grey-wHghL:hover,
+[modern=true]:root .util-focus-background-color-cloud-grey-3x07X:focus,
+[modern=true]:root ._33zXx {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root div.les2- h3 {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .close-button,
+[modern=true]:root .restore-defaults {
+  color: var(--error) !important;
+}
+
+[modern=true]:root .setting-highlight {
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root .splus-modal-body {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .is-home #right-column-inner div,
+[modern=true]:root .is-home #home-feed-container {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .is-home #center div#main,
+[modern=true]:root .is-home #main-inner,
+[modern=true]:root .is-home #main-content-wrapper {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .date-header h4 span,
+[modern=true]:root .s-poll-option-title,
+[modern=true]:root .s-like-sentence {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .s-polls-poll-option,
+[modern=true]:root #edge-filters-menu {
+  background: none !important;
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #edge-filters {
+  background: none !important;
+  border: none !important;
+}
+
+[modern=true]:root #edge-filters-btn,
+[modern=true]:root .feed-comments {
+  background-position-y: calc(-576px - 18px * var(--theme-is-dark)) !important;
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  opacity: unset !important;
+}
+
+[modern=true]:root #edge-filters-menu .edge-filter-option {
+  background-position: 0 calc(-237px - 20px * var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root #edge-filters-menu .edge-filter-option:hover, [modern=true]:root #edge-filters-menu .edge-filter-option.active:hover {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .gray,
+[modern=true]:root .upcoming-time {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root img.splus-logo-inline {
+  filter: brightness(var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root .splus-broadcast-post {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .theme-2016 .date-header h4,
+[modern=true]:root #home-feed-container #smart-box {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .view-file-popup,
+[modern=true]:root .view-btn-disabled,
+[modern=true]:root .edit-external-tool-attachment {
+  border-left: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .sgy-tabbed-navigation {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .sgy-tabbed-navigation li.active {
+  border-bottom: 5px solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .s-edge-type-update-post .update-body,
+[modern=true]:root .s-edge-type-update-poll .update-body {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .user span.name-wrapper {
+  background: var(--secondary) !important;
+}
+
+[modern=true]:root .selected-realm .name-text {
+  color: var(--text) !important;
+}
+
+[modern=true]:root #edge-filters-btn {
+  background-color: var(--text) !important;
+  color: var(--secondary) !important;
+  filter: Invert(var(--theme-is-dark)) !important;
+  background-position-y: -577px !important;
+  background-position-x: right !important;
+  background-image: url("/sites/all/themes/schoology_theme/images/btn-sprite.png?2f89e2e4127348b5") !important;
+}
+
+[modern=true]:root [dark=false]:root #edge-filters-btn {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  filter: none !important;
+  background-image: url("/sites/all/themes/schoology_theme/images/btn-sprite.png?5f89e2e4127348b5") !important;
+}
+
+[modern=true]:root .gradebook-course.hierarchical-grading-report .period-row .grade-column,
+[modern=true]:root .gradebook-course.hierarchical-grading-report .category-row .grade-column,
+[modern=true]:root .gradebook-course.hierarchical-grading-report .item-row .grade-column {
+  color: var(--grades) !important;
+}
+
+[modern=true]:root .grade-active-color,
+[modern=true]:root .awarded-grade span {
+  color: var(--grades) !important;
+}
+
+[modern=true]:root .due-date,
+[modern=true]:root .gradebook-course.hierarchical-grading-report .grade-column .max-grade,
+[modern=true]:root .percentage-contrib,
+[modern=true]:root span.comment,
+[modern=true]:root .grade-none-color,
+[modern=true]:root .course-grade-text,
+[modern=true]:root .total-points-wrapper *,
+[modern=true]:root .percentage-grade,
+[modern=true]:root .no-grade {
+  color: var(--text) !important;
+}
+
+[modern=true]:root div.summary-course {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .grade-edit-indicator {
+  filter: Grayscale(var(--theme-is-dark)) Invert(var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root .gradebook-course.hierarchical-grading-report .item-row .td-content-wrapper {
+  border-top: var(--border-size) dotted var(--contrast-border) !important;
+}
+
+[modern=true]:root .gradebook-course.hierarchical-grading-report .period-row .td-content-wrapper,
+[modern=true]:root .gradebook-course.hierarchical-grading-report .final-row .td-content-wrapper,
+[modern=true]:root .gradebook-course.hierarchical-grading-report .td-content-wrapper {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .item-row.added-fake-assignment {
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root .splus-grade-help-btn .icon-help {
+  background-position: calc(0px - 22px * var(--theme-is-dark)) -127px !important;
+}
+
+[modern=true]:root .gradebook-course.hierarchical-grading-report .childrenCollapsed .title-column:hover .expandable-icon-grading-report {
+  position: absolute !important;
+  clip: rect(calc(15px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), 0) !important;
+  top: calc(0px + (16px * var(--theme-is-dark))) !important;
+  left: -20px !important;
+  opacity: 1 !important;
+}
+
+[modern=true]:root .gradebook-course.hierarchical-grading-report .childrenCollapsed .title-column .expandable-icon-grading-report {
+  position: absolute !important;
+  clip: rect(calc(15px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), 0) !important;
+  top: calc(0px + (16px * var(--theme-is-dark))) !important;
+  left: -20px !important;
+  opacity: 0.8 !important;
+}
+
+[modern=true]:root .gradebook-course.hierarchical-grading-report .title-column .expandable-icon-grading-report {
+  position: absolute !important;
+  clip: rect(calc(46px - (11px * var(--theme-is-dark))), calc(60px - (45px * var(--theme-is-dark))), calc(80px - (30px * var(--theme-is-dark))), 0) !important;
+  top: calc(-32px + (16px * var(--theme-is-dark))) !important;
+  left: -20px !important;
+  opacity: 0.8 !important;
+}
+
+[modern=true]:root .gradebook-course.hierarchical-grading-report .title-column:hover .expandable-icon-grading-report {
+  position: absolute !important;
+  clip: rect(calc(46px - (11px * var(--theme-is-dark))), calc(60px - (45px * var(--theme-is-dark))), calc(80px - (30px * var(--theme-is-dark))), 0) !important;
+  top: calc(-32px + (16px * var(--theme-is-dark))) !important;
+  left: -20px !important;
+  opacity: 1 !important;
+}
+
+[modern=true]:root .empty.grades-empty {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .download-grade-wrapper a.link-btn {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root #past-selector .item-list a.link-btn.active {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root body ul.primary {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+[modern=true]:root body ul.primary li.active a {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+[modern=true]:root body ul.primary li.active a:hover {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+[modern=true]:root body ul.primary li a {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+[modern=true]:root body ul.primary li a:hover, [modern=true]:root body ul.primary li a:visited {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+[modern=true]:root .gradebook-course,
+[modern=true]:root .attendance-course {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .attendance-course-attendance table th,
+[modern=true]:root .attendance-course-attendance table td {
+  border: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root #s-js-student-mastery-report-view-content {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .s-js-chart-and-pager-area .empty {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .highcharts-container > svg > rect {
+  fill: var(--primary);
+}
+
+[modern=true]:root .highcharts-axis-labels > text {
+  color: var(--text) !important;
+  fill: var(--text) !important;
+}
+
+[modern=true]:root .score-value {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .course-action-btns,
+[modern=true]:root .group-action-btns {
+  padding: var(--padding) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #secondary-tabs-wrapper {
+  border-right: none !important;
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div button {
+  filter: Grayscale(var(--theme-is-dark)) Invert(var(--theme-is-dark));
+}
+
+[modern=true]:root body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div .Card-card-2rORL {
+  background-color: var(--accent) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div {
+  color: var(--text) !important;
+}
+
+[modern=true]:root body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div._2wOCj {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root body #right-column-inner button.link-btn,
+[modern=true]:root body #right-column-inner a.link-btn {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root #reorder-ui button.link-btn span {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root .course-list-view #secondary-tabs-wrapper ul {
+  border-bottom: none !important;
+}
+
+[modern=true]:root .no-courses {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .tabs.secondary li a {
+  background: var(--secondary) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .tabs.secondary li.active a {
+  background: none !important;
+  color: var(--text) !important;
+  background-color: var(--active) !important;
+  border-radius: var(--border-radius) !important;
+  border: none !important;
+}
+
+[modern=true]:root .listing .course-item.list-item,
+[modern=true]:root .courses-listing.mycourses h3 {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root #main .courses-listing.listing {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .sgy-course-search-form__submit-row {
+  background: none !important;
+  border-color: none !important;
+}
+
+[modern=true]:root .sgy-react-select .Select-control,
+[modern=true]:root .sgy-react-select .Select-menu-outer {
+  color: var(--text) !important;
+  border-color: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .sgy-react-select .Select-control {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root .sgy-react-select .Select-placeholder {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .sgy-react-select .Select-menu-outer {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .sgy-react-select .Select-option {
+  color: var(--text);
+}
+
+[modern=true]:root .sgy-react-select .Select-option:hover {
+  background-color: var(--active);
+}
+
+[modern=true]:root .enrollment-search .go-btn {
+  background-color: inherit !important;
+}
+
+[modern=true]:root .roster-top {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root body .enrollment-filters span.active,
+[modern=true]:root body .grading-groups-list .grading-group.active {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .enrollment-filters span:hover {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root #site-navigation-breadcrumbs nav {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root #site-navigation-breadcrumbs nav li a,
+[modern=true]:root #site-navigation-breadcrumbs nav li span {
+  color: var(--text) !important;
+}
+
+[modern=true]:root #library-main {
+  border-right: none !important;
+}
+
+[modern=true]:root #library-wrapper {
+  background-color: var(--accent) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #library-wrapper a.active:not(.item-title),
+[modern=true]:root #library-wrapper .library-collections a:hover {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root #library-left td:hover {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root #library-search-form-container div {
+  background-color: var(--secondary) !important;
+}
+
+[modern=true]:root #library-search-form-container div::before {
+  display: none !important;
+}
+
+[modern=true]:root #collection-view-contents .collection-row-empty td {
+  color: var(--text) !important;
+}
+
+[modern=true]:root body.library-view #library-main {
+  border-left: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root #collection-toolbar {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root #collection-view-contents {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root #collection-view-contents th,
+[modern=true]:root #collection-view-contents td {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root #library-left .collections-list-wrapper {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root body.library-view #library-left {
+  border-right: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root #collection-toolbar .action-links-unfold {
+  box-shadow: none !important;
+  border: none !important;
+  background: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root #collection-toolbar .action-links-unfold:hover {
+  background-color: var(--muted-text) !important;
+}
+
+[modern=true]:root #reorder-collections-btn {
+  color: var(--text) !important;
+}
+
+[modern=true]:root #reorder-collections-btn:hover {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .action-links > li > span {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .progressContainer,
+[modern=true]:root .link-attachment,
+[modern=true]:root .attachment-block,
+[modern=true]:root .resource-attachment {
+  background: var(--primary) !important;
+}
+
+[modern=true]:root .options-reorder-btn,
+[modern=true]:root .options-auto-arrange-btn {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .options-reorder-btn:hover,
+[modern=true]:root .options-auto-arrange-btn:hover {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .right-block-big-wrapper {
+  padding: var(--padding) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #sidebar-left #left-nav #menu-s-main ul li a.active {
+  background-color: var(--accent) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-right: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .app-link-wrapper .active {
+  background-color: var(--accent) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-right: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .app-link-wrapper .active:hover {
+  background-color: var(--accent) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-right: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #sidebar-left #menu-s-main .active-trail .active-trail a.course-materials-left-menu {
+  background-color: var(--accent) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-right: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root th.profile-header {
+  color: var(--text) !important;
+}
+
+[modern=true]:root #profile-form-tab {
+  background-color: var(--accent);
+}
+
+[modern=true]:root .tab-nav.active {
+  background-color: var(--input);
+}
+
+[modern=true]:root .tab-nav.active:hover {
+  background-color: var(--input);
+}
+
+[modern=true]:root .action-links,
+[modern=true]:root .comment.no-comments,
+[modern=true]:root .materials-filter-wrapper {
+  background-color: var(--secondary) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root #wrapper {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root .navigator-buttons a.navbtn.link-btn {
+  background-color: var(--primary) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .has-folder-player #center-top .content-top-upper,
+[modern=true]:root .has-materials-player #center-top .content-top-upper {
+  background-color: var(--secondary) !important;
+  border: none !important;
+}
+
+[modern=true]:root #course-profile-materials {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .materials-filter-wrapper .action-links-wrapper .action-links-unfold {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .action-links-wrapper-gearless .action-links-unfold.active, [modern=true]:root .action-links-wrapper-gearless .action-links-unfold:active {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .action-links .selected {
+  background-position: 0 calc(-237px - 20px * var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root body .action-links a:hover {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .materials-top,
+[modern=true]:root #folder-contents-table td,
+[modern=true]:root #right-column h3,
+[modern=true]:root .left-block-wrapper h3 {
+  border: none !important;
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .s-edge-feed > li {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .s-edge-feed .edge-item li {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .s-edge-feed table[bgcolor] {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .s-like-sentence:not(:last-child) {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .pre-fill,
+[modern=true]:root .upcoming-list .empty,
+[modern=true]:root .readonly-title,
+[modern=true]:root .no-attendance-status-dates {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root #edit-course-switcher-select-nid-menu {
+  border: var(--border-size) solid var(--contrast-border) !important;
+  background-color: var(--secondary);
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #edit-course-switcher-select-nid-menu .ui-selectmenu-group li a:hover {
+  color: var(--text) !important;
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root #edit-course-switcher-select-nid-button {
+  border: none !important;
+  background: none !important;
+  background-color: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #edit-course-switcher-select-nid-button:not(.ui-state-active) .edit-course-inline-dropdown-arrow {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root .messages.warning {
+  background: var(--highlight) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root span#updates-count {
+  color: var(--text) !important;
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .link_view .page-title a:hover .external-link-icon {
+  background-position: 0 -1425px !important;
+}
+
+[modern=true]:root .access-code.left-block-wrapper,
+[modern=true]:root #roster-wrapper .parent-code {
+  background-color: var(--accent);
+  color: var(--text);
+}
+
+[modern=true]:root .privatemsg-list td {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .privatemsg-list .privatemsg-unread td {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root table.privatemsg-list {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root table.privatemsg-list td.no-messages {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root #attachment-selector {
+  background: var(--secondary) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #attachment-selector li {
+  border-right: none !important;
+}
+
+[modern=true]:root #ids {
+  background: none !important;
+  border: none !important;
+}
+
+[modern=true]:root #ids .userlist_input {
+  border: none !important;
+}
+
+[modern=true]:root #ids .name-wrapper {
+  background: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .ac_results {
+  background: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .ac_results ul li {
+  background: var(--secondary) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root .ac-name,
+[modern=true]:root .ac-top {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .ac-row .ac-bot,
+[modern=true]:root .ac-row .ac-school {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .ac_results .ac_over {
+  border-color: var(--contrast-border) !important;
+  background: var(--active) !important;
+}
+
+[modern=true]:root #sUserAutocomplete-recipient-helper {
+  background-color: var(--secondary) !important;
+  color: var(--muted-text) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .message-participants {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .message-title,
+[modern=true]:root .message-view-row {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .discussion-view .sticky-wrapper h2.page-title {
+  background: var(--primary) !important;
+}
+
+[modern=true]:root .discussion-view #content-wrapper {
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  background: var(--accent) !important;
+}
+
+[modern=true]:root .discussion-view #center-top h2.page-title {
+  border: none !important;
+}
+
+[modern=true]:root .discussion-view #s_comments .s_comments_level .comment.on-top,
+[modern=true]:root .discussion-view #main #s_comments .s_comments_level .s_comments_level .comment.on-top {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .grade-title {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .received-grade {
+  color: var(--grades) !important;
+}
+
+[modern=true]:root .grading-grade .max-points {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .assignment-details,
+[modern=true]:root .extra-details {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .discussion-view .sticky-wrapper .s-comments-post-form,
+[modern=true]:root .discussion-view .sticky-wrapper .s-comments-post-form-new {
+  background: var(--primary) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .discussion-action-bar {
+  background: var(--secondary) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .discussion-view .discussion-content #s_comments .discussion-card {
+  background: var(--primary) !important;
+  box-shadow: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .discussion-view #content-wrapper .discussion-content div#s_comments .s_comments_level .s_comments_level,
+[modern=true]:root .discussion-view #content-wrapper .s-comments-post-form-new div#s_comments .s_comments_level .s_comments_level {
+  background: var(--accent) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .discussion-view .expander-bar {
+  background: var(--accent) !important;
+  border: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .post-count {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .discussion-view .discussion-content {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .bar-right-wrapper,
+[modern=true]:root .comment-counts {
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root .discussion-view #comment-placeholder {
+  background: var(--accent) !important;
+  border-radius: var(--border-radius) !important;
+  border: none !important;
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .content-top-wrapper .info-container.not-admin .link-btn {
+  background: var(--secondary) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #comment-navigator td {
+  background: var(--primary) !important;
+  border: none !important;
+}
+
+[modern=true]:root #comment-navigator td.slide-toggler-cell {
+  background: var(--secondary) !important;
+}
+
+[modern=true]:root .num-comments-wrapper {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .info-tab th,
+[modern=true]:root .info-tab td {
+  color: var(--muted-text) !important;
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .enrollment-view-wrapper td,
+[modern=true]:root .enrollment-view-wrapper th {
+  color: var(--muted-text) !important;
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .info-tab .profile-header {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .private-profile {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root .private-profile h3 {
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root .portfolio-list {
+  border: none !important;
+}
+
+[modern=true]:root .tw-bs .portfolio-list__no-portfolios-text {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .tw-bs .portfolio-list__add-new,
+[modern=true]:root .tw-bs .portfolio-view__add-new {
+  background: transparent !important;
+}
+
+[modern=true]:root .tw-bs .portfolio-list__add-new-bg,
+[modern=true]:root .tw-bs .portfolio-view__add-new-bg {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .portfolio-route-content {
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-radius: var(--border-radius) !important;
+  background: var(--secondary) !important;
+}
+
+[modern=true]:root .tw-bs .portfolio-title-bar {
+  background: var(--secondary) !important;
+}
+
+[modern=true]:root .portfolio-view__content {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root .portfolio-card {
+  background: var(--primary) !important;
+}
+
+[modern=true]:root .tw-bs .portfolio-list__list-view > .ui-state-highlight,
+[modern=true]:root .tw-bs .portfolio-item-list > .ui-state-highlight {
+  background: var(--primary) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #school-events {
+  padding: var(--padding) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #main {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .left-block dd {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .left-block dt {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .enrollment-view-wrapper,
+[modern=true]:root .roster-top,
+[modern=true]:root .active-loader {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root #s-user-realm-profile-notification-setting-form label:hover {
+  background: none !important;
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root #content-left .s-enrollment-realm-actions {
+  border-top: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root #edit-body_fontsizeselect_text {
+  background: transparent;
+}
+
+[modern=true]:root .course-dashboard section {
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .course-dashboard section.sgy-card {
+  background-color: var(--accent) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .course-dashboard .sgy-card-lens {
+  background-color: var(--accent) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .course-dashboard .sgy-card {
+  border: var(--border-size) solid transparent !important;
+}
+
+[modern=true]:root .course-dashboard .sgy-card:hover {
+  border: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .course-dashboard .sgy-card:hover .sgy-card-lens::after {
+  display: none !important;
+}
+
+[modern=true]:root .course-dashboard section.sgy-card .sgy-multiline-ellipsis__split-part {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .course-dashboard section.sgy-card .sgy-card-subcontext {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .course-dashboard .ui-state-highlight {
+  border: var(--border-size) dashed var(--contrast-border) !important;
+  background-color: var(--secondary) !important;
+}
+
+[modern=true]:root ul.Search-dropdown-3huUv {
+  border: none !important;
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .Search-dropdown-3huUv svg {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root .Search-dropdown-3huUv input {
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+  border-bottom: var(--border-size) solid transparent !important;
+}
+
+[modern=true]:root ul.primary,
+[modern=true]:root .with-tabs #center-top {
+  background: unset !important;
+  background-color: var(--secondary) !important;
+}
+
+[modern=true]:root ul.primary li a,
+[modern=true]:root ul.primary li .link-wrapper a {
+  background: unset !important;
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root ul.primary li.active a,
+[modern=true]:root ul.primary li.active .link-wrapper a {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .email-notify,
+[modern=true]:root fieldset {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .sticky-header *,
+[modern=true]:root .ui-selectmenu-status {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root div.cellphone-container {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #s-user-set-notifications-form thead tr:hover {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root #s-user-custom-notifications-form #edit-select-all-wrapper label {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root #s-user-custom-notifications-form label {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .ui-selectmenu {
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  background: none !important;
+}
+
+[modern=true]:root .ui-selectmenu-menu {
+  background: var(--secondary) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .ui-selectmenu-menu li a {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .ui-selectmenu-menu li:hover a {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .ui-selectmenu-menu .ui-selectmenu-item-focus a {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .ui-selectmenu-menu .ui-selectmenu-item-selected a:after {
+  background-position: 0 calc(-242px - 20px * var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root .settings-table tbody td {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root .settings-table tbody td.selected {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .settings-table tbody td.selected:hover {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .settings-table tbody td.realm-disabled {
+  background: none !important;
+}
+
+[modern=true]:root .settings-table tbody td.realm-disabled:hover {
+  background: none !important;
+}
+
+[modern=true]:root .settings-table tbody td.area-disabled {
+  background: none !important;
+}
+
+[modern=true]:root .terms-msg {
+  color: var(--text) !important;
+}
+
+[modern=true]:root #error-page {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .fc-state-highlight {
+  background: var(--active) !important;
+}
+
+[modern=true]:root .fc-view-month td:hover {
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root table.fc-border-separate td {
+  border: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root table.fc-border-separate .fc-widget-header {
+  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .fc-agenda-slots td,
+[modern=true]:root .fc-agenda-slots th {
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root body .fc-widget-header,
+[modern=true]:root .fc-agenda-allday th {
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root body .fc-widget-header .fc-agenda-divider-inner {
+  background: var(--contrast-border) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root #dropbox-viewer-right-toggle {
+  border: var(--border-size) solid var(--border-color) !important;
+  background-color: var(--secondary) !important;
+}
+
+[modern=true]:root #dropbox-viewer-right {
+  background: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root #dropbox-viewer-comments {
+  background: var(--accent) !important;
+  border-bottom: var(--border-size) solid var(--border-color) !important;
+}
+
+[modern=true]:root .dropbox-viewer-submission-activity,
+[modern=true]:root .dropbox-viewer-submission-activity-inner {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root ul#attachment-selector li:hover > a {
+  background-color: var(--accent);
+}
+
+[modern=true]:root .popups-box.popups-library #resources-left-menu-wrapper {
+  background-color: var(--primary);
+}
+
+[modern=true]:root .drop-items li:hover {
+  background: var(--accent);
+}
+
+[modern=true]:root table#collection-view-contents tbody tr td {
+  background-color: var(--primary);
+}
+
+[modern=true]:root .s_comments_level {
+  background: var(--accent) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root .discussion-card > .s_comments_level {
+  background: var(--secondary) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .comment-container {
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root .dropbox-viewer-item-wrapper {
+  background-color: var(--primary);
+}
+
+[modern=true]:root #grading-rubric-edit-grades-slider .bottom,
+[modern=true]:root #district-mastery-grading-rubric-edit-grades-slider .bottom,
+[modern=true]:root .s-slider .right-column,
+[modern=true]:root .rubric-scroll .rubric-table tbody {
+  background-color: var(--primary);
+  color: var(--text);
+}
+
+[modern=true]:root .view-only .rubric-table .rubric-row-rating span.input-top,
+[modern=true]:root .view-only .rubric-table .rubric-row-rating .input-bottom {
+  color: var(--text);
+}
+
+[modern=true]:root .s_grade_item_assessment .assessment-status-wrapper,
+[modern=true]:root .grading-grade-translated {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .grading-info {
+  background: var(--secondary) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .not-editable .score-grade-score span,
+[modern=true]:root .param-name {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .assignment-param {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root ._1wP6w,
+[modern=true]:root ._2pDDZ:hover:not(:active),
+[modern=true]:root ._3senP:focus:not(:active),
+[modern=true]:root .wL3MX:active {
+  color: var(--text);
+}
+
+[modern=true]:root ._1IGEH:focus:not(:active),
+[modern=true]:root ._1oxpz:hover:not(:active),
+[modern=true]:root ._1Z0RM,
+[modern=true]:root .Dkh_K:active {
+  background-color: var(--accent);
+  color: var(--text);
+}
+
+[modern=true]:root .StudentTable-table-wrapper-classname-2qr2_ > div {
+  background-color: var(--primary) !important;
+  color: var(--text);
+}
+
+[modern=true]:root img#loader {
+  filter: Grayscale(var(--theme-is-dark)) brightness(0.3) !important;
+}
+
+[modern=true]:root .active-trail > div > a {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .modal-modal-1369068783,
+[modern=true]:root .layout-row-inner-3835588998 {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root .typography-button-secondary-button-3933442342 {
+  background: var(--primary) !important;
+  color: var(--text) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root ._1IGEH:focus:not(:active),
+[modern=true]:root ._1oxpz:hover:not(:active),
+[modern=true]:root ._1Z0RM,
+[modern=true]:root .Dkh_K:active {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root ._2q19q {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root ._1wP6w,
+[modern=true]:root ._2pDDZ:hover:not(:active),
+[modern=true]:root ._3senP:focus:not(:active),
+[modern=true]:root .wL3MX:active {
+  color: var(--text) !important;
+}
+
+[modern=true]:root ._3dHTa {
+  background: var(--active) !important;
+}
+
+[modern=true]:root .UELBU {
+  background: var(--primary) !important;
+}
+
+[modern=true]:root .lrn {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn_widget .lrn_valid,
+[modern=true]:root .lrn_widget .lrn_selected {
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root #s-assessment-view-submission-form .selected.correct span.option-span {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root #s-assessment-view-submission-form .incorrect span.option-span.legacy-true-false-question, [modern=true]:root #s-assessment-view-submission-form .incorrect span.option-span.legacy-multiple-choice-question {
+  background-color: var(--highlight) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .ca-assessment-delivery-take-assessment,
+[modern=true]:root .lrn-assess > div {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .menu-overlay {
+  background-color: var(--border-color) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn .pagination > li > a,
+[modern=true]:root .lrn .pagination > li > span {
+  background-color: var(--border-color) !important;
+}
+
+[modern=true]:root .lrn .pagination > li > a,
+[modern=true]:root .lrn .pagination > li > span {
+  background-color: var(--border-color);
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:focus, [modern=true]:root .lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:hover {
+  background: var(--border-color) !important;
+  color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:focus, [modern=true]:root .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:hover {
+  background: var(--border-color) !important;
+  color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .test-title-text {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.menu-expand-button {
+  box-shadow: none !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen .panel-content {
+  border: var(--border-size) solid var(--border-color) !important;
+  background-color: var(--primary) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  background-color: var(--background-color) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen .item-card .overlay {
+  background: var(--primary);
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen .item-number {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
+  background-color: var(--border-color);
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_active,
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button.lrn_active,
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
+  border: var(--border-size) solid var(--text) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  background: var(--border-color) !important;
+  box-shadow: none;
+}
+
+[modern=true]:root .lrn-assess .item-count {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
+  background-color: var(--primary);
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen .item-card {
+  background-color: var(--border-color) !important;
+}
+
+[modern=true]:root .lrn-assess-switch .lrn-assess-switch-trigger {
+  background: var(--border-color);
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn,
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button,
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue {
+  background-color: var(--accent) !important;
+  border: none !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper.menu-with-scroll:after {
+  background-image: none !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn:before,
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn .btn-label {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button:before,
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button .btn-label {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue:before,
+[modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue .btn-label {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn,
+[modern=true]:root .lrn.lrn-assess .dialogs .lrn_btn {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .menumask > ::-webkit-scrollbar-track-piece {
+  background: white !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen .item-card {
+  border: none !important;
+  color: var(--contrast-text) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+}
+
+[modern=true]:root .lrn-region.lrn-right-region {
+  border: none !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen .panel-header {
+  border-bottom: var(--border-size) solid var(--primary) !important;
+}
+
+[modern=true]:root .lrn_btn.item-prev.pos-right {
+  background-color: var(--secondary) !important;
+  border: none !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .app-panel.review-screen button.lrn_btn.lrn-assess-close-review-screen-btn {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root .lrn-assess {
+  background: var(--primary) !important;
+}
+
+[modern=true]:root .lrn-assess > div ::-webkit-scrollbar-thumb {
+  background: var(--primary) !important;
+  box-shadow: inset 1px 1px 2px black;
+}
+
+[modern=true]:root .lrn .modal-content {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn,
+[modern=true]:root .lrn.lrn-assess .dialogs .lrn_btn {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn-mcq-option .lrn-label {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn-mcq-option.lrn_selected .lrn-label {
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root .lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn_choiceLabel {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn .lrn_possibilityList,
+[modern=true]:root .lrn .lrn_possibilityListContainer {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn .lrn_possibilityList,
+[modern=true]:root .lrn .lrn_possibilityListContainer {
+  border-top: none !important;
+}
+
+[modern=true]:root .lrn .lrn_possibilityList.lrn_list_bottom:before,
+[modern=true]:root .lrn .lrn_possibilityListContainer.lrn_list_bottom:before {
+  border-bottom: 12px solid var(--muted-text) !important;
+}
+
+[modern=true]:root .lrn_dropzone {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root .lrn .lrn_btn_drag {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn-annotations-c-modal--notepad {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root .lrn .lrn-mask rect {
+  fill: var(--primary) !important;
+}
+
+[modern=true]:root .lrn_calc_column {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt:disabled:hover {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt_dark {
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_cover {
+  background: var(--secondary) url(../../images/calc-cover.png) no-repeat center center !important;
+}
+
+[modern=true]:root .lrn_calc_column > .lrn_btn_grid {
+  background: var(--primary) !important;
+}
+
+[modern=true]:root .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_btn_grid {
+  background-color: var(--primary);
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn .lrn_btn_sort {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn_box_skin_wrapper {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn_box_skin_wrapper .lrn_audioblock_right {
+  background-color: var(--accent) !important;
+  border-left: none !important;
+}
+
+[modern=true]:root .lrn_box_skin_wrapper .lrn_audioblock_right .lrn_audiomiclevelmask {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn_wfgraphic.lrn_wfcanvas {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn_toolbar,
+[modern=true]:root .lrn .lrn_btn {
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn_box_skin_wrapper .lrn_widget_footer .lrn_toolbar_left .lrn_btn {
+  border-right: none !important;
+}
+
+[modern=true]:root .lrn-audio-content {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn_waveform {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+[modern=true]:root .lrn_qr.lrn_video .lrn-video-display {
+  background: var(--input) !important;
+}
+
+[modern=true]:root .lrn_response_input_wrapper {
+  border-radius: var(--border-radius) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border: none !important;
+}
+
+[modern=true]:root .lrn_widget.lrn_texteditor {
+  border-radius: var(--border-radius) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  border: none !important;
+}
+
+[modern=true]:root .lrn_widget.lrn_chemistryessayV2 .lrn_texteditor_editable.wysihtml-placeholder, [modern=true]:root .lrn_widget.lrn_formulaessayV2 .lrn_texteditor_editable.wysihtml-placeholder, [modern=true]:root .lrn_widget.lrn_longtextV2 .lrn_texteditor_editable.wysihtml-placeholder {
+  color: var(--text) !important;
+  background: var(--accent) !important;
+  border: none !important;
+}
+
+[modern=true]:root .lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.wysihtml-sandbox.wysihtml-editor {
+  color: var(--text) !important;
+  background: var(--input) !important;
+  border: none !important;
+}
+
+[modern=true]:root .lrn-wysihtml-toolbar.lrn_clearfix {
+  color: var(--text) !important;
+  background: var(--secondary) !important;
+  border: none !important;
+}
+
+[modern=true]:root .lrn-toolbar {
+  background: var(--secondary) !important;
+  border: none !important;
+}
+
+[modern=true]:root .lrn_icon.lrn-icon-bold, [modern=true]:root .lrn_icon.lrn-icon-italic, [modern=true]:root .lrn_icon.lrn-icon-underline, [modern=true]:root .lrn_icon.lrn-icon-list-bulleted, [modern=true]:root .lrn_icon.lrn-icon-list-numbered {
+  color: var(--text) !important;
+  background: transparent !important;
+}
+
+[modern=true]:root .lrn-toolbar-footer.lrn_clearfix {
+  background: var(--accent) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+[modern=true]:root .lrn_word_count,
+[modern=true]:root .lrn_word_limit {
+  color: var(--text) !important;
+  border: none !important;
+}
+
+[modern=true]:root .clock,
+[modern=true]:root .lrn-assess .timer,
+[modern=true]:root .counter,
+[modern=true]:root .max-time,
+[modern=true]:root .lrn-assess .timer {
+  color: var(--text) !important;
+}
+
+[modern=true]:root #grading-rubric-edit-slider .controls,
+[modern=true]:root #district-mastery-grading-rubric-edit-slider .controls {
+  background: var(--accent) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+[modern=true]:root .rubric-row.ng-scope {
+  background: var(--acent) !important;
+}
+
+[modern=true]:root #grading-rubric-edit-slider .rubric-table .input-top,
+[modern=true]:root .rubric-table span.input-bottom,
+[modern=true]:root #district-mastery-grading-rubric-edit-slider .rubric-table .input-top,
+[modern=true]:root .rubric-table span.input-bottom {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root #grading-rubric-edit-slider .rubric-table tr.header-row,
+[modern=true]:root #district-mastery-grading-rubric-edit-slider .rubric-table tr.header-row {
+  border-top: var(--border-size) solid var(--border-color) !important;
+  border-bottom: var(--border-size) solid var(--border-color) !important;
+  border: none !important;
+}
+
+[modern=true]:root #grading-rubric-edit-slider .rubric-table .header-row th,
+[modern=true]:root #district-mastery-grading-rubric-edit-slider .rubric-table .header-row th {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .rubric-scroll {
+  background: var(---accent) !important;
+}
+
+[modern=true]:root #grading-rubric-edit-slider .bottom-ctrls-wrapper,
+[modern=true]:root #district-mastery-grading-rubric-edit-slider .bottom-ctrls-wrapper {
+  background: var(--accent) !important;
+  border: none !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .s-slider.s-grading-rubric-edit-slider.s-grading-rubric.ng-scope.ui-resizable.opened.grade-setup-rubric-edit.new-rubric-edit.read-only {
+  border: none !important;
+}
+
+[modern=true]:root .lrn_widget .lrn_valid,
+[modern=true]:root .lrn_widget .lrn_selected {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root .lrn_widget .lrn_incorrect {
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root .lrn_widget .lrn_correct {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .lrn_assoc_table {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn_assoc_col2.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_incorrect_marker.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_incorrect {
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root .lrn_qr.lrn_association .lrn_possibilityList.lrn_list_bottom {
+  margin-top: 0 !important;
+}
+
+[modern=true]:root .lrn_widget .lrn_correctAnswers {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .lrn_widget .lrn_correctAnswerList > li {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root .lrn_btn_sort.lrn_sortable.lrn_button.lrn_correct.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .lrn_display_correct_answer_enabled {
+  padding: 20px !important;
+}
+
+[modern=true]:root .lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.lrn_response_input_wrapper {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root .lrn_assoc_col2.lrn_correct_marker.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_correct {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .lrn_btn_sort.lrn_sortable.lrn_button.lrn_incorrect.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root .lrn_widget .lrn_suggested_answer_item {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root .lrn_suggested_answer_item.lrn_clearfix > .lrn_suggested.lrn_btn_sort.lrn_btn_no_handle.lrn_disabled.lrn_sort_block.lrn_button {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .lrn_response.lrn_clearfix.lrn_style_button > .lrn-response-validate-wrapper.lrn_response_input.lrn_incorrect {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .lrn-response-validation-wrapper > .lrn_correctAnswers {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root #s-assessment-view-submission-form .selected.correct span.option-span {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .layout-row-outer-1441760367,
+[modern=true]:root .profile-header-2536997237,
+[modern=true]:root .profile-container-4015500229 {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root .content-box-container-3232021855 {
+  background-color: var(--accent) !important;
+  border-radius: var(--border-radius) !important;
+  border: var(--border-size) solid var(--contrast-border) !important;
+  font-family: muli !important;
+}
+
+[modern=true]:root .rubric-table-row-row-3856304603.rubric-table-row-zebraStripe-4015500229.fjQuT.uQOmx._2NVPS._1Sb_q.WnfJn._3ARYD._3t4oF,
+[modern=true]:root .rubric-grader-header-header-212800519 {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .typography-smallheader-light-bg-text-1999437409 {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .rubric-grader-manage-rubric-studentLabel-3923154451 {
+  color: var(--cal1) !important;
+}
+
+[modern=true]:root .rubric-grader-scrollContainer-634066954 {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .rubric-criteria-drawer-handle-drawerHandleActive-30552431 {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .rubric-criteria-drawer-handle-copy-1446048478 {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .rubric-grader-gradebook-comment-gradebookCommentContainer-1923026448 {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .rubric-grader-gradebook-comment-container-3347344084 {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .chart-wrapper .highchart-obj .no-data-overlay {
+  background: transparent !important;
+}
+
+[modern=true]:root .no-data-message-wrapper {
+  background: var(--secondary) !important;
+  color: var(--text) !important;
+  padding: 3px !important;
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root .s_comments_level {
+  background: var(--primary) !important;
+  border-radius: var(--border-radius) !important;
+  padding: var(--padding) !important;
+}
+
+[modern=true]:root .discussion-card > .s_comments_level {
+  background: var(--input) !important;
+}
+
+[modern=true]:root .iziToast-body img {
+  max-width: 24px !important;
+}
+
+[modern=true]:root #main .s_comments_level #s-comment-reply-form {
+  background: var(--accent) !important;
+}
+
+[modern=true]:root #s-comment-reply-form {
+  width: auto !important;
+  border-radius: var(--border-radius) !important;
+  border: none !important;
+}
+
+[modern=true]:root .compose-message.sMessagingProcessed fieldset {
+  padding: 20px !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root #ids .name-wrapper {
+  background: transparent !important;
+}

@@ -44,8 +44,7 @@
 
     // Dark Theme Beta
     if (betaCode == "darktheme") {
-        let newThemeSheet = createElement("link", [], { rel: "stylesheet", href: chrome.runtime.getURL("/css/modern.css") });
-        document.head.append(newThemeSheet);
+        document.documentElement.setAttribute("modern", "true")
         document.documentElement.setAttribute("test-mode", "crazy");
 
         var darkThemeTheme = Theme.loadFromObject({
@@ -69,7 +68,7 @@
         Theme.apply(darkThemeTheme);
 
         betaSection.append(
-            createBetaToggleCheckbox("Enable new theme engine", event => newThemeSheet.disabled = !event.target.checked, true),
+            createBetaToggleCheckbox("Enable new theme engine", event => document.documentElement.setAttribute("modern", event.target.checked), true),
             createBetaToggleCheckbox("Enable dark theme", event => {
                 document.documentElement.setAttribute("dark", event.target.checked);
                 Theme.apply(event.target.checked ? darkThemeTheme : Theme.byName(Setting.getValue("theme")));

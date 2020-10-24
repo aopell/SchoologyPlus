@@ -41,8 +41,7 @@
         "imgs/*",
         "lib/js/pdf.worker.js",
         "theme-editor.html",
-        "default-icons.html",
-        "css/modern.css"
+        "default-icons.html"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'",
     "background": {
@@ -77,7 +76,8 @@
                 "*://support.schoology.com/*"
             ],
             "css": [
-                "css/all.css"
+                "css/all.css",
+                "css/modern/all.css"
             ],
             "js": [
                 "js/analytics.js",
