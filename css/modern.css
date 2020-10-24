@@ -2022,6 +2022,18 @@ img#loader {
     background-color: var(--accent) !important;
 }
 
+/* Google Docs */
+.modal-modal-1369068783,
+.layout-row-inner-3835588998 {
+    background: var(--accent) !important;
+}
+
+.typography-button-secondary-button-3933442342 {
+    background: var(--primary) !important;
+    color: var(--text) !important;
+    border-color: var(--contrast-border) !important;
+}
+
 /* Assesments */
 
 ._1IGEH:focus:not(:active),
