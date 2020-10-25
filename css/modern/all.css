@@ -2196,6 +2196,10 @@ variable-intellisense {
   color: var(--text) !important;
 }
 
+[modern=true]:root .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn_blue:before, [modern=true]:root .lrn.lrn-assess .dialogs .lrn_btn_blue:before {
+  color: var(--text) !important;
+}
+
 [modern=true]:root .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn,
 [modern=true]:root .lrn.lrn-assess .dialogs .lrn_btn {
   color: var(--text) !important;

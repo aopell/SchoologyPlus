@@ -2453,6 +2453,10 @@ variable-intellisense {
             }
         }
 
+        .lrn-region:not(.lrn-items-region) .lrn_btn_blue:before, .dialogs .lrn_btn_blue:before {
+            color: var(--text) !important;
+        }
+
         .lrn-region:not(.lrn-items-region) .lrn_btn,
         .dialogs .lrn_btn {
             color: var(--text) !important;
