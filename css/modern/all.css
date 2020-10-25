@@ -1,4 +1,4 @@
-[modern=true]:root {
+variable-intellisense {
   --primary: #36393F;
   --accent: #2F3136;
   --secondary: #202225;
@@ -37,45 +37,6 @@
   --cal20: #461b2d;
 }
 
-[modern=true][dark=false]:root {
-  --primary: #EAEAEA;
-  --accent: #F7F7F7;
-  --secondary: #DDD;
-  --text: #2A2A2A;
-  --contrast-text: white;
-  --muted-text: #677583;
-  --contrast-border: #BABABA;
-  --input: #D0D0D0;
-  --error: #F44336;
-  --highlight: rgba(255, 183, 2, 0.2);
-  --active: #98d4e4;
-  --grades: #009400;
-  --border-radius: 5px;
-  --border-size: 1px;
-  --padding: 10px;
-  --theme-is-dark: 0;
-  --cal1: #d6e7f4;
-  --cal2: #d7e8cf;
-  --cal3: #f9e9d4;
-  --cal4: #e7e0e5;
-  --cal5: #e6b5c9;
-  --cal6: #f9f1cf;
-  --cal7: #daf0f9;
-  --cal8: #f9ddea;
-  --cal9: #fbd7d8;
-  --cal10: #f1f2d1;
-  --cal11: #e0e8f5;
-  --cal12: #fbd7e4;
-  --cal13: #fcddd3;
-  --cal14: #e7f2d5;
-  --cal15: #e6e0ee;
-  --cal16: #f0e5db;
-  --cal17: #fce8d1;
-  --cal18: #e1f1e7;
-  --cal19: #f0dfed;
-  --cal20: #e9e9ea;
-}
-
 [modern=true][test=true]:root {
   --primary: black;
   --accent: black;
@@ -92,7 +53,7 @@
   --border-radius: 5px;
   --border-size: 1px;
   --padding: 10px;
-  --hover-color: black !important;
+  --link-color: black !important;
   --cal5: #000;
   --cal6: #000;
   --cal7: #000;
@@ -124,7 +85,7 @@
   --highlight: rgba(0, 255, 0, 0.3);
   --active: rgba(0, 0, 255, 0.3);
   --grades: aqua;
-  --hover-color: lime !important;
+  --link-color: lime !important;
   --cal5: red;
   --cal6: green;
   --cal7: blue;
@@ -1950,7 +1911,7 @@
 }
 
 [modern=true]:root #dropbox-viewer-right-toggle {
-  border: var(--border-size) solid var(--border-color) !important;
+  border: var(--border-size) solid var(--input) !important;
   background-color: var(--secondary) !important;
 }
 
@@ -1961,7 +1922,7 @@
 
 [modern=true]:root #dropbox-viewer-comments {
   background: var(--accent) !important;
-  border-bottom: var(--border-size) solid var(--border-color) !important;
+  border-bottom: var(--border-size) solid var(--input) !important;
 }
 
 [modern=true]:root .dropbox-viewer-submission-activity,
@@ -2128,28 +2089,28 @@
 }
 
 [modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .menu-overlay {
-  background-color: var(--border-color) !important;
+  background-color: var(--input) !important;
   color: var(--text) !important;
 }
 
 [modern=true]:root .lrn .pagination > li > a,
 [modern=true]:root .lrn .pagination > li > span {
-  background-color: var(--border-color) !important;
+  background-color: var(--input) !important;
 }
 
 [modern=true]:root .lrn .pagination > li > a,
 [modern=true]:root .lrn .pagination > li > span {
-  background-color: var(--border-color);
+  background-color: var(--input);
   color: var(--text) !important;
 }
 
 [modern=true]:root .lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:focus, [modern=true]:root .lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:hover {
-  background: var(--border-color) !important;
+  background: var(--input) !important;
   color: var(--accent) !important;
 }
 
 [modern=true]:root .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:focus, [modern=true]:root .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:hover {
-  background: var(--border-color) !important;
+  background: var(--input) !important;
   color: var(--accent) !important;
 }
 
@@ -2162,10 +2123,10 @@
 }
 
 [modern=true]:root .lrn.lrn-assess .app-panel.review-screen .panel-content {
-  border: var(--border-size) solid var(--border-color) !important;
+  border: var(--border-size) solid var(--input) !important;
   background-color: var(--primary) !important;
   border: var(--border-size) solid var(--contrast-border) !important;
-  background-color: var(--background-color) !important;
+  background-color: var(--primary) !important;
 }
 
 [modern=true]:root .lrn.lrn-assess .app-panel.review-screen .item-card .overlay {
@@ -2177,7 +2138,7 @@
 }
 
 [modern=true]:root .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
-  background-color: var(--border-color);
+  background-color: var(--input);
 }
 
 [modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_active,
@@ -2185,7 +2146,7 @@
 [modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
   border: var(--border-size) solid var(--text) !important;
   border: var(--border-size) solid var(--contrast-border) !important;
-  background: var(--border-color) !important;
+  background: var(--input) !important;
   box-shadow: none;
 }
 
@@ -2198,11 +2159,11 @@
 }
 
 [modern=true]:root .lrn.lrn-assess .app-panel.review-screen .item-card {
-  background-color: var(--border-color) !important;
+  background-color: var(--input) !important;
 }
 
 [modern=true]:root .lrn-assess-switch .lrn-assess-switch-trigger {
-  background: var(--border-color);
+  background: var(--input);
 }
 
 [modern=true]:root .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
@@ -2487,8 +2448,8 @@
 
 [modern=true]:root #grading-rubric-edit-slider .rubric-table tr.header-row,
 [modern=true]:root #district-mastery-grading-rubric-edit-slider .rubric-table tr.header-row {
-  border-top: var(--border-size) solid var(--border-color) !important;
-  border-bottom: var(--border-size) solid var(--border-color) !important;
+  border-top: var(--border-size) solid var(--input) !important;
+  border-bottom: var(--border-size) solid var(--input) !important;
   border: none !important;
 }
 

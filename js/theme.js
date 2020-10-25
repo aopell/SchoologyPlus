@@ -80,8 +80,7 @@ class Theme {
 
                         Theme.setModernEnabled(!!theme.color.modern);
                         if (theme.color.modern) {
-                            Logger.log("Enabled modern");
-                            // TODO: set up ALL the variables
+                            Theme.setModernColors(theme.color.modern);
                         }
 
                         if (!theme.logo) {
@@ -238,6 +237,37 @@ class Theme {
             document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
             document.documentElement.style.setProperty("--link-color", "hsl(var(--color-hue), 55%, 40%)");
         }
+    }
+
+    static setModernColors(m) {
+        setCSSVariable("theme-is-dark", m.dark ? 1 : 0);
+        document.documentElement.setAttribute("dark", m.dark);
+
+        // Interface Colors
+        setCSSVariable("primary", m.interface.primary);
+        setCSSVariable("accent", m.interface.accent);
+        setCSSVariable("secondary", m.interface.secondary);
+        setCSSVariable("input", m.interface.input);
+        setCSSVariable("contrast-border", m.interface.border);
+        setCSSVariable("highlight", m.interface.highlight);
+        setCSSVariable("active", m.interface.active);
+        setCSSVariable("grades", m.interface.grades);
+        setCSSVariable("error", m.interface.error);
+
+        // Calendar Colors
+        for(let i = 0; i < 20; i++) {
+            setCSSVariable(`cal${i+1}`, m.calendar[i]);
+        }
+
+        // Text Colors
+        setCSSVariable("text", m.text.primary);
+        setCSSVariable("muted-text", m.text.muted);
+        setCSSVariable("contrast-text", m.text.contrast);
+
+        // Options
+        setCSSVariable("border-radius", `${m.options.borderRadius}px`);
+        setCSSVariable("border-size", `${m.options.borderSize}px`);
+        setCSSVariable("padding", `${m.options.padding}px`);
     }
 
     static setProfilePictures(candidateImages) {

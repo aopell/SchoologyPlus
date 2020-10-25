@@ -41,20 +41,6 @@
             createElement("input", [], { type: "checkbox", checked: checked, onchange: onchange })
         ]);
     }
-
-    // Dark Theme Beta
-    if (betaCode == "darktheme") {
-        document.documentElement.setAttribute("test-mode", "crazy");
-
-        betaSection.append(
-            createBetaToggleCheckbox("Enable new theme engine", event => Theme.setModernEnabled(event.target.checked), true),
-            createBetaToggleCheckbox("Enable dark theme", event => {
-                document.documentElement.setAttribute("dark", event.target.checked);
-            }, true),
-            createBetaToggleCheckbox("Enable color test", event => document.documentElement.setAttribute("test", event.target.checked)),
-            createBetaToggleCheckbox("Crazy mode", event => document.documentElement.setAttribute("test-mode", event.target.checked ? "crazy" : "standard"), true, 2)
-        );
-    }
 }
 
 // Check Schoology domain
