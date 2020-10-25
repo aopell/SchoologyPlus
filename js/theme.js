@@ -75,7 +75,7 @@ class Theme {
                         if (theme.color.hue) {
                             Theme.setBackgroundHue(theme.color.hue);
                         } else if (theme.color.custom) {
-                            Theme.setBackgroundColor(theme.color.custom.primary, theme.color.custom.background, theme.color.custom.hover, theme.color.custom.border);
+                            Theme.setBackgroundColor(theme.color.custom.primary, theme.color.custom.background, theme.color.custom.hover, theme.color.custom.border, theme.color.custom.link);
                         }
 
                         Theme.setModernEnabled(!!theme.color.modern);
@@ -212,12 +212,13 @@ class Theme {
         return themes.find(x => x.name == name) || Theme.byName("Schoology Plus");
     }
 
-    static setBackgroundColor(primaryColor, backgroundColor, hoverColor, borderColor) {
+    static setBackgroundColor(primaryColor, backgroundColor, hoverColor, borderColor, linkColor = hoverColor) {
         if (primaryColor && backgroundColor && hoverColor && borderColor) {
             document.documentElement.style.setProperty("--primary-color", primaryColor);
             document.documentElement.style.setProperty("--background-color", backgroundColor);
             document.documentElement.style.setProperty("--hover-color", hoverColor);
             document.documentElement.style.setProperty("--border-color", borderColor);
+            document.documentElement.style.setProperty("--link-color", linkColor);
         }
     }
 
@@ -228,12 +229,14 @@ class Theme {
             document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
             document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
             document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
+            document.documentElement.style.setProperty("--link-color", "hsl(var(--color-hue), 55%, 40%)");
         } else if (hue) {
             document.documentElement.style.setProperty("--color-hue", hue);
             document.documentElement.style.setProperty("--primary-color", `hsl(var(--color-hue), ${saturation}%, ${lightness}%)`);
             document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
             document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
             document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
+            document.documentElement.style.setProperty("--link-color", "hsl(var(--color-hue), 55%, 40%)");
         }
     }
 

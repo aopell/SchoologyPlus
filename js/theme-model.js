@@ -5,12 +5,14 @@ class CustomColorDefinition {
      * @param {string} hover The color of items in the settings menu
      * @param {string} background The background color of buttons and other interactive elements when you hover over them, and the color of the settings dropdown menu
      * @param {string} border The border color of buttons and the border between the navigation bar and drop-down menus
+     * @param {string} link The color of links and other interactive text
      */
-    constructor(primary, hover, background, border) {
+    constructor(primary, hover, background, border, link) {
         this.primary = primary;
         this.hover = hover;
         this.background = background;
         this.border = border;
+        this.link = link || hover;
     }
 
     /**
@@ -19,7 +21,7 @@ class CustomColorDefinition {
      * @returns {CustomColorDefinition}
      */
     static loadFromObject(o) {
-        return o ? new CustomColorDefinition(o.primary, o.hover, o.background, o.border) : undefined;
+        return o ? new CustomColorDefinition(o.primary, o.hover, o.background, o.border, o.link || o.hover) : undefined;
     }
 }
 
@@ -153,13 +155,11 @@ class ModernTextColorDefinition {
      * @param {string} primary Main text color, should contrast with `interface.primary`
      * @param {string} muted Muted text color, should stand out less than primary
      * @param {string} contrast Contrast text color, should always be light or white
-     * @param {string} link Color for links and other interactive text
      */
-    constructor(primary, muted, contrast, link) {
+    constructor(primary, muted, contrast) {
         this.primary = primary;
         this.muted = muted;
         this.contrast = contrast;
-        this.link = link;
     }
 
     /**
@@ -172,8 +172,7 @@ class ModernTextColorDefinition {
             ? new ModernTextColorDefinition(
                 o.primary,
                 o.muted,
-                o.contrast,
-                o.link
+                o.contrast
             )
             : undefined;
     }

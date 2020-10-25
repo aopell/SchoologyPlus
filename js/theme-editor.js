@@ -37,6 +37,7 @@ var themePrimaryColor = document.getElementById("theme-primary-color");
 var themeSecondaryColor = document.getElementById("theme-secondary-color");
 var themeBackgroundColor = document.getElementById("theme-background-color");
 var themeBorderColor = document.getElementById("theme-border-color");
+var themeLinkColor = document.getElementById("theme-link-color");
 var themeSchoologyPlusLogo = document.getElementById("theme-schoology-plus-logo");
 var themeSchoologyLogo = document.getElementById("theme-schoology-logo");
 var themeNewLAUSDLogo = document.getElementById("theme-new-lausd-logo");
@@ -390,7 +391,8 @@ function renderTheme(t) {
             "#theme-primary-color": "primary",
             "#theme-background-color": "background",
             "#theme-secondary-color": "hover",
-            "#theme-border-color": "border"
+            "#theme-border-color": "border",
+            "#theme-link-color": "link"
         };
         Object.keys(map).map(x => $(x).spectrum("set", t.color.custom[map[x]]));
         themeColorCustom.click();
@@ -514,7 +516,7 @@ function initPicker(id, onupdate) {
         showSelectionPalette: true,
         maxPaletteSize: 10,
         preferredFormat: "hex",
-        color: ["red", "blue", "yellow", "green"][init++],
+        color: ["red", "blue", "yellow", "green", "magenta"][init++],
         move: function (color) {
             onupdate(color);
         },
@@ -547,6 +549,7 @@ initPicker("theme-primary-color", updateOutput);
 initPicker("theme-secondary-color", updateOutput);
 initPicker("theme-background-color", updateOutput);
 initPicker("theme-border-color", updateOutput);
+initPicker("theme-link-color", updateOutput);
 
 function updateOutput() {
     clearInterval(rainbowInterval);
@@ -582,12 +585,14 @@ function updateOutput() {
             $("#theme-primary-color").spectrum("get").toHexString(),
             $("#theme-secondary-color").spectrum("get").toHexString(),
             $("#theme-background-color").spectrum("get").toHexString(),
-            $("#theme-border-color").spectrum("get").toHexString()
+            $("#theme-border-color").spectrum("get").toHexString(),
+            $("#theme-link-color").spectrum("get").toHexString()
         );
         setCSSVariable("primary-color", theme.color.custom.primary);
         setCSSVariable("background-color", theme.color.custom.background);
         setCSSVariable("hover-color", theme.color.custom.hover);
         setCSSVariable("border-color", theme.color.custom.border);
+        setCSSVariable("link-color", theme.color.custom.link);
     } else if (themeColorRainbow.checked) {
         themeColorCustomWrapper.classList.add("hidden");
         themeHueWrapper.classList.add("hidden");
@@ -990,6 +995,7 @@ function generateRainbowFunction(theme) {
             setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
             setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
             setCSSVariable("border-color", "hsl(var(--color-hue), 60%, 25%)");
+            setCSSVariable("link-color", "hsl(var(--color-hue), 55%, 40%)");
         }
     }
     return undefined;

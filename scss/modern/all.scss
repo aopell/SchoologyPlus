@@ -1,3 +1,42 @@
+variable-intellisense {
+    --primary: #36393F;
+    --accent: #2F3136;
+    --secondary: #202225;
+    --text: #DCDDDE;
+    --contrast-text: #EEEEEE;
+    --muted-text: #72767D;
+    --contrast-border: #DCDDDE;
+    --input: #40444B;
+    --error: #F44336;
+    --highlight: rgba(184, 134, 11, 0.2);
+    --active: rgba(0, 255, 255, 0.1);
+    --grades: #8BC34A;
+    --border-radius: 5px;
+    --border-size: 1px;
+    --padding: 10px;
+    --theme-is-dark: 1;
+    --cal1: #457da5;
+    --cal2: #547c41;
+    --cal3: #926c37;
+    --cal4: #7c3d6b;
+    --cal5: #0b4c9c;
+    --cal6: #00209c;
+    --cal7: #004a09;
+    --cal8: #72721a;
+    --cal9: #44233e;
+    --cal10: #683131;
+    --cal11: #770a0a;
+    --cal12: #a72413;
+    --cal13: #E0024C;
+    --cal14: #188C16;
+    --cal15: #bd7304;
+    --cal16: #80168C;
+    --cal17: #164152;
+    --cal18: #00543f;
+    --cal19: #633e11;
+    --cal20: #461b2d;
+}
+
 :root[modern=true] {
     --primary: #36393F;
     --accent: #2F3136;
@@ -99,7 +138,7 @@
         --border-radius: 5px;
         --border-size: 1px;
         --padding: 10px;
-        --hover-color: black !important;
+        --link-color: black !important;
         --cal5: #000;
 
         // Color-2
@@ -134,7 +173,7 @@
             --highlight: rgba(0, 255, 0, 0.3);
             --active: rgba(0, 0, 255, 0.3);
             --grades: aqua;
-            --hover-color: lime !important;
+            --link-color: lime !important;
             --cal5: red;
 
             // Color-2
@@ -2143,7 +2182,7 @@
     // Assignment page
 
     #dropbox-viewer-right-toggle {
-        border: var(--border-size) solid var(--border-color) !important;
+        border: var(--border-size) solid var(--input) !important;
         background-color: var(--secondary) !important;
     }
 
@@ -2154,7 +2193,7 @@
 
     #dropbox-viewer-comments {
         background: var(--accent) !important;
-        border-bottom: var(--border-size) solid var(--border-color) !important;
+        border-bottom: var(--border-size) solid var(--input) !important;
     }
 
     .dropbox-viewer-submission-activity,
@@ -2346,7 +2385,7 @@
 
     .lrn {
         &.lrn-assess .lrn-right-region .right-wrapper .menu-overlay {
-            background-color: var(--border-color) !important;
+            background-color: var(--input) !important;
             color: var(--text) !important;
         }
 
@@ -2354,12 +2393,12 @@
 
             a,
             span {
-                background-color: var(--border-color) !important;
+                background-color: var(--input) !important;
             }
 
             a,
             span {
-                background-color: var(--border-color);
+                background-color: var(--input);
                 color: var(--text) !important;
             }
         }
@@ -2370,7 +2409,7 @@
 
                     &:focus,
                     &:hover {
-                        background: var(--border-color) !important;
+                        background: var(--input) !important;
                         color: var(--accent) !important;
                     }
                 }
@@ -2379,7 +2418,7 @@
 
                     &:focus,
                     &:hover {
-                        background: var(--border-color) !important;
+                        background: var(--input) !important;
                         color: var(--accent) !important;
                     }
                 }
@@ -2395,10 +2434,10 @@
 
             .app-panel.review-screen {
                 .panel-content {
-                    border: var(--border-size) solid var(--border-color) !important;
+                    border: var(--border-size) solid var(--input) !important;
                     background-color: var(--primary) !important;
                     border: var(--border-size) solid var(--contrast-border) !important;
-                    background-color: var(--background-color) !important;
+                    background-color: var(--primary) !important;
                 }
 
                 .item-card .overlay {
@@ -2410,7 +2449,7 @@
                 }
 
                 .panel-content .panel-footer {
-                    background-color: var(--border-color);
+                    background-color: var(--input);
                 }
             }
 
@@ -2421,7 +2460,7 @@
                 .lrn_btn.lrn_btn_blue.lrn_active {
                     border: var(--border-size) solid var(--text) !important;
                     border: var(--border-size) solid var(--contrast-border) !important;
-                    background: var(--border-color) !important;
+                    background: var(--input) !important;
                     box-shadow: none;
                 }
             }
@@ -2438,14 +2477,14 @@
         }
 
         .item-card {
-            background-color: var(--border-color) !important;
+            background-color: var(--input) !important;
 
             //Unattempted
         }
     }
 
     .lrn-assess-switch .lrn-assess-switch-trigger {
-        background: var(--border-color);
+        background: var(--input);
 
         // Unattempted Legend
     }
@@ -2808,10 +2847,10 @@
 
     #grading-rubric-edit-slider .rubric-table tr.header-row,
     #district-mastery-grading-rubric-edit-slider .rubric-table tr.header-row {
-        border-top: var(--border-size) solid var(--border-color) !important;
+        border-top: var(--border-size) solid var(--input) !important;
 
         // Border for header
-        border-bottom: var(--border-size) solid var(--border-color) !important;
+        border-bottom: var(--border-size) solid var(--input) !important;
         border: none !important;
     }
 
