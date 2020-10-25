@@ -596,6 +596,31 @@ function updateSettings(callback) {
                     element => element.value
                 ).control,
                 new Setting(
+                    "overrideUserStyles",
+                    "Override Styled Text",
+                    "Override styled text in homefeed posts and discussion responses when using modern themes. WARNING: This guarantees text is readable on dark theme, but removes colors and other styling that may be important.",
+                    "true",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "true"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "false"
+                            }
+                        ]
+                    },
+                    value => {
+                        document.documentElement.setAttribute("style-override", value);
+                        return value;
+                    },
+                    function (event) { this.onload(event.target.value) },
+                    element => element.value
+                ).control,
+                new Setting(
                     "archivedCoursesButton",
                     "Archived Courses Button",
                     'Adds a link to see past/archived courses in the courses dropdown',

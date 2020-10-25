@@ -184,13 +184,11 @@ class ModernOptionsDefinition {
      * @param {number} borderRadius The size of border radius rounded corners (in pixels)
      * @param {number} borderSize The width of borders (in pixels)
      * @param {number} padding The amount of padding for certain elements (in pixels)
-     * @param {boolean} overrideUserStyles Whether to override user-styled elements (like homefeed posts)
      */
-    constructor(borderRadius, borderSize, padding, overrideUserStyles) {
+    constructor(borderRadius, borderSize, padding) {
         this.borderRadius = borderRadius;
         this.borderSize = borderSize;
         this.padding = padding;
-        this.overrideUserStyles = overrideUserStyles;
     }
 
     /**

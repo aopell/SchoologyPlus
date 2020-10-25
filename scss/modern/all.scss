@@ -128,7 +128,7 @@ variable-intellisense {
 
     pre {
         background-color: var(--input);
-        color: var(--contrast-text);
+        color: var(--text);
     }
 
     #youtube-disclaimer {
@@ -386,7 +386,7 @@ variable-intellisense {
         border-radius: var(--border-radius) !important;
     }
 
-    :root[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+    &[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
         background-color: var(--secondary) !important;
         color: var(--text) !important;
     }
@@ -396,8 +396,7 @@ variable-intellisense {
         background-color: var(--muted-text) !important;
     }
 
-    :root[dark=false] {
-
+    &[dark=false] {
         .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
         .action-links-unfold:hover {
             background-color: var(--muted-text) !important;
@@ -918,7 +917,7 @@ variable-intellisense {
         background-image: url('/sites/all/themes/schoology_theme/images/btn-sprite.png?2f89e2e4127348b5') !important;
     }
 
-    :root[dark=false] #edge-filters-btn {
+    &[dark=false] #edge-filters-btn {
         background-color: var(--secondary) !important;
         color: var(--text) !important;
         filter: none !important;
