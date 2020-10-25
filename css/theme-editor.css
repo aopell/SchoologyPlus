@@ -543,6 +543,15 @@ input[type=button] {
     pointer-events: none;
 }
 
+.theme-item span.tooltipped {
+    max-width: 60%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .theme-item .material-icons {
     cursor: pointer;
 }

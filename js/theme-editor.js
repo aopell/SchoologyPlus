@@ -1401,10 +1401,10 @@ $(document).ready(function () {
                     }
                     themeItem.classList.add("active");
                 }
-            }, [createElement("span", t.length > 20 ? ["tooltipped"] : [], {
-                textContent: t.length > 20 ? t.substr(0, 17) + "..." : t,
+            }, [createElement("span", ["tooltipped"], {
+                textContent: t,
                 dataset: {
-                    tooltip: t.length > 20 ? t : ""
+                    tooltip: t
                 }
             })]);
 
