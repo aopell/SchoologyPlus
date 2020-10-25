@@ -735,3 +735,7 @@ a._3_bfp {
 .splus-mark-completed-hide .splus-assignment-complete {
     display: none !important;
 }
+
+#header.site-navigation {
+    background: transparent !important;
+}

@@ -44,28 +44,7 @@
 
     // Dark Theme Beta
     if (betaCode == "darktheme") {
-        document.documentElement.setAttribute("modern", "true")
         document.documentElement.setAttribute("test-mode", "crazy");
-
-        var darkThemeTheme = Theme.loadFromObject({
-            "color":
-            {
-                "custom":
-                {
-                    "background": "#36393f",
-                    "border": "#40444b",
-                    "hover": "#6fa8dc",
-                    "primary": "#202225"
-                }
-            }, "logo":
-            {
-                "preset": "schoology_plus"
-            },
-            "name": "Dark Theme Test",
-            "version": 2
-        });
-
-        Theme.apply(darkThemeTheme);
 
         betaSection.append(
             createBetaToggleCheckbox("Enable new theme engine", event => document.documentElement.setAttribute("modern", event.target.checked), true),
