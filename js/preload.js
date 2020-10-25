@@ -39,11 +39,7 @@ Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version
 var firstLoad = true;
 document.documentElement.setAttribute("page", location.pathname);
 
-updateSettings(function() {
-    if (Setting.getValue("beta") == "darktheme") {
-        document.documentElement.setAttribute("modern", "true");
-    }
-});
+updateSettings();
 
 var beta_tests = {
     "darktheme": "https://schoologypl.us/docs/beta/darktheme",
@@ -458,7 +454,6 @@ function updateSettings(callback) {
                 }
             }
 
-            // themes.push(new Theme("Install and Manage Themes..."));
             Theme.apply(Theme.active);
             firstLoad = false;
         }

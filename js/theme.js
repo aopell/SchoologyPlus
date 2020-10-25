@@ -13,6 +13,10 @@ class Theme {
         this.onupdate = onUpdate;
     }
 
+    static setModernEnabled(enabled) {
+        document.documentElement.setAttribute("modern", enabled);
+    }
+
     static getIcon(course) {
         for (let overridePattern of Theme.profilePictureOverrides) {
             if (course.match(new RegExp(overridePattern.regex, 'i'))) {
@@ -72,6 +76,12 @@ class Theme {
                             Theme.setBackgroundHue(theme.color.hue);
                         } else if (theme.color.custom) {
                             Theme.setBackgroundColor(theme.color.custom.primary, theme.color.custom.background, theme.color.custom.hover, theme.color.custom.border);
+                        }
+
+                        Theme.setModernEnabled(!!theme.color.modern);
+                        if (theme.color.modern) {
+                            Logger.log("Enabled modern");
+                            // TODO: set up ALL the variables
                         }
 
                         if (!theme.logo) {

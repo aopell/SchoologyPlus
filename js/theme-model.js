@@ -152,7 +152,7 @@ class ModernTextColorDefinition {
      * Defines colors for textual elements of the Schoology interface
      * @param {string} primary Main text color, should contrast with `interface.primary`
      * @param {string} muted Muted text color, should stand out less than primary
-     * @param {string} contrast Contrast text color, should contrast with primary text color
+     * @param {string} contrast Contrast text color, should always be light or white
      * @param {string} link Color for links and other interactive text
      */
     constructor(primary, muted, contrast, link) {
