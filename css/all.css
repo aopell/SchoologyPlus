@@ -44,6 +44,10 @@ a.Header-header-drop-menu-3SaYV:hover,
     background-color: var(--background-color) !important;
 }
 
+._1k0yk:hover:not(:active), ._3hqpj, ._3JcU2:active, ._3VHSs:focus:not(:active) {
+    background-color: var(--background-color) !important;
+}
+
 [class*="Header-header-drop-menu-item-"],
 [class*="Header-header-drop-menu-"] li a * {
     color: white !important;
