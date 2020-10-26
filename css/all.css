@@ -743,3 +743,19 @@ a._3_bfp {
 #header.site-navigation {
     background: transparent !important;
 }
+
+:root[modern=true][dark=true] #darktheme-toggle-navbar-path {
+    fill: white;
+}
+
+:root[modern=false] #darktheme-toggle-navbar-button,
+:root[modern=true][dark=false] #darktheme-toggle-navbar-button {
+    display: none;
+}
+
+:root[modern=false][dark=true] #darktheme-toggle-navbar-button {
+    display: inline-block;
+    stroke: white;
+    stroke-width: 40;
+    fill: transparent;
+}

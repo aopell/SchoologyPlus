@@ -1,3 +1,4 @@
+@charset "UTF-8";
 variable-intellisense {
   --primary: #36393F;
   --accent: #2F3136;
@@ -2081,6 +2082,17 @@ variable-intellisense {
 [modern=true]:root #s-assessment-view-submission-form .incorrect span.option-span.legacy-true-false-question, [modern=true]:root #s-assessment-view-submission-form .incorrect span.option-span.legacy-multiple-choice-question {
   background-color: var(--highlight) !important;
   color: var(--text) !important;
+}
+
+[modern=true][dark=true]:root .assessment-delivery-landing-app div._3dHTa::after {
+  content: "WARNING: Dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the 🌙 button on the navigation bar.";
+  display: inline-block;
+  text-align: center;
+  width: 50%;
+  padding: var(--padding);
+  background-color: var(--highlight);
+  border: var(--border-size) solid rgba(0, 0, 0, 0.5);
+  border-radius: var(--border-radius);
 }
 
 [modern=true]:root .ca-assessment-delivery-take-assessment,

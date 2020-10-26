@@ -410,9 +410,32 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
     createElement(
         "button",
         ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
-        { onclick: () => openModal("settings-modal") },
+        {
+            id: "splus-settings-navbar-button",
+            onclick: () => openModal("settings-modal")
+        },
         [
             createSvgLogo("_3ESp2", "dlCBz", "_1I3mg", "fjQuT", "uQOmx")
+        ]
+    ),
+    createElement(
+        "button",
+        ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
+        { 
+            id: "darktheme-toggle-navbar-button",
+            onclick: () => document.documentElement.setAttribute("modern", document.documentElement.getAttribute("modern") == "false" ? "true" : "false") 
+        },
+        [
+            (function() {
+                let moonSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                moonSvg.setAttribute("viewBox", "-12 -20 500 500");
+                moonSvg.setAttribute("class", "_3ESp2 dlCBz _1I3mg fjQuT uQOmx");
+                let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", "m224.023438 448.03125c85.714843.902344 164.011718-48.488281 200.117187-126.230469-22.722656 9.914063-47.332031 14.769531-72.117187 14.230469-97.15625-.109375-175.890626-78.84375-176-176 .972656-65.71875 37.234374-125.832031 94.910156-157.351562-15.554688-1.980469-31.230469-2.867188-46.910156-2.648438-123.714844 0-224.0000005 100.289062-224.0000005 224 0 123.714844 100.2851565 224 224.0000005 224zm0 0");
+                path.id = "darktheme-toggle-navbar-path"
+                moonSvg.appendChild(path);
+                return moonSvg;
+            })()
         ]
     )
 ]));

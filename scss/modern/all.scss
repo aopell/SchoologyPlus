@@ -2293,6 +2293,17 @@ variable-intellisense {
 
     // California Assesment
 
+    &[dark=true] .assessment-delivery-landing-app div._3dHTa::after {
+        content: "WARNING: Dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the 🌙 button on the navigation bar.";
+        display: inline-block;
+        text-align: center;
+        width: 50%;
+        padding: var(--padding);
+        background-color: var(--highlight);
+        border: var(--border-size) solid rgba(0, 0, 0, 0.5);
+        border-radius: var(--border-radius);
+    }
+
     .ca-assessment-delivery-take-assessment,
     .lrn-assess>div {
         background-color: var(--primary) !important;
