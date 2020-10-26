@@ -577,6 +577,7 @@ function updateOutput() {
         setCSSVariable("background-color", "hsl(var(--color-hue), 60%, 30%)");
         setCSSVariable("hover-color", "hsl(var(--color-hue), 55%, 40%)");
         setCSSVariable("border-color", "hsl(var(--color-hue), 60%, 25%)");
+        setCSSVariable("link-color", "hsl(var(--color-hue), 55%, 40%)");
     } else if (themeColorCustom.checked) {
         themeColorCustomWrapper.classList.remove("hidden");
         themeHueWrapper.classList.add("hidden");
