@@ -1041,10 +1041,12 @@ function indicateSubmittedAssignments() {
                 let revisionData = await fetchApiJson(`dropbox${assignmentId}/${getUserId()}`);
                 let revisions = revisionData.revision;
 
+                // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
                 if (revisions && revisions.length && !revisions[revisions.length - 1].draft) {
                     Logger.log(`Marking submitted assignment ${assignmentId} as complete ✔`);
                     eventElement.classList.add("splus-assignment-complete");
                 } else {
+                    eventElement.classList.add("splus-assignment-notcomplete");
                     Logger.log(`Assignment ${assignmentId} is not submitted`);
                 }
             }

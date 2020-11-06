@@ -720,13 +720,38 @@ a._3_bfp {
     display: block !important;
 }
 
-.splus-mark-completed-check .splus-assignment-complete .infotip a[href]::after {
-    content: "✔" !important;
-    float: right !important;
+.splus-mark-completed-check .infotip {
+    width: 90% !important;
+}
+
+.splus-mark-completed-check .splus-completed-check-indicator {
+    max-width: 10%;
+    font-size: 250% !important;
+    display: inline-block;
+}
+
+.splus-mark-completed-check .splus-assignment-complete .splus-completed-check-indicator {
     color: green !important;
+}
+
+.splus-mark-completed-check .splus-assignment-notcomplete .splus-completed-check-indicator {
+    -moz-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
+    -moz-text-stroke-color: var(--muted-text);
+    -webkit-text-stroke-color: var(--muted-text);
+    -moz-text-stroke-width: 1px;  
+    -webkit-text-stroke-width: 1px;
+}
+
+/*
+.splus-mark-completed-check .splus-assignment-notcomplete .infotip a[href]::after {
+    content: "▢" !important;
+    float: right !important;
+    color: var(--muted-text) !important;
     font-size: 150% !important;
     display: block !important;
 }
+*/
 
 .splus-mark-completed-strikethrough .splus-assignment-complete .infotip a[href] {
     text-decoration: line-through !important;
