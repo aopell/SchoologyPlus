@@ -249,7 +249,7 @@ let migrationsTo = {
                     "Checkmarks for submitted assignments!",
                     `
                     <div>
-                        <strong style="background: rgba(0,255,0,50%) !important;">Schoology Plus now shows checkmarks for submitted assingments in the Upcoming box!</strong>
+                        <strong style="background: rgba(0,255,0,50%) !important;">Schoology Plus now shows checkmarks for submitted assignments in the Upcoming box!</strong>
 
                         <p>By default, green check marks <span style="color: green !important;">✔</span> are shown on all
                         assignments you've submitted. There are also options for putting a <span style="text-decoration: line-through;">strikethrough</span>
