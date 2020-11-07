@@ -730,6 +730,10 @@ a._3_bfp {
     display: block !important;
 }
 
+.upcoming-list:not(.splus-mark-completed-check) .splus-completed-check-indicator {
+    display: none !important;
+}
+
 .splus-mark-completed-check .infotip {
     width: 90% !important;
 }

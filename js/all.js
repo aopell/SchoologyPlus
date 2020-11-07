@@ -1095,37 +1095,38 @@ function indicateSubmittedAssignments() {
     // Indicate submitted assignments in Upcoming
     async function indicateSubmitted() {
         Logger.log("Checking to see if upcoming assignments are submitted");
-        upcomingList = document.querySelector(".upcoming-events .upcoming-list");
-        switch (Setting.getValue("indicateSubmission")) {
-            case "disabled":
-                break;
-            case "strikethrough":
-                upcomingList.classList.add("splus-mark-completed-strikethrough");
-                break;
-            case "hide":
-                upcomingList.classList.add("splus-mark-completed-hide");
-                break;
-            case "check":
-            default:
-                upcomingList.classList.add("splus-mark-completed-check");
-                break;
+        for (let upcomingList of document.querySelectorAll(".upcoming-list")) {
+            switch (Setting.getValue("indicateSubmission")) {
+                case "disabled":
+                    break;
+                case "strikethrough":
+                    upcomingList.classList.add("splus-mark-completed-strikethrough");
+                    break;
+                case "hide":
+                    upcomingList.classList.add("splus-mark-completed-hide");
+                    break;
+                case "check":
+                default:
+                    upcomingList.classList.add("splus-mark-completed-check");
+                    break;
+            }
+
+            let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event");
+
+            for (let eventElement of upcomingEventElements) {
+                try {
+                    await processAssignmentUpcomingAsync(eventElement);
+                }
+                catch (err) {
+                    Logger.error(`Failed checking assignment '${eventElement.querySelector(".infotip a[href]").href}' : `, err);
+                }
+            }
         }
 
-        let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event");
-
-        for (let eventElement of upcomingEventElements) {
-            try {
-                await processAssignmentUpcomingAsync(eventElement);
-            }
-            catch (err) {
-                Logger.error(`Failed checking assignment '${eventElement.querySelector(".infotip a[href]").href}' : `, err);
-            }
+        let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
+        if (reloadButton) {
+            reloadButton.addEventListener("click", () => setTimeout(indicateSubmitted, 2000));
         }
-    }
-
-    let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
-    if (reloadButton) {
-        reloadButton.addEventListener("click", () => setTimeout(indicateSubmitted, 2000));
     }
 
     setTimeout(indicateSubmitted, 3000);
