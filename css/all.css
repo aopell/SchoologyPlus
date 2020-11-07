@@ -724,10 +724,24 @@ a._3_bfp {
     width: 90% !important;
 }
 
+/* .splus-completed-check-indicator is a span containing <button> (or possibly <a>) */
 .splus-mark-completed-check .splus-completed-check-indicator {
     max-width: 10%;
-    font-size: 250% !important;
     display: inline-block;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Button itself (as MDN recommends against abusing <a> for buttons) is styled as text */
+.splus-mark-completed-check .splus-completed-check-indicator button {
+    font-size: 250% !important;
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+    cursor: pointer;
 }
 
 .splus-mark-completed-check .splus-assignment-complete .splus-completed-check-indicator {
@@ -742,16 +756,6 @@ a._3_bfp {
     -moz-text-stroke-width: 1px;  
     -webkit-text-stroke-width: 1px;
 }
-
-/*
-.splus-mark-completed-check .splus-assignment-notcomplete .infotip a[href]::after {
-    content: "▢" !important;
-    float: right !important;
-    color: var(--muted-text) !important;
-    font-size: 150% !important;
-    display: block !important;
-}
-*/
 
 .splus-mark-completed-strikethrough .splus-assignment-complete .infotip a[href] {
     text-decoration: line-through !important;

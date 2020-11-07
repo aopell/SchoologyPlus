@@ -1011,6 +1011,15 @@ async function createQuickAccess() {
     }
 }
 
+function createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId) {
+    let elem = document.createElement("span");
+    elem.classList.add("splus-completed-check-indicator");
+    let link = document.createElement("button");
+    elem.appendChild(link);
+    link.textContent = "✔";
+    return elem;
+}
+
 function indicateSubmittedAssignments() {
     let upcomingList = document.querySelector(".upcoming-events .upcoming-list");
     // Indicate submitted assignments in Upcoming
@@ -1035,7 +1044,8 @@ function indicateSubmittedAssignments() {
         let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event");
 
         for (let eventElement of upcomingEventElements) {
-            let assignmentElement = eventElement.querySelector(".infotip a[href]");
+            let infotipElement = eventElement.querySelector(".infotip");
+            let assignmentElement = infotipElement.querySelector("a[href]");
             let assignmentId = assignmentElement.href.match(/\/\d+/);
             try {
                 let revisionData = await fetchApiJson(`dropbox${assignmentId}/${getUserId()}`);
@@ -1049,6 +1059,7 @@ function indicateSubmittedAssignments() {
                     eventElement.classList.add("splus-assignment-notcomplete");
                     Logger.log(`Assignment ${assignmentId} is not submitted`);
                 }
+                infotipElement.insertAdjacentElement("afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
             }
             catch (err) {
                 Logger.error(`Failed checking assignment ${assignmentId}: `, err);
