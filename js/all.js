@@ -1011,28 +1011,99 @@ async function createQuickAccess() {
     }
 }
 
-function createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId) {
-    let elem = document.createElement("button");
-    elem.classList.add("splus-completed-check-indicator");
-    //let link = document.createElement("button");
-    //elem.appendChild(link);
-    return elem;
-}
-
 function indicateSubmittedAssignments() {
     let upcomingList = document.querySelector(".upcoming-events .upcoming-list");
+    // TODO clear stored settings for assignments which aren't in the UI display
+    const completionOverridesSetting = "assignmentCompletionOverrides";
+    const assignCompleteClass = "splus-assignment-complete";
+    const assignIncompleteClass = "splus-assignment-notcomplete";
+
+    // checks on the backend if an assignment is complete (submitted)
+    // does not check user overrides
+    async function isAssignmentCompleteAsync(assignmentId) {
+        let revisionData = await fetchApiJson(`dropbox/${assignmentId}/${getUserId()}`);
+        let revisions = revisionData.revision;
+
+        return !!(revisions && revisions.length && !revisions[revisions.length - 1].draft);
+    }
+
+    // checks user override for assignment completion
+    function isAssignmentMarkedComplete(assignmentId) {
+        let overrides = Setting.getValue(completionOverridesSetting);
+        return !!(overrides && overrides[assignmentId]);
+    }
+
+    function setAssignmentCompleteOverride(assignmentId, isComplete) {
+        isComplete = !!isComplete;
+
+        let overrides = Setting.getValue(completionOverridesSetting);
+
+        if (!overrides && !isComplete) return;
+        else if (!overrides) overrides = {};
+        
+        if (!isComplete) {
+            delete overrides[assignmentId];
+        } else {
+            overrides[assignmentId] = isComplete;
+        }
+
+        Setting.setValue(completionOverridesSetting, overrides);
+    }
+
+    function createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId) {
+        let elem = document.createElement("button");
+        elem.classList.add("splus-completed-check-indicator");
+        elem.addEventListener("click", function() {
+            // if we're "faux-complete" and clicked, unmark the forced state
+            if (eventElement.classList.contains(assignCompleteClass) && isAssignmentMarkedComplete(assignmentId)) {
+                eventElement.classList.remove(assignCompleteClass);
+                setAssignmentCompleteOverride(assignmentId, false);
+                // TODO handle async nicely
+                processAssignmentUpcomingAsync(eventElement);
+            // if we're incomplete and click, force the completed state
+            } else if (eventElement.classList.contains(assignIncompleteClass)) {
+                eventElement.classList.remove(assignIncompleteClass);
+                setAssignmentCompleteOverride(assignmentId, true);
+                // TODO handle async nicely
+                processAssignmentUpcomingAsync(eventElement);
+            }
+        });
+        return elem;
+    }
+
+    async function processAssignmentUpcomingAsync(eventElement) {
+        let infotipElement = eventElement.querySelector(".infotip");
+        let assignmentElement = infotipElement.querySelector("a[href]");
+        // TODO errorcheck the assignmentId match
+        let assignmentId = assignmentElement.href.match(/\/(\d+)/)[1];
+
+        // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
+        let isMarkedComplete = isAssignmentMarkedComplete(assignmentId);
+        if (isMarkedComplete || await isAssignmentCompleteAsync(assignmentId)) {
+            Logger.log(`Marking assignment ${assignmentId} as complete ✔ (is force-marked complete? ${isMarkedComplete})`);
+            eventElement.classList.add(assignCompleteClass);
+        } else {
+            eventElement.classList.add(assignIncompleteClass);
+            Logger.log(`Assignment ${assignmentId} is not submitted`);
+        }
+        
+        if (!eventElement.querySelector(".splus-completed-check-indicator")) {
+            infotipElement.insertAdjacentElement("afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
+        }
+    }
+
     // Indicate submitted assignments in Upcoming
     async function indicateSubmitted() {
         Logger.log("Checking to see if upcoming assignments are submitted");
         upcomingList = document.querySelector(".upcoming-events .upcoming-list");
         switch (Setting.getValue("indicateSubmission")) {
+            case "disabled":
+                break;
             case "strikethrough":
                 upcomingList.classList.add("splus-mark-completed-strikethrough");
                 break;
             case "hide":
                 upcomingList.classList.add("splus-mark-completed-hide");
-                break;
-            case "disabled":
                 break;
             case "check":
             default:
@@ -1043,25 +1114,11 @@ function indicateSubmittedAssignments() {
         let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event");
 
         for (let eventElement of upcomingEventElements) {
-            let infotipElement = eventElement.querySelector(".infotip");
-            let assignmentElement = infotipElement.querySelector("a[href]");
-            let assignmentId = assignmentElement.href.match(/\/\d+/);
             try {
-                let revisionData = await fetchApiJson(`dropbox${assignmentId}/${getUserId()}`);
-                let revisions = revisionData.revision;
-
-                // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
-                if (revisions && revisions.length && !revisions[revisions.length - 1].draft) {
-                    Logger.log(`Marking submitted assignment ${assignmentId} as complete ✔`);
-                    eventElement.classList.add("splus-assignment-complete");
-                } else {
-                    eventElement.classList.add("splus-assignment-notcomplete");
-                    Logger.log(`Assignment ${assignmentId} is not submitted`);
-                }
-                infotipElement.insertAdjacentElement("afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
+                await processAssignmentUpcomingAsync(eventElement);
             }
             catch (err) {
-                Logger.error(`Failed checking assignment ${assignmentId}: `, err);
+                Logger.error(`Failed checking assignment '${eventElement.querySelector(".infotip a[href]").href}' : `, err);
             }
         }
     }
