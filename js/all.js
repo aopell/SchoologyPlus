@@ -1012,11 +1012,10 @@ async function createQuickAccess() {
 }
 
 function createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId) {
-    let elem = document.createElement("span");
+    let elem = document.createElement("button");
     elem.classList.add("splus-completed-check-indicator");
-    let link = document.createElement("button");
-    elem.appendChild(link);
-    link.textContent = "✔";
+    //let link = document.createElement("button");
+    //elem.appendChild(link);
     return elem;
 }
 
