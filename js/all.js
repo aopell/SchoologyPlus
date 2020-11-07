@@ -1115,6 +1115,7 @@ function indicateSubmittedAssignments() {
 
             for (let eventElement of upcomingEventElements) {
                 try {
+                    // TODO only process if it's an assignment, not (e.g.) a calendar event
                     await processAssignmentUpcomingAsync(eventElement);
                 }
                 catch (err) {
@@ -1125,9 +1126,9 @@ function indicateSubmittedAssignments() {
 
         let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
         if (reloadButton) {
-            reloadButton.addEventListener("click", () => setTimeout(indicateSubmitted, 2000));
+            reloadButton.addEventListener("click", () => setTimeout(indicateSubmitted, 500));
         }
     }
 
-    setTimeout(indicateSubmitted, 3000);
+    setTimeout(indicateSubmitted, 1000);
 }
