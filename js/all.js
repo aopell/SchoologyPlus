@@ -1070,12 +1070,12 @@ function indicateSubmittedAssignments() {
         return elem;
     }
 
-    async function processAssignmentUpcomingAsync(eventElement, idSet) {
+    // returns assignment ID for convenience
+    async function processAssignmentUpcomingAsync(eventElement) {
         let infotipElement = eventElement.querySelector(".infotip");
         let assignmentElement = infotipElement.querySelector("a[href]");
         // TODO errorcheck the assignmentId match
         let assignmentId = assignmentElement.href.match(/\/(\d+)/)[1];
-        idSet.add(assignmentId);
 
         // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
         let isMarkedComplete = isAssignmentMarkedComplete(assignmentId);
@@ -1090,6 +1090,8 @@ function indicateSubmittedAssignments() {
         if (!eventElement.querySelector(".splus-completed-check-indicator")) {
             infotipElement.insertAdjacentElement("afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
         }
+
+        return assignmentId;
     }
 
     // Indicate submitted assignments in Upcoming
@@ -1118,7 +1120,7 @@ function indicateSubmittedAssignments() {
             for (let eventElement of upcomingEventElements) {
                 try {
                     // TODO only process if it's an assignment, not (e.g.) a calendar event
-                    await processAssignmentUpcomingAsync(eventElement, idSet);
+                    idSet.add(await processAssignmentUpcomingAsync(eventElement));
                 }
                 catch (err) {
                     Logger.error(`Failed checking assignment '${eventElement.querySelector(".infotip a[href]").href}' : `, err);
@@ -1126,21 +1128,24 @@ function indicateSubmittedAssignments() {
             }
         }
 
-        // clear out old assignments from local cache which aren't relevant anymore
-        let overrides = Setting.getValue(completionOverridesSetting);
-
-        if (overrides) {
-            for (var key in overrides) {
-                if (overrides.hasOwnProperty(key) && !idSet.has(key)) {
-                    delete overrides[key];
-                }
-            }
-            Setting.setValue(completionOverridesSetting, overrides);
-        }
-
+        // check if reload is present and visible on page
         let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
-        if (reloadButton) {
+        if (reloadButton && reloadButton.offsetParent !== null) {
             reloadButton.addEventListener("click", () => setTimeout(indicateSubmitted, 500));
+        } else {
+            // loaded properly
+            // clear out old assignments from local cache which aren't relevant anymore
+            let overrides = Setting.getValue(completionOverridesSetting);
+
+            if (overrides) {
+                for (var key in overrides) {
+                    if (overrides.hasOwnProperty(key) && !idSet.has(key)) {
+                        delete overrides[key];
+                    }
+                }
+                Setting.setValue(completionOverridesSetting, overrides);
+                Logger.info("Done clearing old overrides");
+            }
         }
     }
 
