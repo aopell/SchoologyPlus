@@ -1013,7 +1013,6 @@ async function createQuickAccess() {
 
 function indicateSubmittedAssignments() {
     let upcomingList = document.querySelector(".upcoming-events .upcoming-list");
-    // TODO clear stored settings for assignments which aren't in the UI display
     const completionOverridesSetting = "assignmentCompletionOverrides";
     const assignCompleteClass = "splus-assignment-complete";
     const assignIncompleteClass = "splus-assignment-notcomplete";
@@ -1071,11 +1070,12 @@ function indicateSubmittedAssignments() {
         return elem;
     }
 
-    async function processAssignmentUpcomingAsync(eventElement) {
+    async function processAssignmentUpcomingAsync(eventElement, idSet) {
         let infotipElement = eventElement.querySelector(".infotip");
         let assignmentElement = infotipElement.querySelector("a[href]");
         // TODO errorcheck the assignmentId match
         let assignmentId = assignmentElement.href.match(/\/(\d+)/)[1];
+        idSet.add(assignmentId);
 
         // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
         let isMarkedComplete = isAssignmentMarkedComplete(assignmentId);
@@ -1095,6 +1095,7 @@ function indicateSubmittedAssignments() {
     // Indicate submitted assignments in Upcoming
     async function indicateSubmitted() {
         Logger.log("Checking to see if upcoming assignments are submitted");
+        let idSet = new Set();
         for (let upcomingList of document.querySelectorAll(".upcoming-list")) {
             switch (Setting.getValue("indicateSubmission")) {
                 case "disabled":
@@ -1111,17 +1112,30 @@ function indicateSubmittedAssignments() {
                     break;
             }
 
-            let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event");
+            // filter to course-event to avoid generic calendar events
+            let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event.course-event");
 
             for (let eventElement of upcomingEventElements) {
                 try {
                     // TODO only process if it's an assignment, not (e.g.) a calendar event
-                    await processAssignmentUpcomingAsync(eventElement);
+                    await processAssignmentUpcomingAsync(eventElement, idSet);
                 }
                 catch (err) {
                     Logger.error(`Failed checking assignment '${eventElement.querySelector(".infotip a[href]").href}' : `, err);
                 }
             }
+        }
+
+        // clear out old assignments from local cache which aren't relevant anymore
+        let overrides = Setting.getValue(completionOverridesSetting);
+
+        if (overrides) {
+            for (var key in overrides) {
+                if (overrides.hasOwnProperty(key) && !idSet.has(key)) {
+                    delete overrides[key];
+                }
+            }
+            Setting.setValue(completionOverridesSetting, overrides);
         }
 
         let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
