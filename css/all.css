@@ -182,6 +182,16 @@ video.easter-egg {
     }
 }
 
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(359deg);
+    }
+  }
+
 .close {
     color: rgba(255, 255, 255, 0.8);
     float: right;
@@ -720,12 +730,49 @@ a._3_bfp {
     display: block !important;
 }
 
-.splus-mark-completed-check .splus-assignment-complete .infotip a[href]::after {
-    content: "✔" !important;
-    float: right !important;
+.upcoming-list:not(.splus-mark-completed-check) .splus-completed-check-indicator {
+    display: none !important;
+}
+
+.splus-mark-completed-check .infotip {
+    width: 90% !important;
+}
+
+/* .splus-completed-check-indicator is a <button> */
+.splus-mark-completed-check .splus-completed-check-indicator {
+    max-width: 10%;
+    display: inline-block;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 200% !important;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.splus-mark-completed-check .splus-assignment-notcomplete .splus-completed-check-indicator::after {
+    color: var(--muted-text) !important;
+    content: "▢";
+}
+
+.splus-mark-completed-check .splus-assignment-complete .splus-completed-check-indicator::after {
     color: green !important;
-    font-size: 150% !important;
-    display: block !important;
+    content: "✔";
+}
+
+/* "loading" state to avoid vertical scrolling when transitioning from 'forced completed' to 'query state' */
+/* animated spin. default center,center rotate origin appears to be slightly off, but not likely to be noticeable for <1s load times. */
+.splus-mark-completed-check .course-event:not(.splus-assignment-complete):not(.splus-assignment-notcomplete) .splus-completed-check-indicator {
+    animation: rotation 0.8s infinite linear;
+}
+
+.splus-mark-completed-check .course-event:not(.splus-assignment-complete):not(.splus-assignment-notcomplete) .splus-completed-check-indicator::after {
+    color: var(--muted-text) !important;
+    content: "⚆";
 }
 
 .splus-mark-completed-strikethrough .splus-assignment-complete .infotip a[href] {
