@@ -5,12 +5,14 @@ class CustomColorDefinition {
      * @param {string} hover The color of items in the settings menu
      * @param {string} background The background color of buttons and other interactive elements when you hover over them, and the color of the settings dropdown menu
      * @param {string} border The border color of buttons and the border between the navigation bar and drop-down menus
+     * @param {string} link The color of links and other interactive text
      */
-    constructor(primary, hover, background, border) {
+    constructor(primary, hover, background, border, link) {
         this.primary = primary;
         this.hover = hover;
         this.background = background;
         this.border = border;
+        this.link = link || hover;
     }
 
     /**
@@ -19,7 +21,7 @@ class CustomColorDefinition {
      * @returns {CustomColorDefinition}
      */
     static loadFromObject(o) {
-        return o ? new CustomColorDefinition(o.primary, o.hover, o.background, o.border) : undefined;
+        return o ? new CustomColorDefinition(o.primary, o.hover, o.background, o.border, o.link || o.hover) : undefined;
     }
 }
 
@@ -152,14 +154,12 @@ class ModernTextColorDefinition {
      * Defines colors for textual elements of the Schoology interface
      * @param {string} primary Main text color, should contrast with `interface.primary`
      * @param {string} muted Muted text color, should stand out less than primary
-     * @param {string} contrast Contrast text color, should contrast with primary text color
-     * @param {string} link Color for links and other interactive text
+     * @param {string} contrast Contrast text color, should always be light or white
      */
-    constructor(primary, muted, contrast, link) {
+    constructor(primary, muted, contrast) {
         this.primary = primary;
         this.muted = muted;
         this.contrast = contrast;
-        this.link = link;
     }
 
     /**
@@ -172,8 +172,7 @@ class ModernTextColorDefinition {
             ? new ModernTextColorDefinition(
                 o.primary,
                 o.muted,
-                o.contrast,
-                o.link
+                o.contrast
             )
             : undefined;
     }
@@ -185,13 +184,11 @@ class ModernOptionsDefinition {
      * @param {number} borderRadius The size of border radius rounded corners (in pixels)
      * @param {number} borderSize The width of borders (in pixels)
      * @param {number} padding The amount of padding for certain elements (in pixels)
-     * @param {boolean} overrideUserStyles Whether to override user-styled elements (like homefeed posts)
      */
-    constructor(borderRadius, borderSize, padding, overrideUserStyles) {
+    constructor(borderRadius, borderSize, padding) {
         this.borderRadius = borderRadius;
         this.borderSize = borderSize;
         this.padding = padding;
-        this.overrideUserStyles = overrideUserStyles;
     }
 
     /**
@@ -214,14 +211,14 @@ class ModernColorDefinition {
     /**
      * Utilizes the modern theme engine to control significantly more of the interface's colors.
      * @param {boolean} dark Whether the theme is dark or light
-     * @param {ModernInterfaceColorDefinition} interface Colors for main interface components
+     * @param {ModernInterfaceColorDefinition} interfaceColors Colors for main interface components
      * @param {string[]} calendar Colors for Schoology calendar events (specify exactly 20)
      * @param {ModernTextColorDefinition} text Colors for text elements
      * @param {ModernOptionsDefinition} options Style options for the interface
      */
-    constructor(dark, interface, calendar, text, options) {
+    constructor(dark, interfaceColors, calendar, text, options) {
         this.dark = dark;
-        this.interface = interface;
+        this.interface = interfaceColors;
         this.calendar = calendar;
         this.text = text;
         this.options = options;
