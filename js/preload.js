@@ -652,22 +652,22 @@ function updateSettings(callback) {
                 ).control,
                 new Setting(
                     "indicateSubmission",
-                    "Show Submitted Upcoming Assignments",
-                    '[Reload required] Shows a checkmark, shows a strikethrough, or hides items in "Upcoming Assignments" that have been submitted',
+                    "Submitted Assignments Checklist",
+                    '[Reload required] Shows a checkmark, shows a strikethrough, or hides items in "Upcoming Assignments" that have been submitted. If "Show Check Mark" is selected, a checklist function will be enabled allowing you to manually mark assignments as complete.',
                     "check",
                     "select",
                     {
                         options: [
                             {
-                                text: "Show Check Mark ✔",
+                                text: "Show Check Mark ✔ (Enables manual checklist)",
                                 value: "check"
                             },
                             {
-                                text: "Show Strikethrough",
+                                text: "Show Strikethrough (Doesn't allow manual checklist)",
                                 value: "strikethrough"
                             },
                             {
-                                text: "Hide Assignment",
+                                text: "Hide Assignment (Not recommended)",
                                 value: "hide"
                             },
                             {

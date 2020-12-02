@@ -1020,10 +1020,15 @@ function indicateSubmittedAssignments() {
     // checks on the backend if an assignment is complete (submitted)
     // does not check user overrides
     async function isAssignmentCompleteAsync(assignmentId) {
-        let revisionData = await fetchApiJson(`dropbox/${assignmentId}/${getUserId()}`);
-        let revisions = revisionData.revision;
+        try {
+            let revisionData = await fetchApiJson(`dropbox/${assignmentId}/${getUserId()}`);
+            let revisions = revisionData.revision;
 
-        return !!(revisions && revisions.length && !revisions[revisions.length - 1].draft);
+            return !!(revisions && revisions.length && !revisions[revisions.length - 1].draft);
+        } catch(err) {
+            Logger.warn(`Couldn't determine if assignment ${assignmentId} was complete. This is likely not a normal assignment.`);
+            return false;
+        }
     }
 
     // checks user override for assignment completion
@@ -1074,8 +1079,15 @@ function indicateSubmittedAssignments() {
     async function processAssignmentUpcomingAsync(eventElement) {
         let infotipElement = eventElement.querySelector(".infotip");
         let assignmentElement = infotipElement.querySelector("a[href]");
+
         // TODO errorcheck the assignmentId match
-        let assignmentId = assignmentElement.href.match(/\/(\d+)/)[1];
+        let assignmentId;
+        if (assignmentElement.href.includes("/assignment/")) {
+            assignmentId = assignmentElement.href.match(/assignment\/(\d+)/)[1];
+        } else if (assignmentElement.href.includes("/course/")) {
+            // Discussion boards, maybe other assignments as well
+            assignmentId = assignmentElement.href.match(/course\/\d+\/.*\/(\d+)/)[1];
+        }
 
         // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
         let isMarkedComplete = isAssignmentMarkedComplete(assignmentId);
