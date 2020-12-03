@@ -120,6 +120,7 @@ function createBroadcast(id, title, message, timestamp = Date.now()) {
 function deleteBroadcasts(...ids) {
     for (let id of ids) {
         let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
+        if(!unreadBroadcasts) continue;
         unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == id), 1);
         Setting.setValue("unreadBroadcasts", unreadBroadcasts);
 
@@ -241,14 +242,14 @@ let migrationsTo = {
         ]);
     },
     "6.6.4": function (currentVersion, previousVersion) {
-        if (currentVersion === "6.6.4") {
+        if (previousVersion && currentVersion === "6.6.4") {
             saveBroadcasts([
                 createBroadcast(
                     660,
                     "Checkmarks for submitted assignments!",
                     `
                     <div>
-                        <strong style="background: rgba(0,255,0,50%) !important;">Schoology Plus now shows checkmarks for submitted assingments in the Upcoming box!</strong>
+                        <strong style="background: rgba(0,255,0,50%) !important;">Schoology Plus now shows checkmarks for submitted assignments in the Upcoming box!</strong>
 
                         <p>By default, green check marks <span style="color: green !important;">✔</span> are shown on all
                         assignments you've submitted. There are also options for putting a <span style="text-decoration: line-through;">strikethrough</span>
@@ -271,6 +272,47 @@ let migrationsTo = {
 
             deleteBroadcasts(660);
         }
+    },
+    "6.7": function (currentVersion, previousVersion) {
+        // reset setting value so people have checklists enabled by default
+        Setting.setValue("indicateSubmission", undefined);
+
+        // survey announcement
+        saveBroadcasts([
+            createBroadcast(
+                670.1,
+                "Checkmarks have been updated!",
+                "Now you can manually check off assignments as completed from the Upcoming and Overdue boxes on the homepage!",
+                new Date(2020, 11 /* November */, 2)
+            ),
+            createBroadcast(
+                670,
+                "Schoology Plus Fall 2020 Survey",
+                `
+                <div>
+                    <strong style="background: rgba(0,128,255,0.5) !important; color: white !important;">Take the Schoology Plus Fall 2020 Survey!</strong>
+
+                    <p>About once a year we run this survey to understand how best to improve Schoology Plus for our users.</p>
+
+                    <p>Spend 15 minutes completing this year's survey and you'll be entered into a giveaway for one of
+                        <span style="background: rgb(255, 255, 0) !important; color: black !important; font-weight: bold;">20 Amazon gift cards totaling $150</span>
+                        : ten $10 cards and ten $5 cards, so <strong>your chance of winning is higher than ever before!</strong>
+                    </p>
+
+                    <p>Thank you for helping improve Schoology Plus! Your feedback is incredibly valuable to us!</p>
+
+                    <p><a href="http://survey.schoologypl.us?source=ExtensionBroadcast&domain=${location.hostname}"><strong style="background: rgba(255,60,0,0.5) !important; color: white !important; font-size: 16px;">Click here to visit survey.schoologypl.us and take the survey now!</strong></a></p>
+                </div>
+                `,
+                new Date(2020, 11 /* November */, 2)
+            )
+        ]);
+
+        showToast("Take the Schoology Plus Survey!", "Enter to win one of 20 Amazon gift cards!", "yellow", {
+            buttons: [
+                createToastButton("Take Survey!", "toast-take-splus-survey-fall2020", (i, t, b) => window.open(`http://survey.schoologypl.us?source=ExtensionToast&domain=${location.hostname}`, "_blank"))
+            ]
+        })
     }
 };
 

@@ -113,12 +113,12 @@
                 let themes = s.themes.filter(x => x.name !== `Auto Generated Theme for ${window.location.host}`);
                 themes.push(t);
                 chrome.storage.sync.set({ themes: themes }, () => {
-                    alert(`Schoology Plus has updated the domain on which it runs. Click OK to reload the page.\nPrevious: ${dd}\nNew: ${window.location.host}`);
+                    Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.host}`);
                     location.reload();
                 });
             });
         } else {
-            alert(`Schoology Plus has updated the domain on which it runs. Click OK to reload the page.\nPrevious: ${dd}\nNew: ${window.location.host}`);
+            Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.host}`);
             location.reload();
         }
     }
@@ -270,23 +270,23 @@ let modals = [
             createElement("h2", ["setting-entry"], { textContent: "Contributors" }),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/aopell", textContent: "Aaron Opell" })
+                    createElement("a", [], { href: "https://github.com/aopell", textContent: "Aaron Opell (@aopell)" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Extension creator; lead developer" })
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/glen3b", textContent: "Glen Husman" })
+                    createElement("a", [], { href: "https://github.com/glen3b", textContent: "Glen Husman (@glen3b)" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Lead developer" })
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/Roguim", textContent: "Roguim" }),
+                    createElement("a", [], { href: "https://github.com/Roguim", textContent: "@Roguim" }),
                     createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger" }),
+                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger (@reteps)" }),
                     createElement("span", [], { textContent: ", and " }),
-                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "xd-arsenic" })
+                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "Alexander (@xd-arsenic)" })
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Various code contributions" })
             ]),
@@ -1011,4 +1011,155 @@ async function createQuickAccess() {
     }
 }
 
-Logger.log("Finished loading all.js");
+function indicateSubmittedAssignments() {
+    let upcomingList = document.querySelector(".upcoming-events .upcoming-list");
+    const completionOverridesSetting = "assignmentCompletionOverrides";
+    const assignCompleteClass = "splus-assignment-complete";
+    const assignIncompleteClass = "splus-assignment-notcomplete";
+
+    // checks on the backend if an assignment is complete (submitted)
+    // does not check user overrides
+    async function isAssignmentCompleteAsync(assignmentId) {
+        try {
+            let revisionData = await fetchApiJson(`dropbox/${assignmentId}/${getUserId()}`);
+            let revisions = revisionData.revision;
+
+            return !!(revisions && revisions.length && !revisions[revisions.length - 1].draft);
+        } catch(err) {
+            Logger.warn(`Couldn't determine if assignment ${assignmentId} was complete. This is likely not a normal assignment.`);
+            return false;
+        }
+    }
+
+    // checks user override for assignment completion
+    function isAssignmentMarkedComplete(assignmentId) {
+        let overrides = Setting.getValue(completionOverridesSetting);
+        return !!(overrides && overrides[assignmentId]);
+    }
+
+    function setAssignmentCompleteOverride(assignmentId, isComplete) {
+        isComplete = !!isComplete;
+
+        let overrides = Setting.getValue(completionOverridesSetting);
+
+        if (!overrides && !isComplete) return;
+        else if (!overrides) overrides = {};
+        
+        if (!isComplete) {
+            delete overrides[assignmentId];
+        } else {
+            overrides[assignmentId] = isComplete;
+        }
+
+        Setting.setValue(completionOverridesSetting, overrides);
+    }
+
+    function createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId) {
+        let elem = document.createElement("button");
+        elem.classList.add("splus-completed-check-indicator");
+        elem.addEventListener("click", function() {
+            // if we're "faux-complete" and clicked, unmark the forced state
+            if (eventElement.classList.contains(assignCompleteClass) && isAssignmentMarkedComplete(assignmentId)) {
+                eventElement.classList.remove(assignCompleteClass);
+                setAssignmentCompleteOverride(assignmentId, false);
+                // TODO handle async nicely
+                processAssignmentUpcomingAsync(eventElement);
+            // if we're incomplete and click, force the completed state
+            } else if (eventElement.classList.contains(assignIncompleteClass)) {
+                eventElement.classList.remove(assignIncompleteClass);
+                setAssignmentCompleteOverride(assignmentId, true);
+                // TODO handle async nicely
+                processAssignmentUpcomingAsync(eventElement);
+            }
+        });
+        return elem;
+    }
+
+    // returns assignment ID for convenience
+    async function processAssignmentUpcomingAsync(eventElement) {
+        let infotipElement = eventElement.querySelector(".infotip");
+        let assignmentElement = infotipElement.querySelector("a[href]");
+
+        // TODO errorcheck the assignmentId match
+        let assignmentId;
+        if (assignmentElement.href.includes("/assignment/")) {
+            assignmentId = assignmentElement.href.match(/assignment\/(\d+)/)[1];
+        } else if (assignmentElement.href.includes("/course/")) {
+            // Discussion boards, maybe other assignments as well
+            assignmentId = assignmentElement.href.match(/course\/\d+\/.*\/(\d+)/)[1];
+        }
+
+        // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
+        let isMarkedComplete = isAssignmentMarkedComplete(assignmentId);
+        if (isMarkedComplete || await isAssignmentCompleteAsync(assignmentId)) {
+            Logger.log(`Marking assignment ${assignmentId} as complete ✔ (is force-marked complete? ${isMarkedComplete})`);
+            eventElement.classList.add(assignCompleteClass);
+        } else {
+            eventElement.classList.add(assignIncompleteClass);
+            Logger.log(`Assignment ${assignmentId} is not submitted`);
+        }
+        
+        if (!eventElement.querySelector(".splus-completed-check-indicator")) {
+            infotipElement.insertAdjacentElement("afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
+        }
+
+        return assignmentId;
+    }
+
+    // Indicate submitted assignments in Upcoming
+    async function indicateSubmitted() {
+        Logger.log("Checking to see if upcoming assignments are submitted");
+        let idSet = new Set();
+        for (let upcomingList of document.querySelectorAll(".upcoming-list")) {
+            switch (Setting.getValue("indicateSubmission")) {
+                case "disabled":
+                    break;
+                case "strikethrough":
+                    upcomingList.classList.add("splus-mark-completed-strikethrough");
+                    break;
+                case "hide":
+                    upcomingList.classList.add("splus-mark-completed-hide");
+                    break;
+                case "check":
+                default:
+                    upcomingList.classList.add("splus-mark-completed-check");
+                    break;
+            }
+
+            // filter to course-event to avoid generic calendar events
+            let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event.course-event");
+
+            for (let eventElement of upcomingEventElements) {
+                try {
+                    // TODO only process if it's an assignment, not (e.g.) a calendar event
+                    idSet.add(await processAssignmentUpcomingAsync(eventElement));
+                }
+                catch (err) {
+                    Logger.error(`Failed checking assignment '${eventElement.querySelector(".infotip a[href]").href}' : `, err);
+                }
+            }
+        }
+
+        // check if reload is present and visible on page
+        let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
+        if (reloadButton && reloadButton.offsetParent !== null) {
+            reloadButton.addEventListener("click", () => setTimeout(indicateSubmitted, 500));
+        } else {
+            // loaded properly
+            // clear out old assignments from local cache which aren't relevant anymore
+            let overrides = Setting.getValue(completionOverridesSetting);
+
+            if (overrides) {
+                for (var key in overrides) {
+                    if (overrides.hasOwnProperty(key) && !idSet.has(key)) {
+                        delete overrides[key];
+                    }
+                }
+                Setting.setValue(completionOverridesSetting, overrides);
+                Logger.info("Done clearing old overrides");
+            }
+        }
+    }
+
+    setTimeout(indicateSubmitted, 1000);
+}

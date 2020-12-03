@@ -43,6 +43,34 @@ A Schoology Plus theme has the following format and components (each component w
             "lightness": {
                 "value": 50
             }
+        },
+        "modern": {
+            "dark": true,
+            "interface": {
+                "primary": "",
+                "accent": "",
+                "secondary": "",
+                "input": "",
+                "border": "",
+                "highlight": "",
+                "active": "",
+                "grades": "",
+                "error": ""
+            },
+            "calendar": [
+                // Array of 20 calendar colors
+            ],
+            "text": {
+                "primary": "",
+                "muted": "",
+                "contrast": "",
+                "link": ""
+            },
+            "options": {
+                "borderRadius": 5,
+                "borderSize": 1,
+                "padding": 10,
+            }
         }
     },
     "logo": {

@@ -101,55 +101,5 @@ if (Setting.getValue("broadcasts") !== "disabled") {
     })();
 }
 
-(function () {
-    let upcomingList = document.querySelector(".upcoming-events .upcoming-list");
-    // Indicate submitted assignments in Upcoming
-    async function indicateSubmitted() {
-        Logger.log("Checking to see if upcoming assignments are submitted");
-        upcomingList = document.querySelector(".upcoming-events .upcoming-list");
-        switch (Setting.getValue("indicateSubmission")) {
-            case "strikethrough":
-                upcomingList.classList.add("splus-mark-completed-strikethrough");
-                break;
-            case "hide":
-                upcomingList.classList.add("splus-mark-completed-hide");
-                break;
-            case "disabled":
-                break;
-            case "check":
-            default:
-                upcomingList.classList.add("splus-mark-completed-check");
-                break;
-        }
-
-        let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event");
-
-        for (let eventElement of upcomingEventElements) {
-            let assignmentElement = eventElement.querySelector(".infotip a[href]");
-            let assignmentId = assignmentElement.href.match(/\/\d+/);
-            try {
-                let revisionData = await fetchApiJson(`dropbox${assignmentId}/${getUserId()}`);
-                let revisions = revisionData.revision;
-
-                if (revisions && revisions.length) {
-                    Logger.log(`Marking submitted assignment ${assignmentId} as complete ✔`);
-                    eventElement.classList.add("splus-assignment-complete");
-                } else {
-                    Logger.log(`Assignment ${assignmentId} is not submitted`);
-                }
-            }
-            catch (err) {
-                Logger.error(`Failed checking assignment ${assignmentId}: `, err);
-            }
-        }
-    }
-
-    let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
-    if (reloadButton) {
-        reloadButton.addEventListener("click", () => setTimeout(indicateSubmitted, 2000));
-    }
-
-    setTimeout(indicateSubmitted, 3000);
-})();
-
+indicateSubmittedAssignments();
 createQuickAccess();
