@@ -73,7 +73,6 @@ var colorRainbowLightnessRange = document.getElementById("color-rainbow-lightnes
 var themeHueWrapper = document.getElementById("theme-hue-wrapper");
 var themeLogoWrapper = document.getElementById("theme-logo-wrapper");
 var previewSection = document.getElementById("preview-section");
-var lockIcon = document.getElementById("lock-icon");
 var themesList = document.getElementById("themes-list");
 var themesListSection = document.getElementById("themes-list-section");
 var themeEditorSection = document.getElementById("theme-editor-section");
@@ -98,22 +97,6 @@ var createButton = document.getElementById("create-button");
 var importButton = document.getElementById("import-button");
 createButton.addEventListener("click", e => editTheme());
 importButton.addEventListener("click", e => importTheme());
-var lockButton = document.getElementById("lock-button");
-lockButton.addEventListener("click", e => {
-    if (previewSection.classList.contains("fixed-on-large-and-up")) {
-        previewSection.classList.remove("fixed-on-large-and-up");
-        lockButton.classList.remove("locked");
-        lockButton.classList.add("btn");
-        lockButton.classList.remove("btn-flat");
-        lockIcon.textContent = "lock_open";
-    } else {
-        previewSection.classList.add("fixed-on-large-and-up");
-        lockButton.classList.add("locked");
-        lockButton.classList.add("btn-flat");
-        lockButton.classList.remove("btn");
-        lockIcon.textContent = "lock";
-    }
-});
 var previewNavbar = document.getElementById("preview-navbar");
 var previewLogo = document.getElementById("preview-logo");
 
@@ -217,7 +200,15 @@ for (let e of document.querySelectorAll("#theme-editor-section input")) {
         updateOutput();
     });
 }
-var mTabs = M.Tabs.init(document.querySelector(".tabs"));
+var mTabs = M.Tabs.init(document.querySelector(".tabs"), {
+    onShow: function (newtab) { 
+        if (newtab.id == "tab-preview") {
+            previewSection.classList.add("fixed-on-large-and-up");
+        } else {
+            previewSection.classList.remove("fixed-on-large-and-up");
+        }
+    }
+});
 
 /**
  * Returns a list of errors for the given theme
