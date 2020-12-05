@@ -1,7 +1,7 @@
 /** @typedef {{id:number,title:string,message:string,timestamp?:Date,icon?:string}} Broadcast */
 
 let homeFeedContainer = document.getElementById("home-feed-container");
-let feed = homeFeedContainer.querySelector(".feed .item-list .s-edge-feed");
+let feed = homeFeedContainer && homeFeedContainer.querySelector(".feed .item-list .s-edge-feed");
 
 /**
  * Creates a post from a broadcast
@@ -75,7 +75,7 @@ function formatDateAsString(date) {
     return `${date.toLocaleString("en-US", { weekday: "short" })} ${date.toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric" })} at ${date.toLocaleString("en-US", { hour: "numeric", minute: "2-digit" }).toLowerCase()}`;
 }
 
-if (Setting.getValue("broadcasts") !== "disabled") {
+if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
     (function () {
         let observer = new MutationObserver(function (mutations) {
             if (mutations.length == 0) {
