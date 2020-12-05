@@ -274,9 +274,6 @@ let migrationsTo = {
         }
     },
     "6.7": function (currentVersion, previousVersion) {
-        // reset setting value so people have checklists enabled by default
-        Setting.setValue("indicateSubmission", undefined);
-
         // survey announcement
         saveBroadcasts([
             createBroadcast(
@@ -313,6 +310,10 @@ let migrationsTo = {
                 createToastButton("Take Survey!", "toast-take-splus-survey-fall2020", (i, t, b) => window.open(`http://survey.schoologypl.us?source=ExtensionToast&domain=${location.hostname}`, "_blank"))
             ]
         })
+    },
+    "6.7.1": function (currentVersion, previousVersion) {
+        // reset setting value so people have checklists enabled by default
+        Setting.setValue("indicateSubmission", undefined);
     }
 };
 
