@@ -282,6 +282,10 @@ h2.center {
     color: var(--primary-color);
 }
 
+#theme-editor-section {
+    margin-bottom: 50px;
+}
+
 #preview-section .action-button {
     visibility: hidden;
 }
