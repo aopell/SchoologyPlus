@@ -9,7 +9,7 @@
             "id": "schoology.plus@aopell.me"
         }
     },
-    "version": "6.6.4",
+    "version": "6.7.1",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -161,25 +161,16 @@
                 "https://lms.lausd.net/home",
                 "https://lms.lausd.net/home#*",
                 "https://lms.lausd.net/home/recent-activity*",
+                "https://lms.lausd.net/home/course-dashboard*",
                 "https://*.schoology.com/",
                 "https://*.schoology.com/home",
                 "https://*.schoology.com/home#*",
-                "https://*.schoology.com/home/recent-activity*"
-            ],
-            "js": [
-                "js/course.js",
-                "js/home.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/home/course-dashboard*",
+                "https://*.schoology.com/home/recent-activity*",
                 "https://*.schoology.com/home/course-dashboard*"
             ],
             "js": [
                 "js/course.js",
-                "js/dashboard.js"
+                "js/home.js"
             ],
             "run_at": "document_end"
         },
