@@ -2095,6 +2095,10 @@ variable-intellisense {
   border-radius: var(--border-radius);
 }
 
+[modern=true]:root .mathquill-formula {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
 [modern=true]:root .ca-assessment-delivery-take-assessment,
 [modern=true]:root .lrn-assess > div {
   background-color: var(--primary) !important;
@@ -2653,4 +2657,18 @@ variable-intellisense {
 
 [modern=true]:root #ids .name-wrapper {
   background: transparent !important;
+}
+
+[modern=true]:root .s-slider.rubric-grades-edit .rating-wrapper.selected {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .discussion-view .action-links-wrapper-junior .action-links-unfold, [modern=true]:root .discussion-view .action-links-wrapper-junior .action-links-unfold:hover, [modern=true]:root .discussion-view .action-links-wrapper-junior .active.action-links-unfold, [modern=true]:root .discussion-view .action-links-wrapper-junior .active.action-links-unfold:hover {
+  background-image: url(https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/sprite_discussion.png?5f9c91b5354f0ec1) !important;
+  /* Makes Icon Visble */
+}
+
+[modern=true]:root .s-js-comment-action-links.sActionLinksVisible > .action-links-wrapper.action-links-wrapper-junior.aligned-right > .action-links-unfold {
+  /* Changes Color When Hovered Over */
+  background-color: var(--accent) !important;
 }

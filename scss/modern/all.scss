@@ -2291,7 +2291,7 @@ variable-intellisense {
         }
     }
 
-    // California Assesment
+    // Common Assesment (New Schoology Assessments)
 
     &[dark=true] .assessment-delivery-landing-app div._3dHTa::after {
         content: "WARNING: Dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the 🌙 button on the navigation bar.";
@@ -2302,6 +2302,11 @@ variable-intellisense {
         background-color: var(--highlight);
         border: var(--border-size) solid rgba(0, 0, 0, 0.5);
         border-radius: var(--border-radius);
+    }
+
+    // LaTeX Math Formulas
+    .mathquill-formula {
+        filter: Invert(var(--theme-is-dark)) !important;
     }
 
     .ca-assessment-delivery-take-assessment,
