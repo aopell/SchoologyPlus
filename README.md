@@ -9,7 +9,7 @@
 [![Discord](https://img.shields.io/discord/526898202495025172.svg?color=7289da&label=discord)](http://discord.schoologypl.us)
 [![Changelog](https://img.shields.io/github/release/aopell/SchoologyPlus.svg?label=changelog&colorB=lightgrey)](https://schoologypl.us/changelog)
 
-[![Download for Chrome](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
+[![Download for Chrome](https://i.imgur.com/h2VYS6X.png)](https://chrome.google.com/webstore/detail/schoology-plus/fbfppoaockpecjpbdmldojdehdpepfef)
 [<img src="https://imgur.com/hVupcaT.png" height="58" alt="Download for Firefox">](https://addons.mozilla.org/en-US/firefox/addon/schoology-plus/)
 [<img src="https://imgur.com/Fn7zy9o.png" height="58" alt="Download for Microsoft Edge">](https://microsoftedge.microsoft.com/addons/detail/fflijjibhgbhdgjgjkbbnamafdelcoal)
 
