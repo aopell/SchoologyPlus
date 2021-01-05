@@ -209,7 +209,7 @@ label {
     border-top: 5px solid var(--border-color);
     position: absolute;
     width: 100%;
-    height: 150px;
+    /* height: 150px; */
     background-color: white;
     top: 60px;
     left: 0;
@@ -220,10 +220,54 @@ label {
 
 #preview-courses-drop-down h1 {
     margin: 0;
+    margin-bottom: 10px;
     font-size: 24px;
     font-weight: 200;
     padding-top: 15px;
     padding-left: 15px;
+}
+
+.preview-course {
+    width: 25%;
+    height: 120px;
+    display: inline-block;
+    border: 1px solid gray;
+    margin: 10px;
+    cursor: pointer;
+    position: relative;
+    background-image: url(https://image.flaticon.com/icons/svg/164/164949.svg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 50px;
+}
+
+.preview-course:hover {
+    border: 1px solid cornflowerblue;
+}
+
+.preview-course div {
+    position: absolute;
+    bottom: 25px;
+    left: 5px;
+}
+
+.preview-course p {
+    margin: 0;
+    padding: 0;
+    height: 18px;
+}
+
+.preview-course-class {
+    font-weight: bold;
+    color: var(--link-color);
+}
+
+.preview-course-section {
+    font-weight: bold;
+}
+
+.preview-course-school {
+    color: gray;
 }
 
 h2.center {
@@ -668,8 +712,8 @@ textarea#json-output[readonly] {
     background-color: lightcyan !important;
 }
 
-.setting-link {
-    color: var(--link-color);
+.setting-link h3.setting-title {
+    color: var(--link-color) !important;
 }
 
 .show-lausd {

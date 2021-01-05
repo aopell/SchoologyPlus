@@ -101,6 +101,10 @@ variable-intellisense {
   padding: var(--modern-padding) !important;
 }
 
+[modern=true]:root .modern-margin {
+  margin: var(--modern-padding) !important;
+}
+
 [modern=true]:root .modern-black {
   color: black !important;
 }
@@ -113,12 +117,41 @@ variable-intellisense {
   background-color: var(--modern-active) !important;
 }
 
-[modern=true]:root svg, [modern=true]:root svg * {
+[modern=true]:root #theme-editor-section .sp-replacer {
+  border: var(--modern-border-size) solid var(--modern-contrast-border);
+  background-color: var(--modern-input);
+}
+
+[modern=true]:root #preview-section svg, [modern=true]:root #preview-section svg * {
   color: var(--modern-contrast-text) !important;
 }
 
-[modern=true]:root #preview-profile-pic {
+[modern=true]:root #preview-section #preview-profile-pic {
   border-color: var(--modern-contrast-text) !important;
+}
+
+[modern=true]:root #preview-section .preview-course {
+  border: var(--modern-border-size) solid transparent;
+}
+
+[modern=true]:root #preview-section .preview-course:hover {
+  border: var(--modern-border-size) solid var(--modern-contrast-border);
+}
+
+[modern=true]:root #preview-section .preview-course .preview-course-class {
+  color: var(--link-color) !important;
+}
+
+[modern=true]:root #preview-section .preview-course .preview-course-section {
+  color: var(--modern-text) !important;
+}
+
+[modern=true]:root #preview-section .preview-course .preview-course-school {
+  color: var(--modern-muted-text) !important;
+}
+
+[modern=true]:root #preview-section #tab-icons #icon-list-table tbody:empty:before {
+  color: var(--modern-muted-text) !important;
 }
 
 [modern=true]:root .material-tooltip {
