@@ -5,6 +5,7 @@
     --hover-color: hsl(var(--color-hue), 55%, 40%);
     --link-color: var(--hover-color);
     --border-color: hsl(var(--color-hue), 60%, 25%);
+    --color-on-background: white;
     --cursor: auto;
     --background-url: none;
     cursor: var(--cursor);
@@ -46,7 +47,7 @@ a.Header-header-drop-menu-3SaYV:hover,
 
 [class*="Header-header-drop-menu-item-"],
 [class*="Header-header-drop-menu-"] li a * {
-    color: white !important;
+    color: var(--color-on-background) !important;
 }
 
 footer .Footer-vertical-divider-3-9qQ a,
@@ -201,7 +202,7 @@ video.easter-egg {
 
 .close:hover,
 .close:focus {
-    color: white;
+    color: var(--color-on-background);
     text-decoration: none;
     cursor: pointer;
 }
@@ -209,11 +210,11 @@ video.easter-egg {
 .splus-modal-header {
     padding: 2px 16px;
     background-color: var(--primary-color);
-    color: white !important;
+    color: var(--color-on-background) !important;
 }
 
 .splus-modal-title {
-    color: white !important;
+    color: var(--color-on-background) !important;
 }
 
 .splus-modal-body {
@@ -223,7 +224,7 @@ video.easter-egg {
 .splus-modal-footer {
     padding: 2px 16px;
     background-color: var(--primary-color);
-    color: white;
+    color: var(--color-on-background);
 }
 
 .splus-modal-title {
@@ -252,7 +253,7 @@ video.easter-egg {
 }
 
 .splus-modal-content .splus-modal-footer .splus-modal-footer-text a {
-    color: white;
+    color: var(--color-on-background);
     font-weight: normal !important;
 }
 
@@ -372,7 +373,7 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 .submit-span-wrapper input[type=submit] {
     height: 25px !important;
     vertical-align: middle !important;
-    color: white !important;
+    color: var(--color-on-background) !important;
 }
 
 .submit-span-wrapper {
@@ -446,7 +447,7 @@ Make accept and cancel buttons similarly styled throughout the UI
 #popup_cancel,
 .cancel-btn {
     background-color: #666 !important;
-    color: white !important;
+    color: var(--color-on-background) !important;
 }
 
 #popup_cancel:hover,
@@ -644,7 +645,7 @@ body #primary-settings .unfold:hover,
 ul.tabs li a.active,
 #nav ul li a:hover {
     background-color: var(--link-color) !important;
-    color: white !important;
+    color: var(--color-on-background) !important;
 }
 
 body a.link-btn,
@@ -659,7 +660,7 @@ body a.link-btn.active,
 div.courses-left-menu,
 .portfolio-list a.btn,
 a._3_bfp {
-    color: white !important;
+    color: var(--color-on-background) !important;
 }
 
 .setting-highlight {
@@ -675,8 +676,8 @@ a._3_bfp {
     left: 3px;
     top: 12px;
     z-index: 9999;
-    color: white !important;
-    border: 2px solid white;
+    color: var(--color-on-background) !important;
+    border: 2px solid var(--color-on-background);
     border-radius: 10px;
     background-color: dodgerblue;
     padding: 5px 8px;
@@ -690,8 +691,8 @@ a._3_bfp {
 }
 
 .splus-beta-container h3 {
-    color: white !important;
-    border-bottom: 1px solid white !important;
+    color: var(--color-on-background) !important;
+    border-bottom: 1px solid var(--color-on-background) !important;
 }
 
 .splus-beta-tag {
