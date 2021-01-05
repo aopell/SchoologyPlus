@@ -99,12 +99,25 @@ createButton.addEventListener("click", e => editTheme());
 importButton.addEventListener("click", e => importTheme());
 var previewNavbar = document.getElementById("preview-navbar");
 var previewLogo = document.getElementById("preview-logo");
+var previewPage = document.getElementById("preview-page");
 
 var modernEnable = document.getElementById("modern-enable");
 var modernWrapper = document.getElementById("modern-wrapper");
 var modernBorderRadiusValue = document.getElementById("modern-border-radius-value");
 var modernBorderSizeValue = document.getElementById("modern-border-size-value");
 var modernPaddingValue = document.getElementById("modern-padding-value");
+
+var previewModal = document.getElementById("preview-modal");
+var splusModalClose = document.getElementById("splus-modal-close");
+splusModalClose.addEventListener("click", e => {
+    previewModal.classList.add("hidden");
+    previewPage.classList.remove("hidden");
+});
+var previewSPlusButton = document.getElementById("preview-splus-button");
+previewSPlusButton.addEventListener("click", e => { 
+    previewModal.classList.toggle("hidden");
+    previewPage.classList.toggle("hidden");
+});
 
 class Modal {
     static get ELEMENT() {

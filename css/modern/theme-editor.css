@@ -73,6 +73,10 @@ variable-intellisense {
   background-color: var(--modern-error) !important;
 }
 
+[modern=true]:root .modern-error-text {
+  color: var(--modern-error) !important;
+}
+
 [modern=true]:root .modern-grades {
   color: var(--modern-grades) !important;
 }
@@ -109,12 +113,16 @@ variable-intellisense {
   color: black !important;
 }
 
-[modern=true]:root .collection a.collection-item {
+[modern=true]:root #themes-list-section .collection a.collection-item {
   background-color: var(--modern-primary);
 }
 
-[modern=true]:root .collection-item.active {
+[modern=true]:root #themes-list-section .collection a.collection-item.active {
   background-color: var(--modern-active) !important;
+}
+
+[modern=true]:root #themes-list-section .collection a.collection-item:not(.active):hover {
+  background-color: var(--modern-highlight);
 }
 
 [modern=true]:root #theme-editor-section .sp-replacer {

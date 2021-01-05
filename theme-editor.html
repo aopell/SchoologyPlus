@@ -401,7 +401,7 @@
                                 <span class="right">px</span><span class="right"
                                     id="modern-border-radius-display">5</span>
                                 <div class="range-field">
-                                    <input id="modern-border-radius-value" min="0" max="50" type="range"
+                                    <input id="modern-border-radius-value" value="5" min="0" max="50" type="range"
                                         data-label="modern-border-radius-display" />
                                 </div>
                             </label>
@@ -410,7 +410,7 @@
                                 <span class="right">px</span><span class="right"
                                     id="modern-border-size-display">1</span>
                                 <div class="range-field">
-                                    <input id="modern-border-size-value" min="0" max="10" type="range"
+                                    <input id="modern-border-size-value" value="1" min="0" max="10" type="range"
                                         data-label="modern-border-size-display" />
                                 </div>
                             </label>
@@ -418,7 +418,7 @@
                                 <span>Element Padding</span>
                                 <span class="right">px</span><span class="right" id="modern-padding-display">10</span>
                                 <div class="range-field">
-                                    <input id="modern-padding-value" min="0" max="50" type="range"
+                                    <input id="modern-padding-value" value="10" min="0" max="50" type="range"
                                         data-label="modern-padding-display" />
                                 </div>
                             </label>
@@ -441,7 +441,7 @@
                                 class="material-icons">settings_backup_restore</i></a>
                     </h5>
                     <div id="error-card" class="col s12" style="display:none;">
-                        <div class="card red darken-2">
+                        <div class="card red darken-2 modern-error">
                             <div class="card-content white-text">
                                 <span class="card-title valign-wrapper modern-contrast-text">
                                     <i class="material-icons inline-icon modern-contrast-text">error</i> Error</span>
@@ -516,7 +516,7 @@
                                                 </ul>
                                                 <ul id="preview-right-nav" class="right">
                                                     <li>
-                                                        <a>
+                                                        <a id="preview-splus-button">
                                                             <svg style="width: 22px; vertical-align: middle;"
                                                                 viewBox="0 0 500 500"
                                                                 xmlns="http://www.w3.org/2000/svg">
@@ -556,10 +556,10 @@
                                             </div>
                                         </nav>
                                     </div>
-                                    <div id="preview-modal" class="splus-modal">
+                                    <div id="preview-modal" class="splus-modal hidden">
                                         <div class="splus-modal-content">
                                             <div class="splus-modal-header">
-                                                <span class="close modern-contrast-text"
+                                                <span id="splus-modal-close" class="close modern-contrast-text"
                                                     data-parent="peview-modal">&times;</span>
                                                 <p class="splus-modal-title modern-contrast-text">Schoology Plus Theme
                                                     Editor</p>
@@ -587,13 +587,70 @@
                                                         <input class="form-submit modern-contrast-text" type="button"
                                                             value="Click Me">
                                                     </span>
+                                                    <span
+                                                        style="color: red; font-size: 12px; vertical-align: bottom; cursor: pointer; padding-top: 10px;"
+                                                        class="right modern-error-text">Reset to Defaults</span>
                                                 </div>
                                             </div>
                                             <div class="splus-modal-footer">
                                                 <p class="splus-modal-footer-text modern-contrast-text">&copy; Aaron
                                                     Opell, Glen Husman
-                                                    2017-2020
+                                                    2017-2021
                                                 </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="preview-page" class="row">
+                                        <div class="col s12 m8">
+                                            <div class="modern-accent modern-border-radius modern-margin">
+                                                <p>You can click the <span
+                                                        style="border: 1px solid currentColor; padding: 0 5px; border-radius: 50%;">+</span>
+                                                    button on the navigation bar to switch between different screens.
+                                                </p>
+                                                <hr style="border: 1px solid black; border-bottom: 0px !important;"
+                                                    class="modern-border" />
+                                                <p>
+                                                    You can <a class="link-color splus-track-clicks"
+                                                        id="preview-theme-docs-link"
+                                                        data-splus-tracking-label="Theme Editor" target="_blank"
+                                                        href="https://schoologypl.us/docs/themes">click on this link</a>
+                                                    to be taken to the Schoology Plus theme creation help page.
+                                                </p>
+                                                <hr style="border: 1px solid black; border-bottom: 0px !important;"
+                                                    class="modern-border" />
+                                                <p style="padding-top: 0; margin-bottom: 5px;">These are examples of
+                                                    grades:</p>
+                                                <div style="padding-left: 20px;">
+                                                    <strong style="color: green;" class="modern-grades">A+
+                                                        100</strong>/100<br>
+                                                    <strong style="color: green;" class="modern-grades">B
+                                                        8.5</strong>/10<br>
+                                                    <strong style="color: green;" class="modern-grades">A
+                                                        46</strong>/50<br>
+                                                </div>
+                                                <hr style="border: 1px solid black; border-bottom: 0px !important;"
+                                                    class="modern-border" />
+                                                <input style="border: 1px solid black; width: 100%; padding: 5px;"
+                                                    class="browser-default modern-input modern-border modern-border-radius"
+                                                    type="text" value="This is a textbox" />
+                                                <hr style="border: 1px solid black; border-bottom: 0px !important;"
+                                                    class="modern-border" />
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m4">
+                                            <div class="modern-accent modern-border-radius modern-margin">
+                                                <p>This tile has an accent color background.</p>
+                                            </div>
+                                            <div class="modern-secondary modern-border-radius modern-margin">
+                                                <p>This tile has a secondary color background.</p>
+                                                <div class="modern-accent modern-margin modern-border-radius modern-padding"
+                                                    style="background-color: #f2f2f2; margin: 10px; padding: 10px; height: 120px;">
+                                                    Accent Color
+                                                    <div class="modern-primary modern-margin modern-border-radius modern-padding"
+                                                        style="background-color: #faf9f7; margin: 10px; padding: 10px; height: 50px;">
+                                                        Primary Color
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -649,7 +706,7 @@
                                                 <span style="vertical-align: middle;">Icon URL or paste/drop
                                                     image</span>
                                                 <i class="material-icons tooltipped"
-                                                    data-tooltip="Provide an icon by any of the following methods:<br>- Enter a direct image link<br>- Paste an image directly<br>- Drag and drop and image file into the text box<br><br>Using the paste or drag-and-drop methods will upload your image to Imgur."
+                                                    data-tooltip="Provide an icon by any of the following methods:&lt;br>- Enter a direct image link&lt;br>- Paste an image directly&lt;br>- Drag and drop an image file into the text box&lt;br>&lt;br>Using the paste or drag-and-drop methods will upload your image to Imgur."
                                                     style="vertical-align: middle; color: black; cursor: help;">help</i>
                                             </th>
                                             <th>Icon</th>

@@ -78,6 +78,10 @@ variable-intellisense {
         background-color: var(--modern-error) !important;
     }
 
+    .modern-error-text {
+        color: var(--modern-error) !important;
+    }
+
     .modern-grades {
         color: var(--modern-grades) !important;
     }
@@ -114,12 +118,18 @@ variable-intellisense {
         color: black !important;
     }
 
-    .collection a.collection-item {
-        background-color: var(--modern-primary);
-    }
+    #themes-list-section {
+        .collection a.collection-item {
+            background-color: var(--modern-primary);
 
-    .collection-item.active {
-        background-color: var(--modern-active) !important;
+            &.active {
+                background-color: var(--modern-active) !important;
+            }
+
+            &:not(.active):hover {
+                background-color: var(--modern-highlight);
+            }
+        }
     }
 
     #theme-editor-section {

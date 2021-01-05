@@ -87,6 +87,7 @@ label {
 
 #preview {
     cursor: var(--cursor);
+    background: rgb(250, 249, 247);
 }
 
 #preview-navbar {
@@ -268,6 +269,27 @@ label {
 
 .preview-course-school {
     color: gray;
+}
+
+#preview-page > div:first-child {
+    height: 450px;
+}
+
+#preview-page > div {
+    height: 200px;
+}
+
+#preview-page > div > div {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    margin: 10px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 15%);
+}
+
+#preview-page p {
+    margin-left: 10px;
+    padding-top: 10px;
 }
 
 h2.center {
@@ -714,6 +736,10 @@ textarea#json-output[readonly] {
 
 .setting-link h3.setting-title {
     color: var(--link-color) !important;
+}
+
+a[href].link-color {
+    color: var(--link-color) !important
 }
 
 .show-lausd {
