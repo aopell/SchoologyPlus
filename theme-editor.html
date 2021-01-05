@@ -7,6 +7,7 @@
     <link type="text/css" rel="stylesheet" href="/lib/css/jquery-ui.min.css" />
     <link type="text/css" rel="stylesheet" href="/lib/css/roundslider.min.css" />
     <link type="text/css" rel="stylesheet" href="/css/theme-editor.css" />
+    <link type="text/css" rel="stylesheet" href="/css/modern/theme-editor.css" />
     <link rel="shortcut icon" type="image/png" href="/imgs/icon@128.png" />
 
     <script src="/lib/js/jquery-3.3.1.min.js"></script>
@@ -31,18 +32,18 @@
                                 class="waves-effect waves-light tooltipped splus-track-clicks"
                                 href="https://schoologypl.us/docs/themes" data-splus-tracking-label="Theme Editor"
                                 id="help-navbar" target="_blank">
-                                <i class="material-icons">help</i>
+                                <i class="material-icons modern-contrast-text">help</i>
                             </a>
                         </li>
                     </ul>
-                    <div class="brand-logo center truncate">
+                    <div class="brand-logo center truncate modern-contrast-text">
                         Schoology Plus Theme Editor
                     </div>
                     <ul id="nav-mobile" class="right">
                         <li>
                             <a id="close-button" data-position="left" data-tooltip="Exit"
                                 class="waves-effect waves-light tooltipped" href="#!">
-                                <i class="material-icons">clear</i>
+                                <i class="material-icons modern-contrast-text">clear</i>
                             </a>
                         </li>
                     </ul>
@@ -58,7 +59,7 @@
                         Themes
                         <div id="new-theme-container" class="fixed-action-btn horizontal click-to-toggle">
                             <a id="new-button" class="btn-floating btn-large tooltipped" data-tooltip="New Theme">
-                                <i class="large material-icons">add</i>
+                                <i class="large material-icons modern-error">add</i>
                             </a>
                             <ul>
                                 <li><a id="import-button" data-tooltip="Import Theme"
@@ -72,7 +73,7 @@
                         </div>
                     </h5>
                     <div class="section">
-                        <div id="themes-list" class="collection">
+                        <div id="themes-list" class="collection modern-primary modern-border modern-border-radius">
                         </div>
                     </div>
                 </div>
@@ -132,11 +133,11 @@
                         </label>
                     <div id="theme-color-rainbow-wrapper" style="width: 85%; padding-left: 7.5%;">
                         <div class="card-panel yellow darken-3 black-text" style="padding: 15px;">
-                            <h6 style="line-height: 24px; vertical-align: middle;"><i class="material-icons left"
+                            <h6 class="modern-black" style="line-height: 24px; vertical-align: middle;"><i class="material-icons left modern-black"
                                     style="margin-right: 5px;">warning</i>Warning</h6>
-                            <p>
+                            <p class="modern-black">
                                 This section contains advanced features. Please consult <a
-                                    style="color: black; text-decoration: underline" target="_blank"
+                                    style="color: black !important; text-decoration: underline" target="_blank"
                                     data-splus-tracking-label="Theme Editor" id="help-documentation-rainbow"
                                     class="splus-track-clicks"
                                     href="https://schoologypl.us/docs/themes/create#rainbow">the
@@ -323,39 +324,101 @@
                 </div>
                 <div class="row">
                     <h5>Modern Engine Options</h5>
-                    <div style="padding-left: 10px;">
-                        <label>
-                            <input id="modern-enable" class="filled-in" type="checkbox" />
-                            <span>Enable Modern Engine</span>
+                    <div class="switch" style="margin-left: -15px;">
+                        <label style="font-size: 16px;">
+                            <input id="modern-enable" type="checkbox" />
+                            <span class="lever"></span>
+                            Enable Modern Engine
                         </label>
                     </div>
                     <div id="modern-wrapper" style="padding-left: 10px;">
-                        <h6>Dark Mode</h6>
-                        <div style="width: 90%; padding-left: 5%;">
-                            <label>
-                                <input id="modern-dark-mode" class="filled-in" type="checkbox" />
-                                <span>Enable Dark Mode</span>
-                            </label>
-                        </div>
-
-                        <h6>Interface Colors</h6>
-                        <div style="width: 90%; padding-left: 5%;">
+                        <div class="row" style="width: 90%; padding-left: 5%;">
+                            <h6>Interface Colors</h6>
                             <div class="input-field col s12 m6">
                                 <input id="modern-color-primary">
                                 <label for="modern-color-primary" class="active">Primary Color</label>
                             </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-accent">
+                                <label for="modern-color-accent" class="active">Accent Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-secondary">
+                                <label for="modern-color-secondary" class="active">Secondary Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-input">
+                                <label for="modern-color-input" class="active">Input Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-border">
+                                <label for="modern-color-border" class="active">Border Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-highlight">
+                                <label for="modern-color-highlight" class="active">Highlight Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-active">
+                                <label for="modern-color-active" class="active">Active Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-grades">
+                                <label for="modern-color-grades" class="active">Grades Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-error">
+                                <label for="modern-color-error" class="active">Error Color</label>
+                            </div>
                         </div>
 
-                        <h6>Text Colors</h6>
-                        <div style="width: 90%; padding-left: 5%;">
+                        <div class="row" style="width: 90%; padding-left: 5%;">
+                            <h6>Text Colors</h6>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-text-primary">
+                                <label for="modern-color-text-primary" class="active">Primary Text Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-text-muted">
+                                <label for="modern-color-text-muted" class="active">Muted Text Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-text-contrast">
+                                <label for="modern-color-text-contrast" class="active">Contrast Text Color</label>
+                            </div>
                         </div>
 
-                        <h6>Calendar Colors</h6>
-                        <div style="width: 90%; padding-left: 5%;">
+                        <div class="row" style="width: 90%; padding-left: 5%;">
+                            <h6>Calendar Colors</h6>
+                            Calendar colors are not currently customizable.
                         </div>
 
-                        <h6>Options</h6>
-                        <div style="width: 90%; padding-left: 5%;">
+                        <div class="row" style="width: 90%; padding-left: 5%;">
+                            <h6>Options</h6>
+                            <label for="modern-border-radius-value">
+                                <span>Border Radius</span>
+                                <span class="right">px</span><span class="right" id="modern-border-radius-display">5</span>
+                                <div class="range-field">
+                                    <input id="modern-border-radius-value" min="0" max="50" type="range"
+                                        data-label="modern-border-radius-display" />
+                                </div>
+                            </label>
+                            <label for="modern-border-size-value">
+                                <span>Border Size</span>
+                                <span class="right">px</span><span class="right" id="modern-border-size-display">1</span>
+                                <div class="range-field">
+                                    <input id="modern-border-size-value" min="0" max="10" type="range"
+                                        data-label="modern-border-size-display" />
+                                </div>
+                            </label>
+                            <label for="modern-padding-value">
+                                <span>Element Padding</span>
+                                <span class="right">px</span><span class="right" id="modern-padding-display">10</span>
+                                <div class="range-field">
+                                    <input id="modern-padding-value" min="0" max="50" type="range"
+                                        data-label="modern-padding-display" />
+                                </div>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -394,7 +457,7 @@
                     </div>
                     <div class="row">
                         <div class="col s12">
-                            <ul class="tabs">
+                            <ul class="tabs modern-secondary">
                                 <li class="tab col s4">
                                     <a href="#tab-preview">Theme Preview</a>
                                 </li>
@@ -408,22 +471,22 @@
                         </div>
                         <div id="tab-preview" class="col s12">
                             <div class="col s12">
-                                <div id="preview" class="card-panel white">
+                                <div id="preview" class="card-panel modern-primary modern-border-radius">
                                     <div class="row">
                                         <nav id="preview-navbar">
                                             <div class="nav-wrapper">
                                                 <div id="preview-logo" class="hide-background-image brand-logo"></div>
                                                 <ul id="preview-left-nav" class="navbar-links hide-on-med-and-down">
                                                     <li id="preview-courses-link">
-                                                        <a>COURSES</a>
-                                                        <div id="preview-courses-drop-down">
+                                                        <a class="modern-contrast-text">COURSES</a>
+                                                        <div id="preview-courses-drop-down" class="modern-accent">
                                                             <h1>Courses</h1>
                                                             <h2 class="center">You are not currently enrolled in any
                                                                 courses</h2>
                                                         </div>
                                                     </li>
                                                     <li class="hide-below-1300-px">
-                                                        <a>RESOURCES</a>
+                                                        <a class="modern-contrast-text">RESOURCES</a>
                                                     </li>
                                                 </ul>
                                                 <ul id="preview-right-nav" class="right">
@@ -448,20 +511,20 @@
                                                         <a id="preview-name-container">
                                                             <img src="https://asset-cdn.schoology.com/system/files/imagecache/profile_tiny/sites/all/themes/schoology_theme/images/user-default.gif"
                                                                 alt="Your Name" id="preview-profile-pic">
-                                                            <span>YOUR NAME</span>
+                                                            <span class="modern-contrast-text">YOUR NAME</span>
                                                             <svg id="preview-down-arrow" viewBox="0 0 15 10"
                                                                 id="icon-small-caret-white" width="100%" height="100%">
                                                                 <path
                                                                     d="M12.78.443L9.756 3.952 8.294 5.65l-.761.884-.033.03-.032-.03-.762-.884-1.463-1.698L2.221.442C1.06-.902-.79 1.126.365 2.468L5.722 8.7c.4.465.795 1.071 1.387 1.249.136.04.266.056.391.051.125.005.255-.01.39-.051.593-.178.988-.784 1.388-1.249l5.357-6.232c1.154-1.342-.696-3.37-1.856-2.024"
-                                                                    fill="#FFF" fill-rule="evenodd"></path>
+                                                                    fill="currentColor" fill-rule="evenodd"></path>
                                                             </svg>
                                                         </a>
                                                         <ul id="preview-name-drop-down">
-                                                            <li><a>Your Profile</a></li>
-                                                            <li><a>Your School</a></li>
-                                                            <li><a>Settings</a></li>
+                                                            <li><a class="modern-contrast-text">Your Profile</a></li>
+                                                            <li><a class="modern-contrast-text">Your School</a></li>
+                                                            <li><a class="modern-contrast-text">Settings</a></li>
                                                             <hr />
-                                                            <li><a>Logout</a></li>
+                                                            <li><a class="modern-contrast-text">Logout</a></li>
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -471,10 +534,10 @@
                                     <div id="preview-modal" class="splus-modal">
                                         <div class="splus-modal-content">
                                             <div class="splus-modal-header">
-                                                <span class="close" data-parent="peview-modal">&times;</span>
-                                                <p class="splus-modal-title">Schoology Plus Theme Editor</p>
+                                                <span class="close modern-contrast-text" data-parent="peview-modal">&times;</span>
+                                                <p class="splus-modal-title modern-contrast-text">Schoology Plus Theme Editor</p>
                                             </div>
-                                            <div class="splus-modal-body">
+                                            <div class="splus-modal-body modern-primary">
                                                 <div class="splus-modal-contents">
                                                     <h2 class="setting-entry">Title</h2>
                                                     <div class="setting-entry">
@@ -494,12 +557,12 @@
                                                         <p class="setting-description">Some text</p>
                                                     </div>
                                                     <span class="submit-span-wrapper splus-modal-button">
-                                                        <input class="form-submit" type="button" value="Click Me">
+                                                        <input class="form-submit modern-contrast-text" type="button" value="Click Me">
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="splus-modal-footer">
-                                                <p class="splus-modal-footer-text">&copy; Aaron Opell, Glen Husman
+                                                <p class="splus-modal-footer-text modern-contrast-text">&copy; Aaron Opell, Glen Husman
                                                     2017-2020
                                                 </p>
                                             </div>
@@ -519,12 +582,12 @@
                                         placeholder="Type a class name here to preview its icon">
                                 </div>
                                 <div class="col s12 card-panel yellow darken-3 black-text" style="padding: 15px;">
-                                    <h6 style="line-height: 24px; vertical-align: middle;"><i
-                                            class="material-icons left" style="margin-right: 5px;">warning</i>Warning
+                                    <h6 class="modern-black" style="line-height: 24px; vertical-align: middle;"><i
+                                            class="material-icons left modern-black" style="margin-right: 5px;">warning</i>Warning
                                     </h6>
-                                    <p>
+                                    <p class="modern-black">
                                         This section contains advanced features. Please consult <a
-                                            style="color: black; text-decoration: underline" target="_blank"
+                                            style="color: black !important; text-decoration: underline" target="_blank"
                                             id="help-documentation-icons" class="splus-track-clicks"
                                             data-splus-tracking-label="Theme Editor"
                                             href="https://schoologypl.us/docs/themes/create#icons">the
@@ -615,8 +678,8 @@
             </div>
         </div>
         <div id="modal" class="modal">
-            <div id="modal-content" class="modal-content"></div>
-            <div id="modal-buttons" class="modal-footer"></div>
+            <div id="modal-content" class="modal-content modern-primary"></div>
+            <div id="modal-buttons" class="modal-footer modern-secondary"></div>
         </div>
     </main>
     <script src="/lib/js/materialize.min.js"></script>

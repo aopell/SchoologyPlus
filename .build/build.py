@@ -5,7 +5,12 @@ import sys
 import shutil
 import copy
 import errno
-import sass
+
+try:
+    import sass
+except ModuleNotFoundError:
+    print("ERROR: Missing SASS library. Please install using 'pip install libsass'")
+    sys.exit(1)
 
 class BuildRules:
     def __init__(self, config):

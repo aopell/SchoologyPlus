@@ -17,6 +17,10 @@ body {
     font-size: 100% !important;
 }
 
+label {
+    color: #444444 !important;
+}
+
 @font-face {
     font-family: Muli;
     font-style: normal;
@@ -548,7 +552,7 @@ input[type=button] {
 }
 
 .theme-item span.tooltipped {
-    max-width: 60%;
+    max-width: calc(100% - 160px);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -674,4 +678,8 @@ textarea#json-output[readonly] {
 
 .hide-lausd {
     display: var(--lausd-hidden);
+}
+
+#modern-wrapper .row .input-field.col.s12.m6 {
+    padding-top: 5px;
 }

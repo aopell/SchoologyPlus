@@ -100,6 +100,12 @@ importButton.addEventListener("click", e => importTheme());
 var previewNavbar = document.getElementById("preview-navbar");
 var previewLogo = document.getElementById("preview-logo");
 
+var modernEnable = document.getElementById("modern-enable");
+var modernWrapper = document.getElementById("modern-wrapper");
+var modernBorderRadiusValue = document.getElementById("modern-border-radius-value");
+var modernBorderSizeValue = document.getElementById("modern-border-size-value");
+var modernPaddingValue = document.getElementById("modern-padding-value");
+
 class Modal {
     static get ELEMENT() {
         return document.getElementById("modal");
@@ -469,7 +475,19 @@ function renderTheme(t) {
             colorRainbowLightnessValue.value = t.color.rainbow.lightness.value;
         }
     }
-    for (let el of themeColorRainbowWrapper.querySelectorAll("input[type=range][data-label]")) {
+
+    if (t.color.modern) {
+        modernEnable.checked = true;
+        Object.keys(modernColorMap).map(x => $(x).spectrum("set", t.color.modern[modernColorMap[x][0]][modernColorMap[x][1]]));
+
+        modernBorderRadiusValue.value = t.color.modern.options.borderRadius;
+        modernBorderSizeValue.value = t.color.modern.options.borderSize;
+        modernPaddingValue.value = t.color.modern.options.padding;
+    } else {
+        modernEnable.checked = false;
+    }
+
+    for (let el of document.querySelectorAll("input[type=range][data-label]")) {
         document.getElementById(el.dataset.label).textContent = el.value;
     }
     for (let el of [colorRainbowSaturationRange, colorRainbowLightnessRange]) {
@@ -498,7 +516,7 @@ let init = 0;
  * @param {string} id Element ID of the input element 
  * @param {(tinycolor)=>void} onupdate Callback called when color is changed
  */
-function initPicker(id, onupdate, showAlpha=false) {
+function initPicker(id, color=undefined, onupdate=updateOutput, showAlpha=false) {
     $(`#${id}`).spectrum({
         showInput: true,
         containerClassName: "full-spectrum",
@@ -508,7 +526,7 @@ function initPicker(id, onupdate, showAlpha=false) {
         maxPaletteSize: 10,
         preferredFormat: "hex",
         showAlpha: showAlpha,
-        color: ["red", "blue", "yellow", "green", "magenta"][init++ % 5],
+        color: color || ["red", "blue", "yellow", "green", "magenta"][init++ % 5],
         move: function (color) {
             onupdate(color);
         },
@@ -537,11 +555,40 @@ function initPicker(id, onupdate, showAlpha=false) {
     });
 }
 
-initPicker("theme-primary-color", updateOutput);
-initPicker("theme-secondary-color", updateOutput);
-initPicker("theme-background-color", updateOutput);
-initPicker("theme-border-color", updateOutput);
-initPicker("theme-link-color", updateOutput);
+initPicker("theme-primary-color");
+initPicker("theme-secondary-color");
+initPicker("theme-background-color");
+initPicker("theme-border-color");
+initPicker("theme-link-color");
+
+initPicker("modern-color-primary");
+initPicker("modern-color-accent");
+initPicker("modern-color-secondary");
+initPicker("modern-color-input");
+initPicker("modern-color-border");
+initPicker("modern-color-highlight", undefined, updateOutput, true);
+initPicker("modern-color-active", undefined, updateOutput, true);
+initPicker("modern-color-grades");
+initPicker("modern-color-error");
+
+initPicker("modern-color-text-primary");
+initPicker("modern-color-text-muted");
+initPicker("modern-color-text-contrast");
+
+var modernColorMap = {
+    "#modern-color-primary": ["interface", "primary", "modern-primary"],
+    "#modern-color-accent": ["interface", "accent", "modern-accent"],
+    "#modern-color-secondary": ["interface", "secondary", "modern-secondary"],
+    "#modern-color-input": ["interface", "input", "modern-input"],
+    "#modern-color-border": ["interface", "border", "modern-contrast-border"],
+    "#modern-color-highlight": ["interface", "highlight", "modern-highlight"],
+    "#modern-color-active": ["interface", "active", "modern-active"],
+    "#modern-color-grades": ["interface", "grades", "modern-grades"],
+    "#modern-color-error": ["interface", "error", "modern-error"],
+    "#modern-color-text-primary": ["text", "primary", "modern-text"],
+    "#modern-color-text-muted": ["text", "muted", "modern-muted-text"],
+    "#modern-color-text-contrast": ["text", "contrast", "modern-contrast-text"],
+}
 
 function updateOutput() {
     clearInterval(rainbowInterval);
@@ -657,6 +704,82 @@ function updateOutput() {
             f();
             rainbowInterval = setInterval(f, 100);
         }
+    }
+
+    if(modernEnable.checked) {
+        document.documentElement.setAttribute("modern", "true");
+        modernWrapper.classList.remove("hidden");
+        theme.color.modern = new ModernColorDefinition();
+        theme.color.modern.interface = new ModernInterfaceColorDefinition();
+        theme.color.modern.text = new ModernTextColorDefinition();
+        theme.color.modern.options = new ModernOptionsDefinition();
+        theme.color.modern.dark = $("#modern-color-primary").spectrum("get").isDark();
+        document.documentElement.setAttribute("dark", theme.color.modern.dark);
+
+        for(let id in modernColorMap) {
+            key = modernColorMap[id]
+            theme.color.modern[key[0]][key[1]] = $(id).spectrum("get").toString()
+            setCSSVariable(key[2], $(id).spectrum("get").toString());
+        }
+
+        theme.color.modern.options.borderSize = +modernBorderSizeValue.value;
+        theme.color.modern.options.borderRadius = +modernBorderRadiusValue.value;
+        theme.color.modern.options.padding = +modernPaddingValue.value;
+
+        setCSSVariable("modern-border-size", `${modernBorderSizeValue.value}px`);
+        setCSSVariable("modern-border-radius", `${modernBorderRadiusValue.value}px`);
+        setCSSVariable("modern-padding", `${modernPaddingValue.value}px`);
+
+        if (theme.color.modern.dark) {
+            theme.color.modern.calendar = [
+                "#457da5",
+                "#547c41",
+                "#926c37",
+                "#7c3d6b",
+                "#0b4c9c",
+                "#00209c",
+                "#004a09",
+                "#72721a",
+                "#44233e",
+                "#683131",
+                "#770a0a",
+                "#a72413",
+                "#E0024C",
+                "#188C16",
+                "#bd7304",
+                "#80168C",
+                "#164152",
+                "#00543f",
+                "#633e11",
+                "#461b2d"
+            ];
+        } else {
+            theme.color.modern.calendar = [
+                "#d6e7f4",
+                "#d7e8cf",
+                "#f9e9d4",
+                "#e7e0e5",
+                "#e6b5c9",
+                "#f9f1cf",
+                "#daf0f9",
+                "#f9ddea",
+                "#fbd7d8",
+                "#f1f2d1",
+                "#e0e8f5",
+                "#fbd7e4",
+                "#fcddd3",
+                "#e7f2d5",
+                "#e6e0ee",
+                "#f0e5db",
+                "#fce8d1",
+                "#e1f1e7",
+                "#f0dfed",
+                "#e9e9ea"
+            ];
+        }
+    } else {
+        document.documentElement.setAttribute("modern", "false");
+        modernWrapper.classList.add("hidden");
     }
 
     // Logo
@@ -1361,7 +1484,7 @@ $(document).ready(function () {
     themeLogo.addEventListener("paste", uploadAndPaste);
 
     let oninput = e => document.getElementById(e.target.dataset.label).textContent = e.target.value;
-    for (let input of themeColorRainbowWrapper.querySelectorAll("input[type=range][data-label]")) {
+    for (let input of document.querySelectorAll("input[type=range][data-label]")) {
         input.addEventListener("input", oninput);
         document.getElementById(input.dataset.label).textContent = input.value;
     }
@@ -1428,7 +1551,11 @@ $(document).ready(function () {
                 return createElement("i", ["material-icons", "right", "tooltipped"], properties);
             }
 
-            themeItem.appendChild(createActionButton(t == s.theme ? appliedProps : props));
+            buttonsDiv = createElement("div", ["right"]);
+            buttonsDiv.style.width = "160px";
+            themeItem.appendChild(buttonsDiv);
+
+            buttonsDiv.appendChild(createActionButton(t == s.theme ? appliedProps : props));
 
             if (!defaultThemes.includes(t)) {
                 let shareButton = createActionButton({
@@ -1440,9 +1567,9 @@ $(document).ready(function () {
                 shareButton.addEventListener("click", e => {
                     copyThemeToClipboard(t);
                 });
-                themeItem.appendChild(createActionButton({ textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: e => deleteTheme(t) || e.stopPropagation() }));
-                themeItem.appendChild(shareButton);
-                themeItem.appendChild(createActionButton({ textContent: "edit", dataset: { tooltip: "Edit Theme" }, onclick: () => editTheme(t) }));
+                buttonsDiv.appendChild(createActionButton({ textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: e => deleteTheme(t) || e.stopPropagation() }));
+                buttonsDiv.appendChild(shareButton);
+                buttonsDiv.appendChild(createActionButton({ textContent: "edit", dataset: { tooltip: "Edit Theme" }, onclick: () => editTheme(t) }));
             }
 
             themesList.appendChild(themeItem);
