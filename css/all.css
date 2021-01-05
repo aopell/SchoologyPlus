@@ -6,6 +6,7 @@
     --link-color: var(--hover-color);
     --border-color: hsl(var(--color-hue), 60%, 25%);
     --color-on-background: white;
+    --text-color: #333;
     --cursor: auto;
     --background-url: none;
     cursor: var(--cursor);
@@ -650,7 +651,7 @@ ul.tabs li a.active,
 
 body a.link-btn,
 ul.tabs li a {
-    color: #333333 !important;
+    color: var(--text-color) !important;
 }
 
 footer li a,
