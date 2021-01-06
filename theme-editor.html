@@ -482,7 +482,7 @@
                                                 <ul id="preview-left-nav" class="navbar-links hide-on-med-and-down">
                                                     <li id="preview-courses-link">
                                                         <a class="modern-contrast-text">COURSES</a>
-                                                        <div id="preview-courses-drop-down" class="modern-accent">
+                                                        <div id="preview-courses-drop-down" class="modern-accent" style="z-index: 999;">
                                                             <h1>Courses</h1>
                                                             <div
                                                                 class="preview-course modern-primary modern-margin modern-border-radius">
@@ -544,7 +544,7 @@
                                                                     fill="currentColor" fill-rule="evenodd"></path>
                                                             </svg>
                                                         </a>
-                                                        <ul id="preview-name-drop-down">
+                                                        <ul id="preview-name-drop-down" style="z-index: 999;">
                                                             <li><a class="modern-contrast-text">Your Profile</a></li>
                                                             <li><a class="modern-contrast-text">Your School</a></li>
                                                             <li><a class="modern-contrast-text">Settings</a></li>
@@ -603,15 +603,18 @@
                                     <div id="preview-page" class="row">
                                         <div class="col s12 m8">
                                             <div class="modern-accent modern-border-radius modern-margin">
+                                                <p style="font-size: 20px; margin-bottom: 0;">Schoology Plus Theme
+                                                    Editor</p>
                                                 <p>You can click the <span
                                                         style="border: 1px solid currentColor; padding: 0 5px; border-radius: 50%;">+</span>
-                                                    button on the navigation bar to switch between different screens.
+                                                    button on the navigation bar to switch between previews of different
+                                                    screens.
                                                 </p>
                                                 <hr style="border: 1px solid black; border-bottom: 0px !important;"
                                                     class="modern-border" />
                                                 <p>
                                                     You can <a class="link-color splus-track-clicks"
-                                                        id="preview-theme-docs-link"
+                                                        id="preview-theme-docs-link" style="font-weight: bold;"
                                                         data-splus-tracking-label="Theme Editor" target="_blank"
                                                         href="https://schoologypl.us/docs/themes">click on this link</a>
                                                     to be taken to the Schoology Plus theme creation help page.
@@ -628,11 +631,16 @@
                                                     <strong style="color: green;" class="modern-grades">A
                                                         46</strong>/50<br>
                                                 </div>
+                                                <p class="modern-muted-text"
+                                                    style="color: gray; padding-top: 0; margin-top: 5px; margin-bottom: 5px;">
+                                                    This is an example of muted text.</p>
                                                 <hr style="border: 1px solid black; border-bottom: 0px !important;"
                                                     class="modern-border" />
-                                                <input style="border: 1px solid black; width: 100%; padding: 5px;"
-                                                    class="browser-default modern-input modern-border modern-border-radius"
-                                                    type="text" value="This is a textbox" />
+                                                <div style="padding: 0 10px;">
+                                                    <input style="border: 1px solid black; width: 100%; padding: 5px;"
+                                                        class="browser-default modern-input modern-border modern-border-radius"
+                                                        type="text" value="This is a textbox" />
+                                                </div>
                                                 <hr style="border: 1px solid black; border-bottom: 0px !important;"
                                                     class="modern-border" />
                                             </div>
@@ -640,15 +648,35 @@
                                         <div class="col s12 m4">
                                             <div class="modern-accent modern-border-radius modern-margin">
                                                 <p>This tile has an accent color background.</p>
+
+                                                <div id="preview-dropdown-list">
+                                                    <div class="modern-secondary modern-border modern-border-radius"
+                                                        tabindex="9999">Dropdown<span class="right">&#x25BC;</span>
+                                                    </div>
+                                                    <ul class="modern-secondary modern-border modern-border-radius">
+                                                        <li>One</li>
+                                                        <li>Two</li>
+                                                        <li>Three</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div style="margin: 10px; padding: 10px; background: red; color: white;"
+                                                    class="modern-error modern-border-radius modern-margin modern-contrast-text modern-padding">
+                                                    &times; This is an error
+                                                </div>
                                             </div>
-                                            <div class="modern-secondary modern-border-radius modern-margin">
+                                            <div class="modern-secondary modern-border-radius modern-margin larger">
                                                 <p>This tile has a secondary color background.</p>
                                                 <div class="modern-accent modern-margin modern-border-radius modern-padding"
-                                                    style="background-color: #f2f2f2; margin: 10px; padding: 10px; height: 120px;">
+                                                    style="background-color: #f2f2f2; margin: 10px; padding: 10px; height: 170px;">
                                                     Accent Color
                                                     <div class="modern-primary modern-margin modern-border-radius modern-padding"
                                                         style="background-color: #faf9f7; margin: 10px; padding: 10px; height: 50px;">
                                                         Primary Color
+                                                    </div>
+                                                    <div class="modern-highlight modern-margin modern-border-radius modern-padding"
+                                                        style="background-color: #faf9f7; margin: 10px; padding: 10px; height: 50px;">
+                                                        Highlight Color
                                                     </div>
                                                 </div>
                                             </div>

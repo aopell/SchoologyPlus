@@ -1760,10 +1760,6 @@ variable-intellisense {
   background-color: var(--accent) !important;
 }
 
-[modern=true]:root .Search-dropdown-3huUv svg {
-  filter: Invert(var(--theme-is-dark)) !important;
-}
-
 [modern=true]:root .Search-dropdown-3huUv input {
   background-color: var(--input) !important;
   color: var(--text) !important;

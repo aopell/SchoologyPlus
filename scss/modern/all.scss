@@ -1921,9 +1921,9 @@ variable-intellisense {
     }
 
     .Search-dropdown-3huUv {
-        svg {
-            filter: Invert(var(--theme-is-dark)) !important;
-        }
+        // svg {
+        //     filter: Invert(var(--theme-is-dark)) !important;
+        // }
 
         input {
             background-color: var(--input) !important;

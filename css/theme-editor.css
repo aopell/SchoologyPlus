@@ -276,7 +276,11 @@ label {
 }
 
 #preview-page > div {
-    height: 200px;
+    height: 180px;
+}
+
+#preview-page div.larger {
+    height: 260px;
 }
 
 #preview-page > div > div {
@@ -290,6 +294,41 @@ label {
 #preview-page p {
     margin-left: 10px;
     padding-top: 10px;
+}
+
+#preview-dropdown-list {
+    position: relative;
+}
+
+#preview-dropdown-list div {
+    margin: 0 10px;
+    padding: 5px;
+    border: 1px solid black;
+    background: white;
+}
+
+#preview-dropdown-list ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    visibility: hidden;
+    margin: 0 0 0 10px;
+    border: 1px solid black;
+    background: white;
+}
+
+#preview-dropdown-list:focus-within ul {
+    visibility: visible;
+}
+
+#preview-dropdown-list li {
+    padding-left: 5px;
+}
+
+#preview-dropdown-list li:hover {
+    background-color: var(--primary-color);
+    color: white;
 }
 
 h2.center {
