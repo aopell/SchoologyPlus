@@ -798,11 +798,13 @@ a._3_bfp {
 
 :root[modern=false] #darktheme-toggle-navbar-button {
     display: none;
+    padding: 0 14px;
 }
 
 :root[modern=true] #darktheme-toggle-navbar-button {
     fill: currentColor;
     stroke: none;
+    padding: 0 14px;
 }
 
 :root[modern=false][dark] #darktheme-toggle-navbar-button {
@@ -815,4 +817,9 @@ a._3_bfp {
 #darktheme-toggle-navbar-button svg {
     width: 27px;
     height: 33px;
+}
+
+:root[modern=true] #darktheme-toggle-navbar-button svg {
+    width: 27px;
+    height: 30px;
 }
