@@ -574,19 +574,19 @@ initPicker("theme-background-color");
 initPicker("theme-border-color");
 initPicker("theme-link-color");
 
-initPicker("modern-color-primary");
-initPicker("modern-color-accent");
-initPicker("modern-color-secondary");
-initPicker("modern-color-input");
-initPicker("modern-color-border");
-initPicker("modern-color-highlight", undefined, updateOutput, true);
-initPicker("modern-color-active", undefined, updateOutput, true);
-initPicker("modern-color-grades");
-initPicker("modern-color-error");
+initPicker("modern-color-primary", "#EAEAEA");
+initPicker("modern-color-accent", "#F7F7F7");
+initPicker("modern-color-secondary", "#DDD");
+initPicker("modern-color-input", "#D0D0D0");
+initPicker("modern-color-border", "#BABABA");
+initPicker("modern-color-highlight", "rgba(255, 183, 2, 0.2)", updateOutput, true);
+initPicker("modern-color-active", "#98d4e4", updateOutput, true);
+initPicker("modern-color-grades", "#009400");
+initPicker("modern-color-error", "#F44336");
 
-initPicker("modern-color-text-primary");
-initPicker("modern-color-text-muted");
-initPicker("modern-color-text-contrast");
+initPicker("modern-color-text-primary", "#2A2A2A");
+initPicker("modern-color-text-muted", "#677583");
+initPicker("modern-color-text-contrast", "white");
 
 var modernColorMap = {
     "#modern-color-primary": ["interface", "primary", "modern-primary"],

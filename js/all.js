@@ -412,6 +412,7 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
         ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
         {
             id: "splus-settings-navbar-button",
+            title: "Schoology Plus Settings\n\nChange settings relating to Schoology Plus.",
             onclick: () => openModal("settings-modal")
         },
         [
@@ -423,18 +424,28 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
         ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
         { 
             id: "darktheme-toggle-navbar-button",
+            title: "Toggle Theme\n\nUse this button to disable your Schoology Plus theme if it's causing something to be displayed incorrectly.",
             onclick: () => document.documentElement.setAttribute("modern", document.documentElement.getAttribute("modern") == "false" ? "true" : "false") 
         },
         [
             (function() {
-                let moonSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                moonSvg.setAttribute("viewBox", "-12 -20 500 500");
-                moonSvg.setAttribute("class", "_3ESp2 dlCBz _1I3mg fjQuT uQOmx");
-                let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                path.setAttribute("d", "m224.023438 448.03125c85.714843.902344 164.011718-48.488281 200.117187-126.230469-22.722656 9.914063-47.332031 14.769531-72.117187 14.230469-97.15625-.109375-175.890626-78.84375-176-176 .972656-65.71875 37.234374-125.832031 94.910156-157.351562-15.554688-1.980469-31.230469-2.867188-46.910156-2.648438-123.714844 0-224.0000005 100.289062-224.0000005 224 0 123.714844 100.2851565 224 224.0000005 224zm0 0");
-                path.id = "darktheme-toggle-navbar-path"
-                moonSvg.appendChild(path);
-                return moonSvg;
+                let paintSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                paintSvg.setAttribute("viewBox", "-12 -20 500 500");
+                paintSvg.setAttribute("class", "_3ESp2 dlCBz _1I3mg fjQuT uQOmx");
+
+                paintSvg.innerHTML = '<path d="m242 197v90c0 8.284 6.716 15 15 15h180c8.284 0 15-6.716 15-15v-90c0-8.284-6.716-15-15-15h-180c-8.284 0-15 6.716-15 15z"/><path d="m377 422h-60c-8.284 0-15 6.716-15 15v60c0 8.284 6.716 15 15 15h60c8.284 0 15-6.716 15-15v-60c0-8.284-6.716-15-15-15z"/><path d="m307.667 15c0-8.284-6.716-15-15-15h-45v60h60z"/><path d="m217.667 0h-202.667c-8.284 0-15 6.716-15 15v45h217.667z"/><path d="m307.667 347v-15h-50.667c-24.813 0-45-20.186-45-45v-90c0-24.814 20.187-45 45-45h50.667v-62h-307.667v257c0 8.284 6.716 15 15 15h277.667c8.284 0 15-6.716 15-15zm-155.698-46h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15z"/><path d="m482 229.58v87.42c0 8.272-6.728 15-15 15h-90c-24.814 0-45 20.186-45 45v15h30v-15c0-8.272 6.728-15 15-15h90c24.814 0 45-20.186 45-45v-45c0-19.555-12.541-36.227-30-42.42z"/>';
+                
+                // let path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                // path1.setAttribute("d", "m507.607 216.525c5.857-5.857 5.857-15.355 0-21.213l-190.917-190.918c-5.858-5.858-15.355-5.858-21.213 0l-74.247 74.245 212.131 212.133z");
+                // path1.classList.add("darktheme-toggle-navbar-path");
+                // paintSvg.appendChild(path1);
+
+                // let path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                // path2.setAttribute("d", "m153.616 485.616c17.015-17.015 26.386-39.607 26.385-63.615 0-17.983 29.222-54.182 59.105-66.561 8.643-3.579 20.426-6.366 27.48.688 7.406 7.404 8.171 8.171 8.197 8.196.028.029.057.059.086.087 11.298 11.298 26.365 17.52 42.428 17.52 16.06-.001 31.128-6.224 42.426-17.522l52.426-52.425-212.131-212.132-52.427 52.427c-11.298 11.298-17.521 26.365-17.521 42.428 0 16.061 6.222 31.128 17.535 42.442.042.042.632.63 8.27 8.267 2.996 2.997 4.393 6.674 4.393 11.572 0 29.428-46.683 75.013-70.267 75.013-49.624-.001-89.999 40.372-90.001 89.998v.002c.001 24.009 9.372 46.601 26.387 63.613 17.014 17.016 39.606 26.386 63.614 26.386s46.601-9.37 63.615-26.384zm-78.616-63.616c0-8.284 6.716-15 15-15s15 6.716 15 15-6.716 15-15 15-15-6.715-15-15z");
+                // path2.classList.add("darktheme-toggle-navbar-path");
+                // paintSvg.appendChild(path2);
+
+                return paintSvg;
             })()
         ]
     )

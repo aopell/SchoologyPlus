@@ -85,7 +85,7 @@ let __defaultThemes = [
                     "input": "#D0D0D0",
                     "border": "#BABABA",
                     "highlight": "rgba(255, 183, 2, 0.2)",
-                    "active": "#98d4e4",
+                    "active": "rgba(152, 212, 228, 0.8)",
                     "grades": "#009400",
                     "error": "#F44336"
                 },
