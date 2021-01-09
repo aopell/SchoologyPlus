@@ -102,6 +102,7 @@ var previewLogo = document.getElementById("preview-logo");
 var previewPage = document.getElementById("preview-page");
 
 var modernEnable = document.getElementById("modern-enable");
+modernEnable.addEventListener("click", e => trackEvent("modern-enable", modernEnable.checked.toString(), "Theme Editor"));
 var modernWrapper = document.getElementById("modern-wrapper");
 var modernBorderRadiusValue = document.getElementById("modern-border-radius-value");
 var modernBorderSizeValue = document.getElementById("modern-border-size-value");
@@ -110,13 +111,17 @@ var modernPaddingValue = document.getElementById("modern-padding-value");
 var previewModal = document.getElementById("preview-modal");
 var splusModalClose = document.getElementById("splus-modal-close");
 splusModalClose.addEventListener("click", e => {
+    e.stopPropagation();
     previewModal.classList.add("hidden");
     previewPage.classList.remove("hidden");
+    trackEvent("splus-modal-close", "click", "Theme Editor");
 });
 var previewSPlusButton = document.getElementById("preview-splus-button");
-previewSPlusButton.addEventListener("click", e => { 
+previewSPlusButton.addEventListener("click", e => {
+    e.stopPropagation();
     previewModal.classList.toggle("hidden");
     previewPage.classList.toggle("hidden");
+    trackEvent("preview-splus-button", "click", "Theme Editor");
 });
 
 class Modal {
@@ -146,7 +151,13 @@ class Modal {
 
         Modal.CONTENT_CONTAINER.appendChild(content);
         for (let b of buttons) {
-            Modal.BUTTONS_CONTAINER.appendChild(createElement("a", ["modal-close", "waves-effect", "waves-dark", "btn-flat"], { textContent: b, onclick: e => selected = b }));
+            Modal.BUTTONS_CONTAINER.appendChild(createElement("a", ["modal-close", "waves-effect", "waves-dark", "btn-flat"], {
+                textContent: b,
+                onclick: e => {
+                    trackEvent("Modal Button", b, "Theme Editor");
+                    selected = b;
+                }
+            }));
         }
 
         let controller = M.Modal.init(Modal.ELEMENT, { onCloseEnd: () => callback && callback(selected) });
@@ -220,7 +231,7 @@ for (let e of document.querySelectorAll("#theme-editor-section input")) {
     });
 }
 var mTabs = M.Tabs.init(document.querySelector(".tabs"), {
-    onShow: function (newtab) { 
+    onShow: function (newtab) {
         if (newtab.id == "tab-preview") {
             previewSection.classList.add("fixed-on-large-and-up");
         } else {
@@ -529,7 +540,7 @@ let init = 0;
  * @param {string} id Element ID of the input element 
  * @param {(tinycolor)=>void} onupdate Callback called when color is changed
  */
-function initPicker(id, color=undefined, onupdate=updateOutput, showAlpha=false) {
+function initPicker(id, color = undefined, onupdate = updateOutput, showAlpha = false) {
     $(`#${id}`).spectrum({
         showInput: true,
         containerClassName: "full-spectrum",
@@ -554,15 +565,15 @@ function initPicker(id, color=undefined, onupdate=updateOutput, showAlpha=false)
                 "rgb(0, 255, 255)", "rgb(74, 134, 232)", "rgb(0, 0, 255)", "rgb(153, 0, 255)", "rgb(255, 0, 255)"],
             ["rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)",
                 "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)"],
-                ["rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
+            ["rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
                 "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)"],
-                ["rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
+            ["rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
                 "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)"],
-                ["rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
+            ["rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
                 "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)"],
-                ["rgb(133, 32, 12)", "rgb(153, 0, 0)", "rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)",
+            ["rgb(133, 32, 12)", "rgb(153, 0, 0)", "rgb(180, 95, 6)", "rgb(191, 144, 0)", "rgb(56, 118, 29)",
                 "rgb(19, 79, 92)", "rgb(17, 85, 204)", "rgb(11, 83, 148)", "rgb(53, 28, 117)", "rgb(116, 27, 71)"],
-                ["rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
+            ["rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
                 "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"]
         ]
     });
@@ -719,7 +730,7 @@ function updateOutput() {
         }
     }
 
-    if(modernEnable.checked) {
+    if (modernEnable.checked) {
         document.documentElement.setAttribute("modern", "true");
         modernWrapper.classList.remove("hidden");
         theme.color.modern = new ModernColorDefinition();
@@ -729,7 +740,7 @@ function updateOutput() {
         theme.color.modern.dark = $("#modern-color-primary").spectrum("get").isDark();
         document.documentElement.setAttribute("dark", theme.color.modern.dark);
 
-        for(let id in modernColorMap) {
+        for (let id in modernColorMap) {
             key = modernColorMap[id]
             theme.color.modern[key[0]][key[1]] = $(id).spectrum("get").toString()
             setCSSVariable(key[2], $(id).spectrum("get").toString());
@@ -1141,6 +1152,7 @@ function generateRainbowFunction(theme) {
 }
 
 function addIcon() {
+    trackEvent("new-icon", "click", "Theme Editor");
     let template = `<td style=text-align:center><a class="action-button tooltipped arrow-button move-down"data-tooltip="Move Down"><i class=material-icons>arrow_downward</i> </a><a class="action-button tooltipped arrow-button move-up"data-tooltip="Move Up"><i class=material-icons>arrow_upward</i></a><td class=class-name data-text="Class Name Pattern"><td class=icon-url data-text="Icon URL or paste/drop image"><td><img class="small-icon-preview" height=32/></td><td><a class="action-button tooltipped btn-flat delete-icon-button right waves-effect waves-light"data-tooltip=Delete><i class=material-icons>delete</i></a>`;
     let tr = document.createElement("tr");
     tr.innerHTML = template;
@@ -1246,6 +1258,7 @@ function moveDown(e) {
 }
 
 function deleteIcon(e) {
+    trackEvent("delete-icon-button", "click", "Theme Editor");
     let target = e.target;
     while (target.tagName != "TR") target = target.parentElement;
     M.Tooltip.getInstance(target.querySelector(".delete-icon-button")).destroy();

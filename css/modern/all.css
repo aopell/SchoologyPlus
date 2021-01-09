@@ -1,4 +1,3 @@
-@charset "UTF-8";
 variable-intellisense {
   --primary: #36393F;
   --accent: #2F3136;
@@ -327,6 +326,10 @@ variable-intellisense {
 [modern=true]:root .Header-header-button-active-GnvKh,
 [modern=true]:root .LGaPf svg {
   color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .Header-header-drop-menu-3SaYV._1Z0RM {
+  background-color: var(--hover-color) !important;
 }
 
 [modern=true]:root .close {
@@ -2081,7 +2084,7 @@ variable-intellisense {
 }
 
 [modern=true][dark=true]:root .assessment-delivery-landing-app div._3dHTa::after {
-  content: "WARNING: Dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the 🌙 button on the navigation bar.";
+  content: "WARNING: A dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the Toggle Theme button on the navigation bar.";
   display: inline-block;
   text-align: center;
   width: 50%;

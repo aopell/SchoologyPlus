@@ -63,10 +63,12 @@
                             </a>
                             <ul>
                                 <li><a id="import-button" data-tooltip="Import Theme"
+                                        data-splus-tracking-label="Theme Editor"
                                         class="btn-floating green waves-effect waves-light tooltipped splus-track-clicks"><i
                                             class="material-icons">save_alt</i></a>
                                 </li>
                                 <li><a id="create-button" data-tooltip="Create Theme"
+                                        data-splus-tracking-label="Theme Editor"
                                         class="btn-floating red waves-effect waves-light tooltipped splus-track-clicks"><i
                                             class="material-icons">mode_edit</i></a></li>
                             </ul>
@@ -82,7 +84,7 @@
                 <div class="section row">
                     <h5>Properties</h5>
                     <div class="input-field col s12">
-                        <input id="theme-name" type="text" class="validate">
+                        <input id="theme-name" type="text" class="validate splus-track-clicks" data-splus-tracking-label="Theme Editor">
                         <label for="theme-name">Name</label>
                     </div>
                 </div>
@@ -90,7 +92,8 @@
                     <h5>Color</h5>
                     <p>
                         <label>
-                            <input id="theme-color-hue" class="with-gap" name="color-group" type="radio" checked />
+                            <input id="theme-color-hue" class="with-gap splus-track-clicks"
+                                data-splus-tracking-label="Theme Editor" name="color-group" type="radio" checked />
                             <span>Color Hue</span>
                         </label>
                     <div class="col s12" id="theme-hue-wrapper" style="width: 90%; padding-left: 7.5%;">
@@ -100,7 +103,8 @@
                     </p>
                     <p>
                         <label>
-                            <input id="theme-color-custom" class="with-gap" name="color-group" type="radio" />
+                            <input id="theme-color-custom" class="with-gap splus-track-clicks"
+                                data-splus-tracking-label="Theme Editor" name="color-group" type="radio" />
                             <span>Custom Colors</span>
                         </label>
                     <div id="theme-color-custom-wrapper" class="hidden" style="width: 90%; padding-left: 5%;">
@@ -128,7 +132,8 @@
                     </p>
                     <p>
                         <label>
-                            <input id="theme-color-rainbow" class="with-gap" name="color-group" type="radio" />
+                            <input id="theme-color-rainbow" class="with-gap splus-track-clicks"
+                                data-splus-tracking-label="Theme Editor" name="color-group" type="radio" />
                             <span>Rainbow</span>
                         </label>
                     <div id="theme-color-rainbow-wrapper" style="width: 85%; padding-left: 7.5%;">
@@ -273,44 +278,49 @@
                     <h5>Logo</h5>
                     <p>
                         <label>
-                            <input id="theme-schoology-plus-logo" class="with-gap" name="logo-group" type="radio"
-                                checked />
+                            <input id="theme-schoology-plus-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-label="Theme Editor" name="logo-group" type="radio" checked />
                             <span>Schoology Plus Logo</span>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input id="theme-schoology-logo" class="with-gap" name="logo-group" type="radio" />
+                            <input id="theme-schoology-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-label="Theme Editor" name="logo-group" type="radio" />
                             <span>Schoology Logo</span>
                         </label>
                     </p>
                     <p class="show-lausd">
                         <label>
-                            <input id="theme-new-lausd-logo" class="with-gap" name="logo-group" type="radio" />
+                            <input id="theme-new-lausd-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-label="Theme Editor" name="logo-group" type="radio" />
                             <span>New LAUSD Logo</span>
                         </label>
                     </p>
                     <p class="show-lausd">
                         <label>
-                            <input id="theme-lausd-logo" class="with-gap" name="logo-group" type="radio" />
+                            <input id="theme-lausd-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-label="Theme Editor" name="logo-group" type="radio" />
                             <span>Old LAUSD Logo</span>
                         </label>
                     </p>
                     <p class="hide-lausd">
                         <label>
-                            <input id="theme-default-logo" class="with-gap" name="logo-group" type="radio" />
+                            <input id="theme-default-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-label="Theme Editor" name="logo-group" type="radio" />
                             <span>Your School's Default Logo</span>
                         </label>
                     </p>
                     <p>
                         <label>
-                            <input id="theme-custom-logo" class="with-gap" name="logo-group" type="radio" />
+                            <input id="theme-custom-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-label="Theme Editor" name="logo-group" type="radio" />
                             <span>Custom Image</span>
                         </label>
                     <div id="theme-logo-wrapper" class="input-field col s12 hidden"
                         style="width: 90%; margin-left: 5%; margin-top: 0;">
-                        <input id="theme-logo" type="url" class="validate"
-                            placeholder="Direct image URL or paste/drop image">
+                        <input id="theme-logo" type="url" class="validate splus-track-clicks"
+                            data-splus-tracking-label="Theme Editor" placeholder="Direct image URL or paste/drop image">
                         <label for="theme-logo">Logo Image URL</label>
                     </div>
                     </p>
@@ -318,8 +328,8 @@
                 <div class="row">
                     <h5>Cursor</h5>
                     <div class="input-field col s12">
-                        <input id="theme-cursor" type="url" class="validate"
-                            placeholder="Direct image URL or paste/drop image">
+                        <input id="theme-cursor" type="url" class="validate splus-track-clicks"
+                            data-splus-tracking-label="Theme Editor" placeholder="Direct image URL or paste/drop image">
                         <label for="theme-cursor">Cursor Image URL</label>
                     </div>
                 </div>
@@ -330,8 +340,8 @@
                             everywhere and may cause certain content to be displayed incorrectly.</strong> Use at your
                         own risk, but please <a id="modern-engine-bug-report-link"
                             data-splus-tracking-label="Theme Editor" class="link-color tooltipped splus-track-clicks"
-                            data-tooltip="Join our Discord Server!"
-                            href="https://discord.schoologypl.us">use our Discord server to report
+                            data-tooltip="Join our Discord Server!" href="https://discord.schoologypl.us">use our
+                            Discord server to report
                             bugs if you find them!</a></strong></p>
                     <div class="switch" style="margin-left: -15px;">
                         <label style="font-size: 16px;">
@@ -482,7 +492,8 @@
                         </div>
                         <div id="tab-preview" class="col s12">
                             <div class="col s12">
-                                <div id="preview" class="card-panel modern-primary modern-border-radius">
+                                <div id="preview" data-splus-tracking-label="Theme Editor"
+                                    class="card-panel modern-primary modern-border-radius splus-track-clicks">
                                     <div class="row">
                                         <nav id="preview-navbar">
                                             <div class="nav-wrapper">
