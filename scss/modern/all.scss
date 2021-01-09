@@ -240,11 +240,17 @@ variable-intellisense {
         border-bottom-right-radius: var(--border-radius) !important;
     }
 
-    #right-column-inner>div:not(:empty) {
-        background-color: var(--secondary) !important;
-        border: none !important;
-        border-radius: var(--border-radius) !important;
-        padding: var(--padding) !important;
+    #right-column-inner {
+        >div:not(:empty) {
+            background-color: var(--secondary) !important;
+            border: none !important;
+            border-radius: var(--border-radius) !important;
+            padding: var(--padding) !important;
+        }
+
+        >div[id^=sgyReactRenders_comp_] {
+            display: none;
+        }
     }
 
     #center-top {
@@ -401,6 +407,7 @@ variable-intellisense {
     }
 
     &[dark=false] {
+
         .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
         .action-links-unfold:hover {
             background-color: var(--muted-text) !important;
@@ -812,6 +819,7 @@ variable-intellisense {
     }
 
     .is-home {
+
         #right-column-inner div,
         #home-feed-container {
             background-color: var(--accent) !important;
@@ -2473,7 +2481,8 @@ variable-intellisense {
             }
         }
 
-        .lrn-region:not(.lrn-items-region) .lrn_btn_blue:before, .dialogs .lrn_btn_blue:before {
+        .lrn-region:not(.lrn-items-region) .lrn_btn_blue:before,
+        .dialogs .lrn_btn_blue:before {
             color: var(--text) !important;
         }
 
@@ -3003,11 +3012,16 @@ variable-intellisense {
 
     // Discussion Edit Icon Fix
 
-    .discussion-view .action-links-wrapper-junior .action-links-unfold, .discussion-view .action-links-wrapper-junior .action-links-unfold:hover, .discussion-view .action-links-wrapper-junior .active.action-links-unfold, .discussion-view .action-links-wrapper-junior .active.action-links-unfold:hover {
-        background-image: url(https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/sprite_discussion.png?5f9c91b5354f0ec1) !important; /* Makes Icon Visble */
+    .discussion-view .action-links-wrapper-junior .action-links-unfold,
+    .discussion-view .action-links-wrapper-junior .action-links-unfold:hover,
+    .discussion-view .action-links-wrapper-junior .active.action-links-unfold,
+    .discussion-view .action-links-wrapper-junior .active.action-links-unfold:hover {
+        background-image: url(https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/sprite_discussion.png?5f9c91b5354f0ec1) !important;
+        /* Makes Icon Visble */
     }
 
-    .s-js-comment-action-links.sActionLinksVisible > .action-links-wrapper.action-links-wrapper-junior.aligned-right > .action-links-unfold { /* Changes Color When Hovered Over */
+    .s-js-comment-action-links.sActionLinksVisible>.action-links-wrapper.action-links-wrapper-junior.aligned-right>.action-links-unfold {
+        /* Changes Color When Hovered Over */
         background-color: var(--accent) !important;
     }
 }
