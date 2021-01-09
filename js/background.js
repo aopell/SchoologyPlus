@@ -159,7 +159,7 @@ chrome.runtime.onMessage.addListener(
                 }
 
                 return finalResponse;
-            })().then(x => sendResponse(x)).catch(err => sendResponse({ success: false, error: err }));
+            })().then(x => sendResponse(JSON.stringify(x))).catch(err => sendResponse(JSON.stringify({ success: false, error: err })));
 
             return true;
         } else if (request.type == "updateDefaultDomain" && request.domain !== undefined) {
