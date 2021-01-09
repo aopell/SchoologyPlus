@@ -599,7 +599,7 @@ function updateSettings(callback) {
                 new Setting(
                     "overrideUserStyles",
                     "Override Styled Text",
-                    "Override styled text in homefeed posts and discussion responses when using modern themes. WARNING: This guarantees text is readable on dark theme, but removes colors and other styling that may be important.",
+                    "Override styled text in homefeed posts and discussion responses when using modern themes. WARNING: This guarantees text is readable on dark theme, but removes colors and other styling that may be important. You can always use the Toggle Theme button on the navigation bar to temporarily disble your theme.",
                     "true",
                     "select",
                     {

@@ -5,6 +5,7 @@ const lausdNewImageUrl = chrome.runtime.getURL("/imgs/lausd-2019.png");
 const CURRENT_VERSION = SchoologyTheme.CURRENT_VERSION;
 const placeholderUrl = "https://via.placeholder.com/200x50?text=School+Logo";
 const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue"];
+const CLASSIC_THEMES = ["Schoology Plus", "Rainbow"]
 
 var defaultDomain = "lms.lausd.net";
 
@@ -623,7 +624,9 @@ function updateOutput() {
     // Name
     if (!theme.name) {
         errors.push("Theme must have a name");
-    } else if (inEditMode() && theme.name != origThemeName && allThemes[theme.name]) {
+    } else if (defaultThemes.includes(theme.name)) {
+        errors.push("Theme can't use the same name as a default theme. Please choose a different name.");
+    } else if (theme.name != origThemeName && allThemes[theme.name]) {
         errors.push(`A theme with the name "${theme.name}" already exists. Delete that theme or choose a different name before saving.`);
     }
 
@@ -889,7 +892,7 @@ function updatePreview(updateJSON = true) {
         warningCard.style.display = "none";
     }
     let errorCard = document.getElementById("error-card");
-    if (errors.length > 0) {
+    if (errors.length > 0 && inEditMode()) {
         errorCard.style.display = "block";
         document.getElementById("error-content").innerHTML = errors.join("<br/>");
     }
@@ -1073,17 +1076,9 @@ function importTheme() {
     PromptModal.open("Import Theme", "Paste theme JSON here", ["Import", "Cancel"], (button, text) => {
         if (button === "Import") {
             try {
-                function importAndSave(o) {
-                    importAndRender(o);
-                    saveTheme();
-                }
-
                 let j = JSON.parse(text);
-                if (j.name && j.name in allThemes) {
-                    ConfirmModal.open("Theme Already Exists", `A theme with the name "${j.name}" already exists. Would you like to overwrite it?`, ["Overwrite", "Cancel"], b => b === "Overwrite" && importAndSave(j));
-                } else {
-                    importAndSave(j);
-                }
+                importAndRender(j);
+                saveTheme();
             }
             catch {
                 ConfirmModal.open("Error Importing Theme", errors.length > 0 ? errors.join() : "Please provide a valid JSON string", ["OK"]);
@@ -1534,7 +1529,7 @@ $(document).ready(function () {
         for (let t in allThemes) {
             let themeItem = createElement("a", ["collection-item", "theme-item"], {
                 dataset: {
-                    theme: t,
+                    theme: t
                 },
                 onclick: e => {
                     applyTheme(t);
@@ -1544,9 +1539,9 @@ $(document).ready(function () {
                     themeItem.classList.add("active");
                 }
             }, [createElement("span", ["tooltipped"], {
-                textContent: t,
+                textContent: t + (CLASSIC_THEMES.includes(t) ? " (Classic)" : ""),
                 dataset: {
-                    tooltip: t
+                    tooltip: t + (CLASSIC_THEMES.includes(t) ? " (Classic)" : "")
                 }
             })]);
 
@@ -1587,7 +1582,7 @@ $(document).ready(function () {
                 let shareButton = createActionButton({
                     textContent: "content_copy",
                     dataset: {
-                        tooltip: "Copy Theme"
+                        tooltip: "Copy Theme to Clipboard"
                     }
                 });
                 shareButton.addEventListener("click", e => {
@@ -1601,7 +1596,7 @@ $(document).ready(function () {
             themesList.appendChild(themeItem);
         }
 
-        let selected = Array.from(themesList.children).find(x => x.childNodes[0].textContent == s.theme);
+        let selected = Array.from(themesList.children).find(x => x.dataset.theme == s.theme);
         (selected || themesList.firstElementChild).click();
         M.Tooltip.init(document.querySelectorAll('.tooltipped'), { outDuration: 0, inDuration: 300, enterDelay: 0, exitDelay: 10, transition: 10 });
         var elems = document.querySelectorAll('.fixed-action-btn');

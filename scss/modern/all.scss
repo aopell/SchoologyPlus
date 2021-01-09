@@ -2987,4 +2987,9 @@ variable-intellisense {
         /* Changes Color When Hovered Over */
         background-color: var(--accent) !important;
     }
+
+    // Button tiles
+    .splus-button-tile.active {
+        background-color: var(--active) !important;
+    }
 }

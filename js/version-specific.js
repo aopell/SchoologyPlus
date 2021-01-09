@@ -92,7 +92,7 @@ function saveBroadcasts(broadcasts, callback = undefined) {
     chrome.storage.sync.get(["unreadBroadcasts"], values => {
         let b = values.unreadBroadcasts || [];
         let ids = b.map(x => x.id);
-        for(let br of broadcasts) {
+        for (let br of broadcasts) {
             if (!ids.includes(br.id)) {
                 b.push(br);
             }
@@ -120,7 +120,7 @@ function createBroadcast(id, title, message, timestamp = Date.now()) {
 function deleteBroadcasts(...ids) {
     for (let id of ids) {
         let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
-        if(!unreadBroadcasts) continue;
+        if (!unreadBroadcasts) continue;
         unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == id), 1);
         Setting.setValue("unreadBroadcasts", unreadBroadcasts);
 
@@ -203,11 +203,11 @@ let migrationsTo = {
     "6.2": function (currentVersion, previousVersion) {
         if (getBrowser() !== "Firefox") {
             var modalExistsInterval = setInterval(function () {
-                if (document.readyState === "complete" && openModal && document.getElementById("analytics-modal")) {
+                if (document.readyState === "complete" && openModal && document.getElementById("analytics-modal") && !document.querySelector(".splus-modal-open")) {
                     clearInterval(modalExistsInterval);
                     openModal("analytics-modal");
                 }
-            }, 10);
+            }, 50);
         }
     },
     "6.4": function (currentVersion, previousVersion) {
@@ -314,6 +314,14 @@ let migrationsTo = {
     "6.7.1": function (currentVersion, previousVersion) {
         // reset setting value so people have checklists enabled by default
         Setting.setValue("indicateSubmission", undefined);
+    },
+    "7.0": function (currentVersion, previousVersion) {
+        var modalExistsInterval = setInterval(function () {
+            if (document.readyState === "complete" && openModal && document.getElementById("choose-theme-modal") && !document.querySelector(".splus-modal-open")) {
+                clearInterval(modalExistsInterval);
+                openModal("choose-theme-modal");
+            }
+        }, 50);
     }
 };
 

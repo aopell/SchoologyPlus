@@ -311,6 +311,59 @@ let modals = [
         ]),
         modalFooterText
     ),
+    new Modal(
+        "choose-theme-modal",
+        "Schoology Plus Themes",
+        createElement("div", ["splus-modal-contents"], {}, [
+            createElement("h2", ["setting-entry"], { textContent: "Choose a New Theme!" }),
+            createElement("p", ["setting-description"], { textContent: "Schoology Plus has a bunch of new themes! Choose one from below, make your own, or keep your current theme. It's your choice! Click on each theme for a preview and then click the button to confirm your choice. You can change your theme at any time in Schoology Plus Settings.", style: { fontSize: "14px", paddingBottom: "10px" } }),
+            createElement("div", ["splus-button-tile-container"], {}, [
+                { text: "Modern Dark Theme", theme: "Schoology Plus Modern Dark", new: true },
+                { text: "Modern Light Theme", theme: "Schoology Plus Modern Light", new: true },
+                { text: "Modern Rainbow Theme", theme: "Rainbow Modern", new: true },
+                { text: "Schoology Plus Classic Theme", theme: "Schoology Plus" },
+                { text: `Keep Current Theme: ${Theme.active.name}`, theme: Theme.active.name, active: true },
+                { text: "See More Themes or Make Your Own", theme: Theme.active.name },
+            ].map(
+                obj => {
+                    return createElement("div", [...["splus-button-tile", "select-theme-tile"], ...(obj.active ? ["active"] : [])],
+                        {
+                            dataset: { new: obj.new },
+                            onclick: e => {
+                                for (let child of e.target.parentElement.children) {
+                                    child.classList.remove("active");
+                                }
+                                e.target.classList.add("active");
+
+                                trackEvent("select-theme-tile", obj.text, "S+ Button Tile");
+
+                                tempTheme = obj.theme;
+                                Theme.apply(Theme.byName(obj.theme));
+
+                                document.getElementById("theme-popup-select-button").value = `Select ${obj.text}`;
+                            }
+                        },
+                        [
+                            createElement("span", ["splus-button-tile-content"], { textContent: obj.text })
+                        ]
+                    )
+                }
+            )),
+            (() => {
+                let btn = createButton("theme-popup-select-button", `Select Keep Current Theme: ${Theme.active.name}`, e => {
+                    modalClose(document.getElementById("choose-theme-modal"));
+                    Setting.setValue("theme", tempTheme);
+                    if (document.getElementById("choose-theme-modal").querySelector(".splus-button-tile-container .splus-button-tile:last-child").classList.contains("active")) {
+                        location.href = chrome.runtime.getURL("/theme-editor.html");
+                    }
+                });
+                btn.style.float = "right";
+                btn.style.margin = "20px 20px 0";
+                return btn;
+            })()
+        ]),
+        modalFooterText
+    )
 ];
 
 (() => {
