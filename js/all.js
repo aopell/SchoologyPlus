@@ -422,13 +422,25 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
     createElement(
         "button",
         ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed", "splus-track-clicks"],
-        { 
+        {
             id: "darktheme-toggle-navbar-button",
-            title: "Toggle Theme\n\nUse this button to disable your Schoology Plus theme if it's causing something to be displayed incorrectly.",
-            onclick: () => document.documentElement.setAttribute("modern", document.documentElement.getAttribute("modern") == "false" ? "true" : "false")
+            title: "Toggle Theme\n\nUse this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
+            onclick: e => document.documentElement.setAttribute("modern", document.documentElement.getAttribute("modern") == "false" ? "true" : "false"),
+            dataset: { popup: Setting.getNestedValue("popup", "modernThemeToggle", true) }
         },
         [
-            (function() {
+            createElement("div", ["explanation-popup"], {}, [
+                createElement("span", [], { title: "", textContent: "Use this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly." }),
+                createElement("h3", [], {
+                    textContent: "OK",
+                    onclick: e => {
+                        e.stopPropagation();
+                        Setting.setNestedValue("popup", "modernThemeToggle", false);
+                        document.getElementById("darktheme-toggle-navbar-button").dataset.popup = false;
+                    }
+                })
+            ]),
+            (function () {
                 let paintSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                 paintSvg.setAttribute("viewBox", "-12 -20 500 500");
                 paintSvg.setAttribute("class", "_3ESp2 dlCBz _1I3mg fjQuT uQOmx");
@@ -1012,7 +1024,7 @@ function indicateSubmittedAssignments() {
             let revisions = revisionData.revision;
 
             return !!(revisions && revisions.length && !revisions[revisions.length - 1].draft);
-        } catch(err) {
+        } catch (err) {
             Logger.warn(`Couldn't determine if assignment ${assignmentId} was complete. This is likely not a normal assignment.`);
             return false;
         }
@@ -1031,7 +1043,7 @@ function indicateSubmittedAssignments() {
 
         if (!overrides && !isComplete) return;
         else if (!overrides) overrides = {};
-        
+
         if (!isComplete) {
             delete overrides[assignmentId];
         } else {
@@ -1044,14 +1056,14 @@ function indicateSubmittedAssignments() {
     function createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId) {
         let elem = document.createElement("button");
         elem.classList.add("splus-completed-check-indicator");
-        elem.addEventListener("click", function() {
+        elem.addEventListener("click", function () {
             // if we're "faux-complete" and clicked, unmark the forced state
             if (eventElement.classList.contains(assignCompleteClass) && isAssignmentMarkedComplete(assignmentId)) {
                 eventElement.classList.remove(assignCompleteClass);
                 setAssignmentCompleteOverride(assignmentId, false);
                 // TODO handle async nicely
                 processAssignmentUpcomingAsync(eventElement);
-            // if we're incomplete and click, force the completed state
+                // if we're incomplete and click, force the completed state
             } else if (eventElement.classList.contains(assignIncompleteClass)) {
                 eventElement.classList.remove(assignIncompleteClass);
                 setAssignmentCompleteOverride(assignmentId, true);
@@ -1085,7 +1097,7 @@ function indicateSubmittedAssignments() {
             eventElement.classList.add(assignIncompleteClass);
             Logger.log(`Assignment ${assignmentId} is not submitted`);
         }
-        
+
         if (!eventElement.querySelector(".splus-completed-check-indicator")) {
             infotipElement.insertAdjacentElement("afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
         }

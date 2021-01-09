@@ -38,81 +38,7 @@ variable-intellisense {
 }
 
 :root[modern=true] {
-    &[test=true] {
-        --primary: black;
-        --accent: black;
-        --secondary: black;
-        --text: black;
-        --contrast-text: black;
-        --muted-text: black;
-        --contrast-border: black;
-        --input: black;
-        --error: black;
-        --highlight: black;
-        --active: black;
-        --grades: black;
-        --border-radius: 5px;
-        --border-size: 1px;
-        --padding: 10px;
-        --link-color: black !important;
-        --cal5: #000;
-
-        // Color-2
-        --cal6: #000;
-        --cal7: #000;
-        --cal8: #000;
-        --cal9: #000;
-        --cal10: #000;
-        --cal11: #000;
-        --cal12: #000;
-        --cal13: #000;
-
-        // Color-10
-        --cal14: #000;
-        --cal15: #000;
-        --cal16: #000;
-        --cal17: #000;
-        --cal18: #000;
-        --cal19: #000;
-        --cal20: #000;
-
-        &[test-mode=crazy] {
-            --primary: magenta;
-            --accent: purple;
-            --secondary: maroon;
-            --text: yellow;
-            --contrast-text: mediumspringgreen;
-            --muted-text: orange;
-            --contrast-border: gold;
-            --input: blue;
-            --error: red;
-            --highlight: rgba(0, 255, 0, 0.3);
-            --active: rgba(0, 0, 255, 0.3);
-            --grades: aqua;
-            --link-color: lime !important;
-            --cal5: red;
-
-            // Color-2
-            --cal6: green;
-            --cal7: blue;
-            --cal8: orange;
-            --cal9: yellow;
-            --cal10: lightblue;
-            --cal11: lime;
-            --cal12: powderblue;
-            --cal13: purple;
-
-            // Color-10
-            --cal14: magenta;
-            --cal15: darkred;
-            --cal16: maroon;
-            --cal17: brown;
-            --cal18: pink;
-            --cal19: aliceblue;
-            --cal20: antiquewhite;
-        }
-    }
-
+    --modern-border: var(--border-size) solid var(--contrast-border);
 
     // General
 
@@ -280,7 +206,7 @@ variable-intellisense {
     .inline-popup-wrapper {
         background-color: var(--secondary) !important;
         color: var(--text) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
 
         .arrow-top {
@@ -448,7 +374,7 @@ variable-intellisense {
     }
 
     .likers li:not(.last) {
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
     }
 
     fieldset div div div label span {
@@ -529,7 +455,7 @@ variable-intellisense {
     .splus-courses-navbar-button article a:hover,
     .splus-groups-navbar-button article a:hover,
     .JoinCard-card-1qWtS:hover {
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
     }
 
@@ -563,6 +489,43 @@ variable-intellisense {
         color: var(--muted-text) !important;
     }
 
+    #darktheme-toggle-navbar-button {
+        &[data-popup=true] {
+            position: relative;
+            background-color: var(--highlight) !important;
+
+            .explanation-popup {
+                display: block;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                padding: var(--padding);
+                background-color: var(--secondary);
+                border: var(--modern-border);
+                border-radius: var(--border-radius);
+                color: var(--text);
+                line-height: normal !important;
+                text-transform: none !important;
+                text-align: left !important;
+                width: 250px;
+                pointer-events: none;
+
+                h3 {
+                    float: right;
+                    padding: 5px 20px 5px;
+                    margin-top: 5px;
+                    border-radius: var(--border-radius);
+                    background-color: var(--accent);
+                    pointer-events: all;
+
+                    &:hover {
+                        background-color: var(--active);
+                    }
+                }
+            }
+        }
+    }
+
     header div.Je0RK button._1SIMq {
         background-color: var(--secondary) !important;
         color: var(--text) !important;
@@ -572,7 +535,7 @@ variable-intellisense {
     ._1DD87,
     ._3gfrT:focus:not(:active),
     .oUq3j:hover:not(:active) {
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
     }
 
     .JoinCard-card-1qWtS ._1Z0RM {
@@ -846,7 +809,7 @@ variable-intellisense {
         background: none !important;
         background-color: var(--secondary) !important;
         color: var(--text) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
     }
 
@@ -890,17 +853,17 @@ variable-intellisense {
 
     .theme-2016 .date-header h4,
     #home-feed-container #smart-box {
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
     }
 
     .view-file-popup,
     .view-btn-disabled,
     .edit-external-tool-attachment {
-        border-left: var(--border-size) solid var(--contrast-border) !important;
+        border-left: var(--modern-border) !important;
     }
 
     .sgy-tabbed-navigation {
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
 
         li.active {
             border-bottom: 5px solid var(--contrast-border) !important;
@@ -983,7 +946,7 @@ variable-intellisense {
         .period-row .td-content-wrapper,
         .final-row .td-content-wrapper,
         .td-content-wrapper {
-            border-top: var(--border-size) solid var(--contrast-border) !important;
+            border-top: var(--modern-border) !important;
         }
     }
 
@@ -1075,14 +1038,14 @@ variable-intellisense {
 
     .gradebook-course,
     .attendance-course {
-        border-top: var(--border-size) solid var(--contrast-border) !important;
+        border-top: var(--modern-border) !important;
     }
 
     .attendance-course-attendance table {
 
         th,
         td {
-            border: var(--border-size) solid var(--contrast-border) !important;
+            border: var(--modern-border) !important;
         }
     }
 
@@ -1093,7 +1056,7 @@ variable-intellisense {
     }
 
     .s-js-chart-and-pager-area .empty {
-        border-top: var(--border-size) solid var(--contrast-border) !important;
+        border-top: var(--modern-border) !important;
     }
 
     .highcharts-container>svg>rect {
@@ -1185,11 +1148,11 @@ variable-intellisense {
 
     .listing .course-item.list-item,
     .courses-listing.mycourses h3 {
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
     }
 
     #main .courses-listing.listing {
-        border-top: var(--border-size) solid var(--contrast-border) !important;
+        border-top: var(--modern-border) !important;
     }
 
     .sgy-course-search-form__submit-row {
@@ -1234,7 +1197,7 @@ variable-intellisense {
     }
 
     .roster-top {
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
     }
 
     body {
@@ -1298,28 +1261,28 @@ variable-intellisense {
     }
 
     body.library-view #library-main {
-        border-left: var(--border-size) solid var(--contrast-border) !important;
+        border-left: var(--modern-border) !important;
     }
 
     #collection-toolbar {
-        border-top: var(--border-size) solid var(--contrast-border) !important;
+        border-top: var(--modern-border) !important;
     }
 
     #collection-view-contents {
-        border-top: var(--border-size) solid var(--contrast-border) !important;
+        border-top: var(--modern-border) !important;
 
         th,
         td {
-            border-bottom: var(--border-size) solid var(--contrast-border) !important;
+            border-bottom: var(--modern-border) !important;
         }
     }
 
     #library-left .collections-list-wrapper {
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
     }
 
     body.library-view #library-left {
-        border-right: var(--border-size) solid var(--contrast-border) !important;
+        border-right: var(--modern-border) !important;
     }
 
     #collection-toolbar .action-links-unfold {
@@ -1373,7 +1336,7 @@ variable-intellisense {
 
     #sidebar-left #left-nav #menu-s-main ul li a.active {
         background-color: var(--accent) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-right: none !important;
         border-top-left-radius: var(--border-radius) !important;
         border-bottom-left-radius: var(--border-radius) !important;
@@ -1381,14 +1344,14 @@ variable-intellisense {
 
     .app-link-wrapper .active {
         background-color: var(--accent) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-right: none !important;
         border-top-left-radius: var(--border-radius) !important;
         border-bottom-left-radius: var(--border-radius) !important;
 
         &:hover {
             background-color: var(--accent) !important;
-            border: var(--border-size) solid var(--contrast-border) !important;
+            border: var(--modern-border) !important;
             border-right: none !important;
             border-top-left-radius: var(--border-radius) !important;
             border-bottom-left-radius: var(--border-radius) !important;
@@ -1397,7 +1360,7 @@ variable-intellisense {
 
     #sidebar-left #menu-s-main .active-trail .active-trail a.course-materials-left-menu {
         background-color: var(--accent) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-right: none !important;
         border-top-left-radius: var(--border-radius) !important;
         border-bottom-left-radius: var(--border-radius) !important;
@@ -1425,7 +1388,7 @@ variable-intellisense {
     .comment.no-comments,
     .materials-filter-wrapper {
         background-color: var(--secondary) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
         color: var(--text) !important;
     }
@@ -1476,12 +1439,12 @@ variable-intellisense {
     #right-column h3,
     .left-block-wrapper h3 {
         border: none !important;
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
     }
 
     .s-edge-feed {
         >li {
-            border-top: var(--border-size) solid var(--contrast-border) !important;
+            border-top: var(--modern-border) !important;
         }
 
         .edge-item li {
@@ -1494,7 +1457,7 @@ variable-intellisense {
     }
 
     .s-like-sentence:not(:last-child) {
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
     }
 
     .pre-fill,
@@ -1505,7 +1468,7 @@ variable-intellisense {
     }
 
     #edit-course-switcher-select-nid-menu {
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         background-color: var(--secondary);
         border-radius: var(--border-radius) !important;
 
@@ -1559,7 +1522,7 @@ variable-intellisense {
     }
 
     table.privatemsg-list {
-        border-top: var(--border-size) solid var(--contrast-border) !important;
+        border-top: var(--modern-border) !important;
 
         td.no-messages {
             color: var(--muted-text) !important;
@@ -1622,7 +1585,7 @@ variable-intellisense {
     #sUserAutocomplete-recipient-helper {
         background-color: var(--secondary) !important;
         color: var(--muted-text) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
     }
 
@@ -1632,7 +1595,7 @@ variable-intellisense {
 
     .message-title,
     .message-view-row {
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
     }
 
     // Discussion Board
@@ -1672,7 +1635,7 @@ variable-intellisense {
 
     .assignment-details,
     .extra-details {
-        border-bottom: var(--border-size) solid var(--contrast-border) !important;
+        border-bottom: var(--modern-border) !important;
     }
 
     .discussion-view .sticky-wrapper {
@@ -1722,7 +1685,7 @@ variable-intellisense {
     }
 
     .discussion-view .discussion-content {
-        border-top: var(--border-size) solid var(--contrast-border) !important;
+        border-top: var(--modern-border) !important;
     }
 
     .bar-right-wrapper,
@@ -1763,7 +1726,7 @@ variable-intellisense {
         th,
         td {
             color: var(--muted-text) !important;
-            border-bottom: var(--border-size) solid var(--contrast-border) !important;
+            border-bottom: var(--modern-border) !important;
         }
     }
 
@@ -1772,7 +1735,7 @@ variable-intellisense {
         td,
         th {
             color: var(--muted-text) !important;
-            border-bottom: var(--border-size) solid var(--contrast-border) !important;
+            border-bottom: var(--modern-border) !important;
         }
     }
 
@@ -1806,12 +1769,12 @@ variable-intellisense {
 
         .portfolio-list__add-new-bg,
         .portfolio-view__add-new-bg {
-            border-bottom: var(--border-size) solid var(--contrast-border) !important;
+            border-bottom: var(--modern-border) !important;
         }
     }
 
     .portfolio-route-content {
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
         background: var(--secondary) !important;
     }
@@ -1870,7 +1833,7 @@ variable-intellisense {
     }
 
     #content-left .s-enrollment-realm-actions {
-        border-top: var(--border-size) solid var(--contrast-border) !important;
+        border-top: var(--modern-border) !important;
     }
 
     // Unsure if this is used on other pages too, but it should fix there too if present
@@ -1901,7 +1864,7 @@ variable-intellisense {
             border: var(--border-size) solid transparent !important;
 
             &:hover {
-                border: var(--border-size) solid var(--contrast-border) !important;
+                border: var(--modern-border) !important;
 
                 .sgy-card-lens::after {
                     display: none !important;
@@ -1999,7 +1962,7 @@ variable-intellisense {
         }
 
         label {
-            border-bottom: var(--border-size) solid var(--contrast-border) !important;
+            border-bottom: var(--modern-border) !important;
         }
     }
 
@@ -2011,7 +1974,7 @@ variable-intellisense {
 
     .ui-selectmenu-menu {
         background: var(--secondary) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
 
         li {
@@ -2080,11 +2043,11 @@ variable-intellisense {
 
     table.fc-border-separate {
         td {
-            border: var(--border-size) solid var(--contrast-border) !important;
+            border: var(--modern-border) !important;
         }
 
         .fc-widget-header {
-            border-bottom: var(--border-size) solid var(--contrast-border) !important;
+            border-bottom: var(--modern-border) !important;
         }
     }
 
@@ -2187,7 +2150,7 @@ variable-intellisense {
 
     .grading-info {
         background: var(--secondary) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
     }
 
@@ -2379,7 +2342,7 @@ variable-intellisense {
                 .panel-content {
                     border: var(--border-size) solid var(--input) !important;
                     background-color: var(--primary) !important;
-                    border: var(--border-size) solid var(--contrast-border) !important;
+                    border: var(--modern-border) !important;
                     background-color: var(--primary) !important;
                 }
 
@@ -2402,7 +2365,7 @@ variable-intellisense {
                 .lrn_widget.lrn_feature>button.lrn_active,
                 .lrn_btn.lrn_btn_blue.lrn_active {
                     border: var(--border-size) solid var(--text) !important;
-                    border: var(--border-size) solid var(--contrast-border) !important;
+                    border: var(--modern-border) !important;
                     background: var(--input) !important;
                     box-shadow: none;
                 }
@@ -2499,7 +2462,7 @@ variable-intellisense {
     .lrn.lrn-assess .app-panel.review-screen .item-card {
         border: none !important;
         color: var(--contrast-text) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
     }
 
     .lrn-region.lrn-right-region {
@@ -2697,14 +2660,14 @@ variable-intellisense {
 
     .lrn_response_input_wrapper {
         border-radius: var(--border-radius) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         border: none !important;
     }
 
     .lrn_widget {
         &.lrn_texteditor {
             border-radius: var(--border-radius) !important;
-            border: var(--border-size) solid var(--contrast-border) !important;
+            border: var(--modern-border) !important;
             border: none !important;
         }
 
@@ -2917,7 +2880,7 @@ variable-intellisense {
     .content-box-container-3232021855 {
         background-color: var(--accent) !important;
         border-radius: var(--border-radius) !important;
-        border: var(--border-size) solid var(--contrast-border) !important;
+        border: var(--modern-border) !important;
         font-family: muli !important;
     }
 

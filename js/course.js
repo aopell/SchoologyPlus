@@ -69,15 +69,16 @@ function setCourseOptionsContent(modal, options) {
     for (let e of document.querySelectorAll(".grade-symbol-row")) {
         e.parentElement.removeChild(e);
     }
-    gradingScale = (Setting.getValue("gradingScales") || {})[courseIdNumber] || gradingScale;
-
+    gradingScale = Setting.getNestedValue("gradingScales", courseIdNumber, gradingScale);
+    
     for (let p of Object.keys(gradingScale).sort((a, b) => a - b).reverse()) {
         createRow(p, gradingScale[p]);
     }
 
     let aliasInput = document.getElementById("setting-input-course-alias");
-    if (Setting.getValue("courseAliases") && Setting.getValue("courseAliases")[courseIdNumber]) {
-        aliasInput.value = Setting.getValue("courseAliases")[courseIdNumber];
+    let alias = Setting.getNestedValue("courseAliases", courseIdNumber);
+    if (alias) {
+        aliasInput.value = alias;
     } else {
         aliasInput.value = "";
     }
@@ -126,7 +127,7 @@ function createRow(percentage, symbol) {
 }
 
 function saveCourseSettings() {
-    let currentValue = Setting.getValue("gradingScales") || {};
+    let currentValue = Setting.getValue("gradingScales", {});
     let scale = {};
     for (let r of document.querySelectorAll(".grade-symbol-row")) {
         let inputBoxes = r.querySelectorAll("input");
@@ -142,14 +143,14 @@ function saveCourseSettings() {
     }
     currentValue[courseIdNumber] = scale;
 
-    let currentAliasesValue = Setting.getValue("courseAliases") || {};
+    let currentAliasesValue = Setting.getValue("courseAliases", {});
     let newAliasValue = document.getElementById("setting-input-course-alias").value;
     if(newAliasValue !== currentAliasesValue[courseIdNumber]) {
         trackEvent("courseAliases", "set value", "Course Settings");
     }
     currentAliasesValue[courseIdNumber] = newAliasValue;
 
-    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons") || {};
+    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons", {});
     let iconOverrideSelect = document.getElementById("force-default-icon-splus-courseopt-select");
     let overrideValue = iconOverrideSelect.options[iconOverrideSelect.selectedIndex].value;
     if(overrideValue !== courseIconOverride[courseIdNumber]) {
@@ -168,13 +169,13 @@ function saveCourseSettings() {
 
 function restoreCourseDefaults() {
     trackEvent("restore-course-defaults", "restore default values", "Course Settings");
-    let currentValue = Setting.getValue("gradingScales") || {};
+    let currentValue = Setting.getValue("gradingScales", {});
     currentValue[courseIdNumber] = defaultGradingScale;
 
-    let currentAliasesValue = Setting.getValue("courseAliases") || {};
+    let currentAliasesValue = Setting.getValue("courseAliases", {});
     currentAliasesValue[courseIdNumber] = null;
 
-    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons") || {};
+    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons", {});
     courseIconOverride[courseIdNumber] = null;
 
     if (confirm(`Are you sure you want to reset all options for the course "${courseSettingsCourseName}" to their default values? This action is irreversible.`)) {

@@ -1026,15 +1026,31 @@ Setting.anyModified = function () {
  * and the cached storage has no value for that setting, the
  * default value of that setting will be returned instead
  * @param {string} name The name of the setting to retrieve
- * @returns {any} The setting's cached value, default value, or `undefined`
+ * @param {any} defaultValue The default value to return if no value is found
+ * @returns {any} The setting's cached value, default value, or `defaultValue`
  */
-Setting.getValue = function (name) {
+Setting.getValue = function (name, defaultValue = undefined) {
     if (__storage[name]) {
         return __storage[name];
     } else if (__settings[name]) {
         return __settings[name].default;
     }
-    return undefined;
+    return defaultValue;
+}
+
+/**
+ * Gets the value of a nested property in the cached copy of the
+ * extension's synced storage.
+ * @param {string} parent The name of the object in which to search for `key`
+ * @param {string} key The key within `parent` containing the value
+ * @param {any} defaultValue The default value to return if no value is found
+ * @returns {any} The setting's cached value, default value, or `defaultValue`
+ */
+Setting.getNestedValue = function (parent, key, defaultValue = undefined) {
+    if (__storage[parent] && key in __storage[parent]) {
+        return __storage[parent][key];
+    }
+    return defaultValue;
 }
 
 /**
@@ -1051,6 +1067,19 @@ Setting.setValue = function (name, value, callback = undefined) {
     if (name === "defaultDomain") {
         chrome.runtime.sendMessage({ type: "updateDefaultDomain", domain: value });
     }
+}
+
+/**
+ * Sets the value of a nested property in the extension's synced storage.
+ * @param {string} parent The name of the object in which to place `key`
+ * @param {string} key The key within `parent` in which to store the value
+ * @param {any} value The value to set
+ * @param {()=>any} callback Function called after new value is saved
+ */
+Setting.setNestedValue = function (parent, key, value, callback = undefined) {
+    var currentValue = Setting.getValue(parent, {});
+    currentValue[key] = value;
+    Setting.saveModified({ [parent]: currentValue }, false, callback, false);
 }
 
 /**

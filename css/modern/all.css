@@ -37,71 +37,8 @@ variable-intellisense {
   --cal20: #461b2d;
 }
 
-[modern=true][test=true]:root {
-  --primary: black;
-  --accent: black;
-  --secondary: black;
-  --text: black;
-  --contrast-text: black;
-  --muted-text: black;
-  --contrast-border: black;
-  --input: black;
-  --error: black;
-  --highlight: black;
-  --active: black;
-  --grades: black;
-  --border-radius: 5px;
-  --border-size: 1px;
-  --padding: 10px;
-  --link-color: black !important;
-  --cal5: #000;
-  --cal6: #000;
-  --cal7: #000;
-  --cal8: #000;
-  --cal9: #000;
-  --cal10: #000;
-  --cal11: #000;
-  --cal12: #000;
-  --cal13: #000;
-  --cal14: #000;
-  --cal15: #000;
-  --cal16: #000;
-  --cal17: #000;
-  --cal18: #000;
-  --cal19: #000;
-  --cal20: #000;
-}
-
-[modern=true][test=true][test-mode=crazy]:root {
-  --primary: magenta;
-  --accent: purple;
-  --secondary: maroon;
-  --text: yellow;
-  --contrast-text: mediumspringgreen;
-  --muted-text: orange;
-  --contrast-border: gold;
-  --input: blue;
-  --error: red;
-  --highlight: rgba(0, 255, 0, 0.3);
-  --active: rgba(0, 0, 255, 0.3);
-  --grades: aqua;
-  --link-color: lime !important;
-  --cal5: red;
-  --cal6: green;
-  --cal7: blue;
-  --cal8: orange;
-  --cal9: yellow;
-  --cal10: lightblue;
-  --cal11: lime;
-  --cal12: powderblue;
-  --cal13: purple;
-  --cal14: magenta;
-  --cal15: darkred;
-  --cal16: maroon;
-  --cal17: brown;
-  --cal18: pink;
-  --cal19: aliceblue;
-  --cal20: antiquewhite;
+[modern=true]:root {
+  --modern-border: var(--border-size) solid var(--contrast-border);
 }
 
 [modern=true]:root h1,
@@ -255,7 +192,7 @@ variable-intellisense {
 [modern=true]:root .inline-popup-wrapper {
   background-color: var(--secondary) !important;
   color: var(--text) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
 }
 
@@ -402,7 +339,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .likers li:not(.last) {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root fieldset div div div label span {
@@ -480,7 +417,7 @@ variable-intellisense {
 [modern=true]:root .splus-courses-navbar-button article a:hover,
 [modern=true]:root .splus-groups-navbar-button article a:hover,
 [modern=true]:root .JoinCard-card-1qWtS:hover {
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
 }
 
@@ -514,6 +451,41 @@ variable-intellisense {
   color: var(--muted-text) !important;
 }
 
+[modern=true]:root #darktheme-toggle-navbar-button[data-popup=true] {
+  position: relative;
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root #darktheme-toggle-navbar-button[data-popup=true] .explanation-popup {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: var(--padding);
+  background-color: var(--secondary);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+  color: var(--text);
+  line-height: normal !important;
+  text-transform: none !important;
+  text-align: left !important;
+  width: 250px;
+  pointer-events: none;
+}
+
+[modern=true]:root #darktheme-toggle-navbar-button[data-popup=true] .explanation-popup h3 {
+  float: right;
+  padding: 5px 20px 5px;
+  margin-top: 5px;
+  border-radius: var(--border-radius);
+  background-color: var(--accent);
+  pointer-events: all;
+}
+
+[modern=true]:root #darktheme-toggle-navbar-button[data-popup=true] .explanation-popup h3:hover {
+  background-color: var(--active);
+}
+
 [modern=true]:root header div.Je0RK button._1SIMq {
   background-color: var(--secondary) !important;
   color: var(--text) !important;
@@ -523,7 +495,7 @@ variable-intellisense {
 [modern=true]:root ._1DD87,
 [modern=true]:root ._3gfrT:focus:not(:active),
 [modern=true]:root .oUq3j:hover:not(:active) {
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
 }
 
 [modern=true]:root .JoinCard-card-1qWtS ._1Z0RM {
@@ -783,7 +755,7 @@ variable-intellisense {
   background: none !important;
   background-color: var(--secondary) !important;
   color: var(--text) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
 }
 
@@ -826,17 +798,17 @@ variable-intellisense {
 
 [modern=true]:root .theme-2016 .date-header h4,
 [modern=true]:root #home-feed-container #smart-box {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .view-file-popup,
 [modern=true]:root .view-btn-disabled,
 [modern=true]:root .edit-external-tool-attachment {
-  border-left: var(--border-size) solid var(--contrast-border) !important;
+  border-left: var(--modern-border) !important;
 }
 
 [modern=true]:root .sgy-tabbed-navigation {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .sgy-tabbed-navigation li.active {
@@ -913,7 +885,7 @@ variable-intellisense {
 [modern=true]:root .gradebook-course.hierarchical-grading-report .period-row .td-content-wrapper,
 [modern=true]:root .gradebook-course.hierarchical-grading-report .final-row .td-content-wrapper,
 [modern=true]:root .gradebook-course.hierarchical-grading-report .td-content-wrapper {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root .item-row.added-fake-assignment {
@@ -995,12 +967,12 @@ variable-intellisense {
 
 [modern=true]:root .gradebook-course,
 [modern=true]:root .attendance-course {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root .attendance-course-attendance table th,
 [modern=true]:root .attendance-course-attendance table td {
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
 }
 
 [modern=true]:root #s-js-student-mastery-report-view-content {
@@ -1008,7 +980,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .s-js-chart-and-pager-area .empty {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root .highcharts-container > svg > rect {
@@ -1091,11 +1063,11 @@ variable-intellisense {
 
 [modern=true]:root .listing .course-item.list-item,
 [modern=true]:root .courses-listing.mycourses h3 {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root #main .courses-listing.listing {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root .sgy-course-search-form__submit-row {
@@ -1135,7 +1107,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .roster-top {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root body .enrollment-filters span.active,
@@ -1189,28 +1161,28 @@ variable-intellisense {
 }
 
 [modern=true]:root body.library-view #library-main {
-  border-left: var(--border-size) solid var(--contrast-border) !important;
+  border-left: var(--modern-border) !important;
 }
 
 [modern=true]:root #collection-toolbar {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root #collection-view-contents {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root #collection-view-contents th,
 [modern=true]:root #collection-view-contents td {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root #library-left .collections-list-wrapper {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root body.library-view #library-left {
-  border-right: var(--border-size) solid var(--contrast-border) !important;
+  border-right: var(--modern-border) !important;
 }
 
 [modern=true]:root #collection-toolbar .action-links-unfold {
@@ -1262,7 +1234,7 @@ variable-intellisense {
 
 [modern=true]:root #sidebar-left #left-nav #menu-s-main ul li a.active {
   background-color: var(--accent) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-right: none !important;
   border-top-left-radius: var(--border-radius) !important;
   border-bottom-left-radius: var(--border-radius) !important;
@@ -1270,7 +1242,7 @@ variable-intellisense {
 
 [modern=true]:root .app-link-wrapper .active {
   background-color: var(--accent) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-right: none !important;
   border-top-left-radius: var(--border-radius) !important;
   border-bottom-left-radius: var(--border-radius) !important;
@@ -1278,7 +1250,7 @@ variable-intellisense {
 
 [modern=true]:root .app-link-wrapper .active:hover {
   background-color: var(--accent) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-right: none !important;
   border-top-left-radius: var(--border-radius) !important;
   border-bottom-left-radius: var(--border-radius) !important;
@@ -1286,7 +1258,7 @@ variable-intellisense {
 
 [modern=true]:root #sidebar-left #menu-s-main .active-trail .active-trail a.course-materials-left-menu {
   background-color: var(--accent) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-right: none !important;
   border-top-left-radius: var(--border-radius) !important;
   border-bottom-left-radius: var(--border-radius) !important;
@@ -1312,7 +1284,7 @@ variable-intellisense {
 [modern=true]:root .comment.no-comments,
 [modern=true]:root .materials-filter-wrapper {
   background-color: var(--secondary) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
   color: var(--text) !important;
 }
@@ -1359,11 +1331,11 @@ variable-intellisense {
 [modern=true]:root #right-column h3,
 [modern=true]:root .left-block-wrapper h3 {
   border: none !important;
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .s-edge-feed > li {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root .s-edge-feed .edge-item li {
@@ -1375,7 +1347,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .s-like-sentence:not(:last-child) {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .pre-fill,
@@ -1386,7 +1358,7 @@ variable-intellisense {
 }
 
 [modern=true]:root #edit-course-switcher-select-nid-menu {
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   background-color: var(--secondary);
   border-radius: var(--border-radius) !important;
 }
@@ -1436,7 +1408,7 @@ variable-intellisense {
 }
 
 [modern=true]:root table.privatemsg-list {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root table.privatemsg-list td.no-messages {
@@ -1496,7 +1468,7 @@ variable-intellisense {
 [modern=true]:root #sUserAutocomplete-recipient-helper {
   background-color: var(--secondary) !important;
   color: var(--muted-text) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
 }
 
@@ -1506,7 +1478,7 @@ variable-intellisense {
 
 [modern=true]:root .message-title,
 [modern=true]:root .message-view-row {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .discussion-view .sticky-wrapper h2.page-title {
@@ -1542,7 +1514,7 @@ variable-intellisense {
 
 [modern=true]:root .assignment-details,
 [modern=true]:root .extra-details {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .discussion-view .sticky-wrapper .s-comments-post-form,
@@ -1584,7 +1556,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .discussion-view .discussion-content {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root .bar-right-wrapper,
@@ -1621,13 +1593,13 @@ variable-intellisense {
 [modern=true]:root .info-tab th,
 [modern=true]:root .info-tab td {
   color: var(--muted-text) !important;
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .enrollment-view-wrapper td,
 [modern=true]:root .enrollment-view-wrapper th {
   color: var(--muted-text) !important;
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .info-tab .profile-header {
@@ -1659,11 +1631,11 @@ variable-intellisense {
 
 [modern=true]:root .tw-bs .portfolio-list__add-new-bg,
 [modern=true]:root .tw-bs .portfolio-view__add-new-bg {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .portfolio-route-content {
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
   background: var(--secondary) !important;
 }
@@ -1715,7 +1687,7 @@ variable-intellisense {
 }
 
 [modern=true]:root #content-left .s-enrollment-realm-actions {
-  border-top: var(--border-size) solid var(--contrast-border) !important;
+  border-top: var(--modern-border) !important;
 }
 
 [modern=true]:root #edit-body_fontsizeselect_text {
@@ -1742,7 +1714,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .course-dashboard .sgy-card:hover {
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
 }
 
 [modern=true]:root .course-dashboard .sgy-card:hover .sgy-card-lens::after {
@@ -1819,7 +1791,7 @@ variable-intellisense {
 }
 
 [modern=true]:root #s-user-custom-notifications-form label {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .ui-selectmenu {
@@ -1830,7 +1802,7 @@ variable-intellisense {
 
 [modern=true]:root .ui-selectmenu-menu {
   background: var(--secondary) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
 }
 
@@ -1892,11 +1864,11 @@ variable-intellisense {
 }
 
 [modern=true]:root table.fc-border-separate td {
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
 }
 
 [modern=true]:root table.fc-border-separate .fc-widget-header {
-  border-bottom: var(--border-size) solid var(--contrast-border) !important;
+  border-bottom: var(--modern-border) !important;
 }
 
 [modern=true]:root .fc-agenda-slots td,
@@ -1990,7 +1962,7 @@ variable-intellisense {
 
 [modern=true]:root .grading-info {
   background: var(--secondary) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
 }
 
@@ -2144,7 +2116,7 @@ variable-intellisense {
 [modern=true]:root .lrn.lrn-assess .app-panel.review-screen .panel-content {
   border: var(--border-size) solid var(--input) !important;
   background-color: var(--primary) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   background-color: var(--primary) !important;
 }
 
@@ -2164,7 +2136,7 @@ variable-intellisense {
 [modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button.lrn_active,
 [modern=true]:root .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
   border: var(--border-size) solid var(--text) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   background: var(--input) !important;
   box-shadow: none;
 }
@@ -2232,7 +2204,7 @@ variable-intellisense {
 [modern=true]:root .lrn.lrn-assess .app-panel.review-screen .item-card {
   border: none !important;
   color: var(--contrast-text) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
 }
 
 [modern=true]:root .lrn-region.lrn-right-region {
@@ -2394,13 +2366,13 @@ variable-intellisense {
 
 [modern=true]:root .lrn_response_input_wrapper {
   border-radius: var(--border-radius) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border: none !important;
 }
 
 [modern=true]:root .lrn_widget.lrn_texteditor {
   border-radius: var(--border-radius) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border: none !important;
 }
 
@@ -2581,7 +2553,7 @@ variable-intellisense {
 [modern=true]:root .content-box-container-3232021855 {
   background-color: var(--accent) !important;
   border-radius: var(--border-radius) !important;
-  border: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   font-family: muli !important;
 }
 

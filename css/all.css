@@ -817,6 +817,10 @@ a._3_bfp {
     fill: transparent;
 }
 
+#darktheme-toggle-navbar-button .explanation-popup {
+    display: none;
+}
+
 #darktheme-toggle-navbar-button svg {
     width: 27px;
     height: 33px;
