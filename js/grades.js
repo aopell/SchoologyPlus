@@ -1008,6 +1008,8 @@ var fetchQueue = [];
             // do this while the other operation is happening so we don't block the page load
             // don't block on it
 
+            Logger.debug(assignment);
+
             let maxGrade = document.createElement("span");
             maxGrade.classList.add("max-grade");
             maxGrade.classList.add("no-grade");
