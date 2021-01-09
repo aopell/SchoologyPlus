@@ -41,43 +41,6 @@
             createElement("input", [], { type: "checkbox", checked: checked, onchange: onchange })
         ]);
     }
-
-    // Dark Theme Beta
-    if (betaCode == "darktheme") {
-        let newThemeSheet = createElement("link", [], { rel: "stylesheet", href: chrome.runtime.getURL("/css/modern.css") });
-        document.head.append(newThemeSheet);
-        document.documentElement.setAttribute("test-mode", "crazy");
-
-        var darkThemeTheme = Theme.loadFromObject({
-            "color":
-            {
-                "custom":
-                {
-                    "background": "#36393f",
-                    "border": "#40444b",
-                    "hover": "#6fa8dc",
-                    "primary": "#202225"
-                }
-            }, "logo":
-            {
-                "preset": "schoology_plus"
-            },
-            "name": "Dark Theme Test",
-            "version": 2
-        });
-
-        Theme.apply(darkThemeTheme);
-
-        betaSection.append(
-            createBetaToggleCheckbox("Enable new theme engine", event => newThemeSheet.disabled = !event.target.checked, true),
-            createBetaToggleCheckbox("Enable dark theme", event => {
-                document.documentElement.setAttribute("dark", event.target.checked);
-                Theme.apply(event.target.checked ? darkThemeTheme : Theme.byName(Setting.getValue("theme")));
-            }, true),
-            createBetaToggleCheckbox("Enable color test", event => document.documentElement.setAttribute("test", event.target.checked)),
-            createBetaToggleCheckbox("Crazy mode", event => document.documentElement.setAttribute("test-mode", event.target.checked ? "crazy" : "standard"), true, 2)
-        );
-    }
 }
 
 // Check Schoology domain
@@ -134,8 +97,8 @@ bottom.appendChild(createElement("span", ["footer-divider"], { textContent: "|" 
 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
-let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2020 | <a id="open-webstore" class="splus-track-clicks" href="https://schoologypl.us">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://discord.schoologypl.us" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://schoologypl.us/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
-let modalFooterText = "Schoology Plus &copy; Aaron Opell, Glen Husman 2017-2020";
+let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2021 | <a id="open-webstore" class="splus-track-clicks" href="https://schoologypl.us">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://discord.schoologypl.us" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://schoologypl.us/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
+let modalFooterText = "Schoology Plus &copy; Aaron Opell, Glen Husman 2017-2021";
 
 let frame = document.createElement("iframe");
 frame.src = `https://schoologypl.us/changelog?version=${chrome.runtime.getManifest().version}`;
@@ -348,6 +311,59 @@ let modals = [
         ]),
         modalFooterText
     ),
+    new Modal(
+        "choose-theme-modal",
+        "Schoology Plus Themes",
+        createElement("div", ["splus-modal-contents"], {}, [
+            createElement("h2", ["setting-entry"], { textContent: "Choose a New Theme!" }),
+            createElement("p", ["setting-description"], { textContent: "Schoology Plus has a bunch of new themes! Choose one from below, make your own, or keep your current theme. It's your choice! Click on each theme for a preview and then click the button to confirm your choice. You can change your theme at any time in Schoology Plus Settings.", style: { fontSize: "14px", paddingBottom: "10px" } }),
+            createElement("div", ["splus-button-tile-container"], {}, [
+                { text: "Modern Dark Theme", theme: "Schoology Plus Modern Dark", new: true },
+                { text: "Modern Light Theme", theme: "Schoology Plus Modern Light", new: true },
+                { text: "Modern Rainbow Theme", theme: "Rainbow Modern", new: true },
+                { text: "Schoology Plus Classic Theme", theme: "Schoology Plus" },
+                { text: `Keep Current Theme: ${Theme.active.name}`, theme: Theme.active.name, active: true },
+                { text: "See More Themes or Make Your Own", theme: Theme.active.name },
+            ].map(
+                obj => {
+                    return createElement("div", [...["splus-button-tile", "select-theme-tile"], ...(obj.active ? ["active"] : [])],
+                        {
+                            dataset: { new: obj.new },
+                            onclick: e => {
+                                for (let child of e.target.parentElement.children) {
+                                    child.classList.remove("active");
+                                }
+                                e.target.classList.add("active");
+
+                                trackEvent("select-theme-tile", obj.text, "S+ Button Tile");
+
+                                tempTheme = obj.theme;
+                                Theme.apply(Theme.byName(obj.theme));
+
+                                document.getElementById("theme-popup-select-button").value = `Select ${obj.text}`;
+                            }
+                        },
+                        [
+                            createElement("span", ["splus-button-tile-content"], { textContent: obj.text })
+                        ]
+                    )
+                }
+            )),
+            (() => {
+                let btn = createButton("theme-popup-select-button", `Select Keep Current Theme: ${Theme.active.name}`, e => {
+                    modalClose(document.getElementById("choose-theme-modal"));
+                    Setting.setValue("theme", tempTheme);
+                    if (document.getElementById("choose-theme-modal").querySelector(".splus-button-tile-container .splus-button-tile:last-child").classList.contains("active")) {
+                        location.href = chrome.runtime.getURL("/theme-editor.html");
+                    }
+                });
+                btn.style.float = "right";
+                btn.style.margin = "20px 20px 0";
+                return btn;
+            })()
+        ]),
+        modalFooterText
+    )
 ];
 
 (() => {
@@ -447,9 +463,45 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
     createElement(
         "button",
         ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
-        { onclick: () => openModal("settings-modal") },
+        {
+            id: "splus-settings-navbar-button",
+            title: "Schoology Plus Settings\n\nChange settings relating to Schoology Plus.",
+            onclick: () => openModal("settings-modal")
+        },
         [
             createSvgLogo("_3ESp2", "dlCBz", "_1I3mg", "fjQuT", "uQOmx")
+        ]
+    ),
+    createElement(
+        "button",
+        ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed", "splus-track-clicks"],
+        {
+            id: "darktheme-toggle-navbar-button",
+            title: "Toggle Theme\n\nUse this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
+            onclick: e => document.documentElement.setAttribute("modern", document.documentElement.getAttribute("modern") == "false" ? "true" : "false"),
+            dataset: { popup: Setting.getNestedValue("popup", "modernThemeToggle", true) }
+        },
+        [
+            createElement("div", ["explanation-popup"], {}, [
+                createElement("span", [], { title: "", textContent: "Use this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly." }),
+                createElement("h3", [], {
+                    textContent: "OK",
+                    onclick: e => {
+                        e.stopPropagation();
+                        Setting.setNestedValue("popup", "modernThemeToggle", false);
+                        document.getElementById("darktheme-toggle-navbar-button").dataset.popup = false;
+                    }
+                })
+            ]),
+            (function () {
+                let paintSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                paintSvg.setAttribute("viewBox", "-12 -20 500 500");
+                paintSvg.setAttribute("class", "_3ESp2 dlCBz _1I3mg fjQuT uQOmx");
+
+                paintSvg.innerHTML = '<path d="m242 197v90c0 8.284 6.716 15 15 15h180c8.284 0 15-6.716 15-15v-90c0-8.284-6.716-15-15-15h-180c-8.284 0-15 6.716-15 15z"/><path d="m377 422h-60c-8.284 0-15 6.716-15 15v60c0 8.284 6.716 15 15 15h60c8.284 0 15-6.716 15-15v-60c0-8.284-6.716-15-15-15z"/><path d="m307.667 15c0-8.284-6.716-15-15-15h-45v60h60z"/><path d="m217.667 0h-202.667c-8.284 0-15 6.716-15 15v45h217.667z"/><path d="m307.667 347v-15h-50.667c-24.813 0-45-20.186-45-45v-90c0-24.814 20.187-45 45-45h50.667v-62h-307.667v257c0 8.284 6.716 15 15 15h277.667c8.284 0 15-6.716 15-15zm-155.698-46h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15z"/><path d="m482 229.58v87.42c0 8.272-6.728 15-15 15h-90c-24.814 0-45 20.186-45 45v15h30v-15c0-8.272 6.728-15 15-15h90c24.814 0 45-20.186 45-45v-45c0-19.555-12.541-36.227-30-42.42z"/>';
+
+                return paintSvg;
+            })()
         ]
     )
 ]));
@@ -1025,7 +1077,7 @@ function indicateSubmittedAssignments() {
             let revisions = revisionData.revision;
 
             return !!(revisions && revisions.length && !revisions[revisions.length - 1].draft);
-        } catch(err) {
+        } catch (err) {
             Logger.warn(`Couldn't determine if assignment ${assignmentId} was complete. This is likely not a normal assignment.`);
             return false;
         }
@@ -1044,7 +1096,7 @@ function indicateSubmittedAssignments() {
 
         if (!overrides && !isComplete) return;
         else if (!overrides) overrides = {};
-        
+
         if (!isComplete) {
             delete overrides[assignmentId];
         } else {
@@ -1057,14 +1109,14 @@ function indicateSubmittedAssignments() {
     function createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId) {
         let elem = document.createElement("button");
         elem.classList.add("splus-completed-check-indicator");
-        elem.addEventListener("click", function() {
+        elem.addEventListener("click", function () {
             // if we're "faux-complete" and clicked, unmark the forced state
             if (eventElement.classList.contains(assignCompleteClass) && isAssignmentMarkedComplete(assignmentId)) {
                 eventElement.classList.remove(assignCompleteClass);
                 setAssignmentCompleteOverride(assignmentId, false);
                 // TODO handle async nicely
                 processAssignmentUpcomingAsync(eventElement);
-            // if we're incomplete and click, force the completed state
+                // if we're incomplete and click, force the completed state
             } else if (eventElement.classList.contains(assignIncompleteClass)) {
                 eventElement.classList.remove(assignIncompleteClass);
                 setAssignmentCompleteOverride(assignmentId, true);
@@ -1098,7 +1150,7 @@ function indicateSubmittedAssignments() {
             eventElement.classList.add(assignIncompleteClass);
             Logger.log(`Assignment ${assignmentId} is not submitted`);
         }
-        
+
         if (!eventElement.querySelector(".splus-completed-check-indicator")) {
             infotipElement.insertAdjacentElement("afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
         }

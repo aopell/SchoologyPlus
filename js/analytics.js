@@ -45,6 +45,7 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         ga('set', 'dimension1', chrome.runtime.getManifest().version);
         ga('set', 'dimension2', location.host);
         ga('set', 'dimension3', selectedTheme);
+        ga('set', 'dimension4', document.documentElement.getAttribute("modern"));
         ga('send', 'pageview', location.pathname.replace(/\/\d{3,}\b/g, "/*") + location.search);
 
         trackEvent = function (target, action, label = undefined, value = undefined) {
@@ -53,6 +54,7 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         };
 
         function trackClick(event) {
+            if(!event.isTrusted) return;
             let target = event.currentTarget || event.target;
             trackEvent(target.dataset.splusTrackingTarget || target.id || "Unlabeled Button", "click", target.dataset.splusTrackingLabel || "Tracking Link", target.dataset.splusTrackingValue || event.button);
         }

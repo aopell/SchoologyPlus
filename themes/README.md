@@ -25,7 +25,8 @@ A Schoology Plus theme has the following format and components (each component w
             "primary": "red",
             "hover": "rgb(0,0,255)",
             "background": "hsl(150,50%,50%)",
-            "border": "#000000"
+            "border": "#000000",
+            "link": "magenta"
         },
         "rainbow": {
             "hue": {
@@ -64,7 +65,6 @@ A Schoology Plus theme has the following format and components (each component w
                 "primary": "",
                 "muted": "",
                 "contrast": "",
-                "link": ""
             },
             "options": {
                 "borderRadius": 5,

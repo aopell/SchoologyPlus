@@ -37,12 +37,17 @@
 
 /* Drop down menus (grades, applications, and user menu) */
 
+.Header-header-drop-menu-3SaYV,
 .Header-header-drop-menu-3SaYV {
     background-color: var(--hover-color) !important;
 }
 
 a.Header-header-drop-menu-3SaYV:hover,
 .Header-header-drop-menu-3SaYV li a:hover {
+    background-color: var(--background-color) !important;
+}
+
+._1k0yk:hover:not(:active), ._3hqpj, ._3JcU2:active, ._3VHSs:focus:not(:active) {
     background-color: var(--background-color) !important;
 }
 
@@ -783,4 +788,92 @@ a._3_bfp {
 
 .splus-mark-completed-hide .splus-assignment-complete {
     display: none !important;
+}
+
+#header.site-navigation {
+    background: transparent !important;
+}
+
+/* :root .darktheme-toggle-navbar-path {
+    fill: transparent;
+    stroke: white;
+} */
+
+:root[modern=false] #darktheme-toggle-navbar-button {
+    display: none;
+    padding: 0 14px;
+}
+
+:root[modern=true] #darktheme-toggle-navbar-button {
+    fill: currentColor;
+    stroke: none;
+    padding: 0 14px;
+}
+
+:root[modern=false][dark] #darktheme-toggle-navbar-button {
+    display: inline-block;
+    stroke:currentColor;
+    stroke-width: 20pt;
+    fill: transparent;
+}
+
+#darktheme-toggle-navbar-button .explanation-popup {
+    display: none;
+}
+
+#darktheme-toggle-navbar-button svg {
+    width: 27px;
+    height: 33px;
+}
+
+:root[modern=true] #darktheme-toggle-navbar-button svg {
+    width: 27px;
+    height: 30px;
+}
+
+.splus-button-tile-container {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-auto-rows: 100px;
+    gap: 20px 0;
+    justify-content: space-evenly;
+    margin: 10px 0;
+}
+
+.splus-button-tile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid currentColor;
+    border-radius: 5px;
+}
+
+.splus-button-tile.active {
+    border: 1px solid var(--primary-color);
+    background-color: #ddf3fb;
+}
+
+.splus-button-tile:hover {
+    border: 1px solid var(--primary-color);
+    cursor: pointer;
+}
+
+.splus-button-tile-content {
+    font-weight: bold;
+    text-align: center;
+    pointer-events: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.select-theme-tile[data-new=true] .splus-button-tile-content::before {
+    content: "NEW!";
+    margin-right: 5px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    background: var(--primary-color);
 }

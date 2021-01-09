@@ -2327,7 +2327,7 @@ img#loader {
 }
 
 .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_cover {
-    background: var(--secondary) url(../../images/calc-cover.png) no-repeat center center !important;
+    background-color: var(--secondary) !important;
 }
 
 .lrn_calc_column>.lrn_btn_grid {
@@ -2731,4 +2731,21 @@ img#loader {
 
 #ids .name-wrapper {
     background: transparent !important;
+}
+
+/* Standard Popup Window Background Fix */
+
+.s-slider.rubric-grades-edit .rating-wrapper.selected {
+    background-color: var(--active) !important;
+}
+
+
+/* Discussion Edit Icon Fix */
+
+.discussion-view .action-links-wrapper-junior .action-links-unfold, .discussion-view .action-links-wrapper-junior .action-links-unfold:hover, .discussion-view .action-links-wrapper-junior .active.action-links-unfold, .discussion-view .action-links-wrapper-junior .active.action-links-unfold:hover {
+    background-image: url(https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/sprite_discussion.png?5f9c91b5354f0ec1) !important; /* Makes Icon Visble */
+}
+
+.s-js-comment-action-links.sActionLinksVisible > .action-links-wrapper.action-links-wrapper-junior.aligned-right > .action-links-unfold { /* Changes Color When Hovered Over */
+    background-color: var(--accent) !important;
 }

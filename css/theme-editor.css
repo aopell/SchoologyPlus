@@ -17,6 +17,10 @@ body {
     font-size: 100% !important;
 }
 
+label {
+    color: #444444 !important;
+}
+
 @font-face {
     font-family: Muli;
     font-style: normal;
@@ -83,6 +87,7 @@ body {
 
 #preview {
     cursor: var(--cursor);
+    background: rgb(250, 249, 247);
 }
 
 #preview-navbar {
@@ -205,7 +210,7 @@ body {
     border-top: 5px solid var(--border-color);
     position: absolute;
     width: 100%;
-    height: 150px;
+    /* height: 150px; */
     background-color: white;
     top: 60px;
     left: 0;
@@ -216,10 +221,114 @@ body {
 
 #preview-courses-drop-down h1 {
     margin: 0;
+    margin-bottom: 10px;
     font-size: 24px;
     font-weight: 200;
     padding-top: 15px;
     padding-left: 15px;
+}
+
+.preview-course {
+    width: 25%;
+    height: 120px;
+    display: inline-block;
+    border: 1px solid gray;
+    margin: 10px;
+    cursor: pointer;
+    position: relative;
+    background-image: url(https://image.flaticon.com/icons/svg/164/164949.svg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 50px;
+}
+
+.preview-course:hover {
+    border: 1px solid cornflowerblue;
+}
+
+.preview-course div {
+    position: absolute;
+    bottom: 25px;
+    left: 5px;
+}
+
+.preview-course p {
+    margin: 0;
+    padding: 0;
+    height: 18px;
+}
+
+.preview-course-class {
+    font-weight: bold;
+    color: var(--link-color);
+}
+
+.preview-course-section {
+    font-weight: bold;
+}
+
+.preview-course-school {
+    color: gray;
+}
+
+#preview-page > div:first-child {
+    height: 450px;
+}
+
+#preview-page > div {
+    height: 180px;
+}
+
+#preview-page div.larger {
+    height: 260px;
+}
+
+#preview-page > div > div {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    margin: 10px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 15%);
+}
+
+#preview-page p {
+    margin-left: 10px;
+    padding-top: 10px;
+}
+
+#preview-dropdown-list {
+    position: relative;
+}
+
+#preview-dropdown-list div {
+    margin: 0 10px;
+    padding: 5px;
+    border: 1px solid black;
+    background: white;
+}
+
+#preview-dropdown-list ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    visibility: hidden;
+    margin: 0 0 0 10px;
+    border: 1px solid black;
+    background: white;
+}
+
+#preview-dropdown-list:focus-within ul {
+    visibility: visible;
+}
+
+#preview-dropdown-list li {
+    padding-left: 5px;
+}
+
+#preview-dropdown-list li:hover {
+    background-color: var(--primary-color);
+    color: white;
 }
 
 h2.center {
@@ -280,6 +389,10 @@ h2.center {
 .arrow-button:hover {
     background-color: transparent;
     color: var(--primary-color);
+}
+
+#theme-editor-section {
+    margin-bottom: 50px;
 }
 
 #preview-section .action-button {
@@ -543,6 +656,15 @@ input[type=button] {
     pointer-events: none;
 }
 
+.theme-item span.tooltipped {
+    max-width: calc(100% - 160px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .theme-item .material-icons {
     cursor: pointer;
 }
@@ -651,8 +773,12 @@ textarea#json-output[readonly] {
     background-color: lightcyan !important;
 }
 
-.setting-link {
-    color: var(--link-color);
+.setting-link h3.setting-title {
+    color: var(--link-color) !important;
+}
+
+a[href].link-color {
+    color: var(--link-color) !important
 }
 
 .show-lausd {
@@ -661,4 +787,8 @@ textarea#json-output[readonly] {
 
 .hide-lausd {
     display: var(--lausd-hidden);
+}
+
+#modern-wrapper .row .input-field.col.s12.m6 {
+    padding-top: 5px;
 }
