@@ -57,22 +57,12 @@
                 <div class="section row">
                     <h5 id="themes-header">
                         Themes
-                        <div id="new-theme-container" class="fixed-action-btn horizontal click-to-toggle">
-                            <a id="new-button" class="btn-floating btn-large tooltipped" data-tooltip="New Theme">
-                                <i class="large material-icons modern-error">add</i>
-                            </a>
-                            <ul>
-                                <li><a id="import-button" data-tooltip="Import Theme"
-                                        data-splus-tracking-label="Theme Editor"
-                                        class="btn-floating green waves-effect waves-light tooltipped splus-track-clicks"><i
-                                            class="material-icons">save_alt</i></a>
-                                </li>
-                                <li><a id="create-button" data-tooltip="Create Theme"
-                                        data-splus-tracking-label="Theme Editor"
-                                        class="btn-floating red waves-effect waves-light tooltipped splus-track-clicks"><i
-                                            class="material-icons">mode_edit</i></a></li>
-                            </ul>
-                        </div>
+                        <a id="create-button" data-splus-tracking-label="Theme Editor"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
+                                class="material-icons" style="vertical-align: sub;">add</i> Create</a>
+                        <a id="import-button" data-splus-tracking-label="Theme Editor"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
+                                class="material-icons" style="vertical-align: sub;">save_alt</i> Import</a>
                     </h5>
                     <div class="section">
                         <div id="themes-list" class="collection modern-primary modern-border modern-border-radius">
@@ -82,7 +72,12 @@
             </div>
             <div id="theme-editor-section" class="col s12 l4 hidden">
                 <div class="section row">
-                    <h5>Properties</h5>
+                    <h5>Properties
+                        <a id="in-editor-help" data-splus-tracking-label="Theme Editor"
+                            href="https://schoologypl.us/docs/themes" target="_blank"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
+                                class="material-icons" style="vertical-align: sub;">help</i> Help</a>
+                    </h5>
                     <div class="input-field col s12">
                         <input id="theme-name" type="text" class="validate splus-track-clicks"
                             data-splus-tracking-label="Theme Editor">

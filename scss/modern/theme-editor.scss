@@ -140,7 +140,9 @@ variable-intellisense {
     }
 
     #preview-section {
-        svg, svg * {
+
+        svg,
+        svg * {
             color: var(--modern-contrast-text) !important;
         }
 
@@ -150,7 +152,7 @@ variable-intellisense {
 
         .preview-course {
             border: var(--modern-border-size) solid transparent;
-            
+
             &:hover {
                 border: var(--modern-border-size) solid var(--modern-contrast-border);
             }
@@ -158,11 +160,11 @@ variable-intellisense {
             .preview-course-class {
                 color: var(--link-color) !important;
             }
-            
+
             .preview-course-section {
                 color: var(--modern-text) !important;
             }
-            
+
             .preview-course-school {
                 color: var(--modern-muted-text) !important;
             }
@@ -201,5 +203,15 @@ variable-intellisense {
 
     input[type=range] {
         border: var(--modern-border-size) solid var(--modern-contrast-border);
+    }
+
+    .action-button:hover {
+        transition: .3s ease-out !important;
+        color: var(--modern-contrast-text) !important;
+
+        i.material-icons {
+            transition: .3s ease-out !important;
+            color: var(--modern-contrast-text) !important;
+        }
     }
 }

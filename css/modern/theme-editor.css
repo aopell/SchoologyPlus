@@ -130,7 +130,8 @@ variable-intellisense {
   background-color: var(--modern-input);
 }
 
-[modern=true]:root #preview-section svg, [modern=true]:root #preview-section svg * {
+[modern=true]:root #preview-section svg,
+[modern=true]:root #preview-section svg * {
   color: var(--modern-contrast-text) !important;
 }
 
@@ -188,4 +189,14 @@ variable-intellisense {
 
 [modern=true]:root input[type=range] {
   border: var(--modern-border-size) solid var(--modern-contrast-border);
+}
+
+[modern=true]:root .action-button:hover {
+  transition: .3s ease-out !important;
+  color: var(--modern-contrast-text) !important;
+}
+
+[modern=true]:root .action-button:hover i.material-icons {
+  transition: .3s ease-out !important;
+  color: var(--modern-contrast-text) !important;
 }

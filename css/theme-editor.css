@@ -346,10 +346,7 @@ h2.center {
     background-color: var(--primary-color);
 }
 
-#create-button,
-#import-button,
-#new-icon,
-#new-button {
+#new-icon {
     background-color: var(--primary-color);
 }
 
@@ -366,6 +363,7 @@ h2.center {
 
 #discard-button:hover,
 #create-button:hover,
+#import-button:hover,
 #new-icon:hover,
 #new-button:hover,
 .delete-button {

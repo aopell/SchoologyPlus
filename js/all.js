@@ -353,6 +353,7 @@ let modals = [
             )),
             (() => {
                 let btn = createButton("theme-popup-select-button", `Select Keep Current Theme: ${Theme.active.name}`, e => {
+                    localStorage.setItem("splus-temp-theme-chosen", true);
                     modalClose(document.getElementById("choose-theme-modal"));
                     Setting.setValue("theme", tempTheme);
                     if (document.getElementById("choose-theme-modal").querySelector(".splus-button-tile-container .splus-button-tile:last-child").classList.contains("active")) {
@@ -557,6 +558,9 @@ function modalClose(element) {
     if (element.id === "settings-modal" && element.style.display !== "none" && Setting.anyModified()) {
         if (!confirm("You have unsaved settings.\nAre you sure you want to exit?")) return;
         updateSettings();
+    } else if (element.id === "choose-theme-modal" && element.style.display === "block" && !localStorage.getItem("splus-temp-theme-chosen")) {
+        alert("Please use the 'Select' button to confirm your choice.");
+        return;
     }
 
     element.style.display = "none";
