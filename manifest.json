@@ -34,8 +34,11 @@
         "alarms",
         "notifications",
         "cookies",
-        "webRequest",
-        "webRequestBlocking"
+        "contextMenus",
+        "activeTab"
+    ],
+    "optional_permissions": [
+        "<all_urls>"
     ],
     "web_accessible_resources": [
         "imgs/*",
@@ -49,6 +52,7 @@
             "js/analytics.js",
             "lib/js/analytics.js",
             "lib/js/purify.min.js",
+            "js/background-permissions.js",
             "js/background.js"
         ],
         "persistent": true
@@ -215,7 +219,7 @@
             "js": [
                 "js/page.js"
             ],
-            "run_at":"document_end"
+            "run_at": "document_end"
         },
         {
             "matches": [

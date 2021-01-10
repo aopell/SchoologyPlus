@@ -2616,6 +2616,11 @@ variable-intellisense {
   max-width: 24px !important;
 }
 
+[modern=true]:root .iziToast.iziToast-theme-dark .iziToast-message {
+  color: var(--contrast-text) !important;
+  opacity: 0.7;
+}
+
 [modern=true]:root #main .s_comments_level #s-comment-reply-form {
   background: var(--accent) !important;
 }

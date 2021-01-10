@@ -410,7 +410,7 @@ h1.setting-title {
 }
 
 .popups-body .no-answer-provided {
-    background: url('https://lms.lausd.net/sites/all/themes/schoology_theme/images/error_404.png') no-repeat 0 0;
+    background: url('https://app.schoology.com/sites/all/themes/schoology_theme/images/error_404.png') no-repeat 0 0;
     padding: 0 0 0 25px;
     font-weight: bold;
 }

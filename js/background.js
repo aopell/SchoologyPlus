@@ -34,10 +34,10 @@ var Logger = {
     debug: (() => console.debug.bind(window.console, `%c+`, createLogPrefix("lightgreen")))(),
 }
 
-var assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filter=all";
-var defaultDomain = "lms.lausd.net";
+var assignmentNotificationUrl = "https://app.schoology.com/home/notifications?filter=all";
+var defaultDomain = "app.schoology.com";
 
-chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
+chrome.storage.sync.get({ defaultDomain: "app.schoology.com" }, s => {
     defaultDomain = s.defaultDomain;
     assignmentNotificationUrl = `https://${defaultDomain}/home/notifications?filter=all`;
 });
@@ -45,6 +45,7 @@ chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
 chrome.runtime.onInstalled.addListener(function (details) {
     // TODO: Open window here to ask new users to select their domain
     // chrome.tabs.create({ url: "https://schoologypl.us" })
+    trackEvent("Runtime onInstalled", details.reason, "Versions");
 });
 
 Logger.log("Loaded event page");
@@ -207,6 +208,7 @@ function sendNotification(notification, name, count) {
         }
         if (!storageContent.notifications || storageContent.notifications == "enabled" || storageContent.notifications == "popup") {
             chrome.notifications.create(name, notification, null);
+            trackEvent(name, "shown", "Notifications");
         } else {
             Logger.log("Popup notifications are disabled");
         }
@@ -316,21 +318,23 @@ function createLogPrefix(color) {
     return `color:${color};border:1px solid #2A2A2A;border-radius:100%;font-size:14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A`;
 }
 
-if (getBrowser() !== "Firefox") {
-    // See https://bugs.chromium.org/p/chromium/issues/detail?id=966223#c3
-    chrome.webRequest.onHeadersReceived.addListener(details => {
-        let exists = false;
-        details.responseHeaders.map(item => {
-            if (item.name.toLowerCase() === 'access-control-allow-origin') {
-                item.value = '*';
-                exists = true;
-            }
-        });
-        if (!exists) {
-            details.responseHeaders.push({ name: "access-control-allow-origin", value: "*" });
-            details.responseHeaders.push({ name: "access-control-allow-headers", value: "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization" });
-        }
-        return { responseHeaders: details.responseHeaders };
-    }, { urls: ['*://*.schoology.com/*'] }, ['blocking', 'responseHeaders', 'extraHeaders']);
+addDomainPermissionToggle();
 
-}
+// if (getBrowser() !== "Firefox") {
+//     // See https://bugs.chromium.org/p/chromium/issues/detail?id=966223#c3
+//     chrome.webRequest.onHeadersReceived.addListener(details => {
+//         let exists = false;
+//         details.responseHeaders.map(item => {
+//             if (item.name.toLowerCase() === 'access-control-allow-origin') {
+//                 item.value = '*';
+//                 exists = true;
+//             }
+//         });
+//         if (!exists) {
+//             details.responseHeaders.push({ name: "access-control-allow-origin", value: "*" });
+//             details.responseHeaders.push({ name: "access-control-allow-headers", value: "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization" });
+//         }
+//         return { responseHeaders: details.responseHeaders };
+//     }, { urls: ['*://*.schoology.com/*'] }, ['blocking', 'responseHeaders', 'extraHeaders']);
+
+// }

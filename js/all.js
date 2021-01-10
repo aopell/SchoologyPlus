@@ -1,3 +1,5 @@
+while(!window.splusPreload) {}
+
 // Inform user about theme
 {
     if (localStorage["splus-temp-generatedtheme"]) {
@@ -44,48 +46,48 @@
 }
 
 // Check Schoology domain
-{
+setTimeout(function () {
     const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "support.schoology.com", "error-page.schoology.com", "app-msft-teams.schoology.com"];
     let dd = Setting.getValue("defaultDomain");
 
-    if (dd !== window.location.host && !BLACKLISTED_DOMAINS.includes(window.location.host) && !window.location.host.match(/.*[-\.]app\.schoology\.com/)) {
-        Setting.setValue("defaultDomain", window.location.host);
+    if (dd !== window.location.hostname && !BLACKLISTED_DOMAINS.includes(window.location.hostname) && !window.location.hostname.match(/.*[-\.]app\.schoology\.com/)) {
+        Setting.setValue("defaultDomain", window.location.hostname, function () {
+            let bgColor = document.querySelector("#header header").style.backgroundColor;
 
-        let bgColor = document.querySelector("#header header").style.backgroundColor;
-
-        if (bgColor) {
-            let t = {
-                "name": `Auto Generated Theme for ${window.location.host}`,
-                "version": 2,
-                "color": {
-                    "custom": {
-                        "primary": bgColor,
-                        "hover": "rgb(2, 79, 125)",
-                        "background": "rgb(2, 79, 125)",
-                        "border": "rgb(2, 79, 125)"
+            if (bgColor && !["app.schoology.com", "lms.lausd.net"].includes(window.location.hostname)) {
+                let t = {
+                    "name": `Auto Generated Theme for ${window.location.hostname}`,
+                    "version": 2,
+                    "color": {
+                        "custom": {
+                            "primary": bgColor,
+                            "hover": "rgb(2, 79, 125)",
+                            "background": "rgb(2, 79, 125)",
+                            "border": "rgb(2, 79, 125)"
+                        }
+                    },
+                    "logo": {
+                        "preset": "default"
                     }
-                },
-                "logo": {
-                    "preset": "default"
-                }
-            };
+                };
 
-            localStorage["splus-temp-generatedtheme"] = true;
+                localStorage["splus-temp-generatedtheme"] = true;
 
-            chrome.storage.sync.get({ themes: [] }, s => {
-                let themes = s.themes.filter(x => x.name !== `Auto Generated Theme for ${window.location.host}`);
-                themes.push(t);
-                chrome.storage.sync.set({ themes: themes }, () => {
-                    Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.host}`);
-                    location.reload();
+                chrome.storage.sync.get({ themes: [] }, s => {
+                    let themes = s.themes.filter(x => x.name !== `Auto Generated Theme for ${window.location.hostname}`);
+                    themes.push(t);
+                    chrome.storage.sync.set({ themes: themes }, () => {
+                        Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.hostname}`);
+                        location.reload();
+                    });
                 });
-            });
-        } else {
-            Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.host}`);
-            location.reload();
-        }
+            } else {
+                Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.hostname}`);
+                location.reload();
+            }
+        });
     }
-}
+}, 2000);
 
 // Page Modifications
 
@@ -371,6 +373,11 @@ let modals = [
     let newVersion = Setting.getValue("newVersion");
     if (!newVersion || newVersion != chrome.runtime.getManifest().version) {
         let currentVersion = chrome.runtime.getManifest().version;
+
+        if (Setting.getValue("defaultDomain") != window.location.hostname) {
+            Logger.log("[Updater] Domain isn't set as default, skipping migrations until domain is updated.");
+            return;
+        }
 
         iziToast.show({
             theme: 'dark',
