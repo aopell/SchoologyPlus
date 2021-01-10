@@ -34,10 +34,10 @@ var Logger = {
     debug: (() => console.debug.bind(window.console, `%c+`, createLogPrefix("lightgreen")))(),
 }
 
-var assignmentNotificationUrl = "https://lms.lausd.net/home/notifications?filter=all";
-var defaultDomain = "lms.lausd.net";
+var assignmentNotificationUrl = "https://app.schoology.com/home/notifications?filter=all";
+var defaultDomain = "app.schoology.com";
 
-chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
+chrome.storage.sync.get({ defaultDomain: "app.schoology.com" }, s => {
     defaultDomain = s.defaultDomain;
     assignmentNotificationUrl = `https://${defaultDomain}/home/notifications?filter=all`;
 });
@@ -45,6 +45,7 @@ chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
 chrome.runtime.onInstalled.addListener(function (details) {
     // TODO: Open window here to ask new users to select their domain
     // chrome.tabs.create({ url: "https://schoologypl.us" })
+    trackEvent("Runtime onInstalled", details.reason, "Versions");
 });
 
 Logger.log("Loaded event page");
@@ -207,6 +208,7 @@ function sendNotification(notification, name, count) {
         }
         if (!storageContent.notifications || storageContent.notifications == "enabled" || storageContent.notifications == "popup") {
             chrome.notifications.create(name, notification, null);
+            trackEvent(name, "shown", "Notifications");
         } else {
             Logger.log("Popup notifications are disabled");
         }

@@ -1141,7 +1141,7 @@ new Setting(
     "defaultDomain",
     "Default Schoology Domain",
     "The website on which Schoology Plus runs. Cannot be changed here.",
-    "lms.lausd.net",
+    "app.schoology.com",
     "text",
     {
         disabled: true
@@ -1150,3 +1150,5 @@ new Setting(
     undefined,
     element => element.value
 );
+
+window.splusPreload = true;

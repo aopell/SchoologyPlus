@@ -192,8 +192,7 @@ function updateItem({ tabId }) {
         };
         if (!chrome.runtime.lastError && origin) {
             // Manifest permissions can't be removed; this disables the toggle on those domains
-            const manifestPermissions = await getManifestPermissions();
-            const isDefault = manifestPermissions.origins.some(permission => permission.startsWith(origin));
+            const isDefault = origin.endsWith("schoology.com");
             settings.enabled = !isDefault;
 
             // We might have temporary permission as part of `activeTab`, so it needs to be properly checked
@@ -222,6 +221,7 @@ async function togglePermission(tab, toggle) {
     };
 
     if (!toggle) {
+        permissionData.origins = [permissionData.origins[0], '*://' + new URL(tab.url).hostname + '/*'];
         return p('permissions', 'remove', permissionData);
     }
 
@@ -420,14 +420,16 @@ async function registerOnOrigins({ origins: newOrigins }) {
     // Register one at a time to allow removing one at a time as well
     for (const origin of newOrigins || []) {
         for (const config of manifest) {
-            const registeredScript = chrome.contentScripts.register({
+            regFunc = typeof(browser) !== "undefined" && browser.contentScripts ? browser.contentScripts.register : chrome.contentScripts.register;
+            const registeredScript = regFunc({
                 js: (config.js || []).map(convertPath),
                 css: (config.css || []).map(convertPath),
                 allFrames: config.all_frames,
-                matches: config.matches.map(m => origin.slice(0, -2) + new URL(m).pathname),
+                matches: config.matches.map(m => origin.slice(0, -2) + new URL(m.replace("*.", "wildcard.")).pathname),
                 runAt: config.run_at
             });
-            registeredScripts.set(origin, registeredScript);
+            Logger.debug("registered", registeredScript);
+            registeredScripts.set(origin, [...(registeredScripts.get(origin) || []), registeredScript]);
         }
     }
 }
@@ -443,14 +445,18 @@ chrome.permissions.onAdded.addListener(permissions => {
 });
 
 chrome.permissions.onRemoved.addListener(async ({ origins }) => {
+    Logger.debug("Removing origins", origins);
     if (!origins || origins.length === 0) {
         return;
     }
 
-    for (const [origin, script] of registeredScripts) {
+    for (const [origin, scripts] of registeredScripts) {
+        Logger.debug("Removing", origin, scripts);
         if (origins.includes(origin)) {
             // eslint-disable-next-line no-await-in-loop
-            (await script).unregister();
+            for (let script of scripts) {
+                (await script).unregister();
+            }
         }
     }
 });

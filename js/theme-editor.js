@@ -7,9 +7,9 @@ const placeholderUrl = "https://via.placeholder.com/200x50?text=School+Logo";
 const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue"];
 const CLASSIC_THEMES = ["Schoology Plus", "Rainbow"]
 
-var defaultDomain = "lms.lausd.net";
+var defaultDomain = "app.schoology.com";
 
-chrome.storage.sync.get({ defaultDomain: "lms.lausd.net" }, s => {
+chrome.storage.sync.get({ defaultDomain: "app.schoology.com" }, s => {
     defaultDomain = s.defaultDomain;
 
     if (isLAUSD()) {
