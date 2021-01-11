@@ -1,7 +1,7 @@
 let courseIdNumber;
 let courseSettingsCourseName;
 (function () {
-    let sidebar = document.querySelector(".course-info-wrapper dl");
+    let sidebar = document.getElementById("sidebar-left");
     if (sidebar) {
         let button = createButton("splus-course-options", "Course Options");
         let img = createSvgLogo();
