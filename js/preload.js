@@ -1024,15 +1024,15 @@ Setting.anyModified = function () {
  * Gets the value of a setting in the cached copy of the
  * extension's synced storage. If `name` is the name of a `Setting`
  * and the cached storage has no value for that setting, the
- * default value of that setting will be returned instead
+ * default value of that setting will be returned instead (unless `defaultValue` is passed)
  * @param {string} name The name of the setting to retrieve
- * @param {any} defaultValue The default value to return if no value is found
+ * @param {any} defaultValue The default value to return if no value is specifically set
  * @returns {any} The setting's cached value, default value, or `defaultValue`
  */
 Setting.getValue = function (name, defaultValue = undefined) {
     if (__storage[name]) {
         return __storage[name];
-    } else if (__settings[name]) {
+    } else if (__settings[name] && !defaultValue) {
         return __settings[name].default;
     }
     return defaultValue;

@@ -1,4 +1,4 @@
-while(!window.splusPreload) {}
+while (!window.splusPreload) { }
 
 // Inform user about theme
 {
@@ -94,12 +94,12 @@ setTimeout(function () {
 document.head.appendChild(createElement("meta", [], { name: "viewport", content: "width=device-width, initial-scale=1" }));
 let bottom = document.querySelector("span.Footer-copyright-2Vt6I");
 bottom.appendChild(createElement("span", ["footer-divider"], { textContent: "|" }, [
-    createElement("span", ["footer-text-enhanced-by"], { textContent: "Enhanced by Schoology Plus" }),
+    createElement("span", ["footer-text-enhanced-by"], { style: { cursor: "pointer" }, onclick: () => window.open("https://schoologypl.us/?utm_source=ext-enhanced-by-footer", "_blank"), textContent: "Enhanced by Schoology Plus" }),
 ]));
 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
-let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2021 | <a id="open-webstore" class="splus-track-clicks" href="https://schoologypl.us">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://discord.schoologypl.us" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://schoologypl.us/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
+let verboseModalFooterText = `&copy; Aaron Opell, Glen Husman 2017-2021 | <a id="open-webstore" class="splus-track-clicks" href="https://schoologypl.us/?utm_source=ext-splus-settings-footer">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://discord.schoologypl.us" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://schoologypl.us/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
 let modalFooterText = "Schoology Plus &copy; Aaron Opell, Glen Husman 2017-2021";
 
 let frame = document.createElement("iframe");
@@ -247,11 +247,13 @@ let modals = [
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
+                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "Alexander (@xd-arsenic)" }),
+                    createElement("span", [], { textContent: ", " }),
                     createElement("a", [], { href: "https://github.com/Roguim", textContent: "@Roguim" }),
                     createElement("span", [], { textContent: ", " }),
                     createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger (@reteps)" }),
                     createElement("span", [], { textContent: ", and " }),
-                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "Alexander (@xd-arsenic)" })
+                    createElement("a", [], { href: "https://github.com/KTibow", textContent: "@KTibow" }),
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Various code contributions" })
             ]),
@@ -323,13 +325,14 @@ let modals = [
                 { text: "Modern Dark Theme", theme: "Schoology Plus Modern Dark", new: true },
                 { text: "Modern Light Theme", theme: "Schoology Plus Modern Light", new: true },
                 { text: "Modern Rainbow Theme", theme: "Rainbow Modern", new: true },
-                { text: "Schoology Plus Classic Theme", theme: "Schoology Plus" },
-                { text: `Keep Current Theme: ${Theme.active.name}`, theme: Theme.active.name, active: true },
-                { text: "See More Themes or Make Your Own", theme: Theme.active.name },
+                { text: "Schoology Plus Classic Theme", theme: "Schoology Plus", active: Theme.active.name === "Schoology Plus" },
+                { text: `Keep Current Theme: ${Theme.active.name}`, theme: Theme.active.name, active: Theme.active.name !== "Schoology Plus", hidden: Theme.active.name === "Schoology Plus" },
+                { text: "See More Themes or Make Your Own", theme: Theme.active.name, extraWide: Theme.active.name === "Schoology Plus" },
             ].map(
                 obj => {
                     return createElement("div", [...["splus-button-tile", "select-theme-tile"], ...(obj.active ? ["active"] : [])],
                         {
+                            style: { display: obj.hidden ? "none" : "flex", gridColumnEnd: obj.extraWide ? "span 2" : "unset" },
                             dataset: { new: obj.new },
                             onclick: e => {
                                 for (let child of e.target.parentElement.children) {
@@ -337,7 +340,7 @@ let modals = [
                                 }
                                 e.target.classList.add("active");
 
-                                trackEvent("select-theme-tile", obj.text, "S+ Button Tile");
+                                trackEvent("selected tile", obj.text, "Choose Theme Popup");
 
                                 tempTheme = obj.theme;
                                 Theme.apply(Theme.byName(obj.theme));
@@ -354,6 +357,7 @@ let modals = [
             (() => {
                 let btn = createButton("theme-popup-select-button", `Select Keep Current Theme: ${Theme.active.name}`, e => {
                     localStorage.setItem("splus-temp-theme-chosen", true);
+                    trackEvent("confirmed selection", document.querySelector(".select-theme-tile.active .splus-button-tile-content").textContent, "Choose Theme Popup");
                     modalClose(document.getElementById("choose-theme-modal"));
                     Setting.setValue("theme", tempTheme);
                     if (document.getElementById("choose-theme-modal").querySelector(".splus-button-tile-container .splus-button-tile:last-child").classList.contains("active")) {
@@ -474,7 +478,10 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
         {
             id: "splus-settings-navbar-button",
             title: "Schoology Plus Settings\n\nChange settings relating to Schoology Plus.",
-            onclick: () => openModal("settings-modal")
+            onclick: () => {
+                openModal("settings-modal");
+                trackEvent("splus-settings", "open", "Navbar Button");
+            }
         },
         [
             createSvgLogo("_3ESp2", "dlCBz", "_1I3mg", "fjQuT", "uQOmx")
@@ -486,7 +493,11 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
         {
             id: "darktheme-toggle-navbar-button",
             title: "Toggle Theme\n\nUse this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
-            onclick: e => document.documentElement.setAttribute("modern", document.documentElement.getAttribute("modern") == "false" ? "true" : "false"),
+            onclick: e => {
+                let newVal = document.documentElement.getAttribute("modern") == "false" ? "true" : "false";
+                document.documentElement.setAttribute("modern", newVal);
+                trackEvent("modern-theme-toggle", newVal, "Navbar Button");
+            },
             dataset: { popup: Setting.getNestedValue("popup", "modernThemeToggle", true) }
         },
         [
@@ -496,6 +507,7 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
                     textContent: "OK",
                     onclick: e => {
                         e.stopPropagation();
+                        trackEvent("modern-theme-toggle", "ok", "Explanation Popup");
                         Setting.setNestedValue("popup", "modernThemeToggle", false);
                         document.getElementById("darktheme-toggle-navbar-button").dataset.popup = false;
                     }
@@ -1125,11 +1137,13 @@ function indicateSubmittedAssignments() {
             if (eventElement.classList.contains(assignCompleteClass) && isAssignmentMarkedComplete(assignmentId)) {
                 eventElement.classList.remove(assignCompleteClass);
                 setAssignmentCompleteOverride(assignmentId, false);
+                trackEvent("splus-completed-check-indicator", "uncheck", "Checkmarks");
                 // TODO handle async nicely
                 processAssignmentUpcomingAsync(eventElement);
                 // if we're incomplete and click, force the completed state
             } else if (eventElement.classList.contains(assignIncompleteClass)) {
                 eventElement.classList.remove(assignIncompleteClass);
+                trackEvent("splus-completed-check-indicator", "check", "Checkmarks");
                 setAssignmentCompleteOverride(assignmentId, true);
                 // TODO handle async nicely
                 processAssignmentUpcomingAsync(eventElement);
