@@ -5,6 +5,8 @@
     --hover-color: hsl(var(--color-hue), 55%, 40%);
     --link-color: var(--hover-color);
     --border-color: hsl(var(--color-hue), 60%, 25%);
+    --contrast-text-color: white;
+    --dark-text-color: #333;
     --cursor: auto;
     --background-url: none;
     cursor: var(--cursor);
@@ -35,6 +37,7 @@
 
 /* Drop down menus (grades, applications, and user menu) */
 
+.Header-header-drop-menu-3SaYV,
 .Header-header-drop-menu-3SaYV {
     background-color: var(--hover-color) !important;
 }
@@ -44,9 +47,13 @@ a.Header-header-drop-menu-3SaYV:hover,
     background-color: var(--background-color) !important;
 }
 
+._1k0yk:hover:not(:active), ._3hqpj, ._3JcU2:active, ._3VHSs:focus:not(:active) {
+    background-color: var(--background-color) !important;
+}
+
 [class*="Header-header-drop-menu-item-"],
 [class*="Header-header-drop-menu-"] li a * {
-    color: white !important;
+    color: var(--contrast-text-color) !important;
 }
 
 footer .Footer-vertical-divider-3-9qQ a,
@@ -201,7 +208,7 @@ video.easter-egg {
 
 .close:hover,
 .close:focus {
-    color: white;
+    color: var(--contrast-text-color);
     text-decoration: none;
     cursor: pointer;
 }
@@ -209,11 +216,11 @@ video.easter-egg {
 .splus-modal-header {
     padding: 2px 16px;
     background-color: var(--primary-color);
-    color: white !important;
+    color: var(--contrast-text-color) !important;
 }
 
 .splus-modal-title {
-    color: white !important;
+    color: var(--contrast-text-color) !important;
 }
 
 .splus-modal-body {
@@ -223,7 +230,7 @@ video.easter-egg {
 .splus-modal-footer {
     padding: 2px 16px;
     background-color: var(--primary-color);
-    color: white;
+    color: var(--contrast-text-color);
 }
 
 .splus-modal-title {
@@ -252,7 +259,7 @@ video.easter-egg {
 }
 
 .splus-modal-content .splus-modal-footer .splus-modal-footer-text a {
-    color: white;
+    color: var(--contrast-text-color);
     font-weight: normal !important;
 }
 
@@ -372,7 +379,7 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 .submit-span-wrapper input[type=submit] {
     height: 25px !important;
     vertical-align: middle !important;
-    color: white !important;
+    color: var(--contrast-text-color) !important;
 }
 
 .submit-span-wrapper {
@@ -403,7 +410,7 @@ h1.setting-title {
 }
 
 .popups-body .no-answer-provided {
-    background: url('https://lms.lausd.net/sites/all/themes/schoology_theme/images/error_404.png') no-repeat 0 0;
+    background: url('https://app.schoology.com/sites/all/themes/schoology_theme/images/error_404.png') no-repeat 0 0;
     padding: 0 0 0 25px;
     font-weight: bold;
 }
@@ -446,7 +453,7 @@ Make accept and cancel buttons similarly styled throughout the UI
 #popup_cancel,
 .cancel-btn {
     background-color: #666 !important;
-    color: white !important;
+    color: var(--contrast-text-color) !important;
 }
 
 #popup_cancel:hover,
@@ -644,12 +651,12 @@ body #primary-settings .unfold:hover,
 ul.tabs li a.active,
 #nav ul li a:hover {
     background-color: var(--link-color) !important;
-    color: white !important;
+    color: var(--contrast-text-color) !important;
 }
 
 body a.link-btn,
 ul.tabs li a {
-    color: #333333 !important;
+    color: var(--dark-text-color) !important;
 }
 
 footer li a,
@@ -659,7 +666,7 @@ body a.link-btn.active,
 div.courses-left-menu,
 .portfolio-list a.btn,
 a._3_bfp {
-    color: white !important;
+    color: var(--contrast-text-color) !important;
 }
 
 .setting-highlight {
@@ -675,8 +682,8 @@ a._3_bfp {
     left: 3px;
     top: 12px;
     z-index: 9999;
-    color: white !important;
-    border: 2px solid white;
+    color: var(--contrast-text-color) !important;
+    border: 2px solid var(--contrast-text-color);
     border-radius: 10px;
     background-color: dodgerblue;
     padding: 5px 8px;
@@ -690,8 +697,8 @@ a._3_bfp {
 }
 
 .splus-beta-container h3 {
-    color: white !important;
-    border-bottom: 1px solid white !important;
+    color: var(--contrast-text-color) !important;
+    border-bottom: 1px solid var(--contrast-text-color) !important;
 }
 
 .splus-beta-tag {
@@ -781,4 +788,92 @@ a._3_bfp {
 
 .splus-mark-completed-hide .splus-assignment-complete {
     display: none !important;
+}
+
+#header.site-navigation {
+    background: transparent !important;
+}
+
+/* :root .darktheme-toggle-navbar-path {
+    fill: transparent;
+    stroke: white;
+} */
+
+:root[modern=false] #darktheme-toggle-navbar-button {
+    display: none;
+    padding: 0 14px;
+}
+
+:root[modern=true] #darktheme-toggle-navbar-button {
+    fill: currentColor;
+    stroke: none;
+    padding: 0 14px;
+}
+
+:root[modern=false][dark] #darktheme-toggle-navbar-button {
+    display: inline-block;
+    stroke:currentColor;
+    stroke-width: 20pt;
+    fill: transparent;
+}
+
+#darktheme-toggle-navbar-button .explanation-popup {
+    display: none;
+}
+
+#darktheme-toggle-navbar-button svg {
+    width: 27px;
+    height: 33px;
+}
+
+:root[modern=true] #darktheme-toggle-navbar-button svg {
+    width: 27px;
+    height: 30px;
+}
+
+.splus-button-tile-container {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-auto-rows: 100px;
+    gap: 20px 0;
+    justify-content: space-evenly;
+    margin: 10px 0;
+}
+
+.splus-button-tile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid currentColor;
+    border-radius: 5px;
+}
+
+.splus-button-tile.active {
+    border: 1px solid var(--primary-color);
+    background-color: #ddf3fb;
+}
+
+.splus-button-tile:hover {
+    border: 1px solid var(--primary-color);
+    cursor: pointer;
+}
+
+.splus-button-tile-content {
+    font-weight: bold;
+    text-align: center;
+    pointer-events: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.select-theme-tile[data-new=true] .splus-button-tile-content::before {
+    content: "NEW!";
+    margin-right: 5px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    background: var(--primary-color);
 }

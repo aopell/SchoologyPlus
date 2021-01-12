@@ -1,0 +1,202 @@
+variable-intellisense {
+  --modern-primary: #36393F;
+  --modern-accent: #2F3136;
+  --modern-secondary: #202225;
+  --modern-text: #DCDDDE;
+  --modern-contrast-text: #EEEEEE;
+  --modern-muted-text: #72767D;
+  --modern-contrast-border: #DCDDDE;
+  --modern-input: #40444B;
+  --modern-error: #F44336;
+  --modern-highlight: rgba(184, 134, 11, 0.2);
+  --modern-active: rgba(0, 255, 255, 0.1);
+  --modern-grades: #8BC34A;
+  --modern-border-radius: 5px;
+  --modern-border-size: 1px;
+  --modern-padding: 10px;
+  --modern-theme-is-dark: 1;
+  --modern-cal1: #457da5;
+  --modern-cal2: #547c41;
+  --modern-cal3: #926c37;
+  --modern-cal4: #7c3d6b;
+  --modern-cal5: #0b4c9c;
+  --modern-cal6: #00209c;
+  --modern-cal7: #004a09;
+  --modern-cal8: #72721a;
+  --modern-cal9: #44233e;
+  --modern-cal10: #683131;
+  --modern-cal11: #770a0a;
+  --modern-cal12: #a72413;
+  --modern-cal13: #E0024C;
+  --modern-cal14: #188C16;
+  --modern-cal15: #bd7304;
+  --modern-cal16: #80168C;
+  --modern-cal17: #164152;
+  --modern-cal18: #00543f;
+  --modern-cal19: #633e11;
+  --modern-cal20: #461b2d;
+}
+
+[modern=true]:root body {
+  background-color: var(--modern-secondary);
+}
+
+[modern=true]:root * {
+  color: var(--modern-text) !important;
+}
+
+[modern=true]:root .modern-primary {
+  background-color: var(--modern-primary) !important;
+}
+
+[modern=true]:root .modern-secondary {
+  background-color: var(--modern-secondary) !important;
+}
+
+[modern=true]:root .modern-accent {
+  background-color: var(--modern-accent) !important;
+}
+
+[modern=true]:root .modern-input {
+  background-color: var(--modern-input) !important;
+}
+
+[modern=true]:root .modern-highlight {
+  background-color: var(--modern-highlight) !important;
+}
+
+[modern=true]:root .modern-active {
+  background-color: var(--modern-active) !important;
+}
+
+[modern=true]:root .modern-error {
+  background-color: var(--modern-error) !important;
+}
+
+[modern=true]:root .modern-error-text {
+  color: var(--modern-error) !important;
+}
+
+[modern=true]:root .modern-grades {
+  color: var(--modern-grades) !important;
+}
+
+[modern=true]:root .modern-text {
+  color: var(--modern-text) !important;
+}
+
+[modern=true]:root .modern-contrast-text {
+  color: var(--modern-contrast-text) !important;
+}
+
+[modern=true]:root .modern-muted-text {
+  color: var(--modern-muted-text) !important;
+}
+
+[modern=true]:root .modern-border {
+  border: var(--modern-border-size) solid var(--modern-contrast-border) !important;
+}
+
+[modern=true]:root .modern-border-radius {
+  border-radius: var(--modern-border-radius) !important;
+}
+
+[modern=true]:root .modern-padding {
+  padding: var(--modern-padding) !important;
+}
+
+[modern=true]:root .modern-margin {
+  margin: var(--modern-padding) !important;
+}
+
+[modern=true]:root .modern-black {
+  color: black !important;
+}
+
+[modern=true]:root #themes-list-section .collection a.collection-item {
+  background-color: var(--modern-primary);
+}
+
+[modern=true]:root #themes-list-section .collection a.collection-item.active {
+  background-color: var(--modern-active) !important;
+}
+
+[modern=true]:root #themes-list-section .collection a.collection-item:not(.active):hover {
+  background-color: var(--modern-highlight);
+}
+
+[modern=true]:root #theme-editor-section .sp-replacer {
+  border: var(--modern-border-size) solid var(--modern-contrast-border);
+  background-color: var(--modern-input);
+}
+
+[modern=true]:root #preview-section svg,
+[modern=true]:root #preview-section svg * {
+  color: var(--modern-contrast-text) !important;
+}
+
+[modern=true]:root #preview-section #preview-profile-pic {
+  border-color: var(--modern-contrast-text) !important;
+}
+
+[modern=true]:root #preview-section .preview-course {
+  border: var(--modern-border-size) solid transparent;
+}
+
+[modern=true]:root #preview-section .preview-course:hover {
+  border: var(--modern-border-size) solid var(--modern-contrast-border);
+}
+
+[modern=true]:root #preview-section .preview-course .preview-course-class {
+  color: var(--link-color) !important;
+}
+
+[modern=true]:root #preview-section .preview-course .preview-course-section {
+  color: var(--modern-text) !important;
+}
+
+[modern=true]:root #preview-section .preview-course .preview-course-school {
+  color: var(--modern-muted-text) !important;
+}
+
+[modern=true]:root #preview-section #tab-icons #icon-list-table tbody:empty:before {
+  color: var(--modern-muted-text) !important;
+}
+
+[modern=true]:root #preview-section #preview-dropdown-list li:hover {
+  background-color: var(--modern-active) !important;
+}
+
+[modern=true]:root .material-tooltip {
+  background-color: var(--modern-secondary);
+  border: var(--modern-border-size) solid var(--modern-contrast-border);
+  border-radius: var(--modern-border-radius);
+}
+
+[modern=true]:root .rs-bg-color {
+  background-color: var(--modern-input);
+}
+
+[modern=true]:root .full-spectrum {
+  background-color: var(--modern-accent) !important;
+}
+
+[modern=true]:root .full-spectrum button {
+  background-color: var(--modern-secondary) !important;
+  background-image: none;
+  text-shadow: none;
+}
+
+[modern=true]:root input[type=range] {
+  border: var(--modern-border-size) solid var(--modern-contrast-border);
+}
+
+[modern=true]:root .action-button:hover {
+  transition: .3s ease-out !important;
+  color: var(--modern-contrast-text) !important;
+}
+
+[modern=true]:root .action-button:hover i.material-icons {
+  transition: .3s ease-out !important;
+  color: var(--modern-contrast-text) !important;
+}

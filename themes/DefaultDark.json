@@ -1,0 +1,62 @@
+{
+    "name": "Schoology Plus Modern Dark",
+    "version": 2,
+    "color": {
+        "custom": {
+            "primary": "#202225",
+            "hover": "#40444B",
+            "background": "#36393f",
+            "border": "#40444b",
+            "link": "#6fa8dc"
+        },
+        "modern": {
+            "dark": true,
+            "interface": {
+                "primary": "#36393F",
+                "accent": "#2F3136",
+                "secondary": "#202225",
+                "input": "#40444B",
+                "border": "#DCDDDE",
+                "highlight": "rgba(184, 134, 11, 0.2)",
+                "active": "rgba(0, 255, 255, 0.1)",
+                "grades": "#8BC34A",
+                "error": "#F44336"
+            },
+            "calendar": [
+                "#457da5",
+                "#547c41",
+                "#926c37",
+                "#7c3d6b",
+                "#0b4c9c",
+                "#00209c",
+                "#004a09",
+                "#72721a",
+                "#44233e",
+                "#683131",
+                "#770a0a",
+                "#a72413",
+                "#E0024C",
+                "#188C16",
+                "#bd7304",
+                "#80168C",
+                "#164152",
+                "#00543f",
+                "#633e11",
+                "#461b2d"
+            ],
+            "text": {
+                "primary": "#DCDDDE",
+                "muted": "#72767D",
+                "contrast": "#EEEEEE"
+            },
+            "options": {
+                "borderRadius": 5,
+                "borderSize": 1,
+                "padding": 10
+            }
+        }
+    },
+    "logo": {
+        "preset": "schoology_plus"
+    }
+}

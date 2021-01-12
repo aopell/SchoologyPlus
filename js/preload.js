@@ -38,10 +38,11 @@ var Logger = {
 Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' (development version)'}`);
 var firstLoad = true;
 document.documentElement.setAttribute("page", location.pathname);
+
 updateSettings();
 
 var beta_tests = {
-    "darktheme": "https://schoologypl.us/docs/beta/darktheme",
+    // "darktheme": "https://schoologypl.us/docs/beta/darktheme",
     "newgrades": "https://schoologypl.us"
 };
 
@@ -63,6 +64,7 @@ function backgroundPageFetch(url, init, bodyReadType) {
                 Logger.error("[backgroundPageFetch] Response is undefined or null", response, chrome.runtime.lastError);
                 reject("Response is undefined or null. Last error: " + chrome.runtime.lastError);
             }
+            response = JSON.parse(response);
             if (!response.success) {
                 reject(response.error);
                 return;
@@ -453,7 +455,6 @@ function updateSettings(callback) {
                 }
             }
 
-            // themes.push(new Theme("Install and Manage Themes..."));
             Theme.apply(Theme.active);
             firstLoad = false;
         }
@@ -593,6 +594,31 @@ function updateSettings(callback) {
                     },
                     value => value,
                     undefined,
+                    element => element.value
+                ).control,
+                new Setting(
+                    "overrideUserStyles",
+                    "Override Styled Text",
+                    "Override styled text in homefeed posts and discussion responses when using modern themes. WARNING: This guarantees text is readable on dark theme, but removes colors and other styling that may be important. You can always use the Toggle Theme button on the navigation bar to temporarily disble your theme.",
+                    "true",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "true"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "false"
+                            }
+                        ]
+                    },
+                    value => {
+                        document.documentElement.setAttribute("style-override", value);
+                        return value;
+                    },
+                    function (event) { this.onload(event.target.value) },
                     element => element.value
                 ).control,
                 new Setting(
@@ -998,17 +1024,33 @@ Setting.anyModified = function () {
  * Gets the value of a setting in the cached copy of the
  * extension's synced storage. If `name` is the name of a `Setting`
  * and the cached storage has no value for that setting, the
- * default value of that setting will be returned instead
+ * default value of that setting will be returned instead (unless `defaultValue` is passed)
  * @param {string} name The name of the setting to retrieve
- * @returns {any} The setting's cached value, default value, or `undefined`
+ * @param {any} defaultValue The default value to return if no value is specifically set
+ * @returns {any} The setting's cached value, default value, or `defaultValue`
  */
-Setting.getValue = function (name) {
+Setting.getValue = function (name, defaultValue = undefined) {
     if (__storage[name]) {
         return __storage[name];
-    } else if (__settings[name]) {
+    } else if (__settings[name] && !defaultValue) {
         return __settings[name].default;
     }
-    return undefined;
+    return defaultValue;
+}
+
+/**
+ * Gets the value of a nested property in the cached copy of the
+ * extension's synced storage.
+ * @param {string} parent The name of the object in which to search for `key`
+ * @param {string} key The key within `parent` containing the value
+ * @param {any} defaultValue The default value to return if no value is found
+ * @returns {any} The setting's cached value, default value, or `defaultValue`
+ */
+Setting.getNestedValue = function (parent, key, defaultValue = undefined) {
+    if (__storage[parent] && key in __storage[parent]) {
+        return __storage[parent][key];
+    }
+    return defaultValue;
 }
 
 /**
@@ -1025,6 +1067,19 @@ Setting.setValue = function (name, value, callback = undefined) {
     if (name === "defaultDomain") {
         chrome.runtime.sendMessage({ type: "updateDefaultDomain", domain: value });
     }
+}
+
+/**
+ * Sets the value of a nested property in the extension's synced storage.
+ * @param {string} parent The name of the object in which to place `key`
+ * @param {string} key The key within `parent` in which to store the value
+ * @param {any} value The value to set
+ * @param {()=>any} callback Function called after new value is saved
+ */
+Setting.setNestedValue = function (parent, key, value, callback = undefined) {
+    var currentValue = Setting.getValue(parent, {});
+    currentValue[key] = value;
+    Setting.saveModified({ [parent]: currentValue }, false, callback, false);
 }
 
 /**
@@ -1086,7 +1141,7 @@ new Setting(
     "defaultDomain",
     "Default Schoology Domain",
     "The website on which Schoology Plus runs. Cannot be changed here.",
-    "lms.lausd.net",
+    "app.schoology.com",
     "text",
     {
         disabled: true
@@ -1095,3 +1150,5 @@ new Setting(
     undefined,
     element => element.value
 );
+
+window.splusPreload = true;

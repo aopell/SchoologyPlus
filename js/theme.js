@@ -13,6 +13,10 @@ class Theme {
         this.onupdate = onUpdate;
     }
 
+    static setModernEnabled(enabled) {
+        document.documentElement.setAttribute("modern", enabled);
+    }
+
     static getIcon(course) {
         for (let overridePattern of Theme.profilePictureOverrides) {
             if (course.match(new RegExp(overridePattern.regex, 'i'))) {
@@ -71,7 +75,12 @@ class Theme {
                         if (theme.color.hue) {
                             Theme.setBackgroundHue(theme.color.hue);
                         } else if (theme.color.custom) {
-                            Theme.setBackgroundColor(theme.color.custom.primary, theme.color.custom.background, theme.color.custom.hover, theme.color.custom.border);
+                            Theme.setBackgroundColor(theme.color.custom.primary, theme.color.custom.background, theme.color.custom.hover, theme.color.custom.border, theme.color.custom.link);
+                        }
+
+                        Theme.setModernEnabled(!!theme.color.modern);
+                        if (theme.color.modern) {
+                            Theme.setModernColors(theme.color.modern);
                         }
 
                         if (!theme.logo) {
@@ -202,12 +211,13 @@ class Theme {
         return themes.find(x => x.name == name) || Theme.byName("Schoology Plus");
     }
 
-    static setBackgroundColor(primaryColor, backgroundColor, hoverColor, borderColor) {
+    static setBackgroundColor(primaryColor, backgroundColor, hoverColor, borderColor, linkColor = hoverColor) {
         if (primaryColor && backgroundColor && hoverColor && borderColor) {
             document.documentElement.style.setProperty("--primary-color", primaryColor);
             document.documentElement.style.setProperty("--background-color", backgroundColor);
             document.documentElement.style.setProperty("--hover-color", hoverColor);
             document.documentElement.style.setProperty("--border-color", borderColor);
+            document.documentElement.style.setProperty("--link-color", linkColor);
         }
     }
 
@@ -218,13 +228,46 @@ class Theme {
             document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
             document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
             document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
+            document.documentElement.style.setProperty("--link-color", "hsl(var(--color-hue), 55%, 40%)");
         } else if (hue) {
             document.documentElement.style.setProperty("--color-hue", hue);
             document.documentElement.style.setProperty("--primary-color", `hsl(var(--color-hue), ${saturation}%, ${lightness}%)`);
             document.documentElement.style.setProperty("--background-color", "hsl(var(--color-hue), 60%, 30%)");
             document.documentElement.style.setProperty("--hover-color", "hsl(var(--color-hue), 55%, 40%)");
             document.documentElement.style.setProperty("--border-color", "hsl(var(--color-hue), 60%, 25%)");
+            document.documentElement.style.setProperty("--link-color", "hsl(var(--color-hue), 55%, 40%)");
         }
+    }
+
+    static setModernColors(m) {
+        setCSSVariable("theme-is-dark", m.dark ? 1 : 0);
+        document.documentElement.setAttribute("dark", m.dark);
+
+        // Interface Colors
+        setCSSVariable("primary", m.interface.primary);
+        setCSSVariable("accent", m.interface.accent);
+        setCSSVariable("secondary", m.interface.secondary);
+        setCSSVariable("input", m.interface.input);
+        setCSSVariable("contrast-border", m.interface.border);
+        setCSSVariable("highlight", m.interface.highlight);
+        setCSSVariable("active", m.interface.active);
+        setCSSVariable("grades", m.interface.grades);
+        setCSSVariable("error", m.interface.error);
+
+        // Calendar Colors
+        for(let i = 0; i < 20; i++) {
+            setCSSVariable(`cal${i+1}`, m.calendar[i]);
+        }
+
+        // Text Colors
+        setCSSVariable("text", m.text.primary);
+        setCSSVariable("muted-text", m.text.muted);
+        setCSSVariable("contrast-text", m.text.contrast);
+
+        // Options
+        setCSSVariable("border-radius", `${m.options.borderRadius}px`);
+        setCSSVariable("border-size", `${m.options.borderSize}px`);
+        setCSSVariable("padding", `${m.options.padding}px`);
     }
 
     static setProfilePictures(candidateImages) {

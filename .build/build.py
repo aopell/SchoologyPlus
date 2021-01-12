@@ -1,16 +1,23 @@
 import argparse
 import json
 import os
+import sys
 import shutil
 import copy
 import errno
+
+try:
+    import sass
+except ModuleNotFoundError:
+    print("ERROR: Missing SASS library. Please install using 'pip install libsass'")
+    sys.exit(1)
 
 class BuildRules:
     def __init__(self, config):
         self.excluded_files = config["excluded_files"] or []
         self.properties = config["properties"] or {}
 
-EXCLUDED_FILES = [".build", ".git", ".github", ".vscode", "SchoologyPlus.zip", "webstore-description.txt"]
+EXCLUDED_FILES = [".build", ".git", ".github", ".vscode", "SchoologyPlus.zip", "webstore-description.txt", "sass"]
 
 chrome_rules = BuildRules({
     "excluded_files": [],
@@ -33,7 +40,7 @@ targets = {
 }
 
 parser = argparse.ArgumentParser(description="Schoology Plus build script")
-parser.add_argument("target", choices=list(targets.keys()) + ["all"], help="Which target to build")
+parser.add_argument("target", choices=list(targets.keys()) + ["all", "dev"], help="Which target to build")
 args = parser.parse_args()
 
 os.chdir(os.path.dirname(__file__) + "/..")
@@ -67,6 +74,17 @@ def copyFileOrDirectory(src, dst):
         if exc.errno == errno.ENOTDIR:
             shutil.copy(src, dst)
         else: raise
+
+def compileSCSS():
+    scss_dirs = [('scss/modern', 'css/modern')]
+    for dir_pair in scss_dirs:
+        print(f"Compiling SCSS in directory '{dir_pair[0]}' to directory '{dir_pair[1]}'")
+        sass.compile(dirname=dir_pair, output_style='expanded')
+
+compileSCSS()
+
+if args.target == "dev":
+    sys.exit()
 
 for target in targets:
     if args.target != "all" and args.target != target:

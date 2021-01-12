@@ -3,8 +3,10 @@ FEATURES
 
 INTERFACE IMPROVEMENTS
 
-Blue Theme
-- Replaces your school's theme with a blue theme
+Brand New Dark and Light Themes
+- Dark Theme for Schoology! No more blinding whites!
+- Modern Light Theme which revitalizes the late 2000s interface to look modern and new 
+- Many other theme options as well, or make your own!
 - Replaces your school's logo with the Schoology logo
 
 Custom Themes
@@ -26,6 +28,7 @@ Quick Access
 
 Check Marks for Submitted Upcoming Assignments*
 - By default, green check marks ✔ are shown on all assignments you've submitted.
+- You can also manually check off assignments as you complete them
 - There are also options for putting a strikethrough through the assignment title or hiding the assignments completely.
 
 Tooltips

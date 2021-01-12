@@ -4,28 +4,26 @@
 Schoology Plus allows users to create, share, and apply custom themes for the Schoology interface. Themes are defined as a JSON object and can be installed to your browser from the theme editor, located in Schoology Plus settings. To install a theme from a JSON object, complete the following steps:
 
 1. Open the theme editor from Schoology Plus settings
-2. Click the "New Theme" button
-3. Click the "Theme JSON" tab on the right above the theme preview
-4. Click into the text box with the default JSON
-5. Press Ctrl+V or right click and select Paste
-6. Click "Save" or "Save and Apply" to save the theme
-
-![Example: installing a custom theme](https://i.imgur.com/36w8Hfa.gif)
+2. Click "Import Theme"
+3. Click into the "Paste Theme JSON Here" textbox
+4. Press Ctrl+V or right click and select Paste
+5. Click "Import"
 
 ## Format of Theme Specification Version 2
 A Schoology Plus theme has the following format and components (each component will be explained in detail below):
-```json
+```js
 {
     "name": "My Theme",
     "version": 2,
     "color": {
-        // Only one of the following properties
+        // Exactly one of the following 3 properties
         "hue": 359,
         "custom": {
             "primary": "red",
             "hover": "rgb(0,0,255)",
             "background": "hsl(150,50%,50%)",
-            "border": "#000000"
+            "border": "#000000",
+            "link": "magenta"
         },
         "rainbow": {
             "hue": {
@@ -44,32 +42,51 @@ A Schoology Plus theme has the following format and components (each component w
                 "value": 50
             }
         },
+        // Optional
         "modern": {
-            "dark": true,
+            "dark": false,
             "interface": {
-                "primary": "",
-                "accent": "",
-                "secondary": "",
-                "input": "",
-                "border": "",
-                "highlight": "",
-                "active": "",
-                "grades": "",
-                "error": ""
+                "primary": "#EAEAEA",
+                "accent": "#F7F7F7",
+                "secondary": "#DDD",
+                "input": "#D0D0D0",
+                "border": "#BABABA",
+                "highlight": "rgba(255, 183, 2, 0.2)",
+                "active": "rgba(152, 212, 228, 0.8)",
+                "grades": "#009400",
+                "error": "#F44336"
             },
             "calendar": [
-                // Array of 20 calendar colors
+                "#d6e7f4",
+                "#d7e8cf",
+                "#f9e9d4",
+                "#e7e0e5",
+                "#e6b5c9",
+                "#f9f1cf",
+                "#daf0f9",
+                "#f9ddea",
+                "#fbd7d8",
+                "#f1f2d1",
+                "#e0e8f5",
+                "#fbd7e4",
+                "#fcddd3",
+                "#e7f2d5",
+                "#e6e0ee",
+                "#f0e5db",
+                "#fce8d1",
+                "#e1f1e7",
+                "#f0dfed",
+                "#e9e9ea"
             ],
             "text": {
-                "primary": "",
-                "muted": "",
-                "contrast": "",
-                "link": ""
+                "primary": "#2A2A2A",
+                "muted": "#677583",
+                "contrast": "white"
             },
             "options": {
                 "borderRadius": 5,
                 "borderSize": 1,
-                "padding": 10,
+                "padding": 10
             }
         }
     },
@@ -130,7 +147,7 @@ A Schoology Plus theme has the following format and components (each component w
 |Value Type|`Object`|
 |Optional|Yes
 |Description|Describes the colors to use for the Schoology interface
-|Special Notes|The color object must contain ***exactly one*** of the following color definitions (either [hue](#hue-color-definition), [custom](#custom-color-definition), or [rainbow](#rainbow-color-definition))
+|Special Notes|The color object must contain ***exactly one*** of the following color definitions (either [hue](#hue-color-definition), [custom](#custom-color-definition), or [rainbow](#rainbow-color-definition)). It can optionally include a [modern](#modern-color-definition) color definition as well. 
 #### `hue` color definition
 |Property||
 |--|--|
@@ -149,10 +166,10 @@ A Schoology Plus theme has the following format and components (each component w
 |Property||
 |--|--|
 |Key|`custom`
-|Value Type|`{primary: CSSColor, background: CSSColor, hover: CSSColor, border: CSSColor}`|
+|Value Type|`{primary: CSSColor, background: CSSColor, hover: CSSColor, border: CSSColor, link: CSSColor}`|
 |Description|Allows fine control over individual colors in the interface
 |Value Restrictions|Each of the defined colors must be [valid CSS colors](https://www.w3schools.com/colors/default.asp) in any valid format
-|Subkeys (Required)|<table><tr><th>Key</th><th>Description</th><tr><td>`primary`</td><td>The main interface color used in the navigation bar and as the primary color for buttons and other UI elements. **Should be dark enough to read white text.**</td></tr><tr><td>`background`</td><td>The color of items in the settings menu (in the top right, when you click your name) when you hover over them.</td></tr><tr><td>`hover`</td><td>The background color of buttons and other interactive elements when you hover over them, the color of the settings dropdown menu (in the top right, when you click your name), and the color of most links throughout the website. **Should be dark enough to read white text.**</td></tr><tr><td>`border`</td><td>The border color of buttons and the border between the navigation bar and drop-down menus.</td></tr></table>|
+|Subkeys (Required)|<table><tr><th>Key</th><th>Description</th><tr><td>`primary`</td><td>The main interface color used in the navigation bar and as the primary color for buttons and other UI elements. **Should be dark enough to read white text.**</td></tr><tr><td>`background`</td><td>The color of items in the settings menu (in the top right, when you click your name) when you hover over them.</td></tr><tr><td>`hover`</td><td>The background color of buttons and other interactive elements when you hover over them, and the color of the settings dropdown menu (in the top right, when you click your name). **Should be dark enough to read white text.**</td></tr><tr><td>`border`</td><td>The border color of buttons and the border between the navigation bar and drop-down menus.</td></tr><tr><td>`link`</td><td>The color of clickable links throughout the website. This is **optional**, and defaults to `hover` if not specified to maintain backwards compatibility.</td></tr></table>|
 **Example**
 ```json
 "color": {
@@ -160,7 +177,8 @@ A Schoology Plus theme has the following format and components (each component w
         "primary": "#011e3e",
         "hover": "#b70014",
         "background": "#06448e",
-        "border": "#b70014"
+        "border": "#b70014",
+        "link": "#b70014"
     }
 }
 ```
@@ -223,6 +241,88 @@ A Schoology Plus theme has the following format and components (each component w
     }
 }
 ```
+
+#### `modern` color definition
+|Property||
+|--|--|
+|Key|`modern`
+|Value Type|`Object` as defined below|
+|Description|Allows extremely fine-grained control of colors for the entire Schoology interface. Unlike the other color definitions, the `modern` color defintion changes the entire interface instead of just links and the navigation bar. |
+|Subkeys (Required)|<table><tr><td>Key</td><td>Description</td></tr><tr><td>`dark`</td><td>`bool`: `true` if the `primary` interface color is "dark", meaning dark enough that certain white images should be inverted.</td></tr><tr><td>`interface`</td><td>Defines colors used throughout the interface. [See more details below](#interface-color-defintion).</td></tr><tr><td>`calendar`</td><td>`CSSColor[16]`: Array of 16 colors to use for calendar events</td></tr><tr><td>`text`</td><td>Defines text colors used in different situations. [See more details below](#text-color-definition).</td></tr><tr><td>`options`</td><td>Defines certain styling options to apply to interface elements. [See more details below](#modern-options-definition).</td></tr></table>|
+
+#### Interface Color Defintion
+|Property||
+|--|--|
+|Key|`interface`
+|Value Type|`Object` as defined below|
+|Description|Allows extremely fine-grained control of colors for the entire Schoology interface. Each value is a `CSSColor` and may be used in many contexts. The descriptions are just to give a general idea of where the color is used. |
+|Subkeys (Required)|<table><tr><td>Key</td><td>Description</td></tr><tr><td>`primary`</td><td>Primary interface color, used for page backgrounds. In general, should be the lightest of `primary`, `accent`, and `secondary`.</td></tr><tr><td>`accent`</td><td>Interface accent color, used for inset elements. In general, should have a lightness between `primary` and `secondary`.</td></tr><tr><td>`secondary`</td><td>Secondary interface color, used for menus and doubly-inset elements. In general, should be the darkest of `primary`, `accent`, and `secondary`.</td></tr><tr><td>`input`</td><td>Used for input fields (like text boxes)</td></tr><tr><td>`border`</td><td>Used for element borders</td></tr><tr><td>`highlight`</td><td>Used to draw attention to something important, usually used in negative connotations like warnings</td></tr><tr><td>`active`</td><td>Used for selected menu items and to draw attention to things in a more positive connotation, such as correct answers</td></tr><tr><td>`grades`</td><td>Used for letter grades and scores</td></tr><tr><td>`error`</td><td>Used for both error backgrounds and error text.</td></tr></table>|
+
+#### Text Color Definition
+|Property||
+|--|--|
+|Key|`text`
+|Value Type|`Object` as defined below|
+|Description|Allows extremely fine-grained control of text colors for the entire Schoology interface. Each value is a `CSSColor` and may be used in many contexts. The descriptions are just to give a general idea of where the color is used. |
+|Subkeys (Required)|<table><tr><td>Key</td><td>Description</td></tr><tr><td>`primary`</td><td>Primary text color, used in nearly all contexts</td></tr><tr><td>`muted`</td><td>Muted text color, used for elements that shouldn't stand out as much</td></tr><tr><td>`contrast`</td><td>Text color used on the navigation bar or other elements with background colors set by other color definitions. In general, this should probably be `white`.</td></tr></table>|
+#### Modern Options Definition
+|Property||
+|--|--|
+|Key|`options`
+|Value Type|`Object` as defined below|
+|Description|Defines certain styling options to apply to interface elements. |
+|Subkeys (Required)|<table><tr><td>Key</td><td>Description</td></tr><tr><td>`borderRadius`</td><td>`int`: CSS border radius property used on numerous inset elements (in pixels)</td></tr><tr><td>`borderSize`</td><td>`int`: Size of element borders (in pixels)</td></tr><tr><td>`padding`</td><td>`int`: Pixels of padding between elements</td></tr></table>|
+
+**Full Example of Modern Color Definition**
+```json
+"modern": {
+    "dark": false,
+    "interface": {
+        "primary": "#EAEAEA",
+        "accent": "#F7F7F7",
+        "secondary": "#DDD",
+        "input": "#D0D0D0",
+        "border": "#BABABA",
+        "highlight": "rgba(255, 183, 2, 0.2)",
+        "active": "rgba(152, 212, 228, 0.8)",
+        "grades": "#009400",
+        "error": "#F44336"
+    },
+    "calendar": [
+        "#d6e7f4",
+        "#d7e8cf",
+        "#f9e9d4",
+        "#e7e0e5",
+        "#e6b5c9",
+        "#f9f1cf",
+        "#daf0f9",
+        "#f9ddea",
+        "#fbd7d8",
+        "#f1f2d1",
+        "#e0e8f5",
+        "#fbd7e4",
+        "#fcddd3",
+        "#e7f2d5",
+        "#e6e0ee",
+        "#f0e5db",
+        "#fce8d1",
+        "#e1f1e7",
+        "#f0dfed",
+        "#e9e9ea"
+    ],
+    "text": {
+        "primary": "#2A2A2A",
+        "muted": "#677583",
+        "contrast": "white"
+    },
+    "options": {
+        "borderRadius": 5,
+        "borderSize": 1,
+        "padding": 10
+    }
+}
+```
+
 ### `logo`
 |Property||
 |--|--|
@@ -234,7 +334,7 @@ A Schoology Plus theme has the following format and components (each component w
 |Subkey Options (Must contain ***exactly one*** of these subkeys)|<table><tr><td>Key</td><td>Description</td></tr><tr><td>`url`</td><td>A direct link to an image to be used as the logo. Should be **160x50** or smaller for best results.</td></tr><tr><td>`preset`</td><td>One of the values described below that results in a preset image being used as the logo.</td></tr></table>
 |`preset` Values|<table><tr><th>Value</th><th>Preview</th></tr><tr><td>`"schoology_plus"`</td><td>![Schoology Plus](https://imgur.com/znq2Mc1.png)</td></tr><tr><td>`"schoology_logo"`</td><td>![Schoology logo](https://i.imgur.com/y64kiCY.png)</td></tr><tr><td>`"lausd_legacy"`</td><td>![LAUSD legacy](https://imgur.com/Mm7FXhD.png)</td></tr><tr><td>`"lausd_2019"`</td><td>![LAUSD 2019](https://imgur.com/NOuGRyZ.png)</td></tr><tr><td>`"default"`</td><td>Don't override the logo whatsoever</td></tr></table>**NOTE**: The Schoology and Schoology Plus logos have a transparent background, however the LAUSD logo backgrounds are orange or dark blue as shown.
 **Examples**
-```json
+```js
 // Example using "url"
 "logo": {
     "url": "https://example.com/my-correctly-sized-image.png"
