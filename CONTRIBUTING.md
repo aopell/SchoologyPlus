@@ -9,7 +9,7 @@ Pull requests are welcomed! If you would like to add a new feature, the best way
 There are two ways you can report bugs you find in Schoology Plus:
 
 1. Create a detailed [GitHub issue](https://github.com/aopell/SchoologyPlus/issues/new) describing the bug. Please provide detailed **steps to reproduce** and **screenshots** of the issue if applicable.
-2. Send a message in the `#bugs-reports` channel of our [Discord server](https://discord.schoologypl.us).
+2. Send a message in the `#bug-reports` channel of our [Discord server](https://discord.schoologypl.us).
 
 ## Feature Requests
 To avoid the problem of issue spam, we'd appreciate if you kept all feature requests in the `#feature-requests` channel of our [Discord server](https://discord.schoologypl.us). Please **do not create GitHub issues for feature requests**.
