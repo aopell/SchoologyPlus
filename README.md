@@ -16,7 +16,7 @@
 #### Contents
 - [Features](#features)
   - [Interface Improvements](#interface-improvements)
-    - [Blue Theme](#blue-theme)
+    - [Brand New Dark and Light Themes](#brand-new-dark-and-light-themes)
     - [Custom Themes](#custom-themes)
       - [Course Icons](#course-icons)
     - [Quick Access](#quick-access)
@@ -47,12 +47,13 @@
 ## Interface Improvements
 > ***All features below marked with an asterisk\* can be changed or customized with a setting***
 
-### Blue Theme
+### Brand New Dark and Light Themes
+![Dark Theme](https://i.imgur.com/DL9Cwja.png)
 
-![Navigation Bar](https://i.imgur.com/VbTn30Y.png)
-
-*Image: The blue Schology Plus navigation bar*
-- Replaces your school's theme with a blue theme
+*Image: Examples of the modern dark and light themes*
+- Dark Theme for Schoology! No more blinding whites!
+- Modern Light Theme which revitalizes the late 2000s interface to look modern and new 
+- Many other theme options as well, or make your own!
 - Replaces your school's logo with the Schoology logo
 
 ### Custom Themes
@@ -86,10 +87,11 @@
 
 ### Check Marks for Submitted Upcoming Assignments
 
-![Upcoming Check Marks](https://i.imgur.com/mrE2Iec.png)
+![Upcoming Check Marks](https://i.imgur.com/5kdO2cb.png)
 
 *Image: Upcoming assignments with check marks*
 - By default, green check marks ✔ are shown on all assignments you've submitted*
+- You can also manually check off assignments as you complete them
 - There are also options for putting a ~~strikethrough~~ through the assignment title or hiding the assignments completely.
 
 ### Tooltips
