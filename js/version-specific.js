@@ -277,12 +277,6 @@ let migrationsTo = {
         // survey announcement
         saveBroadcasts([
             createBroadcast(
-                670.1,
-                "Checkmarks have been updated!",
-                "Now you can manually check off assignments as completed from the Upcoming and Overdue boxes on the homepage!",
-                new Date(2020, 11 /* November */, 2)
-            ),
-            createBroadcast(
                 670,
                 "Schoology Plus Fall 2020 Survey",
                 `
@@ -298,7 +292,7 @@ let migrationsTo = {
 
                     <p>Thank you for helping improve Schoology Plus! Your feedback is incredibly valuable to us!</p>
 
-                    <p><a href="http://survey.schoologypl.us?source=ExtensionBroadcast&domain=${location.hostname}"><strong style="background: rgba(255,60,0,0.5) !important; color: white !important; font-size: 16px;">Click here to visit survey.schoologypl.us and take the survey now!</strong></a></p>
+                    <p><a href="http://survey.schoologypl.us?source=ExtensionReminderBroadcast&domain=${location.hostname}"><strong style="background: rgba(255,60,0,0.5) !important; color: white !important; font-size: 16px;">Click here to visit survey.schoologypl.us and take the survey now!</strong></a></p>
                 </div>
                 `,
                 new Date(2020, 11 /* November */, 2)
@@ -316,6 +310,24 @@ let migrationsTo = {
         Setting.setValue("indicateSubmission", undefined);
     },
     "7.0": function (currentVersion, previousVersion) {
+        saveBroadcasts([
+            createBroadcast(
+                700,
+                "Schoology Plus Fall 2020 Survey Closing Soon!",
+                `
+                <div>
+                    <p>The Schoology Plus Fall 2020 Survey will close on 1/31/2021 at midnight PST.</p>
+                    <p>Big thank you to those who have already completed the survey! You're really helping improve Schoology Plus!</p>
+
+                    <p>If you haven't yet filled it out, remember that By spending less than 15 minutes completing the survey and you'll be entered into a giveaway for <strong>one of 20 Amazon gift cards totaling $150!</strong>
+
+                    <p><a href="http://survey.schoologypl.us?source=ExtensionBroadcast&domain=${location.hostname}"><strong style="background: rgba(255,60,0,0.5) !important; color: white !important; font-size: 16px;">Click here to visit survey.schoologypl.us and take the survey now!</strong></a></p>
+                </div>
+                `,
+                new Date(2021, 0 /* January */, 11)
+            )
+        ]);
+
         var modalExistsInterval = setInterval(function () {
             if (document.readyState === "complete" && openModal && document.getElementById("choose-theme-modal") && !document.querySelector(".splus-modal-open")) {
                 clearInterval(modalExistsInterval);
