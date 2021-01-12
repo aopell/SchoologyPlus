@@ -3,7 +3,7 @@
 Thank you for your interest in contributing to Schoology Plus! This is an open source passion project, so any help we can get is highly appreciated. Here are some of the ways you can contribute to Schoology Plus:
 
 ## Pull Requests
-Pull requests are welcomed! If you would like to add a new feature, the best way of doing so is to submit a pull request. All pull requests will be considered and reviewed thoroughly.
+Pull requests are welcomed! If you would like to add a new feature, the best way of doing so is to submit a pull request. All pull requests will be considered and reviewed thoroughly. Contact us in the `#contributions` channel in our [Discord server](https://discord.schoologypl.us) for help deciphering the code!
 
 ## Bug Reports
 There are two ways you can report bugs you find in Schoology Plus:
