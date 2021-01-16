@@ -157,9 +157,10 @@
         });
 
         // this delegate has the conditional within it
-        if (applyCourseAliases) {
-            applyCourseAliases(filteredList);
-        }
+        // TEMPORARY CHANGE: Disable searching for nicknames on DOM updates 
+        // if (applyCourseAliases) {
+        //     applyCourseAliases(filteredList);
+        // }
 
         if (applyThemeIcons && filteredList.length > 0) {
             applyThemeIcons();

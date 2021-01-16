@@ -57,6 +57,11 @@ variable-intellisense {
         color: var(--text);
     }
 
+    body {
+        background: var(--primary) !important;
+        background-color: var(--primary) !important;
+    }
+
     #youtube-disclaimer {
         display: inline-block !important;
         color: var(--text) !important;
@@ -153,7 +158,7 @@ variable-intellisense {
         background-color: var(--primary) !important;
     }
 
-    iframe {
+    iframe:not([id^=firefox-screenshots-]) {
         // iframe must be white, because we can't change styles within it
         background-color: white !important;
     }
@@ -798,6 +803,12 @@ variable-intellisense {
         }
     }
 
+    #basic-user-warning {
+        background-color: var(--highlight) !important;
+        border: none !important;
+        border-radius: var(--border-radius) !important;
+    }
+
     .date-header h4 span,
     .s-poll-option-title,
     .s-like-sentence {
@@ -881,6 +892,16 @@ variable-intellisense {
 
     .selected-realm .name-text {
         color: var(--text) !important;
+    }
+
+    .selected-realm .name-wrapper {
+        background: var(--secondary) !important;
+        border-radius: var(--border-radius) !important;
+    }
+
+    .userlist_input input, .userlist_input_shadow, .userlist_input input[type=text] {
+        background-color: var(--input) !important;
+        border-radius: var(--border-radius) !important;
     }
 
     #edge-filters-btn {
@@ -1467,6 +1488,10 @@ variable-intellisense {
         color: var(--muted-text) !important;
     }
 
+    .subevent-count {
+        background-color: var(--secondary) !important;
+    }
+
     #edit-course-switcher-select-nid-menu {
         border: var(--modern-border) !important;
         background-color: var(--secondary);
@@ -1507,6 +1532,29 @@ variable-intellisense {
     #roster-wrapper .parent-code {
         background-color: var(--accent);
         color: var(--text);
+    }
+
+    // Photo Albums
+
+    .shuffleParent div.sshuffleContainer, .shuffleParent .mediaThumbContainer {
+        background: var(--secondary) !important;
+        border: var(--modern-border) !important;
+        border-radius: var(--border-radius) !important;
+    }
+
+    .s-media-album-content-container {
+        background-color: var(--secondary) !important;
+        border-radius: var(--border-radius) !important;
+        padding: var(--padding) !important;
+    }
+
+    .created {
+        color: var(--muted-text) !important;
+    }
+
+    .album-comments {
+        background: var(--accent) !important;
+        border: none !important;
     }
 
     // Messages
@@ -1599,6 +1647,12 @@ variable-intellisense {
     }
 
     // Discussion Board
+
+    .discussion-require-post-notice .warning {
+        background: var(--highlight) !important;
+        border: none !important;
+        border-radius: var(--border-radius) !important;
+    }
 
     .discussion-view {
         .sticky-wrapper h2.page-title {
@@ -2086,10 +2140,18 @@ variable-intellisense {
         border-bottom: var(--border-size) solid var(--input) !important;
     }
 
-    .dropbox-viewer-submission-activity,
-    .dropbox-viewer-submission-activity-inner {
-        background-color: var(--primary) !important;
-        color: var(--text) !important;
+    #dropbox-viewer-wrapper {
+        .dropbox-viewer-submission-activity,
+        .dropbox-viewer-submission-activity-inner {
+            background-color: var(--primary) !important;
+            color: var(--text) !important;
+        }
+    }
+
+    .popups-dropbox-viewer .popups-close a {
+        background-color: var(--secondary) !important;
+        border: var(--modern-border) !important;
+        height: 16px !important;
     }
 
     ul#attachment-selector li:hover>a {

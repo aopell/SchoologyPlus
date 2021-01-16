@@ -1,3 +1,5 @@
+while (!window.splusPreload) { }
+
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 const BUG_REPORT_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLScF1_MZofOWT9pkWp3EfKSvzCPpyevYtqbAucp1K5WKGlckiA/viewform?entry.118199430=";
 const SINGLE_COURSE = window.location.href.includes("/course/");

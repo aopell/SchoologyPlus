@@ -495,6 +495,12 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
             title: "Toggle Theme\n\nUse this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
             onclick: e => {
                 let newVal = document.documentElement.getAttribute("modern") == "false" ? "true" : "false";
+                if(newVal == "false") {
+                    tempTheme = "Schoology Plus";
+                } else {
+                    tempTheme = undefined;
+                }
+                Theme.apply(Theme.active);
                 document.documentElement.setAttribute("modern", newVal);
                 trackEvent("modern-theme-toggle", newVal, "Navbar Button");
             },
@@ -1095,6 +1101,9 @@ function indicateSubmittedAssignments() {
     // checks on the backend if an assignment is complete (submitted)
     // does not check user overrides
     async function isAssignmentCompleteAsync(assignmentId) {
+        if (assignmentId == null) {
+            return false;
+        }
         try {
             let revisionData = await fetchApiJson(`dropbox/${assignmentId}/${getUserId()}`);
             let revisions = revisionData.revision;
@@ -1108,8 +1117,7 @@ function indicateSubmittedAssignments() {
 
     // checks user override for assignment completion
     function isAssignmentMarkedComplete(assignmentId) {
-        let overrides = Setting.getValue(completionOverridesSetting);
-        return !!(overrides && overrides[assignmentId]);
+        return !!Setting.getNestedValue(completionOverridesSetting, assignmentId);
     }
 
     function setAssignmentCompleteOverride(assignmentId, isComplete) {
@@ -1154,11 +1162,11 @@ function indicateSubmittedAssignments() {
 
     // returns assignment ID for convenience
     async function processAssignmentUpcomingAsync(eventElement) {
-        let infotipElement = eventElement.querySelector(".infotip");
+        let infotipElement = eventElement.querySelector(".infotip, .singleday");
         let assignmentElement = infotipElement.querySelector("a[href]");
 
         // TODO errorcheck the assignmentId match
-        let assignmentId;
+        let assignmentId = null;
         if (assignmentElement.href.includes("/assignment/")) {
             assignmentId = assignmentElement.href.match(/assignment\/(\d+)/)[1];
         } else if (assignmentElement.href.includes("/course/")) {
@@ -1177,7 +1185,7 @@ function indicateSubmittedAssignments() {
         }
 
         if (!eventElement.querySelector(".splus-completed-check-indicator")) {
-            infotipElement.insertAdjacentElement("afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
+            infotipElement.insertAdjacentElement(infotipElement.classList.contains("singleday") ? "afterbegin" : "afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
         }
 
         return assignmentId;
@@ -1203,16 +1211,14 @@ function indicateSubmittedAssignments() {
                     break;
             }
 
-            // filter to course-event to avoid generic calendar events
-            let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event.course-event");
+            let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event:not(.upcoming-subevents-block)");
 
             for (let eventElement of upcomingEventElements) {
                 try {
-                    // TODO only process if it's an assignment, not (e.g.) a calendar event
                     idSet.add(await processAssignmentUpcomingAsync(eventElement));
                 }
                 catch (err) {
-                    Logger.error(`Failed checking assignment '${eventElement.querySelector(".infotip a[href]").href}' : `, err);
+                    Logger.error(`Failed checking assignment '${eventElement.querySelector(".infotip a[href]")?.href}' : `, err);
                 }
             }
         }
