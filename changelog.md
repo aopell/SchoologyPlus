@@ -1,3 +1,7 @@
+<head>
+    <meta http-equiv="refresh" content="0;url=https://schoologypl.us/changelog?utm_source=gh-pages-redirect" />
+</head>
+
 # Changelog
 
 ## Version 6.1.1 - March 25, 2020
