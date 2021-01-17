@@ -56,6 +56,11 @@ variable-intellisense {
   color: var(--text);
 }
 
+[modern=true]:root body {
+  background: var(--primary) !important;
+  background-color: var(--primary) !important;
+}
+
 [modern=true]:root #youtube-disclaimer {
   display: inline-block !important;
   color: var(--text) !important;
@@ -145,7 +150,7 @@ variable-intellisense {
   background-color: var(--primary) !important;
 }
 
-[modern=true]:root iframe {
+[modern=true]:root iframe:not([id^=firefox-screenshots-]) {
   background-color: white !important;
 }
 
@@ -744,6 +749,12 @@ variable-intellisense {
   color: var(--text) !important;
 }
 
+[modern=true]:root #basic-user-warning {
+  background-color: var(--highlight) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
 [modern=true]:root .date-header h4 span,
 [modern=true]:root .s-poll-option-title,
 [modern=true]:root .s-like-sentence {
@@ -826,6 +837,16 @@ variable-intellisense {
 
 [modern=true]:root .selected-realm .name-text {
   color: var(--text) !important;
+}
+
+[modern=true]:root .selected-realm .name-wrapper {
+  background: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .userlist_input input, [modern=true]:root .userlist_input_shadow, [modern=true]:root .userlist_input input[type=text] {
+  background-color: var(--input) !important;
+  border-radius: var(--border-radius) !important;
 }
 
 [modern=true]:root #edge-filters-btn {
@@ -1357,6 +1378,10 @@ variable-intellisense {
   color: var(--muted-text) !important;
 }
 
+[modern=true]:root .subevent-count {
+  background-color: var(--secondary) !important;
+}
+
 [modern=true]:root #edit-course-switcher-select-nid-menu {
   border: var(--modern-border) !important;
   background-color: var(--secondary);
@@ -1397,6 +1422,27 @@ variable-intellisense {
 [modern=true]:root #roster-wrapper .parent-code {
   background-color: var(--accent);
   color: var(--text);
+}
+
+[modern=true]:root .shuffleParent div.sshuffleContainer, [modern=true]:root .shuffleParent .mediaThumbContainer {
+  background: var(--secondary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+[modern=true]:root .s-media-album-content-container {
+  background-color: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+  padding: var(--padding) !important;
+}
+
+[modern=true]:root .created {
+  color: var(--muted-text) !important;
+}
+
+[modern=true]:root .album-comments {
+  background: var(--accent) !important;
+  border: none !important;
 }
 
 [modern=true]:root .privatemsg-list td {
@@ -1479,6 +1525,12 @@ variable-intellisense {
 [modern=true]:root .message-title,
 [modern=true]:root .message-view-row {
   border-bottom: var(--modern-border) !important;
+}
+
+[modern=true]:root .discussion-require-post-notice .warning {
+  background: var(--highlight) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
 }
 
 [modern=true]:root .discussion-view .sticky-wrapper h2.page-title {
@@ -1901,10 +1953,16 @@ variable-intellisense {
   border-bottom: var(--border-size) solid var(--input) !important;
 }
 
-[modern=true]:root .dropbox-viewer-submission-activity,
-[modern=true]:root .dropbox-viewer-submission-activity-inner {
+[modern=true]:root #dropbox-viewer-wrapper .dropbox-viewer-submission-activity,
+[modern=true]:root #dropbox-viewer-wrapper .dropbox-viewer-submission-activity-inner {
   background-color: var(--primary) !important;
   color: var(--text) !important;
+}
+
+[modern=true]:root .popups-dropbox-viewer .popups-close a {
+  background-color: var(--secondary) !important;
+  border: var(--modern-border) !important;
+  height: 16px !important;
 }
 
 [modern=true]:root ul#attachment-selector li:hover > a {

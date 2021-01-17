@@ -761,6 +761,12 @@ a._3_bfp {
     cursor: pointer;
 }
 
+.splus-mark-completed-check .upcoming-subevents-block .splus-completed-check-indicator {
+    position: absolute;
+    right: 16px;
+    top: 0;
+}
+
 .splus-mark-completed-check .splus-assignment-notcomplete .splus-completed-check-indicator::after {
     color: var(--muted-text) !important;
     content: "▢";
@@ -773,11 +779,11 @@ a._3_bfp {
 
 /* "loading" state to avoid vertical scrolling when transitioning from 'forced completed' to 'query state' */
 /* animated spin. default center,center rotate origin appears to be slightly off, but not likely to be noticeable for <1s load times. */
-.splus-mark-completed-check .course-event:not(.splus-assignment-complete):not(.splus-assignment-notcomplete) .splus-completed-check-indicator {
+.splus-mark-completed-check .upcoming-event:not(.upcoming-subevents-block):not(.splus-assignment-complete):not(.splus-assignment-notcomplete) .splus-completed-check-indicator {
     animation: rotation 0.8s infinite linear;
 }
 
-.splus-mark-completed-check .course-event:not(.splus-assignment-complete):not(.splus-assignment-notcomplete) .splus-completed-check-indicator::after {
+.splus-mark-completed-check .upcoming-event:not(.upcoming-subevents-block):not(.splus-assignment-complete):not(.splus-assignment-notcomplete) .splus-completed-check-indicator::after {
     color: var(--muted-text) !important;
     content: "⚆";
 }

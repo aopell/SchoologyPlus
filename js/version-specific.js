@@ -334,6 +334,16 @@ let migrationsTo = {
                 openModal("choose-theme-modal");
             }
         }, 50);
+    },
+    "7.1": function (currentVersion, previousVersion) {
+        saveBroadcasts([
+            createBroadcast(
+                710,
+                "Course Nicknames Under Maintenance",
+                "Due to performance concerns, course nicknames may not show up in every place you're used to seeing them. We're working on a fix so hopefully this can be resolved as soon as possible. Thanks for your patience.",
+                new Date(2021, 0 /* January */, 16)
+            )
+        ]);
     }
 };
 
