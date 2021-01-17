@@ -55,6 +55,7 @@
 - Modern Light Theme which revitalizes the late 2000s interface to look modern and new 
 - Many other theme options as well, or make your own!
 - Replaces your school's logo with the Schoology logo
+- [Click here to learn how to enable dark theme](https://schoologypl.us/docs/themes/dark)
 
 ### Custom Themes
 
