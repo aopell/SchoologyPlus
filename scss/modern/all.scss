@@ -103,7 +103,8 @@ variable-intellisense {
         .comment-comment .comment-body-wrapper *[style],
         .instructions-content *[style],
         .lrn_stimulus .lrn_stimulus_content *[style],
-        .lrn-possible-answer *[style] {
+        .lrn-possible-answer *[style],
+        .folder-description *[style] {
             color: var(--text) !important;
             background: none !important;
         }

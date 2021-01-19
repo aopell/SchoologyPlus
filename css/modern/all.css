@@ -97,7 +97,8 @@ variable-intellisense {
 [modern=true][style-override=true]:root .comment-comment .comment-body-wrapper *[style],
 [modern=true][style-override=true]:root .instructions-content *[style],
 [modern=true][style-override=true]:root .lrn_stimulus .lrn_stimulus_content *[style],
-[modern=true][style-override=true]:root .lrn-possible-answer *[style] {
+[modern=true][style-override=true]:root .lrn-possible-answer *[style],
+[modern=true][style-override=true]:root .folder-description *[style] {
   color: var(--text) !important;
   background: none !important;
 }
