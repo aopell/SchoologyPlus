@@ -173,7 +173,8 @@ var fetchQueue = [];
                                 throw new Error("Assignment details could not be read");
                             }
 
-                            let pts = Number.parseFloat(json.section[0].period[0].assignment.filter(x => x.assignment_id == Number.parseInt(assignment.dataset.id.substr(2)))[0].max_points);
+                            const assignments = json.section[0].period.reduce((prevVal,curVal)=> prevVal.concat(curVal.assignment),[]);//combines the assignment arrays from each period
+                            let pts = Number.parseFloat(assignments.filter(x =>  x.assignment_id == assignment.dataset.id.substr(2))[0].max_points);
                             if (!assignment.classList.contains("dropped")) {
                                 max += pts;
                                 Logger.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
