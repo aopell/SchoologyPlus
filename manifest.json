@@ -30,7 +30,7 @@
     "permissions": [
         "*://lms.lausd.net/*",
         "*://*.schoology.com/*",
-        "*://schoology.*.org/*",
+        "*://schoology.harker.org/*",
         "storage",
         "alarms",
         "notifications",
@@ -63,7 +63,7 @@
             "matches": [
                 "https://lms.lausd.net/*",
                 "https://*.schoology.com/*",
-                "https://schoology.*.org/*"
+                "https://schoology.harker.org/*"
             ],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
@@ -99,7 +99,7 @@
             "matches": [
                 "https://lms.lausd.net/*",
                 "https://*.schoology.com/*",
-                "https://schoology.*.org/*"
+                "https://schoology.harker.org/*"
             ],
             "exclude_matches": [
                 "https://*.schoology.com/register*",
@@ -125,8 +125,8 @@
                 "https://lms.lausd.net/course/*/student_grades",
                 "https://*.schoology.com/grades/grades*",
                 "https://*.schoology.com/course/*/student_grades",
-                "https://schoology.*.org/grades/grades*",
-                "https://schoology.*.org/course/*/student_grades"
+                "https://schoology.harker.org/grades/grades*",
+                "https://schoology.harker.org/course/*/student_grades"
             ],
             "css": [
                 "css/grades.css"
@@ -141,7 +141,7 @@
             "matches": [
                 "https://lms.lausd.net/course/*/materials*",
                 "https://*.schoology.com/course/*/materials*",
-                "https://schoology.*.org/course/*/materials*"
+                "https://schoology.harker.org/course/*/materials*"
             ],
             "css": [
                 "css/materials.css"
@@ -159,7 +159,7 @@
             "matches": [
                 "https://lms.lausd.net/mastery*",
                 "https://*.schoology.com/mastery*",
-                "https://schoology.*.org/mastery*"
+                "https://schoology.harker.org/mastery*"
             ],
             "js": [
                 "js/mastery.js"
@@ -178,11 +178,11 @@
                 "https://*.schoology.com/home#*",
                 "https://*.schoology.com/home/recent-activity*",
                 "https://*.schoology.com/home/course-dashboard*",
-                "https://schoology.*.org/",
-                "https://schoology.*.org/home",
-                "https://schoology.*.org/home#*",
-                "https://schoology.*.org/home/recent-activity*",
-                "https://schoology.*.org/home/course-dashboard*"
+                "https://schoology.harker.org/",
+                "https://schoology.harker.org/home",
+                "https://schoology.harker.org/home#*",
+                "https://schoology.harker.org/home/recent-activity*",
+                "https://schoology.harker.org/home/course-dashboard*"
             ],
             "js": [
                 "js/course.js",
@@ -194,7 +194,7 @@
             "matches": [
                 "https://lms.lausd.net/course/*",
                 "https://*.schoology.com/course/*",
-                "https://schoology.*.org/course/*"
+                "https://schoology.harker.org/course/*"
             ],
             "js": [
                 "js/course.js"
@@ -205,7 +205,7 @@
             "matches": [
                 "https://lms.lausd.net/user/*",
                 "https://*.schoology.com/user/*",
-                "https://schoology.*.org/user/*"
+                "https://schoology.harker.org/user/*"
             ],
             "js": [
                 "js/user.js"
@@ -219,7 +219,7 @@
             "matches": [
                 "https://lms.lausd.net/assignment/*/assessment",
                 "https://*.schoology.com/assignment/*/assessment",
-                "https://schoology.*.org/assignment/*/assessment"
+                "https://schoology.harker.org/assignment/*/assessment"
             ],
             "js": [
                 "js/assessment.js"
@@ -230,7 +230,7 @@
             "matches": [
                 "https://lms.lausd.net/page/*",
                 "https://*.schoology.com/page/*",
-                "https://schoology.*.org/page/*"
+                "https://schoology.harker.org/page/*"
             ],
             "js": [
                 "js/page.js"
@@ -243,8 +243,8 @@
                 "https://lms.lausd.net/courses/*",
                 "https://*.schoology.com/courses*",
                 "https://*.schoology.com/courses/*",
-                "https://schoology.*.org/courses*",
-                "https://schoology.*.org/courses/*"
+                "https://schoology.harker.org/courses*",
+                "https://schoology.harker.org/courses/*"
             ],
             "js": [
                 "js/course.js",
@@ -256,7 +256,7 @@
             "matches": [
                 "https://lms.lausd.net/*",
                 "https://*.schoology.com/*",
-                "https://schoology.*.org/*"
+                "https://schoology.harker.org/*"
             ],
             "exclude_matches": [
                 "https://*.schoology.com/register*",
