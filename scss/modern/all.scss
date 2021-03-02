@@ -104,7 +104,8 @@ variable-intellisense {
         .instructions-content *[style],
         .lrn_stimulus .lrn_stimulus_content *[style],
         .lrn-possible-answer *[style],
-        .folder-description *[style] {
+        .folder-description *[style],
+        .item-info *[style] {
             color: var(--text) !important;
             background: none !important;
         }
