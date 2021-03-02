@@ -304,7 +304,7 @@ class Theme {
             pictures = pictures.concat(courseImgs);
         }
 
-        let arrows = Array.from(document.querySelectorAll(".gradebook-course-title .arrow, .splus-course-icon"));
+        let arrows = Array.from(document.querySelectorAll(".gradebook-course-title .arrow:not(.icon-modified), .splus-course-icon:not(.icon-modified)"));
 
         for (let arrow of arrows) {
             arrow.themedIconMode = "gradesPageArrow";
@@ -398,7 +398,9 @@ class Theme {
                             containerImg.dataset.result = "success";
                         };
 
-                        containerImg.src = sourceUrl;
+                        if(containerImg.src != sourceUrl) {
+                            containerImg.src = sourceUrl;
+                        }
                     }
                 }
             }
@@ -423,7 +425,11 @@ class Theme {
                 img.src = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
                 img.classList.add("splus-loaderror");
             };
-            img.src = Theme.getIcon(img.alt);
+            let customSrc = Theme.getIcon(img.alt);
+            if(img.src !== customSrc) {
+                Logger.debug(img, img.src, customSrc)
+                img.src = customSrc;
+            } else {console.log("prevented")}
             img.classList.add("injected-course-icon");
         }
 
