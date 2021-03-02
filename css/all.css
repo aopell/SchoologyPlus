@@ -528,7 +528,7 @@ the selector matches inside notifications in the new notifs dropdown
 }
 
 .quick-course-link {
-    max-width: 250px;
+    max-width: 225px;
     display: inline-block;
 }
 
@@ -581,6 +581,10 @@ the selector matches inside notifications in the new notifs dropdown
     background-position: 5px -475px;
 }
 
+.quick-access-course .icon.icon-quicklink {
+    background-position: 5px -1225px;
+}
+
 .quick-access-course .icon.icon-grades:hover {
     background-position: 5px -100px;
 }
@@ -591,6 +595,10 @@ the selector matches inside notifications in the new notifs dropdown
 
 .quick-access-course .icon.icon-settings:hover {
     background-position: 5px -450px;
+}
+
+.quick-access-course .icon.icon-quicklink:hover {
+    background-position: 5px -1200px;
 }
 
 .quick-access-no-courses {

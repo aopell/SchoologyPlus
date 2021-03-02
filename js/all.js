@@ -1059,16 +1059,22 @@ async function createQuickAccess() {
     } else {
         let courseOptionsButton;
         let iconImage;
+        let courseIconsContainer;
         for (let section of sectionsList) {
             wrapper.appendChild(createElement("div", ["quick-access-course"], {}, [
                 (iconImage = createElement("div", ["splus-course-icon"], { dataset: { courseTitle: `${section.course_title}: ${section.section_title}` } })),
                 createElement("a", ["splus-track-clicks", "quick-course-link"], { textContent: `${section.course_title}: ${section.section_title}`, href: `/course/${section.id}`, dataset: { splusTrackingTarget: "quick-access-course-link", splusTrackingLabel: "Quick Access" } }),
-                createElement("div", ["icons-container"], {}, [
+                (courseIconsContainer = createElement("div", ["icons-container"], {}, [
                     createElement("a", ["icon", "icon-grades", "splus-track-clicks"], { href: `/course/${section.id}/student_grades`, title: "Grades", dataset: { splusTrackingTarget: "quick-access-grades-link", splusTrackingLabel: "Quick Access" } }),
                     createElement("a", ["icon", "icon-mastery", "splus-track-clicks"], { href: `/course/${section.id}/student_mastery`, title: "Mastery", dataset: { splusTrackingTarget: "quick-access-mastery-link", splusTrackingLabel: "Quick Access" } }),
                     (courseOptionsButton = createElement("a", ["icon", "icon-settings", "splus-track-clicks"], { href: "#", dataset: { splusTrackingTarget: "quick-access-settings-link", splusTrackingLabel: "Quick Access" } }))
-                ])
+                ]))
             ]));
+
+            let quickLink = Setting.getNestedValue("courseQuickLinks", section.id);
+            if(quickLink && quickLink !== "") {
+                courseIconsContainer.prepend(createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], { href: quickLink, title: "Quick Link", dataset: { splusTrackingTarget: "quick-access-quicklink-link", splusTrackingLabel: "Quick Access" } }))
+            }
 
             iconImage.style.backgroundImage = `url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")})`;
 
