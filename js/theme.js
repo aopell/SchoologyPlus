@@ -429,7 +429,7 @@ class Theme {
             if(img.src !== customSrc) {
                 Logger.debug(img, img.src, customSrc)
                 img.src = customSrc;
-            } else {console.log("prevented")}
+            }
             img.classList.add("injected-course-icon");
         }
 
