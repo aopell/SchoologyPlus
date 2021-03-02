@@ -63,7 +63,6 @@ variable-intellisense {
     }
 
     #youtube-disclaimer {
-        display: inline-block !important;
         color: var(--text) !important;
         background-color: var(--secondary) !important;
         padding: var(--padding) !important;
@@ -1530,7 +1529,7 @@ variable-intellisense {
             color: var(--text) !important;
             border: none !important;
         }
-        
+
         &.status {
             background: var(--active) !important;
             color: var(--text) !important;
@@ -1693,6 +1692,11 @@ variable-intellisense {
         #main #s_comments .s_comments_level .s_comments_level .comment.on-top {
             background-color: var(--active) !important;
         }
+    }
+
+    .discussion-view .discussion-content .comment #comment-reply-form-wrapper #s-comment-reply-form,
+    .discussion-view .s-comments-post-form-new .comment #comment-reply-form-wrapper #s-comment-reply-form {
+        background: var(--accent) !important;
     }
 
     .grade-title {

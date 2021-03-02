@@ -382,10 +382,9 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
     color: var(--contrast-text-color) !important;
 }
 
-.submit-span-wrapper {
+.submit-span-wrapper, .submit-span-wrapper[style] {
     border: 2px solid var(--border-color) !important;
-    background-color: var(--primary-color) !important;
-    background-image: none !important;
+    background: var(--primary-color) !important;
 }
 
 .submit-span-wrapper:hover {

@@ -62,7 +62,6 @@ variable-intellisense {
 }
 
 [modern=true]:root #youtube-disclaimer {
-  display: inline-block !important;
   color: var(--text) !important;
   background-color: var(--secondary) !important;
   padding: var(--padding) !important;
@@ -1566,6 +1565,11 @@ variable-intellisense {
 [modern=true]:root .discussion-view #s_comments .s_comments_level .comment.on-top,
 [modern=true]:root .discussion-view #main #s_comments .s_comments_level .s_comments_level .comment.on-top {
   background-color: var(--active) !important;
+}
+
+[modern=true]:root .discussion-view .discussion-content .comment #comment-reply-form-wrapper #s-comment-reply-form,
+[modern=true]:root .discussion-view .s-comments-post-form-new .comment #comment-reply-form-wrapper #s-comment-reply-form {
+  background: var(--accent) !important;
 }
 
 [modern=true]:root .grade-title {
