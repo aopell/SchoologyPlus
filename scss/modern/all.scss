@@ -901,7 +901,9 @@ variable-intellisense {
         border-radius: var(--border-radius) !important;
     }
 
-    .userlist_input input, .userlist_input_shadow, .userlist_input input[type=text] {
+    .userlist_input input,
+    .userlist_input_shadow,
+    .userlist_input input[type=text] {
         background-color: var(--input) !important;
         border-radius: var(--border-radius) !important;
     }
@@ -1112,7 +1114,7 @@ variable-intellisense {
         >div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div {
             background-color: var(--primary) !important;
 
-            button {                
+            button {
                 span._24avl._17Z60 {
                     color: var(--text) !important;
                 }
@@ -1518,9 +1520,22 @@ variable-intellisense {
         }
     }
 
-    .messages.warning {
-        background: var(--highlight) !important;
-        color: var(--text) !important;
+    .messages {
+        .messages-close-btn {
+            color: var(--text) !important;
+        }
+
+        &.warning {
+            background: var(--highlight) !important;
+            color: var(--text) !important;
+            border: none !important;
+        }
+        
+        &.status {
+            background: var(--active) !important;
+            color: var(--text) !important;
+            border: none !important;
+        }
     }
 
     span#updates-count {
@@ -1540,7 +1555,8 @@ variable-intellisense {
 
     // Photo Albums
 
-    .shuffleParent div.sshuffleContainer, .shuffleParent .mediaThumbContainer {
+    .shuffleParent div.sshuffleContainer,
+    .shuffleParent .mediaThumbContainer {
         background: var(--secondary) !important;
         border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
@@ -2145,6 +2161,7 @@ variable-intellisense {
     }
 
     #dropbox-viewer-wrapper {
+
         .dropbox-viewer-submission-activity,
         .dropbox-viewer-submission-activity-inner {
             background-color: var(--primary) !important;

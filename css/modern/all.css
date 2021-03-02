@@ -846,7 +846,9 @@ variable-intellisense {
   border-radius: var(--border-radius) !important;
 }
 
-[modern=true]:root .userlist_input input, [modern=true]:root .userlist_input_shadow, [modern=true]:root .userlist_input input[type=text] {
+[modern=true]:root .userlist_input input,
+[modern=true]:root .userlist_input_shadow,
+[modern=true]:root .userlist_input input[type=text] {
   background-color: var(--input) !important;
   border-radius: var(--border-radius) !important;
 }
@@ -1406,9 +1408,20 @@ variable-intellisense {
   filter: Invert(var(--theme-is-dark)) !important;
 }
 
+[modern=true]:root .messages .messages-close-btn {
+  color: var(--text) !important;
+}
+
 [modern=true]:root .messages.warning {
   background: var(--highlight) !important;
   color: var(--text) !important;
+  border: none !important;
+}
+
+[modern=true]:root .messages.status {
+  background: var(--active) !important;
+  color: var(--text) !important;
+  border: none !important;
 }
 
 [modern=true]:root span#updates-count {
@@ -1426,7 +1439,8 @@ variable-intellisense {
   color: var(--text);
 }
 
-[modern=true]:root .shuffleParent div.sshuffleContainer, [modern=true]:root .shuffleParent .mediaThumbContainer {
+[modern=true]:root .shuffleParent div.sshuffleContainer,
+[modern=true]:root .shuffleParent .mediaThumbContainer {
   background: var(--secondary) !important;
   border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
