@@ -1111,8 +1111,10 @@ variable-intellisense {
         >div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div {
             background-color: var(--primary) !important;
 
-            button {
-                filter: Grayscale(var(--theme-is-dark)) Invert(var(--theme-is-dark));
+            button {                
+                span._24avl._17Z60 {
+                    color: var(--text) !important;
+                }
             }
 
             .Card-card-2rORL {
