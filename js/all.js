@@ -252,6 +252,8 @@ let modals = [
                     createElement("a", [], { href: "https://github.com/Roguim", textContent: "@Roguim" }),
                     createElement("span", [], { textContent: ", " }),
                     createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger (@reteps)" }),
+                    createElement("span", [], { textContent: ", " }),
+                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Eric Pedley (@EricPedley)" }),
                     createElement("span", [], { textContent: ", and " }),
                     createElement("a", [], { href: "https://github.com/KTibow", textContent: "@KTibow" }),
                 ]),
@@ -1076,7 +1078,7 @@ async function createQuickAccess() {
 
             let quickLink = Setting.getNestedValue("courseQuickLinks", section.id);
             if(quickLink && quickLink !== "") {
-                courseIconsContainer.prepend(createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], { href: quickLink, title: "Quick Link", dataset: { splusTrackingTarget: "quick-access-quicklink-link", splusTrackingLabel: "Quick Access" } }))
+                courseIconsContainer.prepend(createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], { href: quickLink, title: `Quick Link \n(${quickLink})`, dataset: { splusTrackingTarget: "quick-access-quicklink-link", splusTrackingLabel: "Quick Access" } }))
             }
 
             iconImage.style.backgroundImage = `url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")})`;
