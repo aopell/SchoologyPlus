@@ -62,7 +62,6 @@ variable-intellisense {
 }
 
 [modern=true]:root #youtube-disclaimer {
-  display: inline-block !important;
   color: var(--text) !important;
   background-color: var(--secondary) !important;
   padding: var(--padding) !important;
@@ -97,7 +96,9 @@ variable-intellisense {
 [modern=true][style-override=true]:root .comment-comment .comment-body-wrapper *[style],
 [modern=true][style-override=true]:root .instructions-content *[style],
 [modern=true][style-override=true]:root .lrn_stimulus .lrn_stimulus_content *[style],
-[modern=true][style-override=true]:root .lrn-possible-answer *[style] {
+[modern=true][style-override=true]:root .lrn-possible-answer *[style],
+[modern=true][style-override=true]:root .folder-description *[style],
+[modern=true][style-override=true]:root .item-info *[style] {
   color: var(--text) !important;
   background: none !important;
 }
@@ -844,7 +845,9 @@ variable-intellisense {
   border-radius: var(--border-radius) !important;
 }
 
-[modern=true]:root .userlist_input input, [modern=true]:root .userlist_input_shadow, [modern=true]:root .userlist_input input[type=text] {
+[modern=true]:root .userlist_input input,
+[modern=true]:root .userlist_input_shadow,
+[modern=true]:root .userlist_input input[type=text] {
   background-color: var(--input) !important;
   border-radius: var(--border-radius) !important;
 }
@@ -1032,8 +1035,8 @@ variable-intellisense {
   background-color: var(--primary) !important;
 }
 
-[modern=true]:root body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div button {
-  filter: Grayscale(var(--theme-is-dark)) Invert(var(--theme-is-dark));
+[modern=true]:root body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div button span._24avl._17Z60 {
+  color: var(--text) !important;
 }
 
 [modern=true]:root body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div .Card-card-2rORL {
@@ -1404,9 +1407,20 @@ variable-intellisense {
   filter: Invert(var(--theme-is-dark)) !important;
 }
 
+[modern=true]:root .messages .messages-close-btn {
+  color: var(--text) !important;
+}
+
 [modern=true]:root .messages.warning {
   background: var(--highlight) !important;
   color: var(--text) !important;
+  border: none !important;
+}
+
+[modern=true]:root .messages.status {
+  background: var(--active) !important;
+  color: var(--text) !important;
+  border: none !important;
 }
 
 [modern=true]:root span#updates-count {
@@ -1424,7 +1438,8 @@ variable-intellisense {
   color: var(--text);
 }
 
-[modern=true]:root .shuffleParent div.sshuffleContainer, [modern=true]:root .shuffleParent .mediaThumbContainer {
+[modern=true]:root .shuffleParent div.sshuffleContainer,
+[modern=true]:root .shuffleParent .mediaThumbContainer {
   background: var(--secondary) !important;
   border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
@@ -1550,6 +1565,11 @@ variable-intellisense {
 [modern=true]:root .discussion-view #s_comments .s_comments_level .comment.on-top,
 [modern=true]:root .discussion-view #main #s_comments .s_comments_level .s_comments_level .comment.on-top {
   background-color: var(--active) !important;
+}
+
+[modern=true]:root .discussion-view .discussion-content .comment #comment-reply-form-wrapper #s-comment-reply-form,
+[modern=true]:root .discussion-view .s-comments-post-form-new .comment #comment-reply-form-wrapper #s-comment-reply-form {
+  background: var(--accent) !important;
 }
 
 [modern=true]:root .grade-title {

@@ -63,7 +63,6 @@ variable-intellisense {
     }
 
     #youtube-disclaimer {
-        display: inline-block !important;
         color: var(--text) !important;
         background-color: var(--secondary) !important;
         padding: var(--padding) !important;
@@ -103,7 +102,9 @@ variable-intellisense {
         .comment-comment .comment-body-wrapper *[style],
         .instructions-content *[style],
         .lrn_stimulus .lrn_stimulus_content *[style],
-        .lrn-possible-answer *[style] {
+        .lrn-possible-answer *[style],
+        .folder-description *[style],
+        .item-info *[style] {
             color: var(--text) !important;
             background: none !important;
         }
@@ -899,7 +900,9 @@ variable-intellisense {
         border-radius: var(--border-radius) !important;
     }
 
-    .userlist_input input, .userlist_input_shadow, .userlist_input input[type=text] {
+    .userlist_input input,
+    .userlist_input_shadow,
+    .userlist_input input[type=text] {
         background-color: var(--input) !important;
         border-radius: var(--border-radius) !important;
     }
@@ -1111,7 +1114,9 @@ variable-intellisense {
             background-color: var(--primary) !important;
 
             button {
-                filter: Grayscale(var(--theme-is-dark)) Invert(var(--theme-is-dark));
+                span._24avl._17Z60 {
+                    color: var(--text) !important;
+                }
             }
 
             .Card-card-2rORL {
@@ -1514,9 +1519,22 @@ variable-intellisense {
         }
     }
 
-    .messages.warning {
-        background: var(--highlight) !important;
-        color: var(--text) !important;
+    .messages {
+        .messages-close-btn {
+            color: var(--text) !important;
+        }
+
+        &.warning {
+            background: var(--highlight) !important;
+            color: var(--text) !important;
+            border: none !important;
+        }
+
+        &.status {
+            background: var(--active) !important;
+            color: var(--text) !important;
+            border: none !important;
+        }
     }
 
     span#updates-count {
@@ -1536,7 +1554,8 @@ variable-intellisense {
 
     // Photo Albums
 
-    .shuffleParent div.sshuffleContainer, .shuffleParent .mediaThumbContainer {
+    .shuffleParent div.sshuffleContainer,
+    .shuffleParent .mediaThumbContainer {
         background: var(--secondary) !important;
         border: var(--modern-border) !important;
         border-radius: var(--border-radius) !important;
@@ -1673,6 +1692,11 @@ variable-intellisense {
         #main #s_comments .s_comments_level .s_comments_level .comment.on-top {
             background-color: var(--active) !important;
         }
+    }
+
+    .discussion-view .discussion-content .comment #comment-reply-form-wrapper #s-comment-reply-form,
+    .discussion-view .s-comments-post-form-new .comment #comment-reply-form-wrapper #s-comment-reply-form {
+        background: var(--accent) !important;
     }
 
     .grade-title {
@@ -2141,6 +2165,7 @@ variable-intellisense {
     }
 
     #dropbox-viewer-wrapper {
+
         .dropbox-viewer-submission-activity,
         .dropbox-viewer-submission-activity-inner {
             background-color: var(--primary) !important;

@@ -61,14 +61,12 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
 
         let trackedElements = new Set();
         let observer = new MutationObserver((mutations, mutationObserver) => {
-            for (let m of mutations) {
-                for (let n of m.addedNodes) {
-                    if (n.classList && n.classList.contains("splus-track-clicks") && !trackedElements.has(n)) {
-                        Logger.debug("Added node", n);
-                        n.addEventListener("click", trackClick);
-                        n.addEventListener("auxclick", trackClick);
-                        trackedElements.add(n);
-                    }
+            for (let elem of document.querySelectorAll(".splus-track-clicks:not(.splus-tracked)")) {
+                if (!trackedElements.has(elem)) {
+                    elem.addEventListener("click", trackClick);
+                    elem.addEventListener("auxclick", trackClick);
+                    elem.classList.add("splus-tracked");
+                    trackedElements.add(elem);
                 }
             }
         });
@@ -90,6 +88,7 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
                 if (!trackedElements.has(elem)) {
                     elem.addEventListener("click", trackClick);
                     elem.addEventListener("auxclick", trackClick);
+                    elem.classList.add("splus-tracked");
                     trackedElements.add(elem);
                 }
             }

@@ -99,9 +99,9 @@ var fetchQueue = [];
             }
             let table = course.querySelector(".gradebook-course-grades").firstElementChild;
             let grades = table.firstElementChild;
-            let categories = grades.getElementsByClassName("category-row");
+            let categories = Array.from(grades.getElementsByClassName("category-row"));
             let rows = Array.from(grades.children);
-            let periods = course.getElementsByClassName("period-row");
+            let periods = Array.from(course.getElementsByClassName("period-row")).filter(x=>!x.textContent.includes("(no grading period)"));
             let courseId = title.parentElement.id.match(/\d+/)[0];
 
             let classPoints = 0;
@@ -131,267 +131,285 @@ var fetchQueue = [];
             title.appendChild(kabobMenuButton);
             title.appendChild(grade);
 
-            let invalidatePerTotal = false;
+            for (let period of periods) {
+                let periodPoints = 0;
+                let periodTotal = 0;
+                let invalidatePerTotal = false;
 
-            for (let category of categories) {
-                try {
-                    let assignments = rows.filter(x => category.dataset.id == x.dataset.parentId);
-                    let sum = 0;
-                    let max = 0;
-                    let processAssignment = async function (assignment) {
-                        let maxGrade = assignment.querySelector(".max-grade");
-                        let score = assignment.querySelector(".rounded-grade") || assignment.querySelector(".rubric-grade-value");
-                        if (score) {
-                            let assignmentScore = Number.parseFloat(score.textContent);
-                            let assignmentMax = Number.parseFloat(maxGrade.textContent.substring(3));
+                for (let category of categories.filter(x => period.dataset.id == x.dataset.parentId)) {
+                    try {
+                        let assignments = rows.filter(x => category.dataset.id == x.dataset.parentId);
+                        let sum = 0;
+                        let max = 0;
+                        let processAssignment = async function (assignment) {
+                            let maxGrade = assignment.querySelector(".max-grade");
+                            let score = assignment.querySelector(".rounded-grade") || assignment.querySelector(".rubric-grade-value");
+                            if (score) {
+                                let assignmentScore = Number.parseFloat(score.textContent);
+                                let assignmentMax = Number.parseFloat(maxGrade.textContent.substring(3));
 
-                            if (!assignment.classList.contains("dropped")) {
-                                sum += assignmentScore;
-                                max += assignmentMax;
-                            }
-
-                            let newGrade = document.createElement("span");
-                            prepareScoredAssignmentGrade(newGrade, assignmentScore, assignmentMax);
-
-                            // td-content-wrapper
-                            maxGrade.parentElement.appendChild(document.createElement("br"));
-                            maxGrade.parentElement.appendChild(newGrade);
-                        }
-                        else {
-                            queueNonenteredAssignment(assignment, courseId);
-                        }
-                        if (assignment.querySelector(".missing")) {
-                            // get denominator for missing assignment
-                            let p = assignment.querySelector(".injected-assignment-percent");
-                            p.textContent = "0%";
-                            p.title = "Assignment missing";
-                            Logger.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
-
-                            let json = await fetchApiJson(`users/${getUserId()}/grades?section_id=${courseId}`);
-
-                            if (json.section.length === 0) {
-                                throw new Error("Assignment details could not be read");
-                            }
-
-                            let pts = Number.parseFloat(json.section[0].period[0].assignment.filter(x => x.assignment_id == Number.parseInt(assignment.dataset.id.substr(2)))[0].max_points);
-                            if (!assignment.classList.contains("dropped")) {
-                                max += pts;
-                                Logger.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
-                            }
-                        }
-                        //assignment.style.padding = "7px 30px 5px";
-                        //assignment.style.textAlign = "center";
-
-                        // kabob menu
-                        let commentsContentWrapper = assignment.querySelector(".comment-column").firstElementChild;
-                        let kabobMenuButton = createElement("span", ["kabob-menu"], {
-                            textContent: "⠇",
-                            onclick: function (event) {
-                                $(assignment).contextMenu({ x: event.pageX, y: event.pageY });
-                            }
-                        });
-                        kabobMenuButton.dataset.parentId = assignment.dataset.parentId;
-
-                        let editEnableCheckbox = document.getElementById("enable-modify");
-
-                        // not created yet and thus editing disabled, or created the toggle but editing disabled
-                        if (!editEnableCheckbox || !editEnableCheckbox.checked) {
-                            kabobMenuButton.classList.add("hidden");
-                        }
-
-                        commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
-                        if (commentsContentWrapper.querySelector(".comment")) {
-                            // Fixes kabob display issues with long comments
-                            commentsContentWrapper.style.display = "flex";
-                            // Fixes kabob display issues with short comments
-                            commentsContentWrapper.style.justifyContent = "space-between";
-                        }
-
-                        let createAddAssignmentUi = async function () {
-                            let addAssignmentThing = createAddAssignmentElement(category);
-
-                            if (assignment.classList.contains("hidden")) {
-                                addAssignmentThing.classList.add("hidden");
-                            }
-
-                            assignment.insertAdjacentElement('afterend', addAssignmentThing);
-                            await processAssignment(addAssignmentThing);
-
-                            return addAssignmentThing;
-                        };
-
-                        // add UI for grade virtual editing
-                        let gradeWrapper = assignment.querySelector(".grade-wrapper");
-
-                        let checkbox = document.getElementById("enable-modify");
-                        let gradeAddEditHandler = null;
-                        let editGradeImg = createElement("img", ["grade-edit-indicator"], {
-                            src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
-                            width: 12,
-                            style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
-                        });
-                        editGradeImg.dataset.parentId = assignment.dataset.parentId;
-                        if (assignment.classList.contains("grade-add-indicator")) {
-                            // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
-                            // the reversal takes the form of a page refresh once grades have been changed
-                            let hasHandledGradeEdit = false;
-                            gradeAddEditHandler = async function () {
-                                if (hasHandledGradeEdit) {
-                                    return;
+                                if (!assignment.classList.contains("dropped")) {
+                                    sum += assignmentScore;
+                                    max += assignmentMax;
                                 }
 
-                                assignment.classList.remove("grade-add-indicator");
-                                assignment.classList.remove("last-row-of-tier");
+                                let newGrade = document.createElement("span");
+                                prepareScoredAssignmentGrade(newGrade, assignmentScore, assignmentMax);
 
-                                assignment.classList.add("added-fake-assignment");
-                                trackEvent("assignment", "create-fake", "What-If Grades");
+                                // td-content-wrapper
+                                maxGrade.parentElement.appendChild(document.createElement("br"));
+                                maxGrade.parentElement.appendChild(newGrade);
+                            }
+                            else {
+                                queueNonenteredAssignment(assignment, courseId);
+                            }
+                            if (assignment.querySelector(".missing")) {
+                                // get denominator for missing assignment
+                                let p = assignment.querySelector(".injected-assignment-percent");
+                                p.textContent = "0%";
+                                p.title = "Assignment missing";
+                                Logger.log(`Fetching max points for assignment ${assignment.dataset.id.substr(2)}`);
 
-                                let assignmentTitle = assignment.getElementsByClassName("title")[0].firstElementChild;
-                                assignmentTitle.textContent = "Added Assignment (Click to Rename)";
-                                assignmentTitle.classList.add("editable-assignment-name");
-                                assignmentTitle.contentEditable = "true";
-                                assignmentTitle.addEventListener("keydown", event => {
-                                    if (event.which === 13) {
-                                        event.target.blur();
-                                        window.getSelection().removeAllRanges();
-                                    }
-                                });
+                                let json = await fetchApiJson(`users/${getUserId()}/grades?section_id=${courseId}`);
 
-                                let newAddAssignmentPlaceholder = await createAddAssignmentUi();
-                                newAddAssignmentPlaceholder.style.display = "table-row";
+                                if (json.section.length === 0) {
+                                    throw new Error("Assignment details could not be read");
+                                }
 
-                                hasHandledGradeEdit = true;
+                                const assignments = json.section[0].period.reduce((prevVal, curVal) => prevVal.concat(curVal.assignment), []);//combines the assignment arrays from each period
+                                let pts = Number.parseFloat(assignments.filter(x => x.assignment_id == assignment.dataset.id.substr(2))[0].max_points);
+                                if (!assignment.classList.contains("dropped")) {
+                                    max += pts;
+                                    Logger.log(`Max points for assignment ${assignment.dataset.id.substr(2)} is ${pts}`);
+                                }
+                            }
+                            //assignment.style.padding = "7px 30px 5px";
+                            //assignment.style.textAlign = "center";
+
+                            // kabob menu
+                            let commentsContentWrapper = assignment.querySelector(".comment-column").firstElementChild;
+                            let kabobMenuButton = createElement("span", ["kabob-menu"], {
+                                textContent: "⠇",
+                                onclick: function (event) {
+                                    $(assignment).contextMenu({ x: event.pageX, y: event.pageY });
+                                }
+                            });
+                            kabobMenuButton.dataset.parentId = assignment.dataset.parentId;
+
+                            let editEnableCheckbox = document.getElementById("enable-modify");
+
+                            // not created yet and thus editing disabled, or created the toggle but editing disabled
+                            if (!editEnableCheckbox || !editEnableCheckbox.checked) {
+                                kabobMenuButton.classList.add("hidden");
+                            }
+
+                            commentsContentWrapper.insertAdjacentElement("beforeend", kabobMenuButton);
+                            if (commentsContentWrapper.querySelector(".comment")) {
+                                // Fixes kabob display issues with long comments
+                                commentsContentWrapper.style.display = "flex";
+                                // Fixes kabob display issues with short comments
+                                commentsContentWrapper.style.justifyContent = "space-between";
+                            }
+
+                            let createAddAssignmentUi = async function () {
+                                let addAssignmentThing = createAddAssignmentElement(category);
+
+                                if (assignment.classList.contains("hidden")) {
+                                    addAssignmentThing.classList.add("hidden");
+                                }
+
+                                assignment.insertAdjacentElement('afterend', addAssignmentThing);
+                                await processAssignment(addAssignmentThing);
+
+                                return addAssignmentThing;
                             };
-                        }
-                        // edit image
-                        editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
-                        gradeWrapper.appendChild(editGradeImg);
-                        // edit text
-                        const gradeText = assignment.querySelector(".awarded-grade") || assignment.querySelector(".no-grade");
-                        gradeText.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, periods[0], gradeAddEditHandler));
 
-                        if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
-                            await createAddAssignmentUi();
-                        }
-                    };
+                            // add UI for grade virtual editing
+                            let gradeWrapper = assignment.querySelector(".grade-wrapper");
 
-                    let invalidateCatTotal = false;
+                            let checkbox = document.getElementById("enable-modify");
+                            let gradeAddEditHandler = null;
+                            let editGradeImg = createElement("img", ["grade-edit-indicator"], {
+                                src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
+                                width: 12,
+                                style: `display: ${checkbox && checkbox.checked ? "unset" : "none"};`
+                            });
+                            editGradeImg.dataset.parentId = assignment.dataset.parentId;
+                            if (assignment.classList.contains("grade-add-indicator")) {
+                                // when this is clicked, if the edit was successful, we don't have to worry about making our changes reversible cleanly
+                                // the reversal takes the form of a page refresh once grades have been changed
+                                let hasHandledGradeEdit = false;
+                                gradeAddEditHandler = async function () {
+                                    if (hasHandledGradeEdit) {
+                                        return;
+                                    }
 
-                    for (let assignment of assignments) {
-                        try {
-                            await processAssignment(assignment);
-                        } catch (err) {
-                            if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
-                                // consequential failure: our denominator is invalid
-                                invalidateCatTotal = true;
-                                invalidCategories.push(category.dataset.id);
+                                    assignment.classList.remove("grade-add-indicator");
+                                    assignment.classList.remove("last-row-of-tier");
 
-                                if ("status" in err && err.status === 403) {
-                                    addEditDisableReason({
-                                        error: {
-                                            message: err.error,
-                                            status: err.status
-                                        },
-                                        courseId,
-                                        course: title.textContent,
-                                        assignment: assignment.textContent
-                                    }, true);
-                                    continue;
-                                }
+                                    assignment.classList.add("added-fake-assignment");
+                                    trackEvent("assignment", "create-fake", "What-If Grades");
+
+                                    let assignmentTitle = assignment.getElementsByClassName("title")[0].firstElementChild;
+                                    assignmentTitle.textContent = "Added Assignment (Click to Rename)";
+                                    assignmentTitle.classList.add("editable-assignment-name");
+                                    assignmentTitle.contentEditable = "true";
+                                    assignmentTitle.addEventListener("keydown", event => {
+                                        if (event.which === 13) {
+                                            event.target.blur();
+                                            window.getSelection().removeAllRanges();
+                                        }
+                                    });
+
+                                    let newAddAssignmentPlaceholder = await createAddAssignmentUi();
+                                    newAddAssignmentPlaceholder.style.display = "table-row";
+
+                                    hasHandledGradeEdit = true;
+                                };
                             }
+                            // edit image
+                            editGradeImg.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, period, gradeAddEditHandler));
+                            gradeWrapper.appendChild(editGradeImg);
+                            // edit text
+                            const gradeText = assignment.querySelector(".awarded-grade") || assignment.querySelector(".no-grade");
+                            gradeText.addEventListener("click", createEditListener(assignment, gradeWrapper.parentElement, category, period, gradeAddEditHandler));
 
-                            addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: err.toString() }, courseId, course: title.textContent, assignment: assignment.textContent });
-                            Logger.error("Error loading assignment for " + courseId + ": ", assignment, err);
-                        }
-                    }
-
-                    if (assignments.length === 0) {
-                        category.querySelector(".grade-column").classList.add("grade-column-center");
-
-                        let createAddAssignmentUi = async function () {
-                            let addAssignmentThing = createAddAssignmentElement(category);
-
-                            category.insertAdjacentElement('afterend', addAssignmentThing);
-                            await processAssignment(addAssignmentThing);
-
-                            return addAssignmentThing;
+                            if (assignment.classList.contains("last-row-of-tier") && !assignment.classList.contains("grade-add-indicator")) {
+                                await createAddAssignmentUi();
+                            }
                         };
 
-                        let categoryArrow = createElement("img", ["expandable-icon-grading-report", "injected-empty-category-expand-icon"], { src: "/sites/all/themes/schoology_theme/images/expandable-sprite.png" });
-                        category.querySelector("th .td-content-wrapper").prepend(categoryArrow);
+                        let invalidateCatTotal = false;
 
-                        if (!category.classList.contains("hidden")) {
-                            await createAddAssignmentUi();
+                        for (let assignment of assignments) {
+                            try {
+                                await processAssignment(assignment);
+                            } catch (err) {
+                                if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
+                                    // consequential failure: our denominator is invalid
+                                    invalidateCatTotal = true;
+                                    invalidCategories.push(category.dataset.id);
+
+                                    if ("status" in err && err.status === 403) {
+                                        addEditDisableReason({
+                                            error: {
+                                                message: err.error,
+                                                status: err.status
+                                            },
+                                            courseId,
+                                            course: title.textContent,
+                                            assignment: assignment.textContent
+                                        }, true);
+                                        continue;
+                                    }
+                                }
+
+                                addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: err.toString() }, courseId, course: title.textContent, assignment: assignment.textContent });
+                                Logger.error("Error loading assignment for " + courseId + ": ", assignment, err);
+                            }
                         }
-                    }
 
-                    let gradeText = category.querySelector(".awarded-grade") || category.querySelector(".no-grade");
-                    if (!gradeText) {
-                        gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
-                        category.querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
-                        setGradeText(gradeText, sum, max, category);
-                        recalculateCategoryScore(category, 0, 0, false);
-                    } else {
-                        setGradeText(gradeText, sum, max, category);
-                    }
+                        if (assignments.length === 0) {
+                            category.querySelector(".grade-column").classList.add("grade-column-center");
 
-                    gradeText.classList.remove("no-grade");
-                    gradeText.classList.add("awarded-grade");
+                            let createAddAssignmentUi = async function () {
+                                let addAssignmentThing = createAddAssignmentElement(category);
 
-                    if (invalidateCatTotal) {
-                        let catMaxElem = gradeText.parentElement.querySelector(".grade-column-center .max-grade");
-                        catMaxElem.classList.add("max-grade-show-error");
-                        invalidatePerTotal = true;
-                    }
+                                category.insertAdjacentElement('afterend', addAssignmentThing);
+                                await processAssignment(addAssignmentThing);
 
-                    let weightText = category.querySelector(".percentage-contrib");
-                    if (addMoreClassTotal) {
-                        if (!weightText) {
-                            classPoints += sum;
-                            classTotal += max;
-                        } else if (weightText.textContent == "(100%)") {
-                            classPoints = sum;
-                            classTotal = max;
-                            addMoreClassTotal = false;
+                                return addAssignmentThing;
+                            };
+
+                            let categoryArrow = createElement("img", ["expandable-icon-grading-report", "injected-empty-category-expand-icon"], { src: "/sites/all/themes/schoology_theme/images/expandable-sprite.png" });
+                            category.querySelector("th .td-content-wrapper").prepend(categoryArrow);
+
+                            if (!category.classList.contains("hidden")) {
+                                await createAddAssignmentUi();
+                            }
+                        }
+
+                        let gradeText = category.querySelector(".awarded-grade") || category.querySelector(".no-grade");
+                        if (!gradeText) {
+                            gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
+                            category.querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
+                            setGradeText(gradeText, sum, max, category);
+                            recalculateCategoryScore(category, 0, 0, false);
                         } else {
-                            // there are weighted categories that aren't 100%, abandon our calculation
-                            classPoints = 0;
-                            classTotal = 0;
-                            addMoreClassTotal = false;
+                            setGradeText(gradeText, sum, max, category);
                         }
+
+                        gradeText.classList.remove("no-grade");
+                        gradeText.classList.add("awarded-grade");
+
+                        if (invalidateCatTotal) {
+                            let catMaxElem = gradeText.parentElement.querySelector(".grade-column-center .max-grade");
+                            catMaxElem.classList.add("max-grade-show-error");
+                            invalidatePerTotal = true;
+                        }
+
+                        let weightText = category.querySelector(".percentage-contrib");
+                        if (addMoreClassTotal) {
+                            if (!weightText) {
+                                classPoints += sum;
+                                classTotal += max;
+                                periodPoints += sum;
+                                periodTotal += max;
+                            } else if (weightText.textContent == "(100%)") {
+                                classPoints = sum;
+                                classTotal = max;
+                                periodPoints = sum;
+                                periodTotal = max;
+                                addMoreClassTotal = false;
+                            } else {
+                                // there are weighted categories that aren't 100%, abandon our calculation
+                                classPoints = 0;
+                                classTotal = 0;
+                                periodPoints = 0;
+                                periodTotal = 0;
+                                addMoreClassTotal = false;
+                            }
+                        }
+                    } catch (err) {
+                        addEditDisableReason({ error: JSON.stringify(err, Object.getOwnPropertyNames(err)), category: category.textContent })
                     }
-                } catch (err) {
-                    addEditDisableReason({ error: JSON.stringify(err, Object.getOwnPropertyNames(err)), category: category.textContent })
                 }
-            }
 
-            grade.textContent = courseGrade ? courseGrade.textContent : "—";
 
-            addLetterGrade(grade, courseId);
+                grade.textContent = courseGrade ? courseGrade.textContent : "—";
 
-            let gradeText = periods[0].querySelector(".awarded-grade") || periods[0].querySelector(".no-grade");
-            if (!gradeText) {
-                gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
-                periods[0].querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
-                setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
-                recalculatePeriodScore(periods[0], 0, 0, false);
-            } else {
-                setGradeText(gradeText, classPoints, classTotal, periods[0], classTotal === 0);
-            }
+                addLetterGrade(grade, courseId);
 
-            // add weighted indicator to the course section row
-            if (classTotal === 0 && !addMoreClassTotal) {
-                let newElem = createElement("span", ["splus-weighted-gradebook-indicator"], {
-                    textContent: "[Weighted]"
-                });
-                let periodPercent = periods[0].querySelector("span.percentage-contrib");
-                if (periodPercent) {
-                    periodPercent.insertAdjacentElement('beforebegin', newElem);
+                let gradeText = period.querySelector(".awarded-grade") || period.querySelector(".no-grade");
+                if (!gradeText) {
+                    gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
+                    period.querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
+                    setGradeText(gradeText, periodPoints, periodTotal, period, periodTotal === 0);
+                    recalculatePeriodScore(period, 0, 0, false);
+                } else {
+                    setGradeText(gradeText, periodPoints, periodTotal, period, periodTotal === 0);
+                }
+
+                // add weighted indicator to the course section row
+                if (classTotal === 0 && !addMoreClassTotal) {
+                    let newElem = createElement("span", ["splus-weighted-gradebook-indicator"], {
+                        textContent: "[Weighted]"
+                    });
+                    let periodPercent = period.querySelector("span.percentage-contrib");
+                    if (periodPercent) {
+                        periodPercent.insertAdjacentElement('beforebegin', newElem);
+                    }
+                }
+
+                if (invalidatePerTotal && classTotal !== 0) {
+                    let perMaxElem = gradeText.parentElement.querySelector(".grade-column-center .max-grade");
+                    perMaxElem.classList.add("max-grade-show-error");
                 }
             }
 
             // FIXME this is duplicated logic to get the div.gradebook-course given the period row
             let gradebookCourseContainerDiv = periods[0];
+
 
             // FIXME null coalesence hack
             // .parentElement.parentElement.parentElement.parentElement
@@ -404,7 +422,7 @@ var fetchQueue = [];
             })();
 
             // points needed for (next grade) / point buffer from (next lowest grade) logic
-            if (gradebookCourseContainerDiv != null && classTotal != 0) {
+            if (gradebookCourseContainerDiv != null && classTotal != 0 && periods.length === 1) {
                 let summaryPointsContainer = gradebookCourseContainerDiv.querySelector(".gradebook-course-grades .summary-course");
 
                 let gradeScale = Setting.getValue("getGradingScale")(courseId);
@@ -463,11 +481,6 @@ var fetchQueue = [];
                         ]));
                     }
                 }
-            }
-
-            if (invalidatePerTotal && classTotal !== 0) {
-                let perMaxElem = gradeText.parentElement.querySelector(".grade-column-center .max-grade");
-                perMaxElem.classList.add("max-grade-show-error");
             }
 
             // Remove (no grading period)
@@ -1019,7 +1032,7 @@ var fetchQueue = [];
             let f = async () => {
                 let domAssignId = assignment.dataset.id.substr(2);
                 Logger.log(`Fetching max points for (nonentered) assignment ${domAssignId}`);
-                
+
                 let response = null;
                 let firstTryError = null;
 
@@ -1028,7 +1041,7 @@ var fetchQueue = [];
                 } catch (err) {
                     firstTryError = err;
                 }
-                
+
                 if (response && !response.ok) {
                     firstTryError = { status: response.status, error: response.statusText };
                 } else if (response) {
@@ -1060,7 +1073,7 @@ var fetchQueue = [];
                         throw { status: response.status, error: response.statusText };
                     }
                     let json = await response.json();
-    
+
                     if (json && json.section.length > 0) {
                         // success case
                         // note; even if maxGrade is removed from the DOM, this will still work

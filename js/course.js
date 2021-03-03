@@ -28,6 +28,13 @@ modals.push(new Modal("course-settings-modal", "Course Options", createElement("
             createElement("p", ["setting-description"], { textContent: "A friendlier name for a course that shows anywhere the full name for the course would normally" })
         ]),
         createElement("div", ["setting-entry"], {}, [
+            createElement("h2", ["setting-title"], {}, [
+                createElement("label", ["centered-label"], { textContent: "Quick Link: ", htmlFor: "setting-input-course-quicklink" }),
+                createElement("input", [], { type: "text", id: "setting-input-course-quicklink" }, [])
+            ]),
+            createElement("p", ["setting-description"], { textContent: "A link associated with this class that will show up as a ⭐ button in Quick Access. Good uses of this setting might include Zoom links or class websites." })
+        ]),
+        createElement("div", ["setting-entry"], {}, [
             createElement("h2", [], { textContent: "Grading Scale" }),
             createElement("p", ["setting-description"], { textContent: "This grading scale is used to show letter grades when teachers don't set them, and for calculating the minimum score needed on an assignment for a grade" }),
             createElement("table", [], { id: "grading-scale-wrapper" }, [
@@ -82,6 +89,9 @@ function setCourseOptionsContent(modal, options) {
     } else {
         aliasInput.value = "";
     }
+
+    let quickLinkInput = document.getElementById("setting-input-course-quicklink");
+    quickLinkInput.value = Setting.getNestedValue("courseQuickLinks", courseIdNumber, "");
 
     let courseIconOverride = Setting.getValue("forceDefaultCourseIcons");
     if (courseIconOverride) {
@@ -149,6 +159,13 @@ function saveCourseSettings() {
         trackEvent("courseAliases", "set value", "Course Settings");
     }
     currentAliasesValue[courseIdNumber] = newAliasValue;
+
+    let currentQuickLinkValue = Setting.getNestedValue("courseQuickLinks", courseIdNumber);
+    let newQuickLinkValue = document.getElementById("setting-input-course-quicklink").value;
+    if (newQuickLinkValue !== currentQuickLinkValue) {
+        trackEvent("courseQuickLinks", "set value", "Course Settings");
+    }
+    Setting.setNestedValue("courseQuickLinks", courseIdNumber, newQuickLinkValue);
 
     let courseIconOverride = Setting.getValue("forceDefaultCourseIcons", {});
     let iconOverrideSelect = document.getElementById("force-default-icon-splus-courseopt-select");
