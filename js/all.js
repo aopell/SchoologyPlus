@@ -253,7 +253,7 @@ let modals = [
                     createElement("span", [], { textContent: ", " }),
                     createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger (@reteps)" }),
                     createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Eric Pedley (@EricPedley)" }),
+                    createElement("a", [], { href: "https://github.com/EricPedley", textContent: "Eric Pedley (@EricPedley)" }),
                     createElement("span", [], { textContent: ", and " }),
                     createElement("a", [], { href: "https://github.com/KTibow", textContent: "@KTibow" }),
                 ]),
