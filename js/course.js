@@ -1,3 +1,5 @@
+while (!window.splusLoaded && !window.splusLoaded.has("all")) { }
+
 let courseIdNumber;
 let courseSettingsCourseName;
 (function () {

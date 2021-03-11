@@ -1,4 +1,4 @@
-while (!window.splusPreload) { }
+while (!window.splusLoaded && !window.splusLoaded.has("preload")) { }
 
 // Inform user about theme
 {
@@ -1257,3 +1257,6 @@ function indicateSubmittedAssignments() {
 
     setTimeout(indicateSubmitted, 1000);
 }
+
+window.splusLoaded.add("all");
+Logger.debug("Finished loading all.js");
