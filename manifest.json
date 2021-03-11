@@ -30,6 +30,7 @@
     "permissions": [
         "*://lms.lausd.net/*",
         "*://*.schoology.com/*",
+        "*://schoology.dpsk12.org/*",
         "storage",
         "alarms",
         "notifications",
@@ -61,7 +62,8 @@
         {
             "matches": [
                 "https://lms.lausd.net/*",
-                "https://*.schoology.com/*"
+                "https://*.schoology.com/*",
+                "https://schoology.dpsk12.org/*"
             ],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
@@ -96,7 +98,8 @@
         {
             "matches": [
                 "https://lms.lausd.net/*",
-                "https://*.schoology.com/*"
+                "https://*.schoology.com/*",
+                "https://schoology.dpsk12.org/*"
             ],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
@@ -133,7 +136,9 @@
                 "https://lms.lausd.net/grades/grades*",
                 "https://lms.lausd.net/course/*/student_grades",
                 "https://*.schoology.com/grades/grades*",
-                "https://*.schoology.com/course/*/student_grades"
+                "https://*.schoology.com/course/*/student_grades",
+                "https://schoology.dpsk12.org/grades/grades*",
+                "https://schoology.dpsk12.org/course/grades*"
             ],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
@@ -163,7 +168,8 @@
         {
             "matches": [
                 "https://lms.lausd.net/course/*/materials*",
-                "https://*.schoology.com/course/*/materials*"
+                "https://*.schoology.com/course/*/materials*",
+                "https://schoology.dpsk12.org/course/*/materials*"
             ],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
@@ -196,7 +202,8 @@
         {
             "matches": [
                 "https://lms.lausd.net/mastery*",
-                "https://*.schoology.com/mastery*"
+                "https://*.schoology.com/mastery*",
+                "https://schoology.dpsk12.org/mastery*"
             ],
             "js": [
                 "js/mastery.js"
@@ -210,6 +217,11 @@
                 "https://lms.lausd.net/home#*",
                 "https://lms.lausd.net/home/recent-activity*",
                 "https://lms.lausd.net/home/course-dashboard*",
+                "https://schoology.dpsk12.org/",
+                "https://schoology.dpsk12.org/home",
+                "https://schoology.dpsk12.org/home#*",
+                "https://schoology.dpsk12.org/home/recent-activity*",
+                "https://schoology.dpsk12.org/home/course-dashboard*",
                 "https://*.schoology.com/",
                 "https://*.schoology.com/home",
                 "https://*.schoology.com/home#*",
@@ -241,7 +253,8 @@
         {
             "matches": [
                 "https://lms.lausd.net/course/*",
-                "https://*.schoology.com/course/*"
+                "https://*.schoology.com/course/*",
+                "https://schoology.dpsk12.org/course/*"
             ],
             "js": [
                 "js/course.js"
@@ -251,6 +264,7 @@
         {
             "matches": [
                 "https://lms.lausd.net/user/*",
+                "https://schoology.dpsk12.org/user/*",
                 "https://*.schoology.com/user/*"
             ],
             "exclude_matches": [
@@ -280,6 +294,7 @@
         {
             "matches": [
                 "https://lms.lausd.net/assignment/*/assessment",
+                "https://schoology.dpsk12.org/assignment/*/assessment",
                 "https://*.schoology.com/assignment/*/assessment"
             ],
             "exclude_matches": [
@@ -306,6 +321,7 @@
         {
             "matches": [
                 "https://lms.lausd.net/page/*",
+                "https://schoology.dpsk12.org/page/*",
                 "https://*.schoology.com/page/*"
             ],
             "exclude_matches": [
@@ -333,6 +349,8 @@
             "matches": [
                 "https://lms.lausd.net/courses*",
                 "https://lms.lausd.net/courses/*",
+                "https://schoology.dpsk12.org/courses/*",
+                "https://schoology.dpsk12.org/courses*",
                 "https://*.schoology.com/courses*",
                 "https://*.schoology.com/courses/*"
             ],
@@ -361,6 +379,7 @@
         {
             "matches": [
                 "https://lms.lausd.net/*",
+                "https://schoology.dpsk12.org/*",
                 "https://*.schoology.com/*"
             ],
             "exclude_matches": [
