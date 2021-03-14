@@ -242,6 +242,13 @@ let migrationsTo = {
                 new Date(2021, 0 /* January */, 16)
             )
         ]);
+
+        var modalExistsInterval = setInterval(function () {
+            if (document.readyState === "complete" && openModal && document.getElementById("choose-theme-modal") && !document.querySelector(".splus-modal-open")) {
+                clearInterval(modalExistsInterval);
+                openModal("choose-theme-modal");
+            }
+        }, 50);
     },
     "7.2": function (currentVersion, previousVersion) {
         saveBroadcasts([
