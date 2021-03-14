@@ -1242,7 +1242,6 @@ var fetchQueue = [];
                 let weightPercent = weightPercentElement.textContent;
                 let col = category.getElementsByClassName("grade-column-right")[0];
                 let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
-                Logger.debug("Category", category, weightPercent);
                 if (colMatch) {
                     let scorePercent = Number.parseFloat(colMatch[1]);
                     if (!Number.isNaN(scorePercent)) {

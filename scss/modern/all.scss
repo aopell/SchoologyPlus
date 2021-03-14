@@ -926,11 +926,14 @@ variable-intellisense {
     // Grades Page
 
     .gradebook-course.hierarchical-grading-report {
-
         .period-row .grade-column,
         .category-row .grade-column,
         .item-row .grade-column {
             color: var(--grades) !important;
+        }
+
+        .item-row .title-column .title {
+            color: var(--text) !important;
         }
     }
 
