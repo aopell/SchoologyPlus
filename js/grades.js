@@ -1,4 +1,4 @@
-while (!window.splusPreload) { }
+while (!window.splusLoaded && !window.splusLoaded.has("preload")) { }
 
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 const BUG_REPORT_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLScF1_MZofOWT9pkWp3EfKSvzCPpyevYtqbAucp1K5WKGlckiA/viewform?entry.118199430=";
@@ -669,7 +669,7 @@ var fetchQueue = [];
                             let total = 0;
                             let totalPercentWeight = 0;
                             let catWeight = 0; // 0 to 1
-                            for (let category of perRow.parentElement.getElementsByClassName("category-row")) {
+                            for (let category of perRow.parentElement.querySelectorAll(`.category-row[data-parent-id="${perRow.dataset.id}]"`)) {
                                 let weightPercentElement = category.getElementsByClassName("percentage-contrib")[0];
                                 if (!weightPercentElement) {
                                     continue;
@@ -1086,7 +1086,7 @@ var fetchQueue = [];
                     throw { listSearchErr: err, firstTryError: firstTryError };
                 }
             };
-            fetchQueue.push(f);
+            fetchQueue.push([f, 0]);
         }
 
         // td-content-wrapper
@@ -1234,7 +1234,7 @@ var fetchQueue = [];
         } else {
             let total = 0;
             let totalPercentWeight = 0;
-            for (let category of perRow.parentElement.getElementsByClassName("category-row")) {
+            for (let category of perRow.parentElement.querySelectorAll(`.category-row[data-parent-id="${perRow.dataset.id}"]`)) {
                 let weightPercentElement = category.getElementsByClassName("percentage-contrib")[0];
                 if (!weightPercentElement) {
                     continue;
@@ -1560,26 +1560,26 @@ function createAddAssignmentElement(category) {
     return addAssignmentThing;
 }
 
-function processNonenteredAssignments(sleep, attempts = 0) {
-    if (attempts > 3) {
-        // Remove the first element
-        fetchQueue.shift();
-        attempts = 0;
-        Logger.warn("Maximum attempts reached; aborting");
-    }
+function processNonenteredAssignments() {
     if (fetchQueue.length > 0) {
+        let [func, attempts] = fetchQueue.shift()
+        sleep = attempts > 0
         setTimeout(() => {
-            fetchQueue[0]().then(x => {
-                fetchQueue.splice(0, 1);
+            func().then(x => {
                 processNonenteredAssignments();
             }).catch(err => {
                 Logger.warn("Caught error: ", err);
                 Logger.log("Waiting 3 seconds to avoid rate limit");
-                if ("status" in err && err.status === 403) {
+                if (err && err.firstTryError && err.firstTryError.status === 403) {
                     attempts = 100;
                 }
-                processNonenteredAssignments(true, attempts + 1);
+                if (attempts > 3) {
+                    Logger.warn("Maximum attempts reached; aborting");
+                } else {
+                    fetchQueue.push([func, attempts + 1])
+                }
+                processNonenteredAssignments();
             });
         }, sleep ? 3000 : 0);
-    }
+    }    
 }

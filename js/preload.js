@@ -1151,4 +1151,5 @@ new Setting(
     element => element.value
 );
 
-window.splusPreload = true;
+window.splusLoaded = new Set(["preload"]);
+Logger.debug("Finished loading preload.js");

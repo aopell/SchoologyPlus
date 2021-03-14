@@ -1,3 +1,5 @@
+while (!window.splusLoaded && !window.splusLoaded.has("all")) { }
+
 /** @typedef {{id:number,title:string,message:string,timestamp?:Date,icon?:string}} Broadcast */
 
 let homeFeedContainer = document.getElementById("home-feed-container");

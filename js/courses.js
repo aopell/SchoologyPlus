@@ -1,3 +1,5 @@
+while (!window.splusLoaded && !window.splusLoaded.has("all")) { }
+
 for (let course of document.querySelectorAll("li.course-item.list-item")) {
     let parent = course.parentNode;
     let wrapper = document.createElement("div");

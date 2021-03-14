@@ -874,6 +874,10 @@ variable-intellisense {
   color: var(--grades) !important;
 }
 
+[modern=true]:root .gradebook-course.hierarchical-grading-report .item-row .title-column .title {
+  color: var(--text) !important;
+}
+
 [modern=true]:root .grade-active-color,
 [modern=true]:root .awarded-grade span {
   color: var(--grades) !important;
