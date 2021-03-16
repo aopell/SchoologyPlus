@@ -1,4 +1,5 @@
-while (!window.splusLoaded && !window.splusLoaded.has("all")) { }
+while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
+Logger.debug("Started loading course.js");
 
 let courseIdNumber;
 let courseSettingsCourseName;
@@ -204,3 +205,5 @@ function restoreCourseDefaults() {
         });
     }
 }
+
+Logger.debug("Finished loading course.js");

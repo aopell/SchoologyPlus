@@ -195,16 +195,6 @@
         },
         {
             "matches": [
-                "https://lms.lausd.net/mastery*",
-                "https://*.schoology.com/mastery*"
-            ],
-            "js": [
-                "js/mastery.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
                 "https://lms.lausd.net/",
                 "https://lms.lausd.net/home",
                 "https://lms.lausd.net/home#*",

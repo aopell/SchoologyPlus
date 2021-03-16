@@ -1,4 +1,5 @@
-while (!window.splusLoaded && !window.splusLoaded.has("preload")) { }
+while (!window.splusLoaded || !window.splusLoaded.has("preload")) { }
+Logger.debug("Started loading all.js");
 
 // Inform user about theme
 {

@@ -1,3 +1,6 @@
+while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
+Logger.debug("Started loading all-idle.js");
+
 // hack for course aliases
 (async function () {
     let applyCourseAliases = null;
@@ -369,3 +372,5 @@ parseSettingsHash();
 window.addEventListener("hashchange", event => {
     parseSettingsHash();
 });
+
+Logger.debug("Finished loading all-idle.js");

@@ -1,4 +1,5 @@
-while (!window.splusLoaded && !window.splusLoaded.has("all")) { }
+while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
+Logger.debug("Started loading courses.js");
 
 for (let course of document.querySelectorAll("li.course-item.list-item")) {
     let parent = course.parentNode;
@@ -71,3 +72,5 @@ $.contextMenu({
 if (location.search.includes("reorder")) {
     document.querySelector("#reorder-ui .link-btn").click();
 }
+
+Logger.debug("Finished loading courses.js");
