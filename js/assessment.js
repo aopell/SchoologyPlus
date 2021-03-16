@@ -1,3 +1,6 @@
+while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
+Logger.debug("Started loading assessment.js");
+
 // modifications to Confirm Submission assessment popup
 (function () {
     /**
@@ -79,3 +82,5 @@
         subtree: false
     });
 })();
+
+Logger.debug("Finished loading assessment.js");

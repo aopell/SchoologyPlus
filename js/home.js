@@ -1,4 +1,5 @@
-while (!window.splusLoaded && !window.splusLoaded.has("all")) { }
+while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
+Logger.debug("Started loading home.js");
 
 /** @typedef {{id:number,title:string,message:string,timestamp?:Date,icon?:string}} Broadcast */
 
@@ -105,3 +106,4 @@ if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
 
 indicateSubmittedAssignments();
 createQuickAccess();
+Logger.debug("Finished loading home.js");

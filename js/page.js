@@ -1,3 +1,6 @@
+while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
+Logger.debug("Started loading page.js");
+
 // Adds an "Open in New Tab" link to /page pages which simply embed something.
 (function () {
     const iframe = document.querySelector('.s-page-summary iframe');
@@ -30,4 +33,4 @@ function processIframeSrc(rawLink) {
     return link.href;
 }
 
-Logger.log("Loaded page script");
+Logger.debug("Finished loading page.js");
