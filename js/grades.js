@@ -1,5 +1,6 @@
-while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
-Logger.debug("Started loading grades.js");
+(async function() {
+    await loadDependencies("grades", ["all"]);
+})();
 
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 const BUG_REPORT_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLScF1_MZofOWT9pkWp3EfKSvzCPpyevYtqbAucp1K5WKGlckiA/viewform?entry.118199430=";

@@ -427,10 +427,17 @@ class Theme {
             };
             let customSrc = Theme.getIcon(img.alt);
             if(img.src !== customSrc) {
-                Logger.debug(img, img.src, customSrc)
                 img.src = customSrc;
             }
             img.classList.add("injected-course-icon");
+
+            if (img == bigCourseIcon && !document.querySelector("head > link[rel='icon'][type='image/svg+xml']")) {
+                let favicon = document.createElement("link");
+                favicon.rel = "icon";
+                favicon.type = "image/svg+xml";
+                favicon.href = customSrc;
+                document.head.appendChild(favicon);
+            }
         }
 
         if (isLAUSD() && !shownMissingIconsNotification && coursesMissingDefaultIcons.size > 0 && showToast) {

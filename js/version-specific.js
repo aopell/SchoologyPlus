@@ -1,3 +1,11 @@
+(async function() {
+    // Wait for preload.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    await loadDependencies("version-specific", ["preload"]);
+})();
+
 /** Compares two version strings a and b.
  * @param {string} a A string representing a numerical version.
  * @param {string} b A string representing a numerical version.

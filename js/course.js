@@ -1,5 +1,6 @@
-while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
-Logger.debug("Started loading course.js");
+(async function() {
+    await loadDependencies("course", ["all"]);
+})();
 
 let courseIdNumber;
 let courseSettingsCourseName;

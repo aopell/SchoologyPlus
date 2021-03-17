@@ -1,5 +1,6 @@
-while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
-Logger.debug("Started loading page.js");
+(async function() {
+    await loadDependencies("page", ["all"]);
+})();
 
 // Adds an "Open in New Tab" link to /page pages which simply embed something.
 (function () {

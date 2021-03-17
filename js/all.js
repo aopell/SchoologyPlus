@@ -1,5 +1,10 @@
-while (!window.splusLoaded || !window.splusLoaded.has("preload")) { }
-Logger.debug("Started loading all.js");
+(async function() {
+    // Wait for preload.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    await loadDependencies("all", ["preload"]);
+})();
 
 // Inform user about theme
 {
@@ -1259,5 +1264,4 @@ function indicateSubmittedAssignments() {
     setTimeout(indicateSubmitted, 1000);
 }
 
-window.splusLoaded.add("all");
 Logger.debug("Finished loading all.js");
