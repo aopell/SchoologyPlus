@@ -1,3 +1,7 @@
+(async function() {
+    await loadDependencies("user", ["all"]);
+})();
+
 (async function () {
     // I hate try..catch but It will work
     try {

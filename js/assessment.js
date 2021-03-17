@@ -1,5 +1,6 @@
-while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
-Logger.debug("Started loading assessment.js");
+(async function() {
+    await loadDependencies("assessment", ["all"]);
+})();
 
 // modifications to Confirm Submission assessment popup
 (function () {

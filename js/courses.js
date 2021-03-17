@@ -1,5 +1,6 @@
-while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
-Logger.debug("Started loading courses.js");
+(async function() {
+    await loadDependencies("courses", ["all"]);
+})();
 
 for (let course of document.querySelectorAll("li.course-item.list-item")) {
     let parent = course.parentNode;

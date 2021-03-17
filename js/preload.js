@@ -1152,4 +1152,19 @@ new Setting(
 );
 
 window.splusLoaded = new Set(["preload"]);
+
+async function loadDependencies(name, dependencies) {
+    if(window.splusLoaded.has(name)) {
+        throw new Error(`Already loaded ${name}`);
+    }
+
+    while (!dependencies.every(d => window.splusLoaded.has(d))) {
+        Logger.debug(`Waiting to load ${name}: some of ${dependencies} not in ${window.splusLoaded}`);
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    window.splusLoaded.add(name);
+    Logger.debug(`Starting loading ${name}.js`);
+}
+
 Logger.debug("Finished loading preload.js");

@@ -1,5 +1,6 @@
-while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
-Logger.debug("Started loading home.js");
+(async function() {
+    await loadDependencies("home", ["all"]);
+})();
 
 /** @typedef {{id:number,title:string,message:string,timestamp?:Date,icon?:string}} Broadcast */
 

@@ -5,8 +5,9 @@
 
 "use strict";
 
-while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
-Logger.debug("Started loading materials.js");
+(async function() {
+    await loadDependencies("materials", ["all"]);
+})();
 
 (async function () {
     let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string

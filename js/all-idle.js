@@ -1,5 +1,6 @@
-while (!window.splusLoaded || !window.splusLoaded.has("all")) { }
-Logger.debug("Started loading all-idle.js");
+(async function() {
+    await loadDependencies("all-idle", ["all"]);
+})();
 
 // hack for course aliases
 (async function () {
