@@ -1,0 +1,16 @@
+  
+{
+    "name": "Black And Blue",
+    "version": 1,
+    "color": {
+        "custom": {
+            "primary": "#98f5ff",
+            "hover": "#000000",
+            "background": "#06448e",
+            "border": "#000000"
+        }
+    },
+    "logo": {
+        "preset": "schoology_logo"
+    }
+}
