@@ -1190,6 +1190,9 @@ function indicateSubmittedAssignments() {
         } else if (assignmentElement.href.includes("/course/")) {
             // Discussion boards, maybe other assignments as well
             assignmentId = assignmentElement.href.match(/course\/\d+\/.*\/(\d+)/)[1];
+        } else if (assignmentElement.href.includes("/event/")) {
+            // Calendar events
+            assignmentId = assignmentElement.href.match(/event\/(\d+)/)[1];
         }
 
         // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
