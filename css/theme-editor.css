@@ -346,6 +346,22 @@ h2.center {
     background-color: var(--primary-color);
 }
 
+#create-preset-dropdown {
+    background-color: #dedede;
+}
+
+#create-preset-dropdown > li > * {
+    color: #2a2a2a;
+}
+
+#create-preset-dropdown > li > a {
+    cursor: pointer;
+}
+
+.dropdown-header {
+    font-weight: bold;
+}
+
 #new-icon {
     background-color: var(--primary-color);
 }

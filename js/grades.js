@@ -1,4 +1,8 @@
-(async function() {
+(async function () {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
     await loadDependencies("grades", ["all"]);
 })();
 
@@ -103,7 +107,7 @@ var fetchQueue = [];
             let grades = table.firstElementChild;
             let categories = Array.from(grades.getElementsByClassName("category-row"));
             let rows = Array.from(grades.children);
-            let periods = Array.from(course.getElementsByClassName("period-row")).filter(x=>!x.textContent.includes("(no grading period)"));
+            let periods = Array.from(course.getElementsByClassName("period-row")).filter(x => !x.textContent.includes("(no grading period)"));
             let courseId = title.parentElement.id.match(/\d+/)[0];
 
             let classPoints = 0;
@@ -1583,7 +1587,7 @@ function processNonenteredAssignments() {
                 processNonenteredAssignments();
             });
         }, sleep ? 3000 : 0);
-    }    
+    }
 }
 
 Logger.debug("Finished loading grades.js");

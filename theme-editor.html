@@ -21,6 +21,7 @@
 </head>
 
 <body>
+    <script src="/js/loader.js"></script>
     <script src="/js/analytics.js"></script>
     <header>
         <div class="navbar-fixed">
@@ -58,11 +59,21 @@
                     <h5 id="themes-header">
                         Themes
                         <a id="create-button" data-splus-tracking-label="Theme Editor"
-                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
+                            data-target="create-preset-dropdown"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks dropdown-trigger"><i
                                 class="material-icons" style="vertical-align: sub;">add</i> Create</a>
                         <a id="import-button" data-splus-tracking-label="Theme Editor"
                             class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
                                 class="material-icons" style="vertical-align: sub;">save_alt</i> Import</a>
+
+                        <ul id="create-preset-dropdown" class="dropdown-content modern-accent modern-text">
+                            <li style="pointer-events: none;"><span class="dropdown-header">Choose Preset</span></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a id="create-preset-dark-theme" class="splus-track-clicks" data-splus-tracking-label="Theme Editor"><i class="material-icons">dark_mode</i>Modern Dark Theme</a></li>
+                            <li><a id="create-preset-light-theme" class="splus-track-clicks" data-splus-tracking-label="Theme Editor"><i class="material-icons">light_mode</i>Modern Light Theme</a></li>
+                            <li><a id="create-preset-rainbow-theme" class="splus-track-clicks" data-splus-tracking-label="Theme Editor"><i class="material-icons">looks</i>Modern Rainbow Theme</a></li>
+                            <li><a id="create-preset-classic-theme" class="splus-track-clicks" data-splus-tracking-label="Theme Editor"><i class="material-icons">palette</i>Classic Theme</a></li>
+                        </ul>
                     </h5>
                     <div class="section">
                         <div id="themes-list" class="collection modern-primary modern-border modern-border-radius">
@@ -787,8 +798,9 @@
                                 <p style="text-align: center; color: grey; padding-top: 20px;">
                                     Schoology Plus will attempt to match a class name to one of the
                                     regular expressions above first (from top to bottom), but if it
-                                    doesn't find a match it will use <a href="default-icons.html">the default icon
-                                        set</a>.
+                                    doesn't find a match it will use <a href="default-icons.html" class="link-color">the
+                                        default icon
+                                        set</a> (if enabled).
                                     To avoid this behavior, create a default icon for your theme by
                                     adding an icon with pattern "." (a single period) as the last
                                     icon in your list.

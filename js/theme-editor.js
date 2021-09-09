@@ -21,6 +21,11 @@ chrome.storage.sync.get({ defaultDomain: "app.schoology.com" }, s => {
     }
 });
 
+__storage = {};
+chrome.storage.sync.get(null, storageContents => {
+    __storage = storageContents;
+});
+
 /**
  * Returns `true` if current domain is `lms.lausd.net`
  * @returns {boolean}
@@ -94,10 +99,16 @@ var discardButton = document.getElementById("discard-button");
 discardButton.addEventListener("click", e => ConfirmModal.open("Discard Changes?", "Are you sure you want to discard changes? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && location.reload()));
 var closeButton = document.getElementById("close-button");
 closeButton.addEventListener("click", e => (!inEditMode() && (location.href = `https://${defaultDomain}`) || ConfirmModal.open("Discard Changes?", "Are you sure you want to close without saving? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && (location.href = `https://${defaultDomain}`))));
-var createButton = document.getElementById("create-button");
 var importButton = document.getElementById("import-button");
-createButton.addEventListener("click", e => editTheme());
 importButton.addEventListener("click", e => importTheme());
+var createPresetDarkTheme = document.getElementById("create-preset-dark-theme");
+createPresetDarkTheme.addEventListener("click", e => editTheme("Schoology Plus Modern Dark", "My Dark Theme"));
+var createPresetLightTheme = document.getElementById("create-preset-light-theme");
+createPresetLightTheme.addEventListener("click", e => editTheme("Schoology Plus Modern Light", "My Light Theme"));
+var createPresetRainbowTheme = document.getElementById("create-preset-rainbow-theme");
+createPresetRainbowTheme.addEventListener("click", e => editTheme("Rainbow Modern", "My Rainbow Theme"));
+var createPresetClassicTheme = document.getElementById("create-preset-classic-theme");
+createPresetClassicTheme.addEventListener("click", e => editTheme("Schoology Plus", "My Classic Theme"));
 var previewNavbar = document.getElementById("preview-navbar");
 var previewLogo = document.getElementById("preview-logo");
 var previewPage = document.getElementById("preview-page");
@@ -240,6 +251,9 @@ var mTabs = M.Tabs.init(document.querySelector(".tabs"), {
         }
     }
 });
+
+var elems = document.querySelectorAll('.dropdown-trigger');
+var instances = M.Dropdown.init(elems, { constrainWidth: false });
 
 /**
  * Returns a list of errors for the given theme
@@ -1055,12 +1069,16 @@ function deleteTheme(name) {
  * none selected if name not provided
  * @param {string} [name] The theme to edit
  */
-function editTheme(name) {
+function editTheme(name, replaceName = undefined) {
     trackEvent(`Theme: ${name}`, "edit", "Theme List");
     clearInterval(rainbowInterval);
     themesListSection.classList.add("hidden");
     themeEditorSection.classList.remove("hidden");
-    importAndRender(name ? allThemes[name] : { name: "My Theme", hue: 210 });
+    let themeToLoad = name ? allThemes[name] : { name: "My Theme", hue: 210 };
+    if (replaceName) {
+        themeToLoad.name = replaceName;
+    }
+    importAndRender(themeToLoad);
     previewSection.classList.add("show-editor-controls");
     output.removeAttribute("readonly");
     Array.from(iconList.querySelectorAll(".class-name, .icon-url")).map(x => x.setAttribute("contenteditable", "true"));
@@ -1277,7 +1295,7 @@ function iconPreview(e) {
             }
         }
 
-        if (isLAUSD()) {
+        if (isLAUSD() || __storage.useDefaultIconSet === "enabled") {
             for (let iconPattern of icons) {
                 if (s.match(new RegExp(iconPattern.regex, 'i'))) {
                     return iconPattern.url;
@@ -1352,7 +1370,7 @@ function handleDrop(e, region, preview, property) {
         }
     } catch (err) {
         M.toast({ html: `Error: Invalid image file` });
-        console.error(err);
+        Logger.error(err);
     }
 
     function success(link, toast) {
@@ -1409,7 +1427,7 @@ function imgurUpload(base64, callback, errorCallback) {
                 throw new Error(response.statusText);
             }
             return response;
-        }).then(x => x.json()).then(callback).catch(err => console.log(err) || errorCallback(err));
+        }).then(x => x.json()).then(callback).catch(err => Logger.log(err) || errorCallback(err));
     }
 }
 
@@ -1578,18 +1596,20 @@ $(document).ready(function () {
 
             buttonsDiv.appendChild(createActionButton(t == s.theme ? appliedProps : props));
 
+            let shareButton = createActionButton({
+                textContent: "content_copy",
+                dataset: {
+                    tooltip: "Copy Theme to Clipboard"
+                }
+            });
+            shareButton.addEventListener("click", e => {
+                copyThemeToClipboard(t);
+            });
+            buttonsDiv.appendChild(shareButton);
+
+
             if (!defaultThemes.includes(t)) {
-                let shareButton = createActionButton({
-                    textContent: "content_copy",
-                    dataset: {
-                        tooltip: "Copy Theme to Clipboard"
-                    }
-                });
-                shareButton.addEventListener("click", e => {
-                    copyThemeToClipboard(t);
-                });
                 buttonsDiv.appendChild(createActionButton({ textContent: "delete", dataset: { tooltip: "Delete Theme" }, onclick: e => deleteTheme(t) || e.stopPropagation() }));
-                buttonsDiv.appendChild(shareButton);
                 buttonsDiv.appendChild(createActionButton({ textContent: "edit", dataset: { tooltip: "Edit Theme" }, onclick: () => editTheme(t) }));
             }
 

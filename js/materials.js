@@ -5,7 +5,11 @@
 
 "use strict";
 
-(async function() {
+(async function () {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
     await loadDependencies("materials", ["all"]);
 })();
 
@@ -113,7 +117,7 @@
         let documentUrlFromApi = "";
         let materialId = value.id.match(/\d+/)[0];
         let documentInfoFromApi = await fetchApiJson(`/sections/${classId}/documents/${materialId}`);
-        
+
         if (!documentInfoFromApi.attachments.files || !documentInfoFromApi.attachments.files.file[0]) {
             // dynamic nonfile (probably link) element
             // abort creation of tooltip

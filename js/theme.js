@@ -1,3 +1,11 @@
+(async function () {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    await loadDependencies("theme", []);
+})();
+
 // an img per domain
 // to check if images load
 let themeIconLoadElementContainer = document.createElement("div");
@@ -46,8 +54,8 @@ class Theme {
             }
         }
 
-        // Default icons are for LAUSD only
-        if (isLAUSD()) {
+        // Default icons only if enabled
+        if (Setting.getValue("useDefaultIconSet") === "enabled") {
             for (let iconPattern of icons) {
                 if (course.match(new RegExp(iconPattern.regex, 'i'))) {
                     return iconPattern.url;
@@ -255,8 +263,8 @@ class Theme {
         setCSSVariable("error", m.interface.error);
 
         // Calendar Colors
-        for(let i = 0; i < 20; i++) {
-            setCSSVariable(`cal${i+1}`, m.calendar[i]);
+        for (let i = 0; i < 20; i++) {
+            setCSSVariable(`cal${i + 1}`, m.calendar[i]);
         }
 
         // Text Colors
@@ -398,7 +406,7 @@ class Theme {
                             containerImg.dataset.result = "success";
                         };
 
-                        if(containerImg.src != sourceUrl) {
+                        if (containerImg.src != sourceUrl) {
                             containerImg.src = sourceUrl;
                         }
                     }
@@ -426,7 +434,7 @@ class Theme {
                 img.classList.add("splus-loaderror");
             };
             let customSrc = Theme.getIcon(img.alt);
-            if(img.src !== customSrc) {
+            if (img.src !== customSrc) {
                 img.src = customSrc;
             }
             img.classList.add("injected-course-icon");

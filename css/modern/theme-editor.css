@@ -200,3 +200,7 @@ variable-intellisense {
   transition: .3s ease-out !important;
   color: var(--modern-contrast-text) !important;
 }
+
+[modern=true]:root #create-preset-dropdown > li:hover {
+  background-color: var(--modern-active);
+}

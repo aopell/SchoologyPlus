@@ -1,38 +1,10 @@
-/**
- * Wrapper for various `console` functions. Each adds a custom prefix to the start of the log message.
- */
-var Logger = {
-    /**
-     * Logs each argument to the console. Provides identical functionality to `console.log`, but WITHOUT format specifiers. 
-     * @type {(...args)=>void}
-     */
-    log: (() => console.log.bind(window.console, `%c+`, createLogPrefix("#81D4FA")))(),
-    /**
-     * Logs each argument to the console ("error" log level). Provides identical functionality to `console.error`, but WITHOUT format specifiers. 
-     * @type {(...args)=>void}
-     */
-    error: (() => console.error.bind(window.console, `%c+`, createLogPrefix("#FF6961")))(),
-    /**
-     * Logs each argument to the console ("info" log level). Provides identical functionality to `console.info`, but WITHOUT format specifiers. 
-     * @type {(...args)=>void}
-     */
-    info: (() => console.info.bind(window.console, `%c+`, createLogPrefix("white")))(),
-    /**
-     * Logs each argument to the console ("warning" log level). Provides identical functionality to `console.warn`, but WITHOUT format specifiers. 
-     * @type {(...args)=>void}
-     */
-    warn: (() => console.warn.bind(window.console, `%c+`, createLogPrefix("#FDFD96")))(),
-    /**
-     * Logs each argument to the console ("info" log level). Provides identical functionality to `console.trace`, but WITHOUT format specifiers. 
-     * @type {(...args)=>void}
-     */
-    trace: (() => console.trace.bind(window.console, `%c+`, createLogPrefix("orange")))(),
-    /**
-     * Logs each argument to the console ("debug" log level). Provides identical functionality to `console.debug`, but WITHOUT format specifiers. 
-     * @type {(...args)=>void}
-     */
-    debug: (() => console.debug.bind(window.console, `%c+`, createLogPrefix("lightgreen")))(),
-}
+(async function() {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    await loadDependencies("preload", ["loader"]);
+})();
 
 // Process options
 Logger.log(`Loaded Schoology Plus version ${chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' (development version)'}`);
@@ -597,6 +569,28 @@ function updateSettings(callback) {
                     element => element.value
                 ).control,
                 new Setting(
+                    "useDefaultIconSet",
+                    "Use Built-In Icon Set",
+                    `[Refresh required] Use Schoology Plus's <a href="${chrome.runtime.getURL("/default-icons.html")}" target="_blank">default course icons</a> as a fallback when a custom icon has not been specified. NOTE: these icons were meant for schools in Los Angeles Unified School District and may not work correctly for other schools.`,
+                    isLAUSD() ? "enabled" : "disabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).control,
+                new Setting(
                     "overrideUserStyles",
                     "Override Styled Text",
                     "Override styled text in homefeed posts and discussion responses when using modern themes. WARNING: This guarantees text is readable on dark theme, but removes colors and other styling that may be important. You can always use the Toggle Theme button on the navigation bar to temporarily disble your theme.",
@@ -882,7 +876,7 @@ function Setting(name, friendlyName, description, defaultValue, type, options, o
     this.control = (() => {
         let setting = createElement("div", ["setting-entry"]);
         let title = createElement("h2", ["setting-title"], { textContent: friendlyName + ": " });
-        let helpText = createElement("p", ["setting-description"], { textContent: description });
+        let helpText = createElement("p", ["setting-description"], { innerHTML: description });
 
         switch (type) {
             case "number":
@@ -1093,10 +1087,6 @@ Setting.setValues = function (dictionary, callback = undefined) {
     Setting.saveModified(dictionary, false, callback, false);
 }
 
-function createLogPrefix(color) {
-    return `color:${color};border:1px solid #2A2A2A;border-radius:100%;font-size:14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A`;
-}
-
 /**
  * Sets the value of a CSS variable on the document
  * @param {string} name Variable name 
@@ -1150,21 +1140,5 @@ new Setting(
     undefined,
     element => element.value
 );
-
-window.splusLoaded = new Set(["preload"]);
-
-async function loadDependencies(name, dependencies) {
-    if(window.splusLoaded.has(name)) {
-        throw new Error(`Already loaded ${name}`);
-    }
-
-    while (!dependencies.every(d => window.splusLoaded.has(d))) {
-        Logger.debug(`Waiting to load ${name}: some of ${dependencies} not in ${window.splusLoaded}`);
-        await new Promise(resolve => setTimeout(resolve, 100));
-    }
-
-    window.splusLoaded.add(name);
-    Logger.debug(`Starting loading ${name}.js`);
-}
 
 Logger.debug("Finished loading preload.js");

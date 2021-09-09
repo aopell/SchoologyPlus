@@ -1,4 +1,8 @@
-(async function() {
+(async function () {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
     await loadDependencies("courses", ["all"]);
 })();
 
@@ -8,7 +12,7 @@ for (let course of document.querySelectorAll("li.course-item.list-item")) {
     parent.replaceChild(wrapper, course);
     wrapper.appendChild(course);
     course.prepend(createElement("img", ["course-list-icon"], { src: Theme.getIcon(course.querySelector(".course-title").textContent) || chrome.runtime.getURL("imgs/fallback-course-icon.svg") }));
-    
+
     let kabobMenuButton = createElement("span", ["courses-kabob-menu"], {
         textContent: "⠇",
         onclick: function (event) {

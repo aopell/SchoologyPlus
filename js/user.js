@@ -1,4 +1,8 @@
-(async function() {
+(async function () {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
     await loadDependencies("user", ["all"]);
 })();
 
@@ -14,7 +18,7 @@
         const container = createElement("div", [], {}, [
             createElement("ul", ["setting-entry", "common-realm-list"], { id: inCommonID }, [])
         ]);
-        const title = createElement("h4", ["mimic-profile-header"], {textContent: "Courses In Common"});
+        const title = createElement("h4", ["mimic-profile-header"], { textContent: "Courses In Common" });
         page.appendChild(title);
         page.appendChild(container);
         populateCourseList(inCommonID, loadCommonCourses);
@@ -55,7 +59,7 @@ async function getCoursesInCommon(otherUserId) {
 }
 
 function populateCourseList(targetListElem, loadCourseFunction) {
-    let listElem = document.getElementById(targetListElem );
+    let listElem = document.getElementById(targetListElem);
     clearNodeChildren(listElem);
     listElem.appendChild(createElement("li", [], { textContent: "Loading..." }));
     loadCourseFunction.then(coursesInCommon => {
@@ -75,5 +79,5 @@ function populateCourseList(targetListElem, loadCourseFunction) {
         }
         Theme.setProfilePictures(listElem.getElementsByTagName("img"));
     })
-    .catch(err => Logger.error("Error building courses in common: ", err));
+        .catch(err => Logger.error("Error building courses in common: ", err));
 }

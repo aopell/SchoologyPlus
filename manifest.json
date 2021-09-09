@@ -84,6 +84,7 @@
                 "css/modern/all.css"
             ],
             "js": [
+                "js/loader.js",
                 "js/analytics.js",
                 "lib/js/analytics.js",
                 "js/icons.js",
