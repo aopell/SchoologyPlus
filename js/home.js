@@ -109,6 +109,9 @@ if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
     })();
 }
 
-indicateSubmittedAssignments();
-createQuickAccess();
+(function () {
+    indicateSubmittedAssignments();
+    createQuickAccess();
+})();
+
 Logger.debug("Finished loading home.js");

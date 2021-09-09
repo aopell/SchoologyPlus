@@ -310,7 +310,7 @@ var fetchQueue = [];
                                     }
                                 }
 
-                                addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: err.toString() }, courseId, course: title.textContent, assignment: assignment.textContent });
+                                addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: JSON.stringify(err) }, courseId, course: title.textContent, assignment: assignment.textContent });
                                 Logger.error("Error loading assignment for " + courseId + ": ", assignment, err);
                             }
                         }
@@ -560,8 +560,8 @@ var fetchQueue = [];
                 if (editDisableReason && !editDisableReason.allCausedBy403) {
                     Logger.error("Editing disabled due to error", editDisableReason);
 
-                    if (confirm("Grade editing has been disabled due to an error. Would you like to report this issue? (It will help us fix it faster!)")) {
-                        window.open(`${BUG_REPORT_FORM_LINK}${encodeURI(JSON.stringify(editDisableReason))}`, "_blank");
+                    if (confirm("Grade editing has been disabled due to an error. If you are trying to use What If Grades on the grade report page, try going to an individual class gradebook instead. Would you like to report this issue? (It will help us fix it faster!)")) {
+                        window.open(`${BUG_REPORT_FORM_LINK}${encodeURIComponent(JSON.stringify(editDisableReason))}`, "_blank");
                     }
 
                     document.getElementById("enable-modify").checked = false;
@@ -570,7 +570,7 @@ var fetchQueue = [];
                 else if (document.getElementById("enable-modify").checked) {
                     if (editDisableReason && editDisableReason.allCausedBy403) {
                         if (confirm("WARNING!!!\n\nYou have one or more missing assignments for which the total points are unknown due to restrictions put in place by your teacher. Grade editing may work in some categories if this is a weighted gradebook, however it will be disabled in others. We are working on a fix for this issue, but until then please click 'OK' to submit a bug report so we can gague how large this problem is. Thank you!")) {
-                            window.open(`${BUG_REPORT_FORM_LINK}${encodeURI(JSON.stringify(editDisableReason))}`, "_blank");
+                            window.open(`${BUG_REPORT_FORM_LINK}${encodeURIComponent(JSON.stringify(editDisableReason))}`, "_blank");
                         }
                     }
 
