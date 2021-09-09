@@ -440,10 +440,11 @@ class Theme {
             img.classList.add("injected-course-icon");
 
             if (img == bigCourseIcon && !document.querySelector("head > link[rel='icon'][type='image/svg+xml']")) {
+                document.querySelectorAll("link[rel='shortcut icon']").forEach(el => el.remove());
                 let favicon = document.createElement("link");
                 favicon.rel = "icon";
-                favicon.type = "image/svg+xml";
-                favicon.href = customSrc;
+                favicon.type = (!customSrc || customSrc.endsWith(".svg")) ? "image/svg+xml" : "image/png";
+                favicon.href = customSrc || chrome.runtime.getURL("imgs/fallback-course-icon.svg");
                 document.head.appendChild(favicon);
             }
         }
