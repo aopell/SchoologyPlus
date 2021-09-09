@@ -166,6 +166,8 @@ chrome.runtime.onMessage.addListener(
         } else if (request.type == "updateDefaultDomain" && request.domain !== undefined) {
             defaultDomain = request.domain;
             assignmentNotificationUrl = `https://${defaultDomain}/home/notifications?filter=all`;
+        } else if (request.type == "setBadgeText" && request.text !== undefined) {
+            chrome.browserAction.setBadgeText({ text: request.text });
         }
     }
 );
