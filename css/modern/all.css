@@ -2143,9 +2143,11 @@ variable-intellisense {
 
 [modern=true][dark=true]:root .assessment-delivery-landing-app div._3dHTa::after {
   content: "WARNING: A dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the Toggle Theme button on the navigation bar.";
-  display: inline-block;
+  display: block;
   text-align: center;
   width: 50%;
+  margin-left: 25%;
+  font-size: 16px;
   padding: var(--padding);
   background-color: var(--highlight);
   border: var(--border-size) solid rgba(0, 0, 0, 0.5);

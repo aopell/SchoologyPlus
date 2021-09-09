@@ -1255,6 +1255,11 @@ variable-intellisense {
         }
     }
 
+    ._2kpZl:focus:not(:active), ._2T2dA, ._2W23R:active, ._3OAXJ:hover:not(:active) {
+        background-color: var(--accent) !important;
+    }
+    
+
     // Resources Page
 
     #library-main {
@@ -2112,6 +2117,10 @@ variable-intellisense {
         color: var(--text) !important;
     }
 
+    .porcelain_pattern {
+        background: var(--accent) !important;
+    }
+
     // Calendar
 
     .fc-state-highlight {
@@ -2360,9 +2369,11 @@ variable-intellisense {
 
     &[dark=true] .assessment-delivery-landing-app div._3dHTa::after {
         content: "WARNING: A dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the Toggle Theme button on the navigation bar.";
-        display: inline-block;
+        display: block;
         text-align: center;
         width: 50%;
+        margin-left: 25%;
+        font-size: 16px;
         padding: var(--padding);
         background-color: var(--highlight);
         border: var(--border-size) solid rgba(0, 0, 0, 0.5);

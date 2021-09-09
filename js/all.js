@@ -1,13 +1,13 @@
-(async function() {
-    // Wait for preload.js to finish running
+(async function () {
+    // Wait for loader.js to finish running
     while (!window.splusLoaded) {
         await new Promise(resolve => setTimeout(resolve, 10));
     }
     await loadDependencies("all", ["preload"]);
 })();
 
-// Inform user about theme
-{
+(function () {
+    // Inform user about theme
     if (localStorage["splus-temp-generatedtheme"]) {
         localStorage.removeItem("splus-temp-generatedtheme");
 
@@ -22,9 +22,9 @@
             }
         );
     }
-}
+})();
 
-{
+(function () {
     let betaCode = Setting.getValue("beta");
     let betaSection = null;
     if (betaCode in beta_tests) {
@@ -49,7 +49,8 @@
             createElement("input", [], { type: "checkbox", checked: checked, onchange: onchange })
         ]);
     }
-}
+})();
+
 
 // Check Schoology domain
 setTimeout(function () {
@@ -280,7 +281,7 @@ let modals = [
                                 }
                             }
                             return retVal;
-                        })(["DinosoftLabs", "Eucalyp", "Flat Icons", "Freepik", "Maxim Basinski", "Pixel Buddha", "Smashicons", "Twitter", "Vectors Market", "Vitaly Gorbachev", "srip", "surang", "Pixelmeetup"])
+                        })(["DinosoftLabs", "Eucalyp", "Flat Icons", "Freepik", "Maxim Basinski", "Pixel Buddha", "Smashicons", "Twitter", "Vectors Market", "Vitaly Gorbachev", "srip", "surang", "Pixelmeetup", "photo3idea_studio"])
                     }),
                     createElement("span", [], { textContent: " from " }),
                     createElement("a", [], { href: "https://www.flaticon.com/", textContent: "flaticon.com" })
@@ -488,7 +489,7 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
             title: "Toggle Theme\n\nUse this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
             onclick: e => {
                 let newVal = document.documentElement.getAttribute("modern") == "false" ? "true" : "false";
-                if(newVal == "false") {
+                if (newVal == "false") {
                     tempTheme = "Schoology Plus";
                 } else {
                     tempTheme = undefined;
@@ -516,9 +517,9 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
                 let paintSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                 paintSvg.setAttribute("viewBox", "-12 -20 500 500");
                 paintSvg.setAttribute("class", "_3ESp2 dlCBz _1I3mg fjQuT uQOmx");
-    
+
                 paintSvg.innerHTML = '<path d="m242 197v90c0 8.284 6.716 15 15 15h180c8.284 0 15-6.716 15-15v-90c0-8.284-6.716-15-15-15h-180c-8.284 0-15 6.716-15 15z"/><path d="m377 422h-60c-8.284 0-15 6.716-15 15v60c0 8.284 6.716 15 15 15h60c8.284 0 15-6.716 15-15v-60c0-8.284-6.716-15-15-15z"/><path d="m307.667 15c0-8.284-6.716-15-15-15h-45v60h60z"/><path d="m217.667 0h-202.667c-8.284 0-15 6.716-15 15v45h217.667z"/><path d="m307.667 347v-15h-50.667c-24.813 0-45-20.186-45-45v-90c0-24.814 20.187-45 45-45h50.667v-62h-307.667v257c0 8.284 6.716 15 15 15h277.667c8.284 0 15-6.716 15-15zm-155.698-46h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15z"/><path d="m482 229.58v87.42c0 8.272-6.728 15-15 15h-90c-24.814 0-45 20.186-45 45v15h30v-15c0-8.272 6.728-15 15-15h90c24.814 0 45-20.186 45-45v-45c0-19.555-12.541-36.227-30-42.42z"/>';
-    
+
                 return paintSvg;
             })()
         ]
@@ -1083,7 +1084,7 @@ async function createQuickAccess() {
             ]));
 
             let quickLink = Setting.getNestedValue("courseQuickLinks", section.id);
-            if(quickLink && quickLink !== "") {
+            if (quickLink && quickLink !== "") {
                 courseIconsContainer.prepend(createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], { href: quickLink, title: `Quick Link \n(${quickLink})`, dataset: { splusTrackingTarget: "quick-access-quicklink-link", splusTrackingLabel: "Quick Access" } }))
             }
 
@@ -1189,6 +1190,9 @@ function indicateSubmittedAssignments() {
         } else if (assignmentElement.href.includes("/course/")) {
             // Discussion boards, maybe other assignments as well
             assignmentId = assignmentElement.href.match(/course\/\d+\/.*\/(\d+)/)[1];
+        } else if (assignmentElement.href.includes("/event/")) {
+            // Calendar events
+            assignmentId = assignmentElement.href.match(/event\/(\d+)/)[1];
         }
 
         // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete

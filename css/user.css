@@ -14,3 +14,7 @@
     font-size: 14px;
     font-weight: bold;
 }
+
+.course-in-common-container {
+    padding-top: 10px !important;
+}

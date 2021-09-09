@@ -1,3 +1,11 @@
+(async function () {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    await loadDependencies("theme-model", []);
+})();
+
 class CustomColorDefinition {
     /**
      * Allows fine control over individual colors in the interface

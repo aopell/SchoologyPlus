@@ -9,7 +9,7 @@
             "id": "schoology.plus@aopell.me"
         }
     },
-    "version": "7.2.4",
+    "version": "7.3",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -84,6 +84,7 @@
                 "css/modern/all.css"
             ],
             "js": [
+                "js/loader.js",
                 "js/analytics.js",
                 "lib/js/analytics.js",
                 "js/icons.js",

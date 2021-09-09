@@ -1,3 +1,11 @@
+(async function () {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    await loadDependencies("default-themes", []);
+})();
+
 let __defaultThemes = [
     {
         "name": "Schoology Plus Modern Light",

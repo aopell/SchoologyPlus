@@ -1,4 +1,8 @@
-(async function() {
+(async function () {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
     await loadDependencies("course", ["all"]);
 })();
 
@@ -19,53 +23,55 @@ let courseSettingsCourseName;
     }
 })();
 
-modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", [], {}, [
-    createElement("div", ["splus-modal-contents"], {}, [
-        createElement("div", ["setting-entry"], {}, [
-            createElement("h1", ["setting-title", "splus-coursealiasing-exempt"], { id: "course-options-course-name" })
-        ]),
-        createElement("div", ["setting-entry"], {}, [
-            createElement("h2", ["setting-title"], {}, [
-                createElement("label", ["centered-label"], { textContent: "Nickname: ", htmlFor: "setting-input-course-alias" }),
-                createElement("input", [], { type: "text", id: "setting-input-course-alias" }, [])
+(function () {
+    modals.push(new Modal("course-settings-modal", "Course Options", createElement("div", [], {}, [
+        createElement("div", ["splus-modal-contents"], {}, [
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h1", ["setting-title", "splus-coursealiasing-exempt"], { id: "course-options-course-name" })
             ]),
-            createElement("p", ["setting-description"], { textContent: "A friendlier name for a course that shows anywhere the full name for the course would normally" })
-        ]),
-        createElement("div", ["setting-entry"], {}, [
-            createElement("h2", ["setting-title"], {}, [
-                createElement("label", ["centered-label"], { textContent: "Quick Link: ", htmlFor: "setting-input-course-quicklink" }),
-                createElement("input", [], { type: "text", id: "setting-input-course-quicklink" }, [])
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h2", ["setting-title"], {}, [
+                    createElement("label", ["centered-label"], { textContent: "Nickname: ", htmlFor: "setting-input-course-alias" }),
+                    createElement("input", [], { type: "text", id: "setting-input-course-alias" }, [])
+                ]),
+                createElement("p", ["setting-description"], { textContent: "A friendlier name for a course that shows anywhere the full name for the course would normally" })
             ]),
-            createElement("p", ["setting-description"], { textContent: "A link associated with this class that will show up as a ⭐ button in Quick Access. Good uses of this setting might include Zoom links or class websites." })
-        ]),
-        createElement("div", ["setting-entry"], {}, [
-            createElement("h2", [], { textContent: "Grading Scale" }),
-            createElement("p", ["setting-description"], { textContent: "This grading scale is used to show letter grades when teachers don't set them, and for calculating the minimum score needed on an assignment for a grade" }),
-            createElement("table", [], { id: "grading-scale-wrapper" }, [
-                createElement("tr", [], {}, [
-                    createElement("th", [], { textContent: "Minimum Percentage" }),
-                    createElement("th", [], { textContent: "Grade Symbol" })
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h2", ["setting-title"], {}, [
+                    createElement("label", ["centered-label"], { textContent: "Quick Link: ", htmlFor: "setting-input-course-quicklink" }),
+                    createElement("input", [], { type: "text", id: "setting-input-course-quicklink" }, [])
+                ]),
+                createElement("p", ["setting-description"], { textContent: "A link associated with this class that will show up as a ⭐ button in Quick Access. Good uses of this setting might include Zoom links or class websites." })
+            ]),
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h2", [], { textContent: "Grading Scale" }),
+                createElement("p", ["setting-description"], { textContent: "This grading scale is used to show letter grades when teachers don't set them, and for calculating the minimum score needed on an assignment for a grade" }),
+                createElement("table", [], { id: "grading-scale-wrapper" }, [
+                    createElement("tr", [], {}, [
+                        createElement("th", [], { textContent: "Minimum Percentage" }),
+                        createElement("th", [], { textContent: "Grade Symbol" })
+                    ])
+                ]),
+                createElement("p", ["add-grade-symbol"], {}, [
+                    createElement("a", [], { textContent: "Add Grading Symbol", href: "#", onclick: (event) => createRow() })
                 ])
             ]),
-            createElement("p", ["add-grade-symbol"], {}, [
-                createElement("a", [], { textContent: "Add Grading Symbol", href: "#", onclick: (event) => createRow() })
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h2", ["setting-title"], { textContent: "Force Default Icon: " }, [
+                    createElement("select", [], { id: "force-default-icon-splus-courseopt-select" }, [
+                        createElement("option", [], { textContent: "Enabled", value: "enabled" }),
+                        createElement("option", [], { textContent: "Disabled", value: "disabled", selected: true })
+                    ])
+                ]),
+                createElement("p", ["setting-description"], { textContent: "Use Schoology's icon for this course instead of the Schoology Plus themed icon regardless of the global Schoology Plus setting" })
             ])
         ]),
-        createElement("div", ["setting-entry"], {}, [
-            createElement("h2", ["setting-title"], { textContent: "Force Default Icon: " }, [
-                createElement("select", [], { id: "force-default-icon-splus-courseopt-select" }, [
-                    createElement("option", [], { textContent: "Enabled", value: "enabled" }),
-                    createElement("option", [], { textContent: "Disabled", value: "disabled", selected: true })
-                ])
-            ]),
-            createElement("p", ["setting-description"], { textContent: "Use Schoology's icon for this course instead of the Schoology Plus themed icon regardless of the global Schoology Plus setting" })
+        createElement("div", ["settings-buttons-wrapper"], undefined, [
+            createButton("save-course-settings", "Save Settings", saveCourseSettings),
+            createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreCourseDefaults, href: "#" })
         ])
-    ]),
-    createElement("div", ["settings-buttons-wrapper"], undefined, [
-        createButton("save-course-settings", "Save Settings", saveCourseSettings),
-        createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreCourseDefaults, href: "#" })
-    ])
-]), modalFooterText, setCourseOptionsContent));
+    ]), modalFooterText, setCourseOptionsContent));
+})();
 
 document.querySelector("#course-settings-modal .close").onclick = modalClose;
 
@@ -81,7 +87,7 @@ function setCourseOptionsContent(modal, options) {
         e.parentElement.removeChild(e);
     }
     gradingScale = Setting.getNestedValue("gradingScales", courseIdNumber, gradingScale);
-    
+
     for (let p of Object.keys(gradingScale).sort((a, b) => a - b).reverse()) {
         createRow(p, gradingScale[p]);
     }
@@ -152,14 +158,14 @@ function saveCourseSettings() {
             return;
         }
     }
-    if(scale != currentValue[courseIdNumber]) {
+    if (scale != currentValue[courseIdNumber]) {
         trackEvent("gradingScales", "set value", "Course Settings");
     }
     currentValue[courseIdNumber] = scale;
 
     let currentAliasesValue = Setting.getValue("courseAliases", {});
     let newAliasValue = document.getElementById("setting-input-course-alias").value;
-    if(newAliasValue !== currentAliasesValue[courseIdNumber]) {
+    if (newAliasValue !== currentAliasesValue[courseIdNumber]) {
         trackEvent("courseAliases", "set value", "Course Settings");
     }
     currentAliasesValue[courseIdNumber] = newAliasValue;
@@ -174,7 +180,7 @@ function saveCourseSettings() {
     let courseIconOverride = Setting.getValue("forceDefaultCourseIcons", {});
     let iconOverrideSelect = document.getElementById("force-default-icon-splus-courseopt-select");
     let overrideValue = iconOverrideSelect.options[iconOverrideSelect.selectedIndex].value;
-    if(overrideValue !== courseIconOverride[courseIdNumber]) {
+    if (overrideValue !== courseIconOverride[courseIdNumber]) {
         trackEvent("forceDefaultCourseIcons", `set value: ${overrideValue}`, "Course Settings");
     }
     courseIconOverride[courseIdNumber] = overrideValue

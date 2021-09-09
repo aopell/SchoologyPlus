@@ -1,4 +1,8 @@
 (async function() {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
     await loadDependencies("all-idle", ["all"]);
 })();
 
@@ -233,6 +237,8 @@
         if (!shouldProcessMutations(mutationList)) {
             return;
         }
+
+        chrome.runtime.sendMessage({ type: "setBadgeText", text: "" });
 
         let coll = notifsMenuContainer.querySelectorAll("div[role=\"menu\"] ._2awxe._3skcp._1tpub a[href^=\"/assignment/\"]");
         if (coll.length > 0) {

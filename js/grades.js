@@ -1,4 +1,8 @@
-(async function() {
+(async function () {
+    // Wait for loader.js to finish running
+    while (!window.splusLoaded) {
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
     await loadDependencies("grades", ["all"]);
 })();
 
@@ -95,16 +99,23 @@ var fetchQueue = [];
         courseLoadTasks.push((async function () {
             let title = course.querySelector(".gradebook-course-title");
             let summary = course.querySelector(".summary-course");
+            let courseId = title.parentElement.id.match(/\d+/)[0];
             let courseGrade;
             if (summary) {
                 courseGrade = summary.querySelector(".awarded-grade");
+            } else {
+                try {
+                    let finalGradeArray = (await fetchApiJson(`users/${getUserId()}/grades?section_id=${courseId}`)).section[0].final_grade;
+                    courseGrade = createElement("span", [], {textContent: `${finalGradeArray[finalGradeArray.length - 1].grade.toString()}%`});
+                } catch {
+                    courseGrade = null;
+                }
             }
             let table = course.querySelector(".gradebook-course-grades").firstElementChild;
             let grades = table.firstElementChild;
             let categories = Array.from(grades.getElementsByClassName("category-row"));
             let rows = Array.from(grades.children);
-            let periods = Array.from(course.getElementsByClassName("period-row")).filter(x=>!x.textContent.includes("(no grading period)"));
-            let courseId = title.parentElement.id.match(/\d+/)[0];
+            let periods = Array.from(course.getElementsByClassName("period-row")).filter(x => !x.textContent.includes("(no grading period)"));
 
             let classPoints = 0;
             let classTotal = 0;
@@ -306,7 +317,7 @@ var fetchQueue = [];
                                     }
                                 }
 
-                                addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: err.toString() }, courseId, course: title.textContent, assignment: assignment.textContent });
+                                addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: JSON.stringify(err) }, courseId, course: title.textContent, assignment: assignment.textContent });
                                 Logger.error("Error loading assignment for " + courseId + ": ", assignment, err);
                             }
                         }
@@ -378,10 +389,6 @@ var fetchQueue = [];
                 }
 
 
-                grade.textContent = courseGrade ? courseGrade.textContent : "—";
-
-                addLetterGrade(grade, courseId);
-
                 let gradeText = period.querySelector(".awarded-grade") || period.querySelector(".no-grade");
                 if (!gradeText) {
                     gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
@@ -408,6 +415,9 @@ var fetchQueue = [];
                     perMaxElem.classList.add("max-grade-show-error");
                 }
             }
+
+            grade.textContent = courseGrade ? courseGrade.textContent : "—";
+            addLetterGrade(grade, courseId);
 
             // FIXME this is duplicated logic to get the div.gradebook-course given the period row
             let gradebookCourseContainerDiv = periods[0];
@@ -556,8 +566,8 @@ var fetchQueue = [];
                 if (editDisableReason && !editDisableReason.allCausedBy403) {
                     Logger.error("Editing disabled due to error", editDisableReason);
 
-                    if (confirm("Grade editing has been disabled due to an error. Would you like to report this issue? (It will help us fix it faster!)")) {
-                        window.open(`${BUG_REPORT_FORM_LINK}${encodeURI(JSON.stringify(editDisableReason))}`, "_blank");
+                    if (confirm("Grade editing has been disabled due to an error. If you are trying to use What If Grades on the grade report page, try going to an individual class gradebook instead. Would you like to report this issue? (It will help us fix it faster!)")) {
+                        window.open(`${BUG_REPORT_FORM_LINK}${encodeURIComponent(JSON.stringify(editDisableReason))}`, "_blank");
                     }
 
                     document.getElementById("enable-modify").checked = false;
@@ -566,7 +576,7 @@ var fetchQueue = [];
                 else if (document.getElementById("enable-modify").checked) {
                     if (editDisableReason && editDisableReason.allCausedBy403) {
                         if (confirm("WARNING!!!\n\nYou have one or more missing assignments for which the total points are unknown due to restrictions put in place by your teacher. Grade editing may work in some categories if this is a weighted gradebook, however it will be disabled in others. We are working on a fix for this issue, but until then please click 'OK' to submit a bug report so we can gague how large this problem is. Thank you!")) {
-                            window.open(`${BUG_REPORT_FORM_LINK}${encodeURI(JSON.stringify(editDisableReason))}`, "_blank");
+                            window.open(`${BUG_REPORT_FORM_LINK}${encodeURIComponent(JSON.stringify(editDisableReason))}`, "_blank");
                         }
                     }
 
@@ -1583,7 +1593,7 @@ function processNonenteredAssignments() {
                 processNonenteredAssignments();
             });
         }, sleep ? 3000 : 0);
-    }    
+    }
 }
 
 Logger.debug("Finished loading grades.js");
