@@ -10,17 +10,17 @@
     // I hate try..catch but It will work
     try {
         const inCommonID = "user-courses-in-common-list";
-        const page = document.getElementById("main-inner");
-        const tab = document.querySelector("table.info-tab");
-        if (!page || !tab) return;
+        const page = document.getElementById("main-inner") || document.getElementById("main");
         const userID = document.location.href.match(/\/(\d+)\//)[1];
         const loadCommonCourses = getCoursesInCommon(userID);
+        const outerContainer = createElement("div", ["course-in-common-container"]);
         const container = createElement("div", [], {}, [
             createElement("ul", ["setting-entry", "common-realm-list"], { id: inCommonID }, [])
         ]);
         const title = createElement("h4", ["mimic-profile-header"], { textContent: "Courses In Common" });
-        page.appendChild(title);
-        page.appendChild(container);
+        outerContainer.appendChild(title);
+        outerContainer.appendChild(container);
+        page.appendChild(outerContainer);
         populateCourseList(inCommonID, loadCommonCourses);
     } catch (err) {
         Logger.error(err);
