@@ -61,7 +61,8 @@
         {
             "matches": [
                 "https://lms.lausd.net/*",
-                "https://*.schoology.com/*"
+                "https://*.schoology.com/*",
+                "https://lms.fcps.edu/*"
             ],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
@@ -97,7 +98,8 @@
         {
             "matches": [
                 "https://lms.lausd.net/*",
-                "https://*.schoology.com/*"
+                "https://*.schoology.com/*",
+                "https://lms.fcps.edu/*"
             ],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
