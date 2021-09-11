@@ -99,16 +99,23 @@ var fetchQueue = [];
         courseLoadTasks.push((async function () {
             let title = course.querySelector(".gradebook-course-title");
             let summary = course.querySelector(".summary-course");
+            let courseId = title.parentElement.id.match(/\d+/)[0];
             let courseGrade;
             if (summary) {
                 courseGrade = summary.querySelector(".awarded-grade");
+            } else {
+                try {
+                    let finalGradeArray = (await fetchApiJson(`users/${getUserId()}/grades?section_id=${courseId}`)).section[0].final_grade;
+                    courseGrade = createElement("span", [], {textContent: `${finalGradeArray[finalGradeArray.length - 1].grade.toString()}%`});
+                } catch {
+                    courseGrade = null;
+                }
             }
             let table = course.querySelector(".gradebook-course-grades").firstElementChild;
             let grades = table.firstElementChild;
             let categories = Array.from(grades.getElementsByClassName("category-row"));
             let rows = Array.from(grades.children);
             let periods = Array.from(course.getElementsByClassName("period-row")).filter(x => !x.textContent.includes("(no grading period)"));
-            let courseId = title.parentElement.id.match(/\d+/)[0];
 
             let classPoints = 0;
             let classTotal = 0;
@@ -382,10 +389,6 @@ var fetchQueue = [];
                 }
 
 
-                grade.textContent = courseGrade ? courseGrade.textContent : "—";
-
-                addLetterGrade(grade, courseId);
-
                 let gradeText = period.querySelector(".awarded-grade") || period.querySelector(".no-grade");
                 if (!gradeText) {
                     gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
@@ -412,6 +415,9 @@ var fetchQueue = [];
                     perMaxElem.classList.add("max-grade-show-error");
                 }
             }
+
+            grade.textContent = courseGrade ? courseGrade.textContent : "—";
+            addLetterGrade(grade, courseId);
 
             // FIXME this is duplicated logic to get the div.gradebook-course given the period row
             let gradebookCourseContainerDiv = periods[0];
