@@ -253,18 +253,66 @@ let modals = [
                 createElement("p", ["setting-description"], { textContent: "Lead developer" })
             ]),
             createElement("div", ["setting-entry"], {}, [
-                createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "Alexander (@xd-arsenic)" }),
-                    createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/Roguim", textContent: "@Roguim" }),
-                    createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger (@reteps)" }),
-                    createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/EricPedley", textContent: "Eric Pedley (@EricPedley)" }),
-                    createElement("span", [], { textContent: ", and " }),
-                    createElement("a", [], { href: "https://github.com/KTibow", textContent: "@KTibow" }),
-                ]),
+                createElement("h3", ["setting-title"], {
+                    innerHTML: (function (contribs) {
+                        let retVal = "";
+                        for (let i = 0; i < contribs.length; i++) {
+                            if (contribs[i].url) {
+                                retVal += `<a href="${contribs[i].url}" title="${contribs[i].name}">${contribs[i].name}</a>`;
+                            } else {
+                                retVal += `<span>${contribs[i].name}</span>`
+                            }
+                            if (i == contribs.length - 2) {
+                                retVal += ", and ";
+                            } else if (i != contribs.length - 1) {
+                                retVal += ", ";
+                            }
+                        }
+                        return retVal;
+                    })([
+                        { name: "Alexander (@xd-arsenic)", url: "https://github.com/xd-arsenic" },
+                        { name: "@Roguim", url: "https://github.com/Roguim" },
+                        { name: "Peter Stenger (@reteps)", url: "https://github.com/reteps" },
+                        { name: "Eric Pedley (@EricPedley)", url: "https://github.com/EricPedley" },
+                        { name: "@KTibow", url: "https://github.com/KTibow" },
+                    ])
+                }),
                 createElement("p", ["setting-description"], { textContent: "Various code contributions" })
+            ]),
+            createElement("div", ["setting-entry"], {}, [
+                createElement("h3", ["setting-title"], {
+                    innerHTML: (function (contribs) {
+                        let retVal = "";
+                        for (let i = 0; i < contribs.length; i++) {
+                            if (contribs[i].url) {
+                                retVal += `<a href="${contribs[i].url}" title="${contribs[i].name}">${contribs[i].name}</a>`;
+                            } else {
+                                retVal += `<span>${contribs[i].name}</span>`
+                            }
+                            if (i == contribs.length - 2) {
+                                retVal += ", and ";
+                            } else if (i != contribs.length - 1) {
+                                retVal += ", ";
+                            }
+                        }
+                        return retVal;
+                    })([
+                        { name: "atomicproton#4444" },
+                        { name: "penguinee232#7792" },
+                        { name: "Cody Lomeli" },
+                        { name: "Airbus A330-200#0001" },
+                        { name: "Ark#9999" },
+                        { name: "ASAMU#1919" },
+                        { name: "Baconnated Churro#4954" },
+                        { name: "Blumiere#7442" },
+                        { name: "Krishy Fishy#3333" },
+                        { name: "meepypotato07#7816" },
+                        { name: "phool#0200" },
+                        { name: "RVxBot#7862" },
+                        { name: "TechFun#9234" },
+                    ])
+                }),
+                createElement("p", ["setting-description"], { textContent: "Testing help, bug identification, and/or Discord moderation assistance" })
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
