@@ -1156,10 +1156,6 @@ variable-intellisense {
   color: var(--text) !important;
 }
 
-[modern=true]:root ._2kpZl:focus:not(:active), [modern=true]:root ._2T2dA, [modern=true]:root ._2W23R:active, [modern=true]:root ._3OAXJ:hover:not(:active) {
-  background-color: var(--accent) !important;
-}
-
 [modern=true]:root #library-main {
   border-right: none !important;
 }
