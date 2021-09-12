@@ -123,7 +123,7 @@ var fetchQueue = [];
 
             // if there's no PERIOD \d string in the course name, match will return null; in that case, use the array [null, i++]
             // OR is lazy, so the ++ won't trigger unnecessarily; upperPeriodSortBound is our array key, and we use it to give a unique index (after all course) to periodless courses
-            coursesByPeriod[Number.parseInt((title.textContent.match(/[Pp][Ee][Rr][Ii]?[Oo]?[Dd]?\s*(\d+)/) || [null, upperPeriodSortBound++])[1])] = course;
+            coursesByPeriod[Number.parseInt((title.textContent.match(/\b[Pp][Ee]?[Rr]?[Ii]?[Oo]?[Dd]?\s*(\d+)/) || [null, upperPeriodSortBound++])[1])] = course;
 
             // Fix width of assignment columns
             table.appendChild(createElement("colgroup", [], {}, [

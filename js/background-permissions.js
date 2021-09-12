@@ -192,7 +192,7 @@ function updateItem({ tabId }) {
         };
         if (!chrome.runtime.lastError && origin) {
             // Manifest permissions can't be removed; this disables the toggle on those domains
-            const isDefault = origin.endsWith("schoology.com");
+            const isDefault = origin.endsWith("schoology.com") || origin.endsWith("lms.lausd.net");
             settings.enabled = !isDefault;
 
             // We might have temporary permission as part of `activeTab`, so it needs to be properly checked
