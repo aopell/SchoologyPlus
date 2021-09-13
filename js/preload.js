@@ -1,4 +1,4 @@
-(async function() {
+(async function () {
     // Wait for loader.js to finish running
     while (!window.splusLoaded) {
         await new Promise(resolve => setTimeout(resolve, 10));
@@ -23,10 +23,10 @@ var defaultCourseIconUrlRegex = /\/sites\/[a-zA-Z0-9_-]+\/themes\/[%a-zA-Z0-9_-]
 // Functions
 
 /** @type {HTMLDivElement} */
-var modalContents;
+var modalContents = undefined;
 
 function getModalContents() {
-    return modalContents;
+    return modalContents || createElement("p", [], { textContent: "Error loading settings" });
 }
 
 function backgroundPageFetch(url, init, bodyReadType) {

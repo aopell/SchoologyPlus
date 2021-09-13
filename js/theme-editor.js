@@ -945,6 +945,12 @@ function saveTheme(apply = false) {
             let themes = s.themes.filter(x => x.name != (origThemeName || t.name));
             themes.push(t);
             chrome.storage.sync.set({ themes: themes }, () => {
+                if (chrome.runtime.lastError) {
+                    if (chrome.runtime.lastError.message.includes("QUOTA_BYTES_PER_ITEM")) {
+                        alert("No space remaining to save theme. Please delete another theme or make this theme smaller in order to save.");
+                        throw new Error("No space remaining to save theme. Please delete another theme or make this theme smaller in order to save.");
+                    }
+                }
                 ConfirmModal.open("Theme saved successfully", "", ["OK"], () => {
                     origThemeName = t.name;
                     if (apply) chrome.storage.sync.set({ theme: t.name }, () => location.href = `https://${defaultDomain}`);
@@ -1082,7 +1088,7 @@ function editTheme(name, replaceName = undefined) {
     previewSection.classList.add("show-editor-controls");
     output.removeAttribute("readonly");
     Array.from(iconList.querySelectorAll(".class-name, .icon-url")).map(x => x.setAttribute("contenteditable", "true"));
-    origThemeName = name;
+    origThemeName = replaceName || name;
     document.querySelector("#json-output + label").textContent = "JSON (Paste to import a theme)";
 }
 

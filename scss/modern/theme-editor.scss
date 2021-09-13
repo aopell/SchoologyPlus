@@ -214,4 +214,8 @@ variable-intellisense {
             color: var(--modern-contrast-text) !important;
         }
     }
+
+    #create-preset-dropdown>li:hover {
+        background-color: var(--modern-active);
+    }
 }

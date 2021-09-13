@@ -239,7 +239,7 @@ let modals = [
         "contributors-modal",
         "Schoology Plus Contributors",
         createElement("div", ["splus-modal-contents"], undefined, [
-            createElement("h2", ["setting-entry"], { textContent: "Contributors" }),
+            createElement("h2", ["setting-entry"], { textContent: "Lead Developers" }),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
                     createElement("a", [], { href: "https://github.com/aopell", textContent: "Aaron Opell (@aopell)" })
@@ -252,65 +252,92 @@ let modals = [
                 ]),
                 createElement("p", ["setting-description"], { textContent: "Lead developer" })
             ]),
+            createElement("h2", ["setting-entry"], { textContent: "Code Contributions" }),
             createElement("div", ["setting-entry"], {}, [
-                createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/xd-arsenic", textContent: "Alexander (@xd-arsenic)" }),
-                    createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/Roguim", textContent: "@Roguim" }),
-                    createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/reteps", textContent: "Peter Stenger (@reteps)" }),
-                    createElement("span", [], { textContent: ", " }),
-                    createElement("a", [], { href: "https://github.com/EricPedley", textContent: "Eric Pedley (@EricPedley)" }),
-                    createElement("span", [], { textContent: ", and " }),
-                    createElement("a", [], { href: "https://github.com/KTibow", textContent: "@KTibow" }),
-                ]),
-                createElement("p", ["setting-description"], { textContent: "Various code contributions" })
+                createElement("ul", ["contributor-list"], {
+                    style: { listStyle: "inside" },
+                    innerHTML: (function (contribs) {
+                        let retVal = "";
+                        for (let i = 0; i < contribs.length; i++) {
+                            if (contribs[i].url) {
+                                retVal += `<li><a href="${contribs[i].url}" title="${contribs[i].name}">${contribs[i].name}</a></li>`;
+                            } else {
+                                retVal += `<li><span>${contribs[i].name}</span></li>`
+                            }
+                        }
+                        return retVal;
+                    })([
+                        { name: "Alexander (@xd-arsenic)", url: "https://github.com/xd-arsenic" },
+                        { name: "@Roguim", url: "https://github.com/Roguim" },
+                        { name: "Peter Stenger (@reteps)", url: "https://github.com/reteps" },
+                        { name: "Eric Pedley (@EricPedley)", url: "https://github.com/EricPedley" },
+                        { name: "@KTibow", url: "https://github.com/KTibow" },
+                    ])
+                }),
+            ]),
+            createElement("h2", ["setting-entry"], { textContent: "Testing, Bug Reporting, and/or Discord Moderation" }),
+            createElement("div", ["setting-entry"], {}, [
+                createElement("ul", ["contributor-list"], {
+                    style: { listStyle: "inside" },
+                    innerHTML: (function (contribs) {
+                        let retVal = "";
+                        for (let i = 0; i < contribs.length; i++) {
+                            if (contribs[i].url) {
+                                retVal += `<li><a href="${contribs[i].url}" title="${contribs[i].name}">${contribs[i].name}</a></li>`;
+                            } else {
+                                retVal += `<li><span>${contribs[i].name}</span></li>`
+                            }
+                        }
+                        return retVal;
+                    })([
+                        { name: "atomicproton#4444" },
+                        { name: "penguinee232#7792" },
+                        { name: "Cody Lomeli" },
+                        { name: "Airbus A330-200#0001" },
+                        { name: "Ark#9999" },
+                        { name: "ASAMU#1919" },
+                        { name: "Baconnated Churro#4954" },
+                        { name: "Blumiere#7442" },
+                        { name: "Krishy Fishy#3333" },
+                        { name: "meepypotato07#7816" },
+                        { name: "phool#0200" },
+                        { name: "RVxBot#7862" },
+                        { name: "TechFun#9234" },
+                    ])
+                }),
+            ]),
+            createElement("h2", ["setting-entry"], { textContent: "Icons and Images" }),
+            createElement("div", ["setting-entry"], {}, [
+                
+                createElement("ul", ["contributor-list"], {
+                    style: { listStyle: "inside" },
+                    innerHTML: (function (contribs) {
+                        let retVal = "";
+                        for (let i = 0; i < contribs.length; i++) {
+                            retVal += `<li><a href="https://www.flaticon.com/authors/${contribs[i].replace(/[ _]/, "-").toLowerCase()}" title="${contribs[i]}">${contribs[i]}</a></li>`;
+                        }
+                        return retVal;
+                    })(["DinosoftLabs", "Eucalyp", "Flat Icons", "Freepik", "Maxim Basinski", "Pixel Buddha", "Smashicons", "Twitter", "Vectors Market", "Vitaly Gorbachev", "srip", "surang", "Pixelmeetup", "photo3idea_studio"])
+                }),
             ]),
             createElement("div", ["setting-entry"], {}, [
-                createElement("h3", ["setting-title"], {}, [
-                    // contributors list
-                    createElement("span", [], {
-                        innerHTML: (function (contribs) {
-                            let retVal = "";
-                            for (let i = 0; i < contribs.length; i++) {
-                                retVal += `<a href="https://www.flaticon.com/authors/${contribs[i].replace(" ", "-").toLowerCase()}" title="${contribs[i]}">${contribs[i]}</a>`;
-                                if (i == contribs.length - 2) {
-                                    retVal += ", and ";
-                                } else if (i != contribs.length - 1) {
-                                    retVal += ", ";
-                                }
-                            }
-                            return retVal;
-                        })(["DinosoftLabs", "Eucalyp", "Flat Icons", "Freepik", "Maxim Basinski", "Pixel Buddha", "Smashicons", "Twitter", "Vectors Market", "Vitaly Gorbachev", "srip", "surang", "Pixelmeetup", "photo3idea_studio"])
-                    }),
-                    createElement("span", [], { textContent: " from " }),
-                    createElement("a", [], { href: "https://www.flaticon.com/", textContent: "flaticon.com" })
-                ]),
                 createElement("p", ["setting-description"], {}, [
                     createElement("span", [], { textContent: "Many custom course icons (under " }),
-                    createElement("a", [], { href: "http://creativecommons.org/licenses/by/3.0/", title: "Creative Commons BY 3.0", target: "_blank", textContent: "CC BY 3.0" }),
-                    createElement("span", [], { textContent: ")" }),
+                    createElement("a", [], { href: "https://creativecommons.org/licenses/by/3.0/", title: "Creative Commons BY 3.0", target: "_blank", textContent: "CC BY 3.0" }),
+                    createElement("span", [], { textContent: ") from " }),
+                    createElement("a", [], { href: "https://www.flaticon.com/", title: "flaticon", target: "_blank", textContent: "flaticon.com" }),
                     createElement("p", [], { textContent: "Bundled:" }),
                     createElement("div", ["splus-indent-1"], {
                         innerHTML:
-                            '<ul><li>Exclamation mark (grades page modified indicator): By <a href="https://www.flaticon.com/authors/pixel-buddha" title="Pixel Buddha">Pixel Buddha</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a></li>'
+                            '<ul style="list-style: inside;"><li>Exclamation mark (grades page modified indicator): By <a href="https://www.flaticon.com/authors/pixel-buddha" title="Pixel Buddha">Pixel Buddha</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a></li>'
                             + '<li>Bookshelf (default course icon): <i>Modified</i>. Original by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a></li>'
+                            + '<li>Pencil (grade edit icon): From <a href="http://www.iconninja.com/edit-draw-pencile-write-icon-899685" title="IconNinja">iconninja.com</a></li>'
                             + "</ul>"
                     })
                 ]),
-
-                createElement("ul", ["setting-description"], {}, [
-                    createElement("li", [], { textContent: "" })
-                ])
             ]),
             createElement("div", ["setting-entry"], {}, [
-                createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "http://www.iconninja.com/edit-draw-pencile-write-icon-899685", textContent: "Pencil Icon from IconNinja" })
-                ]),
-                createElement("p", ["setting-description"], { textContent: "Bundled as edit grade icon" }, [])
-            ]),
-            createElement("div", ["setting-entry"], {}, [
-                createElement("h3", ["setting-title"], { textContent: "...and more" }),
+                createElement("h2", ["setting-title"], { textContent: "...and countless other people" }),
                 createElement("p", ["setting-description"], { textContent: "For various ideas and suggestions" })
             ]),
             createElement("div", ["setting-entry"], {}, [
@@ -1193,6 +1220,9 @@ function indicateSubmittedAssignments() {
         } else if (assignmentElement.href.includes("/event/")) {
             // Calendar events
             assignmentId = assignmentElement.href.match(/event\/(\d+)/)[1];
+        } else if (assignmentElement.href.includes("/external_tool/")) {
+            // External tools
+            assignmentId = assignmentElement.href.match(/external_tool\/(\d+)/)[1];
         }
 
         // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
