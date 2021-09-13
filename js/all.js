@@ -314,7 +314,7 @@ let modals = [
                     innerHTML: (function (contribs) {
                         let retVal = "";
                         for (let i = 0; i < contribs.length; i++) {
-                            retVal += `<li><a href="https://www.flaticon.com/authors/${contribs[i].replace(" ", "-").toLowerCase()}" title="${contribs[i]}">${contribs[i]}</a></li>`;
+                            retVal += `<li><a href="https://www.flaticon.com/authors/${contribs[i].replace(/[ _]/, "-").toLowerCase()}" title="${contribs[i]}">${contribs[i]}</a></li>`;
                         }
                         return retVal;
                     })(["DinosoftLabs", "Eucalyp", "Flat Icons", "Freepik", "Maxim Basinski", "Pixel Buddha", "Smashicons", "Twitter", "Vectors Market", "Vitaly Gorbachev", "srip", "surang", "Pixelmeetup", "photo3idea_studio"])
