@@ -926,6 +926,7 @@ variable-intellisense {
     // Grades Page
 
     .gradebook-course.hierarchical-grading-report {
+
         .period-row .grade-column,
         .category-row .grade-column,
         .item-row .grade-column {
@@ -1254,7 +1255,7 @@ variable-intellisense {
             }
         }
     }
-    
+
 
     // Resources Page
 
@@ -2363,17 +2364,27 @@ variable-intellisense {
 
     // Common Assesment (New Schoology Assessments)
 
-    &[dark=true] .assessment-delivery-landing-app div._3dHTa::after {
-        content: "WARNING: A dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the Toggle Theme button on the navigation bar.";
-        display: block;
-        text-align: center;
-        width: 50%;
-        margin-left: 25%;
-        font-size: 16px;
-        padding: var(--padding);
-        background-color: var(--highlight);
-        border: var(--border-size) solid rgba(0, 0, 0, 0.5);
-        border-radius: var(--border-radius);
+    &[dark=true] #assessment-darktheme-warning-message {
+        &[data-popup=true] {
+            display: block !important;
+            text-align: center;
+            width: 50%;
+            margin-left: 25%;
+            font-size: 16px;
+            padding: var(--padding);
+            background-color: var(--highlight);
+            border: var(--border-size) solid rgba(0, 0, 0, 0.5);
+            border-radius: var(--border-radius);
+        }
+
+        .click-to-hide {
+            padding-top: 10px !important;
+
+            span {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
     }
 
     // LaTeX Math Formulas

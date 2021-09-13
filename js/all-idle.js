@@ -1,4 +1,4 @@
-(async function() {
+(async function () {
     // Wait for loader.js to finish running
     while (!window.splusLoaded) {
         await new Promise(resolve => setTimeout(resolve, 10));
@@ -354,6 +354,39 @@
             document.documentElement.style.overflow = "";
         }
     }).observe(document.getElementById("body"), { attributes: true, attributeFilter: ["aria-hidden"] });
+})();
+
+(function () {
+    setTimeout(() => {
+        let assessmentStartContainer = document.querySelector(`.assessment-delivery-landing-app div._3dHTa`);
+
+        if (assessmentStartContainer) {
+            assessmentStartContainer.appendChild(
+                createElement(
+                    "div",
+                    [],
+                    {
+                        id: "assessment-darktheme-warning-message",
+                        textContent: "WARNING: A dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the Toggle Theme button on the navigation bar.",
+                        dataset: { popup: Setting.getNestedValue("popup", "assessmentDarkThemeWarning", true) },
+                        style: { display: "none" }
+                    },
+                    [
+                        createElement("p", ["click-to-hide"], {}, [
+                            createElement("span", [], { textContent: "Hide this once", onclick: () => document.getElementById("assessment-darktheme-warning-message").remove() }),
+                            createElement("b", [], { textContent: " • " }),
+                            createElement("span", [], {
+                                textContent: "Never show again", onclick: () => {
+                                    Setting.setNestedValue("popup", "assessmentDarkThemeWarning", false);
+                                    document.getElementById("assessment-darktheme-warning-message").dataset.popup = "false";
+                                }
+                            }),
+                        ])
+                    ]
+                )
+            )
+        }
+    }, 1000);
 })();
 
 function parseSettingsHash() {

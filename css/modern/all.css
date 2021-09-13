@@ -2145,9 +2145,8 @@ variable-intellisense {
   color: var(--text) !important;
 }
 
-[modern=true][dark=true]:root .assessment-delivery-landing-app div._3dHTa::after {
-  content: "WARNING: A dark theme is enabled and might prevent you from reading certain questions. If you can't read a question, you can temporarily disable dark theme using the Toggle Theme button on the navigation bar.";
-  display: block;
+[modern=true][dark=true]:root #assessment-darktheme-warning-message[data-popup=true] {
+  display: block !important;
   text-align: center;
   width: 50%;
   margin-left: 25%;
@@ -2156,6 +2155,15 @@ variable-intellisense {
   background-color: var(--highlight);
   border: var(--border-size) solid rgba(0, 0, 0, 0.5);
   border-radius: var(--border-radius);
+}
+
+[modern=true][dark=true]:root #assessment-darktheme-warning-message .click-to-hide {
+  padding-top: 10px !important;
+}
+
+[modern=true][dark=true]:root #assessment-darktheme-warning-message .click-to-hide span {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 [modern=true]:root .mathquill-formula {
