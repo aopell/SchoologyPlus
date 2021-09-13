@@ -32,13 +32,13 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         }
     }
 
-    chrome.storage.sync.get({ analytics: getBrowser() === "Firefox" ? "disabled" : "enabled", theme: "<unset>", beta: "<unset>" }, s => {
+    chrome.storage.sync.get({ analytics: getBrowser() === "Firefox" ? "disabled" : "enabled", theme: "<unset>", beta: "<unset>", newVersion: "<unset>" }, s => {
         if (s.analytics === "enabled") {
-            enableAnalytics(s.theme, s.beta);
+            enableAnalytics(s.theme, s.beta, s.newVersion);
         }
     });
 
-    function enableAnalytics(selectedTheme, beta) {
+    function enableAnalytics(selectedTheme, beta, newVersion) {
         // isogram
         let r = 'ga';
         window['GoogleAnalyticsObject'] = r;
@@ -55,6 +55,7 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         ga('set', 'dimension3', selectedTheme);
         ga('set', 'dimension4', document.documentElement.getAttribute("modern"));
         ga('set', 'dimension5', beta);
+        ga('set', 'dimension6', newVersion);
         ga('send', 'pageview', location.pathname.replace(/\/\d{3,}\b/g, "/*") + location.search);
 
         trackEvent = function (target, action, label = undefined, value = undefined) {
