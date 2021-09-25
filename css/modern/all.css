@@ -267,16 +267,20 @@ variable-intellisense {
   color: var(--contrast-text) !important;
 }
 
-[modern=true]:root .Header-header-button-1EE8Y,
-[modern=true]:root [class*="Header-header-drop-menu-item-"],
-[modern=true]:root [class*="Header-header-drop-menu-"] li a *,
-[modern=true]:root .Header-header-button-active-GnvKh,
+[modern=true]:root .StandardHeader-header-button-1562K,
+[modern=true]:root [class*="StandardHeader-header-drop-menu-item-"],
+[modern=true]:root [class*="StandardHeader-header-drop-menu-"] li a *,
+[modern=true]:root .StandardHeader-header-button-active-mEoTJ,
 [modern=true]:root .LGaPf svg {
   color: var(--contrast-text) !important;
 }
 
-[modern=true]:root .Header-header-drop-menu-3SaYV._1Z0RM {
+[modern=true]:root .StandardHeader-header-drop-menu-YShpU._1Z0RM {
   background-color: var(--hover-color) !important;
+}
+
+[modern=true]:root div[role="menu"] ._2awxe._3skcp._1tpub a {
+  color: var(--link-color) !important;
 }
 
 [modern=true]:root .close {

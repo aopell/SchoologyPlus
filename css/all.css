@@ -37,13 +37,13 @@
 
 /* Drop down menus (grades, applications, and user menu) */
 
-.Header-header-drop-menu-3SaYV,
-.Header-header-drop-menu-3SaYV {
+.StandardHeader-header-drop-menu-YShpU,
+.StandardHeader-header-drop-menu-YShpU {
     background-color: var(--hover-color) !important;
 }
 
-a.Header-header-drop-menu-3SaYV:hover,
-.Header-header-drop-menu-3SaYV li a:hover {
+a.StandardHeader-header-drop-menu-YShpU:hover,
+.StandardHeader-header-drop-menu-YShpU li a:hover {
     background-color: var(--background-color) !important;
 }
 
@@ -51,8 +51,8 @@ a.Header-header-drop-menu-3SaYV:hover,
     background-color: var(--background-color) !important;
 }
 
-[class*="Header-header-drop-menu-item-"],
-[class*="Header-header-drop-menu-"] li a * {
+[class*="StandardHeader-header-drop-menu-item-"],
+[class*="StandardHeader-header-drop-menu-"] li a * {
     color: var(--contrast-text-color) !important;
 }
 
@@ -889,8 +889,4 @@ a._3_bfp {
     border-radius: 5px;
     color: white;
     background: var(--primary-color);
-}
-
-.StandardHeader-header-drop-menu-YShpU a {
-    background-color: inherit !important;
 }
