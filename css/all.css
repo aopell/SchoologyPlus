@@ -890,3 +890,7 @@ a._3_bfp {
     color: white;
     background: var(--primary-color);
 }
+
+.StandardHeader-header-drop-menu-YShpU a {
+    background-color: inherit !important;
+}
