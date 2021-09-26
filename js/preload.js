@@ -477,19 +477,154 @@ function updateSettings(callback) {
                     element => element.value
                 ).control,
                 new Setting(
-                    "broadcasts",
-                    "Announcement Notifications",
-                    "Displays news feed posts for announcements sent to all Schoology Plus users",
+                    "indicateSubmission",
+                    "Submitted Assignments Checklist",
+                    '[Reload required] Shows a checkmark, shows a strikethrough, or hides items in "Upcoming Assignments" that have been submitted. If "Show Check Mark" is selected, a checklist function will be enabled allowing you to manually mark assignments as complete.',
+                    "check",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Show Check Mark ✔ (Enables manual checklist)",
+                                value: "check"
+                            },
+                            {
+                                text: "Show Strikethrough (Doesn't allow manual checklist)",
+                                value: "strikethrough"
+                            },
+                            {
+                                text: "Hide Assignment (Not recommended)",
+                                value: "hide"
+                            },
+                            {
+                                text: "Do Nothing",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).control,
+                new Setting(
+                    "quickAccessVisibility",
+                    "Quick Access",
+                    "[Reload Required to Reposition] Changes the visibility of the Quick Access panel on the homepage",
                     "enabled",
                     "select",
                     {
                         options: [
                             {
-                                text: "Enable Announcements",
+                                text: "Top of Right Sidebar",
                                 value: "enabled"
                             },
                             {
-                                text: "Disable Announcements",
+                                text: "Between Overdue and Upcoming",
+                                value: "belowOverdue"
+                            },
+                            {
+                                text: "Bottom of Right Sidebar",
+                                value: "bottom"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => {
+                        setCSSVariable("quick-access-display", value === "disabled" ? "none" : "block");
+                        return value;
+                    },
+                    function (event) { this.onload(event.target.value) },
+                    element => element.value
+                ).control,
+                new Setting(
+                    "upcomingOverdueVisibility",
+                    "Hide Upcoming and Overdue Assignments",
+                    'Hides the "Upcoming" and "Overdue" sidebars on the homepage',
+                    "showAll",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Show Both",
+                                value: "showAll"
+                            },
+                            {
+                                text: "Hide Upcoming Only",
+                                value: "hideUpcoming"
+                            },
+                            {
+                                text: "Hide Overdue Only",
+                                value: "hideOverdue"
+                            },
+                            {
+                                text: "Hide Both",
+                                value: "hideAll"
+                            }
+                        ]
+                    },
+                    value => {
+                        setCSSVariable("overdue-assignments-display", "block");
+                        setCSSVariable("upcoming-assignments-display", "block");
+                        switch (value) {
+                            case "hideUpcoming":
+                                setCSSVariable("upcoming-assignments-display", "none");
+                                break;
+                            case "hideOverdue":
+                                setCSSVariable("overdue-assignments-display", "none");
+                                break;
+                            case "hideAll":
+                                setCSSVariable("upcoming-assignments-display", "none");
+                                setCSSVariable("overdue-assignments-display", "none");
+                                break;
+                        }
+                        return value;
+                    },
+                    function (event) { this.onload(event.target.value) },
+                    element => element.value
+                ).control,
+                new Setting(
+                    "courseIcons",
+                    "Override Course Icons",
+                    "[Refresh required to disable] Replace the course icons with the selected theme's icons",
+                    isLAUSD() ? "enabled" : "defaultOnly",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "All Icons",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Default Icons Only",
+                                value: "defaultOnly",
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).control,
+                new Setting(
+                    "useDefaultIconSet",
+                    "Use Built-In Icon Set",
+                    `[Refresh required] Use Schoology Plus's <a href="${chrome.runtime.getURL("/default-icons.html")}" target="_blank">default course icons</a> as a fallback when a custom icon has not been specified. NOTE: these icons were meant for schools in Los Angeles Unified School District and may not work correctly for other schools.`,
+                    isLAUSD() ? "enabled" : "disabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Disabled",
                                 value: "disabled"
                             }
                         ]
@@ -535,54 +670,6 @@ function updateSettings(callback) {
                             {
                                 text: "Alphabetically",
                                 value: "alpha"
-                            }
-                        ]
-                    },
-                    value => value,
-                    undefined,
-                    element => element.value
-                ).control,
-                new Setting(
-                    "courseIcons",
-                    "Override Course Icons",
-                    "[Refresh required to disable] Replace the course icons with the selected theme's icons",
-                    isLAUSD() ? "enabled" : "defaultOnly",
-                    "select",
-                    {
-                        options: [
-                            {
-                                text: "All Icons",
-                                value: "enabled"
-                            },
-                            {
-                                text: "Default Icons Only",
-                                value: "defaultOnly",
-                            },
-                            {
-                                text: "Disabled",
-                                value: "disabled"
-                            }
-                        ]
-                    },
-                    value => value,
-                    undefined,
-                    element => element.value
-                ).control,
-                new Setting(
-                    "useDefaultIconSet",
-                    "Use Built-In Icon Set",
-                    `[Refresh required] Use Schoology Plus's <a href="${chrome.runtime.getURL("/default-icons.html")}" target="_blank">default course icons</a> as a fallback when a custom icon has not been specified. NOTE: these icons were meant for schools in Los Angeles Unified School District and may not work correctly for other schools.`,
-                    isLAUSD() ? "enabled" : "disabled",
-                    "select",
-                    {
-                        options: [
-                            {
-                                text: "Enabled",
-                                value: "enabled"
-                            },
-                            {
-                                text: "Disabled",
-                                value: "disabled"
                             }
                         ]
                     },
@@ -638,115 +725,6 @@ function updateSettings(callback) {
                     element => element.value
                 ).control,
                 new Setting(
-                    "quickAccessVisibility",
-                    "Quick Access",
-                    "[Reload Required to Reposition] Changes the visibility of the Quick Access panel on the homepage",
-                    "enabled",
-                    "select",
-                    {
-                        options: [
-                            {
-                                text: "Top of Right Sidebar",
-                                value: "enabled"
-                            },
-                            {
-                                text: "Between Overdue and Upcoming",
-                                value: "belowOverdue"
-                            },
-                            {
-                                text: "Bottom of Right Sidebar",
-                                value: "bottom"
-                            },
-                            {
-                                text: "Disabled",
-                                value: "disabled"
-                            }
-                        ]
-                    },
-                    value => {
-                        setCSSVariable("quick-access-display", value === "disabled" ? "none" : "block");
-                        return value;
-                    },
-                    function (event) { this.onload(event.target.value) },
-                    element => element.value
-                ).control,
-                new Setting(
-                    "indicateSubmission",
-                    "Submitted Assignments Checklist",
-                    '[Reload required] Shows a checkmark, shows a strikethrough, or hides items in "Upcoming Assignments" that have been submitted. If "Show Check Mark" is selected, a checklist function will be enabled allowing you to manually mark assignments as complete.',
-                    "check",
-                    "select",
-                    {
-                        options: [
-                            {
-                                text: "Show Check Mark ✔ (Enables manual checklist)",
-                                value: "check"
-                            },
-                            {
-                                text: "Show Strikethrough (Doesn't allow manual checklist)",
-                                value: "strikethrough"
-                            },
-                            {
-                                text: "Hide Assignment (Not recommended)",
-                                value: "hide"
-                            },
-                            {
-                                text: "Do Nothing",
-                                value: "disabled"
-                            }
-                        ]
-                    },
-                    value => value,
-                    undefined,
-                    element => element.value
-                ).control,
-                new Setting(
-                    "upcomingOverdueVisibility",
-                    "Hide Upcoming and Overdue Assignments",
-                    'Hides the "Upcoming" and "Overdue" sidebars on the homepage',
-                    "showAll",
-                    "select",
-                    {
-                        options: [
-                            {
-                                text: "Show Both",
-                                value: "showAll"
-                            },
-                            {
-                                text: "Hide Upcoming Only",
-                                value: "hideUpcoming"
-                            },
-                            {
-                                text: "Hide Overdue Only",
-                                value: "hideOverdue"
-                            },
-                            {
-                                text: "Hide Both",
-                                value: "hideAll"
-                            }
-                        ]
-                    },
-                    value => {
-                        setCSSVariable("overdue-assignments-display", "block");
-                        setCSSVariable("upcoming-assignments-display", "block");
-                        switch (value) {
-                            case "hideUpcoming":
-                                setCSSVariable("upcoming-assignments-display", "none");
-                                break;
-                            case "hideOverdue":
-                                setCSSVariable("overdue-assignments-display", "none");
-                                break;
-                            case "hideAll":
-                                setCSSVariable("upcoming-assignments-display", "none");
-                                setCSSVariable("overdue-assignments-display", "none");
-                                break;
-                        }
-                        return value;
-                    },
-                    function (event) { this.onload(event.target.value) },
-                    element => element.value
-                ).control,
-                new Setting(
                     "weightedGradebookIndicator",
                     "Weighted Gradebook Indicator",
                     "Adds an indicator next to gradebooks which are weighted",
@@ -769,6 +747,28 @@ function updateSettings(callback) {
                         return value;
                     },
                     function (event) { this.onload(event.target.value) },
+                    element => element.value
+                ).control,
+                new Setting(
+                    "broadcasts",
+                    "Announcement Notifications",
+                    "Displays news feed posts for announcements sent to all Schoology Plus users",
+                    "enabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enable Announcements",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Disable Announcements",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
                     element => element.value
                 ).control,
                 new Setting(

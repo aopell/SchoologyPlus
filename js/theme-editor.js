@@ -99,6 +99,8 @@ var discardButton = document.getElementById("discard-button");
 discardButton.addEventListener("click", e => ConfirmModal.open("Discard Changes?", "Are you sure you want to discard changes? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && location.reload()));
 var closeButton = document.getElementById("close-button");
 closeButton.addEventListener("click", e => (!inEditMode() && (location.href = `https://${defaultDomain}`) || ConfirmModal.open("Discard Changes?", "Are you sure you want to close without saving? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && (location.href = `https://${defaultDomain}`))));
+// var settingsButton = document.getElementById("settings-button");
+// settingsButton.addEventListener("click", e => SettingsModal.open());
 var importButton = document.getElementById("import-button");
 importButton.addEventListener("click", e => importTheme());
 var createPresetDarkTheme = document.getElementById("create-preset-dark-theme");
@@ -217,6 +219,61 @@ class ConfirmModal extends Modal {
         `);
 
         Modal.open(content, buttons, callback);
+    }
+}
+
+class SettingsModal extends Modal {
+    /**
+     * Opens the settings modal
+     * @param {string} title The title of the modal
+     * @param {string} placeholder Text displayed as a placeholder in the textbox
+     * @param {string[]} buttons Buttons to display in the modal footer
+     * @param {(button:string,text:string)=>void} callback Called on close with the selected button (or `null` if none selected) and the text in the textbox
+     */
+    static open() {
+        let content = htmlToElement(`
+        <div>
+            <h4>Settings</h4>
+            <p>
+                <div class="switch">
+                    <strong>Modernized Interface Icons</strong>
+                    <label>
+                        <input type="checkbox" id="modernized-icons-lever">
+                        <span class="lever"></span>
+                    </label>
+                    <br>
+                    <span>Replace various icons around the Schoology user interface with modernized versions.</span>
+                </div>
+            </p>
+        </div>
+        `);
+
+        Modal.open(content, ["Cancel", "Save"], button => {
+            switch (button) {
+                case "Save":
+                    break;
+                case "Cancel":
+                default:
+                    break;
+            }
+        });
+
+        document.getElementById("modernized-icons-lever").addEventListener("change", event => {
+            if (event.target.checked) {
+                chrome.permissions.request({permissions: ["webRequest", "webRequestBlocking"]}, granted => {
+                    if (granted) {
+                        event.target.checked = true;
+                        // Setting.setValue("overrideInterfaceIcons", "enabled");
+                        Logger.debug("webRequest permissions granted");
+                    } else {
+                        event.target.checked = false;
+                        // Setting.setValue("overrideInterfaceIcons", "disabled");
+                        Logger.debug("webRequest permissions refused");
+                        alert("You must grant permission to intercept requests for this feature.");
+                    }
+                });
+            }
+        });
     }
 }
 

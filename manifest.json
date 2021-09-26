@@ -35,7 +35,9 @@
         "notifications",
         "cookies",
         "contextMenus",
-        "activeTab"
+        "activeTab",
+        "webRequest",
+        "webRequestBlocking"
     ],
     "optional_permissions": [
         "<all_urls>"
