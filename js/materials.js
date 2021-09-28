@@ -352,7 +352,7 @@
         // improves performance because it's one NETWORK API call PER ASSIGNMENT, and it blocks all tooltips until all assignments are done loading
         // especially visible in large classes
         let gradeInfo = loadedGradeContainer.grades[assignment.id];
-        if (+assignment.allow_dropbox && (gradeInfo.grade === null || gradeInfo.exception)) {
+        if (+assignment.allow_dropbox && (!gradeInfo || gradeInfo.grade === null || gradeInfo.exception)) {
             // "dropboxes," or places to submit documents via Schoology
             // another API call
             loadedGradeContainer.dropboxes[assignment.id] = (await fetchApiJson(`/sections/${classId}/submissions/${assignment.id}/${userId}`)).revision;

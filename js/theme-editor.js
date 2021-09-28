@@ -99,6 +99,8 @@ var discardButton = document.getElementById("discard-button");
 discardButton.addEventListener("click", e => ConfirmModal.open("Discard Changes?", "Are you sure you want to discard changes? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && location.reload()));
 var closeButton = document.getElementById("close-button");
 closeButton.addEventListener("click", e => (!inEditMode() && (location.href = `https://${defaultDomain}`) || ConfirmModal.open("Discard Changes?", "Are you sure you want to close without saving? All unsaved edits will be permanently lost.", ["Discard", "Cancel"], b => b === "Discard" && (location.href = `https://${defaultDomain}`))));
+var settingsButton = document.getElementById("settings-button");
+settingsButton.addEventListener("click", e => SettingsModal.open());
 var importButton = document.getElementById("import-button");
 importButton.addEventListener("click", e => importTheme());
 var createPresetDarkTheme = document.getElementById("create-preset-dark-theme");
@@ -217,6 +219,32 @@ class ConfirmModal extends Modal {
         `);
 
         Modal.open(content, buttons, callback);
+    }
+}
+
+class SettingsModal extends Modal {
+    /**
+     * Opens the settings modal
+     */
+    static open() {
+        let content = htmlToElement(`
+        <div>
+            <h4>Settings</h4>
+            <p>
+                Nothing to see here yet! Theme editor settings coming soon&trade;.
+            </p>
+        </div>
+        `);
+
+        Modal.open(content, ["Cancel", "Save"], button => {
+            switch (button) {
+                case "Save":
+                    break;
+                case "Cancel":
+                default:
+                    break;
+            }
+        });
     }
 }
 
