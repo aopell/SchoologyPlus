@@ -324,35 +324,35 @@ function createLogPrefix(color) {
 
 addDomainPermissionToggle();
 
-IMAGE_REDIRECTS = {
-    "attendance_comment.png": "https://imgur.com/a5JETn6.png",
-    "icons_sprite_feed.png": "https://imgur.com/5XYV6rt.png",
-    "icons_sprite_library.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_library.png",
-    "resources-menu-icon.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/resources-menu-icon.png",
-    "icons_sprite_realm.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_realm.png",
-    "btn-sprite.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/btn-sprite.png",
-    "icons_sprite_new.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_new.png",
-    "icons_sprite_calendar.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_calendar.png",
-    "icons_sprite_med.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_med.png",
-    "icons_sprite_large.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_large.png"
-}
+// IMAGE_REDIRECTS = {
+//     "attendance_comment.png": "https://imgur.com/a5JETn6.png",
+//     "icons_sprite_feed.png": "https://imgur.com/5XYV6rt.png",
+//     "icons_sprite_library.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_library.png",
+//     "resources-menu-icon.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/resources-menu-icon.png",
+//     "icons_sprite_realm.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_realm.png",
+//     "btn-sprite.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/btn-sprite.png",
+//     "icons_sprite_new.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_new.png",
+//     "icons_sprite_calendar.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_calendar.png",
+//     "icons_sprite_med.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_med.png",
+//     "icons_sprite_large.png": "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/icons_sprite_large.png"
+// }
 
-chrome.webRequest.onBeforeRequest.addListener(
-    details => {
-        if (storage.modernizedInterfaceIcons !== "disabled") {
-            let pathParts = new URL(details.url).pathname.split('/');
-            if (pathParts.length > 0 && IMAGE_REDIRECTS[pathParts[pathParts.length - 1]]) {
-                let redirectUrl = IMAGE_REDIRECTS[pathParts[pathParts.length - 1]];
-                Logger.debug(`Redirecting from ${details.url} to ${redirectUrl}`)
-                return {
-                    redirectUrl: redirectUrl
-                }
-            }
-        }        
-    },
-    { urls: ["*://*/sites/all/themes/schoology_theme/images/*"]},
-    ['blocking']
-);
+// chrome.webRequest.onBeforeRequest.addListener(
+//     details => {
+//         if (storage.modernizedInterfaceIcons !== "disabled") {
+//             let pathParts = new URL(details.url).pathname.split('/');
+//             if (pathParts.length > 0 && IMAGE_REDIRECTS[pathParts[pathParts.length - 1]]) {
+//                 let redirectUrl = IMAGE_REDIRECTS[pathParts[pathParts.length - 1]];
+//                 Logger.debug(`Redirecting from ${details.url} to ${redirectUrl}`)
+//                 return {
+//                     redirectUrl: redirectUrl
+//                 }
+//             }
+//         }        
+//     },
+//     { urls: ["*://*/sites/all/themes/schoology_theme/images/*"]},
+//     ['blocking']
+// );
 
 // if (getBrowser() !== "Firefox") {
 //     // See https://bugs.chromium.org/p/chromium/issues/detail?id=966223#c3
