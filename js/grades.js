@@ -505,14 +505,6 @@ var fetchQueue = [];
     }
 
     if (!document.location.search.includes("past") || document.location.search.split("past=")[1] != 1) {
-        if (Setting.getValue("orderClasses") == "period") {
-            for (let course of coursesByPeriod) {
-                if (course) {
-                    course.parentElement.appendChild(course);
-                }
-            }
-        }
-
         let timeRow = document.getElementById("past-selector");
         let gradeModifLabelFirst = true;
         if (timeRow == null) {
@@ -997,6 +989,16 @@ var fetchQueue = [];
 
     for (let courseTask of courseLoadTasks) {
         await courseTask;
+    }
+
+    if (!document.location.search.includes("past") || document.location.search.split("past=")[1] != 1) {
+        if (Setting.getValue("orderClasses") == "period") {
+            for (let course of coursesByPeriod) {
+                if (course) {
+                    course.parentElement.appendChild(course);
+                }
+            }
+        }
     }
 
     function getLetterGrade(gradingScale, percentage) {
