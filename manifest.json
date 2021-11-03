@@ -9,7 +9,7 @@
             "id": "schoology.plus@aopell.me"
         }
     },
-    "version": "7.3.3",
+    "version": "7.3.4",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -35,9 +35,7 @@
         "notifications",
         "cookies",
         "contextMenus",
-        "activeTab",
-        "webRequest",
-        "webRequestBlocking"
+        "activeTab"
     ],
     "optional_permissions": [
         "<all_urls>"
