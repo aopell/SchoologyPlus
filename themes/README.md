@@ -381,7 +381,7 @@ A Schoology Plus theme has the following format and components (each component w
     },
     {
         "regex": ".",
-        "url": "https://image.flaticon.com/icons/svg/183/183759.svg"
+        "url": "https://cdn-icons-png.flaticon.com/512/183/183759.png"
     }
 ]
 ```
