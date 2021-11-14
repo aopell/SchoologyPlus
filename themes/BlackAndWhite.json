@@ -12,35 +12,35 @@
     "icons": [
         {
             "regex": "Art|Paint(ing)?",
-            "url": "https://image.flaticon.com/icons/svg/1258/1258333.svg"
+            "url": "https://cdn-icons-png.flaticon.com/512/1258/1258333.png"
         },
         {
             "regex": "Astro(nomy)?",
-            "url": "https://image.flaticon.com/icons/svg/1258/1258364.svg"
+            "url": "https://cdn-icons-png.flaticon.com/512/1258/1258364.png"
         },
         {
             "regex": "Computer",
-            "url": "https://image.flaticon.com/icons/svg/1258/1258347.svg"
+            "url": "https://cdn-icons-png.flaticon.com/512/1258/1258347.png"
         },
         {
             "regex": "Math|Calc",
-            "url": "https://image.flaticon.com/icons/svg/1258/1258335.svg"
+            "url": "https://cdn-icons-png.flaticon.com/512/1258/1258335.png"
         },
         {
             "regex": "Physics",
-            "url": "https://image.flaticon.com/icons/svg/1258/1258357.svg"
+            "url": "https://cdn-icons-png.flaticon.com/512/1258/1258357.png"
         },
         {
             "regex": "Read|Eng(lish)?",
-            "url": "https://image.flaticon.com/icons/svg/1258/1258341.svg"
+            "url": "https://cdn-icons-png.flaticon.com/512/1258/1258341.png"
         },
         {
             "regex": "Writing|Comp(osition)?",
-            "url": "https://image.flaticon.com/icons/svg/1258/1258348.svg"
+            "url": "https://cdn-icons-png.flaticon.com/512/1258/1258348.png"
         },
         {
             "regex": ".",
-            "url": "https://image.flaticon.com/icons/svg/1258/1258334.svg"
+            "url": "https://cdn-icons-png.flaticon.com/512/1258/1258334.png"
         }
     ],
     "logo": {
