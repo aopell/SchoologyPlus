@@ -4,12 +4,13 @@
     "short_name": "Schoology+",
     "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
     "homepage_url": "https://schoologypl.us?utm_source=ext-homepage-link",
-    "applications": {
+    "browser_specific_settings": {
         "gecko": {
-            "id": "schoology.plus@aopell.me"
+            "id": "schoology.plus@aopell.me",
+            "update_url": "https://schoologypl.us/firefox_updates.json"
         }
     },
-    "version": "7.3.5",
+    "version": "7.3.6",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",

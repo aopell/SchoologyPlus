@@ -350,7 +350,7 @@ async function getApiKeysDirect() {
     let userId = getUserId();
     var apiKeys = null;
     Logger.log(`Fetching API key for user ${userId}`);
-    let html = await (await fetch(`https://${Setting.getValue("defaultDomain")}/api`, { credentials: "same-origin" })).text();
+    let html = await (await fetch(`https://${Setting.getValue("defaultDomain")}/api/`, { credentials: "same-origin" })).text();
     let docParser = new DOMParser();
     let doc = docParser.parseFromString(html, "text/html");
 
@@ -362,7 +362,7 @@ async function getApiKeysDirect() {
     } else {
         Logger.log("API key not found - generating and trying again");
         let submitData = new FormData(doc.getElementById("s-api-register-form"));
-        let generateFetch = await fetch(`https://${Setting.getValue("defaultDomain")}/api`, {
+        let generateFetch = await fetch(`https://${Setting.getValue("defaultDomain")}/api/`, {
             credentials: "same-origin",
             body: submitData,
             method: "post"
