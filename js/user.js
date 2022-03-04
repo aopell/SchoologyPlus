@@ -79,5 +79,10 @@ function populateCourseList(targetListElem, loadCourseFunction) {
         }
         Theme.setProfilePictures(listElem.getElementsByTagName("img"));
     })
-        .catch(err => Logger.error("Error building courses in common: ", err));
+        .catch(err => {
+            Logger.error("Error building courses in common: ", err);
+            let listElem = document.getElementById(targetListElem);
+            clearNodeChildren(listElem);
+            listElem.appendChild(createElement("li", [], { textContent: "Failed to load courses in common." }));
+        });
 }

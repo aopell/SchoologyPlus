@@ -12,12 +12,14 @@ const SINGLE_COURSE = window.location.href.includes("/course/");
 var editDisableReason = null;
 var invalidCategories = [];
 
-function addEditDisableReason(err = "Unknown Error", causedBy403 = false) {
+function addEditDisableReason(err = "Unknown Error", causedBy403 = false, causedByNoApiKey = false) {
     if (!editDisableReason) {
-        editDisableReason = { version: chrome.runtime.getManifest().version, errors: [], allCausedBy403: causedBy403 };
+        editDisableReason = { version: chrome.runtime.getManifest().version, errors: [], allCausedBy403: causedBy403, causedByNoApiKey: causedByNoApiKey };
     }
     editDisableReason.errors.push(err);
     editDisableReason.allCausedBy403 = editDisableReason.allCausedBy403 && causedBy403;
+    editDisableReason.causedByNoApiKey = editDisableReason.causedByNoApiKey || causedByNoApiKey;
+    Logger.debug(editDisableReason, err, causedBy403, causedByNoApiKey);
 }
 
 $.contextMenu({
@@ -106,7 +108,7 @@ var fetchQueue = [];
             } else {
                 try {
                     let finalGradeArray = (await fetchApiJson(`users/${getUserId()}/grades?section_id=${courseId}`)).section[0].final_grade;
-                    courseGrade = createElement("span", [], {textContent: `${finalGradeArray[finalGradeArray.length - 1].grade.toString()}%`});
+                    courseGrade = createElement("span", [], { textContent: `${finalGradeArray[finalGradeArray.length - 1].grade.toString()}%` });
                 } catch {
                     courseGrade = null;
                 }
@@ -298,26 +300,30 @@ var fetchQueue = [];
                             try {
                                 await processAssignment(assignment);
                             } catch (err) {
-                                if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
-                                    // consequential failure: our denominator is invalid
-                                    invalidateCatTotal = true;
-                                    invalidCategories.push(category.dataset.id);
+                                if (err === "noapikey") {
+                                    addEditDisableReason({ error: { message: err, name: err, stack: undefined, full: JSON.stringify(err) }, courseId, course: title.textContent, assignment: assignment.textContent }, false, true);
+                                } else {
+                                    if (!assignment.classList.contains("dropped") && assignment.querySelector(".missing")) {
+                                        // consequential failure: our denominator is invalid
+                                        invalidateCatTotal = true;
+                                        invalidCategories.push(category.dataset.id);
 
-                                    if ("status" in err && err.status === 403) {
-                                        addEditDisableReason({
-                                            error: {
-                                                message: err.error,
-                                                status: err.status
-                                            },
-                                            courseId,
-                                            course: title.textContent,
-                                            assignment: assignment.textContent
-                                        }, true);
-                                        continue;
+                                        if ("status" in err && err.status === 403) {
+                                            addEditDisableReason({
+                                                error: {
+                                                    message: err.error,
+                                                    status: err.status
+                                                },
+                                                courseId,
+                                                course: title.textContent,
+                                                assignment: assignment.textContent
+                                            }, true, err === "noapikey");
+                                            continue;
+                                        }
                                     }
-                                }
 
-                                addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: JSON.stringify(err) }, courseId, course: title.textContent, assignment: assignment.textContent });
+                                    addEditDisableReason({ error: { message: err.message, name: err.name, stack: err.stack, full: JSON.stringify(err) }, courseId, course: title.textContent, assignment: assignment.textContent }, false, err === "noapikey");
+                                }
                                 Logger.error("Error loading assignment for " + courseId + ": ", assignment, err);
                             }
                         }
@@ -384,7 +390,7 @@ var fetchQueue = [];
                             }
                         }
                     } catch (err) {
-                        addEditDisableReason({ error: JSON.stringify(err, Object.getOwnPropertyNames(err)), category: category.textContent })
+                        addEditDisableReason({ error: JSON.stringify(err, Object.getOwnPropertyNames(err)), category: category.textContent }, false, err === "noapikey")
                     }
                 }
 
@@ -555,7 +561,18 @@ var fetchQueue = [];
                 let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator)";
 
                 // any state change when editing has been disabled
-                if (editDisableReason && !editDisableReason.allCausedBy403) {
+                if (Setting.getValue("apistatus") === "denied") {
+                    if (confirm("This feature requires access to your Schoology API Key, which you have denied. Would you like to enable access?")) {
+                        trackEvent("api-denied-popup", "go-to-enable", "What-If Grades");
+                        location.pathname = "/api";
+                    } else {
+                        trackEvent("api-denied-popup", "keep-disabled", "What-If Grades");
+                    }
+                }
+                else if (editDisableReason && editDisableReason.causedByNoApiKey) {
+                    location.pathname = "/api";
+                }
+                else if (editDisableReason && !editDisableReason.allCausedBy403) {
                     Logger.error("Editing disabled due to error", editDisableReason);
 
                     if (confirm("Grade editing has been disabled due to an error. If you are trying to use What If Grades on the grade report page, try going to an individual class gradebook instead. Would you like to report this issue? (It will help us fix it faster!)")) {

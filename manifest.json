@@ -10,7 +10,7 @@
             "update_url": "https://schoologypl.us/firefox_updates.json"
         }
     },
-    "version": "7.3.6",
+    "version": "7.4",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -237,6 +237,18 @@
             ],
             "js": [
                 "js/course.js"
+            ],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
+                "https://lms.lausd.net/api",
+                "https://lms.lausd.net/api/*",
+                "https://*.schoology.com/api",
+                "https://*.schoology.com/api/*"
+            ],
+            "js": [
+                "js/api-key.js"
             ],
             "run_at": "document_end"
         },

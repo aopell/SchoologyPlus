@@ -890,3 +890,106 @@ a._3_bfp {
     color: white;
     background: var(--primary-color);
 }
+
+#center-wrapper.splus-api-key-page {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#center-inner.splus-api-key-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 600px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+#center-inner.splus-api-key-page #center-top .page-title,
+#center-inner.splus-api-key-page #content-wrapper form p.description.warning,
+#center-inner.splus-api-key-page .submit-span-wrapper {
+    display: none;
+}
+
+.splus-allow-access {
+    display: block !important;
+    margin: 10px 0 !important;
+}
+
+#edit-reveal {
+    width: 100%;
+}
+
+.splus-permissions-icon {
+    width: 256px;
+    padding: 10px;
+}
+
+.splus-permissions-icon-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.splus-permissions-wrapper {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.splus-permissions-box {
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.splus-permissions-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.splus-permissions-title {
+    text-align: center;
+    padding-bottom: 10px;
+    width: 400px;
+}
+
+.splus-permissions-description {
+    text-align: center;
+    font-size: 14px;
+    width: 400px;
+}
+
+.splus-permissions-description strong {
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+.splus-permissions-section {
+    padding-top: 10px;
+}
+
+.splus-permissions-features-list {
+    text-align: left;
+    font-size: 14px;
+    padding: 0 100px;
+    list-style: disc !important;
+    list-style-position: inside !important;
+}
+
+.splus-permissions-never-list {
+    text-align: left;
+    font-size: 14px;
+    padding: 0 10%;
+    list-style: disc !important;
+    list-style-position: inside !important;
+}
