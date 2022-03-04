@@ -242,15 +242,6 @@ let migrationsTo = {
         }
     },
     "7.1": function (currentVersion, previousVersion) {
-        saveBroadcasts([
-            createBroadcast(
-                710,
-                "Course Nicknames Under Maintenance",
-                "Due to performance concerns, course nicknames may not show up in every place you're used to seeing them. We're working on a fix so hopefully this can be resolved as soon as possible. Thanks for your patience.",
-                new Date(2021, 0 /* January */, 16)
-            )
-        ]);
-
         var modalExistsInterval = setInterval(function () {
             if (document.readyState === "complete" && openModal && document.getElementById("choose-theme-modal") && !document.querySelector(".splus-modal-open")) {
                 clearInterval(modalExistsInterval);
@@ -258,27 +249,15 @@ let migrationsTo = {
             }
         }, 50);
     },
-    "7.2": function (currentVersion, previousVersion) {
-        saveBroadcasts([
-            createBroadcast(
-                720,
-                "Quick Links and What-If Grades Bug Fixes",
-                `
-                <div>
-                    <strong style="background: rgb(29, 203, 255, 0.5) !important;">Add Zoom links or course websites to Quick Access!</strong>
-
-                    <p>Quick Access has a new Quick Link feature, allowing you to add a link to quickly access a class website, Zoom meeting,
-                    or any other URL related to your class right from your Schoology homepage! Additionally, this version of Schoology Plus
-                    fixes some issues people were reporting with What-If Grades, so please check to see if your past issues are resolved.
-                    Thank you for using Schoology Plus!</p>
-                    
-                    <p style="font-weight: bold; font-size: 14px;">Follow the instructions in the image below to add a Quick Link:</p>
-                </div>
-                <img style="padding-top: 10px;" src="https://i.imgur.com/xCqivIx.png"/>
-                `,
-                new Date(2021, 2 /* March */, 2)
-            )
-        ]);
+    "7.4": function (currentVersion, previousVersion) {
+        var accessToAccountInterval = setInterval(function () {
+            if (document.readyState === "complete" && openModal && !document.querySelector(".splus-modal-open")) {
+                clearInterval(accessToAccountInterval);
+                if (!Setting.getValue("apistatus")) {
+                    location.pathname = "/api";
+                }
+            }
+        }, 50);
     }
 };
 

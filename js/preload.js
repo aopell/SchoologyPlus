@@ -347,31 +347,23 @@ function getUserId() {
  * Gets the user's API credentials from the Schoology API key webpage, bypassing the cache.
  */
 async function getApiKeysDirect() {
-    let userId = getUserId();
-    var apiKeys = null;
-    Logger.log(`Fetching API key for user ${userId}`);
-    let html = await (await fetch(`https://${Setting.getValue("defaultDomain")}/api/`, { credentials: "same-origin" })).text();
-    let docParser = new DOMParser();
-    let doc = docParser.parseFromString(html, "text/html");
+    let apiKey = Setting.getValue("apikey");
+    let apiSecret = Setting.getValue("apisecret");
+    let apiUserId = Setting.getValue("apiuser");
+    let currentUser = getUserId();
+    let apiStatus = Setting.getValue("apistatus");
 
-    let key;
-    let secret;
-    if ((key = doc.getElementById("edit-current-key")) && (secret = doc.getElementById("edit-current-secret"))) {
-        Logger.log("API key already generated - storing");
-        apiKeys = [key.value, secret.value, userId];
-    } else {
-        Logger.log("API key not found - generating and trying again");
-        let submitData = new FormData(doc.getElementById("s-api-register-form"));
-        let generateFetch = await fetch(`https://${Setting.getValue("defaultDomain")}/api/`, {
-            credentials: "same-origin",
-            body: submitData,
-            method: "post"
-        });
-        Logger.log(`Generatekey response: ${generateFetch.status}`);
-        return await getApiKeysDirect();
+    if (apiStatus === "denied" && apiUserId === currentUser) {
+        throw "apidenied";
     }
 
-    return apiKeys;
+    if (apiKey && apiSecret && apiUserId === currentUser) {
+        // API keys already exist
+        return [apiKey, apiSecret, apiUserId];
+    }
+
+    // API keys do not exist
+    throw "noapikey";
 }
 
 /**
@@ -818,12 +810,19 @@ function updateSettings(callback) {
                     undefined,
                     element => element.value
                 ).control,
+                createElement("div", ["setting-entry"], {}, [
+                    createElement("h2", ["setting-title"], {}, [
+                        createElement("a", [], { href: "#", textContent: "Change Schoology Account Access", onclick: () => {location.pathname = "/api";}, style: { fontSize: "" } })
+                    ]),
+                    createElement("p", ["setting-description"], { textContent: "Grant Schoology Plus access to your Schoology API Key so many features can function, or revoke that access." })
+                ]),
                 getBrowser() !== "Firefox" ? createElement("div", ["setting-entry"], {}, [
                     createElement("h2", ["setting-title"], {}, [
                         createElement("a", [], { href: "#", textContent: "Anonymous Usage Statistics", onclick: () => openModal("analytics-modal"), style: { fontSize: "" } })
                     ]),
                     createElement("p", ["setting-description"], { textContent: "[Reload required] Allow Schoology Plus to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy." })
-                ]) : noControl
+                ]) : noControl,
+                
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
                 createButton("save-settings", "Save Settings", () => Setting.saveModified()),
