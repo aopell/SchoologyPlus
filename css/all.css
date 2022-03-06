@@ -37,13 +37,16 @@
 
 /* Drop down menus (grades, applications, and user menu) */
 
+/* Kept old classes to remain compatible with older versions of Schoology */
 .StandardHeader-header-drop-menu-YShpU,
-.StandardHeader-header-drop-menu-YShpU {
+.Header-header-drop-menu-3SaYV {
     background-color: var(--hover-color) !important;
 }
 
 a.StandardHeader-header-drop-menu-YShpU:hover,
-.StandardHeader-header-drop-menu-YShpU li a:hover {
+.StandardHeader-header-drop-menu-YShpU li a:hover,
+a.Header-header-drop-menu-3SaYV:hover,
+.Header-header-drop-menu-3SaYV li a:hover {
     background-color: var(--background-color) !important;
 }
 
