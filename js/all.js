@@ -821,7 +821,7 @@ let siteNavigationTileHelpers = {
         let coursesHeader = coursesDropdownContainer.querySelector(".CjR09._8a6xl._1tpub > h2");
         if (coursesHeader && !coursesHeader.querySelector(".splus-coursesdropdown-reorder-btn")) {
             // https://www.flaticon.com/free-icon/sort_159800
-            let newBtn = createElement("img", ["splus-coursesdropdown-reorder-btn", "splus-addedtodynamicdropdown"], { src: "https://image.flaticon.com/icons/svg/690/690319.svg", title: "Reorder Courses", alt: "Reorder Icon" });
+            let newBtn = createElement("img", ["splus-coursesdropdown-reorder-btn", "splus-addedtodynamicdropdown"], { src: "https://cdn-icons-png.flaticon.com/512/690/690319.png", title: "Reorder Courses", alt: "Reorder Icon" });
             newBtn.onclick = () => location.href = "/courses?reorder";
             coursesHeader.appendChild(newBtn);
         }
@@ -1091,36 +1091,47 @@ async function createQuickAccess() {
         ])
     );
 
-    let sectionsList = (await fetchApiJson(`users/${getUserId()}/sections`)).section;
+    try {
+        let sectionsList = (await fetchApiJson(`users/${getUserId()}/sections`)).section;
 
-    if (!sectionsList || sectionsList.length == 0) {
-        wrapper.appendChild(createElement("p", ["quick-access-no-courses"], { textContent: "No courses found" }));
-    } else {
-        let courseOptionsButton;
-        let iconImage;
-        let courseIconsContainer;
-        for (let section of sectionsList) {
-            wrapper.appendChild(createElement("div", ["quick-access-course"], {}, [
-                (iconImage = createElement("div", ["splus-course-icon"], { dataset: { courseTitle: `${section.course_title}: ${section.section_title}` } })),
-                createElement("a", ["splus-track-clicks", "quick-course-link"], { textContent: `${section.course_title}: ${section.section_title}`, href: `/course/${section.id}`, dataset: { splusTrackingTarget: "quick-access-course-link", splusTrackingLabel: "Quick Access" } }),
-                (courseIconsContainer = createElement("div", ["icons-container"], {}, [
-                    createElement("a", ["icon", "icon-grades", "splus-track-clicks"], { href: `/course/${section.id}/student_grades`, title: "Grades", dataset: { splusTrackingTarget: "quick-access-grades-link", splusTrackingLabel: "Quick Access" } }),
-                    createElement("a", ["icon", "icon-mastery", "splus-track-clicks"], { href: `/course/${section.id}/student_mastery`, title: "Mastery", dataset: { splusTrackingTarget: "quick-access-mastery-link", splusTrackingLabel: "Quick Access" } }),
-                    (courseOptionsButton = createElement("a", ["icon", "icon-settings", "splus-track-clicks"], { href: "#", dataset: { splusTrackingTarget: "quick-access-settings-link", splusTrackingLabel: "Quick Access" } }))
-                ]))
-            ]));
+        if (!sectionsList || sectionsList.length == 0) {
+            wrapper.appendChild(createElement("p", ["quick-access-no-courses"], { textContent: "No courses found" }));
+        } else {
+            let courseOptionsButton;
+            let iconImage;
+            let courseIconsContainer;
+            for (let section of sectionsList) {
+                wrapper.appendChild(createElement("div", ["quick-access-course"], {}, [
+                    (iconImage = createElement("div", ["splus-course-icon"], { dataset: { courseTitle: `${section.course_title}: ${section.section_title}` } })),
+                    createElement("a", ["splus-track-clicks", "quick-course-link"], { textContent: `${section.course_title}: ${section.section_title}`, href: `/course/${section.id}`, dataset: { splusTrackingTarget: "quick-access-course-link", splusTrackingLabel: "Quick Access" } }),
+                    (courseIconsContainer = createElement("div", ["icons-container"], {}, [
+                        createElement("a", ["icon", "icon-grades", "splus-track-clicks"], { href: `/course/${section.id}/student_grades`, title: "Grades", dataset: { splusTrackingTarget: "quick-access-grades-link", splusTrackingLabel: "Quick Access" } }),
+                        createElement("a", ["icon", "icon-mastery", "splus-track-clicks"], { href: `/course/${section.id}/student_mastery`, title: "Mastery", dataset: { splusTrackingTarget: "quick-access-mastery-link", splusTrackingLabel: "Quick Access" } }),
+                        (courseOptionsButton = createElement("a", ["icon", "icon-settings", "splus-track-clicks"], { href: "#", dataset: { splusTrackingTarget: "quick-access-settings-link", splusTrackingLabel: "Quick Access" } }))
+                    ]))
+                ]));
 
-            let quickLink = Setting.getNestedValue("courseQuickLinks", section.id);
-            if (quickLink && quickLink !== "") {
-                courseIconsContainer.prepend(createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], { href: quickLink, title: `Quick Link \n(${quickLink})`, dataset: { splusTrackingTarget: "quick-access-quicklink-link", splusTrackingLabel: "Quick Access" } }))
+                let quickLink = Setting.getNestedValue("courseQuickLinks", section.id);
+                if (quickLink && quickLink !== "") {
+                    courseIconsContainer.prepend(createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], { href: quickLink, title: `Quick Link \n(${quickLink})`, dataset: { splusTrackingTarget: "quick-access-quicklink-link", splusTrackingLabel: "Quick Access" } }))
+                }
+
+                iconImage.style.backgroundImage = `url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")})`;
+
+                courseOptionsButton.addEventListener("click", () => openModal("course-settings-modal", {
+                    courseId: section.id,
+                    courseName: `${section.course_title}: ${section.section_title}`
+                }));
             }
-
-            iconImage.style.backgroundImage = `url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")})`;
-
-            courseOptionsButton.addEventListener("click", () => openModal("course-settings-modal", {
-                courseId: section.id,
-                courseName: `${section.course_title}: ${section.section_title}`
-            }));
+        }
+    } catch (err) {
+        if (err === "noapikey") {
+            wrapper.appendChild(createElement("div", ["quick-access-no-api"], { }, [
+                createElement("p", [], { textContent: "Please grant access to your enrolled courses in order to use this feature." }),
+                createButton("quick-access-grant-access", "Grant Access", () => {location.pathname = "/api"; }),
+            ]));
+        } else {
+            throw err;
         }
     }
 
