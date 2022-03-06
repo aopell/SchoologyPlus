@@ -267,6 +267,8 @@ variable-intellisense {
   color: var(--contrast-text) !important;
 }
 
+[modern=true]:root .Header-header-button-1EE8Y,
+[modern=true]:root .Header-header-button-active-GnvKh,
 [modern=true]:root .StandardHeader-header-button-1562K,
 [modern=true]:root [class*="StandardHeader-header-drop-menu-item-"],
 [modern=true]:root [class*="StandardHeader-header-drop-menu-"] li a *,
