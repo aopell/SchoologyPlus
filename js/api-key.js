@@ -9,24 +9,28 @@
 (function () {
     let currentKey = document.getElementById("edit-current-key");
     let currentSecret = document.getElementById("edit-current-secret");
-    currentKey.parentElement.style.display = "none";
-    currentSecret.parentElement.style.display = "none";
 
-    if (currentSecret.value.indexOf("*") === -1) {
-        let key = currentKey.value;
-        let secret = currentSecret.value;
+    if (currentKey && currentSecret) {
+        // If API key has already been generated
+        currentKey.parentElement.style.display = "none";
+        currentSecret.parentElement.style.display = "none";
 
-        trackEvent("Change Access", "allowed", "API Key");
+        if (currentSecret.value.indexOf("*") === -1) {
+            let key = currentKey.value;
+            let secret = currentSecret.value;
 
-        Setting.setValue("apikey", key, () => {
-            Setting.setValue("apisecret", secret, () => {
-                Setting.setValue("apiuser", getUserId(), () => {
-                    Setting.setValue("apistatus", "allowed", () => {
-                        location.pathname = "/";
+            trackEvent("Change Access", "allowed", "API Key");
+
+            Setting.setValue("apikey", key, () => {
+                Setting.setValue("apisecret", secret, () => {
+                    Setting.setValue("apiuser", getUserId(), () => {
+                        Setting.setValue("apistatus", "allowed", () => {
+                            location.pathname = "/";
+                        });
                     });
                 });
             });
-        });
+        }
     }
 
     let centerInner = document.getElementById("center-inner");
@@ -70,11 +74,11 @@
         ])
     ]));
 
-    let submitButton = document.getElementById("edit-reveal");
+    let submitButton = document.getElementById("edit-reveal") || document.getElementById("edit-request");
     submitButton.parentElement.classList.add("splus-allow-access");
     submitButton.value = "Allow Access";
 
-    submitButton.parentElement.insertAdjacentElement("afterend", createElement("div", ["splus-api-key-footer"], {style: {textAlign: "center"}}, [
+    submitButton.parentElement.insertAdjacentElement("afterend", createElement("div", ["splus-api-key-footer"], { style: { textAlign: "center" } }, [
         createElement("a", [], {
             textContent: "Deny Access", onclick: () => {
                 alert("API key access was denied. Please keep in mind many Schoology Plus features will not work correctly with this disabled. You can change this at any time from the Schoology Plus settings menu.");

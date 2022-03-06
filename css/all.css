@@ -910,7 +910,7 @@ a._3_bfp {
 }
 
 #center-inner.splus-api-key-page #center-top .page-title,
-#center-inner.splus-api-key-page #content-wrapper form p.description.warning,
+#center-inner.splus-api-key-page #content-wrapper form p.description,
 #center-inner.splus-api-key-page .submit-span-wrapper {
     display: none;
 }
@@ -920,7 +920,7 @@ a._3_bfp {
     margin: 10px 0 !important;
 }
 
-#edit-reveal {
+.splus-allow-access input {
     width: 100%;
 }
 
