@@ -778,9 +778,9 @@ let siteNavigationTileHelpers = {
 
             let courseAlias;
             if (cardData.parentElement.href) {
-                let courseLinkMatch = cardData.parentElement.href.match(/\/course\/(\d+)\/?$/);
+                let courseLinkMatch = cardData.parentElement.href.split("/");
                 if (courseLinkMatch) {
-                    courseLinkMatch = courseLinkMatch[1];
+                    courseLinkMatch = courseLinkMatch.at(-2);
                 }
                 if (courseLinkMatch && Setting.getValue("courseAliases")) {
                     courseAlias = Setting.getValue("courseAliases")[courseLinkMatch];
