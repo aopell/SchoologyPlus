@@ -525,7 +525,7 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
                 document.documentElement.setAttribute("modern", newVal);
                 trackEvent("modern-theme-toggle", newVal, "Navbar Button");
             },
-            dataset: { popup: Setting.getNestedValue("popup", "modernThemeToggle", true) }
+            dataset: { popup: Setting.getNestedValue("popup", "modernThemeToggle", true) && (localStorage.getItem("popup.modernThemeToggle") !== "false") }
         },
         [
             createElement("div", ["explanation-popup"], {}, [
@@ -536,6 +536,7 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
                         e.stopPropagation();
                         trackEvent("modern-theme-toggle", "ok", "Explanation Popup");
                         Setting.setNestedValue("popup", "modernThemeToggle", false);
+                        localStorage.setItem("popup.modernThemeToggle", "false");
                         document.getElementById("darktheme-toggle-navbar-button").dataset.popup = false;
                     }
                 })
