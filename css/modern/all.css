@@ -1322,6 +1322,7 @@ variable-intellisense {
 
 [modern=true]:root .tab-nav:hover {
   background-color: var(--hover-color);
+}
 
 [modern=true]:root .tab-nav.active:hover {
   background-color: var(--input);
