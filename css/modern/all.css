@@ -214,6 +214,7 @@ variable-intellisense {
   color: var(--text);
 }
 
+/* Hover over Links in Schoology's Native Notifications */
 [modern="true"]:root .drGks a:hover,
 [modern="true"]:root .drGks a:focus {
   background-color: var(--highlight);
