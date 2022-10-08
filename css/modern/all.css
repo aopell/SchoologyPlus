@@ -214,6 +214,11 @@ variable-intellisense {
   color: var(--text);
 }
 
+[modern="true"]:root .drGks a:hover,
+[modern="true"]:root .drGks a:focus {
+  background-color: var(--highlight);
+}
+
 [modern=true]:root .grade-data {
   color: var(--grades) !important;
 }
