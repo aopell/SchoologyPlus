@@ -768,6 +768,10 @@ variable-intellisense {
   color: var(--text) !important;
 }
 
+[modern="true"]:root .comment-body-wrapper {
+  color: var(--text) !important; 
+}
+
 [modern=true]:root .s-polls-poll-option,
 [modern=true]:root #edge-filters-menu {
   background: none !important;
@@ -1730,7 +1734,8 @@ variable-intellisense {
   background: var(--accent) !important;
 }
 
-[modern=true]:root .portfolio-card {
+[modern=true]:root .portfolio-card,
+[modern="true"]:root .item-card {
   background: var(--primary) !important;
 }
 
@@ -1739,6 +1744,51 @@ variable-intellisense {
   background: var(--primary) !important;
   border-radius: var(--border-radius) !important;
 }
+
+[modern="true"]:root .tw-bs .portfolio-card__item-count-num {
+  color: var(--contrast-text) !important;
+}
+
+[modern="true"]:root .tw-bs .btn {
+  background-color: var(--primary) !important;
+  background-color: var(--border-size) solid var(--contrast-border) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--contrast-text) !important;
+}
+
+[modern="true"]:root .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label,
+[modern="true"]:root .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label span {
+  color: var(--muted-text) !important;
+}
+
+[modern="true"]:root .sgy-autosave-input.sgy-autosave-input--editing label span,
+[modern="true"]:root .sgy-autosave-input.sgy-autosave-input--editing .form-group:hover label span {
+  color: var(--text) !important;
+}
+
+[modern="true"]:root .tw-bs .remaining-char-len {
+  color: var(--text) !important;
+}
+
+[modern="true"]:root .tw-bs .add-item-dropdown__add-new-icon::before,
+[modern="true"]:root .tw-bs .portfolio-list__add-new-icon::before {
+  background-color: var(--primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[modern="true"]:root .tw-bs .item-view-container,
+[modern="true"]:root .tw-bs .item-form__title-bar,
+[modern="true"]:root .tw-bs .item-page {
+  background-color: var(--background-color) !important;
+  border-color: var(--border-color) !important;
+  outline-color: var(--border-color) !important;
+}
+
+[modern="true"]:root .tw-bs .item-card__title-link {
+  color: var(--link-color) !important;
+}
+
+
 
 [modern=true]:root #school-events {
   padding: var(--padding) !important;
