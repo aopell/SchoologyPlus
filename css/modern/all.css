@@ -1314,8 +1314,43 @@ variable-intellisense {
   background-color: var(--input);
 }
 
+[modern=true]:root .tab-nav:hover {
+  background-color: var(--hover-color);
+
 [modern=true]:root .tab-nav.active:hover {
   background-color: var(--input);
+}
+  
+[modern="true"]:root #ui-datepicker-div {
+  background-color: var(--input) !important;
+}
+  
+[modern="true"]:root .ui-datepicker-days-cell a {
+  background-color: var(--primary) !important;
+  border-color: var(--border-color) !important;
+}
+  
+[modern="true"]:root .ui-datepicker-unselectable {
+  background-color: var(--accent) !important;
+}
+
+[modern="true"]:root .ui-datepicker-days-cell.ui-datepicker-current-day a {
+  background-color: var(--active) !important;
+}
+  
+[modern="true"]:root .ui-datepicker-days-cell-over a {
+  background-color: var(--hover-color) !important;
+}
+  
+[modern="true"]:root .ui-datepicker-links > div > a {
+  background-color: var(--input);
+  background-blend-mode: screen;
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+  
+[modern="true"]:root .ui-datepicker-links > div:hover > a {
+  background-color: var(--hover-color);
 }
 
 [modern=true]:root .action-links,
