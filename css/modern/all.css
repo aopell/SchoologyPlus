@@ -1792,7 +1792,7 @@ variable-intellisense {
 
 [modern="true"]:root .tw-bs .btn {
   background-color: var(--primary) !important;
-  background-color: var(--border-size) solid var(--contrast-border) !important;
+  border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
   color: var(--contrast-text) !important;
 }
