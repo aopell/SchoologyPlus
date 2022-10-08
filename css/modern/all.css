@@ -296,10 +296,10 @@ variable-intellisense {
 }
 
 [modern=true]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
-  background-color: var(--text) !important;
-  color: var(--secondary) !important;
-  filter: Invert(var(--theme-is-dark)) !important;
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
   border-radius: var(--border-radius) !important;
+  background-blend-mode: screen;
 }
 
 [modern=true]:root .action-links-unfold {
@@ -2115,6 +2115,14 @@ variable-intellisense {
   border-color: var(--contrast-border) !important;
 }
 
+[modern="true"]:root .update-comments-pagenation {
+  background-color: var(--accent);
+}
+  
+[modern="true"]:root .feed-comments-viewall-container {
+  color: var(--link-color);
+}
+  
 [modern=true]:root .dropbox-viewer-item-wrapper {
   background-color: var(--primary);
 }
