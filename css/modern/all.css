@@ -185,6 +185,21 @@ variable-intellisense {
   background: none !important;
 }
 
+[modern="true"]:root .immersive-reader-button-container span svg path {
+  fill: var(--text);
+}
+
+[modern="true"]:root .immersive-reader-button-container button {
+  background-color: var(--primary);
+  color: var(--text);
+  border: var(--modern-border);
+}
+
+[modern="true"]:root .immersive-reader-button-container button:hover,
+[modern="true"]:root .immersive-reader-button-container button:focus {
+  background-color: var(--hover-color);
+}
+
 [modern=true]:root body a.link-btn,
 [modern=true]:root body button.link-btn {
   box-shadow: none !important;
