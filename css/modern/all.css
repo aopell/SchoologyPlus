@@ -71,6 +71,7 @@ variable-intellisense {
 
 [modern=true]:root textarea,
 [modern=true]:root select,
+[modern=true]:root optgroup,
 [modern=true]:root input[type=text] {
   background-color: var(--input) !important;
   color: var(--text) !important;
