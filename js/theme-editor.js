@@ -638,6 +638,27 @@ initPicker("modern-color-active", "#98d4e4", updateOutput, true);
 initPicker("modern-color-grades", "#009400");
 initPicker("modern-color-error", "#F44336");
 
+initPicker("modern-cal-1", "#d6e7f4");
+initPicker("modern-cal-2", "#d7e8cf");
+initPicker("modern-cal-3", "#f9e9d4");
+initPicker("modern-cal-4", "#e7e0e5");
+initPicker("modern-cal-5", "#e6b5c9");
+initPicker("modern-cal-6", "#f9f1cf");
+initPicker("modern-cal-7", "#daf0f9");
+initPicker("modern-cal-8", "#f9ddea");
+initPicker("modern-cal-9", "#fbd7d8");
+initPicker("modern-cal-10", "#f1f2d1");
+initPicker("modern-cal-11", "#e0e8f5");
+initPicker("modern-cal-12", "#fbd7e4");
+initPicker("modern-cal-13", "#fcddd3");
+initPicker("modern-cal-14", "#e7f2d5");
+initPicker("modern-cal-15", "#e6e0ee");
+initPicker("modern-cal-16", "#f0e5db");
+initPicker("modern-cal-17", "#fce8d1");
+initPicker("modern-cal-18", "#e1f1e7");
+initPicker("modern-cal-19", "#f0dfed");
+initPicker("modern-cal-20", "#e9e9ea");
+
 initPicker("modern-color-text-primary", "#2A2A2A");
 initPicker("modern-color-text-muted", "#677583");
 initPicker("modern-color-text-contrast", "white");
@@ -655,6 +676,26 @@ var modernColorMap = {
     "#modern-color-text-primary": ["text", "primary", "modern-text"],
     "#modern-color-text-muted": ["text", "muted", "modern-muted-text"],
     "#modern-color-text-contrast": ["text", "contrast", "modern-contrast-text"],
+    "#modern-cal-1": ["calendar", 0, "cal1"],
+    "#modern-cal-2": ["calendar", 1, "cal2"],
+    "#modern-cal-3": ["calendar", 2, "cal3"],
+    "#modern-cal-4": ["calendar", 3, "cal4"],
+    "#modern-cal-5": ["calendar", 4, "cal5"],
+    "#modern-cal-6": ["calendar", 5, "cal6"],
+    "#modern-cal-7": ["calendar", 6, "cal7"],
+    "#modern-cal-8": ["calendar", 7, "cal8"],
+    "#modern-cal-9": ["calendar", 8, "cal9"],
+    "#modern-cal-10": ["calendar", 9, "cal10"],
+    "#modern-cal-11": ["calendar", 10, "cal11"],
+    "#modern-cal-12": ["calendar", 11, "cal12"],
+    "#modern-cal-13": ["calendar", 12, "cal13"],
+    "#modern-cal-14": ["calendar", 13, "cal14"],
+    "#modern-cal-15": ["calendar", 14, "cal15"],
+    "#modern-cal-16": ["calendar", 15, "cal16"],
+    "#modern-cal-17": ["calendar", 16, "cal17"],
+    "#modern-cal-18": ["calendar", 17, "cal18"],
+    "#modern-cal-19": ["calendar", 18, "cal19"],
+    "#modern-cal-20": ["calendar", 19, "cal20"]
 }
 
 function updateOutput() {
@@ -779,6 +820,7 @@ function updateOutput() {
         document.documentElement.setAttribute("modern", "true");
         modernWrapper.classList.remove("hidden");
         theme.color.modern = new ModernColorDefinition();
+        theme.color.modern.calendar = [];
         theme.color.modern.interface = new ModernInterfaceColorDefinition();
         theme.color.modern.text = new ModernTextColorDefinition();
         theme.color.modern.options = new ModernOptionsDefinition();
@@ -798,54 +840,6 @@ function updateOutput() {
         setCSSVariable("modern-border-size", `${modernBorderSizeValue.value}px`);
         setCSSVariable("modern-border-radius", `${modernBorderRadiusValue.value}px`);
         setCSSVariable("modern-padding", `${modernPaddingValue.value}px`);
-
-        if (theme.color.modern.dark) {
-            theme.color.modern.calendar = [
-                "#457da5",
-                "#547c41",
-                "#926c37",
-                "#7c3d6b",
-                "#0b4c9c",
-                "#00209c",
-                "#004a09",
-                "#72721a",
-                "#44233e",
-                "#683131",
-                "#770a0a",
-                "#a72413",
-                "#E0024C",
-                "#188C16",
-                "#bd7304",
-                "#80168C",
-                "#164152",
-                "#00543f",
-                "#633e11",
-                "#461b2d"
-            ];
-        } else {
-            theme.color.modern.calendar = [
-                "#d6e7f4",
-                "#d7e8cf",
-                "#f9e9d4",
-                "#e7e0e5",
-                "#e6b5c9",
-                "#f9f1cf",
-                "#daf0f9",
-                "#f9ddea",
-                "#fbd7d8",
-                "#f1f2d1",
-                "#e0e8f5",
-                "#fbd7e4",
-                "#fcddd3",
-                "#e7f2d5",
-                "#e6e0ee",
-                "#f0e5db",
-                "#fce8d1",
-                "#e1f1e7",
-                "#f0dfed",
-                "#e9e9ea"
-            ];
-        }
     } else {
         document.documentElement.setAttribute("modern", "false");
         modernWrapper.classList.add("hidden");
