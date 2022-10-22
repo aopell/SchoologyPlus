@@ -35,6 +35,16 @@ variable-intellisense {
     --cal18: #00543f;
     --cal19: #633e11;
     --cal20: #461b2d;
+    --cal21: #00427c;
+    --cal22: #603073;
+    --cal23: #8b1941;
+    --cal24: #970c0c;
+    --cal25: #9c3b07;
+    --cal26: #685203;
+    --cal27: #2a5f16;
+    --cal28: #09584f;
+    --cal29: #005a75;
+    --cal30: #4d5557;
 }
 
 :root[modern=true] {
@@ -240,6 +250,13 @@ variable-intellisense {
         }
     }
 
+    // Hover over Links in Schoology's Native Notifications
+    .drGks a {
+        &:hover, &:focus {
+            background-color: var(--highlight);
+        }
+    }
+
     .splus-modal-title {
         color: var(--contrast-text) !important;
     }
@@ -322,10 +339,10 @@ variable-intellisense {
     }
 
     .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
-        background-color: var(--text) !important;
-        color: var(--secondary) !important;
-        filter: Invert(var(--theme-is-dark)) !important;
+        background-color: var(--secondary) !important;
+        color: var(--text) !important;
         border-radius: var(--border-radius) !important;
+        background-blend-mode: screen;
     }
 
     .action-links-unfold {
@@ -593,7 +610,17 @@ variable-intellisense {
     .color-13,
     .color-14,
     .color-15,
-    .color-16 {
+    .color-16,
+    .color-dark-1,
+    .color-dark-2,
+    .color-dark-3,
+    .color-dark-4,
+    .color-dark-5,
+    .color-dark-6,
+    .color-dark-7,
+    .color-dark-8,
+    .color-dark-9,
+    .color-dark-10, {
         border-color: rgba(0, 0, 0, 0.4) !important;
     }
 
@@ -699,6 +726,46 @@ variable-intellisense {
 
     .color-16 {
         background: var(--cal20) !important;
+    }
+
+    .color-dark-1 {
+        background: var(--cal21) !important;
+    }
+
+    .color-dark-2 {
+        background: var(--cal22) !important;
+    }
+
+    .color-dark-3 {
+        background: var(--cal23) !important;
+    }
+
+    .color-dark-4 {
+        background: var(--cal24) !important;
+    }
+
+    .color-dark-5 {
+        background: var(--cal25) !important;
+    }
+
+    .color-dark-6 {
+        background: var(--cal26) !important;
+    }
+
+    .color-dark-7 {
+        background: var(--cal27) !important;
+    }
+
+    .color-dark-8 {
+        background: var(--cal28) !important;
+    }
+
+    .color-dark-9 {
+        background: var(--cal29) !important;
+    }
+
+    .color-dark-10 {
+        background: var(--cal30) !important;
     }
 
     .fc-state-default {
@@ -929,6 +996,25 @@ variable-intellisense {
         background-image: url('/sites/all/themes/schoology_theme/images/btn-sprite.png?5f89e2e4127348b5') !important;
     }
 
+    // Immersive reader button
+
+    .immersive-reader-button-container {
+        
+        span svg path {
+            fill: var(--text);
+        }
+
+        button {
+            background-color: var(--primary);
+            color: var(--text);
+            border: var(--modern-border);
+
+            &:hover, &:focus {
+                background-color: var(--active);
+            }
+        }
+    }
+
     // Grades Page
 
     .gradebook-course.hierarchical-grading-report {
@@ -957,6 +1043,7 @@ variable-intellisense {
     .course-grade-text,
     .total-points-wrapper *,
     .percentage-grade,
+    .comment-body-wrapper,
     .no-grade {
         color: var(--text) !important;
     }
@@ -1411,11 +1498,17 @@ variable-intellisense {
         background-color: var(--accent);
     }
 
-    .tab-nav.active {
-        background-color: var(--input);
-
+    .tab-nav {
         &:hover {
+            background-color: var(--active);
+        }
+
+        .active {
             background-color: var(--input);
+
+            &:hover {
+                background-color: var(--input);
+            }
         }
     }
 
@@ -1561,6 +1654,45 @@ variable-intellisense {
     #roster-wrapper .parent-code {
         background-color: var(--accent);
         color: var(--text);
+    }
+
+    // Date Picker
+
+    #ui-datepicker-div {
+        background-color: var(--input) !important;
+
+        .ui-datepicker-days-cell {
+            a {
+                background-color: var(--primary) !important;
+                border-color: var(--modern-border) !important;
+            }
+
+            .ui-datepicker-current-day a {
+                background-color: var(--highlight) !important;
+            }
+
+            &.ui-datepicker-days-cell-over a {
+                background-color: var(--active) !important;
+            }
+        }
+
+        .ui-datepicker-links > div {
+            
+            &:hover > a {
+                background-color: var(--hover-color);
+            }
+
+            & > a {
+                background-color: var(--input);
+                background-blend-mode: screen;
+                border: var(--modern-border);
+                border-radius: var(--border-radius);
+            }
+        }
+
+        .ui-datepicker-unselectable {
+            background-color: var(--accent) !important;
+        }
     }
 
     // Photo Albums
@@ -1876,16 +2008,60 @@ variable-intellisense {
         background: var(--accent) !important;
     }
 
-    .portfolio-card {
+    .portfolio-card, .item-card {
         background: var(--primary) !important;
     }
+    
+    // Portfolio
 
     .tw-bs {
+
+        .portfolio-card__item-count-num {
+            color: var(--contrast-text) !important;
+        }
+
+        .btn {
+            background-color: var(--primary) !important;
+            border: var(--modern-border) !important;
+            border-radius: var(--border-radius) !important;
+            color: var(--contrast-text) !important;
+        }
+
+        .item-form__title-inline .sgy-autosave-input .form-group:hover label {
+            &, & span {
+                color: var(--muted-text) !important;
+            }
+        }
 
         .portfolio-list__list-view>.ui-state-highlight,
         .portfolio-item-list>.ui-state-highlight {
             background: var(--primary) !important;
             border-radius: var(--border-radius) !important;
+        }
+
+        .remaining-char-len {
+            color: var(--text) !important;
+        }
+
+        .add-item-dropdown__add-new-icon::before, .portfolio-list__add-new-icon::before {
+            background-color: var(--primary) !important;
+            border-color: var(--modern-border) !important;
+        }
+
+        .item-view-container, .item-form__title-bar, .item-page {
+            background-color: var(--background-color) !important;
+            border-color: var(--border-color) !important;
+            outline-color: var(--border-color) !important;
+        }
+
+        .item-card__title-link {
+            color: var(--link-color) !important;
+        }
+    }
+
+    .sgy-autosave-input.sgy-autosave-input--editing {
+        & label span, & .form-group:hover label span {
+            color: var(--text) !important;
         }
     }
 
@@ -2160,6 +2336,14 @@ variable-intellisense {
     body .fc-widget-header .fc-agenda-divider-inner {
         background: var(--contrast-border) !important;
         border-color: var(--contrast-border) !important;
+    }
+
+    .update-comments-pagenation {
+        background-color: var(--accent);
+    }
+
+    .feed-comments-viewall-container {
+        color: var(--link-color);
     }
 
     // Assignment page
