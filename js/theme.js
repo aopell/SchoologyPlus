@@ -263,7 +263,7 @@ class Theme {
         setCSSVariable("error", m.interface.error);
 
         // Calendar Colors
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 30; i++) {
             setCSSVariable(`cal${i + 1}`, m.calendar[i]);
         }
 

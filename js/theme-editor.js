@@ -659,6 +659,17 @@ initPicker("modern-cal-18", "#e1f1e7");
 initPicker("modern-cal-19", "#f0dfed");
 initPicker("modern-cal-20", "#e9e9ea");
 
+initPicker("modern-cal-21", "#00427c");
+initPicker("modern-cal-22", "#603073");
+initPicker("modern-cal-23", "#8b1941");
+initPicker("modern-cal-24", "#970c0c");
+initPicker("modern-cal-25", "#9c3b07");
+initPicker("modern-cal-26", "#685203");
+initPicker("modern-cal-27", "#2a5f16");
+initPicker("modern-cal-28", "#09584f");
+initPicker("modern-cal-29", "#005a75");
+initPicker("modern-cal-30", "#4d5557");
+
 initPicker("modern-color-text-primary", "#2A2A2A");
 initPicker("modern-color-text-muted", "#677583");
 initPicker("modern-color-text-contrast", "white");
@@ -695,7 +706,17 @@ var modernColorMap = {
     "#modern-cal-17": ["calendar", 16, "cal17"],
     "#modern-cal-18": ["calendar", 17, "cal18"],
     "#modern-cal-19": ["calendar", 18, "cal19"],
-    "#modern-cal-20": ["calendar", 19, "cal20"]
+    "#modern-cal-20": ["calendar", 19, "cal20"],
+    "#modern-cal-21": ["calendar", 20, "cal21"],
+    "#modern-cal-22": ["calendar", 21, "cal22"],
+    "#modern-cal-23": ["calendar", 22, "cal23"],
+    "#modern-cal-24": ["calendar", 23, "cal24"],
+    "#modern-cal-25": ["calendar", 24, "cal25"],
+    "#modern-cal-26": ["calendar", 25, "cal26"],
+    "#modern-cal-27": ["calendar", 26, "cal27"],
+    "#modern-cal-28": ["calendar", 27, "cal28"],
+    "#modern-cal-29": ["calendar", 28, "cal29"],
+    "#modern-cal-30": ["calendar", 29, "cal30"],
 }
 
 function updateOutput() {
