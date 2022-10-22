@@ -21,9 +21,7 @@ EXCLUDED_FILES = [".build", ".git", ".github", ".vscode", "SchoologyPlus.zip", "
 
 chrome_rules = BuildRules({
     "excluded_files": [],
-    "properties": {
-        "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
-    }
+    "properties": { }
 })
 
 firefox_rules = BuildRules({
