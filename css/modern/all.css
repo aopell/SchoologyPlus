@@ -185,6 +185,21 @@ variable-intellisense {
   background: none !important;
 }
 
+[modern="true"]:root .immersive-reader-button-container span svg path {
+  fill: var(--text);
+}
+
+[modern="true"]:root .immersive-reader-button-container button {
+  background-color: var(--primary);
+  color: var(--text);
+  border: var(--modern-border);
+}
+
+[modern="true"]:root .immersive-reader-button-container button:hover,
+[modern="true"]:root .immersive-reader-button-container button:focus {
+  background-color: var(--hover-color);
+}
+
 [modern=true]:root body a.link-btn,
 [modern=true]:root body button.link-btn {
   box-shadow: none !important;
@@ -212,6 +227,12 @@ variable-intellisense {
 
 [modern=true]:root .s-notifications-mini .edge-sentence {
   color: var(--text);
+}
+
+/* Hover over Links in Schoology's Native Notifications */
+[modern="true"]:root .drGks a:hover,
+[modern="true"]:root .drGks a:focus {
+  background-color: var(--highlight);
 }
 
 [modern=true]:root .grade-data {
@@ -296,10 +317,10 @@ variable-intellisense {
 }
 
 [modern=true]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
-  background-color: var(--text) !important;
-  color: var(--secondary) !important;
-  filter: Invert(var(--theme-is-dark)) !important;
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
   border-radius: var(--border-radius) !important;
+  background-blend-mode: screen;
 }
 
 [modern=true]:root .action-links-unfold {
@@ -766,6 +787,10 @@ variable-intellisense {
 [modern=true]:root .s-poll-option-title,
 [modern=true]:root .s-like-sentence {
   color: var(--text) !important;
+}
+
+[modern="true"]:root .comment-body-wrapper {
+  color: var(--text) !important; 
 }
 
 [modern=true]:root .s-polls-poll-option,
@@ -1310,8 +1335,44 @@ variable-intellisense {
   background-color: var(--input);
 }
 
+[modern=true]:root .tab-nav:hover {
+  background-color: var(--hover-color);
+}
+
 [modern=true]:root .tab-nav.active:hover {
   background-color: var(--input);
+}
+  
+[modern="true"]:root #ui-datepicker-div {
+  background-color: var(--input) !important;
+}
+  
+[modern="true"]:root .ui-datepicker-days-cell a {
+  background-color: var(--primary) !important;
+  border-color: var(--border-color) !important;
+}
+  
+[modern="true"]:root .ui-datepicker-unselectable {
+  background-color: var(--accent) !important;
+}
+
+[modern="true"]:root .ui-datepicker-days-cell.ui-datepicker-current-day a {
+  background-color: var(--active) !important;
+}
+  
+[modern="true"]:root .ui-datepicker-days-cell-over a {
+  background-color: var(--hover-color) !important;
+}
+  
+[modern="true"]:root .ui-datepicker-links > div > a {
+  background-color: var(--input);
+  background-blend-mode: screen;
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+  
+[modern="true"]:root .ui-datepicker-links > div:hover > a {
+  background-color: var(--hover-color);
 }
 
 [modern=true]:root .action-links,
@@ -1730,7 +1791,8 @@ variable-intellisense {
   background: var(--accent) !important;
 }
 
-[modern=true]:root .portfolio-card {
+[modern=true]:root .portfolio-card,
+[modern="true"]:root .item-card {
   background: var(--primary) !important;
 }
 
@@ -1739,6 +1801,51 @@ variable-intellisense {
   background: var(--primary) !important;
   border-radius: var(--border-radius) !important;
 }
+
+[modern="true"]:root .tw-bs .portfolio-card__item-count-num {
+  color: var(--contrast-text) !important;
+}
+
+[modern="true"]:root .tw-bs .btn {
+  background-color: var(--primary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--contrast-text) !important;
+}
+
+[modern="true"]:root .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label,
+[modern="true"]:root .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label span {
+  color: var(--muted-text) !important;
+}
+
+[modern="true"]:root .sgy-autosave-input.sgy-autosave-input--editing label span,
+[modern="true"]:root .sgy-autosave-input.sgy-autosave-input--editing .form-group:hover label span {
+  color: var(--text) !important;
+}
+
+[modern="true"]:root .tw-bs .remaining-char-len {
+  color: var(--text) !important;
+}
+
+[modern="true"]:root .tw-bs .add-item-dropdown__add-new-icon::before,
+[modern="true"]:root .tw-bs .portfolio-list__add-new-icon::before {
+  background-color: var(--primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[modern="true"]:root .tw-bs .item-view-container,
+[modern="true"]:root .tw-bs .item-form__title-bar,
+[modern="true"]:root .tw-bs .item-page {
+  background-color: var(--background-color) !important;
+  border-color: var(--border-color) !important;
+  outline-color: var(--border-color) !important;
+}
+
+[modern="true"]:root .tw-bs .item-card__title-link {
+  color: var(--link-color) !important;
+}
+
+
 
 [modern=true]:root #school-events {
   padding: var(--padding) !important;
@@ -2030,6 +2137,14 @@ variable-intellisense {
   border-color: var(--contrast-border) !important;
 }
 
+[modern="true"]:root .update-comments-pagenation {
+  background-color: var(--accent);
+}
+  
+[modern="true"]:root .feed-comments-viewall-container {
+  color: var(--link-color);
+}
+  
 [modern=true]:root .dropbox-viewer-item-wrapper {
   background-color: var(--primary);
 }
