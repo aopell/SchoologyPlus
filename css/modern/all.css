@@ -2891,3 +2891,11 @@ variable-intellisense {
 [modern=true]:root .Oq4U1:active {
   background-color: var(--active);
 }
+
+/*                       */
+/* Course Materials Page */
+/*                       */
+[modern=true]:root .unpublished,
+[modern=true]:root #folder-contents-table .unpublished .folder-contents-cell {
+  background-color: var(--primary);
+}
