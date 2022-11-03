@@ -2909,6 +2909,27 @@ variable-intellisense {
   background-color: var(--active);
 }
 
+[modern="true"]:root .s-share-checkbox-form-wrapper .checkboxes-wrapper {
+  background-color: var(--primary);
+}
+
+[modern="true"]:root #attachment-selector #toggle-copy:hover {
+  background-color: var(--hover-color);
+}
+
+
+[modern="true"]:root .comments-list .comment {
+  background: var(--primary);
+  border: var(--modern-border);
+  border-color: var(--border-color);
+  color: var(--text);
+}
+
+[modern=true]:root .comment-date {
+  color: var(--muted-text);
+}
+
+
 /*                       */
 /* Course Materials Page */
 /*                       */
@@ -2922,7 +2943,10 @@ variable-intellisense {
   border: var(--modern-border);
 }
   
-
+[modern="true"]:root div.grade-assignment-popup .description, [modern="true"]:root #sEditGradeTable tr th {
+  color: var(--text);
+  background-color: var(--primary);
+}
 
 /*                             */
 /*  Badges & Attendance Pages  */
