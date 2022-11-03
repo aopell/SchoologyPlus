@@ -37,6 +37,14 @@ variable-intellisense {
   --cal20: #461b2d;
 }
 
+[modern=true]:root span[role="button"],
+[modern=true]:root #badges-fullscreen-btn {
+  background-color: var(--primary);
+  background-image: none;
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
 [modern=true]:root {
   --modern-border: var(--border-size) solid var(--contrast-border);
 }
@@ -405,6 +413,7 @@ variable-intellisense {
 [modern=true]:root tr.error {
   background-color: var(--error) !important;
   border-color: var(--error) !important;
+  color: var(--text);
 }
 
 [modern=true]:root .splus-courses-navbar-button div[role=menu],
@@ -867,6 +876,7 @@ variable-intellisense {
 [modern=true]:root .userlist_input input[type=text] {
   background-color: var(--input) !important;
   border-radius: var(--border-radius) !important;
+  color: white;
 }
 
 [modern=true]:root #edge-filters-btn {
@@ -2864,10 +2874,11 @@ variable-intellisense {
   background-color: var(--active) !important;
 }
 
-
+/*****************/
 /* Teacher Areas */
-/* Test Setup */
-[modern="true"]:root .settings-label {
+/*               */
+/*  Test Setup  */
+[modern=true]:root .settings-label {
   color: var(--text);
 }
 
@@ -2883,7 +2894,13 @@ variable-intellisense {
 [modern=true]:root .Oq4U1:hover:not(:active),
 [modern=true]:root .Oq4U1:focus,
 [modern=true]:root .s-grade-item-assignment-submission-app:hover,
-[modern=true]:root .s-grade-item-assignment-submission-app:focus {
+[modern=true]:root .s-grade-item-assignment-submission-app:focus,
+[modern=true]:root span[role="button"]:hover,
+[modern=true]:root span[role="button"]:focus,
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding:hover,
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding:focus,
+[modern=true]:root .sort-handle:hover,
+[modern=true]:root .sort-handle:focus {
   background-color: var(--hover-color);
 }
 
@@ -2905,3 +2922,98 @@ variable-intellisense {
   border: var(--modern-border);
 }
   
+/*               */
+/*  Badges Page  */
+/*               */
+[modern=true]:root .even .badge-course-table-cell {
+  background-color: var(--primary);
+}
+
+[modern=true]:root th.badge-course-table-cell,
+[modern=true]:root #s-badge-table-main .sticky-header th {
+  background-color: var(--secondary);
+}
+
+[modern=true]:root th.badge-course-table-cell .action-links-unfold {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root th.badge-course-table-cell .action-links-unfold span {
+  filter: contrast(5%);
+}
+
+/*               */
+/*  Grades Page  */
+/*               */
+[modern=true]:root .scale-level-scale {
+  background-color: var(--highlight);
+  border: var(--modern-border);
+}
+
+[modern=true]:root #s-grading-category-add-form .form-item,
+[modern=true]:root #s-grading-category-add-form fieldset {
+  background-color: var(--primary);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .right-column {
+  border-color: var(--border-color);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons {
+  background-color: var(--secondary);
+  border-color: var(--border-color);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding {
+  background-color: var(--primary);
+  box-shadow: 0px 2px 0px var(--highlight);
+}
+
+[modern=true]:root .sort-handle {
+  background-color: var(--accent);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .ui-sortable-helper,
+[modern=true]:root #district-mastery-grading-rubric-edit-slider .ui-sortable-helper,
+[modern=true]:root #grading-rubric-edit-slider .ui-sortable-helper td,
+[modern=true]:root #district-mastery-grading-rubric-edit-slider .ui-sortable-helper td {
+  background-color: var(--active);
+}
+
+[modern=true]:root .rubric-editor-add-criteria,
+[modern=true]:root .rubric-editor-add-objectives {
+  color: text;
+}
+
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope {
+  color: var(--muted-text);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:hover,
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:focus {
+  color: var(--text);
+}
+
+[modern=true]:root .alignment-form-container .header {
+  background-color: var(--secondary);
+}
+
+[modern=true]:root .guid-item:active,
+[modern=true]:root .alignment-form-container .header .search-tab.active, 
+[modern=true]:root .alignment-form-container li.active,
+[modern=true]:root .alignment-form-container div.active {
+  background-color: var(--active);
+}
+
+[modern=true]:root .alignment-breadcrumbs .breadcrumb-item:first-child,
+[modern=true]:root .alignment-breadcrumbs .breadcrumb-item,
+[modern=true]:root .alignment-form-container li,
+[modern=true]:root .selected-container .selected-item {
+  color: var(--link-color);
+  border-color: var(--contrast-border);
+}
+
+[modern=true]:root .alignment-form-container li .gray,
+[modern=true]:root .alignment-form-container div .gray {
+  color: var(--text);
+}
