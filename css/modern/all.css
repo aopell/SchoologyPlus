@@ -2899,3 +2899,9 @@ variable-intellisense {
 [modern=true]:root #folder-contents-table .unpublished .folder-contents-cell {
   background-color: var(--primary);
 }
+
+[modern=true] .masquerade-box {
+  background-color: var(--secondary);
+  border: var(--modern-border);
+}
+  
