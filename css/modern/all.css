@@ -37,14 +37,6 @@ variable-intellisense {
   --cal20: #461b2d;
 }
 
-[modern=true]:root span[role="button"],
-[modern=true]:root #badges-fullscreen-btn {
-  background-color: var(--primary);
-  background-image: none;
-  border: var(--modern-border);
-  border-radius: var(--border-radius);
-}
-
 [modern=true]:root {
   --modern-border: var(--border-size) solid var(--contrast-border);
 }
@@ -2927,6 +2919,13 @@ variable-intellisense {
 /*                             */
 /*  Badges & Attendance Pages  */
 /*                             */
+[modern=true]:root #badges-fullscreen-btn {
+  background-color: var(--primary);
+  background-image: none;
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
 [modern=true]:root .even .badge-course-table-cell,
 [modern=true]:root #s-attendance-edit-form tbody td,
 [modern=true]:root #s-attendance-edit-form tbody td div,
