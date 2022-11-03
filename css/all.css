@@ -996,3 +996,10 @@ a._3_bfp {
     list-style: disc !important;
     list-style-position: inside !important;
 }
+
+.splus-permissions-close {
+    position: absolute;
+    left: 69%;
+    top: 5%;
+    font-size: xx-large;
+}
