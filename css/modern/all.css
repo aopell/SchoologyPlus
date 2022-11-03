@@ -2924,15 +2924,19 @@ variable-intellisense {
   
 
 
-/*               */
-/*  Badges Page  */
-/*               */
-[modern=true]:root .even .badge-course-table-cell {
+/*                             */
+/*  Badges & Attendance Pages  */
+/*                             */
+[modern=true]:root .even .badge-course-table-cell,
+[modern=true]:root #s-attendance-edit-form tbody td,
+[modern=true]:root #s-attendance-edit-form tbody td div,
+[modern=true] #s-attendance-edit-form tbody th {
   background-color: var(--primary);
 }
 
 [modern=true]:root th.badge-course-table-cell,
-[modern=true]:root #s-badge-table-main .sticky-header th {
+[modern=true]:root #s-badge-table-main .sticky-header th,
+[modern=true]:root #s-attendance-edit-form thead th {
   background-color: var(--secondary);
 }
 
@@ -2940,11 +2944,68 @@ variable-intellisense {
   background-color: var(--input) !important;
 }
 
-[modern=true]:root th.badge-course-table-cell .action-links-unfold span {
+[modern=true]:root th.badge-course-table-cell .action-links-unfold span,
+[modern=true]:root .date-chooser a.prev span,
+[modern=true]:root .date-chooser a.next span {
   filter: contrast(5%);
 }
 
+[modern=true]:root #s-attendance-taken-row .attendance-taken-label {
+  color: var(--text);
+}
 
+[modern=true]:root #s-attendance-taken-row.odd td,
+[modern=true]:root #s-attendance-taken-row.even td {
+  background-color: var(--accent);
+}
+
+[modern=true]:root #s-attendance-edit-form tbody tr:hover th,
+[modern=true]:root #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:hover,
+[modern=true]:root #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:focus {
+  background-color: var(--hover-color);
+}
+
+[modern=true]:root #s-attendance-edit-form #s-attendance-taken-row .edited {
+  background-color: var(--highlight);
+}
+
+[modern=true]:root #attendance-comment-field {
+  background-color: var(--accent);
+  border: var(--modern-border);
+}
+
+[modern=true]:root .comment-status-label {
+  color: var(--text);
+}
+
+[modern=true]:root #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status--start {
+  background-color: var(--active);
+  border-color: var(--contrast-border);
+}
+
+[modern=true]:root .footer-buttons .date-chooser-calendar,
+[modern=true]:root .header-buttons .date-chooser-calendar,
+[modern=true]:root .footer-buttons .infotip,
+[modern=true]:root .header-buttons .infotip {
+  background: var(--primary);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root a.prev:hover,
+[modern=true]:root a.prev:focus,
+[modern=true]:root a.next:hover,
+[modern=true]:root a.next:focus {
+  background-color: var(--hover-color);
+}
+
+[modern=true]:root a.prev {
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+[modern=true]:root a.next {
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
 
 
 /*               */
@@ -3088,3 +3149,4 @@ variable-intellisense {
   background: var(--hover-color) !important;
   color: var(--text) !important;
 }
+
