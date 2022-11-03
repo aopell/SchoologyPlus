@@ -2953,7 +2953,6 @@ variable-intellisense {
 /*                             */
 [modern=true]:root #badges-fullscreen-btn {
   background-color: var(--primary);
-  background-image: none;
   border: var(--modern-border);
   border-radius: var(--border-radius);
 }
@@ -3027,7 +3026,12 @@ variable-intellisense {
 [modern=true]:root a.prev:focus,
 [modern=true]:root a.next:hover,
 [modern=true]:root a.next:focus {
-  background-color: var(--hover-color);
+  background: var(--hover-color);
+}
+
+[modern=true]:root a.prev,
+[modern=true]:root a.next {
+  background: var(--primary);
 }
 
 [modern=true]:root a.prev {
@@ -3074,7 +3078,7 @@ variable-intellisense {
 [modern=true]:root #district-mastery-grading-rubric-edit-slider .ui-sortable-helper,
 [modern=true]:root #grading-rubric-edit-slider .ui-sortable-helper td,
 [modern=true]:root #district-mastery-grading-rubric-edit-slider .ui-sortable-helper td {
-  background-color: var(--active);
+  background-color: var(--active) !important;
 }
 
 [modern=true]:root .rubric-editor-add-criteria,
@@ -3112,12 +3116,17 @@ variable-intellisense {
 
 [modern=true]:root .alignment-form-container li .gray,
 [modern=true]:root .alignment-form-container div .gray {
-  color: var(--text);
+  color: var(--text) !important;
 }
 
 [modern=true]:root .empty {
   color: var(--muted-text);
 }
+
+[modern="true"]:root .add-criteria-text {
+  color: var(--text);
+}
+
 
 
 /*                */
@@ -3264,4 +3273,8 @@ variable-intellisense {
 [modern=true]:root .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:focus,
 [modern=true]:root .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label:focus {
   background-color: var(--hover-color);
+}
+
+[modern="true"]:root #grade-comment-field {
+  background-color: var(--primary);
 }
