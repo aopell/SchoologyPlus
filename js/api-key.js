@@ -75,8 +75,19 @@
     ]));
 
     let submitButton = document.getElementById("edit-reveal") || document.getElementById("edit-request");
-    submitButton.parentElement.classList.add("splus-allow-access");
-    submitButton.value = "Allow Access";
+    if(submitButton === null) {
+        let permElement = document.getElementsByClassName('splus-permissions-description')[0];
+        permElement.append(createElement("br", [], {}));
+        permElement.append(createElement("br", [], {}));
+        permElement.append(
+            createElement("div", ["splus-permissions-section"], { style: "background-color: var(--error, #F44336); color: var(--contrast-text, white); padding: var(--padding, 5px); border-radius: var(--border-radius, 0px);" }, [
+                createElement("span", [], { textContent: "It looks like your school or district has disabled API Key generation. Unfortunately, this means the above features will not work. The rest of Schoology Plus' features will still work, though!" })
+            ])
+        );
+    } else {
+        submitButton.parentElement.classList.add("splus-allow-access");
+        submitButton.value = "Allow Access";
+    }
 
     submitButton.parentElement.insertAdjacentElement("afterend", createElement("div", ["splus-api-key-footer"], { style: { textAlign: "center" } }, [
         createElement("a", [], {
