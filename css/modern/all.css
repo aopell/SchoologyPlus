@@ -2871,15 +2871,23 @@ variable-intellisense {
   color: var(--text);
 }
 
+/* Buttons */
+[modern=true]:root .s-grade-item-assignment-submission-app {
+  background-color: var(--primary);
+  color: var(--text);
+}
+
 /* Button Hover */
-[modern="true"] ._2mytC:hover a,
-[modern="true"] ._2mytC:focus a,
-[modern="true"]:root .Oq4U1:hover:not(:active),
-[modern="true"]:root .Oq4U1:focus {
+[modern=true]:root ._2mytC:hover a,
+[modern=true]:root ._2mytC:focus a,
+[modern=true]:root .Oq4U1:hover:not(:active),
+[modern=true]:root .Oq4U1:focus,
+[modern=true]:root .s-grade-item-assignment-submission-app:hover,
+[modern=true]:root .s-grade-item-assignment-submission-app:focus {
   background-color: var(--hover-color);
 }
 
 /* Active Buttons */
-[modern="true"]:root .Oq4U1:active {
+[modern=true]:root .Oq4U1:active {
   background-color: var(--active);
 }
