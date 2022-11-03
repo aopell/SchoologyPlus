@@ -2968,7 +2968,7 @@ variable-intellisense {
 [modern=true]:root th.badge-course-table-cell,
 [modern=true]:root #s-badge-table-main .sticky-header th,
 [modern=true]:root #s-attendance-edit-form thead th {
-  background-color: var(--secondary);
+  background: var(--secondary);
 }
 
 [modern=true]:root th.badge-course-table-cell .action-links-unfold {
