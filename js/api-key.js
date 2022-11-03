@@ -71,6 +71,19 @@
                     ]),
                 ]),
             ]),
+            createElement("div", ["splus-permissions-close"], {}, [
+                createElement("span", [], { textContent: "×", onclick: function() {
+                    document.getElementsByClassName('splus-permissions-wrapper')[0].style.display = "none";
+                    currentKey.parentElement.style.display = "block";
+                    currentSecret.parentElement.style.display = "block";
+                    document.getElementsByClassName('splus-api-key-page')[0].classList.remove('splus-api-key-page');
+                    document.getElementsByClassName('splus-api-key-page')[0].classList.remove('splus-api-key-page');
+                    document.getElementsByClassName('splus-api-key-footer')[0].style.display = "none";
+                    let submitButton = document.getElementById("edit-reveal") || document.getElementById("edit-request");
+                    submitButton.value = "Reveal Existing Secret";
+                    submitButton.parentElement.classList.remove('splus-allow-access');
+                } } ),
+            ]),
         ])
     ]));
 
