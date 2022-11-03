@@ -3123,6 +3123,10 @@ variable-intellisense {
 /*                */
 /*  MEMBERS PAGE  */
 /*                */
+[modern=true]:root .parent-names-list.description {
+  color: var(--muted-text);
+}
+
 [modern=true]:root .s-enrollment-invite-form .metadata-wrapper,
 [modern=true]:root #grading-group-create {
   color: var(--text);
