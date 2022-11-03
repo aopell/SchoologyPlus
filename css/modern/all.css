@@ -2922,6 +2922,8 @@ variable-intellisense {
   border: var(--modern-border);
 }
   
+
+
 /*               */
 /*  Badges Page  */
 /*               */
@@ -2941,6 +2943,9 @@ variable-intellisense {
 [modern=true]:root th.badge-course-table-cell .action-links-unfold span {
   filter: contrast(5%);
 }
+
+
+
 
 /*               */
 /*  Grades Page  */
@@ -3016,4 +3021,70 @@ variable-intellisense {
 [modern=true]:root .alignment-form-container li .gray,
 [modern=true]:root .alignment-form-container div .gray {
   color: var(--text);
+}
+
+/*                */
+/*  MEMBERS PAGE  */
+/*                */
+[modern=true]:root .s-enrollment-invite-form .metadata-wrapper,
+[modern=true]:root #grading-group-create {
+  color: var(--text);
+}
+
+[modern=true]:root .s-enrollment-invite-form .user-invite-wrapper {
+  background-color: var(--accent);
+  color: var(--text);
+}
+
+[modern=true]:root .s-enrollment-invite-form .user-name-wrapper,
+[modern=true]:root .people-filters .selected-users,
+[modern=true]:root .people-filters .show-all-users {
+  color: var(--link-color);
+}
+
+[modern=true]:root .people-filters .selected-users.active,
+[modern=true]:root .people-filters .show-all-users.active {
+  color: var(--contrast-text);
+  background-color: var(--active);
+}
+
+[modern=true]:root .term-item-tag,
+[modern=true]:root .locked-question .tag-item {
+  color: var(--text);
+  background-color: var(--secondary);
+  border-color: var(--border-color);
+}
+
+[modern=true]:root .link-btn {
+  background: var(--secondary);
+  color: var(--text);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+  border-color: var(--border-color);
+}
+
+[modern=true]:root .s-enrollment-invite-form .s-enrollment-invite-list-wrapper,
+[modern=true]:root .s-enrollment-invite-form #network-selected {
+  background-color: var(--primary);
+  border-color: var(--border-color);
+}
+
+[modern=true]:root .submit-btn {
+  background: var(--primary);
+  color: var(--contrast-text);
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root .cancel-btn {
+  background: var(--accent) !important;
+  color: var(--muted-text) !important;
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root .submit-btn:hover,
+[modern=true]:root .submit-btn:focus,
+[modern=true]:root .cancel-btn:hover,
+[modern=true]:root .cancel-btn:focus {
+  background: var(--hover-color) !important;
+  color: var(--text) !important;
 }
