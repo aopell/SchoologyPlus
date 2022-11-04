@@ -690,7 +690,7 @@ var fetchQueue = [];
                             let total = 0;
                             let totalPercentWeight = 0;
                             let catWeight = 0; // 0 to 1
-                            for (let category of perRow.parentElement.querySelectorAll(`.category-row[data-parent-id="${perRow.dataset.id}]"`)) {
+                            for (let category of perRow.parentElement.querySelectorAll(`.category-row[data-parent-id="${perRow.dataset.id}"]`)) {
                                 let weightPercentElement = category.getElementsByClassName("percentage-contrib")[0];
                                 if (!weightPercentElement) {
                                     continue;
