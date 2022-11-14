@@ -248,7 +248,7 @@ variable-intellisense {
 
 [modern=true]:root footer li a,
 [modern=true]:root header li a {
-  color: var(--contrast-text) !important;
+  color: var(--link-color) !important;
 }
 
 [modern=true]:root .splus-modal-footer-text {
