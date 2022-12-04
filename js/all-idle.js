@@ -1,11 +1,3 @@
-(async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("all-idle", ["all"]);
-})();
-
 // hack for course aliases
 (async function () {
     let applyCourseAliases = null;

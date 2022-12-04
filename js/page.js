@@ -1,11 +1,3 @@
-(async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("page", ["all"]);
-})();
-
 // Adds an "Open in New Tab" link to /page pages which simply embed something.
 (function () {
     const iframe = document.querySelector('.s-page-summary iframe');

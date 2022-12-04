@@ -1,11 +1,3 @@
-(async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("home", ["all"]);
-})();
-
 /** @typedef {{id:number,title:string,message:string,timestamp?:Date,icon?:string}} Broadcast */
 
 let homeFeedContainer = document.getElementById("home-feed-container");

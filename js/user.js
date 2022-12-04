@@ -1,12 +1,4 @@
 (async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("user", ["all"]);
-})();
-
-(async function () {
     // I hate try..catch but It will work
     try {
         const inCommonID = "user-courses-in-common-list";

@@ -1,7 +1,7 @@
 import "./analytics.js";
 import "../lib/js/analytics.js";
 import "../lib/js/purify.min";
-import "./background-permissions";
+import "./background-permissions.js";
 
 /**
  * Wrapper for various `console` functions. Each adds a custom prefix to the start of the log message.

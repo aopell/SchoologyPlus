@@ -1,11 +1,3 @@
-(async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("theme", []);
-})();
-
 // an img per domain
 // to check if images load
 let themeIconLoadElementContainer = document.createElement("div");

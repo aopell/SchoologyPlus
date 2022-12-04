@@ -1,11 +1,3 @@
-(async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("icons", []);
-})();
-
 var icons = [
     { regex: "\\bPE\\b|Phys(ical)? Edu?(cation)?|\\bSRLA\\b|TRK|TRACK FIELD|CROSS C|ADV COND|MV BD AWR|ATHLETIC|SPORTS|FITNESS", url: "https://cdn-icons-png.flaticon.com/512/2553/2553967.png", source: "exercise_2553967" },
     { regex: "WO?R?LD HIST?(ORY)?|WHG|WLD LANG|LAT AM|INTL REL", url: "https://cdn-icons-png.flaticon.com/512/174/174249.png", source: "internet_174249" },

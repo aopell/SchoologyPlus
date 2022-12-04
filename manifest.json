@@ -10,7 +10,7 @@
             "update_url": "https://schoologypl.us/firefox_updates.json"
         }
     },
-    "version": "7.5",
+    "version": "8.0",
     "icons": {
         "128": "imgs/icon@128.png",
         "64": "imgs/icon@64.png",
@@ -34,7 +34,8 @@
         "notifications",
         "cookies",
         "contextMenus",
-        "activeTab"
+        "activeTab",
+        "scripting"
     ],
     "host_permissions": [
         "*://lms.lausd.net/*",
@@ -51,7 +52,7 @@
                 "theme-editor.html",
                 "default-icons.html"
             ],
-            "matches": []
+            "matches": ["<all_urls>"]
         }
     ],
     "content_security_policy": {
@@ -88,7 +89,6 @@
                 "css/modern/all.css"
             ],
             "js": [
-                "js/loader.js",
                 "js/analytics.js",
                 "lib/js/analytics.js",
                 "js/icons.js",

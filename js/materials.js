@@ -6,14 +6,6 @@
 "use strict";
 
 (async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("materials", ["all"]);
-})();
-
-(async function () {
     let classId = window.location.pathname.match(/\/course\/(\d+)\/materials/)[1]; // ID of current course ("section"), as a string
 
     pdfjsLib.GlobalWorkerOptions.workerSrc = chrome.runtime.getURL("lib/js/pdf.worker.js");

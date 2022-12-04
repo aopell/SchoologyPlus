@@ -1,11 +1,3 @@
-(async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("courses", ["all"]);
-})();
-
 for (let course of document.querySelectorAll("li.course-item.list-item")) {
     let parent = course.parentNode;
     let wrapper = document.createElement("div");

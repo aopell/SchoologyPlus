@@ -1,11 +1,3 @@
-(async function() {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("analytics", []);
-})();
-
 /**
  * Tracks an event using Google Analytics if the user did not opt out
  * NOTE: The Firefox version of the extension has no support for Google Analytics
