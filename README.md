@@ -32,10 +32,10 @@
     - [Schoology Plus Announcements](#schoology-plus-announcements)
   - [Schoology Plus Settings](#schoology-plus-settings)
     - [Theme Editor](#theme-editor)
-    - [Custom Domain Support](#custom-domain-support)
   - [Course Options](#course-options)
     - [Course Nicknames](#course-nicknames)
     - [Custom Grading Scales](#custom-grading-scales)
+- [Custom Domain Support](#custom-domain-support)
 - [Feedback and Support Discord](#feedback-and-support-discord)
 - [Contributing](#contributing)
 - [Contributors](#contributors)
@@ -233,13 +233,6 @@ Schoology Plus has customizable settings, including but not limited to:
 
 Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the [Theme Editor help page](/docs/themes).
 
-### Custom Domain Support
-Schoology Plus can be configured to work with your school's custom Schoology instance. Simply navigate to the homepage of your school's Schoology implementation, then right click the extension and select "Enable Schoolgy Plus on this domain"
-
-![Custom Domains](https://i.imgur.com/WYgCVES.png)
-
-*Image: The option to enable Schoology Plus for your school's domain can be found by right-clicking the extension.*
-
 ## Course Options
 
 ![Course Options](https://i.imgur.com/NGqCxVc.png)
@@ -254,6 +247,13 @@ Schoology Plus can be configured to work with your school's custom Schoology ins
 
 - You can create custom grading scales for courses where the teacher does not have a grading scale set for the class.
   - This will be used to calculate letter grades for assignment categories and courses on the grades page
+
+# Custom Domain Support
+Schoology Plus can be configured to work with your school's custom Schoology instance. Simply navigate to the homepage of your school's Schoology implementation, then right click the extension and select "Enable Schoolgy Plus on this domain". This is necessary only if your school's Schoology site is running on a domain that does not end in `schoology.com`. See [this page](https://schoologypl.us/docs/faq/domain) for more information.
+
+![Custom Domains](https://i.imgur.com/WYgCVES.png)
+
+*Image: The option to enable Schoology Plus for your school's domain can be found by right-clicking the extension.*
 
 # Feedback and Support Discord
 
