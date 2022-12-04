@@ -32,6 +32,7 @@
     - [Schoology Plus Announcements](#schoology-plus-announcements)
   - [Schoology Plus Settings](#schoology-plus-settings)
     - [Theme Editor](#theme-editor)
+    - [Custom Domain Support](#custom-domain-support)
   - [Course Options](#course-options)
     - [Course Nicknames](#course-nicknames)
     - [Custom Grading Scales](#custom-grading-scales)
@@ -231,6 +232,13 @@ Schoology Plus has customizable settings, including but not limited to:
 *Image: The theme editor interface with an example of a custom Black and White theme*
 
 Schoology Plus is equipped with a fully-featured theme editor, allowing you to create your own custom theme. The theme editor allows you to preview your changes to the interface, including colors, logos, cursors, and custom icons. To learn more about the theme editor, see the [Theme Editor help page](/docs/themes).
+
+### Custom Domain Support
+Schoology Plus can be configured to work with your school's custom Schoology instance. Simply navigate to the homepage of your school's Schoology implementation, then right click the extension and select "Enable Schoolgy Plus on this domain"
+
+![Custom Domains](https://i.imgur.com/WYgCVES.png)
+
+*Image: The option to enable Schoology Plus for your school's domain can be found by right-clicking the extension.*
 
 ## Course Options
 
