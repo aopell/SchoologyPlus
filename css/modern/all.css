@@ -79,27 +79,27 @@ variable-intellisense {
   border-radius: var(--border-radius) !important;
 }
 
-[modern=true][style-override=true]:root .s-edge-feed .edge-item *[style] {
+[modern=true]:root[style-override=true] .s-edge-feed .edge-item *[style] {
   color: var(--text) !important;
   background: none !important;
 }
 
-[modern=true][style-override=true]:root .discussion-view .discussion-prompt *[style],
-[modern=true][style-override=true]:root .discussion-view .comment-body-wrapper *[style] {
+[modern=true]:root[style-override=true] .discussion-view .discussion-prompt *[style],
+[modern=true]:root[style-override=true] .discussion-view .comment-body-wrapper *[style] {
   color: var(--text) !important;
   background: none !important;
 }
 
-[modern=true][style-override=true]:root #important-post-body *[style],
-[modern=true][style-override=true]:root #main-inner .info-container *[style],
-[modern=true][style-override=true]:root .standard-page .s-page-content-full *[style],
-[modern=true][style-override=true]:root .discussion-prompt *[style],
-[modern=true][style-override=true]:root .comment-comment .comment-body-wrapper *[style],
-[modern=true][style-override=true]:root .instructions-content *[style],
-[modern=true][style-override=true]:root .lrn_stimulus .lrn_stimulus_content *[style],
-[modern=true][style-override=true]:root .lrn-possible-answer *[style],
-[modern=true][style-override=true]:root .folder-description *[style],
-[modern=true][style-override=true]:root .item-info *[style] {
+[modern=true]:root[style-override=true] #important-post-body *[style],
+[modern=true]:root[style-override=true] #main-inner .info-container *[style],
+[modern=true]:root[style-override=true] .standard-page .s-page-content-full *[style],
+[modern=true]:root[style-override=true] .discussion-prompt *[style],
+[modern=true]:root[style-override=true] .comment-comment .comment-body-wrapper *[style],
+[modern=true]:root[style-override=true] .instructions-content *[style],
+[modern=true]:root[style-override=true] .lrn_stimulus .lrn_stimulus_content *[style],
+[modern=true]:root[style-override=true] .lrn-possible-answer *[style],
+[modern=true]:root[style-override=true] .folder-description *[style],
+[modern=true]:root[style-override=true] .item-info *[style] {
   color: var(--text) !important;
   background: none !important;
 }
@@ -215,9 +215,7 @@ variable-intellisense {
   color: var(--text);
 }
 
-/* Hover over Links in Schoology's Native Notifications */
-[modern=true]:root .drGks a:hover,
-[modern=true]:root .drGks a:focus {
+[modern=true]:root .drGks a:hover, [modern=true]:root .drGks a:focus {
   background-color: var(--highlight);
 }
 
@@ -315,7 +313,7 @@ variable-intellisense {
   border-radius: var(--border-radius) !important;
 }
 
-[modern=true][dark=false]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+[modern=true]:root[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
   background-color: var(--secondary) !important;
   color: var(--text) !important;
 }
@@ -325,8 +323,8 @@ variable-intellisense {
   background-color: var(--muted-text) !important;
 }
 
-[modern=true][dark=false]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
-[modern=true][dark=false]:root .action-links-unfold:hover {
+[modern=true]:root[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
+[modern=true]:root[dark=false] .action-links-unfold:hover {
   background-color: var(--muted-text) !important;
 }
 
@@ -777,7 +775,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .comment-body-wrapper {
-  color: var(--text) !important; 
+  color: var(--text) !important;
 }
 
 [modern=true]:root .s-polls-poll-option,
@@ -880,7 +878,7 @@ variable-intellisense {
   background-image: url("/sites/all/themes/schoology_theme/images/btn-sprite.png?2f89e2e4127348b5") !important;
 }
 
-[modern=true][dark=false]:root #edge-filters-btn {
+[modern=true]:root[dark=false] #edge-filters-btn {
   background-color: var(--secondary) !important;
   color: var(--text) !important;
   filter: none !important;
@@ -1319,27 +1317,27 @@ variable-intellisense {
   background-color: var(--accent);
 }
 
-[modern=true]:root .tab-nav.active {
-  background-color: var(--input);
-}
-
 [modern=true]:root .tab-nav:hover {
   background-color: var(--hover-color);
+}
+
+[modern=true]:root .tab-nav.active {
+  background-color: var(--input);
 }
 
 [modern=true]:root .tab-nav.active:hover {
   background-color: var(--input);
 }
-  
+
 [modern=true]:root #ui-datepicker-div {
   background-color: var(--input) !important;
 }
-  
+
 [modern=true]:root .ui-datepicker-days-cell a {
   background-color: var(--primary) !important;
   border-color: var(--border-color) !important;
 }
-  
+
 [modern=true]:root .ui-datepicker-unselectable {
   background-color: var(--accent) !important;
 }
@@ -1347,18 +1345,18 @@ variable-intellisense {
 [modern=true]:root .ui-datepicker-days-cell.ui-datepicker-current-day a {
   background-color: var(--active) !important;
 }
-  
+
 [modern=true]:root .ui-datepicker-days-cell-over a {
   background-color: var(--hover-color) !important;
 }
-  
+
 [modern=true]:root .ui-datepicker-links > div > a {
   background-color: var(--input);
   background-blend-mode: screen;
   border: var(--modern-border);
   border-radius: var(--border-radius);
 }
-  
+
 [modern=true]:root .ui-datepicker-links > div:hover > a {
   background-color: var(--hover-color);
 }
@@ -1765,6 +1763,14 @@ variable-intellisense {
   border-bottom: var(--modern-border) !important;
 }
 
+[modern=true]:root .tw-bs .btn:hover {
+  background-color: var(--hover-color) !important;
+}
+
+[modern=true]:root .tw-bs .dropdown-menu {
+  background-color: var(--primary) !important;
+}
+
 [modern=true]:root .portfolio-route-content {
   border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
@@ -1814,11 +1820,6 @@ variable-intellisense {
   color: var(--muted-text) !important;
 }
 
-[modern=true]:root .sgy-autosave-input.sgy-autosave-input--editing label span,
-[modern=true]:root .sgy-autosave-input.sgy-autosave-input--editing .form-group:hover label span {
-  color: var(--text) !important;
-}
-
 [modern=true]:root .tw-bs .remaining-char-len {
   color: var(--text) !important;
 }
@@ -1841,7 +1842,10 @@ variable-intellisense {
   color: var(--link-color) !important;
 }
 
-
+[modern=true]:root .sgy-autosave-input.sgy-autosave-input--editing label span,
+[modern=true]:root .sgy-autosave-input.sgy-autosave-input--editing .form-group:hover label span {
+  color: var(--text) !important;
+}
 
 [modern=true]:root #school-events {
   padding: var(--padding) !important;
@@ -2136,11 +2140,11 @@ variable-intellisense {
 [modern=true]:root .update-comments-pagenation {
   background-color: var(--accent);
 }
-  
+
 [modern=true]:root .feed-comments-viewall-container {
   color: var(--link-color);
 }
-  
+
 [modern=true]:root .dropbox-viewer-item-wrapper {
   background-color: var(--primary);
 }
@@ -2262,7 +2266,7 @@ variable-intellisense {
   color: var(--text) !important;
 }
 
-[modern=true][dark=true]:root #assessment-darktheme-warning-message[data-popup=true] {
+[modern=true]:root[dark=true] #assessment-darktheme-warning-message[data-popup=true] {
   display: block !important;
   text-align: center;
   width: 50%;
@@ -2274,11 +2278,11 @@ variable-intellisense {
   border-radius: var(--border-radius);
 }
 
-[modern=true][dark=true]:root #assessment-darktheme-warning-message .click-to-hide {
+[modern=true]:root[dark=true] #assessment-darktheme-warning-message .click-to-hide {
   padding-top: 10px !important;
 }
 
-[modern=true][dark=true]:root #assessment-darktheme-warning-message .click-to-hide span {
+[modern=true]:root[dark=true] #assessment-darktheme-warning-message .click-to-hide span {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -2874,21 +2878,15 @@ variable-intellisense {
   background-color: var(--active) !important;
 }
 
-/*****************/
-/* Teacher Areas */
-/*               */
-/*  Test Setup  */
 [modern=true]:root .settings-label {
   color: var(--text);
 }
 
-/* Buttons */
 [modern=true]:root .s-grade-item-assignment-submission-app {
   background-color: var(--primary);
   color: var(--text);
 }
 
-/* Button Hover */
 [modern=true]:root ._2mytC:hover a,
 [modern=true]:root ._2mytC:focus a,
 [modern=true]:root .Oq4U1:hover:not(:active),
@@ -2904,21 +2902,19 @@ variable-intellisense {
   background-color: var(--hover-color);
 }
 
-/* Active Buttons */
 [modern=true]:root .Oq4U1:active {
   background-color: var(--active);
 }
 
-[modern="true"]:root .s-share-checkbox-form-wrapper .checkboxes-wrapper {
+[modern=true]:root .s-share-checkbox-form-wrapper .checkboxes-wrapper {
   background-color: var(--primary);
 }
 
-[modern="true"]:root #attachment-selector #toggle-copy:hover {
+[modern=true]:root #attachment-selector #toggle-copy:hover {
   background-color: var(--hover-color);
 }
 
-
-[modern="true"]:root .comments-list .comment {
+[modern=true]:root .comments-list .comment {
   background: var(--primary);
   border: var(--modern-border);
   border-color: var(--border-color);
@@ -2929,28 +2925,21 @@ variable-intellisense {
   color: var(--muted-text);
 }
 
-
-/*                       */
-/* Course Materials Page */
-/*                       */
 [modern=true]:root .unpublished,
 [modern=true]:root #folder-contents-table .unpublished .folder-contents-cell {
   background-color: var(--primary);
 }
 
-[modern=true] .masquerade-box {
+[modern=true]:root .masquerade-box {
   background-color: var(--secondary);
   border: var(--modern-border);
 }
-  
-[modern="true"]:root div.grade-assignment-popup .description, [modern="true"]:root #sEditGradeTable tr th {
+
+[modern=true]:root div.grade-assignment-popup .description, [modern=true]:root #sEditGradeTable tr th {
   color: var(--text);
   background-color: var(--primary);
 }
 
-/*                             */
-/*  Badges & Attendance Pages  */
-/*                             */
 [modern=true]:root #badges-fullscreen-btn {
   background-color: var(--primary);
   border: var(--modern-border);
@@ -2960,7 +2949,7 @@ variable-intellisense {
 [modern=true]:root .even .badge-course-table-cell,
 [modern=true]:root #s-attendance-edit-form tbody td,
 [modern=true]:root #s-attendance-edit-form tbody td div,
-[modern=true] #s-attendance-edit-form tbody th {
+[modern=true]:root #s-attendance-edit-form tbody th {
   background-color: var(--primary);
 }
 
@@ -3042,10 +3031,6 @@ variable-intellisense {
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
 
-
-/*                    */
-/*  Grade Setup Page  */
-/*                    */
 [modern=true]:root .scale-level-scale {
   background-color: var(--highlight);
   border: var(--modern-border);
@@ -3100,7 +3085,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .guid-item:active,
-[modern=true]:root .alignment-form-container .header .search-tab.active, 
+[modern=true]:root .alignment-form-container .header .search-tab.active,
 [modern=true]:root .alignment-form-container li.active,
 [modern=true]:root .alignment-form-container div.active {
   background-color: var(--active);
@@ -3123,15 +3108,10 @@ variable-intellisense {
   color: var(--muted-text);
 }
 
-[modern="true"]:root .add-criteria-text {
+[modern=true]:root .add-criteria-text {
   color: var(--text);
 }
 
-
-
-/*                */
-/*  MEMBERS PAGE  */
-/*                */
 [modern=true]:root .parent-names-list.description {
   color: var(--muted-text);
 }
@@ -3199,12 +3179,6 @@ variable-intellisense {
   color: var(--text) !important;
 }
 
-
-
-
-/*                */
-/* Gradebook Page */
-/*                */
 [modern=true]:root .s-js-grid-loading-cover {
   background-color: var(--primary);
 }
@@ -3275,6 +3249,6 @@ variable-intellisense {
   background-color: var(--hover-color);
 }
 
-[modern="true"]:root #grade-comment-field {
+[modern=true]:root #grade-comment-field {
   background-color: var(--primary);
 }
