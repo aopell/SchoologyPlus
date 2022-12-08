@@ -229,6 +229,13 @@ variable-intellisense {
         color: var(--text);
     }
 
+    .drGks a {
+        &:hover,
+        &:focus {
+            background-color: var(--highlight);
+        }
+    }
+
     .grade-data {
         color: var(--grades) !important;
     }
@@ -323,10 +330,10 @@ variable-intellisense {
     }
 
     .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
-        background-color: var(--text) !important;
-        color: var(--secondary) !important;
-        filter: Invert(var(--theme-is-dark)) !important;
+        background-color: var(--secondary) !important;
+        color: var(--text) !important;
         border-radius: var(--border-radius) !important;
+        background-blend-mode: screen;
     }
 
     .action-links-unfold {
@@ -822,6 +829,10 @@ variable-intellisense {
     .s-poll-option-title,
     .s-like-sentence {
         color: var(--text) !important;
+    }
+
+    .comment-body-wrapper {
+        color: var(--text) !important; 
     }
 
     .s-polls-poll-option,
@@ -1414,11 +1425,52 @@ variable-intellisense {
         background-color: var(--accent);
     }
 
+    .tab-nav:hover {
+        background-color: var(--hover-color);
+    }
+
     .tab-nav.active {
         background-color: var(--input);
 
         &:hover {
             background-color: var(--input);
+        }
+    }
+
+    #ui-datepicker-div {
+        background-color: var(--input) !important;
+    }
+        
+    .ui-datepicker-days-cell a {
+        background-color: var(--primary) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    .ui-datepicker-unselectable {
+        background-color: var(--accent) !important;
+    }
+    
+    .ui-datepicker-days-cell.ui-datepicker-current-day a {
+        background-color: var(--active) !important;
+    }
+    
+    .ui-datepicker-days-cell-over a {
+        background-color: var(--hover-color) !important;
+    }
+    
+    .ui-datepicker-links {
+        > div {
+            > a {
+                background-color: var(--input);
+                background-blend-mode: screen;
+                border: var(--modern-border);
+                border-radius: var(--border-radius);
+            }
+            &:hover {
+                > a {
+                    background-color: var(--hover-color);
+                }
+            }
         }
     }
 
@@ -1887,7 +1939,8 @@ variable-intellisense {
         background: var(--accent) !important;
     }
 
-    .portfolio-card {
+    .portfolio-card,
+    .item-card {
         background: var(--primary) !important;
     }
 
@@ -1897,6 +1950,61 @@ variable-intellisense {
         .portfolio-item-list>.ui-state-highlight {
             background: var(--primary) !important;
             border-radius: var(--border-radius) !important;
+        }
+
+        .portfolio-card__item-count-num {
+            color: var(--contrast-text) !important;
+        }
+
+        .btn {
+            background-color: var(--primary) !important;
+            border: var(--modern-border) !important;
+            border-radius: var(--border-radius) !important;
+            color: var(--contrast-text) !important;
+            
+            &:hover {
+                background-color: var(--hover-color) !important;
+            }
+        }
+
+        .dropdown-menu {
+            background-color: var(--primary) !important;
+        }
+
+        .item-form__title-inline .sgy-autosave-input .form-group:hover {
+            label,
+            label span {
+                color: var(--muted-text) !important;
+            }
+        }
+
+        .remaining-char-len {
+            color: var(--text) !important;
+        }
+
+        .add-item-dropdown__add-new-icon::before,
+        .portfolio-list__add-new-icon::before {
+            background-color: var(--primary) !important;
+            border-color: var(--border-color) !important;
+        }
+
+        .item-view-container,
+        .item-form__title-bar,
+        .item-page {
+            background-color: var(--background-color) !important;
+            border-color: var(--border-color) !important;
+            outline-color: var(--border-color) !important;
+        }
+
+        .item-card__title-link {
+            color: var(--link-color) !important;
+        }
+    }
+
+    .sgy-autosave-input.sgy-autosave-input--editing {
+        label span,
+        .form-group:hover label span {
+            color: var(--text) !important;
         }
     }
 
@@ -2234,6 +2342,14 @@ variable-intellisense {
 
     .comment-container {
         border-color: var(--contrast-border) !important;
+    }
+
+    .update-comments-pagenation {
+        background-color: var(--accent);
+    }
+
+    .feed-comments-viewall-container {
+        color: var(--link-color);
     }
 
     .dropbox-viewer-item-wrapper {
@@ -3123,21 +3239,21 @@ variable-intellisense {
         background-color: var(--active) !important;
     }
 
-    /*****************/
-    /* Teacher Areas */
-    /*               */
-    /*  Test Setup  */
+    //
+    // Teacher Areas
+    //              
+    //  Test Setup  
     .settings-label {
       color: var(--text);
     }
     
-    /* Buttons */
+    // Buttons 
     .s-grade-item-assignment-submission-app {
       background-color: var(--primary);
       color: var(--text);
     }
     
-    /* Button Hover */
+    // Button Hover
     ._2mytC:hover a,
     ._2mytC:focus a,
     .Oq4U1:hover:not(:active),
@@ -3153,7 +3269,7 @@ variable-intellisense {
       background-color: var(--hover-color);
     }
     
-    /* Active Buttons */
+    // Active Buttons 
     .Oq4U1:active {
       background-color: var(--active);
     }
@@ -3180,9 +3296,9 @@ variable-intellisense {
   
     
   
-  /*                       */
-  /* Course Materials Page */
-  /*                       */
+  //                       //
+  // Course Materials Page //
+  //                       //
   .unpublished,
   #folder-contents-table .unpublished .folder-contents-cell {
     background-color: var(--primary);
@@ -3198,9 +3314,9 @@ variable-intellisense {
     background-color: var(--primary);
   }
   
-  /*                             */
-  /*  Badges & Attendance Pages  */
-  /*                             */
+  //                             //
+  //  Badges & Attendance Pages  //
+  //                             //
   #badges-fullscreen-btn {
     background-color: var(--primary);
     border: var(--modern-border);
@@ -3293,9 +3409,9 @@ variable-intellisense {
   }
   
   
-  /*                    */
-  /*  Grade Setup Page  */
-  /*                    */
+  //                    //
+  //  Grade Setup Page  //
+  //                    //
   .scale-level-scale {
     background-color: var(--highlight);
     border: var(--modern-border);
@@ -3379,9 +3495,9 @@ variable-intellisense {
   
   
   
-  /*                */
-  /*  MEMBERS PAGE  */
-  /*                */
+  //                //
+  //  MEMBERS PAGE  //
+  //                //
   .parent-names-list.description {
     color: var(--muted-text);
   }
@@ -3452,9 +3568,9 @@ variable-intellisense {
   
   
   
-  /*                */
-  /* Gradebook Page */
-  /*                */
+  //                //
+  // Gradebook Page //
+  //                //
   .s-js-grid-loading-cover {
     background-color: var(--primary);
   }
