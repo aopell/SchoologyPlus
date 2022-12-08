@@ -743,20 +743,17 @@ var fetchQueue = [];
                             deltaScore = -scoreVal;
                         }
 
-                        deltaScore = Math.round(deltaScore * 100) / 100;
+                        // ?: Using Math.ceil ensures finalGrade >= desiredGrade when possible
+                        deltaScore = Math.ceil(deltaScore * 100) / 100;
 
-                        if (deltaScore < -scoreVal) {
-                            // probably 1 under due to rounding
-                            deltaScore++;
-                        }
-
-                        // TODO refactor: we already have our DOM elements
+                        const finalGrade = Math.round((scoreVal + deltaScore) * 100) / 100;
                         if (score) {
-                            score.title = scoreVal + deltaScore;
-                            score.textContent = scoreVal + deltaScore;
+                            // TODO refactor: we already have our DOM elements
+                            score.title = finalGrade;
+                            score.textContent = finalGrade;
                         }
 
-                        prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), scoreVal + deltaScore, maxVal);
+                        prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), finalGrade, maxVal);
                         recalculateCategoryScore(catRow, deltaScore, noGrade ? maxVal : 0);
                         recalculatePeriodScore(perRow, deltaScore, noGrade ? maxVal : 0);
                     };
