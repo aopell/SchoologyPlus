@@ -258,6 +258,39 @@ let migrationsTo = {
                 }
             }
         }, 50);
+    },
+    "7.5": function (currentVersion, previousVersion) {
+        chrome.storage.sync.get(["themes"], values => {
+            if (values.themes) {
+                let count = 0;
+
+                for (let theme of values.themes) {
+                    count++;
+                    if (theme.color.modern) {
+                        theme.color.modern.calendar.push(
+                            "#00427c",
+                            "#603073",
+                            "#8b1941",
+                            "#970c0c",
+                            "#9c3b07",
+                            "#685203",
+                            "#2a5f16",
+                            "#09584f",
+                            "#005a75",
+                            "#4d5557"
+                        );
+                    }
+                }
+
+                chrome.storage.sync.set({
+                    themes: values.themes
+                });
+
+                Logger.log(`Migrated ${count} themes to include new calendar colors`);
+            } else {
+                Logger.log(`No themes to migrate`);
+            }
+        });
     }
 };
 

@@ -71,15 +71,44 @@
                     ]),
                 ]),
             ]),
+            createElement("div", ["splus-permissions-close"], {}, [
+                createElement("span", [], { textContent: "×", title: "Hide this message and show the original API key page (for developers)", onclick: function() {
+                    document.getElementsByClassName('splus-permissions-wrapper')[0].style.display = "none";
+                    currentKey.parentElement.style.display = "block";
+                    currentSecret.parentElement.style.display = "block";
+                    document.getElementsByClassName('splus-api-key-page')[0].classList.remove('splus-api-key-page');
+                    document.getElementsByClassName('splus-api-key-page')[0].classList.remove('splus-api-key-page');
+                    document.getElementsByClassName('splus-api-key-footer')[0].style.display = "none";
+                    let submitButton = document.getElementById("edit-reveal") || document.getElementById("edit-request");
+                    submitButton.value = "Reveal Existing Secret";
+                    submitButton.parentElement.classList.remove('splus-allow-access');
+                } } ),
+            ]),
         ])
     ]));
 
-    let submitButton = document.getElementById("edit-reveal") || document.getElementById("edit-request");
-    submitButton.parentElement.classList.add("splus-allow-access");
-    submitButton.value = "Allow Access";
+    let submitButton = null; //document.getElementById("edit-reveal") || document.getElementById("edit-request");
+    if(submitButton === null) {
+        let permElement = document.getElementsByClassName("splus-permissions-description")[0];
+        permElement.append(createElement("br", [], {}));
+        permElement.append(createElement("br", [], {}));
+        permElement.append(
+            createElement("div", ["splus-permissions-section"], { style: "background-color: var(--error, #F44336); color: var(--contrast-text, white); padding: var(--padding, 5px); border-radius: var(--border-radius, 0px);" }, [
+                createElement("span", [], { textContent: "It looks like your school or district has disabled API Key generation. Unfortunately, this means the above features will not work. The rest of Schoology Plus' features will still work, though!" }),
+                
+                createElement("div", ["splus-permissions-section"], {}, [
+                    createElement("a", ["splus-permissions-link"], { href: "https://schoologypl.us/docs/faq/api", textContent: "Click Here to Read More" })
+                ])
+            ])
+        );
+    } else {
+        submitButton.parentElement.classList.add("splus-allow-access");
+        submitButton.value = "Allow Access";
+    }
 
     submitButton.parentElement.insertAdjacentElement("afterend", createElement("div", ["splus-api-key-footer"], { style: { textAlign: "center" } }, [
         createElement("a", [], {
+            href: "#",
             textContent: "Deny Access", onclick: () => {
                 alert("API key access was denied. Please keep in mind many Schoology Plus features will not work correctly with this disabled. You can change this at any time from the Schoology Plus settings menu.");
                 trackEvent("Change Access", "denied", "API Key");

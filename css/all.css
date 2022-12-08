@@ -978,6 +978,13 @@ a._3_bfp {
     width: 400px;
 }
 
+.splus-permissions-link {
+    text-align: center;
+    font-size: 14px;
+    color: white !important;
+    text-decoration: underline;
+}
+
 .splus-permissions-description strong {
     font-size: 16px;
     text-decoration: underline;
@@ -1001,4 +1008,12 @@ a._3_bfp {
     padding: 0 10%;
     list-style: disc !important;
     list-style-position: inside !important;
+}
+
+.splus-permissions-close {
+    position: absolute;
+    left: 69%;
+    top: 5%;
+    font-size: xx-large;
+    cursor: pointer;
 }

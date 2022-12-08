@@ -35,6 +35,16 @@ variable-intellisense {
   --cal18: #00543f;
   --cal19: #633e11;
   --cal20: #461b2d;
+  --cal21: #00427c;
+  --cal22: #603073;
+  --cal23: #8b1941;
+  --cal24: #970c0c;
+  --cal25: #9c3b07;
+  --cal26: #685203;
+  --cal27: #2a5f16;
+  --cal28: #09584f;
+  --cal29: #005a75;
+  --cal30: #4d5557;
 }
 
 [modern=true]:root {
@@ -226,6 +236,10 @@ variable-intellisense {
 [modern=true]:root #main .s-notifications-mini .edge-time,
 [modern=true]:root #main .s-notifications-mini .created {
   color: var(--muted-text) !important;
+}
+
+[modern=true]:root .drGks a:hover, [modern=true]:root .drGks a:focus {
+  background-color: var(--highlight);
 }
 
 [modern=true]:root .splus-modal-title {
@@ -556,7 +570,17 @@ variable-intellisense {
 [modern=true]:root .color-13,
 [modern=true]:root .color-14,
 [modern=true]:root .color-15,
-[modern=true]:root .color-16 {
+[modern=true]:root .color-16,
+[modern=true]:root .color-dark-1,
+[modern=true]:root .color-dark-2,
+[modern=true]:root .color-dark-3,
+[modern=true]:root .color-dark-4,
+[modern=true]:root .color-dark-5,
+[modern=true]:root .color-dark-6,
+[modern=true]:root .color-dark-7,
+[modern=true]:root .color-dark-8,
+[modern=true]:root .color-dark-9,
+[modern=true]:root .color-dark-10 {
   border-color: rgba(0, 0, 0, 0.4) !important;
 }
 
@@ -662,6 +686,46 @@ variable-intellisense {
 
 [modern=true]:root .color-16 {
   background: var(--cal20) !important;
+}
+
+[modern=true]:root .color-dark-1 {
+  background: var(--cal21) !important;
+}
+
+[modern=true]:root .color-dark-2 {
+  background: var(--cal22) !important;
+}
+
+[modern=true]:root .color-dark-3 {
+  background: var(--cal23) !important;
+}
+
+[modern=true]:root .color-dark-4 {
+  background: var(--cal24) !important;
+}
+
+[modern=true]:root .color-dark-5 {
+  background: var(--cal25) !important;
+}
+
+[modern=true]:root .color-dark-6 {
+  background: var(--cal26) !important;
+}
+
+[modern=true]:root .color-dark-7 {
+  background: var(--cal27) !important;
+}
+
+[modern=true]:root .color-dark-8 {
+  background: var(--cal28) !important;
+}
+
+[modern=true]:root .color-dark-9 {
+  background: var(--cal29) !important;
+}
+
+[modern=true]:root .color-dark-10 {
+  background: var(--cal30) !important;
 }
 
 [modern=true]:root .fc-state-default {
@@ -885,6 +949,20 @@ variable-intellisense {
   background-image: url("/sites/all/themes/schoology_theme/images/btn-sprite.png?5f89e2e4127348b5") !important;
 }
 
+[modern=true]:root .immersive-reader-button-container span svg path {
+  fill: var(--text);
+}
+
+[modern=true]:root .immersive-reader-button-container button {
+  background-color: var(--primary);
+  color: var(--text);
+  border: var(--modern-border);
+}
+
+[modern=true]:root .immersive-reader-button-container button:hover, [modern=true]:root .immersive-reader-button-container button:focus {
+  background-color: var(--active);
+}
+
 [modern=true]:root .gradebook-course.hierarchical-grading-report .period-row .grade-column,
 [modern=true]:root .gradebook-course.hierarchical-grading-report .category-row .grade-column,
 [modern=true]:root .gradebook-course.hierarchical-grading-report .item-row .grade-column {
@@ -908,6 +986,7 @@ variable-intellisense {
 [modern=true]:root .course-grade-text,
 [modern=true]:root .total-points-wrapper *,
 [modern=true]:root .percentage-grade,
+[modern=true]:root .comment-body-wrapper,
 [modern=true]:root .no-grade {
   color: var(--text) !important;
 }
@@ -1318,7 +1397,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .tab-nav:hover {
-  background-color: var(--hover-color);
+  background-color: var(--active);
 }
 
 [modern=true]:root .tab-nav.active {
@@ -1493,6 +1572,38 @@ variable-intellisense {
 [modern=true]:root #roster-wrapper .parent-code {
   background-color: var(--accent);
   color: var(--text);
+}
+
+[modern=true]:root #ui-datepicker-div {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root #ui-datepicker-div .ui-datepicker-days-cell a {
+  background-color: var(--primary) !important;
+  border-color: var(--modern-border) !important;
+}
+
+[modern=true]:root #ui-datepicker-div .ui-datepicker-days-cell .ui-datepicker-current-day a {
+  background-color: var(--highlight) !important;
+}
+
+[modern=true]:root #ui-datepicker-div .ui-datepicker-days-cell.ui-datepicker-days-cell-over a {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root #ui-datepicker-div .ui-datepicker-links > div:hover > a {
+  background-color: var(--hover-color);
+}
+
+[modern=true]:root #ui-datepicker-div .ui-datepicker-links > div > a {
+  background-color: var(--input);
+  background-blend-mode: screen;
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root #ui-datepicker-div .ui-datepicker-unselectable {
+  background-color: var(--accent) !important;
 }
 
 [modern=true]:root .shuffleParent div.sshuffleContainer,
@@ -1793,7 +1904,6 @@ variable-intellisense {
 [modern=true]:root .tw-bs .portfolio-list__list-view > .ui-state-highlight,
 [modern=true]:root .tw-bs .portfolio-item-list > .ui-state-highlight {
   background: var(--primary) !important;
-  border-radius: var(--border-radius) !important;
 }
 
 [modern=true]:root .tw-bs .portfolio-card__item-count-num {
@@ -1827,7 +1937,7 @@ variable-intellisense {
 [modern=true]:root .tw-bs .add-item-dropdown__add-new-icon::before,
 [modern=true]:root .tw-bs .portfolio-list__add-new-icon::before {
   background-color: var(--primary) !important;
-  border-color: var(--border-color) !important;
+  border-color: var(--modern-border) !important;
 }
 
 [modern=true]:root .tw-bs .item-view-container,
@@ -2077,6 +2187,14 @@ variable-intellisense {
 [modern=true]:root body .fc-widget-header .fc-agenda-divider-inner {
   background: var(--contrast-border) !important;
   border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root .update-comments-pagenation {
+  background-color: var(--accent);
+}
+
+[modern=true]:root .feed-comments-viewall-container {
+  color: var(--link-color);
 }
 
 [modern=true]:root #dropbox-viewer-right-toggle {

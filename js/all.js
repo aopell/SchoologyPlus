@@ -272,6 +272,10 @@ let modals = [
                         { name: "Peter Stenger (@reteps)", url: "https://github.com/reteps" },
                         { name: "Eric Pedley (@EricPedley)", url: "https://github.com/EricPedley" },
                         { name: "@KTibow", url: "https://github.com/KTibow" },
+                        { name: "@FenyLabs", url: "https://github.com/FenyLabs" },
+                        { name: "@jetline0", url: "https://github.com/jetline0" },
+                        { name: "@dsnsgithub", url: "https://github.com/dsnsgithub" },
+                        { name: "@senoj26", url: "https://github.com/senoj26" },
                     ])
                 }),
             ]),
@@ -779,9 +783,9 @@ let siteNavigationTileHelpers = {
 
             let courseAlias;
             if (cardData.parentElement.href) {
-                let courseLinkMatch = cardData.parentElement.href.match(/\/course\/(\d+)\/?$/);
+                let courseLinkMatch = cardData.parentElement.href.split("/");
                 if (courseLinkMatch) {
-                    courseLinkMatch = courseLinkMatch[1];
+                    courseLinkMatch = courseLinkMatch.at(-2);
                 }
                 if (courseLinkMatch && Setting.getValue("courseAliases")) {
                     courseAlias = Setting.getValue("courseAliases")[courseLinkMatch];
@@ -808,7 +812,7 @@ let siteNavigationTileHelpers = {
             // stylistically equivalent to the other card data, in terms of our class list for the container element
             // FIXME: there's a stylistic incongruity between a nicknamed course in the dropdown and a non-nicknamed one
             let newCardDataChild = createElement("div", ["_36sHx", "_3M0N7", "fjQuT", "_1EyV_", "splus-coursesdropdown-nicknamed-dataset", "splus-addedtodynamicdropdown"], {}, [
-                createElement("div", ["_1wP6w", "_23_WZ", "_2qcpH", "_3ghFm", "_17Z60", "_1Aph-", "gs0RB"], { textContent: courseAlias }), // stylized like section title
+                createElement("div", ["_3U8Br", "_1wP6w", "_23_WZ", "_2qcpH", "_3ghFm", "_17Z60", "_1Aph-", "gs0RB"], { textContent: courseAlias }), // stylized like section title
                 createElement("div", ["_2wOCj", "xjR5v", "_2qcpH", "_17Z60", "_1Aph-", "gs0RB", "splus-coursealiasing-exempt"], { textContent: origCourseTitle.textContent + ": " + origSectionTitle.textContent }), // original full title, stylized like school name
                 createElement("div", ["_2wOCj", "xjR5v", "_2qcpH", "_17Z60", "_1Aph-", "gs0RB"], { textContent: origSchoolTitle.textContent }) // school title, original styling and text
             ]);
