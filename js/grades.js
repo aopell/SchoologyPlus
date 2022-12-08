@@ -703,7 +703,7 @@ var fetchQueue = [];
 
                                 if (colMatch) {
                                     let scorePercent = Number.parseFloat(colMatch[1]);
-                                    if (scorePercent && !Number.isNaN(scorePercent)) {
+                                    if ((scorePercent || scorePercent === 0) && !Number.isNaN(scorePercent)) {
                                         total += (weightPercent.slice(1, -2) / 100) * scorePercent;
                                         let weight = Number.parseFloat(weightPercent.slice(1, -2));
                                         totalPercentWeight += weight;
