@@ -75,7 +75,9 @@ $.contextMenu({
 });
 
 if (location.search.includes("reorder")) {
-    document.querySelector("#reorder-ui .link-btn").click();
+    setTimeout(() => {
+        document.querySelector("#reorder-ui .link-btn").click();
+    }, 750);
 }
 
 Logger.debug("Finished loading courses.js");

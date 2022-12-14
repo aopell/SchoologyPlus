@@ -89,27 +89,27 @@ variable-intellisense {
   border-radius: var(--border-radius) !important;
 }
 
-[modern=true]:root[style-override=true] .s-edge-feed .edge-item *[style] {
+[modern=true][style-override=true]:root .s-edge-feed .edge-item *[style] {
   color: var(--text) !important;
   background: none !important;
 }
 
-[modern=true]:root[style-override=true] .discussion-view .discussion-prompt *[style],
-[modern=true]:root[style-override=true] .discussion-view .comment-body-wrapper *[style] {
+[modern=true][style-override=true]:root .discussion-view .discussion-prompt *[style],
+[modern=true][style-override=true]:root .discussion-view .comment-body-wrapper *[style] {
   color: var(--text) !important;
   background: none !important;
 }
 
-[modern=true]:root[style-override=true] #important-post-body *[style],
-[modern=true]:root[style-override=true] #main-inner .info-container *[style],
-[modern=true]:root[style-override=true] .standard-page .s-page-content-full *[style],
-[modern=true]:root[style-override=true] .discussion-prompt *[style],
-[modern=true]:root[style-override=true] .comment-comment .comment-body-wrapper *[style],
-[modern=true]:root[style-override=true] .instructions-content *[style],
-[modern=true]:root[style-override=true] .lrn_stimulus .lrn_stimulus_content *[style],
-[modern=true]:root[style-override=true] .lrn-possible-answer *[style],
-[modern=true]:root[style-override=true] .folder-description *[style],
-[modern=true]:root[style-override=true] .item-info *[style] {
+[modern=true][style-override=true]:root #important-post-body *[style],
+[modern=true][style-override=true]:root #main-inner .info-container *[style],
+[modern=true][style-override=true]:root .standard-page .s-page-content-full *[style],
+[modern=true][style-override=true]:root .discussion-prompt *[style],
+[modern=true][style-override=true]:root .comment-comment .comment-body-wrapper *[style],
+[modern=true][style-override=true]:root .instructions-content *[style],
+[modern=true][style-override=true]:root .lrn_stimulus .lrn_stimulus_content *[style],
+[modern=true][style-override=true]:root .lrn-possible-answer *[style],
+[modern=true][style-override=true]:root .folder-description *[style],
+[modern=true][style-override=true]:root .item-info *[style] {
   color: var(--text) !important;
   background: none !important;
 }
@@ -327,7 +327,7 @@ variable-intellisense {
   border-radius: var(--border-radius) !important;
 }
 
-[modern=true]:root[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+[modern=true][dark=false]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
   background-color: var(--secondary) !important;
   color: var(--text) !important;
 }
@@ -337,8 +337,8 @@ variable-intellisense {
   background-color: var(--muted-text) !important;
 }
 
-[modern=true]:root[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
-[modern=true]:root[dark=false] .action-links-unfold:hover {
+[modern=true][dark=false]:root .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
+[modern=true][dark=false]:root .action-links-unfold:hover {
   background-color: var(--muted-text) !important;
 }
 
@@ -942,7 +942,7 @@ variable-intellisense {
   background-image: url("/sites/all/themes/schoology_theme/images/btn-sprite.png?2f89e2e4127348b5") !important;
 }
 
-[modern=true]:root[dark=false] #edge-filters-btn {
+[modern=true][dark=false]:root #edge-filters-btn {
   background-color: var(--secondary) !important;
   color: var(--text) !important;
   filter: none !important;
@@ -1397,7 +1397,7 @@ variable-intellisense {
 }
 
 [modern=true]:root .tab-nav:hover {
-  background-color: var(--active);
+  background-color: var(--hover-color);
 }
 
 [modern=true]:root .tab-nav.active {
@@ -1901,9 +1901,25 @@ variable-intellisense {
   background: var(--primary) !important;
 }
 
+[modern=true]:root .tw-bs .portfolio-card__item-count-num {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .tw-bs .btn {
+  background-color: var(--primary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label, [modern=true]:root .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label span {
+  color: var(--muted-text) !important;
+}
+
 [modern=true]:root .tw-bs .portfolio-list__list-view > .ui-state-highlight,
 [modern=true]:root .tw-bs .portfolio-item-list > .ui-state-highlight {
   background: var(--primary) !important;
+  border-radius: var(--border-radius) !important;
 }
 
 [modern=true]:root .tw-bs .portfolio-card__item-count-num {
@@ -1937,7 +1953,7 @@ variable-intellisense {
 [modern=true]:root .tw-bs .add-item-dropdown__add-new-icon::before,
 [modern=true]:root .tw-bs .portfolio-list__add-new-icon::before {
   background-color: var(--primary) !important;
-  border-color: var(--modern-border) !important;
+  border-color: var(--border-color) !important;
 }
 
 [modern=true]:root .tw-bs .item-view-container,
@@ -2384,7 +2400,7 @@ variable-intellisense {
   color: var(--text) !important;
 }
 
-[modern=true]:root[dark=true] #assessment-darktheme-warning-message[data-popup=true] {
+[modern=true][dark=true]:root #assessment-darktheme-warning-message[data-popup=true] {
   display: block !important;
   text-align: center;
   width: 50%;
@@ -2396,11 +2412,11 @@ variable-intellisense {
   border-radius: var(--border-radius);
 }
 
-[modern=true]:root[dark=true] #assessment-darktheme-warning-message .click-to-hide {
+[modern=true][dark=true]:root #assessment-darktheme-warning-message .click-to-hide {
   padding-top: 10px !important;
 }
 
-[modern=true]:root[dark=true] #assessment-darktheme-warning-message .click-to-hide span {
+[modern=true][dark=true]:root #assessment-darktheme-warning-message .click-to-hide span {
   text-decoration: underline;
   cursor: pointer;
 }

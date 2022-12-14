@@ -92,7 +92,7 @@ function createToastButton(text, id, onClick, transition = "fadeOutRight") {
 }
 
 /**
- * @typedef {{id:number,title:string,message:string,timestamp?:Date,icon?:string}} Broadcast
+ * @typedef {{id:number,title:string,message:string,timestamp?:Date,expires?:timestamp}} Broadcast
  * @param {Broadcast[]} broadcasts Broadcasts to save
  * @param {()=>void} callback Function called after broadcasts are saved
  */
@@ -118,7 +118,7 @@ function saveBroadcasts(broadcasts, callback = undefined) {
  * @returns {Broadcast}
  */
 function createBroadcast(id, title, message, timestamp = Date.now()) {
-    return { id, title, message, timestamp: +timestamp };
+    return { id: String(id), title, message, timestamp: +timestamp };
 }
 
 /**
@@ -249,16 +249,6 @@ let migrationsTo = {
             }
         }, 50);
     },
-    "7.4": function (currentVersion, previousVersion) {
-        var accessToAccountInterval = setInterval(function () {
-            if (document.readyState === "complete" && openModal && !document.querySelector(".splus-modal-open")) {
-                clearInterval(accessToAccountInterval);
-                if (!Setting.getValue("apistatus")) {
-                    location.pathname = "/api";
-                }
-            }
-        }, 50);
-    },
     "7.5": function (currentVersion, previousVersion) {
         chrome.storage.sync.get(["themes"], values => {
             if (values.themes) {
@@ -291,10 +281,20 @@ let migrationsTo = {
                 Logger.log(`No themes to migrate`);
             }
         });
-    }
+    },
+    "7.7": function (currentVersion, previousVersion) {
+        var accessToAccountInterval = setInterval(function () {
+            if (document.readyState === "complete" && openModal && !document.querySelector(".splus-modal-open")) {
+                clearInterval(accessToAccountInterval);
+                if (!Setting.getValue("apistatus")) {
+                    location.pathname = "/api";
+                }
+            }
+        }, 50);
+    },
 };
 
-function versionSpecificFirstLaunch(currentVersion, previousVersion) {
+async function versionSpecificFirstLaunch(currentVersion, previousVersion) {
     Logger.log("[Updater] First launch after update, updating to ", currentVersion, " from ", previousVersion);
 
     if (!previousVersion) {
@@ -310,5 +310,5 @@ function versionSpecificFirstLaunch(currentVersion, previousVersion) {
         } else if (compareVersions(migrateTo, currentVersion) <= 0 && compareVersions(migrateTo, previousVersion) > 0) {
             migrationsTo[migrateTo](currentVersion, previousVersion);
         }
-    }
+    }    
 }

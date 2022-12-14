@@ -96,7 +96,8 @@ A Schoology Plus theme has the following format and components (each component w
         "preset": "schoology_plus",
         "preset": "schoology_logo",
         "preset": "lausd_legacy",
-        "preset": "lausd_2019"
+        "preset": "lausd_2019",
+        "preset": "lausd_2022"
     },
     "cursor": {
         "primary": "https://example.com/my-cursor-image.png"
@@ -332,7 +333,7 @@ A Schoology Plus theme has the following format and components (each component w
 |Default Value|![Schoology Plus](https://imgur.com/znq2Mc1.png)
 |Description|Describes the logo to be displayed on the left side of the navbar.
 |Subkey Options (Must contain ***exactly one*** of these subkeys)|<table><tr><td>Key</td><td>Description</td></tr><tr><td>`url`</td><td>A direct link to an image to be used as the logo. Should be **160x50** or smaller for best results.</td></tr><tr><td>`preset`</td><td>One of the values described below that results in a preset image being used as the logo.</td></tr></table>
-|`preset` Values|<table><tr><th>Value</th><th>Preview</th></tr><tr><td>`"schoology_plus"`</td><td>![Schoology Plus](https://imgur.com/znq2Mc1.png)</td></tr><tr><td>`"schoology_logo"`</td><td>![Schoology logo](https://i.imgur.com/y64kiCY.png)</td></tr><tr><td>`"lausd_legacy"`</td><td>![LAUSD legacy](https://imgur.com/Mm7FXhD.png)</td></tr><tr><td>`"lausd_2019"`</td><td>![LAUSD 2019](https://imgur.com/NOuGRyZ.png)</td></tr><tr><td>`"default"`</td><td>Don't override the logo whatsoever</td></tr></table>**NOTE**: The Schoology and Schoology Plus logos have a transparent background, however the LAUSD logo backgrounds are orange or dark blue as shown.
+|`preset` Values|<table><tr><th>Value</th><th>Preview</th></tr><tr><td>`"schoology_plus"`</td><td>![Schoology Plus](https://imgur.com/znq2Mc1.png)</td></tr><tr><td>`"schoology_logo"`</td><td>![Schoology logo](https://i.imgur.com/y64kiCY.png)</td></tr><tr><td>`"lausd_legacy"`</td><td>![LAUSD legacy](https://imgur.com/Mm7FXhD.png)</td></tr><tr><td>`"lausd_2019"`</td><td>![LAUSD 2019](https://imgur.com/NOuGRyZ.png)</td></tr><tr><td>`"lausd_2022"`</td><td>![LAUSD 2022](https://i.imgur.com/QFbx7wL.png)</td></tr><tr><td>`"default"`</td><td>Don't override the logo whatsoever</td></tr></table>**NOTE**: The Schoology and Schoology Plus logos have a transparent background, however the LAUSD logo backgrounds are orange or dark blue as shown.
 **Examples**
 ```js
 // Example using "url"

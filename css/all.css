@@ -278,10 +278,19 @@ video.easter-egg {
     justify-content: space-between;
 }
 
-.restore-defaults {
-    color: red !important;
+.settings-actions-wrapper {
     margin-top: 10px;
     font-weight: normal;
+}
+
+.settings-actions-wrapper > a,
+.settings-actions-wrapper > span {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.restore-defaults {
+    color: red !important;
 }
 
 .margin-under {

@@ -1,10 +1,11 @@
 const schoologyPlusLogoImageUrl = chrome.runtime.getURL("/imgs/schoology-plus-wide.svg");
 const schoologyLogoImageUrl = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg";
 const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
-const lausdNewImageUrl = chrome.runtime.getURL("/imgs/lausd-2019.png");
+const lausd2019ImageUrl = chrome.runtime.getURL("/imgs/lausd-2019.png");
+const lausd2022ImageUrl = chrome.runtime.getURL("/imgs/lausd-2022.png");
 const CURRENT_VERSION = SchoologyTheme.CURRENT_VERSION;
 const placeholderUrl = "https://via.placeholder.com/200x50?text=School+Logo";
-const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue"];
+const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue", "LAUSD 2019"];
 const CLASSIC_THEMES = ["Schoology Plus", "Rainbow"]
 
 var defaultDomain = "app.schoology.com";
@@ -46,6 +47,7 @@ var themeBorderColor = document.getElementById("theme-border-color");
 var themeLinkColor = document.getElementById("theme-link-color");
 var themeSchoologyPlusLogo = document.getElementById("theme-schoology-plus-logo");
 var themeSchoologyLogo = document.getElementById("theme-schoology-logo");
+var themeLAUSDLogo2022 = document.getElementById("theme-lausd-logo-2022");
 var themeNewLAUSDLogo = document.getElementById("theme-new-lausd-logo");
 var themeLAUSDLogo = document.getElementById("theme-lausd-logo");
 var themeDefaultLogo = document.getElementById("theme-default-logo");
@@ -422,6 +424,9 @@ function renderTheme(t) {
             break;
         case "lausd_2019":
             themeNewLAUSDLogo.click();
+            break;
+        case "lausd_2022":
+            themeLAUSDLogo2022.click();
             break;
         case "default":
             themeDefaultLogo.click();
@@ -874,9 +879,12 @@ function updateOutput() {
     } else if (themeSchoologyLogo.checked) {
         theme.logo = new ThemeLogo(undefined, "schoology_logo");
         setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
+    } else if (themeLAUSDLogo2022.checked) {
+        theme.logo = new ThemeLogo(undefined, "lausd_2022");
+        setCSSVariable("background-url", `url(${lausd2022ImageUrl})`);
     } else if (themeNewLAUSDLogo.checked) {
         theme.logo = new ThemeLogo(undefined, "lausd_2019");
-        setCSSVariable("background-url", `url(${lausdNewImageUrl})`);
+        setCSSVariable("background-url", `url(${lausd2019ImageUrl})`);
     } else if (themeLAUSDLogo.checked) {
         theme.logo = new ThemeLogo(undefined, "lausd_legacy");
         setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);

@@ -886,7 +886,25 @@ var fetchQueue = [];
                             };
                         }
 
-                        calcMinFor.separator = "-----";
+                        calcMinFor.separator1 = "-----";
+
+                        calcMinFor.calculateMinGradeForCustom = {
+                            name: "For Custom Value",
+                            callback: function (key, opt) {
+                                trackEvent("assignment", `calc-min-for-custom`, "What-If Grades");
+
+                                let value = prompt("Please enter a grade to calculate for (a number on the scale of 0 to 100)");
+
+                                if (!Number.isNaN(value) && !Number.isNaN(Number.parseFloat(value))) {
+                                    // if a number, calculate
+                                    calculateMinimumGrade(this[0], Number.parseFloat(value) / 100);
+                                } else {
+                                    alert("Invalid number")
+                                }
+                            }
+                        };
+
+                        calcMinFor.separator2 = "-----";
                         calcMinFor.courseOptions = {
                             name: "Change Grade Boundaries",
                             callback: function () {

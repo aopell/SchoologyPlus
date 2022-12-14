@@ -357,6 +357,12 @@
 })();
 
 (function () {
+    if (location.pathname.startsWith("/link") && Setting.getValue("autoBypassLinkRedirects") === "enabled") {
+        document.querySelector("a.s-extlink-direct[href]").click();
+    }
+})();
+
+(function () {
     setTimeout(() => {
         let assessmentStartContainer = document.querySelector(`.assessment-delivery-landing-app div._3dHTa`);
 
