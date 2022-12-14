@@ -87,7 +87,7 @@
         ])
     ]));
 
-    let submitButton = null; //document.getElementById("edit-reveal") || document.getElementById("edit-request");
+    let submitButton = document.getElementById("edit-reveal") || document.getElementById("edit-request");
     if(submitButton === null) {
         let permElement = document.getElementsByClassName("splus-permissions-description")[0];
         permElement.append(createElement("br", [], {}));

@@ -703,7 +703,7 @@ var fetchQueue = [];
 
                                 if (colMatch) {
                                     let scorePercent = Number.parseFloat(colMatch[1]);
-                                    if (scorePercent && !Number.isNaN(scorePercent)) {
+                                    if ((scorePercent || scorePercent === 0) && !Number.isNaN(scorePercent)) {
                                         total += (weightPercent.slice(1, -2) / 100) * scorePercent;
                                         let weight = Number.parseFloat(weightPercent.slice(1, -2));
                                         totalPercentWeight += weight;
@@ -743,20 +743,17 @@ var fetchQueue = [];
                             deltaScore = -scoreVal;
                         }
 
-                        deltaScore = Math.round(deltaScore * 100) / 100;
+                        // ?: Using Math.ceil ensures finalGrade >= desiredGrade when possible
+                        deltaScore = Math.ceil(deltaScore * 100) / 100;
 
-                        if (deltaScore < -scoreVal) {
-                            // probably 1 under due to rounding
-                            deltaScore++;
-                        }
-
-                        // TODO refactor: we already have our DOM elements
+                        const finalGrade = Math.round((scoreVal + deltaScore) * 100) / 100;
                         if (score) {
-                            score.title = scoreVal + deltaScore;
-                            score.textContent = scoreVal + deltaScore;
+                            // TODO refactor: we already have our DOM elements
+                            score.title = finalGrade;
+                            score.textContent = finalGrade;
                         }
 
-                        prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), scoreVal + deltaScore, maxVal);
+                        prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), finalGrade, maxVal);
                         recalculateCategoryScore(catRow, deltaScore, noGrade ? maxVal : 0);
                         recalculatePeriodScore(perRow, deltaScore, noGrade ? maxVal : 0);
                     };
@@ -889,7 +886,25 @@ var fetchQueue = [];
                             };
                         }
 
-                        calcMinFor.separator = "-----";
+                        calcMinFor.separator1 = "-----";
+
+                        calcMinFor.calculateMinGradeForCustom = {
+                            name: "For Custom Value",
+                            callback: function (key, opt) {
+                                trackEvent("assignment", `calc-min-for-custom`, "What-If Grades");
+
+                                let value = prompt("Please enter a grade to calculate for (a number on the scale of 0 to 100)");
+
+                                if (!Number.isNaN(value) && !Number.isNaN(Number.parseFloat(value))) {
+                                    // if a number, calculate
+                                    calculateMinimumGrade(this[0], Number.parseFloat(value) / 100);
+                                } else {
+                                    alert("Invalid number")
+                                }
+                            }
+                        };
+
+                        calcMinFor.separator2 = "-----";
                         calcMinFor.courseOptions = {
                             name: "Change Grade Boundaries",
                             callback: function () {

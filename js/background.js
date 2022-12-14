@@ -47,6 +47,24 @@ chrome.runtime.onInstalled.addListener(function (details) {
     // TODO: Open window here to ask new users to select their domain
     // chrome.tabs.create({ url: "https://schoologypl.us" })
     trackEvent("Runtime onInstalled", details.reason, "Versions");
+
+    chrome.contextMenus.create({
+        "title": "Theme Editor",
+        "contexts": ["browser_action"],
+        "onclick": () => window.open(chrome.runtime.getURL("/theme-editor.html"), "_blank")
+    });
+
+    chrome.contextMenus.create({
+        "title": "Discord Support Server",
+        "contexts": ["browser_action"],
+        "onclick": () => window.open("https://discord.schoologypl.us", "_blank")
+    });
+
+    chrome.contextMenus.create({
+        "title": "Schoology Plus Website",
+        "contexts": ["browser_action"],
+        "onclick": () => window.open("https://schoologypl.us?utm_source=ext-context-menu", "_blank")
+    });
 });
 
 Logger.log("Loaded event page");

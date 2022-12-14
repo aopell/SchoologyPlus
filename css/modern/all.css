@@ -81,6 +81,7 @@ variable-intellisense {
 
 [modern=true]:root textarea,
 [modern=true]:root select,
+[modern=true]:root optgroup,
 [modern=true]:root input[type=text] {
   background-color: var(--input) !important;
   color: var(--text) !important;
@@ -224,6 +225,10 @@ variable-intellisense {
   color: var(--text);
 }
 
+[modern=true]:root .drGks a:hover, [modern=true]:root .drGks a:focus {
+  background-color: var(--highlight);
+}
+
 [modern=true]:root .grade-data {
   color: var(--grades) !important;
 }
@@ -255,7 +260,7 @@ variable-intellisense {
 
 [modern=true]:root footer li a,
 [modern=true]:root header li a {
-  color: var(--contrast-text) !important;
+  color: var(--link-color) !important;
 }
 
 [modern=true]:root .splus-modal-footer-text {
@@ -412,6 +417,7 @@ variable-intellisense {
 [modern=true]:root tr.error {
   background-color: var(--error) !important;
   border-color: var(--error) !important;
+  color: var(--text);
 }
 
 [modern=true]:root .splus-courses-navbar-button div[role=menu],
@@ -832,6 +838,10 @@ variable-intellisense {
   color: var(--text) !important;
 }
 
+[modern=true]:root .comment-body-wrapper {
+  color: var(--text) !important;
+}
+
 [modern=true]:root .s-polls-poll-option,
 [modern=true]:root #edge-filters-menu {
   background: none !important;
@@ -920,6 +930,7 @@ variable-intellisense {
 [modern=true]:root .userlist_input input[type=text] {
   background-color: var(--input) !important;
   border-radius: var(--border-radius) !important;
+  color: white;
 }
 
 [modern=true]:root #edge-filters-btn {
@@ -1386,15 +1397,47 @@ variable-intellisense {
 }
 
 [modern=true]:root .tab-nav:hover {
-  background-color: var(--active);
+  background-color: var(--hover-color);
 }
 
-[modern=true]:root .tab-nav .active {
+[modern=true]:root .tab-nav.active {
   background-color: var(--input);
 }
 
-[modern=true]:root .tab-nav .active:hover {
+[modern=true]:root .tab-nav.active:hover {
   background-color: var(--input);
+}
+
+[modern=true]:root #ui-datepicker-div {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root .ui-datepicker-days-cell a {
+  background-color: var(--primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[modern=true]:root .ui-datepicker-unselectable {
+  background-color: var(--accent) !important;
+}
+
+[modern=true]:root .ui-datepicker-days-cell.ui-datepicker-current-day a {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .ui-datepicker-days-cell-over a {
+  background-color: var(--hover-color) !important;
+}
+
+[modern=true]:root .ui-datepicker-links > div > a {
+  background-color: var(--input);
+  background-blend-mode: screen;
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root .ui-datepicker-links > div:hover > a {
+  background-color: var(--hover-color);
 }
 
 [modern=true]:root .action-links,
@@ -1831,6 +1874,14 @@ variable-intellisense {
   border-bottom: var(--modern-border) !important;
 }
 
+[modern=true]:root .tw-bs .btn:hover {
+  background-color: var(--hover-color) !important;
+}
+
+[modern=true]:root .tw-bs .dropdown-menu {
+  background-color: var(--primary) !important;
+}
+
 [modern=true]:root .portfolio-route-content {
   border: var(--modern-border) !important;
   border-radius: var(--border-radius) !important;
@@ -1845,7 +1896,8 @@ variable-intellisense {
   background: var(--accent) !important;
 }
 
-[modern=true]:root .portfolio-card, [modern=true]:root .item-card {
+[modern=true]:root .portfolio-card,
+[modern=true]:root .item-card {
   background: var(--primary) !important;
 }
 
@@ -1870,16 +1922,43 @@ variable-intellisense {
   border-radius: var(--border-radius) !important;
 }
 
+[modern=true]:root .tw-bs .portfolio-card__item-count-num {
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .tw-bs .btn {
+  background-color: var(--primary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--contrast-text) !important;
+}
+
+[modern=true]:root .tw-bs .btn:hover {
+  background-color: var(--hover-color) !important;
+}
+
+[modern=true]:root .tw-bs .dropdown-menu {
+  background-color: var(--primary) !important;
+}
+
+[modern=true]:root .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label,
+[modern=true]:root .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label span {
+  color: var(--muted-text) !important;
+}
+
 [modern=true]:root .tw-bs .remaining-char-len {
   color: var(--text) !important;
 }
 
-[modern=true]:root .tw-bs .add-item-dropdown__add-new-icon::before, [modern=true]:root .tw-bs .portfolio-list__add-new-icon::before {
+[modern=true]:root .tw-bs .add-item-dropdown__add-new-icon::before,
+[modern=true]:root .tw-bs .portfolio-list__add-new-icon::before {
   background-color: var(--primary) !important;
-  border-color: var(--modern-border) !important;
+  border-color: var(--border-color) !important;
 }
 
-[modern=true]:root .tw-bs .item-view-container, [modern=true]:root .tw-bs .item-form__title-bar, [modern=true]:root .tw-bs .item-page {
+[modern=true]:root .tw-bs .item-view-container,
+[modern=true]:root .tw-bs .item-form__title-bar,
+[modern=true]:root .tw-bs .item-page {
   background-color: var(--background-color) !important;
   border-color: var(--border-color) !important;
   outline-color: var(--border-color) !important;
@@ -1889,7 +1968,8 @@ variable-intellisense {
   color: var(--link-color) !important;
 }
 
-[modern=true]:root .sgy-autosave-input.sgy-autosave-input--editing label span, [modern=true]:root .sgy-autosave-input.sgy-autosave-input--editing .form-group:hover label span {
+[modern=true]:root .sgy-autosave-input.sgy-autosave-input--editing label span,
+[modern=true]:root .sgy-autosave-input.sgy-autosave-input--editing .form-group:hover label span {
   color: var(--text) !important;
 }
 
@@ -2189,6 +2269,14 @@ variable-intellisense {
 
 [modern=true]:root .comment-container {
   border-color: var(--contrast-border) !important;
+}
+
+[modern=true]:root .update-comments-pagenation {
+  background-color: var(--accent);
+}
+
+[modern=true]:root .feed-comments-viewall-container {
+  color: var(--link-color);
 }
 
 [modern=true]:root .dropbox-viewer-item-wrapper {
@@ -2922,4 +3010,379 @@ variable-intellisense {
 
 [modern=true]:root .splus-button-tile.active {
   background-color: var(--active) !important;
+}
+
+[modern=true]:root .settings-label {
+  color: var(--text);
+}
+
+[modern=true]:root .s-grade-item-assignment-submission-app {
+  background-color: var(--primary);
+  color: var(--text);
+}
+
+[modern=true]:root ._2mytC:hover a,
+[modern=true]:root ._2mytC:focus a,
+[modern=true]:root .Oq4U1:hover:not(:active),
+[modern=true]:root .Oq4U1:focus,
+[modern=true]:root .s-grade-item-assignment-submission-app:hover,
+[modern=true]:root .s-grade-item-assignment-submission-app:focus,
+[modern=true]:root span[role="button"]:hover,
+[modern=true]:root span[role="button"]:focus,
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding:hover,
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding:focus,
+[modern=true]:root .sort-handle:hover,
+[modern=true]:root .sort-handle:focus {
+  background-color: var(--hover-color);
+}
+
+[modern=true]:root .Oq4U1:active {
+  background-color: var(--active);
+}
+
+[modern=true]:root .s-share-checkbox-form-wrapper .checkboxes-wrapper {
+  background-color: var(--primary);
+}
+
+[modern=true]:root #attachment-selector #toggle-copy:hover {
+  background-color: var(--hover-color);
+}
+
+[modern=true]:root .comments-list .comment {
+  background: var(--primary);
+  border: var(--modern-border);
+  border-color: var(--border-color);
+  color: var(--text);
+}
+
+[modern=true]:root .comment-date {
+  color: var(--muted-text);
+}
+
+[modern=true]:root .unpublished,
+[modern=true]:root #folder-contents-table .unpublished .folder-contents-cell {
+  background-color: var(--primary);
+}
+
+[modern=true]:root .masquerade-box {
+  background-color: var(--secondary);
+  border: var(--modern-border);
+}
+
+[modern=true]:root div.grade-assignment-popup .description, [modern=true]:root #sEditGradeTable tr th {
+  color: var(--text);
+  background-color: var(--primary);
+}
+
+[modern=true]:root #badges-fullscreen-btn {
+  background-color: var(--primary);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root .even .badge-course-table-cell,
+[modern=true]:root #s-attendance-edit-form tbody td,
+[modern=true]:root #s-attendance-edit-form tbody td div,
+[modern=true]:root #s-attendance-edit-form tbody th {
+  background-color: var(--primary);
+}
+
+[modern=true]:root th.badge-course-table-cell,
+[modern=true]:root #s-badge-table-main .sticky-header th,
+[modern=true]:root #s-attendance-edit-form thead th {
+  background: var(--secondary);
+}
+
+[modern=true]:root th.badge-course-table-cell .action-links-unfold {
+  background-color: var(--input) !important;
+}
+
+[modern=true]:root th.badge-course-table-cell .action-links-unfold span,
+[modern=true]:root .date-chooser a.prev span,
+[modern=true]:root .date-chooser a.next span {
+  filter: contrast(5%);
+}
+
+[modern=true]:root #s-attendance-taken-row .attendance-taken-label {
+  color: var(--text);
+}
+
+[modern=true]:root #s-attendance-taken-row.odd td,
+[modern=true]:root #s-attendance-taken-row.even td {
+  background-color: var(--accent);
+}
+
+[modern=true]:root #s-attendance-edit-form tbody tr:hover th,
+[modern=true]:root #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:hover,
+[modern=true]:root #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:focus {
+  background-color: var(--hover-color);
+}
+
+[modern=true]:root #s-attendance-edit-form #s-attendance-taken-row .edited {
+  background-color: var(--highlight);
+}
+
+[modern=true]:root #attendance-comment-field {
+  background-color: var(--accent);
+  border: var(--modern-border);
+}
+
+[modern=true]:root .comment-status-label {
+  color: var(--text);
+}
+
+[modern=true]:root #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status--start {
+  background-color: var(--active);
+  border-color: var(--contrast-border);
+}
+
+[modern=true]:root .footer-buttons .date-chooser-calendar,
+[modern=true]:root .header-buttons .date-chooser-calendar,
+[modern=true]:root .footer-buttons .infotip,
+[modern=true]:root .header-buttons .infotip {
+  background: var(--primary);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root a.prev:hover,
+[modern=true]:root a.prev:focus,
+[modern=true]:root a.next:hover,
+[modern=true]:root a.next:focus {
+  background: var(--hover-color);
+}
+
+[modern=true]:root a.prev,
+[modern=true]:root a.next {
+  background: var(--primary);
+}
+
+[modern=true]:root a.prev {
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+[modern=true]:root a.next {
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+[modern=true]:root .scale-level-scale {
+  background-color: var(--highlight);
+  border: var(--modern-border);
+}
+
+[modern=true]:root #s-grading-category-add-form .form-item,
+[modern=true]:root #s-grading-category-add-form fieldset {
+  background-color: var(--primary);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .right-column {
+  border-color: var(--border-color);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons {
+  background-color: var(--secondary);
+  border-color: var(--border-color);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding {
+  background-color: var(--primary);
+  box-shadow: 0px 2px 0px var(--highlight);
+}
+
+[modern=true]:root .sort-handle {
+  background-color: var(--accent);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .ui-sortable-helper,
+[modern=true]:root #district-mastery-grading-rubric-edit-slider .ui-sortable-helper,
+[modern=true]:root #grading-rubric-edit-slider .ui-sortable-helper td,
+[modern=true]:root #district-mastery-grading-rubric-edit-slider .ui-sortable-helper td {
+  background-color: var(--active) !important;
+}
+
+[modern=true]:root .rubric-editor-add-criteria,
+[modern=true]:root .rubric-editor-add-objectives {
+  color: text;
+}
+
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope {
+  color: var(--muted-text);
+}
+
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:hover,
+[modern=true]:root #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:focus {
+  color: var(--text);
+}
+
+[modern=true]:root .alignment-form-container .header {
+  background-color: var(--secondary);
+}
+
+[modern=true]:root .guid-item:active,
+[modern=true]:root .alignment-form-container .header .search-tab.active,
+[modern=true]:root .alignment-form-container li.active,
+[modern=true]:root .alignment-form-container div.active {
+  background-color: var(--active);
+}
+
+[modern=true]:root .alignment-breadcrumbs .breadcrumb-item:first-child,
+[modern=true]:root .alignment-breadcrumbs .breadcrumb-item,
+[modern=true]:root .alignment-form-container li,
+[modern=true]:root .selected-container .selected-item {
+  color: var(--link-color);
+  border-color: var(--contrast-border);
+}
+
+[modern=true]:root .alignment-form-container li .gray,
+[modern=true]:root .alignment-form-container div .gray {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .empty {
+  color: var(--muted-text);
+}
+
+[modern=true]:root .add-criteria-text {
+  color: var(--text);
+}
+
+[modern=true]:root .parent-names-list.description {
+  color: var(--muted-text);
+}
+
+[modern=true]:root .s-enrollment-invite-form .metadata-wrapper,
+[modern=true]:root #grading-group-create {
+  color: var(--text);
+}
+
+[modern=true]:root .s-enrollment-invite-form .user-invite-wrapper {
+  background-color: var(--accent);
+  color: var(--text);
+}
+
+[modern=true]:root .s-enrollment-invite-form .user-name-wrapper,
+[modern=true]:root .people-filters .selected-users,
+[modern=true]:root .people-filters .show-all-users {
+  color: var(--link-color);
+}
+
+[modern=true]:root .people-filters .selected-users.active,
+[modern=true]:root .people-filters .show-all-users.active {
+  color: var(--contrast-text);
+  background-color: var(--active);
+}
+
+[modern=true]:root .term-item-tag,
+[modern=true]:root .locked-question .tag-item {
+  color: var(--text);
+  background-color: var(--secondary);
+  border-color: var(--border-color);
+}
+
+[modern=true]:root .link-btn {
+  background: var(--secondary);
+  color: var(--text);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+  border-color: var(--border-color);
+}
+
+[modern=true]:root .s-enrollment-invite-form .s-enrollment-invite-list-wrapper,
+[modern=true]:root .s-enrollment-invite-form #network-selected {
+  background-color: var(--primary);
+  border-color: var(--border-color);
+}
+
+[modern=true]:root .submit-btn {
+  background: var(--primary);
+  color: var(--contrast-text);
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root .cancel-btn {
+  background: var(--accent) !important;
+  color: var(--muted-text) !important;
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root .submit-btn:hover,
+[modern=true]:root .submit-btn:focus,
+[modern=true]:root .cancel-btn:hover,
+[modern=true]:root .cancel-btn:focus {
+  background: var(--hover-color) !important;
+  color: var(--text) !important;
+}
+
+[modern=true]:root .s-js-grid-loading-cover {
+  background-color: var(--primary);
+}
+
+[modern=true]:root .grader-grid-table-header-wrapper .grader-grid-header-cell,
+[modern=true]:root .grader-grid-table-header-wrapper .grader-grid-header-cell.hidden-grade .gradebook__major-period-title,
+[modern=true]:root .grader-grid-table-header-wrapper .grader-grid-header-cell.showing-unpublished .gradebook__major-period-title {
+  background-color: var(--secondary);
+  color: var(--text);
+}
+
+[modern=true]:root .enhanced-gb-body .grid-table-col-header-static-content .select2-container:not(.select2-dropdown-open) .select2-choice > .select2-chosen,
+[modern=true]:root .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container:not(.select2-dropdown-open) .select2-choice > .select2-chosen {
+  color: var(--text) !important;
+}
+
+[modern=true]:root .grader-grid--crosshair-line-column,
+[modern=true]:root .grader-grid--crosshair-line-row,
+[modern=true]:root .grader-grid--crosshair-center {
+  background-color: var(--hover-color) !important;
+}
+
+[modern=true]:root .gradebook__grade-custom-override + .grader-grid-col-header-gp,
+[modern=true]:root .gradebook__grade-custom-override + .grader-grid-col-header-overall {
+  background-color: var(--primary);
+}
+
+[modern=true]:root .grader-grid-cell:not(.gradebook__grade-custom-override) .grader-grid-cell-block:not(.updated) .grade-value,
+[modern=true]:root .grader-grid-cell:not(.gradebook__grade-custom-override) .grader-grid-cell-block:not(.updated) .s-js-grader-grid-cell-display,
+[modern=true]:root .grader-grid-table-header-wrapper .gradebook__major-grade-period-header .gradebook__subperiod-element-calculated,
+[modern=true]:root .grader-grid-table-header-wrapper .gradebook__major-grade-period-header .grading-period-override-column {
+  color: var(--text);
+}
+
+[modern=true]:root .gradebook__subperiod-element-calculated.has-override-column,
+[modern=true]:root .grading-period-override-column {
+  background-color: var(--accent);
+}
+
+[modern=true]:root .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container.select2-dropdown-open.select2-container-active span {
+  color: var(--link-color);
+}
+
+[modern=true]:root .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container.select2-dropdown-open.select2-container-active {
+  background-color: var(--primary);
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root #autocomplete.grading-scale-ac-popup ul li,
+[modern=true]:root .enhanced-gb-body #main-content-wrapper .action-links a,
+[modern=true]:root .enhanced-gb-body #main-content-wrapper .action-links button,
+[modern=true]:root .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label,
+[modern=true]:root .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label {
+  background-color: var(--secondary);
+  color: var(--text);
+}
+
+[modern=true]:root #autocomplete.grading-scale-ac-popup ul li:hover,
+[modern=true]:root .enhanced-gb-body #main-content-wrapper .action-links a:hover,
+[modern=true]:root .enhanced-gb-body #main-content-wrapper .action-links button:hover,
+[modern=true]:root .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:hover,
+[modern=true]:root .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label:hover,
+[modern=true]:root #autocomplete.grading-scale-ac-popup ul li:focus,
+[modern=true]:root .enhanced-gb-body #main-content-wrapper .action-links a:focus,
+[modern=true]:root .enhanced-gb-body #main-content-wrapper .action-links button:focus,
+[modern=true]:root .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:focus,
+[modern=true]:root .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label:focus {
+  background-color: var(--hover-color);
+}
+
+[modern=true]:root #grade-comment-field {
+  background-color: var(--primary);
 }

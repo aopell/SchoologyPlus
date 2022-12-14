@@ -112,6 +112,16 @@ let modalFooterText = "Schoology Plus &copy; Aaron Opell, Glen Husman 2017-2021"
 let frame = document.createElement("iframe");
 frame.src = `https://schoologypl.us/changelog?version=${chrome.runtime.getManifest().version}`;
 
+function generateDebugInfo() {
+    return JSON.stringify({
+        version: chrome.runtime.getManifest().version,
+        getBrowser: getBrowser(),
+        url: location.href,
+        storageContents: __storage,
+        userAgent: navigator.userAgent
+    }, null, 2);
+}
+
 let modals = [
     new Modal(
         "settings-modal",
@@ -312,7 +322,7 @@ let modals = [
             ]),
             createElement("h2", ["setting-entry"], { textContent: "Icons and Images" }),
             createElement("div", ["setting-entry"], {}, [
-                
+
                 createElement("ul", ["contributor-list"], {
                     style: { listStyle: "inside" },
                     innerHTML: (function (contribs) {
@@ -410,10 +420,25 @@ let modals = [
             })()
         ]),
         modalFooterText
+    ),
+    new Modal(
+        "debug-modal",
+        "Debug Info",
+        createElement("div", ["splus-modal-contents"], {}, [
+            createElement("div", ["setting-entry"], {}, [
+                createButton("debug-modal-clipboard-copy", "Copy to Clipboard", event => navigator.clipboard.writeText(generateDebugInfo())),
+            ]),
+            createElement("pre", [], {
+                id: "debug-modal-content",
+                textContent: "Loading..."
+            }),
+        ]),
+        modalFooterText,
+        (modal, x) => document.getElementById("debug-modal-content").textContent = generateDebugInfo()
     )
 ];
 
-(() => {
+(async () => {
     // Run when new version installed
     let newVersion = Setting.getValue("newVersion");
     if (!newVersion || newVersion != chrome.runtime.getManifest().version) {
@@ -444,7 +469,7 @@ let modals = [
             ]
         });
 
-        versionSpecificFirstLaunch(currentVersion, newVersion);
+        await versionSpecificFirstLaunch(currentVersion, newVersion);
         Setting.setValue("newVersion", chrome.runtime.getManifest().version);
     }
 })();
@@ -1131,9 +1156,9 @@ async function createQuickAccess() {
         }
     } catch (err) {
         if (err === "noapikey") {
-            wrapper.appendChild(createElement("div", ["quick-access-no-api"], { }, [
+            wrapper.appendChild(createElement("div", ["quick-access-no-api"], {}, [
                 createElement("p", [], { textContent: "Please grant access to your enrolled courses in order to use this feature." }),
-                createButton("quick-access-grant-access", "Grant Access", () => {location.pathname = "/api"; }),
+                createButton("quick-access-grant-access", "Grant Access", () => { location.pathname = "/api"; }),
             ]));
         } else {
             throw err;

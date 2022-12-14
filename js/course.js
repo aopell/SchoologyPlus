@@ -53,7 +53,10 @@ let courseSettingsCourseName;
                     ])
                 ]),
                 createElement("p", ["add-grade-symbol"], {}, [
-                    createElement("a", [], { textContent: "Add Grading Symbol", href: "#", onclick: (event) => createRow() })
+                    createElement("a", [], { textContent: "+ Add Grading Symbol", href: "#", onclick: (event) => createRow() })
+                ]),
+                createElement("p", ["add-grade-symbol"], {}, [
+                    createElement("a", [], { textContent: "> Set as default grading scale for all courses", href: "#", onclick: setDefaultScale })
                 ])
             ]),
             createElement("div", ["setting-entry"], {}, [
@@ -68,14 +71,16 @@ let courseSettingsCourseName;
         ]),
         createElement("div", ["settings-buttons-wrapper"], undefined, [
             createButton("save-course-settings", "Save Settings", saveCourseSettings),
-            createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreCourseDefaults, href: "#" })
+            createElement("div", ["settings-actions-wrapper"], {}, [
+                createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreCourseDefaults, href: "#" })
+            ]),
         ])
     ]), modalFooterText, setCourseOptionsContent));
 })();
 
 document.querySelector("#course-settings-modal .close").onclick = modalClose;
 
-const defaultGradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
+const defaultGradingScale = Setting.getValue("getGradingScale")(null);
 let gradingScale = defaultGradingScale;
 
 function setCourseOptionsContent(modal, options) {
@@ -146,8 +151,7 @@ function createRow(percentage, symbol) {
     gradingScaleWrapper.appendChild(row);
 }
 
-function saveCourseSettings() {
-    let currentValue = Setting.getValue("gradingScales", {});
+function getCreatedGradingScale() {
     let scale = {};
     for (let r of document.querySelectorAll(".grade-symbol-row")) {
         let inputBoxes = r.querySelectorAll("input");
@@ -155,13 +159,30 @@ function saveCourseSettings() {
             scale[inputBoxes[0].value] = inputBoxes[1].value;
         } else {
             alert("Values cannot be empty!");
-            return;
+            return null;
         }
     }
-    if (scale != currentValue[courseIdNumber]) {
-        trackEvent("gradingScales", "set value", "Course Settings");
+
+    return scale;
+}
+
+function saveCourseSettings(skipSavingGradingScale = false) {
+    let currentValue = Setting.getValue("gradingScales", {});
+    
+    if (skipSavingGradingScale) {
+        let scale = getCreatedGradingScale();
+
+        if (scale === null) {
+            alert("Values cannot be empty!");
+            return;
+        }
+    
+        if (scale != currentValue[courseIdNumber]) {
+            trackEvent("gradingScales", "set value", "Course Settings");
+        }
+    
+        currentValue[courseIdNumber] = scale;
     }
-    currentValue[courseIdNumber] = scale;
 
     let currentAliasesValue = Setting.getValue("courseAliases", {});
     let newAliasValue = document.getElementById("setting-input-course-alias").value;
@@ -194,19 +215,35 @@ function saveCourseSettings() {
     });
 }
 
+function setDefaultScale() {
+    let scale = getCreatedGradingScale();
+
+    if (scale === null) {
+        alert("Values cannot be empty!");
+        return;
+    }
+
+    if (confirm("Are you sure you want to set this as your default grading scale?\n\nThis will replace the grading scale for all courses except for those where you have already defined custom grading scales.\n\nThis will also save your course settings and reload the page.")) {
+        Setting.setValue("defaultGradingScale", scale, () => saveCourseSettings(true));
+    }
+}
+
 function restoreCourseDefaults() {
     trackEvent("restore-course-defaults", "restore default values", "Course Settings");
     let currentValue = Setting.getValue("gradingScales", {});
-    currentValue[courseIdNumber] = defaultGradingScale;
+    delete currentValue[courseIdNumber];
 
     let currentAliasesValue = Setting.getValue("courseAliases", {});
-    currentAliasesValue[courseIdNumber] = null;
+    delete currentAliasesValue[courseIdNumber];
 
     let courseIconOverride = Setting.getValue("forceDefaultCourseIcons", {});
-    courseIconOverride[courseIdNumber] = null;
+    delete courseIconOverride[courseIdNumber];
+
+    let courseQuickLinks = Setting.getValue("courseQuickLinks", {});
+    delete courseQuickLinks[courseIdNumber];
 
     if (confirm(`Are you sure you want to reset all options for the course "${courseSettingsCourseName}" to their default values? This action is irreversible.`)) {
-        Setting.setValues({ gradingScales: currentValue, courseAliases: currentAliasesValue, forceDefaultCourseIcons: courseIconOverride }, () => {
+        Setting.setValues({ gradingScales: currentValue, courseAliases: currentAliasesValue, forceDefaultCourseIcons: courseIconOverride, courseQuickLinks: courseQuickLinks }, () => {
             alert("Settings restored. Reloading.");
             location.reload();
         });
