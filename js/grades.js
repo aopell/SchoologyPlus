@@ -1178,6 +1178,11 @@ var fetchQueue = [];
                             maxGrade.classList.remove("no-grade");
                         }
                     } else {
+                        if (letterGradeOnly) {
+                            addEditDisableReason("Letter grade only assignment can't load point values", true, false);
+                            invalidCategories.push(category.dataset.id);
+                        }
+
                         throw "List search failed to obtain meaningful response";
                     }
                 } catch (err) {
