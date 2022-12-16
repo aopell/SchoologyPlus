@@ -353,7 +353,7 @@ var fetchQueue = [];
                             gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
                             category.querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
                             setGradeText(gradeText, sum, max, category);
-                            recalculateCategoryScore(category, 0, 0, false);
+                            recalculateCategoryScore(category, 0, 0, false, courseId);
                         } else {
                             setGradeText(gradeText, sum, max, category);
                         }
@@ -400,7 +400,7 @@ var fetchQueue = [];
                     gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
                     period.querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
                     setGradeText(gradeText, periodPoints, periodTotal, period, periodTotal === 0);
-                    recalculatePeriodScore(period, 0, 0, false);
+                    recalculatePeriodScore(period, 0, 0, false, courseId);
                 } else {
                     setGradeText(gradeText, periodPoints, periodTotal, period, periodTotal === 0);
                 }
@@ -456,12 +456,6 @@ var fetchQueue = [];
                             myGradeIndex = i;
                             break;
                         }
-                    }
-
-                    function roundDecimal(num, dec) {
-                        let intPart = Math.floor(num);
-                        let floatPart = num - intPart;
-                        return intPart + (Math.round(floatPart * Math.pow(10, dec)) / Math.pow(10, dec));
                     }
 
                     function createSPlusDisclaimerImage() {
@@ -614,7 +608,7 @@ var fetchQueue = [];
                         arrow.style.visibility = "visible";
                     }
 
-                    let calculateMinimumGrade = function (element, desiredGrade) {
+                    let calculateMinimumGrade = function (element, desiredGrade, courseId) {
                         let gradeColContentWrap = element.querySelector(".grade-wrapper").parentElement;
 
                         removeExceptionState(element, gradeColContentWrap);
@@ -678,8 +672,8 @@ var fetchQueue = [];
 
                             // get this out of the way so it doesn't ruin later calculations
                             if (noGrade) {
-                                recalculateCategoryScore(catRow, 0, maxVal);
-                                recalculatePeriodScore(perRow, 0, maxVal);
+                                recalculateCategoryScore(catRow, 0, maxVal, true, courseId);
+                                recalculatePeriodScore(perRow, 0, maxVal, true, courseId);
                                 noGrade = false;
                             }
 
@@ -762,8 +756,8 @@ var fetchQueue = [];
                         }
 
                         prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), finalGrade, maxVal);
-                        recalculateCategoryScore(catRow, deltaScore, noGrade ? maxVal : 0);
-                        recalculatePeriodScore(perRow, deltaScore, noGrade ? maxVal : 0);
+                        recalculateCategoryScore(catRow, deltaScore, noGrade ? maxVal : 0, true, courseId);
+                        recalculatePeriodScore(perRow, deltaScore, noGrade ? maxVal : 0, true, courseId);
                     };
 
                     let dropGradeThis = function () {
@@ -805,11 +799,14 @@ var fetchQueue = [];
 
                         let catId = this[0].dataset.parentId;
                         let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
-                        recalculateCategoryScore(catRow, -scoreVal, -maxVal);
 
                         let perId = catRow.dataset.parentId;
                         let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
-                        recalculatePeriodScore(perRow, -scoreVal, -maxVal);
+
+                        let courseId = perRow.dataset.parentId;
+                        
+                        recalculateCategoryScore(catRow, -scoreVal, -maxVal, true, courseId);
+                        recalculatePeriodScore(perRow, -scoreVal, -maxVal, true, courseId);
                     };
 
                     let undroppedAssignItemSet = {
@@ -855,7 +852,7 @@ var fetchQueue = [];
                                 }
 
                                 trackEvent("assignment", "calc-min", "What-If Grades");
-                                calculateMinimumGrade(this[0], desiredPercentage);
+                                calculateMinimumGrade(this[0], desiredPercentage, courseId);
                             },
                             items: {}
                         }
@@ -889,7 +886,7 @@ var fetchQueue = [];
                                 name: "For " + letterGrade + " (" + gradeValue + "%)",
                                 callback: function (key, opt) {
                                     trackEvent("assignment", `calc-min-for-${letterGrade}`, "What-If Grades");
-                                    calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
+                                    calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100, courseId);
                                 }
                             };
                         }
@@ -905,7 +902,7 @@ var fetchQueue = [];
 
                                 if (!Number.isNaN(value) && !Number.isNaN(Number.parseFloat(value))) {
                                     // if a number, calculate
-                                    calculateMinimumGrade(this[0], Number.parseFloat(value) / 100);
+                                    calculateMinimumGrade(this[0], Number.parseFloat(value) / 100, courseId);
                                 } else {
                                     alert("Invalid number")
                                 }
@@ -974,11 +971,14 @@ var fetchQueue = [];
 
                                     let catId = this[0].dataset.parentId;
                                     let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
-                                    recalculateCategoryScore(catRow, scoreVal, maxVal);
 
                                     let perId = catRow.dataset.parentId;
                                     let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
-                                    recalculatePeriodScore(perRow, scoreVal, maxVal);
+                                    
+                                    let courseId = perRow.dataset.parentId;
+                                    
+                                    recalculateCategoryScore(catRow, scoreVal, maxVal, true, courseId);
+                                    recalculatePeriodScore(perRow, scoreVal, maxVal, true, courseId);
                                 }
                             }
                         }
@@ -1168,8 +1168,8 @@ var fetchQueue = [];
                             awardedGrade.insertAdjacentElement("beforeend", numericGradeValueSpan);
                             noGrade.outerHTML = "";
 
-                            recalculateCategoryScore(category, Number.parseFloat(jsonAssignment.grade), Number.parseFloat(jsonAssignment.max_points), false);
-                            recalculatePeriodScore(period, Number.parseFloat(jsonAssignment.grade), Number.parseFloat(jsonAssignment.max_points), false);
+                            recalculateCategoryScore(category, Number.parseFloat(jsonAssignment.grade), Number.parseFloat(jsonAssignment.max_points), false, courseId);
+                            recalculatePeriodScore(period, Number.parseFloat(jsonAssignment.grade), Number.parseFloat(jsonAssignment.max_points), false, courseId);
                         }
 
                         if (firstTryError) {
@@ -1250,7 +1250,7 @@ var fetchQueue = [];
         });
     }
 
-    function recalculateCategoryScore(catRow, deltaPoints, deltaMax, warn = true) {
+    function recalculateCategoryScore(catRow, deltaPoints, deltaMax, warn = true, courseId = null) {
         // category always has a numeric score, unlike period
         // awarded grade in our constructed element contains both rounded and max
         let awardedCategoryPoints = catRow.querySelector(".rounded-grade").parentNode;
@@ -1258,8 +1258,8 @@ var fetchQueue = [];
         let catMaxElem = awardedCategoryPoints.querySelector(".max-grade");
         let newCatScore = Number.parseFloat(catScoreElem.textContent) + deltaPoints;
         let newCatMax = Number.parseFloat(catMaxElem.textContent.substring(3)) + deltaMax;
-        catScoreElem.textContent = newCatScore;
-        catMaxElem.textContent = " / " + newCatMax;
+        catScoreElem.textContent = roundDecimal(newCatScore, 2);
+        catMaxElem.textContent = " / " + roundDecimal(newCatMax, 2);
         if (warn && !awardedCategoryPoints.querySelector(".modified-score-percent-warning")) {
             awardedCategoryPoints.appendChild(generateScoreModifyWarning());
         }
@@ -1290,9 +1290,12 @@ var fetchQueue = [];
         if (warn && !awardedCategoryPercentContainer.querySelector(".modified-score-percent-warning")) {
             awardedCategoryPercentContainer.prepend(generateScoreModifyWarning());
         }
+        if (courseId) {
+            addLetterGrade(awardedCategoryPercent, courseId)
+        }
     }
 
-    function recalculatePeriodScore(perRow, deltaPoints, deltaMax, warn = true) {
+    function recalculatePeriodScore(perRow, deltaPoints, deltaMax, warn = true, courseId = null) {
         let awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right").firstElementChild;
         let awardedPeriodPercent = awardedPeriodPercentContainer;
         // clear existing percentage indicator
@@ -1306,6 +1309,7 @@ var fetchQueue = [];
         awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
         awardedPeriodPercent.classList.add("numeric-grade");
         awardedPeriodPercent.classList.add("primary-grade");
+        awardedPeriodPercentContainer = awardedPeriodPercent;
         awardedPeriodPercent.appendChild(document.createElement("span"));
         awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
         awardedPeriodPercent.classList.add("rounded-grade");
@@ -1319,8 +1323,8 @@ var fetchQueue = [];
             let perMaxElem = awardedPeriodPoints.querySelector(".max-grade");
             let newPerScore = Number.parseFloat(perScoreElem.textContent) + deltaPoints;
             let newPerMax = Number.parseFloat(perMaxElem.textContent.substring(3)) + deltaMax;
-            perScoreElem.textContent = newPerScore;
-            perMaxElem.textContent = " / " + newPerMax;
+            perScoreElem.textContent = roundDecimal(newPerScore, 2);
+            perMaxElem.textContent = " / " + roundDecimal(newPerMax, 2);
             if (warn && !awardedPeriodPoints.querySelector(".modified-score-percent-warning")) {
                 awardedPeriodPoints.appendChild(generateScoreModifyWarning());
             }
@@ -1366,6 +1370,11 @@ var fetchQueue = [];
             awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
         }
 
+        if (courseId) {
+            addLetterGrade(awardedPeriodPercent, courseId)
+        }
+
+        awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right").firstElementChild
         if (warn && !awardedPeriodPercentContainer.querySelector(".modified-score-percent-warning")) {
             awardedPeriodPercentContainer.prepend(generateScoreModifyWarning());
         }
@@ -1591,8 +1600,8 @@ var fetchQueue = [];
                     return true;
                 }
 
-                recalculateCategoryScore(catRow, deltaPoints, deltaMax);
-                recalculatePeriodScore(perRow, deltaPoints, deltaMax);
+                recalculateCategoryScore(catRow, deltaPoints, deltaMax, true, courseId);
+                recalculatePeriodScore(perRow, deltaPoints, deltaMax, true, courseId);
 
                 if (finishedCallback) {
                     finishedCallback();
@@ -1680,6 +1689,12 @@ function processNonenteredAssignments() {
             });
         }, sleep ? 3000 : 0);
     }
+}
+
+function roundDecimal(num, dec) {
+    let intPart = Math.floor(num);
+    let floatPart = num - intPart;
+    return intPart + (Math.round(floatPart * Math.pow(10, dec)) / Math.pow(10, dec));
 }
 
 Logger.debug("Finished loading grades.js");
