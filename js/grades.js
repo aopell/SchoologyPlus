@@ -569,6 +569,14 @@ var fetchQueue = [];
                         trackEvent("api-denied-popup", "keep-disabled", "What-If Grades");
                     }
                 }
+                else if (Setting.getValue("apistatus") === "blocked") {
+                    if (confirm("This feature requires access to your Schoology API Key, which has unfortunately been blocked by your school. If you think this might not be right, you can click OK to try and enable access again.")) {
+                        trackEvent("api-blocked-popup", "go-to-enable", "What-If Grades");
+                        location.pathname = "/api";
+                    } else {
+                        trackEvent("api-blocked-popup", "keep-blocked", "What-If Grades");
+                    }
+                }
                 else if (editDisableReason && editDisableReason.causedByNoApiKey) {
                     location.pathname = "/api";
                 }

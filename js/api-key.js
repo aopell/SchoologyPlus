@@ -64,8 +64,8 @@
                     ]),
                     createElement("div", ["splus-permissions-section"], {}, [
                         createElement("span", [], { textContent: "If you have any questions, you can" }),
-                        createElement("a", [], { textContent: " view our code on Github", href: "https://github.com/aopell/SchoologyPlus" }),
-                        createElement("span", [], { textContent: " or" }),
+                        createElement("a", ["splus-track-clicks"], { id: "api-key-page-github-link", textContent: " view our code on Github", href: "https://github.com/aopell/SchoologyPlus" }),
+                        createElement("span", ["splus-track-clicks"], { id: "api-key-page-discord-link", textContent: " or" }),
                         createElement("a", [], { textContent: " contact us on Discord", href: "https://discord.schoologypl.us" }),
                         createElement("span", [], { textContent: ". You can change this setting at any time in the Schoology Plus settings menu." }),
                     ]),
@@ -97,10 +97,21 @@
                 createElement("span", [], { textContent: "It looks like your school or district has disabled API Key generation. Unfortunately, this means the above features will not work. The rest of Schoology Plus' features will still work, though!" }),
                 
                 createElement("div", ["splus-permissions-section"], {}, [
-                    createElement("a", ["splus-permissions-link"], { href: "https://schoologypl.us/docs/faq/api", textContent: "Click Here to Read More" })
+                    createElement("a", ["splus-permissions-link", "splus-track-clicks"], { href: "https://schoologypl.us/docs/faq/api", textContent: "Click Here to Read More", id: "api-key-disabled-read-more" })
                 ])
             ])
         );
+
+        if (Setting.getValue("apistatus") !== "allowed" && Setting.getValue("apistatus") !== "blocked") {
+            trackEvent("Change Access", "blocked", "API Key");
+            Setting.setValue("apistatus", "blocked");
+        }
+
+        permElement.appendChild(createButton(
+            "api-key-disabled-back-to-home",
+            "Go Back to Homepage",
+            () => location.pathname = '/'
+        ));
     } else {
         submitButton.parentElement.classList.add("splus-allow-access");
         submitButton.value = "Allow Access";

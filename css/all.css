@@ -929,7 +929,7 @@ a._3_bfp {
 
 #center-inner.splus-api-key-page #center-top .page-title,
 #center-inner.splus-api-key-page #content-wrapper form p.description,
-#center-inner.splus-api-key-page .submit-span-wrapper {
+#center-inner.splus-api-key-page .submit-span-wrapper:not(.splus-modal-button) {
     display: none;
 }
 
