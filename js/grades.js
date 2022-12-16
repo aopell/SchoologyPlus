@@ -176,7 +176,7 @@ var fetchQueue = [];
                                 maxGrade.parentElement.appendChild(newGrade);
                             }
                             else {
-                                queueNonenteredAssignment(assignment, courseId);
+                                queueNonenteredAssignment(assignment, courseId, period, category);
                             }
                             if (assignment.querySelector(".missing")) {
                                 // get denominator for missing assignment
@@ -1043,8 +1043,23 @@ var fetchQueue = [];
         return "?";
     }
 
-    function queueNonenteredAssignment(assignment, courseId) {
+    function queueNonenteredAssignment(assignment, courseId, period, category) {
         let noGrade = assignment.getElementsByClassName("no-grade")[0];
+
+        // awarded grade present for assignments with letter-grade-only scores (numeric value hidden)
+        let awardedGrade = assignment.getElementsByClassName("awarded-grade")[0];
+        let letterGradeOnly = false;
+
+        if (!noGrade && awardedGrade) {
+            Logger.log(`Found assignment (ID ${assignment.dataset.id.substr(2)}) with only letter-grade showing`);
+            letterGradeOnly = true;
+
+            awardedGrade.textContent += " ";
+            noGrade = document.createElement("span");
+            noGrade.classList.add("no-grade");
+            noGrade.textContent = "—";
+            awardedGrade.insertAdjacentElement("afterend", noGrade);
+        }
 
         if (!noGrade) {
             Logger.log(`Error loading potentially nonentered assignment with ID ${assignment.dataset.id.substr(2)}`);
@@ -1109,9 +1124,14 @@ var fetchQueue = [];
                     firstTryError + "Unknown error fetching API response";
                 }
 
-                if (!firstTryError) return;
+                if (!firstTryError && !letterGradeOnly) return;
 
-                Logger.log(`Error directly fetching max points for (nonentered) assignment ${domAssignId}, reverting to list-search`);
+                if (firstTryError) {
+                    Logger.log(`Error directly fetching max points for (nonentered) assignment ${domAssignId}, reverting to list-search`);
+                }
+                if (letterGradeOnly) {
+                    Logger.log(`Finding grade for letter-grade-only assignment ${domAssignId} from list-search`);
+                }
 
                 try {
                     response = await fetchApi(`users/${getUserId()}/grades?section_id=${courseId}`);
@@ -1122,9 +1142,33 @@ var fetchQueue = [];
 
                     if (json && json.section.length > 0) {
                         // success case
-                        // note; even if maxGrade is removed from the DOM, this will still work
-                        maxGrade.textContent = " / " + json.section[0].period[0].assignment.filter(x => x.assignment_id == Number.parseInt(domAssignId))[0].max_points;
-                        maxGrade.classList.remove("no-grade");
+                        let jsonAssignment = json.section[0].period.flatMap(p => p.assignment).filter(x => x.assignment_id == Number.parseInt(domAssignId))[0];
+
+                        if (letterGradeOnly && jsonAssignment.grade !== undefined) {
+                            let numericGradeValueSpan = createElement(
+                                "span",
+                                ["numeric-grade-value"],
+                                {},
+                                [
+                                    createElement(
+                                        "span",
+                                        ["rounded-grade"],
+                                        {title: String(jsonAssignment.grade), textContent: String(jsonAssignment.grade)}
+                                    )
+                                ]
+                            );
+                            awardedGrade.insertAdjacentElement("beforeend", numericGradeValueSpan);
+                            noGrade.outerHTML = "";
+
+                            recalculateCategoryScore(category, Number.parseFloat(jsonAssignment.grade), Number.parseFloat(jsonAssignment.max_points), false);
+                            recalculatePeriodScore(period, Number.parseFloat(jsonAssignment.grade), Number.parseFloat(jsonAssignment.max_points), false);
+                        }
+
+                        if (firstTryError) {
+                            // note; even if maxGrade is removed from the DOM, this will still work
+                            maxGrade.textContent = " / " + jsonAssignment.max_points;
+                            maxGrade.classList.remove("no-grade");
+                        }
                     } else {
                         throw "List search failed to obtain meaningful response";
                     }
