@@ -54,10 +54,10 @@
 
 // Check Schoology domain
 setTimeout(function () {
-    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "support.schoology.com", "error-page.schoology.com", "app-msft-teams.schoology.com"];
+    const DENYLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "error-page.schoology.com", "app-msft-teams.schoology.com", "lti-submission-google.app.schoology.com", "lti-submission-microsoft.app.schoology.com", "googledrive.app.schoology.com", "onedrive.app.schoology.com"];
     let dd = Setting.getValue("defaultDomain");
 
-    if (dd !== window.location.hostname && !BLACKLISTED_DOMAINS.includes(window.location.hostname) && !window.location.hostname.match(/.*[-\.]app\.schoology\.com/)) {
+    if (dd !== window.location.hostname && !DENYLISTED_DOMAINS.includes(window.location.hostname) && !window.location.hostname.match(/.*[-\.]app\.schoology\.com/)) {
         Setting.setValue("defaultDomain", window.location.hostname, function () {
             let bgColor = document.querySelector("#header header").style.backgroundColor;
 
