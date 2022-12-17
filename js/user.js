@@ -51,7 +51,11 @@ async function getCoursesInCommon(otherUserId) {
     let coursesInCommon = [];
     let myClasses = (await fetchApiJson(`/users/${getUserId()}/sections`)).section;
     for (let section of myClasses) {
-        await processEnrollment(await fetchApiJson(`/sections/${section.id}/enrollments`), section, coursesInCommon, otherUserId);
+        try {
+            await processEnrollment(await fetchApiJson(`/sections/${section.id}/enrollments`), section, coursesInCommon, otherUserId);
+        } catch (err) {
+            Logger.warn(`Error checking enrollments for section ${section.id}`, err);
+        }
     }
     Logger.log("Finished processing enrollments");
 

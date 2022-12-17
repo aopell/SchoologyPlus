@@ -70,7 +70,7 @@ let courseSettingsCourseName;
             ])
         ]),
         createElement("div", ["settings-buttons-wrapper"], undefined, [
-            createButton("save-course-settings", "Save Settings", saveCourseSettings),
+            createButton("save-course-settings", "Save Settings", () => saveCourseSettings()),
             createElement("div", ["settings-actions-wrapper"], {}, [
                 createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: restoreCourseDefaults, href: "#" })
             ]),
@@ -168,33 +168,57 @@ function getCreatedGradingScale() {
 
 function saveCourseSettings(skipSavingGradingScale = false) {
     let currentValue = Setting.getValue("gradingScales", {});
-    
-    if (skipSavingGradingScale) {
+
+    if (!skipSavingGradingScale) {
         let scale = getCreatedGradingScale();
 
         if (scale === null) {
             alert("Values cannot be empty!");
             return;
         }
-    
-        if (scale != currentValue[courseIdNumber]) {
-            trackEvent("gradingScales", "set value", "Course Settings");
+
+        const shallowCompare = (obj1, obj2) =>
+            Object.keys(obj1).length === Object.keys(obj2).length &&
+            Object.keys(obj1).every(key =>
+                obj2.hasOwnProperty(key) && obj1[key] === obj2[key]
+            );
+
+        if (!shallowCompare(scale, currentValue[courseIdNumber])) {
+            trackEvent("update_setting", {
+                id: "gradingScales",
+                context: "Course Settings",
+                legacyTarget: "gradingScales",
+                legacyAction: "set value",
+                legacyLabel: "Course Settings"
+            });
         }
-    
+
         currentValue[courseIdNumber] = scale;
     }
 
     let currentAliasesValue = Setting.getValue("courseAliases", {});
     let newAliasValue = document.getElementById("setting-input-course-alias").value;
     if (newAliasValue !== currentAliasesValue[courseIdNumber]) {
-        trackEvent("courseAliases", "set value", "Course Settings");
+        trackEvent("update_setting", {
+            id: "courseAliases",
+            context: "Course Settings",
+            legacyTarget: "courseAliases",
+            legacyAction: "set value",
+            legacyLabel: "Course Settings"
+        });
     }
     currentAliasesValue[courseIdNumber] = newAliasValue;
 
     let currentQuickLinkValue = Setting.getNestedValue("courseQuickLinks", courseIdNumber);
     let newQuickLinkValue = document.getElementById("setting-input-course-quicklink").value;
     if (newQuickLinkValue !== currentQuickLinkValue) {
-        trackEvent("courseQuickLinks", "set value", "Course Settings");
+        trackEvent("update_setting", {
+            id: "courseQuickLinks",
+            context: "Course Settings",
+            legacyTarget: "courseQuickLinks",
+            legacyAction: "set value",
+            legacyLabel: "Course Settings"
+        });
     }
     Setting.setNestedValue("courseQuickLinks", courseIdNumber, newQuickLinkValue);
 
@@ -202,7 +226,14 @@ function saveCourseSettings(skipSavingGradingScale = false) {
     let iconOverrideSelect = document.getElementById("force-default-icon-splus-courseopt-select");
     let overrideValue = iconOverrideSelect.options[iconOverrideSelect.selectedIndex].value;
     if (overrideValue !== courseIconOverride[courseIdNumber]) {
-        trackEvent("forceDefaultCourseIcons", `set value: ${overrideValue}`, "Course Settings");
+        trackEvent("update_setting", {
+            id: "forceDefaultCourseIcons",
+            context: "Course Settings",
+            value: overrideValue,
+            legacyTarget: "forceDefaultCourseIcons",
+            legacyAction: `set value: ${overrideValue}`,
+            legacyLabel: "Course Settings"
+        });
     }
     courseIconOverride[courseIdNumber] = overrideValue
 
@@ -229,7 +260,12 @@ function setDefaultScale() {
 }
 
 function restoreCourseDefaults() {
-    trackEvent("restore-course-defaults", "restore default values", "Course Settings");
+    trackEvent("reset_settings", {
+        context: "Course Settings",
+        legacyTarget: "restore-course-defaults",
+        legacyAction: "restore default values",
+        legacyLabel: "Course Settings"
+    });
     let currentValue = Setting.getValue("gradingScales", {});
     delete currentValue[courseIdNumber];
 

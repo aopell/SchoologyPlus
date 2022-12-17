@@ -84,7 +84,13 @@ function createToastButton(text, id, onClick, transition = "fadeOutRight") {
         instance.hide({
             transitionOut: transition,
             onClosing: function (instance, toast, closedBy) {
-                trackEvent(id || text, "click", "Toast Button");
+                trackEvent("button_click", {
+                    id: id || text,
+                    context: "Toast",
+                    legacyTarget: id || text,
+                    legacyAction: "click",
+                    legacyLabel: "Toast Button"
+                });
                 onClick(instance, toast, closedBy);
             }
         }, toast, id);
@@ -298,9 +304,24 @@ async function versionSpecificFirstLaunch(currentVersion, previousVersion) {
     Logger.log("[Updater] First launch after update, updating to ", currentVersion, " from ", previousVersion);
 
     if (!previousVersion) {
-        trackEvent("Install", currentVersion, "Versions");
+        trackEvent("perform_action", {
+            id: "install_extension",
+            value: currentVersion,
+            context: "Versions",
+            legacyTarget: "Install",
+            legacyAction: currentVersion,
+            legacyLabel: "Versions"
+        });
     } else {
-        trackEvent("Update", `${previousVersion} to ${currentVersion}`, "Versions");
+        trackEvent("perform_action", {
+            id: "update_extension",
+            value: currentVersion,
+            previousValue: previousVersion,
+            context: "Versions",
+            legacyTarget: "Update",
+            legacyAction: `${previousVersion} to ${currentVersion}`,
+            legacyLabel: "Versions"
+        });
     }
 
     // TODO add special handling if any migrations return a Promise such that we run in order
@@ -310,5 +331,5 @@ async function versionSpecificFirstLaunch(currentVersion, previousVersion) {
         } else if (compareVersions(migrateTo, currentVersion) <= 0 && compareVersions(migrateTo, previousVersion) > 0) {
             migrationsTo[migrateTo](currentVersion, previousVersion);
         }
-    }    
+    }
 }

@@ -19,7 +19,14 @@
             let key = currentKey.value;
             let secret = currentSecret.value;
 
-            trackEvent("Change Access", "allowed", "API Key");
+            trackEvent("update_setting", {
+                id: "apistatus",
+                context: "API Key Page",
+                value: "allowed",
+                legacyTarget: "Change Access",
+                legacyAction: "allowed",
+                legacyLabel: "API Key"
+            });
 
             Setting.setValue("apikey", key, () => {
                 Setting.setValue("apisecret", secret, () => {
@@ -64,8 +71,8 @@
                     ]),
                     createElement("div", ["splus-permissions-section"], {}, [
                         createElement("span", [], { textContent: "If you have any questions, you can" }),
-                        createElement("a", [], { textContent: " view our code on Github", href: "https://github.com/aopell/SchoologyPlus" }),
-                        createElement("span", [], { textContent: " or" }),
+                        createElement("a", ["splus-track-clicks"], { id: "api-key-page-github-link", textContent: " view our code on Github", href: "https://github.com/aopell/SchoologyPlus" }),
+                        createElement("span", ["splus-track-clicks"], { id: "api-key-page-discord-link", textContent: " or" }),
                         createElement("a", [], { textContent: " contact us on Discord", href: "https://discord.schoologypl.us" }),
                         createElement("span", [], { textContent: ". You can change this setting at any time in the Schoology Plus settings menu." }),
                     ]),
@@ -97,10 +104,28 @@
                 createElement("span", [], { textContent: "It looks like your school or district has disabled API Key generation. Unfortunately, this means the above features will not work. The rest of Schoology Plus' features will still work, though!" }),
                 
                 createElement("div", ["splus-permissions-section"], {}, [
-                    createElement("a", ["splus-permissions-link"], { href: "https://schoologypl.us/docs/faq/api", textContent: "Click Here to Read More" })
+                    createElement("a", ["splus-permissions-link", "splus-track-clicks"], { href: "https://schoologypl.us/docs/faq/api", textContent: "Click Here to Read More", id: "api-key-disabled-read-more" })
                 ])
             ])
         );
+
+        if (Setting.getValue("apistatus") !== "allowed" && Setting.getValue("apistatus") !== "blocked") {
+            trackEvent("update_setting", {
+                id: "apistatus",
+                context: "API Key Page",
+                value: "blocked",
+                legacyTarget: "Change Access",
+                legacyAction: "blocked",
+                legacyLabel: "API Key"
+            });
+            Setting.setValue("apistatus", "blocked");
+        }
+
+        permElement.appendChild(createButton(
+            "api-key-disabled-back-to-home",
+            "Go Back to Homepage",
+            () => location.pathname = '/'
+        ));
     } else {
         submitButton.parentElement.classList.add("splus-allow-access");
         submitButton.value = "Allow Access";
@@ -111,7 +136,14 @@
             href: "#",
             textContent: "Deny Access", onclick: () => {
                 alert("API key access was denied. Please keep in mind many Schoology Plus features will not work correctly with this disabled. You can change this at any time from the Schoology Plus settings menu.");
-                trackEvent("Change Access", "denied", "API Key");
+                trackEvent("update_setting", {
+                    id: "apistatus",
+                    context: "API Key Page",
+                    value: "denied",
+                    legacyTarget: "Change Access",
+                    legacyAction: "denied",
+                    legacyLabel: "API Key"
+                });
                 Setting.setValue("apiuser", getUserId(), () => {
                     Setting.setValue("apistatus", "denied", () => {
                         location.pathname = "/";

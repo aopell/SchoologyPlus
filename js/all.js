@@ -54,10 +54,10 @@
 
 // Check Schoology domain
 setTimeout(function () {
-    const BLACKLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "support.schoology.com", "error-page.schoology.com", "app-msft-teams.schoology.com"];
+    const DENYLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "error-page.schoology.com", "app-msft-teams.schoology.com", "lti-submission-google.app.schoology.com", "lti-submission-microsoft.app.schoology.com", "googledrive.app.schoology.com", "onedrive.app.schoology.com"];
     let dd = Setting.getValue("defaultDomain");
 
-    if (dd !== window.location.hostname && !BLACKLISTED_DOMAINS.includes(window.location.hostname) && !window.location.hostname.match(/.*[-\.]app\.schoology\.com/)) {
+    if (dd !== window.location.hostname && !DENYLISTED_DOMAINS.includes(window.location.hostname) && !window.location.hostname.match(/.*[-\.]app\.schoology\.com/)) {
         Setting.setValue("defaultDomain", window.location.hostname, function () {
             let bgColor = document.querySelector("#header header").style.backgroundColor;
 
@@ -390,7 +390,14 @@ let modals = [
                                 }
                                 e.target.classList.add("active");
 
-                                trackEvent("selected tile", obj.text, "Choose Theme Popup");
+                                trackEvent("button_click", {
+                                    id: "preview-theme",
+                                    context: "Choose Theme Popup",
+                                    value: obj.text,
+                                    legacyTarget: "selected tile",
+                                    legacyAction: obj.text,
+                                    legacyLabel: "Choose Theme Popup"
+                                });
 
                                 tempTheme = obj.theme;
                                 Theme.apply(Theme.byName(obj.theme));
@@ -407,7 +414,17 @@ let modals = [
             (() => {
                 let btn = createButton("theme-popup-select-button", `Select Keep Current Theme: ${Theme.active.name}`, e => {
                     localStorage.setItem("splus-temp-theme-chosen", true);
-                    trackEvent("confirmed selection", document.querySelector(".select-theme-tile.active .splus-button-tile-content").textContent, "Choose Theme Popup");
+                    let themeName = document.querySelector(".select-theme-tile.active .splus-button-tile-content").textContent;
+
+                    trackEvent("button_click", {
+                        id: "apply-theme",
+                        context: "Choose Theme Popup",
+                        value: themeName,
+                        legacyTarget: "confirmed selection",
+                        legacyAction: themeName,
+                        legacyLabel: "Choose Theme Popup"
+                    });
+
                     modalClose(document.getElementById("choose-theme-modal"));
                     Setting.setValue("theme", tempTheme);
                     if (document.getElementById("choose-theme-modal").querySelector(".splus-button-tile-container .splus-button-tile:last-child").classList.contains("active")) {
@@ -461,7 +478,7 @@ let modals = [
                     instance.hide({
                         transitionOut: 'fadeOutRight',
                         onClosing: function (instance, toast, closedBy) {
-                            trackEvent('viewChangelogButton', "click", "Toast Button");
+                            trackEvent("button_click", {id: "viewChangelogButton", context: "Toast", legacyTarget: "viewChangelogButton", legacyAction: "click", legacyLabel: "Toast Button"})
                             openModal("changelog-modal");
                         }
                     }, toast, 'viewChangelogButton');
@@ -525,7 +542,15 @@ document.body.onkeydown = (data) => {
         video.style.visibility = "visible";
         video.currentTime = 0;
         video.play();
-        trackEvent("Easter Egg", "play", "Easter Egg");
+
+        trackEvent("perform_action", {
+            id: "activate",
+            context: "Easter Egg",
+            value: "confetti",
+            legacyTarget: "Easter Egg",
+            legacyAction: "play",
+            legacyLabel: "Easter Egg"
+        });
     } else if (data.altKey && data.code === "KeyB") {
         openModal("beta-modal");
     }
@@ -552,7 +577,14 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
                 }
                 Theme.apply(Theme.active);
                 document.documentElement.setAttribute("modern", newVal);
-                trackEvent("modern-theme-toggle", newVal, "Navbar Button");
+                trackEvent("button_click", {
+                    id: "modern-theme-toggle",
+                    context: "Navbar",
+                    value: newVal,
+                    legacyTarget: "modern-theme-toggle",
+                    legacyAction: newVal,
+                    legacyLabel: "Navbar Button"
+                });
             },
             dataset: { popup: Setting.getNestedValue("popup", "modernThemeToggle", true) && (localStorage.getItem("popup.modernThemeToggle") !== "false") }
         },
@@ -563,7 +595,13 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
                     textContent: "OK",
                     onclick: e => {
                         e.stopPropagation();
-                        trackEvent("modern-theme-toggle", "ok", "Explanation Popup");
+                        trackEvent("button_click", {
+                            id: "modern-theme-toggle-explanation-ok",
+                            context: "Explanation Popup",
+                            legacyTarget: "modern-theme-toggle",
+                            legacyAction: "ok",
+                            legacyLabel: "Explanation Popup"
+                        });
                         Setting.setNestedValue("popup", "modernThemeToggle", false);
                         localStorage.setItem("popup.modernThemeToggle", "false");
                         document.getElementById("darktheme-toggle-navbar-button").dataset.popup = false;
@@ -592,7 +630,13 @@ document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(creat
             title: "Schoology Plus Settings\n\nChange settings relating to Schoology Plus.",
             onclick: () => {
                 openModal("settings-modal");
-                trackEvent("splus-settings", "open", "Navbar Button");
+                trackEvent("button_click", {
+                    id: "splus-settings",
+                    context: "Navbar",
+                    legacyTarget: "splus-settings",
+                    legacyAction: "open",
+                    legacyLabel: "Navbar Button"
+                });
             }
         },
         [
@@ -631,7 +675,14 @@ function openModal(id, options) {
         modalClose(m.element);
     }
 
-    trackEvent(id, "open", "Modal");
+    trackEvent("perform_action", {
+        id: "open",
+        context: "Modal",
+        value: id,
+        legacyTarget: id,
+        legacyAction: "open",
+        legacyLabel: "Modal"
+    });
 
     let mm = modals.find(m => m.id == id);
     if (mm.onopen) mm.onopen(mm, options);
@@ -1109,7 +1160,7 @@ async function createQuickAccess() {
 
     for (let page of PAGES) {
         let a = linkWrap.appendChild(createElement("a", ["quick-link", "splus-track-clicks"], page));
-        a.dataset.splusTrackingLabel = "Quick Access";
+        a.dataset.splusTrackingContext = "Quick Access";
     }
 
     wrapper.appendChild(
@@ -1133,17 +1184,17 @@ async function createQuickAccess() {
             for (let section of sectionsList) {
                 wrapper.appendChild(createElement("div", ["quick-access-course"], {}, [
                     (iconImage = createElement("div", ["splus-course-icon"], { dataset: { courseTitle: `${section.course_title}: ${section.section_title}` } })),
-                    createElement("a", ["splus-track-clicks", "quick-course-link"], { textContent: `${section.course_title}: ${section.section_title}`, href: `/course/${section.id}`, dataset: { splusTrackingTarget: "quick-access-course-link", splusTrackingLabel: "Quick Access" } }),
+                    createElement("a", ["splus-track-clicks", "quick-course-link"], { textContent: `${section.course_title}: ${section.section_title}`, href: `/course/${section.id}`, dataset: { splusTrackingId: "quick-access-course-link", splusTrackingContext: "Quick Access" } }),
                     (courseIconsContainer = createElement("div", ["icons-container"], {}, [
-                        createElement("a", ["icon", "icon-grades", "splus-track-clicks"], { href: `/course/${section.id}/student_grades`, title: "Grades", dataset: { splusTrackingTarget: "quick-access-grades-link", splusTrackingLabel: "Quick Access" } }),
-                        createElement("a", ["icon", "icon-mastery", "splus-track-clicks"], { href: `/course/${section.id}/student_mastery`, title: "Mastery", dataset: { splusTrackingTarget: "quick-access-mastery-link", splusTrackingLabel: "Quick Access" } }),
-                        (courseOptionsButton = createElement("a", ["icon", "icon-settings", "splus-track-clicks"], { href: "#", dataset: { splusTrackingTarget: "quick-access-settings-link", splusTrackingLabel: "Quick Access" } }))
+                        createElement("a", ["icon", "icon-grades", "splus-track-clicks"], { href: `/course/${section.id}/student_grades`, title: "Grades", dataset: { splusTrackingId: "quick-access-grades-link", splusTrackingContext: "Quick Access" } }),
+                        createElement("a", ["icon", "icon-mastery", "splus-track-clicks"], { href: `/course/${section.id}/student_mastery`, title: "Mastery", dataset: { splusTrackingId: "quick-access-mastery-link", splusTrackingContext: "Quick Access" } }),
+                        (courseOptionsButton = createElement("a", ["icon", "icon-settings", "splus-track-clicks"], { href: "#", dataset: { splusTrackingId: "quick-access-settings-link", splusTrackingContext: "Quick Access" } }))
                     ]))
                 ]));
 
                 let quickLink = Setting.getNestedValue("courseQuickLinks", section.id);
                 if (quickLink && quickLink !== "") {
-                    courseIconsContainer.prepend(createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], { href: quickLink, title: `Quick Link \n(${quickLink})`, dataset: { splusTrackingTarget: "quick-access-quicklink-link", splusTrackingLabel: "Quick Access" } }))
+                    courseIconsContainer.prepend(createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], { href: quickLink, title: `Quick Link \n(${quickLink})`, dataset: { splusTrackingId: "quick-access-quicklink-link", splusTrackingContext: "Quick Access" } }))
                 }
 
                 iconImage.style.backgroundImage = `url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")})`;
@@ -1231,13 +1282,27 @@ function indicateSubmittedAssignments() {
             if (eventElement.classList.contains(assignCompleteClass) && isAssignmentMarkedComplete(assignmentId)) {
                 eventElement.classList.remove(assignCompleteClass);
                 setAssignmentCompleteOverride(assignmentId, false);
-                trackEvent("splus-completed-check-indicator", "uncheck", "Checkmarks");
+                trackEvent("button_click", {
+                    id: "splus-completed-check-indicator",
+                    context: "Checklist",
+                    value: "uncheck",
+                    legacyTarget: "splus-completed-check-indicator",
+                    legacyAction: "uncheck",
+                    legacyLabel: "Checkmarks"
+                });
                 // TODO handle async nicely
                 processAssignmentUpcomingAsync(eventElement);
                 // if we're incomplete and click, force the completed state
             } else if (eventElement.classList.contains(assignIncompleteClass)) {
                 eventElement.classList.remove(assignIncompleteClass);
-                trackEvent("splus-completed-check-indicator", "check", "Checkmarks");
+                trackEvent("button_click", {
+                    id: "splus-completed-check-indicator",
+                    context: "Checklist",
+                    value: "check",
+                    legacyTarget: "splus-completed-check-indicator",
+                    legacyAction: "check",
+                    legacyLabel: "Checkmarks"
+                });
                 setAssignmentCompleteOverride(assignmentId, true);
                 // TODO handle async nicely
                 processAssignmentUpcomingAsync(eventElement);
