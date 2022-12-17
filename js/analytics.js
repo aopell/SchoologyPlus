@@ -1,4 +1,4 @@
-(async function() {
+(async function () {
     // Wait for loader.js to finish running
     while (!window.splusLoaded) {
         await new Promise(resolve => setTimeout(resolve, 10));
@@ -9,13 +9,20 @@
 /**
  * Tracks an event using Google Analytics if the user did not opt out
  * NOTE: The Firefox version of the extension has no support for Google Analytics
- * @param {string} target (Event Category) The target of the event
- * @param {string} action (Event Action) The action of the event
- * @param {string} [label] (Event Label) Used to group related events
- * @param {number} [value] Numeric value associated with the event
+ * @param {string} eventName The event name
+ * @param {Object} param1 Event properties
  */
-var trackEvent = function (target, action, label = undefined, value = undefined) {
-    console.debug("[S+] Tracking disabled by user", { target, action, label, value });
+var trackEvent = function (eventName, {
+    legacyTarget,
+    legacyAction,
+    legacyLabel = undefined,
+    legacyValue = undefined,
+    id,
+    context,
+    value,
+    ...extraProps
+} = {}) {
+    console.debug("[S+] Tracking disabled by user", arguments);
 };
 
 (function () {
@@ -32,13 +39,34 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         }
     }
 
+    function getRandomToken() {
+        // E.g. 8 * 32 = 256 bits token
+        var randomPool = new Uint8Array(32);
+        crypto.getRandomValues(randomPool);
+        var hex = '';
+        for (var i = 0; i < randomPool.length; ++i) {
+            hex += randomPool[i].toString(16);
+        }
+        // E.g. db18458e2782b2b77e36769c569e263a53885a9944dd0a861e5064eac16f1a
+        return hex;
+    }
+
     chrome.storage.sync.get({ analytics: getBrowser() === "Firefox" ? "disabled" : "enabled", theme: "<unset>", beta: "<unset>", newVersion: "<unset>" }, s => {
         if (s.analytics === "enabled") {
-            enableAnalytics(s.theme, s.beta, s.newVersion);
+            chrome.storage.local.get({randomUserId: null}, l => {
+                if (!l.randomUserId) {
+                    let randomToken = getRandomToken();
+                    chrome.storage.local.set({randomUserId: randomToken}, () => {
+                        enableAnalytics(s.theme, s.beta, s.newVersion, randomToken);
+                    });
+                } else {
+                    enableAnalytics(s.theme, s.beta, s.newVersion, l.randomUserId);
+                }
+            });
         }
     });
 
-    function enableAnalytics(selectedTheme, beta, newVersion) {
+    function enableAnalytics(selectedTheme, beta, newVersion, randomUserId) {
         // isogram
         let r = 'ga';
         window['GoogleAnalyticsObject'] = r;
@@ -58,15 +86,63 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
         ga('set', 'dimension6', newVersion);
         ga('send', 'pageview', location.pathname.replace(/\/\d{3,}\b/g, "/*") + location.search);
 
-        trackEvent = function (target, action, label = undefined, value = undefined) {
+        // Google Analytics v4
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-YM6B00RDYC', {
+            page_location: location.href.replace(/\/\d{3,}\b/g, "/*"),
+            page_path: location.pathname.replace(/\/\d{3,}\b/g, "/*"),
+            page_title: null,
+            user_id: randomUserId
+        });
+
+        let trackEventOld = function (target, action, label = undefined, value = undefined) {
             ga('send', 'event', target, action, label, value);
-            console.debug(`[S+] Tracked event:`, { target, action, label, value });
+            console.debug(`[S+] Tracked event [OLD]:`, { target, action, label, value });
+        };
+
+        trackEvent = function (eventName, {
+            legacyTarget,
+            legacyAction,
+            legacyLabel = undefined,
+            legacyValue = undefined,
+            id,
+            context,
+            value,
+            ...extraProps
+        } = {}) {
+            trackEventOld(legacyTarget, legacyAction, legacyLabel, legacyValue);
+            let eventData = {
+                extensionVersion: chrome.runtime.getManifest().version,
+                domain: location.host,
+                theme: selectedTheme,
+                modernTheme: document.documentElement.getAttribute("modern"),
+                activeBeta: beta,
+                lastEnabledVersion: newVersion,
+                id,
+                context,
+                value,
+                ...extraProps
+            };
+            console.debug(`[S+] Tracked event:`, eventName, eventData);
+            gtag("event", eventName, eventData);
         };
 
         function trackClick(event) {
-            if(!event.isTrusted) return;
+            if (!event.isTrusted) return;
             let target = event.currentTarget || event.target;
-            trackEvent(target.dataset.splusTrackingTarget || target.id || "Unlabeled Button", "click", target.dataset.splusTrackingLabel || "Tracking Link", target.dataset.splusTrackingValue || event.button);
+
+            trackEvent("tracking_link_click", {
+                legacyTarget: target.dataset.splusTrackingId || target.id || "Unlabeled Button",
+                legacyAction: "click",
+                legacyLabel: target.dataset.splusTrackingContext || "Tracking Link",
+                legacyValue: target.dataset.splusTrackingValue || event.button,
+                id: target.dataset.splusTrackingId || target.id || "Unlabeled Button",
+                context: target.dataset.splusTrackingContext || "Tracking Link",
+                value: target.dataset.splusTrackingValue,
+            });
         }
 
         let trackedElements = new Set();
@@ -93,7 +169,7 @@ var trackEvent = function (target, action, label = undefined, value = undefined)
                 childList: true,
                 subtree: true
             });
-            
+
             for (let elem of document.querySelectorAll(".splus-track-clicks")) {
                 if (!trackedElements.has(elem)) {
                     elem.addEventListener("click", trackClick);

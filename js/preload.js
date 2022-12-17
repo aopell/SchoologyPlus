@@ -214,7 +214,7 @@ function createElement(tag, classList, properties, children) {
  * @param {(e: Event)=>void} callback A function to be called when the button is clicked
  */
 function createButton(id, text, callback) {
-    return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit", "splus-track-clicks"], { type: "button", value: text, id: id, dataset: { splusTrackingLabel: "S+ Button" } })]);
+    return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit", "splus-track-clicks"], { type: "button", value: text, id: id, dataset: { splusTrackingContext: "S+ Button" } })]);
 }
 
 /**
@@ -979,7 +979,16 @@ Setting.saveModified = function (modifiedValues, updateButtonText = true, callba
             if (!setting) {
                 continue;
             }
-            trackEvent(settingName, `set value: ${newValues[settingName]}`, "Setting");
+
+            trackEvent("update_setting", {
+                id: settingName,
+                context: "Settings",
+                value: newValues[settingName],
+                legacyTarget: settingName,
+                legacyAction: `set value: ${newValues[settingName]}`,
+                legacyLabel: "Setting"
+            });
+            
             if (!setting.getElement()) {
                 continue;
             }
@@ -1006,7 +1015,12 @@ Setting.saveModified = function (modifiedValues, updateButtonText = true, callba
  */
 Setting.restoreDefaults = function () {
     if (confirm("Are you sure you want to delete all settings?\nTHIS CANNOT BE UNDONE")) {
-        trackEvent("restore-defaults", "restore default values", "Setting");
+        trackEvent("reset_settings", {
+            context: "Settings",
+            legacyTarget: "restore-defaults",
+            legacyAction: "restore default values",
+            legacyLabel: "Setting"
+        });
         for (let setting in __settings) {
             delete __storage[setting];
             chrome.storage.sync.remove(setting);
@@ -1020,7 +1034,14 @@ Setting.restoreDefaults = function () {
  * Exports settings to the clipboard in JSON format
  */
 Setting.export = function () {
-    trackEvent("export-settings", "export settings", "Setting");
+    trackEvent("button_click", {
+        id: "export-settings",
+        context: "Settings",
+        legacyTarget: "export-settings",
+        legacyAction: "export settings",
+        legacyLabel: "Setting"
+    });
+    
     navigator.clipboard.writeText(JSON.stringify(__storage, null, 2))
         .then(() => alert("Copied settings to clipboard!"))
         .catch(err => alert("Exporting settings failed!"));
@@ -1030,7 +1051,13 @@ Setting.export = function () {
  * Import settings from clipboard in JSON format
  */
 Setting.import = function () {
-    trackEvent("import-settings", "attempt import settings", "Setting");
+    trackEvent("button_click", {
+        id: "import-settings-attempt",
+        context: "Settings",
+        legacyTarget: "import-settings",
+        legacyAction: "attempt import settings",
+        legacyLabel: "Setting"
+    });
     if (confirm("Are you sure you want to import settings? Importing invalid or malformed settings will most likely break Schoology Plus.")) {
         let importedSettings = prompt("Please paste settings to import below:");
 
@@ -1042,7 +1069,13 @@ Setting.import = function () {
         }
 
         Setting.setValues(importedSettingsObj, () => {
-            trackEvent("import-settings", "successfully imported settings", "Setting");
+            trackEvent("button_click", {
+                id: "import-settings-success",
+                context: "Settings",
+                legacyTarget: "import-settings",
+                legacyAction: "successfully imported settings",
+                legacyLabel: "Setting"
+            });
             alert("Successfully imported settings. If Schoology Plus breaks, please restore defaults or reinstall. Reloading page.")
             location.reload();
         });

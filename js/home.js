@@ -38,7 +38,16 @@ function postFromBroadcast(broadcast) {
                                 createElement("span", ["visually-hidden"], { textContent: "posted to" })
                             ]),
                             createElement("a", ["sExtlink-processed"], { textContent: "Schoology Plus Announcements" }),
-                            createElement("span", ["splus-broadcast-close"], { textContent: "×", title: "Dismiss notification", onclick: () => trackEvent(`broadcast${broadcast.id}`, "close", "Broadcast") }),
+                            createElement("span", ["splus-broadcast-close"], {
+                                textContent: "×", title: "Dismiss notification", onclick: () => trackEvent("button_click", {
+                                    id: "close",
+                                    context: "Broadcast",
+                                    value: broadcast.id,
+                                    legacyTarget: `broadcast${broadcast.id}`,
+                                    legacyAction: "close",
+                                    legacyLabel: "Broadcast"
+                                })
+                            }),
                             createElement("span", ["update-body", "s-rte"], {}, [
                                 createElement("p", ["no-margins"], {}, [
                                     createElement("strong", ["splus-broadcast-title"], { innerHTML: broadcast.title })
@@ -73,7 +82,7 @@ function postFromBroadcast(broadcast) {
 
 function dismissNotification(event) {
     let id = event.target.dataset.broadcastId;
-    
+
     let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
     unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == id), 1);
     Setting.setValue("unreadBroadcasts", unreadBroadcasts);
@@ -94,10 +103,10 @@ if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
     (async function () {
         try {
             let onlineBroadcasts = await (await fetch("https://schoologypl.us/alert.json")).json();
-    
+
             let readBroadcasts = localStorage.getItem("splus-readBroadcasts");
             readBroadcasts = readBroadcasts === null ? [] : JSON.parse(readBroadcasts);
-    
+
             saveBroadcasts(onlineBroadcasts.filter(b => !readBroadcasts.includes(b.id)));
         } catch (err) {
             // Ignore

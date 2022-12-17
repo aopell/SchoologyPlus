@@ -28,7 +28,13 @@ $.contextMenu({
         options: {
             name: "Course Options",
             callback: function (key, opt) {
-                trackEvent("Course Options", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Course Options",
+                    context: "Grades Page",
+                    legacyTarget: "Course Options",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 openModal("course-settings-modal", {
                     courseId: this[0].parentElement.id.match(/\d+/)[0],
                     courseName: this[0].querySelector("a span:nth-child(3)") ? this[0].querySelector("a span:nth-child(2)").textContent : this[0].innerText.split('\n')[0]
@@ -38,7 +44,13 @@ $.contextMenu({
         grades: {
             name: "Change Grading Scale",
             callback: function (key, opt) {
-                trackEvent("Change Grading Scale", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Change Grading Scale",
+                    context: "Grades Page",
+                    legacyTarget: "Change Grading Scale",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 openModal("course-settings-modal", {
                     courseId: this[0].parentElement.id.match(/\d+/)[0],
                     courseName: this[0].querySelector("a span:nth-child(3)") ? this[0].querySelector("a span:nth-child(2)").textContent : this[0].innerText.split('\n')[0]
@@ -49,35 +61,65 @@ $.contextMenu({
         materials: {
             name: "Materials",
             callback: function (key, opt) {
-                trackEvent("Materials", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Materials",
+                    context: "Grades Page",
+                    legacyTarget: "Materials",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/materials`, "_blank")
             }
         },
         updates: {
             name: "Updates",
             callback: function (key, opt) {
-                trackEvent("Updates", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Updates",
+                    context: "Grades Page",
+                    legacyTarget: "Updates",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/updates`, "_blank")
             }
         },
         student_grades: {
             name: "Grades",
             callback: function (key, opt) {
-                trackEvent("Grades", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Grades",
+                    context: "Grades Page",
+                    legacyTarget: "Grades",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/student_grades`, "_blank")
             }
         },
         mastery: {
             name: "Mastery",
             callback: function (key, opt) {
-                trackEvent("Mastery", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Mastery",
+                    context: "Grades Page",
+                    legacyTarget: "Mastery",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/mastery`, "_blank")
             }
         },
         members: {
             name: "Members",
             callback: function (key, opt) {
-                trackEvent("Members", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Members",
+                    context: "Grades Page",
+                    legacyTarget: "Members",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/members`, "_blank")
             }
         }
@@ -263,7 +305,13 @@ var fetchQueue = [];
                                     assignment.classList.remove("last-row-of-tier");
 
                                     assignment.classList.add("added-fake-assignment");
-                                    trackEvent("assignment", "create-fake", "What-If Grades");
+                                    trackEvent("button_click", {
+                                        id: "create-fake-assignment",
+                                        context: "What-If Grades",
+                                        legacyTarget: "assignment",
+                                        legacyAction: "create-fake",
+                                        legacyLabel: "What-If Grades"
+                                    });
 
                                     let assignmentTitle = assignment.getElementsByClassName("title")[0].firstElementChild;
                                     assignmentTitle.textContent = "Added Assignment (Click to Rename)";
@@ -547,7 +595,7 @@ var fetchQueue = [];
             type: "checkbox",
             id: "enable-modify",
             dataset: {
-                splusTrackingLabel: "What-If Grades"
+                splusTrackingContext: "What-If Grades"
             },
             onclick: function () {
                 let normalAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.added-fake-assignment)";
@@ -557,18 +605,46 @@ var fetchQueue = [];
                 // any state change when editing has been disabled
                 if (Setting.getValue("apistatus") === "denied") {
                     if (confirm("This feature requires access to your Schoology API Key, which you have denied. Would you like to enable access?")) {
-                        trackEvent("api-denied-popup", "go-to-enable", "What-If Grades");
+                        trackEvent("button_click", {
+                            id: "api-denied-popup",
+                            context: "What-If Grades",
+                            value: "go-to-enabled",
+                            legacyTarget: "api-denied-popup",
+                            legacyAction: "go-to-enable",
+                            legacyLabel: "What-If Grades"
+                        });
                         location.pathname = "/api";
                     } else {
-                        trackEvent("api-denied-popup", "keep-disabled", "What-If Grades");
+                        trackEvent("button_click", {
+                            id: "api-denied-popup",
+                            context: "What-If Grades",
+                            value: "keep-disabled",
+                            legacyTarget: "api-denied-popup",
+                            legacyAction: "keep-disabled",
+                            legacyLabel: "What-If Grades"
+                        });
                     }
                 }
                 else if (Setting.getValue("apistatus") === "blocked") {
                     if (confirm("This feature requires access to your Schoology API Key, which has unfortunately been blocked by your school. If you think this might not be right, you can click OK to try and enable access again.")) {
-                        trackEvent("api-blocked-popup", "go-to-enable", "What-If Grades");
+                        trackEvent("button_click", {
+                            id: "api-blocked-popup",
+                            context: "What-If Grades",
+                            value: "go-to-enable",
+                            legacyTarget: "api-blocked-popup",
+                            legacyAction: "go-to-enable",
+                            legacyLabel: "What-If Grades"
+                        });
                         location.pathname = "/api";
                     } else {
-                        trackEvent("api-blocked-popup", "keep-blocked", "What-If Grades");
+                        trackEvent("button_click", {
+                            id: "api-blocked-popup",
+                            context: "What-If Grades",
+                            value: "keep-blocked",
+                            legacyTarget: "api-blocked-popup",
+                            legacyAction: "keep-blocked",
+                            legacyLabel: "What-If Grades"
+                        });
                     }
                 }
                 else if (editDisableReason && editDisableReason.causedByNoApiKey) {
@@ -761,7 +837,13 @@ var fetchQueue = [];
                     };
 
                     let dropGradeThis = function () {
-                        trackEvent("assignment", "drop", "What-If Grades");
+                        trackEvent("context_menu_click", {
+                            id: "Drop",
+                            context: "What-If Grades",
+                            legacyTarget: "assignment",
+                            legacyAction: "drop",
+                            legacyLabel: "What-If Grades"
+                        });
                         this[0].classList.add("dropped");
                         // alter grade
                         let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
@@ -851,7 +933,13 @@ var fetchQueue = [];
                                     }
                                 }
 
-                                trackEvent("assignment", "calc-min", "What-If Grades");
+                                trackEvent("context_menu_click", {
+                                    id: "Calculate Minimum Grade",
+                                    context: "What-If Grades",
+                                    legacyTarget: "assignment",
+                                    legacyAction: "calc-min",
+                                    legacyLabel: "What-If Grades"
+                                });
                                 calculateMinimumGrade(this[0], desiredPercentage, courseId);
                             },
                             items: {}
@@ -885,7 +973,14 @@ var fetchQueue = [];
                             calcMinFor["calculateMinGradeFor" + gradeValue] = {
                                 name: "For " + letterGrade + " (" + gradeValue + "%)",
                                 callback: function (key, opt) {
-                                    trackEvent("assignment", `calc-min-for-${letterGrade}`, "What-If Grades");
+                                    trackEvent("context_menu_click", {
+                                        id: "Calculate Minimum Grade For...",
+                                        context: "What-If Grades",
+                                        value: letterGrade,
+                                        legacyTarget: "assignment",
+                                        legacyAction: `calc-min-for-${letterGrade}`,
+                                        legacyLabel: "What-If Grades"
+                                    });
                                     calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100, courseId);
                                 }
                             };
@@ -896,7 +991,14 @@ var fetchQueue = [];
                         calcMinFor.calculateMinGradeForCustom = {
                             name: "For Custom Value",
                             callback: function (key, opt) {
-                                trackEvent("assignment", `calc-min-for-custom`, "What-If Grades");
+                                trackEvent("context_menu_click", {
+                                    id: "Calculate Minimum Grade For Custom Value",
+                                    context: "What-If Grades",
+                                    value: "custom-value",
+                                    legacyTarget: "assignment",
+                                    legacyAction: "calc-min-for-custom",
+                                    legacyLabel: "What-If Grades"
+                                });
 
                                 let value = prompt("Please enter a grade to calculate for (a number on the scale of 0 to 100)");
 
@@ -915,7 +1017,13 @@ var fetchQueue = [];
                             callback: function () {
                                 let courseElem = this[0].closest(".gradebook-course");
                                 let titleElem = SINGLE_COURSE ? document.querySelector(".page-title") : courseElem.querySelector(".gradebook-course-title");
-                                trackEvent("assignment", "change-boundaries", "What-If Grades");
+                                trackEvent("context_menu_click", {
+                                    id: "Change Grade Boundaries",
+                                    context: "What-If Grades",
+                                    legacyTarget: "assignment",
+                                    legacyAction: "change-boundaries",
+                                    legacyLabel: "What-If Grades"
+                                });
                                 openModal("course-settings-modal", {
                                     courseId: courseElem.id.match(/\d+/)[0],
                                     courseName: titleElem.querySelector("a span:nth-child(3)") ? titleElem.querySelector("a span:nth-child(2)").textContent : titleElem.innerText.split('\n')[0]
@@ -943,7 +1051,13 @@ var fetchQueue = [];
                             undrop: {
                                 name: "Undrop",
                                 callback: function (key, opt) {
-                                    trackEvent("assignment", "undrop", "What-If Grades");
+                                    trackEvent("context_menu_click", {
+                                        id: "Undrop",
+                                        context: "What-If Grades",
+                                        legacyTarget: "assignment",
+                                        legacyAction: "undrop",
+                                        legacyLabel: "What-If Grades"
+                                    });
                                     this[0].classList.remove("dropped");
                                     // alter grade
                                     let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
@@ -1483,7 +1597,13 @@ var fetchQueue = [];
 
     function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
-            trackEvent("assignment", "change-grade", "What-If Grades");
+            trackEvent("button_click", {
+                id: "change-assignment-grade",
+                context: "What-If Grades",
+                legacyTarget: "assignment",
+                legacyAction: "change-grade",
+                legacyLabel: "What-If Grades"
+            });
             removeExceptionState(assignment, gradeColContentWrap);
 
             let noGrade = gradeColContentWrap.querySelector(".no-grade");

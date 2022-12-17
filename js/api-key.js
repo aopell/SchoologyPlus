@@ -19,7 +19,14 @@
             let key = currentKey.value;
             let secret = currentSecret.value;
 
-            trackEvent("Change Access", "allowed", "API Key");
+            trackEvent("update_setting", {
+                id: "apistatus",
+                context: "API Key Page",
+                value: "allowed",
+                legacyTarget: "Change Access",
+                legacyAction: "allowed",
+                legacyLabel: "API Key"
+            });
 
             Setting.setValue("apikey", key, () => {
                 Setting.setValue("apisecret", secret, () => {
@@ -103,7 +110,14 @@
         );
 
         if (Setting.getValue("apistatus") !== "allowed" && Setting.getValue("apistatus") !== "blocked") {
-            trackEvent("Change Access", "blocked", "API Key");
+            trackEvent("update_setting", {
+                id: "apistatus",
+                context: "API Key Page",
+                value: "blocked",
+                legacyTarget: "Change Access",
+                legacyAction: "blocked",
+                legacyLabel: "API Key"
+            });
             Setting.setValue("apistatus", "blocked");
         }
 
@@ -122,7 +136,14 @@
             href: "#",
             textContent: "Deny Access", onclick: () => {
                 alert("API key access was denied. Please keep in mind many Schoology Plus features will not work correctly with this disabled. You can change this at any time from the Schoology Plus settings menu.");
-                trackEvent("Change Access", "denied", "API Key");
+                trackEvent("update_setting", {
+                    id: "apistatus",
+                    context: "API Key Page",
+                    value: "denied",
+                    legacyTarget: "Change Access",
+                    legacyAction: "denied",
+                    legacyLabel: "API Key"
+                });
                 Setting.setValue("apiuser", getUserId(), () => {
                     Setting.setValue("apistatus", "denied", () => {
                         location.pathname = "/";
