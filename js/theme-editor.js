@@ -463,7 +463,7 @@ function renderTheme(t) {
             themeCustomLogo.click();
             break;
     }
-    $(themeHue).slider("value", t.color.hue);
+    $(themeHue).slider("value", t.color.hue || 200);
     colorRainbowHueAnimate.checked = false;
     colorRainbowHueSpeed.value = 50;
     $(colorRainbowHueRange).roundSlider("setValue", "0,359");
