@@ -95,7 +95,15 @@ var trackEvent = function (eventName, {
             page_location: location.href.replace(/\/\d{3,}\b/g, "/*"),
             page_path: location.pathname.replace(/\/\d{3,}\b/g, "/*"),
             page_title: null,
-            user_id: randomUserId
+            user_id: randomUserId,
+            user_properties: {
+                extensionVersion: chrome.runtime.getManifest().version,
+                domain: location.host,
+                theme: selectedTheme,
+                modernTheme: document.documentElement.getAttribute("modern"),
+                activeBeta: beta,
+                lastEnabledVersion: newVersion,
+            }
         });
 
         let trackEventOld = function (target, action, label = undefined, value = undefined) {
@@ -115,12 +123,6 @@ var trackEvent = function (eventName, {
         } = {}) {
             trackEventOld(legacyTarget, legacyAction, legacyLabel, legacyValue);
             let eventData = {
-                extensionVersion: chrome.runtime.getManifest().version,
-                domain: location.host,
-                theme: selectedTheme,
-                modernTheme: document.documentElement.getAttribute("modern"),
-                activeBeta: beta,
-                lastEnabledVersion: newVersion,
                 id,
                 context,
                 value,

@@ -886,7 +886,7 @@ var fetchQueue = [];
                         let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
 
                         let courseId = perRow.dataset.parentId;
-                        
+
                         recalculateCategoryScore(catRow, -scoreVal, -maxVal, true, courseId);
                         recalculatePeriodScore(perRow, -scoreVal, -maxVal, true, courseId);
                     };
@@ -1088,9 +1088,9 @@ var fetchQueue = [];
 
                                     let perId = catRow.dataset.parentId;
                                     let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
-                                    
+
                                     let courseId = perRow.dataset.parentId;
-                                    
+
                                     recalculateCategoryScore(catRow, scoreVal, maxVal, true, courseId);
                                     recalculatePeriodScore(perRow, scoreVal, maxVal, true, courseId);
                                 }
@@ -1275,7 +1275,7 @@ var fetchQueue = [];
                                     createElement(
                                         "span",
                                         ["rounded-grade"],
-                                        {title: String(jsonAssignment.grade), textContent: String(jsonAssignment.grade)}
+                                        { title: String(jsonAssignment.grade), textContent: String(jsonAssignment.grade) }
                                     )
                                 ]
                             );
