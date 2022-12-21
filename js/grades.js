@@ -20,7 +20,13 @@ $.contextMenu({
         options: {
             name: "Course Options",
             callback: function (key, opt) {
-                trackEvent("Course Options", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Course Options",
+                    context: "Grades Page",
+                    legacyTarget: "Course Options",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 openModal("course-settings-modal", {
                     courseId: this[0].parentElement.id.match(/\d+/)[0],
                     courseName: this[0].querySelector("a span:nth-child(3)") ? this[0].querySelector("a span:nth-child(2)").textContent : this[0].innerText.split('\n')[0]
@@ -30,7 +36,13 @@ $.contextMenu({
         grades: {
             name: "Change Grading Scale",
             callback: function (key, opt) {
-                trackEvent("Change Grading Scale", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Change Grading Scale",
+                    context: "Grades Page",
+                    legacyTarget: "Change Grading Scale",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 openModal("course-settings-modal", {
                     courseId: this[0].parentElement.id.match(/\d+/)[0],
                     courseName: this[0].querySelector("a span:nth-child(3)") ? this[0].querySelector("a span:nth-child(2)").textContent : this[0].innerText.split('\n')[0]
@@ -41,35 +53,65 @@ $.contextMenu({
         materials: {
             name: "Materials",
             callback: function (key, opt) {
-                trackEvent("Materials", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Materials",
+                    context: "Grades Page",
+                    legacyTarget: "Materials",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/materials`, "_blank")
             }
         },
         updates: {
             name: "Updates",
             callback: function (key, opt) {
-                trackEvent("Updates", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Updates",
+                    context: "Grades Page",
+                    legacyTarget: "Updates",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/updates`, "_blank")
             }
         },
         student_grades: {
             name: "Grades",
             callback: function (key, opt) {
-                trackEvent("Grades", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Grades",
+                    context: "Grades Page",
+                    legacyTarget: "Grades",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/student_grades`, "_blank")
             }
         },
         mastery: {
             name: "Mastery",
             callback: function (key, opt) {
-                trackEvent("Mastery", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Mastery",
+                    context: "Grades Page",
+                    legacyTarget: "Mastery",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/mastery`, "_blank")
             }
         },
         members: {
             name: "Members",
             callback: function (key, opt) {
-                trackEvent("Members", "click", "Grades Context Menu");
+                trackEvent("context_menu_click", {
+                    id: "Members",
+                    context: "Grades Page",
+                    legacyTarget: "Members",
+                    legacyAction: "click",
+                    legacyLabel: "Grades Context Menu"
+                });
                 window.open(`https://${Setting.getValue("defaultDomain")}/course/${this[0].parentElement.id.match(/\d+/)[0]}/members`, "_blank")
             }
         }
@@ -168,7 +210,7 @@ var fetchQueue = [];
                                 maxGrade.parentElement.appendChild(newGrade);
                             }
                             else {
-                                queueNonenteredAssignment(assignment, courseId);
+                                queueNonenteredAssignment(assignment, courseId, period, category);
                             }
                             if (assignment.querySelector(".missing")) {
                                 // get denominator for missing assignment
@@ -255,7 +297,13 @@ var fetchQueue = [];
                                     assignment.classList.remove("last-row-of-tier");
 
                                     assignment.classList.add("added-fake-assignment");
-                                    trackEvent("assignment", "create-fake", "What-If Grades");
+                                    trackEvent("button_click", {
+                                        id: "create-fake-assignment",
+                                        context: "What-If Grades",
+                                        legacyTarget: "assignment",
+                                        legacyAction: "create-fake",
+                                        legacyLabel: "What-If Grades"
+                                    });
 
                                     let assignmentTitle = assignment.getElementsByClassName("title")[0].firstElementChild;
                                     assignmentTitle.textContent = "Added Assignment (Click to Rename)";
@@ -345,7 +393,7 @@ var fetchQueue = [];
                             gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
                             category.querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
                             setGradeText(gradeText, sum, max, category);
-                            recalculateCategoryScore(category, 0, 0, false);
+                            recalculateCategoryScore(category, 0, 0, false, courseId);
                         } else {
                             setGradeText(gradeText, sum, max, category);
                         }
@@ -392,7 +440,7 @@ var fetchQueue = [];
                     gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
                     period.querySelector(".grade-column .td-content-wrapper").appendChild(gradeText);
                     setGradeText(gradeText, periodPoints, periodTotal, period, periodTotal === 0);
-                    recalculatePeriodScore(period, 0, 0, false);
+                    recalculatePeriodScore(period, 0, 0, false, courseId);
                 } else {
                     setGradeText(gradeText, periodPoints, periodTotal, period, periodTotal === 0);
                 }
@@ -448,12 +496,6 @@ var fetchQueue = [];
                             myGradeIndex = i;
                             break;
                         }
-                    }
-
-                    function roundDecimal(num, dec) {
-                        let intPart = Math.floor(num);
-                        let floatPart = num - intPart;
-                        return intPart + (Math.round(floatPart * Math.pow(10, dec)) / Math.pow(10, dec));
                     }
 
                     function createSPlusDisclaimerImage() {
@@ -545,7 +587,7 @@ var fetchQueue = [];
             type: "checkbox",
             id: "enable-modify",
             dataset: {
-                splusTrackingLabel: "What-If Grades"
+                splusTrackingContext: "What-If Grades"
             },
             onclick: function () {
                 let normalAssignRClickSelector = ".item-row:not(.dropped):not(.grade-add-indicator):not(.added-fake-assignment)";
@@ -555,10 +597,46 @@ var fetchQueue = [];
                 // any state change when editing has been disabled
                 if (Setting.getValue("apistatus") === "denied") {
                     if (confirm("This feature requires access to your Schoology API Key, which you have denied. Would you like to enable access?")) {
-                        trackEvent("api-denied-popup", "go-to-enable", "What-If Grades");
+                        trackEvent("button_click", {
+                            id: "api-denied-popup",
+                            context: "What-If Grades",
+                            value: "go-to-enabled",
+                            legacyTarget: "api-denied-popup",
+                            legacyAction: "go-to-enable",
+                            legacyLabel: "What-If Grades"
+                        });
                         location.pathname = "/api";
                     } else {
-                        trackEvent("api-denied-popup", "keep-disabled", "What-If Grades");
+                        trackEvent("button_click", {
+                            id: "api-denied-popup",
+                            context: "What-If Grades",
+                            value: "keep-disabled",
+                            legacyTarget: "api-denied-popup",
+                            legacyAction: "keep-disabled",
+                            legacyLabel: "What-If Grades"
+                        });
+                    }
+                }
+                else if (Setting.getValue("apistatus") === "blocked") {
+                    if (confirm("This feature requires access to your Schoology API Key, which has unfortunately been blocked by your school. If you think this might not be right, you can click OK to try and enable access again.")) {
+                        trackEvent("button_click", {
+                            id: "api-blocked-popup",
+                            context: "What-If Grades",
+                            value: "go-to-enable",
+                            legacyTarget: "api-blocked-popup",
+                            legacyAction: "go-to-enable",
+                            legacyLabel: "What-If Grades"
+                        });
+                        location.pathname = "/api";
+                    } else {
+                        trackEvent("button_click", {
+                            id: "api-blocked-popup",
+                            context: "What-If Grades",
+                            value: "keep-blocked",
+                            legacyTarget: "api-blocked-popup",
+                            legacyAction: "keep-blocked",
+                            legacyLabel: "What-If Grades"
+                        });
                     }
                 }
                 else if (editDisableReason && editDisableReason.causedByNoApiKey) {
@@ -598,7 +676,7 @@ var fetchQueue = [];
                         arrow.style.visibility = "visible";
                     }
 
-                    let calculateMinimumGrade = function (element, desiredGrade) {
+                    let calculateMinimumGrade = function (element, desiredGrade, courseId) {
                         let gradeColContentWrap = element.querySelector(".grade-wrapper").parentElement;
 
                         removeExceptionState(element, gradeColContentWrap);
@@ -662,8 +740,8 @@ var fetchQueue = [];
 
                             // get this out of the way so it doesn't ruin later calculations
                             if (noGrade) {
-                                recalculateCategoryScore(catRow, 0, maxVal);
-                                recalculatePeriodScore(perRow, 0, maxVal);
+                                recalculateCategoryScore(catRow, 0, maxVal, true, courseId);
+                                recalculatePeriodScore(perRow, 0, maxVal, true, courseId);
                                 noGrade = false;
                             }
 
@@ -682,7 +760,7 @@ var fetchQueue = [];
                             let total = 0;
                             let totalPercentWeight = 0;
                             let catWeight = 0; // 0 to 1
-                            for (let category of perRow.parentElement.querySelectorAll(`.category-row[data-parent-id="${perRow.dataset.id}]"`)) {
+                            for (let category of perRow.parentElement.querySelectorAll(`.category-row[data-parent-id="${perRow.dataset.id}"]`)) {
                                 let weightPercentElement = category.getElementsByClassName("percentage-contrib")[0];
                                 if (!weightPercentElement) {
                                     continue;
@@ -695,7 +773,7 @@ var fetchQueue = [];
 
                                 if (colMatch) {
                                     let scorePercent = Number.parseFloat(colMatch[1]);
-                                    if (scorePercent && !Number.isNaN(scorePercent)) {
+                                    if ((scorePercent || scorePercent === 0) && !Number.isNaN(scorePercent)) {
                                         total += (weightPercent.slice(1, -2) / 100) * scorePercent;
                                         let weight = Number.parseFloat(weightPercent.slice(1, -2));
                                         totalPercentWeight += weight;
@@ -735,26 +813,29 @@ var fetchQueue = [];
                             deltaScore = -scoreVal;
                         }
 
-                        deltaScore = Math.round(deltaScore * 100) / 100;
+                        // ?: Using Math.ceil ensures finalGrade >= desiredGrade when possible
+                        deltaScore = Math.ceil(deltaScore * 100) / 100;
 
-                        if (deltaScore < -scoreVal) {
-                            // probably 1 under due to rounding
-                            deltaScore++;
-                        }
-
-                        // TODO refactor: we already have our DOM elements
+                        const finalGrade = Math.round((scoreVal + deltaScore) * 100) / 100;
                         if (score) {
-                            score.title = scoreVal + deltaScore;
-                            score.textContent = scoreVal + deltaScore;
+                            // TODO refactor: we already have our DOM elements
+                            score.title = finalGrade;
+                            score.textContent = finalGrade;
                         }
 
-                        prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), scoreVal + deltaScore, maxVal);
-                        recalculateCategoryScore(catRow, deltaScore, noGrade ? maxVal : 0);
-                        recalculatePeriodScore(perRow, deltaScore, noGrade ? maxVal : 0);
+                        prepareScoredAssignmentGrade(element.querySelector(".injected-assignment-percent"), finalGrade, maxVal);
+                        recalculateCategoryScore(catRow, deltaScore, noGrade ? maxVal : 0, true, courseId);
+                        recalculatePeriodScore(perRow, deltaScore, noGrade ? maxVal : 0, true, courseId);
                     };
 
                     let dropGradeThis = function () {
-                        trackEvent("assignment", "drop", "What-If Grades");
+                        trackEvent("context_menu_click", {
+                            id: "Drop",
+                            context: "What-If Grades",
+                            legacyTarget: "assignment",
+                            legacyAction: "drop",
+                            legacyLabel: "What-If Grades"
+                        });
                         this[0].classList.add("dropped");
                         // alter grade
                         let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
@@ -792,11 +873,14 @@ var fetchQueue = [];
 
                         let catId = this[0].dataset.parentId;
                         let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
-                        recalculateCategoryScore(catRow, -scoreVal, -maxVal);
 
                         let perId = catRow.dataset.parentId;
                         let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
-                        recalculatePeriodScore(perRow, -scoreVal, -maxVal);
+
+                        let courseId = perRow.dataset.parentId;
+
+                        recalculateCategoryScore(catRow, -scoreVal, -maxVal, true, courseId);
+                        recalculatePeriodScore(perRow, -scoreVal, -maxVal, true, courseId);
                     };
 
                     let undroppedAssignItemSet = {
@@ -841,8 +925,14 @@ var fetchQueue = [];
                                     }
                                 }
 
-                                trackEvent("assignment", "calc-min", "What-If Grades");
-                                calculateMinimumGrade(this[0], desiredPercentage);
+                                trackEvent("context_menu_click", {
+                                    id: "Calculate Minimum Grade",
+                                    context: "What-If Grades",
+                                    legacyTarget: "assignment",
+                                    legacyAction: "calc-min",
+                                    legacyLabel: "What-If Grades"
+                                });
+                                calculateMinimumGrade(this[0], desiredPercentage, courseId);
                             },
                             items: {}
                         }
@@ -875,19 +965,57 @@ var fetchQueue = [];
                             calcMinFor["calculateMinGradeFor" + gradeValue] = {
                                 name: "For " + letterGrade + " (" + gradeValue + "%)",
                                 callback: function (key, opt) {
-                                    trackEvent("assignment", `calc-min-for-${letterGrade}`, "What-If Grades");
-                                    calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100);
+                                    trackEvent("context_menu_click", {
+                                        id: "Calculate Minimum Grade For...",
+                                        context: "What-If Grades",
+                                        value: letterGrade,
+                                        legacyTarget: "assignment",
+                                        legacyAction: `calc-min-for-${letterGrade}`,
+                                        legacyLabel: "What-If Grades"
+                                    });
+                                    calculateMinimumGrade(this[0], Number.parseFloat(gradeValue) / 100, courseId);
                                 }
                             };
                         }
 
-                        calcMinFor.separator = "-----";
+                        calcMinFor.separator1 = "-----";
+
+                        calcMinFor.calculateMinGradeForCustom = {
+                            name: "For Custom Value",
+                            callback: function (key, opt) {
+                                trackEvent("context_menu_click", {
+                                    id: "Calculate Minimum Grade For Custom Value",
+                                    context: "What-If Grades",
+                                    value: "custom-value",
+                                    legacyTarget: "assignment",
+                                    legacyAction: "calc-min-for-custom",
+                                    legacyLabel: "What-If Grades"
+                                });
+
+                                let value = prompt("Please enter a grade to calculate for (a number on the scale of 0 to 100)");
+
+                                if (!Number.isNaN(value) && !Number.isNaN(Number.parseFloat(value))) {
+                                    // if a number, calculate
+                                    calculateMinimumGrade(this[0], Number.parseFloat(value) / 100, courseId);
+                                } else {
+                                    alert("Invalid number")
+                                }
+                            }
+                        };
+
+                        calcMinFor.separator2 = "-----";
                         calcMinFor.courseOptions = {
                             name: "Change Grade Boundaries",
                             callback: function () {
                                 let courseElem = this[0].closest(".gradebook-course");
                                 let titleElem = SINGLE_COURSE ? document.querySelector(".page-title") : courseElem.querySelector(".gradebook-course-title");
-                                trackEvent("assignment", "change-boundaries", "What-If Grades");
+                                trackEvent("context_menu_click", {
+                                    id: "Change Grade Boundaries",
+                                    context: "What-If Grades",
+                                    legacyTarget: "assignment",
+                                    legacyAction: "change-boundaries",
+                                    legacyLabel: "What-If Grades"
+                                });
                                 openModal("course-settings-modal", {
                                     courseId: courseElem.id.match(/\d+/)[0],
                                     courseName: titleElem.querySelector("a span:nth-child(3)") ? titleElem.querySelector("a span:nth-child(2)").textContent : titleElem.innerText.split('\n')[0]
@@ -915,7 +1043,13 @@ var fetchQueue = [];
                             undrop: {
                                 name: "Undrop",
                                 callback: function (key, opt) {
-                                    trackEvent("assignment", "undrop", "What-If Grades");
+                                    trackEvent("context_menu_click", {
+                                        id: "Undrop",
+                                        context: "What-If Grades",
+                                        legacyTarget: "assignment",
+                                        legacyAction: "undrop",
+                                        legacyLabel: "What-If Grades"
+                                    });
                                     this[0].classList.remove("dropped");
                                     // alter grade
                                     let gradeColContentWrap = this[0].querySelector(".grade-wrapper").parentElement;
@@ -943,11 +1077,14 @@ var fetchQueue = [];
 
                                     let catId = this[0].dataset.parentId;
                                     let catRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == catId);
-                                    recalculateCategoryScore(catRow, scoreVal, maxVal);
 
                                     let perId = catRow.dataset.parentId;
                                     let perRow = Array.prototype.find.call(this[0].parentElement.getElementsByTagName("tr"), e => e.dataset.id == perId);
-                                    recalculatePeriodScore(perRow, scoreVal, maxVal);
+
+                                    let courseId = perRow.dataset.parentId;
+
+                                    recalculateCategoryScore(catRow, scoreVal, maxVal, true, courseId);
+                                    recalculatePeriodScore(perRow, scoreVal, maxVal, true, courseId);
                                 }
                             }
                         }
@@ -1020,8 +1157,23 @@ var fetchQueue = [];
         return "?";
     }
 
-    function queueNonenteredAssignment(assignment, courseId) {
+    function queueNonenteredAssignment(assignment, courseId, period, category) {
         let noGrade = assignment.getElementsByClassName("no-grade")[0];
+
+        // awarded grade present for assignments with letter-grade-only scores (numeric value hidden)
+        let awardedGrade = assignment.getElementsByClassName("awarded-grade")[0];
+        let letterGradeOnly = false;
+
+        if (!noGrade && awardedGrade) {
+            Logger.log(`Found assignment (ID ${assignment.dataset.id.substr(2)}) with only letter-grade showing`);
+            letterGradeOnly = true;
+
+            awardedGrade.textContent += " ";
+            noGrade = document.createElement("span");
+            noGrade.classList.add("no-grade");
+            noGrade.textContent = "—";
+            awardedGrade.insertAdjacentElement("afterend", noGrade);
+        }
 
         if (!noGrade) {
             Logger.log(`Error loading potentially nonentered assignment with ID ${assignment.dataset.id.substr(2)}`);
@@ -1086,9 +1238,14 @@ var fetchQueue = [];
                     firstTryError + "Unknown error fetching API response";
                 }
 
-                if (!firstTryError) return;
+                if (!firstTryError && !letterGradeOnly) return;
 
-                Logger.log(`Error directly fetching max points for (nonentered) assignment ${domAssignId}, reverting to list-search`);
+                if (firstTryError) {
+                    Logger.log(`Error directly fetching max points for (nonentered) assignment ${domAssignId}, reverting to list-search`);
+                }
+                if (letterGradeOnly) {
+                    Logger.log(`Finding grade for letter-grade-only assignment ${domAssignId} from list-search`);
+                }
 
                 try {
                     response = await fetchApi(`users/${getUserId()}/grades?section_id=${courseId}`);
@@ -1099,10 +1256,39 @@ var fetchQueue = [];
 
                     if (json && json.section.length > 0) {
                         // success case
-                        // note; even if maxGrade is removed from the DOM, this will still work
-                        maxGrade.textContent = " / " + json.section[0].period[0].assignment.filter(x => x.assignment_id == Number.parseInt(domAssignId))[0].max_points;
-                        maxGrade.classList.remove("no-grade");
+                        let jsonAssignment = json.section[0].period.flatMap(p => p.assignment).filter(x => x.assignment_id == Number.parseInt(domAssignId))[0];
+
+                        if (letterGradeOnly && jsonAssignment.grade !== undefined) {
+                            let numericGradeValueSpan = createElement(
+                                "span",
+                                ["numeric-grade-value"],
+                                {},
+                                [
+                                    createElement(
+                                        "span",
+                                        ["rounded-grade"],
+                                        { title: String(jsonAssignment.grade), textContent: String(jsonAssignment.grade) }
+                                    )
+                                ]
+                            );
+                            awardedGrade.insertAdjacentElement("beforeend", numericGradeValueSpan);
+                            noGrade.outerHTML = "";
+
+                            recalculateCategoryScore(category, Number.parseFloat(jsonAssignment.grade), Number.parseFloat(jsonAssignment.max_points), false, courseId);
+                            recalculatePeriodScore(period, Number.parseFloat(jsonAssignment.grade), Number.parseFloat(jsonAssignment.max_points), false, courseId);
+                        }
+
+                        if (firstTryError) {
+                            // note; even if maxGrade is removed from the DOM, this will still work
+                            maxGrade.textContent = " / " + jsonAssignment.max_points;
+                            maxGrade.classList.remove("no-grade");
+                        }
                     } else {
+                        if (letterGradeOnly) {
+                            addEditDisableReason("Letter grade only assignment can't load point values", true, false);
+                            invalidCategories.push(category.dataset.id);
+                        }
+
                         throw "List search failed to obtain meaningful response";
                     }
                 } catch (err) {
@@ -1175,7 +1361,7 @@ var fetchQueue = [];
         });
     }
 
-    function recalculateCategoryScore(catRow, deltaPoints, deltaMax, warn = true) {
+    function recalculateCategoryScore(catRow, deltaPoints, deltaMax, warn = true, courseId = null) {
         // category always has a numeric score, unlike period
         // awarded grade in our constructed element contains both rounded and max
         let awardedCategoryPoints = catRow.querySelector(".rounded-grade").parentNode;
@@ -1183,8 +1369,8 @@ var fetchQueue = [];
         let catMaxElem = awardedCategoryPoints.querySelector(".max-grade");
         let newCatScore = Number.parseFloat(catScoreElem.textContent) + deltaPoints;
         let newCatMax = Number.parseFloat(catMaxElem.textContent.substring(3)) + deltaMax;
-        catScoreElem.textContent = newCatScore;
-        catMaxElem.textContent = " / " + newCatMax;
+        catScoreElem.textContent = roundDecimal(newCatScore, 2);
+        catMaxElem.textContent = " / " + roundDecimal(newCatMax, 2);
         if (warn && !awardedCategoryPoints.querySelector(".modified-score-percent-warning")) {
             awardedCategoryPoints.appendChild(generateScoreModifyWarning());
         }
@@ -1215,9 +1401,12 @@ var fetchQueue = [];
         if (warn && !awardedCategoryPercentContainer.querySelector(".modified-score-percent-warning")) {
             awardedCategoryPercentContainer.prepend(generateScoreModifyWarning());
         }
+        if (courseId) {
+            addLetterGrade(awardedCategoryPercent, courseId)
+        }
     }
 
-    function recalculatePeriodScore(perRow, deltaPoints, deltaMax, warn = true) {
+    function recalculatePeriodScore(perRow, deltaPoints, deltaMax, warn = true, courseId = null) {
         let awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right").firstElementChild;
         let awardedPeriodPercent = awardedPeriodPercentContainer;
         // clear existing percentage indicator
@@ -1231,6 +1420,7 @@ var fetchQueue = [];
         awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
         awardedPeriodPercent.classList.add("numeric-grade");
         awardedPeriodPercent.classList.add("primary-grade");
+        awardedPeriodPercentContainer = awardedPeriodPercent;
         awardedPeriodPercent.appendChild(document.createElement("span"));
         awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
         awardedPeriodPercent.classList.add("rounded-grade");
@@ -1244,8 +1434,8 @@ var fetchQueue = [];
             let perMaxElem = awardedPeriodPoints.querySelector(".max-grade");
             let newPerScore = Number.parseFloat(perScoreElem.textContent) + deltaPoints;
             let newPerMax = Number.parseFloat(perMaxElem.textContent.substring(3)) + deltaMax;
-            perScoreElem.textContent = newPerScore;
-            perMaxElem.textContent = " / " + newPerMax;
+            perScoreElem.textContent = roundDecimal(newPerScore, 2);
+            perMaxElem.textContent = " / " + roundDecimal(newPerMax, 2);
             if (warn && !awardedPeriodPoints.querySelector(".modified-score-percent-warning")) {
                 awardedPeriodPoints.appendChild(generateScoreModifyWarning());
             }
@@ -1291,6 +1481,11 @@ var fetchQueue = [];
             awardedPeriodPercent.textContent = (Math.round(total * 100) / 100) + "%";
         }
 
+        if (courseId) {
+            addLetterGrade(awardedPeriodPercent, courseId)
+        }
+
+        awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right").firstElementChild
         if (warn && !awardedPeriodPercentContainer.querySelector(".modified-score-percent-warning")) {
             awardedPeriodPercentContainer.prepend(generateScoreModifyWarning());
         }
@@ -1394,7 +1589,13 @@ var fetchQueue = [];
 
     function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
         return function () {
-            trackEvent("assignment", "change-grade", "What-If Grades");
+            trackEvent("button_click", {
+                id: "change-assignment-grade",
+                context: "What-If Grades",
+                legacyTarget: "assignment",
+                legacyAction: "change-grade",
+                legacyLabel: "What-If Grades"
+            });
             removeExceptionState(assignment, gradeColContentWrap);
 
             let noGrade = gradeColContentWrap.querySelector(".no-grade");
@@ -1516,8 +1717,8 @@ var fetchQueue = [];
                     return true;
                 }
 
-                recalculateCategoryScore(catRow, deltaPoints, deltaMax);
-                recalculatePeriodScore(perRow, deltaPoints, deltaMax);
+                recalculateCategoryScore(catRow, deltaPoints, deltaMax, true, courseId);
+                recalculatePeriodScore(perRow, deltaPoints, deltaMax, true, courseId);
 
                 if (finishedCallback) {
                     finishedCallback();
@@ -1605,6 +1806,12 @@ function processNonenteredAssignments() {
             });
         }, sleep ? 3000 : 0);
     }
+}
+
+function roundDecimal(num, dec) {
+    let intPart = Math.floor(num);
+    let floatPart = num - intPart;
+    return intPart + (Math.round(floatPart * Math.pow(10, dec)) / Math.pow(10, dec));
 }
 
 Logger.debug("Finished loading grades.js");

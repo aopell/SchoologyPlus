@@ -108,11 +108,13 @@ col.comments-column {
 
 .category-row img.modified-score-percent-warning {
     width: 12px;
+    height: 12px;
 }
 
 .period-row img.modified-score-percent-warning {
     margin-bottom: 1px;
     width: 15px;
+    height: 15px;
 }
 
 .relative-span-contain {

@@ -99,6 +99,9 @@ class Theme {
                             case "lausd_legacy":
                                 Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
                                 break;
+                            case "lausd_2022":
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-2022.png"));
+                                break;
                             case "lausd_2019":
                                 Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-2019.png"));
                                 break;

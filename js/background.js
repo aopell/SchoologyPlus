@@ -51,7 +51,32 @@ chrome.storage.sync.get({ defaultDomain: "app.schoology.com" }, s => {
 chrome.runtime.onInstalled.addListener(function (details) {
     // TODO: Open window here to ask new users to select their domain
     // chrome.tabs.create({ url: "https://schoologypl.us" })
-    trackEvent("Runtime onInstalled", details.reason, "Versions");
+    trackEvent("perform_action", {
+        id: "runtime_oninstalled",
+        value: details.reason,
+        context: "Versions",
+        legacyTarget: "Runtime onInstalled",
+        legacyAction: details.reason,
+        legacyLabel: "Versions"
+    });
+
+    chrome.contextMenus.create({
+        "title": "Theme Editor",
+        "contexts": ["browser_action"],
+        "onclick": () => window.open(chrome.runtime.getURL("/theme-editor.html"), "_blank")
+    });
+
+    chrome.contextMenus.create({
+        "title": "Discord Support Server",
+        "contexts": ["browser_action"],
+        "onclick": () => window.open("https://discord.schoologypl.us", "_blank")
+    });
+
+    chrome.contextMenus.create({
+        "title": "Schoology Plus Website",
+        "contexts": ["browser_action"],
+        "onclick": () => window.open("https://schoologypl.us?utm_source=ext-context-menu", "_blank")
+    });
 });
 
 Logger.log("Loaded event page");
@@ -60,7 +85,14 @@ chrome.alarms.onAlarm.addListener(onAlarm);
 Logger.log("Adding notification listener");
 chrome.notifications.onClicked.addListener(function (id) {
     Logger.log("Notification clicked");
-    trackEvent(id, "notification click", "Notifications");
+    trackEvent("perform_action", {
+        id: "click",
+        context: "Notifications",
+        value: id,
+        legacyTarget: id,
+        legacyAction: "notification click",
+        legacyLabel: "Notifications"
+    });
     chrome.notifications.clear(id, null);
     switch (id) {
         case "assignment":
@@ -78,7 +110,14 @@ chrome.browserAction.onClicked.addListener(function () {
     Logger.log("Browser action clicked");
     chrome.browserAction.getBadgeText({}, x => {
         let n = Number.parseInt(x);
-        trackEvent("Browser Action", n ? `browser action clicked: ${n}` : "browser action clicked: 0", "Notifications");
+        trackEvent("button_click", {
+            id: "main-browser-action-button",
+            context: "Browser Action",
+            value: String(n || 0),
+            legacyTarget: "Browser Action",
+            legacyAction: n ? `browser action clicked: ${n}` : "browser action clicked: 0",
+            legacyLabel: "Notifications"
+        });
         Logger.log(`Browser action text: "${x}"`);
         if (n) chrome.tabs.create({ url: `https://${defaultDomain}/home/notifications` }, null);
         else chrome.tabs.create({ url: `https://${defaultDomain}` }, null);
@@ -216,7 +255,14 @@ function sendNotification(notification, name, count) {
         }
         if (!storageContent.notifications || storageContent.notifications == "enabled" || storageContent.notifications == "popup") {
             chrome.notifications.create(name, notification, null);
-            trackEvent(name, "shown", "Notifications");
+            trackEvent("perform_action", {
+                id: "shown",
+                context: "Notifications",
+                value: name,
+                legacyTarget: name,
+                legacyAction: "shown",
+                legacyLabel: "Notifications"
+            });
         } else {
             Logger.log("Popup notifications are disabled");
         }

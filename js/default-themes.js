@@ -280,6 +280,21 @@ let __defaultThemes = [
             }
         },
         "logo": {
+            "preset": "lausd_2022"
+        }
+    },
+    {
+        "name": "LAUSD 2019",
+        "version": 2,
+        "color": {
+            "custom": {
+                "primary": "#143f69",
+                "hover": "#345f89",
+                "background": "#345f89",
+                "border": "#024f7d"
+            }
+        },
+        "logo": {
             "preset": "lausd_2019"
         }
     },

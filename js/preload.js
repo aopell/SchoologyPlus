@@ -246,7 +246,7 @@ function createElement(tag, classList, properties, children) {
  * @param {(e: Event)=>void} callback A function to be called when the button is clicked
  */
 function createButton(id, text, callback) {
-    return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit", "splus-track-clicks"], { type: "button", value: text, id: id, dataset: { splusTrackingLabel: "S+ Button" } })]);
+    return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit", "splus-track-clicks"], { type: "button", value: text, id: id, dataset: { splusTrackingContext: "S+ Button" } })]);
 }
 
 /**
@@ -437,7 +437,12 @@ function updateSettings(callback) {
         // wrapper functions for e.g. defaults
         __storage.getGradingScale = function (courseId) {
             let defaultGradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
-            if (__storage.gradingScales && __storage.gradingScales[courseId]) {
+            
+            if (__storage.defaultGradingScale) {
+                defaultGradingScale = __storage.defaultGradingScale;
+            }
+
+            if (courseId !== null && __storage.gradingScales && __storage.gradingScales[courseId]) {
                 return __storage.gradingScales[courseId];
             }
 
@@ -796,6 +801,28 @@ function updateSettings(callback) {
                     element => element.value
                 ).control,
                 new Setting(
+                    "autoBypassLinkRedirects",
+                    "Automatically Bypass Link Redirects",
+                    "Automatically skip the external link redirection page, clicking 'Continue' by default",
+                    "enabled",
+                    "select",
+                    {
+                        options: [
+                            {
+                                text: "Enabled",
+                                value: "enabled"
+                            },
+                            {
+                                text: "Disabled",
+                                value: "disabled"
+                            }
+                        ]
+                    },
+                    value => value,
+                    undefined,
+                    element => element.value
+                ).control,
+                new Setting(
                     "helpCenterFAB",
                     "Schoology Help Button",
                     "Controls the visibility of the S button in the bottom right that shows the Schoology Guide Center",
@@ -858,7 +885,12 @@ function updateSettings(callback) {
             ]),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
                 createButton("save-settings", "Save Settings", () => Setting.saveModified()),
-                createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: Setting.restoreDefaults, href: "#" })
+                createElement("div", ["settings-actions-wrapper"], {}, [
+                    createElement("a", [], { textContent: "View Debug Info", onclick: () => openModal("debug-modal"), href: "#" }),
+                    createElement("a", [], { textContent: "Export Settings", onclick: Setting.export, href: "#" }),
+                    createElement("a", [], { textContent: "Import Settings", onclick: Setting.import, href: "#" }),
+                    createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: Setting.restoreDefaults, href: "#" })
+                ]),
             ])
         ]);
 
@@ -979,7 +1011,16 @@ Setting.saveModified = function (modifiedValues, updateButtonText = true, callba
             if (!setting) {
                 continue;
             }
-            trackEvent(settingName, `set value: ${newValues[settingName]}`, "Setting");
+
+            trackEvent("update_setting", {
+                id: settingName,
+                context: "Settings",
+                value: newValues[settingName],
+                legacyTarget: settingName,
+                legacyAction: `set value: ${newValues[settingName]}`,
+                legacyLabel: "Setting"
+            });
+            
             if (!setting.getElement()) {
                 continue;
             }
@@ -1006,13 +1047,70 @@ Setting.saveModified = function (modifiedValues, updateButtonText = true, callba
  */
 Setting.restoreDefaults = function () {
     if (confirm("Are you sure you want to delete all settings?\nTHIS CANNOT BE UNDONE")) {
-        trackEvent("restore-defaults", "restore default values", "Setting");
+        trackEvent("reset_settings", {
+            context: "Settings",
+            legacyTarget: "restore-defaults",
+            legacyAction: "restore default values",
+            legacyLabel: "Setting"
+        });
         for (let setting in __settings) {
             delete __storage[setting];
             chrome.storage.sync.remove(setting);
             __settings[setting].onload(undefined, __settings[setting].getElement());
         }
         location.reload();
+    }
+}
+
+/**
+ * Exports settings to the clipboard in JSON format
+ */
+Setting.export = function () {
+    trackEvent("button_click", {
+        id: "export-settings",
+        context: "Settings",
+        legacyTarget: "export-settings",
+        legacyAction: "export settings",
+        legacyLabel: "Setting"
+    });
+    
+    navigator.clipboard.writeText(JSON.stringify(__storage, null, 2))
+        .then(() => alert("Copied settings to clipboard!"))
+        .catch(err => alert("Exporting settings failed!"));
+}
+
+/**
+ * Import settings from clipboard in JSON format
+ */
+Setting.import = function () {
+    trackEvent("button_click", {
+        id: "import-settings-attempt",
+        context: "Settings",
+        legacyTarget: "import-settings",
+        legacyAction: "attempt import settings",
+        legacyLabel: "Setting"
+    });
+    if (confirm("Are you sure you want to import settings? Importing invalid or malformed settings will most likely break Schoology Plus.")) {
+        let importedSettings = prompt("Please paste settings to import below:");
+
+        try {
+            let importedSettingsObj = JSON.parse(importedSettings);
+        } catch (err) {
+            alert("Failed to import settings! They were probably malformed. Make sure the settings are valid JSON.");
+            return;
+        }
+
+        Setting.setValues(importedSettingsObj, () => {
+            trackEvent("button_click", {
+                id: "import-settings-success",
+                context: "Settings",
+                legacyTarget: "import-settings",
+                legacyAction: "successfully imported settings",
+                legacyLabel: "Setting"
+            });
+            alert("Successfully imported settings. If Schoology Plus breaks, please restore defaults or reinstall. Reloading page.")
+            location.reload();
+        });
     }
 }
 

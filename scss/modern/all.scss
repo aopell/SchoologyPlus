@@ -82,6 +82,7 @@ variable-intellisense {
 
     textarea,
     select,
+    optgroup,
     input[type=text] {
         background-color: var(--input) !important;
         color: var(--text) !important;
@@ -238,6 +239,13 @@ variable-intellisense {
         color: var(--text);
     }
 
+    .drGks a {
+        &:hover,
+        &:focus {
+            background-color: var(--highlight);
+        }
+    }
+
     .grade-data {
         color: var(--grades) !important;
     }
@@ -283,7 +291,7 @@ variable-intellisense {
 
     footer li a,
     header li a {
-        color: var(--contrast-text) !important;
+        color: var(--link-color) !important;
     }
 
     .splus-modal-footer-text {
@@ -452,6 +460,7 @@ variable-intellisense {
     tr.error {
         background-color: var(--error) !important;
         border-color: var(--error) !important;
+        color: var(--text);
     }
 
     // Courses and Groups Dropdown
@@ -620,7 +629,7 @@ variable-intellisense {
     .color-dark-7,
     .color-dark-8,
     .color-dark-9,
-    .color-dark-10, {
+    .color-dark-10 {
         border-color: rgba(0, 0, 0, 0.4) !important;
     }
 
@@ -889,6 +898,10 @@ variable-intellisense {
         color: var(--text) !important;
     }
 
+    .comment-body-wrapper {
+        color: var(--text) !important; 
+    }
+
     .s-polls-poll-option,
     #edge-filters-menu {
         background: none !important;
@@ -978,6 +991,7 @@ variable-intellisense {
     .userlist_input input[type=text] {
         background-color: var(--input) !important;
         border-radius: var(--border-radius) !important;
+        color: white;
     }
 
     #edge-filters-btn {
@@ -1500,14 +1514,51 @@ variable-intellisense {
 
     .tab-nav {
         &:hover {
-            background-color: var(--active);
+            background-color: var(--hover-color);
         }
 
-        .active {
+        &.active {
             background-color: var(--input);
 
             &:hover {
                 background-color: var(--input);
+            }
+        }
+    }
+
+    #ui-datepicker-div {
+        background-color: var(--input) !important;
+    }
+        
+    .ui-datepicker-days-cell a {
+        background-color: var(--primary) !important;
+        border-color: var(--border-color) !important;
+    }
+    
+    .ui-datepicker-unselectable {
+        background-color: var(--accent) !important;
+    }
+    
+    .ui-datepicker-days-cell.ui-datepicker-current-day a {
+        background-color: var(--active) !important;
+    }
+    
+    .ui-datepicker-days-cell-over a {
+        background-color: var(--hover-color) !important;
+    }
+    
+    .ui-datepicker-links {
+        > div {
+            > a {
+                background-color: var(--input);
+                background-blend-mode: screen;
+                border: var(--modern-border);
+                border-radius: var(--border-radius);
+            }
+            &:hover {
+                > a {
+                    background-color: var(--hover-color);
+                }
             }
         }
     }
@@ -1992,6 +2043,14 @@ variable-intellisense {
         .portfolio-view__add-new-bg {
             border-bottom: var(--modern-border) !important;
         }
+        
+        .btn:hover {
+            background-color: var(--hover-color) !important;
+        }
+        
+        .dropdown-menu {
+            background-color: var(--primary) !important;
+        }
     }
 
     .portfolio-route-content {
@@ -2008,7 +2067,8 @@ variable-intellisense {
         background: var(--accent) !important;
     }
 
-    .portfolio-card, .item-card {
+    .portfolio-card,
+    .item-card {
         background: var(--primary) !important;
     }
     
@@ -2039,16 +2099,45 @@ variable-intellisense {
             border-radius: var(--border-radius) !important;
         }
 
+        .portfolio-card__item-count-num {
+            color: var(--contrast-text) !important;
+        }
+
+        .btn {
+            background-color: var(--primary) !important;
+            border: var(--modern-border) !important;
+            border-radius: var(--border-radius) !important;
+            color: var(--contrast-text) !important;
+            
+            &:hover {
+                background-color: var(--hover-color) !important;
+            }
+        }
+
+        .dropdown-menu {
+            background-color: var(--primary) !important;
+        }
+
+        .item-form__title-inline .sgy-autosave-input .form-group:hover {
+            label,
+            label span {
+                color: var(--muted-text) !important;
+            }
+        }
+
         .remaining-char-len {
             color: var(--text) !important;
         }
 
-        .add-item-dropdown__add-new-icon::before, .portfolio-list__add-new-icon::before {
+        .add-item-dropdown__add-new-icon::before,
+        .portfolio-list__add-new-icon::before {
             background-color: var(--primary) !important;
-            border-color: var(--modern-border) !important;
+            border-color: var(--border-color) !important;
         }
 
-        .item-view-container, .item-form__title-bar, .item-page {
+        .item-view-container,
+        .item-form__title-bar,
+        .item-page {
             background-color: var(--background-color) !important;
             border-color: var(--border-color) !important;
             outline-color: var(--border-color) !important;
@@ -2060,7 +2149,8 @@ variable-intellisense {
     }
 
     .sgy-autosave-input.sgy-autosave-input--editing {
-        & label span, & .form-group:hover label span {
+        label span,
+        .form-group:hover label span {
             color: var(--text) !important;
         }
     }
@@ -2407,6 +2497,14 @@ variable-intellisense {
 
     .comment-container {
         border-color: var(--contrast-border) !important;
+    }
+
+    .update-comments-pagenation {
+        background-color: var(--accent);
+    }
+
+    .feed-comments-viewall-container {
+        color: var(--link-color);
     }
 
     .dropbox-viewer-item-wrapper {
@@ -3295,4 +3393,410 @@ variable-intellisense {
     .splus-button-tile.active {
         background-color: var(--active) !important;
     }
+
+    //
+    // Teacher Areas
+    //              
+    //  Test Setup  
+    .settings-label {
+      color: var(--text);
+    }
+    
+    // Buttons 
+    .s-grade-item-assignment-submission-app {
+      background-color: var(--primary);
+      color: var(--text);
+    }
+    
+    // Button Hover
+    ._2mytC:hover a,
+    ._2mytC:focus a,
+    .Oq4U1:hover:not(:active),
+    .Oq4U1:focus,
+    .s-grade-item-assignment-submission-app:hover,
+    .s-grade-item-assignment-submission-app:focus,
+    span[role="button"]:hover,
+    span[role="button"]:focus,
+    #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding:hover,
+    #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding:focus,
+    .sort-handle:hover,
+    .sort-handle:focus {
+      background-color: var(--hover-color);
+    }
+    
+    // Active Buttons 
+    .Oq4U1:active {
+      background-color: var(--active);
+    }
+    
+    .s-share-checkbox-form-wrapper .checkboxes-wrapper {
+    background-color: var(--primary);
+  }
+  
+  #attachment-selector #toggle-copy:hover {
+    background-color: var(--hover-color);
+  }
+  
+  
+  .comments-list .comment {
+    background: var(--primary);
+    border: var(--modern-border);
+    border-color: var(--border-color);
+    color: var(--text);
+  }
+  
+  .comment-date {
+    color: var(--muted-text);
+  }
+  
+    
+  
+  //                       //
+  // Course Materials Page //
+  //                       //
+  .unpublished,
+  #folder-contents-table .unpublished .folder-contents-cell {
+    background-color: var(--primary);
+  }
+  
+  .masquerade-box {
+    background-color: var(--secondary);
+    border: var(--modern-border);
+  }
+  
+  div.grade-assignment-popup .description, #sEditGradeTable tr th {
+    color: var(--text);
+    background-color: var(--primary);
+  }
+  
+  //                             //
+  //  Badges & Attendance Pages  //
+  //                             //
+  #badges-fullscreen-btn {
+    background-color: var(--primary);
+    border: var(--modern-border);
+    border-radius: var(--border-radius);
+  }
+  
+  .even .badge-course-table-cell,
+  #s-attendance-edit-form tbody td,
+  #s-attendance-edit-form tbody td div,
+  #s-attendance-edit-form tbody th {
+    background-color: var(--primary);
+  }
+  
+  th.badge-course-table-cell,
+  #s-badge-table-main .sticky-header th,
+  #s-attendance-edit-form thead th {
+    background: var(--secondary);
+  }
+  
+  th.badge-course-table-cell .action-links-unfold {
+    background-color: var(--input) !important;
+  }
+  
+  th.badge-course-table-cell .action-links-unfold span,
+  .date-chooser a.prev span,
+  .date-chooser a.next span {
+    filter: contrast(5%);
+  }
+  
+  #s-attendance-taken-row .attendance-taken-label {
+    color: var(--text);
+  }
+  
+  #s-attendance-taken-row.odd td,
+  #s-attendance-taken-row.even td {
+    background-color: var(--accent);
+  }
+  
+  #s-attendance-edit-form tbody tr:hover th,
+  #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:hover,
+  #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:focus {
+    background-color: var(--hover-color);
+  }
+  
+  #s-attendance-edit-form #s-attendance-taken-row .edited {
+    background-color: var(--highlight);
+  }
+  
+  #attendance-comment-field {
+    background-color: var(--accent);
+    border: var(--modern-border);
+  }
+  
+  .comment-status-label {
+    color: var(--text);
+  }
+  
+  #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status--start {
+    background-color: var(--active);
+    border-color: var(--contrast-border);
+  }
+  
+  .footer-buttons .date-chooser-calendar,
+  .header-buttons .date-chooser-calendar,
+  .footer-buttons .infotip,
+  .header-buttons .infotip {
+    background: var(--primary);
+    border: var(--modern-border);
+    border-radius: var(--border-radius);
+  }
+  
+  a.prev:hover,
+  a.prev:focus,
+  a.next:hover,
+  a.next:focus {
+    background: var(--hover-color);
+  }
+  
+  a.prev,
+  a.next {
+    background: var(--primary);
+  }
+  
+  a.prev {
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+  }
+  
+  a.next {
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  }
+  
+  
+  //                    //
+  //  Grade Setup Page  //
+  //                    //
+  .scale-level-scale {
+    background-color: var(--highlight);
+    border: var(--modern-border);
+  }
+  
+  #s-grading-category-add-form .form-item,
+  #s-grading-category-add-form fieldset {
+    background-color: var(--primary);
+  }
+  
+  #grading-rubric-edit-slider .right-column {
+    border-color: var(--border-color);
+  }
+  
+  #grading-rubric-edit-slider .large-submit-buttons {
+    background-color: var(--secondary);
+    border-color: var(--border-color);
+  }
+  
+  #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding {
+    background-color: var(--primary);
+    box-shadow: 0px 2px 0px var(--highlight);
+  }
+  
+  .sort-handle {
+    background-color: var(--accent);
+  }
+  
+  #grading-rubric-edit-slider .ui-sortable-helper,
+  #district-mastery-grading-rubric-edit-slider .ui-sortable-helper,
+  #grading-rubric-edit-slider .ui-sortable-helper td,
+  #district-mastery-grading-rubric-edit-slider .ui-sortable-helper td {
+    background-color: var(--active) !important;
+  }
+  
+  .rubric-editor-add-criteria,
+  .rubric-editor-add-objectives {
+    color: text;
+  }
+  
+  #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope {
+    color: var(--muted-text);
+  }
+  
+  #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:hover,
+  #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:focus {
+    color: var(--text);
+  }
+  
+  .alignment-form-container .header {
+    background-color: var(--secondary);
+  }
+  
+  .guid-item:active,
+  .alignment-form-container .header .search-tab.active, 
+  .alignment-form-container li.active,
+  .alignment-form-container div.active {
+    background-color: var(--active);
+  }
+  
+  .alignment-breadcrumbs .breadcrumb-item:first-child,
+  .alignment-breadcrumbs .breadcrumb-item,
+  .alignment-form-container li,
+  .selected-container .selected-item {
+    color: var(--link-color);
+    border-color: var(--contrast-border);
+  }
+  
+  .alignment-form-container li .gray,
+  .alignment-form-container div .gray {
+    color: var(--text) !important;
+  }
+  
+  .empty {
+    color: var(--muted-text);
+  }
+  
+  .add-criteria-text {
+    color: var(--text);
+  }
+  
+  
+  
+  //                //
+  //  MEMBERS PAGE  //
+  //                //
+  .parent-names-list.description {
+    color: var(--muted-text);
+  }
+  
+  .s-enrollment-invite-form .metadata-wrapper,
+  #grading-group-create {
+    color: var(--text);
+  }
+  
+  .s-enrollment-invite-form .user-invite-wrapper {
+    background-color: var(--accent);
+    color: var(--text);
+  }
+  
+  .s-enrollment-invite-form .user-name-wrapper,
+  .people-filters .selected-users,
+  .people-filters .show-all-users {
+    color: var(--link-color);
+  }
+  
+  .people-filters .selected-users.active,
+  .people-filters .show-all-users.active {
+    color: var(--contrast-text);
+    background-color: var(--active);
+  }
+  
+  .term-item-tag,
+  .locked-question .tag-item {
+    color: var(--text);
+    background-color: var(--secondary);
+    border-color: var(--border-color);
+  }
+  
+  .link-btn {
+    background: var(--secondary);
+    color: var(--text);
+    border: var(--modern-border);
+    border-radius: var(--border-radius);
+    border-color: var(--border-color);
+  }
+  
+  .s-enrollment-invite-form .s-enrollment-invite-list-wrapper,
+  .s-enrollment-invite-form #network-selected {
+    background-color: var(--primary);
+    border-color: var(--border-color);
+  }
+  
+  .submit-btn {
+    background: var(--primary);
+    color: var(--contrast-text);
+    border-radius: var(--border-radius);
+  }
+  
+  .cancel-btn {
+    background: var(--accent) !important;
+    color: var(--muted-text) !important;
+    border-radius: var(--border-radius);
+  }
+  
+  .submit-btn:hover,
+  .submit-btn:focus,
+  .cancel-btn:hover,
+  .cancel-btn:focus {
+    background: var(--hover-color) !important;
+    color: var(--text) !important;
+  }
+  
+  
+  
+  
+  //                //
+  // Gradebook Page //
+  //                //
+  .s-js-grid-loading-cover {
+    background-color: var(--primary);
+  }
+  
+  .grader-grid-table-header-wrapper .grader-grid-header-cell,
+  .grader-grid-table-header-wrapper .grader-grid-header-cell.hidden-grade .gradebook__major-period-title,
+  .grader-grid-table-header-wrapper .grader-grid-header-cell.showing-unpublished .gradebook__major-period-title {
+    background-color: var(--secondary);
+    color: var(--text);
+  }
+  
+  .enhanced-gb-body .grid-table-col-header-static-content .select2-container:not(.select2-dropdown-open) .select2-choice > .select2-chosen,
+  .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container:not(.select2-dropdown-open) .select2-choice > .select2-chosen {
+    color: var(--text) !important;
+  }
+  
+  .grader-grid--crosshair-line-column,
+  .grader-grid--crosshair-line-row,
+  .grader-grid--crosshair-center {
+    background-color: var(--hover-color) !important;
+  }
+  
+  .gradebook__grade-custom-override + .grader-grid-col-header-gp,
+  .gradebook__grade-custom-override + .grader-grid-col-header-overall {
+    background-color: var(--primary);
+  }
+  
+  .grader-grid-cell:not(.gradebook__grade-custom-override) .grader-grid-cell-block:not(.updated) .grade-value,
+  .grader-grid-cell:not(.gradebook__grade-custom-override) .grader-grid-cell-block:not(.updated) .s-js-grader-grid-cell-display,
+  .grader-grid-table-header-wrapper .gradebook__major-grade-period-header .gradebook__subperiod-element-calculated,
+  .grader-grid-table-header-wrapper .gradebook__major-grade-period-header .grading-period-override-column {
+    color: var(--text);
+  }
+  
+  .gradebook__subperiod-element-calculated.has-override-column,
+  .grading-period-override-column {
+    background-color: var(--accent);
+  }
+  
+  .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container.select2-dropdown-open.select2-container-active span {
+    color: var(--link-color);
+  }
+  
+  .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container.select2-dropdown-open.select2-container-active {
+    background-color: var(--primary);
+    border-radius: var(--border-radius);
+  }
+  
+  #autocomplete.grading-scale-ac-popup ul li,
+  .enhanced-gb-body #main-content-wrapper .action-links a,
+  .enhanced-gb-body #main-content-wrapper .action-links button,
+  .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label,
+  .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label {
+    background-color: var(--secondary);
+    color: var(--text);
+  }
+  
+  #autocomplete.grading-scale-ac-popup ul li:hover,
+  .enhanced-gb-body #main-content-wrapper .action-links a:hover,
+  .enhanced-gb-body #main-content-wrapper .action-links button:hover,
+  .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:hover,
+  .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label:hover,
+  #autocomplete.grading-scale-ac-popup ul li:focus,
+  .enhanced-gb-body #main-content-wrapper .action-links a:focus,
+  .enhanced-gb-body #main-content-wrapper .action-links button:focus,
+  .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:focus,
+  .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label:focus {
+    background-color: var(--hover-color);
+  }
+  
+  #grade-comment-field {
+    background-color: var(--primary);
+  }
 }

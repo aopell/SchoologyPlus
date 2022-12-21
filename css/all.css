@@ -278,10 +278,19 @@ video.easter-egg {
     justify-content: space-between;
 }
 
-.restore-defaults {
-    color: red !important;
+.settings-actions-wrapper {
     margin-top: 10px;
     font-weight: normal;
+}
+
+.settings-actions-wrapper > a,
+.settings-actions-wrapper > span {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.restore-defaults {
+    color: red !important;
 }
 
 .margin-under {
@@ -409,6 +418,12 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 
 h1.setting-title {
     display: inline;
+}
+
+#popups-overlay,
+.active-loader .loading-overlay {
+    /* Modern-Compatible, however will default back to normal if Modern is not enabled.*/
+    background-color: var(--primary, var(--primary-color));
 }
 
 .popups-body .no-answer-provided {
@@ -914,7 +929,7 @@ a._3_bfp {
 
 #center-inner.splus-api-key-page #center-top .page-title,
 #center-inner.splus-api-key-page #content-wrapper form p.description,
-#center-inner.splus-api-key-page .submit-span-wrapper {
+#center-inner.splus-api-key-page .submit-span-wrapper:not(.splus-modal-button) {
     display: none;
 }
 
@@ -972,6 +987,13 @@ a._3_bfp {
     width: 400px;
 }
 
+.splus-permissions-link {
+    text-align: center;
+    font-size: 14px;
+    color: white !important;
+    text-decoration: underline;
+}
+
 .splus-permissions-description strong {
     font-size: 16px;
     text-decoration: underline;
@@ -995,4 +1017,12 @@ a._3_bfp {
     padding: 0 10%;
     list-style: disc !important;
     list-style-position: inside !important;
+}
+
+.splus-permissions-close {
+    position: absolute;
+    left: 69%;
+    top: 5%;
+    font-size: xx-large;
+    cursor: pointer;
 }

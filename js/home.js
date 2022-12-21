@@ -30,7 +30,16 @@ function postFromBroadcast(broadcast) {
                                 createElement("span", ["visually-hidden"], { textContent: "posted to" })
                             ]),
                             createElement("a", ["sExtlink-processed"], { textContent: "Schoology Plus Announcements" }),
-                            createElement("span", ["splus-broadcast-close"], { textContent: "×", title: "Dismiss notification", onclick: () => trackEvent(`broadcast${broadcast.id}`, "close", "Broadcast") }),
+                            createElement("span", ["splus-broadcast-close"], {
+                                textContent: "×", title: "Dismiss notification", onclick: () => trackEvent("button_click", {
+                                    id: "close",
+                                    context: "Broadcast",
+                                    value: broadcast.id,
+                                    legacyTarget: `broadcast${broadcast.id}`,
+                                    legacyAction: "close",
+                                    legacyLabel: "Broadcast"
+                                })
+                            }),
                             createElement("span", ["update-body", "s-rte"], {}, [
                                 createElement("p", ["no-margins"], {}, [
                                     createElement("strong", ["splus-broadcast-title"], { innerHTML: broadcast.title })
@@ -65,9 +74,16 @@ function postFromBroadcast(broadcast) {
 
 function dismissNotification(event) {
     let id = event.target.dataset.broadcastId;
+
     let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
     unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == id), 1);
     Setting.setValue("unreadBroadcasts", unreadBroadcasts);
+
+    let readBroadcasts = localStorage.getItem("splus-readBroadcasts");
+    readBroadcasts = readBroadcasts === null ? [] : JSON.parse(readBroadcasts);
+    readBroadcasts.push(id);
+    localStorage.setItem("splus-readBroadcasts", JSON.stringify(readBroadcasts));
+
     document.getElementById(`broadcast${id}`).outerHTML = "";
 }
 
@@ -76,7 +92,18 @@ function formatDateAsString(date) {
 }
 
 if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
-    (function () {
+    (async function () {
+        try {
+            let onlineBroadcasts = await (await fetch("https://schoologypl.us/alert.json")).json();
+
+            let readBroadcasts = localStorage.getItem("splus-readBroadcasts");
+            readBroadcasts = readBroadcasts === null ? [] : JSON.parse(readBroadcasts);
+
+            saveBroadcasts(onlineBroadcasts.filter(b => !readBroadcasts.includes(b.id)));
+        } catch (err) {
+            // Ignore
+        }
+
         let observer = new MutationObserver(function (mutations) {
             if (mutations.length == 0) {
                 return;
@@ -86,8 +113,14 @@ if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
             // style is set on homeFeedContainer whenever Schoology decides to unhide it (static CSS sets display: none), i.e. when it's finished loading
             // once this happens, we can do our thing
 
-            for (let broadcast of Setting.getValue("unreadBroadcasts") || []) {
-                feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
+            let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
+            for (let broadcast of unreadBroadcasts || []) {
+                if (!broadcast.expires || broadcast.expires > Date.now()) {
+                    feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
+                } else {
+                    unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == broadcast.id), 1);
+                    Setting.setValue("unreadBroadcasts", unreadBroadcasts);
+                }
             }
 
             // then disconnect

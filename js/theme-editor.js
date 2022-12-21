@@ -1,10 +1,11 @@
 const schoologyPlusLogoImageUrl = chrome.runtime.getURL("/imgs/schoology-plus-wide.svg");
 const schoologyLogoImageUrl = "https://ui.schoology.com/design-system/assets/schoology-logo-horizontal-white.884fbe559c66e06d28c5cfcbd4044f0e.svg";
 const lausdLegacyImageUrl = chrome.runtime.getURL("/imgs/lausd-legacy.png");
-const lausdNewImageUrl = chrome.runtime.getURL("/imgs/lausd-2019.png");
+const lausd2019ImageUrl = chrome.runtime.getURL("/imgs/lausd-2019.png");
+const lausd2022ImageUrl = chrome.runtime.getURL("/imgs/lausd-2022.png");
 const CURRENT_VERSION = SchoologyTheme.CURRENT_VERSION;
 const placeholderUrl = "https://via.placeholder.com/200x50?text=School+Logo";
-const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue"];
+const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue", "LAUSD 2019"];
 const CLASSIC_THEMES = ["Schoology Plus", "Rainbow"]
 
 var defaultDomain = "app.schoology.com";
@@ -46,6 +47,7 @@ var themeBorderColor = document.getElementById("theme-border-color");
 var themeLinkColor = document.getElementById("theme-link-color");
 var themeSchoologyPlusLogo = document.getElementById("theme-schoology-plus-logo");
 var themeSchoologyLogo = document.getElementById("theme-schoology-logo");
+var themeLAUSDLogo2022 = document.getElementById("theme-lausd-logo-2022");
 var themeNewLAUSDLogo = document.getElementById("theme-new-lausd-logo");
 var themeLAUSDLogo = document.getElementById("theme-lausd-logo");
 var themeDefaultLogo = document.getElementById("theme-default-logo");
@@ -114,9 +116,17 @@ createPresetClassicTheme.addEventListener("click", e => editTheme("Schoology Plu
 var previewNavbar = document.getElementById("preview-navbar");
 var previewLogo = document.getElementById("preview-logo");
 var previewPage = document.getElementById("preview-page");
+var lastSelectedTemplate = null;
 
 var modernEnable = document.getElementById("modern-enable");
-modernEnable.addEventListener("click", e => trackEvent("modern-enable", modernEnable.checked.toString(), "Theme Editor"));
+modernEnable.addEventListener("click", e => trackEvent("update_setting", {
+    id: "modern-enable",
+    context: "Theme Editor",
+    value: modernEnable.checked.toString(),
+    legacyTarget: "modern-enable",
+    legacyAction: modernEnable.checked.toString(),
+    legacyLabel: "Theme Editor"
+}));
 var modernWrapper = document.getElementById("modern-wrapper");
 var modernBorderRadiusValue = document.getElementById("modern-border-radius-value");
 var modernBorderSizeValue = document.getElementById("modern-border-size-value");
@@ -128,14 +138,26 @@ splusModalClose.addEventListener("click", e => {
     e.stopPropagation();
     previewModal.classList.add("hidden");
     previewPage.classList.remove("hidden");
-    trackEvent("splus-modal-close", "click", "Theme Editor");
+    trackEvent("button_click", {
+        id: "close-preview-modal",
+        context: "Theme Editor",
+        legacyTarget: "splus-modal-close",
+        legacyAction: "click",
+        legacyLabel: "Theme Editor"
+    });
 });
 var previewSPlusButton = document.getElementById("preview-splus-button");
 previewSPlusButton.addEventListener("click", e => {
     e.stopPropagation();
     previewModal.classList.toggle("hidden");
     previewPage.classList.toggle("hidden");
-    trackEvent("preview-splus-button", "click", "Theme Editor");
+    trackEvent("button_click", {
+        id: "preview-splus-button",
+        context: "Theme Editor",
+        legacyTarget: "preview-splus-button",
+        legacyAction: "click",
+        legacyLabel: "Theme Editor"
+    });
 });
 
 class Modal {
@@ -168,7 +190,14 @@ class Modal {
             Modal.BUTTONS_CONTAINER.appendChild(createElement("a", ["modal-close", "waves-effect", "waves-dark", "btn-flat"], {
                 textContent: b,
                 onclick: e => {
-                    trackEvent("Modal Button", b, "Theme Editor");
+                    trackEvent("button_click", {
+                        id: "modal-button",
+                        context: "Theme Editor",
+                        value: b,
+                        legacyTarget: "Modal Button",
+                        legacyAction: b,
+                        legacyLabel: "Theme Editor"
+                    });
                     selected = b;
                 }
             }));
@@ -423,6 +452,9 @@ function renderTheme(t) {
         case "lausd_2019":
             themeNewLAUSDLogo.click();
             break;
+        case "lausd_2022":
+            themeLAUSDLogo2022.click();
+            break;
         case "default":
             themeDefaultLogo.click();
             break;
@@ -431,7 +463,7 @@ function renderTheme(t) {
             themeCustomLogo.click();
             break;
     }
-    $(themeHue).slider("value", t.color.hue);
+    $(themeHue).slider("value", t.color.hue || 200);
     colorRainbowHueAnimate.checked = false;
     colorRainbowHueSpeed.value = 50;
     $(colorRainbowHueRange).roundSlider("setValue", "0,359");
@@ -874,9 +906,12 @@ function updateOutput() {
     } else if (themeSchoologyLogo.checked) {
         theme.logo = new ThemeLogo(undefined, "schoology_logo");
         setCSSVariable("background-url", `url(${schoologyLogoImageUrl})`);
+    } else if (themeLAUSDLogo2022.checked) {
+        theme.logo = new ThemeLogo(undefined, "lausd_2022");
+        setCSSVariable("background-url", `url(${lausd2022ImageUrl})`);
     } else if (themeNewLAUSDLogo.checked) {
         theme.logo = new ThemeLogo(undefined, "lausd_2019");
-        setCSSVariable("background-url", `url(${lausdNewImageUrl})`);
+        setCSSVariable("background-url", `url(${lausd2019ImageUrl})`);
     } else if (themeLAUSDLogo.checked) {
         theme.logo = new ThemeLogo(undefined, "lausd_legacy");
         setCSSVariable("background-url", `url(${lausdLegacyImageUrl})`);
@@ -893,6 +928,8 @@ function updateOutput() {
                 }
                 setCSSVariable("background-url", `url(${themeLogo.value})`);
             }, () => errors.push("Logo URL does not point to a valid image"));
+        } else {
+            errors.push("No logo URL is specified");
         }
     }
 
@@ -974,12 +1011,57 @@ function trySaveTheme(apply = false) {
  * If the querystring parameter `theme` exists, it will rename the theme with that value
  * @param {boolean} [apply=false] If true, applies the theme and returns to defaultDomain
  */
-function saveTheme(apply = false) {
+function saveTheme(apply = false, imported = false) {
     if (errors.length > 0) throw new Error("Please fix all errors before saving the theme:\n" + errors.join("\n"));
     let t = JSON.parse(output.value);
     if (origThemeName && t.name != origThemeName) {
         ConfirmModal.open("Rename Theme?", `Are you sure you want to rename "${origThemeName}" to "${t.name}"?`, ["Rename", "Cancel"], b => b === "Rename" && doSave(t));
-    } else {
+    } else {       
+        trackEvent("perform_action", {
+            id: "color_type",
+            context: "New Theme Created",
+            value: Object.keys(t.color).find(k => k !== "modern"),
+            legacyTarget: "color_type",
+            legacyAction: Object.keys(t.color).find(k => k !== "modern"),
+            legacyLabel: "New Theme Created"
+        });
+
+        trackEvent("perform_action", {
+            id: "logo_type",
+            context: "New Theme Created",
+            value: t.logo.preset || "custom",
+            legacyTarget: "logo_type",
+            legacyAction: t.logo.preset || "custom",
+            legacyLabel: "New Theme Created"
+        });
+
+        trackEvent("perform_action", {
+            id: "cursor_type",
+            context: "New Theme Created",
+            value: t.cursor ? "primary" : "none",
+            legacyTarget: "cursor_type",
+            legacyAction: t.cursor ? "primary" : "none",
+            legacyLabel: "New Theme Created"
+        });
+
+        trackEvent("perform_action", {
+            id: "modern_enabled",
+            context: "New Theme Created",
+            value: String(!!t.color.modern),
+            legacyTarget: "modern_enabled",
+            legacyAction: String(!!t.color.modern),
+            legacyLabel: "New Theme Created"
+        });
+
+        trackEvent("perform_action", {
+            id: "preset",
+            context: "New Theme Created",
+            value: imported ? "Imported" : lastSelectedTemplate,
+            legacyTarget: "preset",
+            legacyAction: imported ? "Imported" : lastSelectedTemplate,
+            legacyLabel: "New Theme Created"
+        });
+
         doSave(t);
     }
 
@@ -990,8 +1072,8 @@ function saveTheme(apply = false) {
             chrome.storage.sync.set({ themes: themes }, () => {
                 if (chrome.runtime.lastError) {
                     if (chrome.runtime.lastError.message.includes("QUOTA_BYTES_PER_ITEM")) {
-                        alert("No space remaining to save theme. Please delete another theme or make this theme smaller in order to save.");
-                        throw new Error("No space remaining to save theme. Please delete another theme or make this theme smaller in order to save.");
+                        alert("No space remaining to save theme. Please delete another theme or make this theme smaller in order to save. Most commonly themes are too large if they have too many custom icons.");
+                        throw new Error("No space remaining to save theme. Please delete another theme or make this theme smaller in order to save. Most commonly themes are too large if they have too many custom icons.");
                     }
                 }
                 ConfirmModal.open("Theme saved successfully", "", ["OK"], () => {
@@ -1105,7 +1187,15 @@ function applyTheme(t) {
 function deleteTheme(name) {
     ConfirmModal.open("Delete Theme?", `Are you sure you want to delete the theme "${name}"?\nThe page will reload when the theme is deleted.`, ["Delete", "Cancel"], b => {
         if (b === "Delete") {
-            trackEvent(`Theme: ${name}`, "delete", "Theme List");
+            trackEvent("button_click", {
+                id: "delete-theme",
+                context: "Theme List",
+                value: name,
+                legacyTarget: `Theme: ${name}`,
+                legacyAction: "delete",
+                legacyLabel: "Theme List"
+            });
+            
             chrome.storage.sync.get(["theme", "themes"], s => {
                 chrome.storage.sync.set({ theme: s.theme == name ? null : s.theme, themes: s.themes.filter(x => x.name != name) }, () => window.location.reload());
             });
@@ -1119,7 +1209,15 @@ function deleteTheme(name) {
  * @param {string} [name] The theme to edit
  */
 function editTheme(name, replaceName = undefined) {
-    trackEvent(`Theme: ${name}`, "edit", "Theme List");
+    lastSelectedTemplate = name;
+    trackEvent("button_click", {
+        id: "edit-theme",
+        context: "Theme List",
+        value: name,
+        legacyTarget: `Theme: ${name}`,
+        legacyAction: "edit",
+        legacyLabel: "Theme List"
+    });
     clearInterval(rainbowInterval);
     themesListSection.classList.add("hidden");
     themeEditorSection.classList.remove("hidden");
@@ -1145,7 +1243,7 @@ function importTheme() {
             try {
                 let j = JSON.parse(text);
                 importAndRender(j);
-                saveTheme();
+                saveTheme(false, true);
             }
             catch {
                 ConfirmModal.open("Error Importing Theme", errors.length > 0 ? errors.join() : "Please provide a valid JSON string", ["OK"]);
@@ -1214,7 +1312,13 @@ function generateRainbowFunction(theme) {
 }
 
 function addIcon() {
-    trackEvent("new-icon", "click", "Theme Editor");
+    trackEvent("button_click", {
+        id: "add-theme-icon",
+        context: "Theme Editor",
+        legacyTarget: "new-icon",
+        legacyAction: "click",
+        legacyLabel: "Theme Editor"
+    });
     let template = `<td style=text-align:center><a class="action-button tooltipped arrow-button move-down"data-tooltip="Move Down"><i class=material-icons>arrow_downward</i> </a><a class="action-button tooltipped arrow-button move-up"data-tooltip="Move Up"><i class=material-icons>arrow_upward</i></a><td class=class-name data-text="Class Name Pattern"><td class=icon-url data-text="Icon URL or paste/drop image"><td><img class="small-icon-preview" height=32/></td><td><a class="action-button tooltipped btn-flat delete-icon-button right waves-effect waves-light"data-tooltip=Delete><i class=material-icons>delete</i></a>`;
     let tr = document.createElement("tr");
     tr.innerHTML = template;
@@ -1268,7 +1372,14 @@ function uploadAndPaste(pasteEvent) {
                 } else {
                     document.execCommand('paste', false, link);
                 }
-                trackEvent("icon-image", "paste", "Theme Editor");
+                trackEvent("perform_action", {
+                    id: "paste",
+                    context: "Theme Editor",
+                    value: "icon-image",
+                    legacyTarget: "icon-image",
+                    legacyAction: "paste",
+                    legacyLabel: "Theme Editor"
+                });
                 preview.src = link;
                 pasteEvent.target.dataset.text = pasteEvent.target.dataset.originalText;
                 pasteEvent.target.dataset.originalText = "";
@@ -1320,7 +1431,13 @@ function moveDown(e) {
 }
 
 function deleteIcon(e) {
-    trackEvent("delete-icon-button", "click", "Theme Editor");
+    trackEvent("button_click", {
+        id: "delete-theme-icon",
+        context: "Theme Editor",
+        legacyTarget: "delete-icon-button",
+        legacyAction: "click",
+        legacyLabel: "Theme Editor"
+    });
     let target = e.target;
     while (target.tagName != "TR") target = target.parentElement;
     M.Tooltip.getInstance(target.querySelector(".delete-icon-button")).destroy();
@@ -1357,7 +1474,14 @@ function iconPreview(e) {
 }
 
 function copyThemeToClipboard(themeName) {
-    trackEvent(`Theme: ${themeName}`, "copy", "Theme List");
+    trackEvent("button_click", {
+        id: "copy-theme",
+        context: "Theme List",
+        value: themeName,
+        legacyTarget: `Theme: ${themeName}`,
+        legacyAction: "copy",
+        legacyLabel: "Theme List"
+    });
     let text = JSON.stringify(allThemes[themeName]);
     var copyFrom = $('<textarea/>');
     copyFrom.text(text);
@@ -1423,7 +1547,14 @@ function handleDrop(e, region, preview, property) {
     }
 
     function success(link, toast) {
-        trackEvent("icon-image", "drop", "Theme Editor");
+        trackEvent("perform_action", {
+            id: "drop",
+            context: "Theme Editor",
+            value: "icon-image",
+            legacyTarget: "icon-image",
+            legacyAction: "drop",
+            legacyLabel: "Theme Editor"
+        });
         if (toast) {
             toast.dismiss();
         }
@@ -1621,7 +1752,14 @@ $(document).ready(function () {
                     e.stopPropagation();
                     ConfirmModal.open("Apply Theme?", `Are you sure you want to apply the theme ${t}?`, ["Apply", "Cancel"], b => {
                         if (b === "Apply") {
-                            trackEvent(`Theme: ${t}`, "apply", "Theme List");
+                            trackEvent("button_click", {
+                                id: "apply-theme",
+                                context: "Theme List",
+                                value: t,
+                                legacyTarget: `Theme: ${t}`,
+                                legacyAction: "apply",
+                                legacyLabel: "Theme List"
+                            });
                             chrome.storage.sync.set({ theme: t }, () => location.href = `https://${defaultDomain}`);
                         }
                     });
