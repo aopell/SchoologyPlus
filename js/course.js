@@ -183,7 +183,7 @@ function saveCourseSettings(skipSavingGradingScale = false) {
                 obj2.hasOwnProperty(key) && obj1[key] === obj2[key]
             );
 
-        if (!shallowCompare(scale, currentValue[courseIdNumber])) {
+        if (!currentValue[courseIdNumber] || !shallowCompare(scale, currentValue[courseIdNumber])) {
             trackEvent("update_setting", {
                 id: "gradingScales",
                 context: "Course Settings",
