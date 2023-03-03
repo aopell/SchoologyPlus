@@ -417,6 +417,23 @@ function updateSettings(callback) {
             return defaultGradingScale;
         }
 
+        let themeOptions = [];
+
+        for (let theme of __defaultThemes) {
+            if(theme.name.includes('LAUSD') && storageContents.defaultDomain !== "lms.lausd.net") continue;
+            themeOptions.push({
+                text: theme.name,
+                value: theme.name
+            });
+        }
+
+        for (let theme of storageContents.themes) {
+            themeOptions.push({
+                text: theme.name,
+                value: theme.name
+            });
+        }
+
         if (firstLoad) {
             if (storageContents.themes) {
                 for (let t of storageContents.themes) {
@@ -433,15 +450,30 @@ function updateSettings(callback) {
         modalContents = createElement("div", [], undefined, [
             createElement("div", ["splus-modal-contents"], {}, [
                 new Setting(
-                    "theme",
-                    "Theme",
+                    "themeEditor",
+                    "Theme Editor",
                     "Click to open the theme editor to create, edit, or select a theme",
-                    "Schoology Plus",
+                    "Theme Editor",
                     "button",
                     {},
-                    value => value || "Schoology Plus",
-                    event => location.href = chrome.runtime.getURL("/theme-editor.html"),
-                    element => element.value
+                    value => "Theme Editor",
+                    event => location.href = chrome.runtime.getURL("/theme-editor.html")
+                ).control,
+                new Setting(
+                    "theme",
+                    "Theme",
+                    "[Reload required] Changes the theme of Schoology Plus",
+                    "Schoology Plus",
+                    "select",
+                    {
+                        options: themeOptions
+                    },
+                    value => value,
+                    undefined,
+                    element => {
+                        chrome.storage.sync.set({"theme": element.value}); 
+                        return element.value
+                    }
                 ).control,
                 new Setting(
                     "notifications",
