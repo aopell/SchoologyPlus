@@ -417,23 +417,6 @@ function updateSettings(callback) {
             return defaultGradingScale;
         }
 
-        let themeOptions = [];
-
-        for (let theme of __defaultThemes) {
-            if(theme.name.includes('LAUSD') && storageContents.defaultDomain !== "lms.lausd.net") continue;
-            themeOptions.push({
-                text: theme.name,
-                value: theme.name
-            });
-        }
-
-        for (let theme of storageContents.themes) {
-            themeOptions.push({
-                text: theme.name,
-                value: theme.name
-            });
-        }
-
         if (firstLoad) {
             if (storageContents.themes) {
                 for (let t of storageContents.themes) {
@@ -462,18 +445,29 @@ function updateSettings(callback) {
                 new Setting(
                     "theme",
                     "Theme",
-                    "[Reload required] Changes the theme of Schoology Plus",
+                    "Change the theme of Schoology Plus",
                     "Schoology Plus",
                     "select",
                     {
-                        options: themeOptions
+                        options: [
+                            ...__defaultThemes.filter(
+                                t => LAUSD_THEMES.includes(t.name) ? isLAUSD() : true
+                            ).map(t => {return {text: t.name, value: t.name}}),
+                            ...(__storage.themes || []).map(
+                                t => {return {text: t.name, value: t.name}}
+                            )
+                        ]
                     },
-                    value => value,
-                    undefined,
-                    element => {
-                        chrome.storage.sync.set({"theme": element.value}); 
-                        return element.value
-                    }
+                    value => {
+                        tempTheme = undefined;
+                        Theme.apply(Theme.active);
+                        return value;
+                    },
+                    event => {
+                        tempTheme = event.target.value;
+                        Theme.apply(Theme.byName(event.target.value));
+                    },
+                    element => element.value
                 ).control,
                 new Setting(
                     "notifications",

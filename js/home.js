@@ -122,14 +122,16 @@ if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
             // once this happens, we can do our thing
 
             let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
+            let unexpiredBroadcasts = [];
             for (let broadcast of unreadBroadcasts || []) {
                 if (!broadcast.expires || broadcast.expires > Date.now()) {
                     feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
-                } else {
-                    unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == broadcast.id), 1);
-                    Setting.setValue("unreadBroadcasts", unreadBroadcasts);
+                    unexpiredBroadcasts.push(broadcast);
                 }
             }
+
+            // remove expired broadcasts
+            Setting.setValue("unreadBroadcasts", unexpiredBroadcasts);
 
             // then disconnect
             observer.disconnect();

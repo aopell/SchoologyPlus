@@ -286,6 +286,7 @@ let modals = [
                         { name: "@jetline0", url: "https://github.com/jetline0" },
                         { name: "@dsnsgithub", url: "https://github.com/dsnsgithub" },
                         { name: "@senoj26", url: "https://github.com/senoj26" },
+                        { name: "@TheThonos", url: "https://github.com/TheThonos" },
                     ])
                 }),
             ]),
