@@ -662,6 +662,7 @@ function openOptionsMenu(settingsModal) {
         settingsModal.body.appendChild(getModalContents());
         settingsModal.element.querySelector("#open-changelog").addEventListener("click", () => openModal("changelog-modal"), { once: true });
         settingsModal.element.querySelector("#open-contributors").addEventListener("click", () => openModal("contributors-modal"), { once: true });
+        Setting.onShown();
         $(".splus-settings-tabs").tabs({
             active: 0,
             heightStyle: "fill"
@@ -1147,7 +1148,7 @@ async function createQuickAccess() {
             createSvgLogo("splus-logo-inline"),
             // createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
             createElement("span", [], { textContent: "Quick Access" }),
-            createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-splus-settings", textContent: "Settings", href: "#splus-settings#setting-input-quickAccessVisibility" })
+            createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-splus-settings", textContent: "Settings", href: "#splus-settings#setting-input-sidebarSectionOrder" })
         ]),
         createElement("div", ["date-header", "first"], {}, [
             createElement("h4", [], { textContent: "Pages" })
@@ -1221,17 +1222,7 @@ async function createQuickAccess() {
         }
     }
 
-    switch (Setting.getValue("quickAccessVisibility")) {
-        case "belowOverdue":
-            rightCol.querySelector(".overdue-submissions").insertAdjacentElement("afterend", wrapper);
-            break;
-        case "bottom":
-            rightCol.append(wrapper);
-            break;
-        default:
-            rightCol.prepend(wrapper);
-            break;
-    }
+    rightCol.append(wrapper);
 }
 
 function indicateSubmittedAssignments() {
@@ -1388,7 +1379,18 @@ function indicateSubmittedAssignments() {
         // check if reload is present and visible on page
         let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
         if (reloadButton && reloadButton.offsetParent !== null) {
-            reloadButton.addEventListener("click", () => setTimeout(indicateSubmitted, 500));
+            reloadButton.addEventListener("click", () => setTimeout(() => {
+                indicateSubmitted();
+
+                try {
+                    document.getElementById("todo")?.remove();
+                    let overdueHeading = document.querySelector(`${SIDEBAR_SECTIONS_MAP["Overdue"].selector} h4`);
+                    overdueHeading?.replaceWith(createElement("h3", [], {style: {textTransform: "capitalize"}, textContent: overdueHeading.textContent.toLowerCase()}));
+                    let upcomingHeading = document.querySelector(`${SIDEBAR_SECTIONS_MAP["Upcoming"].selector} h4`);
+                    upcomingHeading?.replaceWith(createElement("h3", [], {style: {textTransform: "capitalize"}, textContent: upcomingHeading.textContent.toLowerCase()}));
+                }
+                catch {}
+            }, 500));
         } else {
             // loaded properly
             // clear out old assignments from local cache which aren't relevant anymore

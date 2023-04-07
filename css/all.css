@@ -355,6 +355,39 @@ input[type=text].setting-item {
     font-size: 80%;
 }
 
+.sortable-container {
+    display: flex;
+}
+
+.sortable-container .sidebar-sortable {
+    background-color: var(--primary-color) !important;
+    min-height: 200px;
+    padding: 5px;
+}
+
+.sortable-container .sortable-list {
+    margin: 10px;
+    width: 50%;
+}
+
+.sortable-container .sortable-list .sortable-item::before {
+    content: "⡇";
+    padding-right: 5px;
+}
+
+.sortable-container .sortable-list .sortable-item {
+    background-color: var(--background-color);
+    color: var(--contrast-text-color) !important;
+    font-size: 14px;
+    padding: 7px 5px 5px 5px;
+    margin: 5px;
+    cursor: grab;
+}
+
+.sortable-container .ui-sortable-helper {
+    cursor: grabbing;
+}
+
 .hierarchical-grading-report.show-title.interactive {
     padding: 10px 0 !important;
 }
@@ -376,6 +409,14 @@ input[type=text].setting-item {
 
 .gradebook-course-title .awarded-grade {
     padding-top: 5px !important;
+}
+
+.grade-active-color {
+    color: #3aa406;
+}
+
+.grade-none-color {
+    color: #767676;
 }
 
 .profile-picture img.imagecache-profile_sm {
@@ -557,18 +598,6 @@ the selector matches inside notifications in the new notifs dropdown
 
 ._pendo-launcher-badge_ {
     visibility: var(--help-center-fab-visibility) !important;
-}
-
-.overdue-submissions-wrapper {
-    display: var(--overdue-assignments-display) !important;
-}
-
-.upcoming-submissions-wrapper {
-    display: var(--upcoming-assignments-display) !important;
-}
-
-.quick-access-wrapper {
-    display: var(--quick-access-display) !important;
 }
 
 .quick-link-wrapper {
@@ -806,8 +835,9 @@ a._3_bfp {
     flex-basis: fit-content;
 }
 
-.upcoming-list .upcoming-event > *:not(h4) {
+.upcoming-list .upcoming-event > .infotip.submission-infotip {
     margin-top: 2rem !important;
+    display: var(--to-do-list-icons-display, "block");
 }
 /* ---------------------------------------- */
 

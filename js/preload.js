@@ -20,6 +20,34 @@ var beta_tests = {
 
 var defaultCourseIconUrlRegex = /\/sites\/[a-zA-Z0-9_-]+\/themes\/[%a-zA-Z0-9_-]+\/images\/course-default.(?:svg|png|jpe?g|gif)(\?[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?(&[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?)*)?$/;
 
+var SIDEBAR_SECTIONS = [
+    {
+        name: "Quick Access",
+        selector: "#right-column-inner div.quick-access-wrapper"
+    },    
+    {
+        name: "Reminders",
+        selector: "#right-column-inner div.reminders-wrapper"
+    },
+    {
+        name: "Overdue",
+        selector: "#right-column-inner div#overdue-submissions.overdue-submissions-wrapper"
+    },
+    {
+        name: "Upcoming",
+        selector: "#right-column-inner div.upcoming-submissions-wrapper"
+    },
+    {
+        name: "Upcoming Events",
+        selector: "#right-column-inner div#upcoming-events.upcoming-events-wrapper"
+    },
+    {
+        name: "Recently Completed",
+        selector: "#right-column-inner div.recently-completed-wrapper"
+    },
+];
+var SIDEBAR_SECTIONS_MAP = Object.fromEntries(SIDEBAR_SECTIONS.map(s => [s.name, s]));
+
 // Functions
 
 /** @type {HTMLDivElement} */
@@ -629,83 +657,100 @@ function updateSettings(callback) {
                         element => element.value
                     ).control,
                     new Setting(
-                        "quickAccessVisibility",
-                        "Quick Access",
-                        "[Reload Required to Reposition] Changes the visibility of the Quick Access panel on the homepage",
-                        "enabled",
+                        "toDoIconVisibility",
+                        '"Overdue" and "Due Tomorrow" Icon Visibility',
+                        'Controls the visibility of the "Overdue" exclamation point icon and the "Due Tomorrow" clock icon in the Upcoming and Overdue lists on the sidebar of the homepage',
+                        "visible",
                         "select",
                         {
                             options: [
                                 {
-                                    text: "Top of Right Sidebar",
-                                    value: "enabled"
+                                    text: "Show Icons",
+                                    value: "visible"
                                 },
                                 {
-                                    text: "Between Overdue and Upcoming",
-                                    value: "belowOverdue"
-                                },
-                                {
-                                    text: "Bottom of Right Sidebar",
-                                    value: "bottom"
-                                },
-                                {
-                                    text: "Disabled",
-                                    value: "disabled"
+                                    text: "Hide Icons",
+                                    value: "hidden"
                                 }
                             ]
                         },
                         value => {
-                            setCSSVariable("quick-access-display", value === "disabled" ? "none" : "block");
-                            return value;
-                        },
-                        function (event) { this.onload(event.target.value) },
-                        element => element.value
-                    ).control,
-                    new Setting(
-                        "upcomingOverdueVisibility",
-                        "Hide Upcoming and Overdue Assignments",
-                        'Hides the "Upcoming" and "Overdue" sidebars on the homepage',
-                        "showAll",
-                        "select",
-                        {
-                            options: [
-                                {
-                                    text: "Show Both",
-                                    value: "showAll"
-                                },
-                                {
-                                    text: "Hide Upcoming Only",
-                                    value: "hideUpcoming"
-                                },
-                                {
-                                    text: "Hide Overdue Only",
-                                    value: "hideOverdue"
-                                },
-                                {
-                                    text: "Hide Both",
-                                    value: "hideAll"
-                                }
-                            ]
-                        },
-                        value => {
-                            setCSSVariable("overdue-assignments-display", "block");
-                            setCSSVariable("upcoming-assignments-display", "block");
+                            setCSSVariable("to-do-list-icons-display", "block");
                             switch (value) {
-                                case "hideUpcoming":
-                                    setCSSVariable("upcoming-assignments-display", "none");
-                                    break;
-                                case "hideOverdue":
-                                    setCSSVariable("overdue-assignments-display", "none");
-                                    break;
-                                case "hideAll":
-                                    setCSSVariable("upcoming-assignments-display", "none");
-                                    setCSSVariable("overdue-assignments-display", "none");
+                                case "hidden":
+                                    setCSSVariable("to-do-list-icons-display", "none");
                                     break;
                             }
                             return value;
                         },
                         function (event) { this.onload(event.target.value) },
                         element => element.value
+                    ).control,
+                    new Setting(
+                        "sidebarSectionOrder",
+                        "Customize Sidebar",
+                        "",
+                        {
+                            include: [],
+                            exclude: []
+                        },
+                        "custom",
+                        {
+                            element: createElement("div", [], {}, [
+                                createElement("p", [], {style: {fontWeight: "normal"}, textContent: "Drag items between the sections to control which sections of the sidebar are visible and the order in which they are shown."}),
+                                createElement("div", ["sortable-container"], {}, [
+                                    createElement("div", ["sortable-list"], {}, [
+                                        createElement("h3", [], {textContent: "Sections to Hide"}),
+                                        createElement("ul", ["sidebar-sortable"], {id: "sidebar-excluded-sortable"})
+                                    ]),
+                                    createElement("div", ["sortable-list"], {}, [
+                                        createElement("h3", [], {textContent: "Sections to Show"}),
+                                        createElement("ul", ["sidebar-sortable"], {id: "sidebar-included-sortable"})
+                                    ]),
+                                ])
+                            ]),
+                        },
+                        function (value, element) {
+                            let includeList = element.querySelector("#sidebar-included-sortable");
+                            let excludeList = element.querySelector("#sidebar-excluded-sortable");
+
+                            includeList.innerHTML = "";
+                            excludeList.innerHTML = "";
+                            
+                            if (!value || !value.include || !value.exclude) {
+                                value = {include: [], exclude: []};
+                            }
+                            
+                            for (let section of value.include) {
+                                includeList.appendChild(createElement("p", ["sortable-item"], {textContent: section}))
+                            }
+
+                            for (let section of value.exclude) {
+                                excludeList.appendChild(createElement("p", ["sortable-item"], {textContent: section}))
+                            }
+
+                            for (let section of SIDEBAR_SECTIONS) {
+                                if (!value.include.includes(section.name) && !value.exclude.includes(section.name)) {
+                                    includeList.appendChild(createElement("p", ["sortable-item"], {textContent: section.name}))
+                                }
+                            }
+                        },
+                        function (event) { console.log(event); },
+                        element => {
+                            let includeList = element.querySelector("#sidebar-included-sortable");
+                            let excludeList = element.querySelector("#sidebar-excluded-sortable");
+
+                            return {
+                                include: Array.from(includeList.children).map(e => e.textContent),
+                                exclude: Array.from(excludeList.children).map(e => e.textContent)
+                            }
+                        },
+                        function () {
+                            $(".sidebar-sortable").sortable({
+                                connectWith: ".sidebar-sortable",
+                                stop: () => Setting.onModify(this.getElement())
+                            }).disableSelection();
+                        }
                     ).control,
                 ]),
                 createElement("div", [], {id: "splus-settings-section-grades"}, [
@@ -930,13 +975,15 @@ let __settings = {};
  * - First argument is the HTML element containing the setting value set by the user
  * - Must return the value to be saved to extension settings
  * - Will only be called if user saves settings and setting was modified
+ * @param {function():any} onshown Function called when the setting element is shown on screen
  */
-function Setting(name, friendlyName, description, defaultValue, type, options, onload, onmodify, onsave) {
+function Setting(name, friendlyName, description, defaultValue, type, options, onload, onmodify, onsave, onshown) {
     this.name = name;
     this.getElement = () => document.getElementById(`setting-input-${this.name}`);
     this.onmodify = onmodify;
     this.onsave = onsave;
     this.onload = onload;
+    this.onshown = onshown;
     this.modified = false;
     this.default = defaultValue;
     /**
@@ -965,6 +1012,9 @@ function Setting(name, friendlyName, description, defaultValue, type, options, o
                 title.appendChild(selectElement);
                 selectElement.onchange = Setting.onModify;
                 break;
+            case "custom":
+                title.appendChild(options.element);
+                break;
         }
 
         setting.appendChild(title);
@@ -978,7 +1028,7 @@ function Setting(name, friendlyName, description, defaultValue, type, options, o
         }
 
         if (onload) {
-            title.firstElementChild.value = onload(__storage[name]) || this.default;
+            title.firstElementChild.value = this.onload(__storage[name], title.firstElementChild) || this.default;
         } else {
             title.firstElementChild.value = __storage[name] || this.default;
         }
@@ -1135,6 +1185,14 @@ Setting.onModify = function (event) {
     setting.modified = true;
     if (setting.onmodify) {
         setting.onmodify(event);
+    }
+}
+
+Setting.onShown = function () {
+    for (let setting in __settings) {
+        if (__settings[setting].onshown) {
+            __settings[setting].onshown();
+        }
     }
 }
 

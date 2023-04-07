@@ -144,9 +144,59 @@ if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
     })();
 }
 
+function reorderSidebar() {
+    let sidebar = document.getElementById("right-column-inner");
+    let sidebarOrder = Setting.getValue("sidebarSectionOrder");
+    let excluded = sidebarOrder?.exclude || [];
+    let included = (Array.from(sidebarOrder?.include || [])).reverse();
+
+    for (let section of Array.from(SIDEBAR_SECTIONS).reverse()) {
+        if (!included.includes(section.name) && !excluded.includes(section.name)) {
+            if (section) {
+                let element = document.querySelector(section.selector);
+                if (element) {
+                    sidebar.insertAdjacentElement("afterbegin", element);
+                }
+            }
+        }
+    }
+
+    for (let sectionName of included) {
+        let section = SIDEBAR_SECTIONS_MAP[sectionName];
+        if (section) {
+            let element = document.querySelector(section.selector);
+            if (element) {
+                sidebar.insertAdjacentElement("afterbegin", element);
+            }
+        }
+    }
+
+    for (let sectionName of excluded) {
+        let section = SIDEBAR_SECTIONS_MAP[sectionName];
+        if (section) {
+            let element = document.querySelector(section.selector);
+            if (element) {
+                element.style.display = "none";
+            }
+        }
+    }
+
+    try {
+        document.getElementById("todo")?.remove();
+        let overdueHeading = document.querySelector(`${SIDEBAR_SECTIONS_MAP["Overdue"].selector} h4`);
+        overdueHeading?.replaceWith(createElement("h3", [], {style: {textTransform: "capitalize"}, textContent: overdueHeading.textContent.toLowerCase()}));
+        let upcomingHeading = document.querySelector(`${SIDEBAR_SECTIONS_MAP["Upcoming"].selector} h4`);
+        upcomingHeading?.replaceWith(createElement("h3", [], {style: {textTransform: "capitalize"}, textContent: upcomingHeading.textContent.toLowerCase()}));
+    }
+    catch {}
+}
+
 (function () {
     indicateSubmittedAssignments();
     createQuickAccess();
+    setTimeout(() => {
+        reorderSidebar();
+    }, 500);
 })();
 
 Logger.debug("Finished loading home.js");
