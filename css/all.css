@@ -766,6 +766,20 @@ a._3_bfp {
     display: none !important;
 }
 
+/* ---- Hotfix for missized timer icons ---- */
+.upcoming-list .upcoming-event {
+    align-items: flex-start !important;
+}
+
+.upcoming-list .upcoming-event * {
+    flex-basis: fit-content;
+}
+
+.upcoming-list .upcoming-event > *:not(h4) {
+    margin-top: 2rem !important;
+}
+/* ---------------------------------------- */
+
 .splus-mark-completed-check .infotip {
     width: 90% !important;
 }
