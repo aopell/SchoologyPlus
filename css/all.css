@@ -168,6 +168,36 @@ video.easter-egg {
     overflow: auto;
 }
 
+.splus-modal-contents.ui-tabs {
+    border: none !important;
+    background: none !important;
+}
+
+.splus-modal-contents select {
+    font-size: 16px !important;
+}
+
+.splus-modal-contents .ui-tabs-nav {
+    background-color: var(--primary-color) !important;
+    border: none !important;
+    border-bottom: 1px solid var(--primary-color) !important;
+}
+
+.splus-modal-contents.ui-tabs .ui-tab {
+    background-color: var(--primary-color) !important;
+    border: none !important;
+}
+
+.splus-modal-contents.ui-tabs .ui-tab .ui-tabs-anchor {
+    color: var(--contrast-text-color) !important;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.splus-modal-contents.ui-tabs .ui-tab.ui-tabs-active {
+    background-color: var(--background-color) !important;
+}
+
 @-webkit-keyframes animatetop {
     from {
         top: -300px;

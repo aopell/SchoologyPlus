@@ -662,6 +662,10 @@ function openOptionsMenu(settingsModal) {
         settingsModal.body.appendChild(getModalContents());
         settingsModal.element.querySelector("#open-changelog").addEventListener("click", () => openModal("changelog-modal"), { once: true });
         settingsModal.element.querySelector("#open-contributors").addEventListener("click", () => openModal("contributors-modal"), { once: true });
+        $(".splus-settings-tabs").tabs({
+            active: 0,
+            heightStyle: "fill"
+        });
     });
 }
 
