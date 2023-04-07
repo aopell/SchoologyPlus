@@ -384,7 +384,7 @@ input[type=text].setting-item {
     cursor: grab;
 }
 
-.sortable-container .ui-sortable-helper {
+.sortable-container .sortable-list .ui-sortable-helper {
     cursor: grabbing;
 }
 

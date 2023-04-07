@@ -1148,7 +1148,7 @@ async function createQuickAccess() {
             createSvgLogo("splus-logo-inline"),
             // createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
             createElement("span", [], { textContent: "Quick Access" }),
-            createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-splus-settings", textContent: "Settings", href: "#splus-settings#setting-input-sidebarSectionOrder" })
+            createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-splus-settings", textContent: "Sidebar Settings", href: "#splus-settings#setting-input-sidebarSectionOrder" })
         ]),
         createElement("div", ["date-header", "first"], {}, [
             createElement("h4", [], { textContent: "Pages" })
