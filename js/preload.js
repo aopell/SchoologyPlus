@@ -700,12 +700,12 @@ function updateSettings(callback) {
                                 createElement("p", [], {style: {fontWeight: "normal"}, textContent: "Drag items between the sections to control which sections of the sidebar are visible and the order in which they are shown."}),
                                 createElement("div", ["sortable-container"], {}, [
                                     createElement("div", ["sortable-list"], {}, [
-                                        createElement("h3", [], {textContent: "Sections to Hide"}),
-                                        createElement("ul", ["sidebar-sortable"], {id: "sidebar-excluded-sortable"})
+                                        createElement("h3", ["splus-underline-heading"], {textContent: "Sections to Hide"}),
+                                        createElement("ul", ["sidebar-sortable", "splus-modern-border-radius", "splus-modern-padding"], {id: "sidebar-excluded-sortable"})
                                     ]),
                                     createElement("div", ["sortable-list"], {}, [
-                                        createElement("h3", [], {textContent: "Sections to Show"}),
-                                        createElement("ul", ["sidebar-sortable"], {id: "sidebar-included-sortable"})
+                                        createElement("h3", ["splus-underline-heading"], {textContent: "Sections to Show"}),
+                                        createElement("ul", ["sidebar-sortable", "splus-modern-border-radius", "splus-modern-padding"], {id: "sidebar-included-sortable"})
                                     ]),
                                 ])
                             ]),
@@ -722,16 +722,16 @@ function updateSettings(callback) {
                             }
                             
                             for (let section of value.include) {
-                                includeList.appendChild(createElement("p", ["sortable-item"], {textContent: section}))
+                                includeList.appendChild(createElement("p", ["sortable-item", "splus-modern-border-radius", "splus-modern-padding"], {textContent: section}))
                             }
 
                             for (let section of value.exclude) {
-                                excludeList.appendChild(createElement("p", ["sortable-item"], {textContent: section}))
+                                excludeList.appendChild(createElement("p", ["sortable-item", "splus-modern-border-radius", "splus-modern-padding"], {textContent: section}))
                             }
 
                             for (let section of SIDEBAR_SECTIONS) {
                                 if (!value.include.includes(section.name) && !value.exclude.includes(section.name)) {
-                                    includeList.appendChild(createElement("p", ["sortable-item"], {textContent: section.name}))
+                                    includeList.appendChild(createElement("p", ["sortable-item", "splus-modern-border-radius", "splus-modern-padding"], {textContent: section.name}))
                                 }
                             }
                         },

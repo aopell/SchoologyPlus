@@ -198,6 +198,11 @@ video.easter-egg {
     background-color: var(--background-color) !important;
 }
 
+.splus-underline-heading {
+    text-decoration: underline;
+    margin-bottom: 5px;
+}
+
 @-webkit-keyframes animatetop {
     from {
         top: -300px;

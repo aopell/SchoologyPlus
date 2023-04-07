@@ -3386,3 +3386,11 @@ variable-intellisense {
 [modern=true]:root #grade-comment-field {
   background-color: var(--primary);
 }
+
+[modern=true]:root .splus-modern-border-radius {
+  border-radius: var(--border-radius);
+}
+
+[modern=true]:root .splus-modern-padding {
+  padding: var(--padding);
+}
