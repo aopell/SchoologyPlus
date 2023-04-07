@@ -5,8 +5,6 @@ const lausd2019ImageUrl = chrome.runtime.getURL("/imgs/lausd-2019.png");
 const lausd2022ImageUrl = chrome.runtime.getURL("/imgs/lausd-2022.png");
 const CURRENT_VERSION = SchoologyTheme.CURRENT_VERSION;
 const placeholderUrl = "https://via.placeholder.com/200x50?text=School+Logo";
-const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue", "LAUSD 2019"];
-const CLASSIC_THEMES = ["Schoology Plus", "Rainbow"]
 
 var defaultDomain = "app.schoology.com";
 
@@ -1709,11 +1707,11 @@ $(document).ready(function () {
     }
 
     for (let t of __defaultThemes) {
+        defaultThemes.push(t.name);
         if (!isLAUSD() && LAUSD_THEMES.includes(t.name)) {
             continue;
         }
         allThemes[t.name] = t;
-        defaultThemes.push(t.name);
     }
 
     chrome.storage.sync.get(["theme", "themes"], s => {

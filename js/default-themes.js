@@ -6,6 +6,9 @@
     await loadDependencies("default-themes", []);
 })();
 
+const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue", "LAUSD 2019"];
+const CLASSIC_THEMES = ["Schoology Plus", "Rainbow"]
+
 let __defaultThemes = [
     {
         "name": "Schoology Plus Modern Light",

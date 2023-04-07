@@ -4,14 +4,6 @@
     font-size: 14px;
 }
 
-.grade-active-color {
-    color: #3aa406;
-}
-
-.grade-none-color {
-    color: #767676;
-}
-
 tr.item-row td.grade-column div.td-content-wrapper {
     padding: 7px 10px 5px !important;
     text-align: center;

@@ -101,18 +101,7 @@ function formatDateAsString(date) {
 
 if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
     (async function () {
-        try {
-            let onlineBroadcasts = await (await fetch("https://schoologypl.us/alert.json")).json();
-
-            let readBroadcasts = localStorage.getItem("splus-readBroadcasts");
-            readBroadcasts = readBroadcasts === null ? [] : JSON.parse(readBroadcasts);
-
-            saveBroadcasts(onlineBroadcasts.filter(b => !readBroadcasts.includes(b.id)));
-        } catch (err) {
-            // Ignore
-        }
-
-        let observer = new MutationObserver(function (mutations) {
+        let observer = new MutationObserver(async function (mutations) {
             if (mutations.length == 0) {
                 return;
             }
@@ -121,15 +110,33 @@ if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
             // style is set on homeFeedContainer whenever Schoology decides to unhide it (static CSS sets display: none), i.e. when it's finished loading
             // once this happens, we can do our thing
 
-            let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
-            for (let broadcast of unreadBroadcasts || []) {
-                if (!broadcast.expires || broadcast.expires > Date.now()) {
+            let unreadBroadcasts = Setting.getValue("unreadBroadcasts") || [];
+            let onlineBroadcasts = [];
+
+            try {
+                onlineBroadcasts = await (await fetch("https://schoologypl.us/alert.json")).json();
+    
+                let readBroadcasts = localStorage.getItem("splus-readBroadcasts");
+                readBroadcasts = readBroadcasts === null ? [] : JSON.parse(readBroadcasts);
+    
+                onlineBroadcasts = onlineBroadcasts.filter(b => !readBroadcasts.includes(b.id) && !unreadBroadcasts.map(u => u.id).includes(b.id));
+            } catch (err) {
+                // Ignore
+            }
+
+            let unexpiredBroadcasts = [];
+            for (let broadcast of [...unreadBroadcasts, ...onlineBroadcasts]) {
+                if (
+                    (!broadcast.expires || broadcast.expires > Date.now())
+                    && (!broadcast.version || compareVersions(chrome.runtime.getManifest().version, broadcast.version) >= 0)
+                ) {
                     feed.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
-                } else {
-                    unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == broadcast.id), 1);
-                    Setting.setValue("unreadBroadcasts", unreadBroadcasts);
+                    unexpiredBroadcasts.push(broadcast);
                 }
             }
+
+            // remove expired broadcasts
+            Setting.setValue("unreadBroadcasts", unexpiredBroadcasts);
 
             // then disconnect
             observer.disconnect();
@@ -142,9 +149,59 @@ if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
     })();
 }
 
+function reorderSidebar() {
+    let sidebar = document.getElementById("right-column-inner");
+    let sidebarOrder = Setting.getValue("sidebarSectionOrder");
+    let excluded = sidebarOrder?.exclude || [];
+    let included = (Array.from(sidebarOrder?.include || [])).reverse();
+
+    for (let section of Array.from(SIDEBAR_SECTIONS).reverse()) {
+        if (!included.includes(section.name) && !excluded.includes(section.name)) {
+            if (section) {
+                let element = document.querySelector(section.selector);
+                if (element) {
+                    sidebar.insertAdjacentElement("afterbegin", element);
+                }
+            }
+        }
+    }
+
+    for (let sectionName of included) {
+        let section = SIDEBAR_SECTIONS_MAP[sectionName];
+        if (section) {
+            let element = document.querySelector(section.selector);
+            if (element) {
+                sidebar.insertAdjacentElement("afterbegin", element);
+            }
+        }
+    }
+
+    for (let sectionName of excluded) {
+        let section = SIDEBAR_SECTIONS_MAP[sectionName];
+        if (section) {
+            let element = document.querySelector(section.selector);
+            if (element) {
+                element.style.display = "none";
+            }
+        }
+    }
+
+    try {
+        document.getElementById("todo")?.remove();
+        let overdueHeading = document.querySelector(`${SIDEBAR_SECTIONS_MAP["Overdue"].selector} h4`);
+        overdueHeading?.replaceWith(createElement("h3", [], {style: {textTransform: "capitalize"}, textContent: overdueHeading.textContent.toLowerCase()}));
+        let upcomingHeading = document.querySelector(`${SIDEBAR_SECTIONS_MAP["Upcoming"].selector} h4`);
+        upcomingHeading?.replaceWith(createElement("h3", [], {style: {textTransform: "capitalize"}, textContent: upcomingHeading.textContent.toLowerCase()}));
+    }
+    catch {}
+}
+
 (function () {
     indicateSubmittedAssignments();
     createQuickAccess();
+    setTimeout(() => {
+        reorderSidebar();
+    }, 500);
 })();
 
 Logger.debug("Finished loading home.js");

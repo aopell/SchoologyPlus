@@ -402,7 +402,11 @@ function parseSettingsHash() {
         if (hashes.length > 2) {
             setTimeout(() => {
                 location.hash = hashes[2];
-                document.getElementById(hashes[2]).parentElement.parentElement.classList.add("setting-highlight");
+                let settingEntry = document.getElementById(hashes[2]).parentElement.parentElement;
+                let settingTab = settingEntry.parentElement;
+                let tabIndex = Array.from(settingTab.parentElement.children).indexOf(settingTab) - 1;
+                $(".splus-settings-tabs").tabs("option", "active", tabIndex);
+                settingEntry.classList.add("setting-highlight");
                 location.hash = "";
             }, 500);
         }

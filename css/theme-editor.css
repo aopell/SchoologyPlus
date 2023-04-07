@@ -806,3 +806,7 @@ a[href].link-color {
 #modern-wrapper .row .input-field.col.s12.m6 {
     padding-top: 5px;
 }
+
+input::placeholder {
+    color: rgba(42, 42, 42, 0.5);
+}
