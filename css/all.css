@@ -532,7 +532,7 @@ the selector matches inside notifications in the new notifs dropdown
     display: var(--overdue-assignments-display) !important;
 }
 
-.upcoming-events-wrapper {
+.upcoming-submissions-wrapper {
     display: var(--upcoming-assignments-display) !important;
 }
 
