@@ -1207,7 +1207,9 @@ function deleteTheme(name) {
  * @param {string} [name] The theme to edit
  */
 function editTheme(name, replaceName = undefined) {
-    lastSelectedTemplate = name;
+    if (replaceName) {
+        lastSelectedTemplate = name;
+    }
     trackEvent("button_click", {
         id: "edit-theme",
         context: "Theme List",
