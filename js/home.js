@@ -196,9 +196,9 @@ function reorderSidebar() {
     catch {}
 }
 
-(function () {
+(async function () {
     indicateSubmittedAssignments();
-    createQuickAccess();
+    await createQuickAccess();
     setTimeout(() => {
         reorderSidebar();
     }, 500);
