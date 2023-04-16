@@ -452,7 +452,7 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
 
 *:not(.submit-span-wrapper)>input[type=button],
 *:not(.submit-span-wrapper)>input[type=submit] {
-    height: 29px !important;
+    height: 32px !important;
     vertical-align: middle !important;
     border: 2px solid var(--border-color) !important;
     background-color: var(--primary-color) !important;
@@ -463,12 +463,12 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
     background-color: var(--hover-color) !important;
 }
 
-.submit-span-wrapper,
 .submit-span-wrapper input[type=button],
 .submit-span-wrapper input[type=submit] {
     height: 25px !important;
     vertical-align: middle !important;
     color: var(--contrast-text-color) !important;
+    padding: 4px 8px !important;
 }
 
 .submit-span-wrapper, .submit-span-wrapper[style] {
