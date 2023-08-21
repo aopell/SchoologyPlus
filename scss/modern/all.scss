@@ -305,7 +305,9 @@ variable-intellisense {
     body a.link-btn.active,
     div.courses-left-menu,
     .portfolio-list a.btn,
-    a._3_bfp {
+    a._3_bfp,
+    nav li a._1Z0RM,
+    nav li button._1Z0RM {
         color: var(--contrast-text) !important;
     }
 
@@ -2558,7 +2560,7 @@ variable-intellisense {
 
     ._1IGEH:focus:not(:active),
     ._1oxpz:hover:not(:active),
-    ._1Z0RM,
+    #wrapper ._1Z0RM,
     .Dkh_K:active {
         background-color: var(--accent);
         color: var(--text);
@@ -2596,7 +2598,7 @@ variable-intellisense {
 
     ._1IGEH:focus:not(:active),
     ._1oxpz:hover:not(:active),
-    ._1Z0RM,
+    #wrapper ._1Z0RM,
     .Dkh_K:active {
         background-color: var(--accent) !important;
     }

@@ -1152,22 +1152,22 @@ Setting.import = function () {
 
         try {
             let importedSettingsObj = JSON.parse(importedSettings);
+
+            Setting.setValues(importedSettingsObj, () => {
+                trackEvent("button_click", {
+                    id: "import-settings-success",
+                    context: "Settings",
+                    legacyTarget: "import-settings",
+                    legacyAction: "successfully imported settings",
+                    legacyLabel: "Setting"
+                });
+                alert("Successfully imported settings. If Schoology Plus breaks, please restore defaults or reinstall. Reloading page.")
+                location.reload();
+            });
         } catch (err) {
             alert("Failed to import settings! They were probably malformed. Make sure the settings are valid JSON.");
             return;
         }
-
-        Setting.setValues(importedSettingsObj, () => {
-            trackEvent("button_click", {
-                id: "import-settings-success",
-                context: "Settings",
-                legacyTarget: "import-settings",
-                legacyAction: "successfully imported settings",
-                legacyLabel: "Setting"
-            });
-            alert("Successfully imported settings. If Schoology Plus breaks, please restore defaults or reinstall. Reloading page.")
-            location.reload();
-        });
     }
 }
 

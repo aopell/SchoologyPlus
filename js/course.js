@@ -15,7 +15,10 @@ let courseSettingsCourseName;
         let img = createSvgLogo();
         Object.assign(img.style, { verticalAlign: "middle", paddingLeft: "4px", width: "18px" });
         button.prepend(img);
-        button.querySelector("input").style.paddingLeft = "4px";
+        button.style.setProperty("height", "36px", "important");
+        let buttonInput = button.querySelector("input");
+        buttonInput.style.paddingLeft = "4px";
+        buttonInput.style.setProperty("height", "36px", "important");
         button.style.cursor = "pointer";
         button.addEventListener("click", () => openModal("course-settings-modal", { courseId: document.location.href.match(/\/(\d+)\//)[1], courseName: document.querySelector(".page-title").textContent }));
 
