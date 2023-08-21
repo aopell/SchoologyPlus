@@ -274,7 +274,9 @@ variable-intellisense {
 [modern=true]:root body a.link-btn.active,
 [modern=true]:root div.courses-left-menu,
 [modern=true]:root .portfolio-list a.btn,
-[modern=true]:root a._3_bfp {
+[modern=true]:root a._3_bfp,
+[modern=true]:root nav li a._1Z0RM,
+[modern=true]:root nav li button._1Z0RM {
   color: var(--contrast-text) !important;
 }
 
@@ -2325,7 +2327,7 @@ variable-intellisense {
 
 [modern=true]:root ._1IGEH:focus:not(:active),
 [modern=true]:root ._1oxpz:hover:not(:active),
-[modern=true]:root ._1Z0RM,
+[modern=true]:root #wrapper ._1Z0RM,
 [modern=true]:root .Dkh_K:active {
   background-color: var(--accent);
   color: var(--text);
@@ -2357,7 +2359,7 @@ variable-intellisense {
 
 [modern=true]:root ._1IGEH:focus:not(:active),
 [modern=true]:root ._1oxpz:hover:not(:active),
-[modern=true]:root ._1Z0RM,
+[modern=true]:root #wrapper ._1Z0RM,
 [modern=true]:root .Dkh_K:active {
   background-color: var(--accent) !important;
 }

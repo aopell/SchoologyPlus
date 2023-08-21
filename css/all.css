@@ -18,10 +18,28 @@
     background-color: var(--primary-color) !important;
 }
 
+nav li button._1Z0RM,
+nav li a._1Z0RM {
+    background-color: var(--primary-color) !important;
+}
+
+nav button._1wP6w,
+nav a._1Z0RM {
+    color: var(--contrast-text-color) !important;
+}
+
+nav button svg.KebabIcon-kebab-icon-2-N7X {
+    filter: Invert(1) !important;
+}
+
 ._2kpZl:focus:not(:active),
 ._2T2dA,
 ._2W23R:active,
-._3OAXJ:hover:not(:active) {
+._3OAXJ:hover:not(:active),
+nav li button._1Z0RM:hover:not(:active),
+nav li button._1Z0RM:focus:not(:active),
+nav li a._1Z0RM:hover:not(:active),
+nav li a._1Z0RM:focus:not(:active) {
     background-color: var(--hover-color) !important;
 }
 
@@ -64,6 +82,7 @@ footer button {
     background-color: transparent !important;
 }
 
+#site-navigation-footer > div._3W1Kw,
 footer._2T2dA {
     background-color: var(--primary-color) !important;
 }
@@ -74,7 +93,18 @@ footer._2T2dA {
     background-color: var(--primary-color) !important;
 }
 
-.use-custom-url #header>header nav>ul>li>a._2JX1Q {
+/* This version is used for the old header style (pre 23/24 school year) */
+.use-custom-url #header>header nav>ul>li>a._2JX1Q:not(:has(> div._3UYz2)) {
+    background: var(--background-url) no-repeat !important;
+    background-image: var(--background-url) !important;
+    background-size: 160px !important;
+    background-position: center center !important;
+    height: 60px !important;
+    margin-top: 0 !important;
+}
+
+/* This version is used for the new header style (23/24 school year) */
+.use-custom-url #header>header nav>ul>li>a._2JX1Q div._3UYz2 {
     background: var(--background-url) no-repeat !important;
     background-image: var(--background-url) !important;
     background-size: 160px !important;
@@ -750,6 +780,9 @@ ul.tabs li a {
 }
 
 footer li a,
+footer div button,
+#copyright,
+footer li.Footer-vertical-divider-3-9qQ::after,
 header li a,
 .splus-modal-footer-text a,
 body a.link-btn.active,
