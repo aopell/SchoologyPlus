@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Schoology Plus",
     "short_name": "Schoology+",
     "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
@@ -29,8 +29,6 @@
         "default_title": "Schoology Plus"
     },
     "permissions": [
-        "*://lms.lausd.net/*",
-        "*://*.schoology.com/*",
         "storage",
         "alarms",
         "notifications",
@@ -38,27 +36,37 @@
         "contextMenus",
         "activeTab"
     ],
-    "optional_permissions": [
+    "optional_permissions": [],
+    "host_permissions": [
+        "*://lms.lausd.net/*",
+        "*://*.schoology.com/*"
+    ],
+    "optional_host_permissions": [
         "<all_urls>"
     ],
     "web_accessible_resources": [
-        "imgs/*",
-        "lib/js/pdf.worker.js",
-        "theme-editor.html",
-        "default-icons.html"
+        {
+            "resources": [
+                "imgs/*",
+                "lib/js/pdf.worker.js",
+                "theme-editor.html",
+                "default-icons.html"
+            ],
+            "matches": [
+                "*://lms.lausd.net/*",
+                "*://*.schoology.com/*",
+                "<all_urls>"
+            ]
+        }
     ],
-    "content_security_policy": "script-src 'self'; object-src 'self'",
-    "background": {
-        "scripts": [
-            "js/loader.js",
-            "js/analytics.js",
-            "lib/js/analytics.js",
-            "lib/js/purify.min.js",
-            "js/background-permissions.js",
-            "js/background.js"
-        ],
-        "persistent": true
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'"
     },
+    "background": {
+        "service_worker": "js/loader.js"
+    },
+
+
     "content_scripts": [
         {
             "matches": [
