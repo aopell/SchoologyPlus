@@ -18,9 +18,14 @@
     background-color: var(--primary-color) !important;
 }
 
+nav,
 nav li button._1Z0RM,
 nav li a._1Z0RM {
     background-color: var(--primary-color) !important;
+}
+
+header {
+    border-top-color: var(--border-color) !important;
 }
 
 nav button._1wP6w,
