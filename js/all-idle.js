@@ -35,12 +35,15 @@
                             continue;
                         }
 
+                        let initialSrc = (tile.firstChild.data || tile.firstChild.src || "");
+
                         // clear children
                         while (tile.firstChild) {
                             tile.removeChild(tile.firstChild);
                         }
                         // create an img
                         let img = document.createElement("img");
+                        img.src = initialSrc;
                         // find course name
                         // note the context footer does linebreaks, so we have to undo that
                         let courseName = tile.parentElement.querySelector(".course-dashboard__card-context-title").textContent.replace("\n", " ");
