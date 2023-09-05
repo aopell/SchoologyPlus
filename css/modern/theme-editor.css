@@ -47,170 +47,170 @@ variable-intellisense {
   --modern-cal30: #4d5557;
 }
 
-[modern=true]:root body {
+:root[modern=true] body {
   background-color: var(--modern-secondary);
 }
 
-[modern=true]:root * {
+:root[modern=true] * {
   color: var(--modern-text) !important;
 }
 
-[modern=true]:root .modern-primary {
+:root[modern=true] .modern-primary {
   background-color: var(--modern-primary) !important;
 }
 
-[modern=true]:root .modern-secondary {
+:root[modern=true] .modern-secondary {
   background-color: var(--modern-secondary) !important;
 }
 
-[modern=true]:root .modern-accent {
+:root[modern=true] .modern-accent {
   background-color: var(--modern-accent) !important;
 }
 
-[modern=true]:root .modern-input {
+:root[modern=true] .modern-input {
   background-color: var(--modern-input) !important;
 }
 
-[modern=true]:root .modern-highlight {
+:root[modern=true] .modern-highlight {
   background-color: var(--modern-highlight) !important;
 }
 
-[modern=true]:root .modern-active {
+:root[modern=true] .modern-active {
   background-color: var(--modern-active) !important;
 }
 
-[modern=true]:root .modern-error {
+:root[modern=true] .modern-error {
   background-color: var(--modern-error) !important;
 }
 
-[modern=true]:root .modern-error-text {
+:root[modern=true] .modern-error-text {
   color: var(--modern-error) !important;
 }
 
-[modern=true]:root .modern-grades {
+:root[modern=true] .modern-grades {
   color: var(--modern-grades) !important;
 }
 
-[modern=true]:root .modern-text {
+:root[modern=true] .modern-text {
   color: var(--modern-text) !important;
 }
 
-[modern=true]:root .modern-contrast-text {
+:root[modern=true] .modern-contrast-text {
   color: var(--modern-contrast-text) !important;
 }
 
-[modern=true]:root .modern-muted-text {
+:root[modern=true] .modern-muted-text {
   color: var(--modern-muted-text) !important;
 }
 
-[modern=true]:root .modern-border {
+:root[modern=true] .modern-border {
   border: var(--modern-border-size) solid var(--modern-contrast-border) !important;
 }
 
-[modern=true]:root .modern-border-radius {
+:root[modern=true] .modern-border-radius {
   border-radius: var(--modern-border-radius) !important;
 }
 
-[modern=true]:root .modern-padding {
+:root[modern=true] .modern-padding {
   padding: var(--modern-padding) !important;
 }
 
-[modern=true]:root .modern-margin {
+:root[modern=true] .modern-margin {
   margin: var(--modern-padding) !important;
 }
 
-[modern=true]:root .modern-black {
+:root[modern=true] .modern-black {
   color: black !important;
 }
 
-[modern=true]:root #themes-list-section .collection a.collection-item {
+:root[modern=true] #themes-list-section .collection a.collection-item {
   background-color: var(--modern-primary);
 }
 
-[modern=true]:root #themes-list-section .collection a.collection-item.active {
+:root[modern=true] #themes-list-section .collection a.collection-item.active {
   background-color: var(--modern-active) !important;
 }
 
-[modern=true]:root #themes-list-section .collection a.collection-item:not(.active):hover {
+:root[modern=true] #themes-list-section .collection a.collection-item:not(.active):hover {
   background-color: var(--modern-highlight);
 }
 
-[modern=true]:root #theme-editor-section .sp-replacer {
+:root[modern=true] #theme-editor-section .sp-replacer {
   border: var(--modern-border-size) solid var(--modern-contrast-border);
   background-color: var(--modern-input);
 }
 
-[modern=true]:root #preview-section svg,
-[modern=true]:root #preview-section svg * {
+:root[modern=true] #preview-section svg,
+:root[modern=true] #preview-section svg * {
   color: var(--modern-contrast-text) !important;
 }
 
-[modern=true]:root #preview-section #preview-profile-pic {
+:root[modern=true] #preview-section #preview-profile-pic {
   border-color: var(--modern-contrast-text) !important;
 }
 
-[modern=true]:root #preview-section .preview-course {
+:root[modern=true] #preview-section .preview-course {
   border: var(--modern-border-size) solid transparent;
 }
 
-[modern=true]:root #preview-section .preview-course:hover {
+:root[modern=true] #preview-section .preview-course:hover {
   border: var(--modern-border-size) solid var(--modern-contrast-border);
 }
 
-[modern=true]:root #preview-section .preview-course .preview-course-class {
+:root[modern=true] #preview-section .preview-course .preview-course-class {
   color: var(--link-color) !important;
 }
 
-[modern=true]:root #preview-section .preview-course .preview-course-section {
+:root[modern=true] #preview-section .preview-course .preview-course-section {
   color: var(--modern-text) !important;
 }
 
-[modern=true]:root #preview-section .preview-course .preview-course-school {
+:root[modern=true] #preview-section .preview-course .preview-course-school {
   color: var(--modern-muted-text) !important;
 }
 
-[modern=true]:root #preview-section #tab-icons #icon-list-table tbody:empty:before {
+:root[modern=true] #preview-section #tab-icons #icon-list-table tbody:empty:before {
   color: var(--modern-muted-text) !important;
 }
 
-[modern=true]:root #preview-section #preview-dropdown-list li:hover {
+:root[modern=true] #preview-section #preview-dropdown-list li:hover {
   background-color: var(--modern-active) !important;
 }
 
-[modern=true]:root .material-tooltip {
+:root[modern=true] .material-tooltip {
   background-color: var(--modern-secondary);
   border: var(--modern-border-size) solid var(--modern-contrast-border);
   border-radius: var(--modern-border-radius);
 }
 
-[modern=true]:root .rs-bg-color {
+:root[modern=true] .rs-bg-color {
   background-color: var(--modern-input);
 }
 
-[modern=true]:root .full-spectrum {
+:root[modern=true] .full-spectrum {
   background-color: var(--modern-accent) !important;
 }
 
-[modern=true]:root .full-spectrum button {
+:root[modern=true] .full-spectrum button {
   background-color: var(--modern-secondary) !important;
   background-image: none;
   text-shadow: none;
 }
 
-[modern=true]:root input[type=range] {
+:root[modern=true] input[type=range] {
   border: var(--modern-border-size) solid var(--modern-contrast-border);
 }
 
-[modern=true]:root .action-button:hover {
+:root[modern=true] .action-button:hover {
   transition: .3s ease-out !important;
   color: var(--modern-contrast-text) !important;
 }
 
-[modern=true]:root .action-button:hover i.material-icons {
+:root[modern=true] .action-button:hover i.material-icons {
   transition: .3s ease-out !important;
   color: var(--modern-contrast-text) !important;
 }
 
-[modern=true]:root #create-preset-dropdown > li:hover {
+:root[modern=true] #create-preset-dropdown > li:hover {
   background-color: var(--modern-active);
 }
