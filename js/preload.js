@@ -553,6 +553,28 @@ function updateSettings(callback) {
                         element => element.value
                     ).control,
                     new Setting(
+                        "courseIconFavicons",
+                        "Use Course Icons as Favicons When Possible",
+                        "[Refresh required] Use the course's icon as the favicon (the icon next to the tab's title) on most course pages. This will not work in all cases.",
+                        "enabled",
+                        "select",
+                        {
+                            options: [
+                                {
+                                    text: "Enabled",
+                                    value: "enabled"
+                                },
+                                {
+                                    text: "Disabled",
+                                    value: "disabled"
+                                }
+                            ]
+                        },
+                        value => value,
+                        undefined,
+                        element => element.value
+                    ).control,
+                    new Setting(
                         "overrideUserStyles",
                         "Override Styled Text",
                         "Override styled text in homefeed posts and discussion responses when using modern themes. WARNING: This guarantees text is readable on dark theme, but removes colors and other styling that may be important. You can always use the Toggle Theme button on the navigation bar to temporarily disble your theme.",

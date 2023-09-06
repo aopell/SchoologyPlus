@@ -442,7 +442,7 @@ class Theme {
             }
             img.classList.add("injected-course-icon");
 
-            if (img == bigCourseIcon && !document.querySelector("head > link[rel='icon'][type='image/svg+xml']")) {
+            if (Setting.getValue("courseIconFavicons") !== "disabled" && img == bigCourseIcon && !document.querySelector("head > link[rel='icon'][type='image/svg+xml']")) {
                 document.querySelectorAll("link[rel='shortcut icon']").forEach(el => el.remove());
                 let favicon = document.createElement("link");
                 favicon.rel = "icon";
