@@ -289,8 +289,7 @@ variable-intellisense {
         }
     }
 
-    footer li a,
-    header li a {
+    footer li a {
         color: var(--link-color) !important;
     }
 
@@ -306,9 +305,9 @@ variable-intellisense {
     div.courses-left-menu,
     .portfolio-list a.btn,
     a._3_bfp,
-    nav li a.util-menu-row-link-2dTZi,
-    nav li a._1Z0RM,
-    nav li button._1Z0RM {
+    #header>header nav li a.util-menu-row-link-2dTZi,
+    #header>header nav li a._1Z0RM,
+    #header>header nav li button._1Z0RM {
         color: var(--contrast-text) !important;
     }
 
@@ -567,7 +566,7 @@ variable-intellisense {
         }
     }
 
-    header div.Je0RK button._1SIMq {
+    #header>header div.Je0RK button._1SIMq {
         background-color: var(--secondary) !important;
         color: var(--text) !important;
         border-radius: var(--border-radius) !important;
@@ -2675,6 +2674,16 @@ variable-intellisense {
                 text-decoration: underline;
                 cursor: pointer;
             }
+        }
+    }
+
+    button.nav-tab-selected-3323184817 {
+        background-color: var(--background-color) !important;
+    }
+
+    button.nav-tab-tab-325229968 {
+        &:hover {
+            background-color: var(--active) !important;
         }
     }
 

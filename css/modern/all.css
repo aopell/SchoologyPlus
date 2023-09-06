@@ -258,8 +258,7 @@ variable-intellisense {
   color: var(--contrast-text) !important;
 }
 
-:root[modern=true] footer li a,
-:root[modern=true] header li a {
+:root[modern=true] footer li a {
   color: var(--link-color) !important;
 }
 
@@ -275,9 +274,9 @@ variable-intellisense {
 :root[modern=true] div.courses-left-menu,
 :root[modern=true] .portfolio-list a.btn,
 :root[modern=true] a._3_bfp,
-:root[modern=true] nav li a.util-menu-row-link-2dTZi,
-:root[modern=true] nav li a._1Z0RM,
-:root[modern=true] nav li button._1Z0RM {
+:root[modern=true] #header > header nav li a.util-menu-row-link-2dTZi,
+:root[modern=true] #header > header nav li a._1Z0RM,
+:root[modern=true] #header > header nav li button._1Z0RM {
   color: var(--contrast-text) !important;
 }
 
@@ -521,7 +520,7 @@ variable-intellisense {
   background-color: var(--active);
 }
 
-:root[modern=true] header div.Je0RK button._1SIMq {
+:root[modern=true] #header > header div.Je0RK button._1SIMq {
   background-color: var(--secondary) !important;
   color: var(--text) !important;
   border-radius: var(--border-radius) !important;
@@ -2422,6 +2421,14 @@ variable-intellisense {
 :root[modern=true][dark=true] #assessment-darktheme-warning-message .click-to-hide span {
   text-decoration: underline;
   cursor: pointer;
+}
+
+:root[modern=true] button.nav-tab-selected-3323184817 {
+  background-color: var(--background-color) !important;
+}
+
+:root[modern=true] button.nav-tab-tab-325229968:hover {
+  background-color: var(--active) !important;
 }
 
 :root[modern=true] .mathquill-formula {
