@@ -774,19 +774,19 @@ variable-intellisense {
   background-color: var(--active) !important;
 }
 
-:root[modern=true] div.les2- {
+:root[modern=true] div.les2-, :root[modern=true] #header > header ul.util-width-thirty-nine-1B-gb {
   background-color: var(--secondary) !important;
 }
 
-:root[modern=true] div.les2- ._3skcp {
+:root[modern=true] div.les2- ._3skcp, :root[modern=true] #header > header ul.util-width-thirty-nine-1B-gb ._3skcp {
   border-color: var(--contrast-border) !important;
 }
 
-:root[modern=true] div.les2- ._1wP6w {
+:root[modern=true] div.les2- ._1wP6w, :root[modern=true] #header > header ul.util-width-thirty-nine-1B-gb ._1wP6w {
   color: var(--text) !important;
 }
 
-:root[modern=true] div.les2- ._2wOCj {
+:root[modern=true] div.les2- ._2wOCj, :root[modern=true] #header > header ul.util-width-thirty-nine-1B-gb ._2wOCj {
   color: var(--muted-text) !important;
 }
 
