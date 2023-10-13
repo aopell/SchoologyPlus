@@ -344,6 +344,10 @@ variable-intellisense {
   background-color: var(--muted-text) !important;
 }
 
+:root[modern=true][dark=true] #header > header li svg.util-v2-icon-height-2N1T4 {
+  filter: Hue-Rotate(200deg) Invert(1) Saturate(2);
+}
+
 :root[modern=true] .popups-box .popups-body,
 :root[modern=true] #popups-loading div {
   background-color: var(--primary) !important;
