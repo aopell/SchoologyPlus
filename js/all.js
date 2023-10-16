@@ -914,7 +914,7 @@ let siteNavigationTileHelpers = {
         }
     });
 
-    for (let candidateLabel of document.querySelectorAll("#header nav ul > li span._1D8fw")) {
+    for (let candidateLabel of document.querySelectorAll("#header nav ul > li button > span")) {
         if (candidateLabel.textContent == "Courses") {
             // a span inside a button inside a div (inside a li)
             coursesDropdownContainer = candidateLabel.parentElement.parentElement;
@@ -979,7 +979,7 @@ let siteNavigationTileHelpers = {
         }
     });
 
-    for (let candidateLabel of document.querySelectorAll("#header nav ul > li span._1D8fw")) {
+    for (let candidateLabel of document.querySelectorAll("#header nav ul > li button > span")) {
         if (candidateLabel.textContent == "Groups") {
             // a span inside a button inside a div (inside a li)
             groupsDropdownContainer = candidateLabel.parentElement.parentElement;

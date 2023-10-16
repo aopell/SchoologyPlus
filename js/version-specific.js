@@ -123,8 +123,8 @@ function saveBroadcasts(broadcasts, callback = undefined) {
  * @param {Date|number} timestamp Timestamp to show as the post time in the home feed
  * @returns {Broadcast}
  */
-function createBroadcast(id, title, message, timestamp = Date.now()) {
-    return { id: String(id), title, message, timestamp: +timestamp };
+function createBroadcast(id, title, message, timestamp = Date.now(), expires = undefined) {
+    return { id: String(id), title, message, timestamp: +timestamp, expires: expires !== undefined ? +expires : undefined };
 }
 
 /**
@@ -298,6 +298,36 @@ let migrationsTo = {
             }
         }, 50);
     },
+    "7.8.6": function (currentVersion, previousVersion) {
+        saveBroadcasts([
+            createBroadcast(
+                670,
+                "Schoology Plus Fall 2023 Survey",
+                `
+                <div>
+                    <strong style="background: rgba(0,128,255,0.5) !important; color: white !important;">Take the Schoology Plus Fall 2023 Survey!</strong>
+                    <p>Occasionally we run this survey to understand how best to improve Schoology Plus for our users.</p>
+                    <p>Spend 10 minutes completing this year's survey and you'll be entered into a giveaway for one of
+                        <span style="background: rgb(255, 255, 0) !important; color: black !important; font-weight: bold;">20 Amazon gift cards totaling $150</span>
+                        : ten $10 cards and ten $5 cards, so <strong>your chance of winning is higher than ever before!</strong>
+                    </p>
+                    <p>Thank you for helping improve Schoology Plus! Your feedback is incredibly valuable to us and will likely impact to what extent Schoology Plus is improved in the future.</p>
+                    <p><a href="https://survey.schoologypl.us?source=ExtensionBroadcast&domain=${location.hostname}"><strong style="background: rgba(255,60,0,0.5) !important; color: white !important; font-size: 16px;">Click here to visit survey.schoologypl.us and take the survey now!</strong></a></p>
+                </div>
+                `,
+                new Date(2023, 9 /* October */, 15),
+                new Date(2023, 11 /* December */, 1) // expiration date
+            )
+        ]);
+
+        if (Date.now() < new Date(2023, 11 /* December */, 1)) {
+            showToast("Take the Schoology Plus Survey!", "Enter to win one of 20 Amazon gift cards!", "yellow", {
+                buttons: [
+                    createToastButton("Take Survey!", "toast-take-splus-survey-fall2023", (i, t, b) => window.open(`https://survey.schoologypl.us?source=ExtensionToast&domain=${location.hostname}`, "_blank"))
+                ]
+            });
+        }
+    }
 };
 
 async function versionSpecificFirstLaunch(currentVersion, previousVersion) {

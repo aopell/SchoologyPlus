@@ -379,6 +379,10 @@ variable-intellisense {
         }
     }
 
+    &[dark=true] #header > header li svg.util-v2-icon-height-2N1T4 {
+        filter: Hue-Rotate(200deg) Invert(1) Saturate(2);
+    }
+
     // Schoology Popups
 
     .popups-box .popups-body,
@@ -827,7 +831,7 @@ variable-intellisense {
 
     // Navbar menus
 
-    div.les2- {
+    div.les2-, #header > header ul.util-width-thirty-nine-1B-gb {
         background-color: var(--secondary) !important;
 
         ._3skcp {

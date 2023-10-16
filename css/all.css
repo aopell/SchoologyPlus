@@ -18,6 +18,7 @@
     background-color: var(--primary-color) !important;
 }
 
+#header>header,
 #header>header nav,
 #header>header nav li button._1Z0RM,
 #header>header nav li a._1Z0RM {
@@ -72,14 +73,17 @@ nav.nav-breadcrumb-nav-1251684582 span {
 
 /* Kept old classes to remain compatible with older versions of Schoology */
 .StandardHeader-header-drop-menu-YShpU,
-.Header-header-drop-menu-3SaYV {
+.Header-header-drop-menu-3SaYV,
+.HeaderDropMenu-menu-border-3vo5S {
     background-color: var(--hover-color) !important;
 }
 
 a.StandardHeader-header-drop-menu-YShpU:hover,
 .StandardHeader-header-drop-menu-YShpU li a:hover,
 a.Header-header-drop-menu-3SaYV:hover,
-.Header-header-drop-menu-3SaYV li a:hover {
+.Header-header-drop-menu-3SaYV li a:hover,
+a.HeaderDropMenu-menu-border-3vo5S:hover,
+.HeaderDropMenu-menu-border-3vo5S li a:hover {
     background-color: var(--background-color) !important;
 }
 
