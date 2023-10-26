@@ -1,0 +1,3410 @@
+variable-intellisense {
+  --primary: #36393F;
+  --accent: #2F3136;
+  --secondary: #202225;
+  --text: #DCDDDE;
+  --contrast-text: #EEEEEE;
+  --muted-text: #72767D;
+  --contrast-border: #DCDDDE;
+  --input: #40444B;
+  --error: #F44336;
+  --highlight: rgba(184, 134, 11, 0.2);
+  --active: rgba(0, 255, 255, 0.1);
+  --grades: #8BC34A;
+  --border-radius: 5px;
+  --border-size: 1px;
+  --padding: 10px;
+  --theme-is-dark: 1;
+  --cal1: #457da5;
+  --cal2: #547c41;
+  --cal3: #926c37;
+  --cal4: #7c3d6b;
+  --cal5: #0b4c9c;
+  --cal6: #00209c;
+  --cal7: #004a09;
+  --cal8: #72721a;
+  --cal9: #44233e;
+  --cal10: #683131;
+  --cal11: #770a0a;
+  --cal12: #a72413;
+  --cal13: #E0024C;
+  --cal14: #188C16;
+  --cal15: #bd7304;
+  --cal16: #80168C;
+  --cal17: #164152;
+  --cal18: #00543f;
+  --cal19: #633e11;
+  --cal20: #461b2d;
+  --cal21: #00427c;
+  --cal22: #603073;
+  --cal23: #8b1941;
+  --cal24: #970c0c;
+  --cal25: #9c3b07;
+  --cal26: #685203;
+  --cal27: #2a5f16;
+  --cal28: #09584f;
+  --cal29: #005a75;
+  --cal30: #4d5557;
+}
+
+:root[modern=true] {
+  --modern-border: var(--border-size) solid var(--contrast-border);
+}
+
+:root[modern=true] h1,
+:root[modern=true] h2,
+:root[modern=true] h3,
+:root[modern=true] h4,
+:root[modern=true] h5,
+:root[modern=true] h6,
+:root[modern=true] p {
+  color: var(--text) !important;
+}
+
+:root[modern=true] pre {
+  background-color: var(--input);
+  color: var(--text);
+}
+
+:root[modern=true] body {
+  background: var(--primary) !important;
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] #youtube-disclaimer {
+  color: var(--text) !important;
+  background-color: var(--secondary) !important;
+  padding: var(--padding) !important;
+  margin-top: var(--padding) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] textarea,
+:root[modern=true] select,
+:root[modern=true] optgroup,
+:root[modern=true] input[type=text] {
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true][style-override=true] .s-edge-feed .edge-item *[style] {
+  color: var(--text) !important;
+  background: none !important;
+}
+
+:root[modern=true][style-override=true] .discussion-view .discussion-prompt *[style],
+:root[modern=true][style-override=true] .discussion-view .comment-body-wrapper *[style] {
+  color: var(--text) !important;
+  background: none !important;
+}
+
+:root[modern=true][style-override=true] #important-post-body *[style],
+:root[modern=true][style-override=true] #main-inner .info-container *[style],
+:root[modern=true][style-override=true] .standard-page .s-page-content-full *[style],
+:root[modern=true][style-override=true] .discussion-prompt *[style],
+:root[modern=true][style-override=true] .comment-comment .comment-body-wrapper *[style],
+:root[modern=true][style-override=true] .instructions-content *[style],
+:root[modern=true][style-override=true] .lrn_stimulus .lrn_stimulus_content *[style],
+:root[modern=true][style-override=true] .lrn-possible-answer *[style],
+:root[modern=true][style-override=true] .folder-description *[style],
+:root[modern=true][style-override=true] .item-info *[style] {
+  color: var(--text) !important;
+  background: none !important;
+}
+
+:root[modern=true] ul.context-menu-list {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-color: var(--accent) !important;
+}
+
+:root[modern=true] ul.context-menu-list li.context-menu-item {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-color: var(--accent) !important;
+}
+
+:root[modern=true] ul.context-menu-list li.context-menu-item:hover {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .menu-459.group-discussion-left-menu {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] * {
+  scrollbar-color: var(--input) var(--accent) !important;
+  scrollbar-width: 15px !important;
+  scrollbar-arrow-color: var(--contrast-text) !important;
+}
+
+:root[modern=true] *::-webkit-scrollbar {
+  background: transparent !important;
+  width: 15px;
+}
+
+:root[modern=true] *::-webkit-scrollbar-track-piece {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] *::-webkit-scrollbar-button, :root[modern=true] *::-webkit-scrollbar-corner {
+  display: none !important;
+}
+
+:root[modern=true] *::-webkit-scrollbar-thumb {
+  background: var(--input) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #body {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] iframe:not([id^=firefox-screenshots-]) {
+  background-color: white !important;
+}
+
+:root[modern=true] #main-content-wrapper {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #right-column-inner > div:not(:empty) {
+  background-color: var(--secondary) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  padding: var(--padding) !important;
+}
+
+:root[modern=true] #right-column-inner > div[id^=sgyReactRenders_comp_] {
+  display: none;
+}
+
+:root[modern=true] #center-top {
+  background: unset !important;
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+:root[modern=true] .has-right-col #center-inner {
+  background: none !important;
+}
+
+:root[modern=true] body a.link-btn,
+:root[modern=true] body button.link-btn {
+  box-shadow: none !important;
+  background: none !important;
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .inline-popup-wrapper {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .inline-popup-wrapper .arrow-top {
+  display: none !important;
+}
+
+:root[modern=true] .s-polls-results-overlay {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] .s-notifications-mini .edge-sentence {
+  color: var(--text);
+}
+
+:root[modern=true] .drGks a:hover, :root[modern=true] .drGks a:focus {
+  background-color: var(--highlight);
+}
+
+:root[modern=true] .grade-data {
+  color: var(--grades) !important;
+}
+
+:root[modern=true] #main .s-notifications-mini .edge-time,
+:root[modern=true] #main .s-notifications-mini .created {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .drGks a:hover, :root[modern=true] .drGks a:focus {
+  background-color: var(--highlight);
+}
+
+:root[modern=true] .splus-modal-title {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .submit-span-wrapper {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .submit-span-wrapper input[type="button"], :root[modern=true] .submit-span-wrapper input[type="submit"] {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] :not(.submit-span-wrapper) > input[type="button"], :root[modern=true] :not(.submit-span-wrapper) > input[type="submit"] {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] footer li a {
+  color: var(--link-color) !important;
+}
+
+:root[modern=true] .splus-modal-footer-text {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .splus-modal-footer-text a {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] body a.link-btn.active,
+:root[modern=true] div.courses-left-menu,
+:root[modern=true] .portfolio-list a.btn,
+:root[modern=true] a._3_bfp,
+:root[modern=true] #header > header nav li a.util-menu-row-link-2dTZi,
+:root[modern=true] #header > header nav li a._1Z0RM,
+:root[modern=true] #header > header nav li button._1Z0RM {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] footer {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] footer button {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .Header-header-button-1EE8Y,
+:root[modern=true] .Header-header-button-active-GnvKh,
+:root[modern=true] .StandardHeader-header-button-1562K,
+:root[modern=true] [class*="StandardHeader-header-drop-menu-item-"],
+:root[modern=true] [class*="StandardHeader-header-drop-menu-"] li a *,
+:root[modern=true] .StandardHeader-header-button-active-mEoTJ,
+:root[modern=true] .LGaPf svg {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .StandardHeader-header-drop-menu-YShpU._1Z0RM {
+  background-color: var(--hover-color) !important;
+}
+
+:root[modern=true] div[role="menu"] ._2awxe._3skcp._1tpub a {
+  color: var(--link-color) !important;
+}
+
+:root[modern=true] .close {
+  color: var(--contrast-text) !important;
+  opacity: 0.8 !important;
+}
+
+:root[modern=true] .close:hover, :root[modern=true] .close:focus {
+  opacity: 1 !important;
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-radius: var(--border-radius) !important;
+  background-blend-mode: screen;
+}
+
+:root[modern=true] .action-links-unfold {
+  background-image: none !important;
+  background-color: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true][dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
+:root[modern=true] .action-links-unfold:hover {
+  background-color: var(--muted-text) !important;
+}
+
+:root[modern=true][dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
+:root[modern=true][dark=false] .action-links-unfold:hover {
+  background-color: var(--muted-text) !important;
+}
+
+:root[modern=true][dark=true] #header > header li svg.util-v2-icon-height-2N1T4 {
+  filter: Hue-Rotate(200deg) Invert(1) Saturate(2);
+}
+
+:root[modern=true] .popups-box .popups-body,
+:root[modern=true] #popups-loading div {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+:root[modern=true] .popups-box .submit-buttons {
+  background-color: var(--accent) !important;
+  border-top: none !important;
+}
+
+:root[modern=true] .popups-box .popups-title {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+:root[modern=true] .popups-close:hover a {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] .popups-close a {
+  background-position-y: calc(-80px - (20px * var(--theme-is-dark))) !important;
+  border-radius: 2px !important;
+}
+
+:root[modern=true] .likers li:not(.last) {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] fieldset div div div label span {
+  color: var(--text) !important;
+}
+
+:root[modern=true] ._2WC16 span._24avl._17Z60 {
+  color: var(--accent) !important;
+}
+
+:root[modern=true] .popups-buttons-inner {
+  background: var(--secondary) !important;
+}
+
+:root[modern=true] .popups-tab,
+:root[modern=true] .popups-tabs {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .popups-tab.active {
+  background: var(--primary) !important;
+}
+
+:root[modern=true] ._pendo-step-container-styles {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .pendo-mock-flexbox-element:nth-child(2) > button {
+  background-color: var(--primary) !important;
+  border-color: var(--contrast-border) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .popups-box.popups-library #resources-left-menu-wrapper {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .popups-box #library-wrapper {
+  background: var(--primary) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] div.error,
+:root[modern=true] tr.error {
+  background-color: var(--error) !important;
+  border-color: var(--error) !important;
+  color: var(--text);
+}
+
+:root[modern=true] .splus-courses-navbar-button div[role=menu],
+:root[modern=true] .splus-groups-navbar-button div[role=menu] {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .splus-coursesdropdown-reorder-btn {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] .splus-courses-navbar-button article,
+:root[modern=true] .splus-groups-navbar-button article {
+  border: var(--border-size) solid transparent !important;
+  outline: none !important;
+}
+
+:root[modern=true] .splus-courses-navbar-button article a,
+:root[modern=true] .splus-groups-navbar-button article a {
+  border: var(--border-size) solid transparent !important;
+  outline: none !important;
+}
+
+:root[modern=true] .JoinCard-card-1qWtS {
+  border: var(--border-size) solid transparent !important;
+  outline: none !important;
+}
+
+:root[modern=true] .splus-courses-navbar-button article a:hover,
+:root[modern=true] .splus-groups-navbar-button article a:hover,
+:root[modern=true] .JoinCard-card-1qWtS:hover {
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .Card-card-image-uV6Bu {
+  border-top-left-radius: var(--border-radius) !important;
+  border-top-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .Card-card-data-17m6S {
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .Card-card-data-17m6S div {
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .splus-courses-navbar-button article a div,
+:root[modern=true] .splus-groups-navbar-button article a div {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .splus-courses-navbar-button article a div div._1wP6w,
+:root[modern=true] .splus-groups-navbar-button article a div div._1wP6w {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .splus-courses-navbar-button article a div div._2wOCj,
+:root[modern=true] .splus-groups-navbar-button article a div div._2wOCj {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] #darktheme-toggle-navbar-button[data-popup=true] {
+  position: relative;
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] #darktheme-toggle-navbar-button[data-popup=true] .explanation-popup {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: var(--padding);
+  background-color: var(--secondary);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+  color: var(--text);
+  line-height: normal !important;
+  text-transform: none !important;
+  text-align: left !important;
+  width: 250px;
+  pointer-events: none;
+}
+
+:root[modern=true] #darktheme-toggle-navbar-button[data-popup=true] .explanation-popup h3 {
+  float: right;
+  padding: 5px 20px 5px;
+  margin-top: 5px;
+  border-radius: var(--border-radius);
+  background-color: var(--accent);
+  pointer-events: all;
+}
+
+:root[modern=true] #darktheme-toggle-navbar-button[data-popup=true] .explanation-popup h3:hover {
+  background-color: var(--active);
+}
+
+:root[modern=true] #header > header div.Je0RK button._1SIMq {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] ._1DD87,
+:root[modern=true] ._3gfrT:focus:not(:active),
+:root[modern=true] .oUq3j:hover:not(:active) {
+  border: var(--modern-border) !important;
+}
+
+:root[modern=true] .JoinCard-card-1qWtS ._1Z0RM {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .fcalendar-filter-menu-wrapper {
+  background-color: var(--secondary) !important;
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] .color-codes-box {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .fcalendar-filter-menu-wrapper .checkbox.filter-selected {
+  background-position-y: -19px !important;
+}
+
+:root[modern=true] body .fc-event-skin {
+  color: var(--text);
+}
+
+:root[modern=true] .color-default-personal,
+:root[modern=true] .color-default-groups,
+:root[modern=true] .color-default-courses,
+:root[modern=true] .color-default-school,
+:root[modern=true] .color-1,
+:root[modern=true] .color-2,
+:root[modern=true] .color-3,
+:root[modern=true] .color-4,
+:root[modern=true] .color-5,
+:root[modern=true] .color-6,
+:root[modern=true] .color-7,
+:root[modern=true] .color-8,
+:root[modern=true] .color-9,
+:root[modern=true] .color-10,
+:root[modern=true] .color-11,
+:root[modern=true] .color-12,
+:root[modern=true] .color-13,
+:root[modern=true] .color-14,
+:root[modern=true] .color-15,
+:root[modern=true] .color-16,
+:root[modern=true] .color-dark-1,
+:root[modern=true] .color-dark-2,
+:root[modern=true] .color-dark-3,
+:root[modern=true] .color-dark-4,
+:root[modern=true] .color-dark-5,
+:root[modern=true] .color-dark-6,
+:root[modern=true] .color-dark-7,
+:root[modern=true] .color-dark-8,
+:root[modern=true] .color-dark-9,
+:root[modern=true] .color-dark-10 {
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+:root[modern=true] .fc-event-skin.ev-course,
+:root[modern=true] .legend-course {
+  background: var(--cal3);
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+:root[modern=true] .fc-event-skin.ev-group,
+:root[modern=true] .legend-group {
+  background: var(--cal2);
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+:root[modern=true] .fc-event-skin.ev-user,
+:root[modern=true] .legend-user {
+  background: var(--cal1);
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+:root[modern=true] .fc-event-skin.ev-school,
+:root[modern=true] .legend-school {
+  background: var(--cal4);
+  border-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+:root[modern=true] .color-default-personal {
+  background: var(--cal1) !important;
+}
+
+:root[modern=true] .color-default-groups {
+  background: var(--cal2) !important;
+}
+
+:root[modern=true] .color-default-courses {
+  background: var(--cal3) !important;
+}
+
+:root[modern=true] .color-default-school {
+  background: var(--cal4) !important;
+}
+
+:root[modern=true] .color-1 {
+  background: var(--cal5) !important;
+}
+
+:root[modern=true] .color-2 {
+  background: var(--cal6) !important;
+}
+
+:root[modern=true] .color-3 {
+  background: var(--cal7) !important;
+}
+
+:root[modern=true] .color-4 {
+  background: var(--cal8) !important;
+}
+
+:root[modern=true] .color-5 {
+  background: var(--cal9) !important;
+}
+
+:root[modern=true] .color-6 {
+  background: var(--cal10) !important;
+}
+
+:root[modern=true] .color-7 {
+  background: var(--cal11) !important;
+}
+
+:root[modern=true] .color-8 {
+  background: var(--cal12) !important;
+}
+
+:root[modern=true] .color-9 {
+  background: var(--cal13) !important;
+}
+
+:root[modern=true] .color-10 {
+  background: var(--cal14) !important;
+}
+
+:root[modern=true] .color-11 {
+  background: var(--cal15) !important;
+}
+
+:root[modern=true] .color-12 {
+  background: var(--cal16) !important;
+}
+
+:root[modern=true] .color-13 {
+  background: var(--cal17) !important;
+}
+
+:root[modern=true] .color-14 {
+  background: var(--cal18) !important;
+}
+
+:root[modern=true] .color-15 {
+  background: var(--cal19) !important;
+}
+
+:root[modern=true] .color-16 {
+  background: var(--cal20) !important;
+}
+
+:root[modern=true] .color-dark-1 {
+  background: var(--cal21) !important;
+}
+
+:root[modern=true] .color-dark-2 {
+  background: var(--cal22) !important;
+}
+
+:root[modern=true] .color-dark-3 {
+  background: var(--cal23) !important;
+}
+
+:root[modern=true] .color-dark-4 {
+  background: var(--cal24) !important;
+}
+
+:root[modern=true] .color-dark-5 {
+  background: var(--cal25) !important;
+}
+
+:root[modern=true] .color-dark-6 {
+  background: var(--cal26) !important;
+}
+
+:root[modern=true] .color-dark-7 {
+  background: var(--cal27) !important;
+}
+
+:root[modern=true] .color-dark-8 {
+  background: var(--cal28) !important;
+}
+
+:root[modern=true] .color-dark-9 {
+  background: var(--cal29) !important;
+}
+
+:root[modern=true] .color-dark-10 {
+  background: var(--cal30) !important;
+}
+
+:root[modern=true] .fc-state-default {
+  background-color: var(--primary) !important;
+  border-color: none !important;
+  color: var(--text) !important;
+  border-width: var(--border-size) !important;
+}
+
+:root[modern=true] .fc-state-default .fc-button-inner {
+  background-color: var(--primary) !important;
+  border-color: none !important;
+  color: var(--text) !important;
+  border-width: var(--border-size) !important;
+}
+
+:root[modern=true] .fc-button.fc-corner-left {
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-top-left-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .fc-button.fc-corner-right {
+  border-bottom-right-radius: var(--border-radius) !important;
+  border-top-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .fc-state-disabled {
+  background-color: var(--secondary) !important;
+  color: var(--muted-text) !important;
+  border-color: none !important;
+}
+
+:root[modern=true] .fc-state-disabled .fc-button-inner {
+  background-color: var(--secondary) !important;
+  color: var(--muted-text) !important;
+  border-color: none !important;
+}
+
+:root[modern=true] .fc-state-active {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .fc-state-active .fc-button-inner {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] div.les2-, :root[modern=true] #header > header ul.util-width-thirty-nine-1B-gb {
+  background-color: var(--secondary) !important;
+}
+
+:root[modern=true] div.les2- ._3skcp, :root[modern=true] #header > header ul.util-width-thirty-nine-1B-gb ._3skcp {
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] div.les2- ._1wP6w, :root[modern=true] #header > header ul.util-width-thirty-nine-1B-gb ._1wP6w {
+  color: var(--text) !important;
+}
+
+:root[modern=true] div.les2- ._2wOCj, :root[modern=true] #header > header ul.util-width-thirty-nine-1B-gb ._2wOCj {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .util-hover-background-color-cloud-grey-wHghL:hover,
+:root[modern=true] .util-focus-background-color-cloud-grey-3x07X:focus,
+:root[modern=true] ._33zXx {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] div.les2- h3 {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .close-button,
+:root[modern=true] .restore-defaults {
+  color: var(--error) !important;
+}
+
+:root[modern=true] .setting-highlight {
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] .splus-modal-body {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .is-home #right-column-inner div,
+:root[modern=true] .is-home #home-feed-container {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .is-home #center div#main,
+:root[modern=true] .is-home #main-inner,
+:root[modern=true] .is-home #main-content-wrapper {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] #basic-user-warning {
+  background-color: var(--highlight) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .date-header h4 span,
+:root[modern=true] .s-poll-option-title,
+:root[modern=true] .s-like-sentence {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .comment-body-wrapper {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .s-polls-poll-option,
+:root[modern=true] #edge-filters-menu {
+  background: none !important;
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #edge-filters {
+  background: none !important;
+  border: none !important;
+}
+
+:root[modern=true] #edge-filters-btn,
+:root[modern=true] .feed-comments {
+  background-position-y: calc(-576px - 18px * var(--theme-is-dark)) !important;
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  opacity: unset !important;
+}
+
+:root[modern=true] #edge-filters-menu .edge-filter-option {
+  background-position: 0 calc(-237px - 20px * var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] #edge-filters-menu .edge-filter-option:hover, :root[modern=true] #edge-filters-menu .edge-filter-option.active:hover {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .gray,
+:root[modern=true] .upcoming-time {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] img.splus-logo-inline {
+  filter: brightness(var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] .splus-broadcast-post {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .theme-2016 .date-header h4,
+:root[modern=true] #home-feed-container #smart-box {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .view-file-popup,
+:root[modern=true] .view-btn-disabled,
+:root[modern=true] .edit-external-tool-attachment {
+  border-left: var(--modern-border) !important;
+}
+
+:root[modern=true] .sgy-tabbed-navigation {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .sgy-tabbed-navigation li.active {
+  border-bottom: 5px solid var(--contrast-border) !important;
+}
+
+:root[modern=true] .s-edge-type-update-post .update-body,
+:root[modern=true] .s-edge-type-update-poll .update-body {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .user span.name-wrapper {
+  background: var(--secondary) !important;
+}
+
+:root[modern=true] .selected-realm .name-text {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .selected-realm .name-wrapper {
+  background: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .userlist_input input,
+:root[modern=true] .userlist_input_shadow,
+:root[modern=true] .userlist_input input[type=text] {
+  background-color: var(--input) !important;
+  border-radius: var(--border-radius) !important;
+  color: white;
+}
+
+:root[modern=true] #edge-filters-btn {
+  background-color: var(--text) !important;
+  color: var(--secondary) !important;
+  filter: Invert(var(--theme-is-dark)) !important;
+  background-position-y: -577px !important;
+  background-position-x: right !important;
+  background-image: url("/sites/all/themes/schoology_theme/images/btn-sprite.png?2f89e2e4127348b5") !important;
+}
+
+:root[modern=true][dark=false] #edge-filters-btn {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  filter: none !important;
+  background-image: url("/sites/all/themes/schoology_theme/images/btn-sprite.png?5f89e2e4127348b5") !important;
+}
+
+:root[modern=true] .immersive-reader-button-container span svg path {
+  fill: var(--text);
+}
+
+:root[modern=true] .immersive-reader-button-container button {
+  background-color: var(--primary);
+  color: var(--text);
+  border: var(--modern-border);
+}
+
+:root[modern=true] .immersive-reader-button-container button:hover, :root[modern=true] .immersive-reader-button-container button:focus {
+  background-color: var(--active);
+}
+
+:root[modern=true] .gradebook-course.hierarchical-grading-report .period-row .grade-column,
+:root[modern=true] .gradebook-course.hierarchical-grading-report .category-row .grade-column,
+:root[modern=true] .gradebook-course.hierarchical-grading-report .item-row .grade-column {
+  color: var(--grades) !important;
+}
+
+:root[modern=true] .gradebook-course.hierarchical-grading-report .item-row .title-column .title {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .grade-active-color,
+:root[modern=true] .awarded-grade span {
+  color: var(--grades) !important;
+}
+
+:root[modern=true] .due-date,
+:root[modern=true] .gradebook-course.hierarchical-grading-report .grade-column .max-grade,
+:root[modern=true] .percentage-contrib,
+:root[modern=true] span.comment,
+:root[modern=true] .grade-none-color,
+:root[modern=true] .course-grade-text,
+:root[modern=true] .total-points-wrapper *,
+:root[modern=true] .percentage-grade,
+:root[modern=true] .comment-body-wrapper,
+:root[modern=true] .no-grade {
+  color: var(--text) !important;
+}
+
+:root[modern=true] div.summary-course {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .grade-edit-indicator {
+  filter: Grayscale(var(--theme-is-dark)) Invert(var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] .gradebook-course.hierarchical-grading-report .item-row .td-content-wrapper {
+  border-top: var(--border-size) dotted var(--contrast-border) !important;
+}
+
+:root[modern=true] .gradebook-course.hierarchical-grading-report .period-row .td-content-wrapper,
+:root[modern=true] .gradebook-course.hierarchical-grading-report .final-row .td-content-wrapper,
+:root[modern=true] .gradebook-course.hierarchical-grading-report .td-content-wrapper {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] .item-row.added-fake-assignment {
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] .splus-grade-help-btn .icon-help {
+  background-position: calc(0px - 22px * var(--theme-is-dark)) -127px !important;
+}
+
+:root[modern=true] .gradebook-course.hierarchical-grading-report .childrenCollapsed .title-column:hover .expandable-icon-grading-report {
+  position: absolute !important;
+  clip: rect(calc(15px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), 0) !important;
+  top: calc(0px + (16px * var(--theme-is-dark))) !important;
+  left: -20px !important;
+  opacity: 1 !important;
+}
+
+:root[modern=true] .gradebook-course.hierarchical-grading-report .childrenCollapsed .title-column .expandable-icon-grading-report {
+  position: absolute !important;
+  clip: rect(calc(15px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), 0) !important;
+  top: calc(0px + (16px * var(--theme-is-dark))) !important;
+  left: -20px !important;
+  opacity: 0.8 !important;
+}
+
+:root[modern=true] .gradebook-course.hierarchical-grading-report .title-column .expandable-icon-grading-report {
+  position: absolute !important;
+  clip: rect(calc(46px - (11px * var(--theme-is-dark))), calc(60px - (45px * var(--theme-is-dark))), calc(80px - (30px * var(--theme-is-dark))), 0) !important;
+  top: calc(-32px + (16px * var(--theme-is-dark))) !important;
+  left: -20px !important;
+  opacity: 0.8 !important;
+}
+
+:root[modern=true] .gradebook-course.hierarchical-grading-report .title-column:hover .expandable-icon-grading-report {
+  position: absolute !important;
+  clip: rect(calc(46px - (11px * var(--theme-is-dark))), calc(60px - (45px * var(--theme-is-dark))), calc(80px - (30px * var(--theme-is-dark))), 0) !important;
+  top: calc(-32px + (16px * var(--theme-is-dark))) !important;
+  left: -20px !important;
+  opacity: 1 !important;
+}
+
+:root[modern=true] .empty.grades-empty {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .download-grade-wrapper a.link-btn {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] #past-selector .item-list a.link-btn.active {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] body ul.primary {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+:root[modern=true] body ul.primary li.active a {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+:root[modern=true] body ul.primary li.active a:hover {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+:root[modern=true] body ul.primary li a {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+:root[modern=true] body ul.primary li a:hover, :root[modern=true] body ul.primary li a:visited {
+  border-color: var(--contrast-border) !important;
+  border-width: var(--border-size) !important;
+}
+
+:root[modern=true] .gradebook-course,
+:root[modern=true] .attendance-course {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] .attendance-course-attendance table th,
+:root[modern=true] .attendance-course-attendance table td {
+  border: var(--modern-border) !important;
+}
+
+:root[modern=true] #s-js-student-mastery-report-view-content {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .s-js-chart-and-pager-area .empty {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] .highcharts-container > svg > rect {
+  fill: var(--primary);
+}
+
+:root[modern=true] .highcharts-axis-labels > text {
+  color: var(--text) !important;
+  fill: var(--text) !important;
+}
+
+:root[modern=true] .score-value {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .course-action-btns,
+:root[modern=true] .group-action-btns {
+  padding: var(--padding) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #secondary-tabs-wrapper {
+  border-right: none !important;
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div button span._24avl._17Z60 {
+  color: var(--text) !important;
+}
+
+:root[modern=true] body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div .Card-card-2rORL {
+  background-color: var(--accent) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div {
+  color: var(--text) !important;
+}
+
+:root[modern=true] body > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div div._2wOCj {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] body #right-column-inner button.link-btn,
+:root[modern=true] body #right-column-inner a.link-btn {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] #reorder-ui button.link-btn span {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] .course-list-view #secondary-tabs-wrapper ul {
+  border-bottom: none !important;
+}
+
+:root[modern=true] .no-courses {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .tabs.secondary li a {
+  background: var(--secondary) !important;
+  color: var(--text) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .tabs.secondary li.active a {
+  background: none !important;
+  color: var(--text) !important;
+  background-color: var(--active) !important;
+  border-radius: var(--border-radius) !important;
+  border: none !important;
+}
+
+:root[modern=true] .listing .course-item.list-item,
+:root[modern=true] .courses-listing.mycourses h3 {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] #main .courses-listing.listing {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] .sgy-course-search-form__submit-row {
+  background: none !important;
+  border-color: none !important;
+}
+
+:root[modern=true] .sgy-react-select .Select-control,
+:root[modern=true] .sgy-react-select .Select-menu-outer {
+  color: var(--text) !important;
+  border-color: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .sgy-react-select .Select-control {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] .sgy-react-select .Select-placeholder {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .sgy-react-select .Select-menu-outer {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .sgy-react-select .Select-option {
+  color: var(--text);
+}
+
+:root[modern=true] .sgy-react-select .Select-option:hover {
+  background-color: var(--active);
+}
+
+:root[modern=true] .enrollment-search .go-btn {
+  background-color: inherit !important;
+}
+
+:root[modern=true] .roster-top {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] body .enrollment-filters span.active,
+:root[modern=true] body .grading-groups-list .grading-group.active {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .enrollment-filters span:hover {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] #site-navigation-breadcrumbs nav {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] #site-navigation-breadcrumbs nav li a,
+:root[modern=true] #site-navigation-breadcrumbs nav li span {
+  color: var(--text) !important;
+}
+
+:root[modern=true] #library-main {
+  border-right: none !important;
+}
+
+:root[modern=true] #library-wrapper {
+  background-color: var(--accent) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #library-wrapper a.active:not(.item-title),
+:root[modern=true] #library-wrapper .library-collections a:hover {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] #library-left td:hover {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] #library-search-form-container div {
+  background-color: var(--secondary) !important;
+}
+
+:root[modern=true] #library-search-form-container div::before {
+  display: none !important;
+}
+
+:root[modern=true] #collection-view-contents .collection-row-empty td {
+  color: var(--text) !important;
+}
+
+:root[modern=true] body.library-view #library-main {
+  border-left: var(--modern-border) !important;
+}
+
+:root[modern=true] #collection-toolbar {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] #collection-view-contents {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] #collection-view-contents th,
+:root[modern=true] #collection-view-contents td {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] #library-left .collections-list-wrapper {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] body.library-view #library-left {
+  border-right: var(--modern-border) !important;
+}
+
+:root[modern=true] #collection-toolbar .action-links-unfold {
+  box-shadow: none !important;
+  border: none !important;
+  background: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] #collection-toolbar .action-links-unfold:hover {
+  background-color: var(--muted-text) !important;
+}
+
+:root[modern=true] #reorder-collections-btn {
+  color: var(--text) !important;
+}
+
+:root[modern=true] #reorder-collections-btn:hover {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .action-links > li > span {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .progressContainer,
+:root[modern=true] .link-attachment,
+:root[modern=true] .attachment-block,
+:root[modern=true] .resource-attachment {
+  background: var(--primary) !important;
+}
+
+:root[modern=true] .options-reorder-btn,
+:root[modern=true] .options-auto-arrange-btn {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .options-reorder-btn:hover,
+:root[modern=true] .options-auto-arrange-btn:hover {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .right-block-big-wrapper {
+  padding: var(--padding) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #sidebar-left #left-nav #menu-s-main ul li a.active {
+  background-color: var(--accent) !important;
+  border: var(--modern-border) !important;
+  border-right: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .app-link-wrapper .active {
+  background-color: var(--accent) !important;
+  border: var(--modern-border) !important;
+  border-right: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .app-link-wrapper .active:hover {
+  background-color: var(--accent) !important;
+  border: var(--modern-border) !important;
+  border-right: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #sidebar-left #menu-s-main .active-trail .active-trail a.course-materials-left-menu {
+  background-color: var(--accent) !important;
+  border: var(--modern-border) !important;
+  border-right: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] th.profile-header {
+  color: var(--text) !important;
+}
+
+:root[modern=true] #profile-form-tab {
+  background-color: var(--accent);
+}
+
+:root[modern=true] .tab-nav:hover {
+  background-color: var(--hover-color);
+}
+
+:root[modern=true] .tab-nav.active {
+  background-color: var(--input);
+}
+
+:root[modern=true] .tab-nav.active:hover {
+  background-color: var(--input);
+}
+
+:root[modern=true] #ui-datepicker-div {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] .ui-datepicker-days-cell a {
+  background-color: var(--primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+:root[modern=true] .ui-datepicker-unselectable {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .ui-datepicker-days-cell.ui-datepicker-current-day a {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .ui-datepicker-days-cell-over a {
+  background-color: var(--hover-color) !important;
+}
+
+:root[modern=true] .ui-datepicker-links > div > a {
+  background-color: var(--input);
+  background-blend-mode: screen;
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] .ui-datepicker-links > div:hover > a {
+  background-color: var(--hover-color);
+}
+
+:root[modern=true] .action-links,
+:root[modern=true] .comment.no-comments,
+:root[modern=true] .materials-filter-wrapper {
+  background-color: var(--secondary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] #wrapper {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .navigator-buttons a.navbtn.link-btn {
+  background-color: var(--primary) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .has-folder-player #center-top .content-top-upper,
+:root[modern=true] .has-materials-player #center-top .content-top-upper {
+  background-color: var(--secondary) !important;
+  border: none !important;
+}
+
+:root[modern=true] #course-profile-materials {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .materials-filter-wrapper .action-links-wrapper .action-links-unfold {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .action-links-wrapper-gearless .action-links-unfold.active, :root[modern=true] .action-links-wrapper-gearless .action-links-unfold:active {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .action-links .selected {
+  background-position: 0 calc(-237px - 20px * var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] body .action-links a:hover {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .materials-top,
+:root[modern=true] #folder-contents-table td,
+:root[modern=true] #right-column h3,
+:root[modern=true] .left-block-wrapper h3 {
+  border: none !important;
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .s-edge-feed > li {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] .s-edge-feed .edge-item li {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .s-edge-feed table[bgcolor] {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .s-like-sentence:not(:last-child) {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .pre-fill,
+:root[modern=true] .upcoming-list .empty,
+:root[modern=true] .readonly-title,
+:root[modern=true] .no-attendance-status-dates {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .subevent-count {
+  background-color: var(--secondary) !important;
+}
+
+:root[modern=true] #edit-course-switcher-select-nid-menu {
+  border: var(--modern-border) !important;
+  background-color: var(--secondary);
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #edit-course-switcher-select-nid-menu .ui-selectmenu-group li a:hover {
+  color: var(--text) !important;
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] #edit-course-switcher-select-nid-button {
+  border: none !important;
+  background: none !important;
+  background-color: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #edit-course-switcher-select-nid-button:not(.ui-state-active) .edit-course-inline-dropdown-arrow {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] .messages .messages-close-btn {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .messages.warning {
+  background: var(--highlight) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+:root[modern=true] .messages.status {
+  background: var(--active) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+:root[modern=true] span#updates-count {
+  color: var(--text) !important;
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .link_view .page-title a:hover .external-link-icon {
+  background-position: 0 -1425px !important;
+}
+
+:root[modern=true] .access-code.left-block-wrapper,
+:root[modern=true] #roster-wrapper .parent-code {
+  background-color: var(--accent);
+  color: var(--text);
+}
+
+:root[modern=true] #ui-datepicker-div {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] #ui-datepicker-div .ui-datepicker-days-cell a {
+  background-color: var(--primary) !important;
+  border-color: var(--modern-border) !important;
+}
+
+:root[modern=true] #ui-datepicker-div .ui-datepicker-days-cell .ui-datepicker-current-day a {
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] #ui-datepicker-div .ui-datepicker-days-cell.ui-datepicker-days-cell-over a {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] #ui-datepicker-div .ui-datepicker-links > div:hover > a {
+  background-color: var(--hover-color);
+}
+
+:root[modern=true] #ui-datepicker-div .ui-datepicker-links > div > a {
+  background-color: var(--input);
+  background-blend-mode: screen;
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] #ui-datepicker-div .ui-datepicker-unselectable {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .shuffleParent div.sshuffleContainer,
+:root[modern=true] .shuffleParent .mediaThumbContainer {
+  background: var(--secondary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .s-media-album-content-container {
+  background-color: var(--secondary) !important;
+  border-radius: var(--border-radius) !important;
+  padding: var(--padding) !important;
+}
+
+:root[modern=true] .created {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .album-comments {
+  background: var(--accent) !important;
+  border: none !important;
+}
+
+:root[modern=true] .privatemsg-list td {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .privatemsg-list .privatemsg-unread td {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] table.privatemsg-list {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] table.privatemsg-list td.no-messages {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] #attachment-selector {
+  background: var(--secondary) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #attachment-selector li {
+  border-right: none !important;
+}
+
+:root[modern=true] #ids {
+  background: none !important;
+  border: none !important;
+}
+
+:root[modern=true] #ids .userlist_input {
+  border: none !important;
+}
+
+:root[modern=true] #ids .name-wrapper {
+  background: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .ac_results {
+  background: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .ac_results ul li {
+  background: var(--secondary) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] .ac-name,
+:root[modern=true] .ac-top {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .ac-row .ac-bot,
+:root[modern=true] .ac-row .ac-school {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .ac_results .ac_over {
+  border-color: var(--contrast-border) !important;
+  background: var(--active) !important;
+}
+
+:root[modern=true] #sUserAutocomplete-recipient-helper {
+  background-color: var(--secondary) !important;
+  color: var(--muted-text) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .message-participants {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .message-title,
+:root[modern=true] .message-view-row {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .discussion-require-post-notice .warning {
+  background: var(--highlight) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .discussion-view .sticky-wrapper h2.page-title {
+  background: var(--primary) !important;
+}
+
+:root[modern=true] .discussion-view #content-wrapper {
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .discussion-view #center-top h2.page-title {
+  border: none !important;
+}
+
+:root[modern=true] .discussion-view #s_comments .s_comments_level .comment.on-top,
+:root[modern=true] .discussion-view #main #s_comments .s_comments_level .s_comments_level .comment.on-top {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .discussion-view .discussion-content .comment #comment-reply-form-wrapper #s-comment-reply-form,
+:root[modern=true] .discussion-view .s-comments-post-form-new .comment #comment-reply-form-wrapper #s-comment-reply-form {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .grade-title {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .received-grade {
+  color: var(--grades) !important;
+}
+
+:root[modern=true] .grading-grade .max-points {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .assignment-details,
+:root[modern=true] .extra-details {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .discussion-view .sticky-wrapper .s-comments-post-form,
+:root[modern=true] .discussion-view .sticky-wrapper .s-comments-post-form-new {
+  background: var(--primary) !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .discussion-action-bar {
+  background: var(--secondary) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .discussion-view .discussion-content #s_comments .discussion-card {
+  background: var(--primary) !important;
+  box-shadow: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .discussion-view #content-wrapper .discussion-content div#s_comments .s_comments_level .s_comments_level,
+:root[modern=true] .discussion-view #content-wrapper .s-comments-post-form-new div#s_comments .s_comments_level .s_comments_level {
+  background: var(--accent) !important;
+  border: none !important;
+  border-bottom-left-radius: var(--border-radius) !important;
+  border-bottom-right-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .discussion-view .expander-bar {
+  background: var(--accent) !important;
+  border: none !important;
+  border-top-left-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .post-count {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .discussion-view .discussion-content {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] .bar-right-wrapper,
+:root[modern=true] .comment-counts {
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] .discussion-view #comment-placeholder {
+  background: var(--accent) !important;
+  border-radius: var(--border-radius) !important;
+  border: none !important;
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .content-top-wrapper .info-container.not-admin .link-btn {
+  background: var(--secondary) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #comment-navigator td {
+  background: var(--primary) !important;
+  border: none !important;
+}
+
+:root[modern=true] #comment-navigator td.slide-toggler-cell {
+  background: var(--secondary) !important;
+}
+
+:root[modern=true] .num-comments-wrapper {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .info-tab th,
+:root[modern=true] .info-tab td {
+  color: var(--muted-text) !important;
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .enrollment-view-wrapper td,
+:root[modern=true] .enrollment-view-wrapper th {
+  color: var(--muted-text) !important;
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .info-tab .profile-header {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .private-profile {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] .private-profile h3 {
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] .portfolio-list {
+  border: none !important;
+}
+
+:root[modern=true] .tw-bs .portfolio-list__no-portfolios-text {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .tw-bs .portfolio-list__add-new,
+:root[modern=true] .tw-bs .portfolio-view__add-new {
+  background: transparent !important;
+}
+
+:root[modern=true] .tw-bs .portfolio-list__add-new-bg,
+:root[modern=true] .tw-bs .portfolio-view__add-new-bg {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .tw-bs .btn:hover {
+  background-color: var(--hover-color) !important;
+}
+
+:root[modern=true] .tw-bs .dropdown-menu {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .portfolio-route-content {
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+  background: var(--secondary) !important;
+}
+
+:root[modern=true] .tw-bs .portfolio-title-bar {
+  background: var(--secondary) !important;
+}
+
+:root[modern=true] .portfolio-view__content {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .portfolio-card,
+:root[modern=true] .item-card {
+  background: var(--primary) !important;
+}
+
+:root[modern=true] .tw-bs .portfolio-card__item-count-num {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .tw-bs .btn {
+  background-color: var(--primary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label, :root[modern=true] .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label span {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .tw-bs .portfolio-list__list-view > .ui-state-highlight,
+:root[modern=true] .tw-bs .portfolio-item-list > .ui-state-highlight {
+  background: var(--primary) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .tw-bs .portfolio-card__item-count-num {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .tw-bs .btn {
+  background-color: var(--primary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] .tw-bs .btn:hover {
+  background-color: var(--hover-color) !important;
+}
+
+:root[modern=true] .tw-bs .dropdown-menu {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label,
+:root[modern=true] .tw-bs .item-form__title-inline .sgy-autosave-input .form-group:hover label span {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .tw-bs .remaining-char-len {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .tw-bs .add-item-dropdown__add-new-icon::before,
+:root[modern=true] .tw-bs .portfolio-list__add-new-icon::before {
+  background-color: var(--primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+:root[modern=true] .tw-bs .item-view-container,
+:root[modern=true] .tw-bs .item-form__title-bar,
+:root[modern=true] .tw-bs .item-page {
+  background-color: var(--background-color) !important;
+  border-color: var(--border-color) !important;
+  outline-color: var(--border-color) !important;
+}
+
+:root[modern=true] .tw-bs .item-card__title-link {
+  color: var(--link-color) !important;
+}
+
+:root[modern=true] .sgy-autosave-input.sgy-autosave-input--editing label span,
+:root[modern=true] .sgy-autosave-input.sgy-autosave-input--editing .form-group:hover label span {
+  color: var(--text) !important;
+}
+
+:root[modern=true] #school-events {
+  padding: var(--padding) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #main {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .left-block dd {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .left-block dt {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .enrollment-view-wrapper,
+:root[modern=true] .roster-top,
+:root[modern=true] .active-loader {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] #s-user-realm-profile-notification-setting-form label:hover {
+  background: none !important;
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] #content-left .s-enrollment-realm-actions {
+  border-top: var(--modern-border) !important;
+}
+
+:root[modern=true] #edit-body_fontsizeselect_text {
+  background: transparent;
+}
+
+:root[modern=true] .course-dashboard section {
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .course-dashboard section.sgy-card {
+  background-color: var(--accent) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .course-dashboard .sgy-card-lens {
+  background-color: var(--accent) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .course-dashboard .sgy-card {
+  border: var(--border-size) solid transparent !important;
+}
+
+:root[modern=true] .course-dashboard .sgy-card:hover {
+  border: var(--modern-border) !important;
+}
+
+:root[modern=true] .course-dashboard .sgy-card:hover .sgy-card-lens::after {
+  display: none !important;
+}
+
+:root[modern=true] .course-dashboard section.sgy-card .sgy-multiline-ellipsis__split-part {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .course-dashboard section.sgy-card .sgy-card-subcontext {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .course-dashboard .ui-state-highlight {
+  border: var(--border-size) dashed var(--contrast-border) !important;
+  background-color: var(--secondary) !important;
+}
+
+:root[modern=true] ul.Search-dropdown-3huUv {
+  border: none !important;
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .Search-dropdown-3huUv input {
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+  border-bottom: var(--border-size) solid transparent !important;
+}
+
+:root[modern=true] ul.primary,
+:root[modern=true] .with-tabs #center-top {
+  background: unset !important;
+  background-color: var(--secondary) !important;
+}
+
+:root[modern=true] ul.primary li a,
+:root[modern=true] ul.primary li .link-wrapper a {
+  background: unset !important;
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] ul.primary li.active a,
+:root[modern=true] ul.primary li.active .link-wrapper a {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .email-notify,
+:root[modern=true] fieldset {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .sticky-header *,
+:root[modern=true] .ui-selectmenu-status {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] div.cellphone-container {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #s-user-set-notifications-form thead tr:hover {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] #s-user-custom-notifications-form #edit-select-all-wrapper label {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] #s-user-custom-notifications-form label {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .ui-selectmenu {
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+  background: none !important;
+}
+
+:root[modern=true] .ui-selectmenu-menu {
+  background: var(--secondary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .ui-selectmenu-menu li a {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .ui-selectmenu-menu li:hover a {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .ui-selectmenu-menu .ui-selectmenu-item-focus a {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .ui-selectmenu-menu .ui-selectmenu-item-selected a:after {
+  background-position: 0 calc(-242px - 20px * var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] .settings-table tbody td {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .settings-table tbody td.selected {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .settings-table tbody td.selected:hover {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .settings-table tbody td.realm-disabled {
+  background: none !important;
+}
+
+:root[modern=true] .settings-table tbody td.realm-disabled:hover {
+  background: none !important;
+}
+
+:root[modern=true] .settings-table tbody td.area-disabled {
+  background: none !important;
+}
+
+:root[modern=true] .terms-msg {
+  color: var(--text) !important;
+}
+
+:root[modern=true] #error-page {
+  background-color: var(--secondary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .porcelain_pattern {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .fc-state-highlight {
+  background: var(--active) !important;
+}
+
+:root[modern=true] .fc-view-month td:hover {
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] table.fc-border-separate td {
+  border: var(--modern-border) !important;
+}
+
+:root[modern=true] table.fc-border-separate .fc-widget-header {
+  border-bottom: var(--modern-border) !important;
+}
+
+:root[modern=true] .fc-agenda-slots td,
+:root[modern=true] .fc-agenda-slots th {
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] body .fc-widget-header,
+:root[modern=true] .fc-agenda-allday th {
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] body .fc-widget-header .fc-agenda-divider-inner {
+  background: var(--contrast-border) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] .update-comments-pagenation {
+  background-color: var(--accent);
+}
+
+:root[modern=true] .feed-comments-viewall-container {
+  color: var(--link-color);
+}
+
+:root[modern=true] #dropbox-viewer-right-toggle {
+  border: var(--border-size) solid var(--input) !important;
+  background-color: var(--secondary) !important;
+}
+
+:root[modern=true] #dropbox-viewer-right {
+  background: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] #dropbox-viewer-comments {
+  background: var(--accent) !important;
+  border-bottom: var(--border-size) solid var(--input) !important;
+}
+
+:root[modern=true] #dropbox-viewer-wrapper .dropbox-viewer-submission-activity,
+:root[modern=true] #dropbox-viewer-wrapper .dropbox-viewer-submission-activity-inner {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .popups-dropbox-viewer .popups-close a {
+  background-color: var(--secondary) !important;
+  border: var(--modern-border) !important;
+  height: 16px !important;
+}
+
+:root[modern=true] ul#attachment-selector li:hover > a {
+  background-color: var(--accent);
+}
+
+:root[modern=true] .popups-box.popups-library #resources-left-menu-wrapper {
+  background-color: var(--primary);
+}
+
+:root[modern=true] .drop-items li:hover {
+  background: var(--accent);
+}
+
+:root[modern=true] table#collection-view-contents tbody tr td {
+  background-color: var(--primary);
+}
+
+:root[modern=true] .s_comments_level {
+  background: var(--accent) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] .discussion-card > .s_comments_level {
+  background: var(--secondary) !important;
+  border: none !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .comment-container {
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] .update-comments-pagenation {
+  background-color: var(--accent);
+}
+
+:root[modern=true] .feed-comments-viewall-container {
+  color: var(--link-color);
+}
+
+:root[modern=true] .dropbox-viewer-item-wrapper {
+  background-color: var(--primary);
+}
+
+:root[modern=true] #grading-rubric-edit-grades-slider .bottom,
+:root[modern=true] #district-mastery-grading-rubric-edit-grades-slider .bottom,
+:root[modern=true] .s-slider .right-column,
+:root[modern=true] .rubric-scroll .rubric-table tbody {
+  background-color: var(--primary);
+  color: var(--text);
+}
+
+:root[modern=true] .view-only .rubric-table .rubric-row-rating span.input-top,
+:root[modern=true] .view-only .rubric-table .rubric-row-rating .input-bottom {
+  color: var(--text);
+}
+
+:root[modern=true] .s_grade_item_assessment .assessment-status-wrapper,
+:root[modern=true] .grading-grade-translated {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] .grading-info {
+  background: var(--secondary) !important;
+  border: var(--modern-border) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] .not-editable .score-grade-score span,
+:root[modern=true] .param-name {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .assignment-param {
+  color: var(--muted-text) !important;
+}
+
+:root[modern=true] ._1wP6w,
+:root[modern=true] ._2pDDZ:hover:not(:active),
+:root[modern=true] ._3senP:focus:not(:active),
+:root[modern=true] .wL3MX:active {
+  color: var(--text);
+}
+
+:root[modern=true] ._1IGEH:focus:not(:active),
+:root[modern=true] ._1oxpz:hover:not(:active),
+:root[modern=true] #wrapper ._1Z0RM,
+:root[modern=true] .Dkh_K:active {
+  background-color: var(--accent);
+  color: var(--text);
+}
+
+:root[modern=true] .StudentTable-table-wrapper-classname-2qr2_ > div {
+  background-color: var(--primary) !important;
+  color: var(--text);
+}
+
+:root[modern=true] img#loader {
+  filter: Grayscale(var(--theme-is-dark)) brightness(0.3) !important;
+}
+
+:root[modern=true] .active-trail > div > a {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .modal-modal-1369068783,
+:root[modern=true] .layout-row-inner-3835588998 {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .typography-button-secondary-button-3933442342 {
+  background: var(--primary) !important;
+  color: var(--text) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+:root[modern=true] ._1IGEH:focus:not(:active),
+:root[modern=true] ._1oxpz:hover:not(:active),
+:root[modern=true] #wrapper ._1Z0RM,
+:root[modern=true] .Dkh_K:active {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] ._2q19q {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] ._1wP6w,
+:root[modern=true] ._2pDDZ:hover:not(:active),
+:root[modern=true] ._3senP:focus:not(:active),
+:root[modern=true] .wL3MX:active {
+  color: var(--text) !important;
+}
+
+:root[modern=true] ._3dHTa {
+  background: var(--active) !important;
+}
+
+:root[modern=true] .UELBU {
+  background: var(--primary) !important;
+}
+
+:root[modern=true] .lrn {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn_widget .lrn_valid,
+:root[modern=true] .lrn_widget .lrn_selected {
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] #s-assessment-view-submission-form .selected.correct span.option-span {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] #s-assessment-view-submission-form .incorrect span.option-span.legacy-true-false-question, :root[modern=true] #s-assessment-view-submission-form .incorrect span.option-span.legacy-multiple-choice-question {
+  background-color: var(--highlight) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true][dark=true] #assessment-darktheme-warning-message[data-popup=true] {
+  display: block !important;
+  text-align: center;
+  width: 50%;
+  margin-left: 25%;
+  font-size: 16px;
+  padding: var(--padding);
+  background-color: var(--highlight);
+  border: var(--border-size) solid rgba(0, 0, 0, 0.5);
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true][dark=true] #assessment-darktheme-warning-message .click-to-hide {
+  padding-top: 10px !important;
+}
+
+:root[modern=true][dark=true] #assessment-darktheme-warning-message .click-to-hide span {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+:root[modern=true] button.nav-tab-selected-3323184817 {
+  background-color: var(--background-color) !important;
+}
+
+:root[modern=true] button.nav-tab-tab-325229968:hover {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .mathquill-formula {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] .ca-assessment-delivery-take-assessment,
+:root[modern=true] .lrn-assess > div {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .menu-overlay {
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn .pagination > li > a,
+:root[modern=true] .lrn .pagination > li > span {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] .lrn .pagination > li > a,
+:root[modern=true] .lrn .pagination > li > span {
+  background-color: var(--input);
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:focus, :root[modern=true] .lrn.lrn-assess .lrn-horizontal-toc .pagination .lrn-assess-btn:hover {
+  background: var(--input) !important;
+  color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:focus, :root[modern=true] .lrn.lrn-assess .lrn-horizontal-toc .lrn-assess-pagination .lrn-assess-btn:hover {
+  background: var(--input) !important;
+  color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .test-title-text {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.menu-expand-button {
+  box-shadow: none !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen .panel-content {
+  border: var(--border-size) solid var(--input) !important;
+  background-color: var(--primary) !important;
+  border: var(--modern-border) !important;
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen .item-card .overlay {
+  background: var(--primary);
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen .item-number {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
+  background-color: var(--input);
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_active,
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button.lrn_active,
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue.lrn_active {
+  border: var(--border-size) solid var(--text) !important;
+  border: var(--modern-border) !important;
+  background: var(--input) !important;
+  box-shadow: none;
+}
+
+:root[modern=true] .lrn-assess .item-count {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
+  background-color: var(--primary);
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen .item-card {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] .lrn-assess-switch .lrn-assess-switch-trigger {
+  background: var(--input);
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen .panel-content .panel-footer {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn,
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button,
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue {
+  background-color: var(--accent) !important;
+  border: none !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper.menu-with-scroll:after {
+  background-image: none !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn:before,
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn .btn-label {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button:before,
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_widget.lrn_feature > button .btn-label {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue:before,
+:root[modern=true] .lrn.lrn-assess .lrn-right-region .right-wrapper .lrn_btn.lrn_btn_blue .btn-label {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn_blue:before,
+:root[modern=true] .lrn.lrn-assess .dialogs .lrn_btn_blue:before {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn,
+:root[modern=true] .lrn.lrn-assess .dialogs .lrn_btn {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .menumask > ::-webkit-scrollbar-track-piece {
+  background: white !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen .item-card {
+  border: none !important;
+  color: var(--contrast-text) !important;
+  border: var(--modern-border) !important;
+}
+
+:root[modern=true] .lrn-region.lrn-right-region {
+  border: none !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen .panel-header {
+  border-bottom: var(--border-size) solid var(--primary) !important;
+}
+
+:root[modern=true] .lrn_btn.item-prev.pos-right {
+  background-color: var(--secondary) !important;
+  border: none !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .app-panel.review-screen button.lrn_btn.lrn-assess-close-review-screen-btn {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .lrn-assess {
+  background: var(--primary) !important;
+}
+
+:root[modern=true] .lrn-assess > div ::-webkit-scrollbar-thumb {
+  background: var(--primary) !important;
+  box-shadow: inset 1px 1px 2px black;
+}
+
+:root[modern=true] .lrn .modal-content {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn.lrn-assess .lrn-region:not(.lrn-items-region) .lrn_btn,
+:root[modern=true] .lrn.lrn-assess .dialogs .lrn_btn {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn-mcq-option .lrn-label {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn-mcq-option.lrn_selected .lrn-label {
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] .lrn_widget.lrn_mcq .lrn_response .lrn_mcqgroup-block .lrn_choiceLabel {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn .lrn_possibilityList,
+:root[modern=true] .lrn .lrn_possibilityListContainer {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn .lrn_possibilityList,
+:root[modern=true] .lrn .lrn_possibilityListContainer {
+  border-top: none !important;
+}
+
+:root[modern=true] .lrn .lrn_possibilityList.lrn_list_bottom:before,
+:root[modern=true] .lrn .lrn_possibilityListContainer.lrn_list_bottom:before {
+  border-bottom: 12px solid var(--muted-text) !important;
+}
+
+:root[modern=true] .lrn_dropzone {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .lrn .lrn_btn_drag {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn-annotations-c-modal--notepad {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .lrn .lrn-mask rect {
+  fill: var(--primary) !important;
+}
+
+:root[modern=true] .lrn_calc_column {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt:disabled:hover {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_btn_opt_dark {
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_calc_cover {
+  background: var(--secondary) url(../../images/calc-cover.png) no-repeat center center !important;
+}
+
+:root[modern=true] .lrn_calc_column > .lrn_btn_grid {
+  background: var(--primary) !important;
+}
+
+:root[modern=true] .lrn_feature.lrn_calculator .lrn_calc_content .lrn_calc .lrn_btn_grid {
+  background-color: var(--primary);
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn .lrn_btn_sort {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn_box_skin_wrapper {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn_box_skin_wrapper .lrn_audioblock_right {
+  background-color: var(--accent) !important;
+  border-left: none !important;
+}
+
+:root[modern=true] .lrn_box_skin_wrapper .lrn_audioblock_right .lrn_audiomiclevelmask {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn_wfgraphic.lrn_wfcanvas {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn_toolbar,
+:root[modern=true] .lrn .lrn_btn {
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn_box_skin_wrapper .lrn_widget_footer .lrn_toolbar_left .lrn_btn {
+  border-right: none !important;
+}
+
+:root[modern=true] .lrn-audio-content {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn_waveform {
+  filter: Invert(var(--theme-is-dark)) !important;
+}
+
+:root[modern=true] .lrn_qr.lrn_video .lrn-video-display {
+  background: var(--input) !important;
+}
+
+:root[modern=true] .lrn_response_input_wrapper {
+  border-radius: var(--border-radius) !important;
+  border: var(--modern-border) !important;
+  border: none !important;
+}
+
+:root[modern=true] .lrn_widget.lrn_texteditor {
+  border-radius: var(--border-radius) !important;
+  border: var(--modern-border) !important;
+  border: none !important;
+}
+
+:root[modern=true] .lrn_widget.lrn_chemistryessayV2 .lrn_texteditor_editable.wysihtml-placeholder, :root[modern=true] .lrn_widget.lrn_formulaessayV2 .lrn_texteditor_editable.wysihtml-placeholder, :root[modern=true] .lrn_widget.lrn_longtextV2 .lrn_texteditor_editable.wysihtml-placeholder {
+  color: var(--text) !important;
+  background: var(--accent) !important;
+  border: none !important;
+}
+
+:root[modern=true] .lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.wysihtml-sandbox.wysihtml-editor {
+  color: var(--text) !important;
+  background: var(--input) !important;
+  border: none !important;
+}
+
+:root[modern=true] .lrn-wysihtml-toolbar.lrn_clearfix {
+  color: var(--text) !important;
+  background: var(--secondary) !important;
+  border: none !important;
+}
+
+:root[modern=true] .lrn-toolbar {
+  background: var(--secondary) !important;
+  border: none !important;
+}
+
+:root[modern=true] .lrn_icon.lrn-icon-bold, :root[modern=true] .lrn_icon.lrn-icon-italic, :root[modern=true] .lrn_icon.lrn-icon-underline, :root[modern=true] .lrn_icon.lrn-icon-list-bulleted, :root[modern=true] .lrn_icon.lrn-icon-list-numbered {
+  color: var(--text) !important;
+  background: transparent !important;
+}
+
+:root[modern=true] .lrn-toolbar-footer.lrn_clearfix {
+  background: var(--accent) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+:root[modern=true] .lrn_word_count,
+:root[modern=true] .lrn_word_limit {
+  color: var(--text) !important;
+  border: none !important;
+}
+
+:root[modern=true] .clock,
+:root[modern=true] .lrn-assess .timer,
+:root[modern=true] .counter,
+:root[modern=true] .max-time,
+:root[modern=true] .lrn-assess .timer {
+  color: var(--text) !important;
+}
+
+:root[modern=true] #grading-rubric-edit-slider .controls,
+:root[modern=true] #district-mastery-grading-rubric-edit-slider .controls {
+  background: var(--accent) !important;
+  color: var(--text) !important;
+  border: none !important;
+}
+
+:root[modern=true] .rubric-row.ng-scope {
+  background: var(--acent) !important;
+}
+
+:root[modern=true] #grading-rubric-edit-slider .rubric-table .input-top,
+:root[modern=true] .rubric-table span.input-bottom,
+:root[modern=true] #district-mastery-grading-rubric-edit-slider .rubric-table .input-top,
+:root[modern=true] .rubric-table span.input-bottom {
+  color: var(--contrast-text) !important;
+}
+
+:root[modern=true] #grading-rubric-edit-slider .rubric-table tr.header-row,
+:root[modern=true] #district-mastery-grading-rubric-edit-slider .rubric-table tr.header-row {
+  border-top: var(--border-size) solid var(--input) !important;
+  border-bottom: var(--border-size) solid var(--input) !important;
+  border: none !important;
+}
+
+:root[modern=true] #grading-rubric-edit-slider .rubric-table .header-row th,
+:root[modern=true] #district-mastery-grading-rubric-edit-slider .rubric-table .header-row th {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .rubric-scroll {
+  background: var(---accent) !important;
+}
+
+:root[modern=true] #grading-rubric-edit-slider .bottom-ctrls-wrapper,
+:root[modern=true] #district-mastery-grading-rubric-edit-slider .bottom-ctrls-wrapper {
+  background: var(--accent) !important;
+  border: none !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .s-slider.s-grading-rubric-edit-slider.s-grading-rubric.ng-scope.ui-resizable.opened.grade-setup-rubric-edit.new-rubric-edit.read-only {
+  border: none !important;
+}
+
+:root[modern=true] .lrn_widget .lrn_valid,
+:root[modern=true] .lrn_widget .lrn_selected {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] .lrn_widget .lrn_incorrect {
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] .lrn_widget .lrn_correct {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .lrn_assoc_table {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn_assoc_col2.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_incorrect_marker.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_incorrect {
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] .lrn_qr.lrn_association .lrn_possibilityList.lrn_list_bottom {
+  margin-top: 0 !important;
+}
+
+:root[modern=true] .lrn_widget .lrn_correctAnswers {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .lrn_widget .lrn_correctAnswerList > li {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] .lrn_btn_sort.lrn_sortable.lrn_button.lrn_correct.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .lrn_display_correct_answer_enabled {
+  padding: 20px !important;
+}
+
+:root[modern=true] .lrn_texteditor_editable.lrn_editor_area.lrn_longtextinput.lrn_response_input_wrapper {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] .lrn_assoc_col2.lrn_correct_marker.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_response_container > .lrn_btn_drag.lrn_draggable.lrn_correct {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .lrn_btn_sort.lrn_sortable.lrn_button.lrn_incorrect.lrn_sort_block.lrn_draggable.lrn-dragdrop-group-516 {
+  background-color: var(--highlight) !important;
+}
+
+:root[modern=true] .lrn_widget .lrn_suggested_answer_item {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] .lrn_suggested_answer_item.lrn_clearfix > .lrn_suggested.lrn_btn_sort.lrn_btn_no_handle.lrn_disabled.lrn_sort_block.lrn_button {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .lrn_response.lrn_clearfix.lrn_style_button > .lrn-response-validate-wrapper.lrn_response_input.lrn_incorrect {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .lrn-response-validation-wrapper > .lrn_correctAnswers {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] #s-assessment-view-submission-form .selected.correct span.option-span {
+  background-color: var(--active) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .layout-row-outer-1441760367,
+:root[modern=true] .profile-header-2536997237,
+:root[modern=true] .profile-container-4015500229 {
+  background-color: var(--primary) !important;
+}
+
+:root[modern=true] .content-box-container-3232021855 {
+  background-color: var(--accent) !important;
+  border-radius: var(--border-radius) !important;
+  border: var(--modern-border) !important;
+  font-family: muli !important;
+}
+
+:root[modern=true] .rubric-table-row-row-3856304603.rubric-table-row-zebraStripe-4015500229.fjQuT.uQOmx._2NVPS._1Sb_q.WnfJn._3ARYD._3t4oF,
+:root[modern=true] .rubric-grader-header-header-212800519 {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .typography-smallheader-light-bg-text-1999437409 {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .rubric-grader-manage-rubric-studentLabel-3923154451 {
+  color: var(--cal1) !important;
+}
+
+:root[modern=true] .rubric-grader-scrollContainer-634066954 {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .rubric-criteria-drawer-handle-drawerHandleActive-30552431 {
+  background-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .rubric-criteria-drawer-handle-copy-1446048478 {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .rubric-grader-gradebook-comment-gradebookCommentContainer-1923026448 {
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .rubric-grader-gradebook-comment-container-3347344084 {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .chart-wrapper .highchart-obj .no-data-overlay {
+  background: transparent !important;
+}
+
+:root[modern=true] .no-data-message-wrapper {
+  background: var(--secondary) !important;
+  color: var(--text) !important;
+  padding: 3px !important;
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] .s_comments_level {
+  background: var(--primary) !important;
+  border-radius: var(--border-radius) !important;
+  padding: var(--padding) !important;
+}
+
+:root[modern=true] .discussion-card > .s_comments_level {
+  background: var(--input) !important;
+}
+
+:root[modern=true] .iziToast-body img {
+  max-width: 24px !important;
+}
+
+:root[modern=true] .iziToast.iziToast-theme-dark .iziToast-message {
+  color: var(--contrast-text) !important;
+  opacity: 0.7;
+}
+
+:root[modern=true] #main .s_comments_level #s-comment-reply-form {
+  background: var(--accent) !important;
+}
+
+:root[modern=true] #s-comment-reply-form {
+  width: auto !important;
+  border-radius: var(--border-radius) !important;
+  border: none !important;
+}
+
+:root[modern=true] .compose-message.sMessagingProcessed fieldset {
+  padding: 20px !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:root[modern=true] #ids .name-wrapper {
+  background: transparent !important;
+}
+
+:root[modern=true] .s-slider.rubric-grades-edit .rating-wrapper.selected {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .discussion-view .action-links-wrapper-junior .action-links-unfold,
+:root[modern=true] .discussion-view .action-links-wrapper-junior .action-links-unfold:hover,
+:root[modern=true] .discussion-view .action-links-wrapper-junior .active.action-links-unfold,
+:root[modern=true] .discussion-view .action-links-wrapper-junior .active.action-links-unfold:hover {
+  background-image: url(https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/sprite_discussion.png?5f9c91b5354f0ec1) !important;
+  /* Makes Icon Visble */
+}
+
+:root[modern=true] .s-js-comment-action-links.sActionLinksVisible > .action-links-wrapper.action-links-wrapper-junior.aligned-right > .action-links-unfold {
+  /* Changes Color When Hovered Over */
+  background-color: var(--accent) !important;
+}
+
+:root[modern=true] .splus-button-tile.active {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .settings-label {
+  color: var(--text);
+}
+
+:root[modern=true] .s-grade-item-assignment-submission-app {
+  background-color: var(--primary);
+  color: var(--text);
+}
+
+:root[modern=true] ._2mytC:hover a,
+:root[modern=true] ._2mytC:focus a,
+:root[modern=true] .Oq4U1:hover:not(:active),
+:root[modern=true] .Oq4U1:focus,
+:root[modern=true] .s-grade-item-assignment-submission-app:hover,
+:root[modern=true] .s-grade-item-assignment-submission-app:focus,
+:root[modern=true] span[role="button"]:hover,
+:root[modern=true] span[role="button"]:focus,
+:root[modern=true] #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding:hover,
+:root[modern=true] #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding:focus,
+:root[modern=true] .sort-handle:hover,
+:root[modern=true] .sort-handle:focus {
+  background-color: var(--hover-color);
+}
+
+:root[modern=true] .Oq4U1:active {
+  background-color: var(--active);
+}
+
+:root[modern=true] .s-share-checkbox-form-wrapper .checkboxes-wrapper {
+  background-color: var(--primary);
+}
+
+:root[modern=true] #attachment-selector #toggle-copy:hover {
+  background-color: var(--hover-color);
+}
+
+:root[modern=true] .comments-list .comment {
+  background: var(--primary);
+  border: var(--modern-border);
+  border-color: var(--border-color);
+  color: var(--text);
+}
+
+:root[modern=true] .comment-date {
+  color: var(--muted-text);
+}
+
+:root[modern=true] .unpublished,
+:root[modern=true] #folder-contents-table .unpublished .folder-contents-cell {
+  background-color: var(--primary);
+}
+
+:root[modern=true] .masquerade-box {
+  background-color: var(--secondary);
+  border: var(--modern-border);
+}
+
+:root[modern=true] div.grade-assignment-popup .description, :root[modern=true] #sEditGradeTable tr th {
+  color: var(--text);
+  background-color: var(--primary);
+}
+
+:root[modern=true] #badges-fullscreen-btn {
+  background-color: var(--primary);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] .even .badge-course-table-cell,
+:root[modern=true] #s-attendance-edit-form tbody td,
+:root[modern=true] #s-attendance-edit-form tbody td div,
+:root[modern=true] #s-attendance-edit-form tbody th {
+  background-color: var(--primary);
+}
+
+:root[modern=true] th.badge-course-table-cell,
+:root[modern=true] #s-badge-table-main .sticky-header th,
+:root[modern=true] #s-attendance-edit-form thead th {
+  background: var(--secondary);
+}
+
+:root[modern=true] th.badge-course-table-cell .action-links-unfold {
+  background-color: var(--input) !important;
+}
+
+:root[modern=true] th.badge-course-table-cell .action-links-unfold span,
+:root[modern=true] .date-chooser a.prev span,
+:root[modern=true] .date-chooser a.next span {
+  filter: contrast(5%);
+}
+
+:root[modern=true] #s-attendance-taken-row .attendance-taken-label {
+  color: var(--text);
+}
+
+:root[modern=true] #s-attendance-taken-row.odd td,
+:root[modern=true] #s-attendance-taken-row.even td {
+  background-color: var(--accent);
+}
+
+:root[modern=true] #s-attendance-edit-form tbody tr:hover th,
+:root[modern=true] #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:hover,
+:root[modern=true] #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:focus {
+  background-color: var(--hover-color);
+}
+
+:root[modern=true] #s-attendance-edit-form #s-attendance-taken-row .edited {
+  background-color: var(--highlight);
+}
+
+:root[modern=true] #attendance-comment-field {
+  background-color: var(--accent);
+  border: var(--modern-border);
+}
+
+:root[modern=true] .comment-status-label {
+  color: var(--text);
+}
+
+:root[modern=true] #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status--start {
+  background-color: var(--active);
+  border-color: var(--contrast-border);
+}
+
+:root[modern=true] .footer-buttons .date-chooser-calendar,
+:root[modern=true] .header-buttons .date-chooser-calendar,
+:root[modern=true] .footer-buttons .infotip,
+:root[modern=true] .header-buttons .infotip {
+  background: var(--primary);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] a.prev:hover,
+:root[modern=true] a.prev:focus,
+:root[modern=true] a.next:hover,
+:root[modern=true] a.next:focus {
+  background: var(--hover-color);
+}
+
+:root[modern=true] a.prev,
+:root[modern=true] a.next {
+  background: var(--primary);
+}
+
+:root[modern=true] a.prev {
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+:root[modern=true] a.next {
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+:root[modern=true] .scale-level-scale {
+  background-color: var(--highlight);
+  border: var(--modern-border);
+}
+
+:root[modern=true] #s-grading-category-add-form .form-item,
+:root[modern=true] #s-grading-category-add-form fieldset {
+  background-color: var(--primary);
+}
+
+:root[modern=true] #grading-rubric-edit-slider .right-column {
+  border-color: var(--border-color);
+}
+
+:root[modern=true] #grading-rubric-edit-slider .large-submit-buttons {
+  background-color: var(--secondary);
+  border-color: var(--border-color);
+}
+
+:root[modern=true] #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding {
+  background-color: var(--primary);
+  box-shadow: 0px 2px 0px var(--highlight);
+}
+
+:root[modern=true] .sort-handle {
+  background-color: var(--accent);
+}
+
+:root[modern=true] #grading-rubric-edit-slider .ui-sortable-helper,
+:root[modern=true] #district-mastery-grading-rubric-edit-slider .ui-sortable-helper,
+:root[modern=true] #grading-rubric-edit-slider .ui-sortable-helper td,
+:root[modern=true] #district-mastery-grading-rubric-edit-slider .ui-sortable-helper td {
+  background-color: var(--active) !important;
+}
+
+:root[modern=true] .rubric-editor-add-criteria,
+:root[modern=true] .rubric-editor-add-objectives {
+  color: text;
+}
+
+:root[modern=true] #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope {
+  color: var(--muted-text);
+}
+
+:root[modern=true] #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:hover,
+:root[modern=true] #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:focus {
+  color: var(--text);
+}
+
+:root[modern=true] .alignment-form-container .header {
+  background-color: var(--secondary);
+}
+
+:root[modern=true] .guid-item:active,
+:root[modern=true] .alignment-form-container .header .search-tab.active,
+:root[modern=true] .alignment-form-container li.active,
+:root[modern=true] .alignment-form-container div.active {
+  background-color: var(--active);
+}
+
+:root[modern=true] .alignment-breadcrumbs .breadcrumb-item:first-child,
+:root[modern=true] .alignment-breadcrumbs .breadcrumb-item,
+:root[modern=true] .alignment-form-container li,
+:root[modern=true] .selected-container .selected-item {
+  color: var(--link-color);
+  border-color: var(--contrast-border);
+}
+
+:root[modern=true] .alignment-form-container li .gray,
+:root[modern=true] .alignment-form-container div .gray {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .empty {
+  color: var(--muted-text);
+}
+
+:root[modern=true] .add-criteria-text {
+  color: var(--text);
+}
+
+:root[modern=true] .parent-names-list.description {
+  color: var(--muted-text);
+}
+
+:root[modern=true] .s-enrollment-invite-form .metadata-wrapper,
+:root[modern=true] #grading-group-create {
+  color: var(--text);
+}
+
+:root[modern=true] .s-enrollment-invite-form .user-invite-wrapper {
+  background-color: var(--accent);
+  color: var(--text);
+}
+
+:root[modern=true] .s-enrollment-invite-form .user-name-wrapper,
+:root[modern=true] .people-filters .selected-users,
+:root[modern=true] .people-filters .show-all-users {
+  color: var(--link-color);
+}
+
+:root[modern=true] .people-filters .selected-users.active,
+:root[modern=true] .people-filters .show-all-users.active {
+  color: var(--contrast-text);
+  background-color: var(--active);
+}
+
+:root[modern=true] .term-item-tag,
+:root[modern=true] .locked-question .tag-item {
+  color: var(--text);
+  background-color: var(--secondary);
+  border-color: var(--border-color);
+}
+
+:root[modern=true] .link-btn {
+  background: var(--secondary);
+  color: var(--text);
+  border: var(--modern-border);
+  border-radius: var(--border-radius);
+  border-color: var(--border-color);
+}
+
+:root[modern=true] .s-enrollment-invite-form .s-enrollment-invite-list-wrapper,
+:root[modern=true] .s-enrollment-invite-form #network-selected {
+  background-color: var(--primary);
+  border-color: var(--border-color);
+}
+
+:root[modern=true] .submit-btn {
+  background: var(--primary);
+  color: var(--contrast-text);
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] .cancel-btn {
+  background: var(--accent) !important;
+  color: var(--muted-text) !important;
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] .submit-btn:hover,
+:root[modern=true] .submit-btn:focus,
+:root[modern=true] .cancel-btn:hover,
+:root[modern=true] .cancel-btn:focus {
+  background: var(--hover-color) !important;
+  color: var(--text) !important;
+}
+
+:root[modern=true] .s-js-grid-loading-cover {
+  background-color: var(--primary);
+}
+
+:root[modern=true] .grader-grid-table-header-wrapper .grader-grid-header-cell,
+:root[modern=true] .grader-grid-table-header-wrapper .grader-grid-header-cell.hidden-grade .gradebook__major-period-title,
+:root[modern=true] .grader-grid-table-header-wrapper .grader-grid-header-cell.showing-unpublished .gradebook__major-period-title {
+  background-color: var(--secondary);
+  color: var(--text);
+}
+
+:root[modern=true] .enhanced-gb-body .grid-table-col-header-static-content .select2-container:not(.select2-dropdown-open) .select2-choice > .select2-chosen,
+:root[modern=true] .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container:not(.select2-dropdown-open) .select2-choice > .select2-chosen {
+  color: var(--text) !important;
+}
+
+:root[modern=true] .grader-grid--crosshair-line-column,
+:root[modern=true] .grader-grid--crosshair-line-row,
+:root[modern=true] .grader-grid--crosshair-center {
+  background-color: var(--hover-color) !important;
+}
+
+:root[modern=true] .gradebook__grade-custom-override + .grader-grid-col-header-gp,
+:root[modern=true] .gradebook__grade-custom-override + .grader-grid-col-header-overall {
+  background-color: var(--primary);
+}
+
+:root[modern=true] .grader-grid-cell:not(.gradebook__grade-custom-override) .grader-grid-cell-block:not(.updated) .grade-value,
+:root[modern=true] .grader-grid-cell:not(.gradebook__grade-custom-override) .grader-grid-cell-block:not(.updated) .s-js-grader-grid-cell-display,
+:root[modern=true] .grader-grid-table-header-wrapper .gradebook__major-grade-period-header .gradebook__subperiod-element-calculated,
+:root[modern=true] .grader-grid-table-header-wrapper .gradebook__major-grade-period-header .grading-period-override-column {
+  color: var(--text);
+}
+
+:root[modern=true] .gradebook__subperiod-element-calculated.has-override-column,
+:root[modern=true] .grading-period-override-column {
+  background-color: var(--accent);
+}
+
+:root[modern=true] .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container.select2-dropdown-open.select2-container-active span {
+  color: var(--link-color);
+}
+
+:root[modern=true] .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container.select2-dropdown-open.select2-container-active {
+  background-color: var(--primary);
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] #autocomplete.grading-scale-ac-popup ul li,
+:root[modern=true] .enhanced-gb-body #main-content-wrapper .action-links a,
+:root[modern=true] .enhanced-gb-body #main-content-wrapper .action-links button,
+:root[modern=true] .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label,
+:root[modern=true] .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label {
+  background-color: var(--secondary);
+  color: var(--text);
+}
+
+:root[modern=true] #autocomplete.grading-scale-ac-popup ul li:hover,
+:root[modern=true] .enhanced-gb-body #main-content-wrapper .action-links a:hover,
+:root[modern=true] .enhanced-gb-body #main-content-wrapper .action-links button:hover,
+:root[modern=true] .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:hover,
+:root[modern=true] .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label:hover,
+:root[modern=true] #autocomplete.grading-scale-ac-popup ul li:focus,
+:root[modern=true] .enhanced-gb-body #main-content-wrapper .action-links a:focus,
+:root[modern=true] .enhanced-gb-body #main-content-wrapper .action-links button:focus,
+:root[modern=true] .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:focus,
+:root[modern=true] .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label:focus {
+  background-color: var(--hover-color);
+}
+
+:root[modern=true] #grade-comment-field {
+  background-color: var(--primary);
+}
+
+:root[modern=true] .splus-modern-border-radius {
+  border-radius: var(--border-radius);
+}
+
+:root[modern=true] .splus-modern-padding {
+  padding: var(--padding);
+}

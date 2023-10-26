@@ -1,0 +1,24 @@
+name: Run Lints
+on:
+    - push
+    - pull_request
+    - workflow_dispatch
+jobs:
+    lint:
+        concurrency:
+            group: ${{ github.workflow }}-${{ github.ref }}
+            cancel-in-progress: true
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            # Setup .npmrc file to publish to npm
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+                  registry-url: 'https://registry.npmjs.org'
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 8
+            - name: Install dependencies
+              run: pnpm install
+            - run: pnpm lint:check

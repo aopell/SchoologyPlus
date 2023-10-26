@@ -1,0 +1,32 @@
+{
+    "name": "schoology-plus",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "build": "rollup -c",
+        "dev": "rollup -c -w",
+        "lint": "eslint --fix .",
+        "lint:check": "eslint ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^11.1.5",
+        "@types/chrome": "^0.0.248",
+        "@types/web": "^0.0.119",
+        "@typescript-eslint/eslint-plugin": "^6.9.0",
+        "@typescript-eslint/parser": "^6.9.0",
+        "eslint": "^8.52.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-plugin-prettier": "^5.0.1",
+        "prettier": "^3.0.3",
+        "rollup": "^4.1.4",
+        "rollup-plugin-chrome-extension": "^3.6.12",
+        "rollup-plugin-ts": "^3.4.5",
+        "typescript": "^5.2.2"
+    }
+}

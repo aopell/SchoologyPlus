@@ -1,0 +1,239 @@
+.gradebook-course-title span.injected-title-grade {
+    float: right;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+tr.item-row td.grade-column div.td-content-wrapper {
+    padding: 7px 10px 5px !important;
+    text-align: center;
+}
+
+div.tier-injected-score {
+    text-align: center;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.gradebook-course.hierarchical-grading-report .grade-column-right .td-content-wrapper {
+    padding: 15px 0px !important;
+    text-align: right;
+}
+
+.grade-column-center {
+    text-align: center !important;
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+
+.gradebook-course-grades table {
+    table-layout: fixed;
+}
+
+col.assignment-colum {
+    width: 50%;
+}
+
+col.points-column {
+    width: 20%;
+}
+
+col.comments-column {
+    width: 30%;
+}
+
+.grade-edit-indicator {
+    vertical-align: top;
+    position: absolute;
+    bottom: 0px;
+    display: none;
+}
+
+.grade-add-indicator {
+    display: none;
+}
+
+.grade-add-indicator span.title {
+    font-style: italic;
+}
+
+.grade-add-indicator img.add-assignment-icon {
+    width: 12px;
+}
+
+
+/* to allow "absolute" position of edit icon" */
+
+.item-row .grade-column .grade-wrapper {
+    position: relative;
+}
+
+.grade-column .student-editable, .editable-assignment-name:focus {
+    padding: 1px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #767676;
+    outline: 0px solid transparent;
+}
+
+
+/* to compensate for the added edit icon */
+
+
+/*
+.injected-assignment-percent {
+    padding-right: 6px;
+}
+*/
+
+.modified-score-percent-warning {
+    vertical-align: middle;
+    position: absolute;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.item-row img.modified-score-percent-warning, .grade-column-center img.modified-score-percent-warning {
+    width: 12px;
+    margin-top: 2px;
+}
+
+.category-row img.modified-score-percent-warning {
+    width: 12px;
+    height: 12px;
+}
+
+.period-row img.modified-score-percent-warning {
+    margin-bottom: 1px;
+    width: 15px;
+    height: 15px;
+}
+
+.relative-span-contain {
+    position: relative;
+}
+
+.grade-column-right .modified-score-percent-warning {
+    position: static;
+    padding-right: 2px;
+    padding-bottom: 1px;
+}
+
+.grade-column-center .modified-score-percent-warning {
+    padding-top: 1px;
+}
+
+input#enable-modify {
+    float: right;
+    margin: 8px 5px;
+}
+
+.splus-grade-help-btn .icon-help {
+    background-image: url('https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/notification-icon-sprite.png');
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    background-position: 0px -127px;
+    background-size: 36px 140px;
+}
+
+.splus-grade-help-btn {
+    padding-left: 4px;
+    padding-bottom: 0px;
+    /* Experimentally determined */
+    line-height: 9px;
+}
+
+.modify-label {
+    float: right;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+}
+
+.splus-gradeedit-checkbox-holder-wrapper > * {
+    display: inline-flex;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.grade-add-indicator.hidden,
+.report-row.item-row.hidden {
+    display: none !important;
+}
+
+.gradebook-course.hierarchical-grading-report .grade-column .percentage-grade {
+    color: #767676;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.kabob-menu {
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: normal;
+    float: right;
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.grade-add-indicator .kabob-menu {
+    display: none;
+}
+
+.grades-kabob-menu {
+    font-size: 20px;
+    vertical-align: sub;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+/* undo exception's .no-grade styling for unknown .max-grade elements */
+.exception-grade-wrapper .max-grade.no-grade {
+    width: unset !important;
+    text-align: unset !important;
+    display: unset !important;
+}
+
+.max-grade-show-error {
+    visibility: hidden;
+    word-spacing:-999px;
+    letter-spacing: -999px;
+}
+
+.max-grade-show-error::after{
+    content: " / <ERR>";
+    visibility: visible;
+    word-spacing:normal;
+    letter-spacing:normal; 
+}
+
+svg.splus-coursegradebox-taint {
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: middle;
+    padding-right: 0.2em;
+}
+
+.splus-weighted-gradebook-indicator {
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 15px;
+    color: #ee00ce;
+}
+
+.item-row.added-fake-assignment {
+    background-color: lightyellow !important;
+}
+
+.splus-weighted-gradebook-indicator {
+    display: var(--weighted-gradebook-indicator-display) !important;
+}
+
+.injected-empty-category-expand-icon {
+    visibility: hidden;
+}
