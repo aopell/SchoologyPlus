@@ -12,46 +12,31 @@
     },
     "version": "7.8.7",
     "icons": {
-        "128": "./assets/logo/icon@128.png",
-        "64": "./assets/logo/icon@64.png",
-        "48": "./assets/logo/icon@48.png",
-        "32": "./assets/logo/icon@32.png",
-        "16": "./assets/logo/icon@16.png"
+        "128": "assets/logo/icon@128.png",
+        "64": "assets/logo/icon@64.png",
+        "48": "assets/logo/icon@48.png",
+        "32": "assets/logo/icon@32.png",
+        "16": "assets/logo/icon@16.png"
     },
     "action": {
         "default_icon": {
-            "16": "./assets/logo/icon@16.png",
-            "32": "./assets/logo/icon@32.png",
-            "48": "./assets/logo/icon@48.png",
-            "64": "./assets/logo/icon@64.png",
-            "128": "./assets/logo/icon@128.png"
+            "16": "assets/logo/icon@16.png",
+            "32": "assets/logo/icon@32.png",
+            "48": "assets/logo/icon@48.png",
+            "64": "assets/logo/icon@64.png",
+            "128": "assets/logo/icon@128.png"
         },
         "default_title": "Schoology Plus"
     },
-    "permissions": [
-        "storage",
-        "alarms",
-        "notifications",
-        "cookies",
-        "contextMenus",
-        "activeTab"
-    ],
-    "host_permissions": [
-        "*://*.schoology.com/*"
-    ],
+    "permissions": ["storage", "alarms", "notifications", "cookies", "contextMenus", "activeTab"],
+    "host_permissions": ["*://*.schoology.com/*"],
     "content_security_policy": {
         "extension_pages": "script-src 'self'; object-src 'self';",
         "sandbox": "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self';"
     },
-    "background": {
-        "service_worker": "serviceWorker.ts",
-        "type": "module"
-    },
     "content_scripts": [
         {
-            "matches": [
-                "https://*.schoology.com/*"
-            ],
+            "matches": ["https://*.schoology.com/*"],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
                 "https://*.schoology.com/register*",
@@ -69,9 +54,7 @@
                 "*://lti-submission-google.app.schoology.com/*"
             ],
             "css": [],
-            "js": [
-                "./app.ts"
-            ],
+            "js": ["./src/content.tsx"],
             "run_at": "document_start"
         }
     ]
