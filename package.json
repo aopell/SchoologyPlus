@@ -16,21 +16,20 @@
     "devDependencies": {
         "@crxjs/vite-plugin": "2.0.0-beta.19",
         "@types/chrome": "^0.0.248",
-        "@types/react": "^18.2.33",
-        "@types/react-dom": "^18.2.14",
+        "@types/format-util": "^1.0.3",
         "@types/web": "^0.0.119",
         "@typescript-eslint/eslint-plugin": "^6.9.0",
         "@typescript-eslint/parser": "^6.9.0",
-        "@vitejs/plugin-react": "^4.1.0",
         "eslint": "^8.52.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-prettier": "^5.0.1",
         "prettier": "^3.0.3",
         "typescript": "^5.2.2",
-        "vite": "^4.5.0"
+        "vite": "^4.5.0",
+        "vite-plugin-solid": "^2.7.2"
     },
     "dependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "format-util": "^1.0.5",
+        "solid-js": "^1.8.4"
     }
 }

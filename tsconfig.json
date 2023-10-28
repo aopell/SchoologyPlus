@@ -4,7 +4,9 @@
         "module": "ESNext",
         "target": "ES2022",
         // JSX
-        "jsx": "react",
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        "types": ["vite/client"],
         // Other
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
