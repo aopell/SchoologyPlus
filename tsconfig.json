@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
-        "moduleResolution": "Node",
-        "module": "ESNext",
+        "moduleResolution": "NodeNext",
+        "module": "NodeNext",
         "target": "ES2022",
         // JSX
         "jsx": "preserve",
         "jsxImportSource": "solid-js",
-        "types": ["vite/client"],
+        "types": ["vite/client", "@types/chrome"],
         // Other
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,

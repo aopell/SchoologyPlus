@@ -1,11 +1,13 @@
-import { apiPage } from './pages/api.jsx';
-import { assessmentPage } from './pages/assessment.js';
-import { coursePage } from './pages/course.js';
-import { coursesPage } from './pages/courses.js';
-import { gradesPage } from './pages/grades.js';
-import { homePage } from './pages/home.js';
-import { materialsPage } from './pages/materials.js';
-import { pagePage } from './pages/page.js';
+import { apiPage } from './addons/apiPage/loader.js';
+import { assessmentPage } from './addons/assessment.js';
+import { coursePage } from './addons/course.js';
+import { coursesPage } from './addons/courses.js';
+import { gradesPage } from './addons/grades.js';
+import { homePage } from './addons/home.js';
+import { materialsPage } from './addons/materials.js';
+import { pagePage } from './addons/page.js';
+import { theme } from './addons/theme.jsx';
+import { toolbar } from './addons/toolbar.jsx';
 import { App } from './solid.jsx';
 import { Logger } from './utils/logger.js';
 
@@ -53,6 +55,8 @@ const routes: IRouteGlob[] = [
     }
 ];
 
+const allPages = [toolbar, theme];
+
 // Load page
 const loadPage = (url: URL, routes: IRouteGlob[]) => {
     const logger = Logger.createContext('content::loadPage');
@@ -65,6 +69,11 @@ const loadPage = (url: URL, routes: IRouteGlob[]) => {
             .join('/');
 
     logger.debug('Normalized path: %s', path);
+
+    // Load all pages
+    for (const page of allPages) {
+        page();
+    }
 
     // Find (all) routes that match
     for (const route of routes) {
@@ -87,7 +96,7 @@ const loadPage = (url: URL, routes: IRouteGlob[]) => {
 };
 
 // Load solid
-const loadSolid = () => {
+const loadSolid = async () => {
     const logger = Logger.createContext('content::loadSolid');
 
     // Create root element
@@ -102,13 +111,18 @@ const loadSolid = () => {
     logger.info('Mounted solid root element!');
 
     // Init solid
-    render(<App />, shadow);
+    render(() => <App />, shadow);
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+const main = async () => {
+    // Add dark mode by default so that the page doesn't flash white
+    document.documentElement.classList.add('dark');
+
     // Load solid
-    loadSolid();
+    await loadSolid();
 
     // Load page
     loadPage(new URL(location.toString()), routes);
-});
+};
+
+main();

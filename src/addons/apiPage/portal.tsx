@@ -1,28 +1,21 @@
 import { Component, createSignal, onCleanup, onMount } from 'solid-js';
-import { Logger } from '../utils/logger';
+import { Logger } from '../../utils/logger.js';
 import { Portal } from 'solid-js/web';
-import { MountableElementsStore } from '../solid';
+import { MountableElementsStore } from '../../solid.jsx';
 
-import wordmark from '../assets/logo/wordmark.svg';
+import wordmark from '../../assets/logo/wordmark.svg';
 
-export const apiPage = () => {
-    const logger = Logger.createContext('pages::api::apiPage');
-
-    logger.info('API page loaded!');
-
-    MountableElementsStore.registerComponent(ApiPortal);
-};
-
-const ApiPortal: Component = () => {
-    const logger = Logger.createContext('pages::api::ApiPortal');
+export const ApiPortal: Component = () => {
+    const logger = Logger.createContext('addons::api::ApiPortal');
     const [titleMount, setTitleMount] = createSignal<HTMLElement>(document.createElement('div'));
     const [mount, setMount] = createSignal<HTMLElement>(document.createElement('div'));
-    const [editReveal, setEditReveal] = createSignal<HTMLElement | null>(null);
+    const [editRevealRequest, setEditRevealRequest] = createSignal<HTMLElement | null>(null);
+
+    const [error, setError] = createSignal<string | null>(null);
 
     onMount(() => {
         const mount = document.getElementById('content-wrapper');
         const titleMount = document.getElementById('center-top');
-        const editReveal = document.getElementById('edit-reveal');
 
         if (!mount) {
             logger.error('Could not find mount point!');
@@ -48,7 +41,16 @@ const ApiPortal: Component = () => {
 
         setMount(mount);
         setTitleMount(titleMount);
-        setEditReveal(editReveal);
+
+        const editRevealRequest =
+            document.getElementById('edit-reveal') ?? document.getElementById('edit-request');
+
+        if (!editRevealRequest) {
+            logger.error('Could not find edit reveal or edit request or hCaptcha site key!');
+        } else {
+            // Set the data
+            setEditRevealRequest(editRevealRequest);
+        }
 
         onCleanup(() => {
             // Show all children from the mount point
@@ -118,8 +120,8 @@ const ApiPortal: Component = () => {
                         />
                     </div>
                     <p>
-                        The Schoology Plus needs access to the Schoology API for some features to
-                        work. These features include:
+                        Schoology Plus needs access to the Schoology API for some features to work.
+                        These features include:
                     </p>
                     <ul>
                         <li>What-If Grades</li>
@@ -161,7 +163,7 @@ const ApiPortal: Component = () => {
                         . You can change this setting at any time in the Schoology Plus settings
                         menu.
                     </p>
-                    {editReveal() === null && (
+                    {editRevealRequest() === null && (
                         <p
                             style={{
                                 color: 'var(--error, #F44336)'
@@ -175,7 +177,26 @@ const ApiPortal: Component = () => {
                             </a>
                         </p>
                     )}
-                    {editReveal() !== null && <input type='submit' value='Allow API Access' />}
+                    {editRevealRequest() !== null && (
+                        <>
+                            <input
+                                type='submit'
+                                value='Allow API Access'
+                                onClick={() => {
+                                    setError('Not implemented yet!');
+                                }}
+                            />
+                        </>
+                    )}
+                    {error() !== null && (
+                        <p
+                            style={{
+                                color: 'var(--error, #F44336)'
+                            }}
+                        >
+                            {error()}
+                        </p>
+                    )}
                 </div>
             </Portal>
         </>
