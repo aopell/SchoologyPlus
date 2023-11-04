@@ -1,6 +1,6 @@
 import format from 'format-util';
 
-type TLogType = 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
+export type TLogType = 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
 
 const logColors: Record<TLogType, string> = {
     DEBUG: '#2196F3',
@@ -79,6 +79,12 @@ export class Logger {
     }
 
     public setLogLevel(level: TLogType): void {
+        if (level === this.logLevel) {
+            return;
+        }
+
+        Logger.createContext('utils::logger::setLogLevel').info('Log level changed to %s.', level);
+
         this.logLevel = level;
     }
 

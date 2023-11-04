@@ -9,6 +9,8 @@ import { pagePage } from './addons/page.js';
 import { theme } from './addons/theme.jsx';
 import { toolbar } from './addons/toolbar.jsx';
 import { App } from './solid.jsx';
+import { StorableSettings } from './store/storable.js';
+import { CachedDataStore } from './utils/cache.js';
 import { Logger } from './utils/logger.js';
 
 import { render } from 'solid-js/web';
@@ -121,8 +123,14 @@ const main = async () => {
     // Load solid
     await loadSolid();
 
+    // Load the store
+    StorableSettings.load();
+
+    // Load the cache
+    await CachedDataStore.load();
+
     // Load page
     loadPage(new URL(location.toString()), routes);
 };
 
-main();
+document.addEventListener('DOMContentLoaded', main);

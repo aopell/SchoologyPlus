@@ -28,7 +28,15 @@
         },
         "default_title": "Schoology Plus"
     },
-    "permissions": ["storage", "alarms", "notifications", "cookies", "contextMenus", "activeTab"],
+    "permissions": [
+        "storage",
+        "unlimitedStorage",
+        "alarms",
+        "notifications",
+        "cookies",
+        "contextMenus",
+        "activeTab"
+    ],
     "host_permissions": ["*://*.schoology.com/*"],
     "content_security_policy": {
         "extension_pages": "script-src 'self'; object-src 'self';",
