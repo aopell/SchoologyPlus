@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Schoology Plus",
     "short_name": "Schoology+",
     "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
@@ -10,61 +10,41 @@
             "update_url": "https://schoologypl.us/firefox_updates.json"
         }
     },
-    "version": "7.8.6",
+    "version": "7.8.7",
     "icons": {
-        "128": "imgs/icon@128.png",
-        "64": "imgs/icon@64.png",
-        "48": "imgs/icon@48.png",
-        "32": "imgs/icon@32.png",
-        "16": "imgs/icon@16.png"
+        "128": "src/assets/logo/icon@128.png",
+        "64": "src/assets/logo/icon@64.png",
+        "48": "src/assets/logo/icon@48.png",
+        "32": "src/assets/logo/icon@32.png",
+        "16": "src/assets/logo/icon@16.png"
     },
-    "browser_action": {
+    "action": {
         "default_icon": {
-            "16": "imgs/icon@16.png",
-            "32": "imgs/icon@32.png",
-            "48": "imgs/icon@48.png",
-            "64": "imgs/icon@64.png",
-            "128": "imgs/icon@128.png"
+            "16": "src/assets/logo/icon@16.png",
+            "32": "src/assets/logo/icon@32.png",
+            "48": "src/assets/logo/icon@48.png",
+            "64": "src/assets/logo/icon@64.png",
+            "128": "src/assets/logo/icon@128.png"
         },
         "default_title": "Schoology Plus"
     },
     "permissions": [
-        "*://lms.lausd.net/*",
-        "*://*.schoology.com/*",
         "storage",
+        "unlimitedStorage",
         "alarms",
         "notifications",
         "cookies",
         "contextMenus",
         "activeTab"
     ],
-    "optional_permissions": [
-        "<all_urls>"
-    ],
-    "web_accessible_resources": [
-        "imgs/*",
-        "lib/js/pdf.worker.js",
-        "theme-editor.html",
-        "default-icons.html"
-    ],
-    "content_security_policy": "script-src 'self'; object-src 'self'",
-    "background": {
-        "scripts": [
-            "js/loader.js",
-            "js/analytics.js",
-            "lib/js/analytics.js",
-            "lib/js/purify.min.js",
-            "js/background-permissions.js",
-            "js/background.js"
-        ],
-        "persistent": true
+    "host_permissions": ["*://*.schoology.com/*"],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self';",
+        "sandbox": "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self';"
     },
     "content_scripts": [
         {
-            "matches": [
-                "https://lms.lausd.net/*",
-                "https://*.schoology.com/*"
-            ],
+            "matches": ["https://*.schoology.com/*"],
             "exclude_matches": [
                 "https://*.schoology.com/login*",
                 "https://*.schoology.com/register*",
@@ -81,315 +61,9 @@
                 "*://schoology.com/*",
                 "*://lti-submission-google.app.schoology.com/*"
             ],
-            "css": [
-                "css/all.css",
-                "css/modern/all.css"
-            ],
-            "js": [
-                "js/loader.js",
-                "js/analytics.js",
-                "lib/js/analytics.js",
-                "js/icons.js",
-                "js/default-themes.js",
-                "js/theme.js",
-                "js/preload.js"
-            ],
+            "css": [],
+            "js": ["./src/content.tsx"],
             "run_at": "document_start"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/*",
-                "https://*.schoology.com/*"
-            ],
-            "exclude_matches": [
-                "https://*.schoology.com/login*",
-                "https://*.schoology.com/register*",
-                "*://asset-cdn.schoology.com/*",
-                "*://developer.schoology.com/*",
-                "*://support.schoology.com/*",
-                "*://info.schoology.com/*",
-                "*://files-cdn.schoology.com/*",
-                "*://status.schoology.com/*",
-                "*://ui.schoology.com/*",
-                "*://www.schoology.com/*",
-                "*://api.schoology.com/*",
-                "*://developers.schoology.com/*",
-                "*://schoology.com/*",
-                "*://lti-submission-google.app.schoology.com/*"
-            ],
-            "css": [
-                "lib/css/contextmenu.css",
-                "lib/css/iziToast.min.css",
-                "/lib/css/jquery-ui.min.css"
-            ],
-            "js": [
-                "lib/js/jquery-3.3.1.min.js",
-                "/lib/js/jquery-ui.min.js",
-                "lib/js/contextmenu.js",
-                "lib/js/iziToast.min.js",
-                "js/version-specific.js",
-                "js/all.js",
-                "lib/js/findAndReplaceDOMText.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/grades/grades*",
-                "https://lms.lausd.net/course/*/student_grades",
-                "https://*.schoology.com/grades/grades*",
-                "https://*.schoology.com/course/*/student_grades"
-            ],
-            "exclude_matches": [
-                "https://*.schoology.com/login*",
-                "https://*.schoology.com/register*",
-                "*://asset-cdn.schoology.com/*",
-                "*://developer.schoology.com/*",
-                "*://support.schoology.com/*",
-                "*://info.schoology.com/*",
-                "*://files-cdn.schoology.com/*",
-                "*://status.schoology.com/*",
-                "*://ui.schoology.com/*",
-                "*://www.schoology.com/*",
-                "*://api.schoology.com/*",
-                "*://developers.schoology.com/*",
-                "*://schoology.com/*",
-                "*://lti-submission-google.app.schoology.com/*"
-            ],
-            "css": [
-                "css/grades.css"
-            ],
-            "js": [
-                "js/grades.js",
-                "js/course.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/course/*/materials*",
-                "https://*.schoology.com/course/*/materials*"
-            ],
-            "exclude_matches": [
-                "https://*.schoology.com/login*",
-                "https://*.schoology.com/register*",
-                "*://asset-cdn.schoology.com/*",
-                "*://developer.schoology.com/*",
-                "*://support.schoology.com/*",
-                "*://info.schoology.com/*",
-                "*://files-cdn.schoology.com/*",
-                "*://status.schoology.com/*",
-                "*://ui.schoology.com/*",
-                "*://www.schoology.com/*",
-                "*://api.schoology.com/*",
-                "*://developers.schoology.com/*",
-                "*://schoology.com/*",
-                "*://lti-submission-google.app.schoology.com/*"
-            ],
-            "css": [
-                "css/materials.css"
-            ],
-            "js": [
-                "lib/js/pdf.js",
-                "lib/js/jquery-3.3.1.min.js",
-                "lib/js/jquery-migrate-3.0.1.js",
-                "lib/js/jquery.tipsy.js",
-                "js/materials.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/",
-                "https://lms.lausd.net/home",
-                "https://lms.lausd.net/home#*",
-                "https://lms.lausd.net/home/recent-activity*",
-                "https://lms.lausd.net/home/course-dashboard*",
-                "https://*.schoology.com/",
-                "https://*.schoology.com/home",
-                "https://*.schoology.com/home#*",
-                "https://*.schoology.com/home/recent-activity*",
-                "https://*.schoology.com/home/course-dashboard*"
-            ],
-            "exclude_matches": [
-                "https://*.schoology.com/login*",
-                "https://*.schoology.com/register*",
-                "*://asset-cdn.schoology.com/*",
-                "*://developer.schoology.com/*",
-                "*://support.schoology.com/*",
-                "*://info.schoology.com/*",
-                "*://files-cdn.schoology.com/*",
-                "*://status.schoology.com/*",
-                "*://ui.schoology.com/*",
-                "*://www.schoology.com/*",
-                "*://api.schoology.com/*",
-                "*://developers.schoology.com/*",
-                "*://schoology.com/*",
-                "*://lti-submission-google.app.schoology.com/*"
-            ],
-            "js": [
-                "js/course.js",
-                "js/home.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/course/*",
-                "https://*.schoology.com/course/*"
-            ],
-            "js": [
-                "js/course.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/api",
-                "https://lms.lausd.net/api/*",
-                "https://*.schoology.com/api",
-                "https://*.schoology.com/api/*"
-            ],
-            "js": [
-                "js/api-key.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/user/*",
-                "https://*.schoology.com/user/*"
-            ],
-            "exclude_matches": [
-                "https://*.schoology.com/login*",
-                "https://*.schoology.com/register*",
-                "*://asset-cdn.schoology.com/*",
-                "*://developer.schoology.com/*",
-                "*://support.schoology.com/*",
-                "*://info.schoology.com/*",
-                "*://files-cdn.schoology.com/*",
-                "*://status.schoology.com/*",
-                "*://ui.schoology.com/*",
-                "*://www.schoology.com/*",
-                "*://api.schoology.com/*",
-                "*://developers.schoology.com/*",
-                "*://schoology.com/*",
-                "*://lti-submission-google.app.schoology.com/*"
-            ],
-            "js": [
-                "js/user.js"
-            ],
-            "css": [
-                "css/user.css"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/assignment/*/assessment",
-                "https://*.schoology.com/assignment/*/assessment"
-            ],
-            "exclude_matches": [
-                "https://*.schoology.com/login*",
-                "https://*.schoology.com/register*",
-                "*://asset-cdn.schoology.com/*",
-                "*://developer.schoology.com/*",
-                "*://support.schoology.com/*",
-                "*://info.schoology.com/*",
-                "*://files-cdn.schoology.com/*",
-                "*://status.schoology.com/*",
-                "*://ui.schoology.com/*",
-                "*://www.schoology.com/*",
-                "*://api.schoology.com/*",
-                "*://developers.schoology.com/*",
-                "*://schoology.com/*",
-                "*://lti-submission-google.app.schoology.com/*"
-            ],
-            "js": [
-                "js/assessment.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/page/*",
-                "https://*.schoology.com/page/*"
-            ],
-            "exclude_matches": [
-                "https://*.schoology.com/login*",
-                "https://*.schoology.com/register*",
-                "*://asset-cdn.schoology.com/*",
-                "*://developer.schoology.com/*",
-                "*://support.schoology.com/*",
-                "*://info.schoology.com/*",
-                "*://files-cdn.schoology.com/*",
-                "*://status.schoology.com/*",
-                "*://ui.schoology.com/*",
-                "*://www.schoology.com/*",
-                "*://api.schoology.com/*",
-                "*://developers.schoology.com/*",
-                "*://schoology.com/*",
-                "*://lti-submission-google.app.schoology.com/*"
-            ],
-            "js": [
-                "js/page.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/courses*",
-                "https://lms.lausd.net/courses/*",
-                "https://*.schoology.com/courses*",
-                "https://*.schoology.com/courses/*"
-            ],
-            "exclude_matches": [
-                "https://*.schoology.com/login*",
-                "https://*.schoology.com/register*",
-                "*://asset-cdn.schoology.com/*",
-                "*://developer.schoology.com/*",
-                "*://support.schoology.com/*",
-                "*://info.schoology.com/*",
-                "*://files-cdn.schoology.com/*",
-                "*://status.schoology.com/*",
-                "*://ui.schoology.com/*",
-                "*://www.schoology.com/*",
-                "*://api.schoology.com/*",
-                "*://developers.schoology.com/*",
-                "*://schoology.com/*",
-                "*://lti-submission-google.app.schoology.com/*"
-            ],
-            "js": [
-                "js/course.js",
-                "js/courses.js"
-            ],
-            "run_at": "document_end"
-        },
-        {
-            "matches": [
-                "https://lms.lausd.net/*",
-                "https://*.schoology.com/*"
-            ],
-            "exclude_matches": [
-                "https://*.schoology.com/login*",
-                "https://*.schoology.com/register*",
-                "*://asset-cdn.schoology.com/*",
-                "*://developer.schoology.com/*",
-                "*://support.schoology.com/*",
-                "*://info.schoology.com/*",
-                "*://files-cdn.schoology.com/*",
-                "*://status.schoology.com/*",
-                "*://ui.schoology.com/*",
-                "*://www.schoology.com/*",
-                "*://api.schoology.com/*",
-                "*://developers.schoology.com/*",
-                "*://schoology.com/*",
-                "*://lti-submission-google.app.schoology.com/*"
-            ],
-            "js": [
-                "js/all-idle.js"
-            ],
-            "run_at": "document_idle"
         }
     ]
 }
