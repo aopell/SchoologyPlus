@@ -259,14 +259,23 @@ export const ApiPortal: Component = () => {
                                         return;
                                     }
 
-                                    store.apiKeys[userId] = {
+                                    // Save the store
+                                    const apiKeys = {
+                                        ...store.apiKeys
+                                    };
+                                    apiKeys[userId] = {
                                         type: 'non-captured'
                                     };
 
-                                    // Save the store
-                                    setStore(store);
+                                    setStore({
+                                        ...store,
+                                        apiKeys
+                                    });
 
                                     // Click the button on the page
+                                    const button = editRevealRequest()!;
+
+                                    button.removeAttribute('disabled');
                                     editRevealRequest()?.click();
                                 }}
                             />

@@ -94,6 +94,8 @@ export class StorableSettings {
 
         const v2 = json as IStoreV2;
 
+        console.log(v2);
+
         // Update log level.
         Logger.getInstance().setLogLevel(v2.userPreferences.logLevel);
 
@@ -103,10 +105,10 @@ export class StorableSettings {
     /**
      * Saves the settings to the chrome storage.
      */
-    private async saveSettings(): Promise<void> {
+    private async saveSettings(store: IStoreV2): Promise<void> {
         const logger = Logger.createContext('store::storable::StorableSettings::saveSettings');
 
-        const data = JSON.stringify(this.settingsStore[0]);
+        const data = JSON.stringify(store);
         await chrome.storage.local.set({ settings: data });
         logger.debug('Saved settings to chrome storage.');
     }
@@ -119,8 +121,10 @@ export class StorableSettings {
             this.instance.settingsStore[0],
             (store: IStoreV2) => {
                 // Also save the settings to the chrome storage.
-                this.instance.saveSettings();
-                this.instance.settingsStore[1](store);
+                this.instance.saveSettings(store);
+
+                // Bellow might not be needed (Loaded from storage because of the listener)
+                // this.instance.settingsStore[1](store);
             }
         ];
     }
