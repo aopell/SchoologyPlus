@@ -20,6 +20,11 @@ div.tier-injected-score {
     text-align: right;
 }
 
+/* this needs to be on its own to be more specific and override schoology */
+.td-content-wrapper {
+    display: block !important;
+}
+
 .grade-column-center {
     text-align: center !important;
     padding-right: 10px !important;
