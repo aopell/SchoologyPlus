@@ -2,6 +2,7 @@
     float: right;
     font-weight: bold;
     font-size: 14px;
+    padding-right: 20px;
 }
 
 tr.item-row td.grade-column div.td-content-wrapper {
@@ -20,8 +21,7 @@ div.tier-injected-score {
     text-align: right;
 }
 
-/* this needs to be on its own to be more specific and override schoology */
-.td-content-wrapper {
+.gradebook-course.hierarchical-grading-report .gradebook-course-grades .td-content-wrapper {
     display: block !important;
 }
 
