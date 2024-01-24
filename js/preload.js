@@ -622,25 +622,25 @@ function updateSettings(callback) {
                         element => element.value
                     ).control,
                     new Setting(
-                        "helpCenterFAB",
-                        "Schoology Help Button",
-                        "Controls the visibility of the S button in the bottom right that shows the Schoology Guide Center",
-                        "hidden",
+                        "powerSchoolLogo",
+                        "PowerSchool Logo",
+                        "Controls the visibility of the PowerSchool logo on the navigation bar",
+                        "block",
                         "select",
                         {
                             options: [
                                 {
                                     text: "Show",
-                                    value: "visible"
+                                    value: "block"
                                 },
                                 {
                                     text: "Hide",
-                                    value: "hidden"
+                                    value: "none"
                                 }
                             ]
                         },
                         value => {
-                            setCSSVariable("help-center-fab-visibility", value);
+                            setCSSVariable("power-school-logo-display", value);
                             return value;
                         },
                         function (event) { this.onload(event.target.value) },
