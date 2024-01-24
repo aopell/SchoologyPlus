@@ -2,6 +2,7 @@
     float: right;
     font-weight: bold;
     font-size: 14px;
+    padding-right: 20px;
 }
 
 tr.item-row td.grade-column div.td-content-wrapper {
@@ -18,6 +19,10 @@ div.tier-injected-score {
 .gradebook-course.hierarchical-grading-report .grade-column-right .td-content-wrapper {
     padding: 15px 0px !important;
     text-align: right;
+}
+
+.gradebook-course.hierarchical-grading-report .gradebook-course-grades .td-content-wrapper {
+    display: block !important;
 }
 
 .grade-column-center {

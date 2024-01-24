@@ -89,6 +89,7 @@
                     let submitButton = document.getElementById("edit-reveal") || document.getElementById("edit-request");
                     submitButton.value = "Reveal Existing Secret";
                     submitButton.parentElement.classList.remove('splus-allow-access');
+                    document.location.search = "showkey";
                 } } ),
             ]),
         ])

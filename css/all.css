@@ -650,8 +650,12 @@ the selector matches inside notifications in the new notifs dropdown
     left: calc(50vw - 300px) !important;
 }
 
-._pendo-launcher-badge_ {
-    visibility: var(--help-center-fab-visibility) !important;
+svg:has(+ div.CustomBrandingLogo-vertical-strip-background-color-3_NIE) {
+    display: var(--power-school-logo-display) !important;
+}
+
+div.CustomBrandingLogo-vertical-strip-background-color-3_NIE {
+    display: var(--power-school-logo-display) !important;
 }
 
 .quick-link-wrapper {
