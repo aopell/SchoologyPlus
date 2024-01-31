@@ -201,6 +201,12 @@ var fetchQueue = [];
                         let processAssignment = async function (assignment) {
                             let maxGrade = assignment.querySelector(".max-grade");
                             let score = assignment.querySelector(".rounded-grade") || assignment.querySelector(".rubric-grade-value");
+
+                            if (!maxGrade && !score && !assignment.querySelector(".no-grade")) {
+                                // some schoology assignments don't display a grade, so we need to create a placeholder
+                                assignment.querySelector(".grade-column > .td-content-wrapper").prepend(createElement("span", ["no-grade"], { textContent: "—" }));
+                            }
+
                             if (score) {
                                 let assignmentScore = Number.parseFloat(score.textContent);
                                 let assignmentMax = Number.parseFloat(maxGrade.textContent.substring(3));
