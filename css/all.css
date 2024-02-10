@@ -73,9 +73,14 @@ nav.nav-breadcrumb-nav-1251684582 span {
 
 /* Kept old classes to remain compatible with older versions of Schoology */
 .StandardHeader-header-drop-menu-YShpU,
-.Header-header-drop-menu-3SaYV,
-.HeaderDropMenu-menu-border-3vo5S {
+.Header-header-drop-menu-3SaYV:not(.util-width-thirty-nine-1B-gb),
+.HeaderDropMenu-menu-border-3vo5S:not(.util-width-thirty-nine-1B-gb) {
     background-color: var(--hover-color) !important;
+    color: var(--contrast-text-color) !important;
+}
+
+#header > header ul.util-width-thirty-nine-1B-gb {
+    background-color: white !important;
 }
 
 a.StandardHeader-header-drop-menu-YShpU:hover,
