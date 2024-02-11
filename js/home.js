@@ -203,6 +203,7 @@ function reorderSidebar() {
 
 (async function () {
     indicateSubmittedAssignments();
+    getRecentlyCompletedDenominators();
     await createQuickAccess();
     setTimeout(() => {
         reorderSidebar();
