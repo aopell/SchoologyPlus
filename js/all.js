@@ -1225,6 +1225,23 @@ async function createQuickAccess() {
     rightCol.append(wrapper);
 }
 
+function getAssignmentId(url) {
+    if (url.includes("/assignment/")) {
+        return url.match(/assignment\/(\d+)/)[1];
+    } else if (url.includes("/course/")) {
+        // Discussion boards, maybe other assignments as well
+        return url.match(/course\/\d+\/.*\/(\d+)/)[1];
+    } else if (url.includes("/event/")) {
+        // Calendar events
+        return url.match(/event\/(\d+)/)[1];
+    } else if (url.includes("/external_tool/")) {
+        // External tools
+        return url.match(/external_tool\/(\d+)/)[1];
+    }
+    
+    return null;
+}
+
 function indicateSubmittedAssignments() {
     let upcomingList = document.querySelector(".upcoming-events .upcoming-list");
     const completionOverridesSetting = "assignmentCompletionOverrides";
@@ -1313,19 +1330,7 @@ function indicateSubmittedAssignments() {
         let assignmentElement = infotipElement.querySelector("a[href]");
 
         // TODO errorcheck the assignmentId match
-        let assignmentId = null;
-        if (assignmentElement.href.includes("/assignment/")) {
-            assignmentId = assignmentElement.href.match(/assignment\/(\d+)/)[1];
-        } else if (assignmentElement.href.includes("/course/")) {
-            // Discussion boards, maybe other assignments as well
-            assignmentId = assignmentElement.href.match(/course\/\d+\/.*\/(\d+)/)[1];
-        } else if (assignmentElement.href.includes("/event/")) {
-            // Calendar events
-            assignmentId = assignmentElement.href.match(/event\/(\d+)/)[1];
-        } else if (assignmentElement.href.includes("/external_tool/")) {
-            // External tools
-            assignmentId = assignmentElement.href.match(/external_tool\/(\d+)/)[1];
-        }
+        let assignmentId = getAssignmentId(assignmentElement.href);
 
         // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
         let isMarkedComplete = isAssignmentMarkedComplete(assignmentId);
@@ -1409,6 +1414,96 @@ function indicateSubmittedAssignments() {
     }
 
     setTimeout(indicateSubmitted, 1000);
+}
+
+function getRecentlyCompletedDenominators() {
+    let recentlyCompletedList = document.querySelector(".recently-completed-wrapper .recently-completed-list");
+
+    async function getDirectAssignmentDenominatorAsync(assignmentId) {
+        try {
+            let json = await fetchApiJson(`sections/${sectionId}/assignments/${assignmentId}`);
+            return json.max_points;
+        }
+        catch (err) {
+            return null;
+        }
+    }
+
+    async function getAssignmentDenominatorAsync(sectionId, assignmentId) {
+        if (assignmentId == null) {
+            return null;
+        }
+
+        let directDenominator = await getDirectAssignmentDenominatorAsync(assignmentId);
+        if (directDenominator !== null && !Number.isNaN(directDenominator)) {
+            Logger.debug(`Found direct denominator for assignment ${assignmentId} in section ${sectionId}: ${directDenominator}`);
+            return directDenominator;
+        }
+
+        try {
+            let json = await fetchApiJson(`users/${getUserId()}/grades?section_id=${sectionId}`);
+
+            if (json.section.length === 0) {
+                throw new Error("Assignment details could not be read");
+            }
+
+            const assignments = json.section[0].period.reduce((prevVal, curVal) => prevVal.concat(curVal.assignment), []);//combines the assignment arrays from each period
+            
+            let denom = Number.parseFloat(assignments.filter(x => x.assignment_id == assignmentId)[0].max_points);
+            
+            Logger.debug(`Found indirect denominator for assignment ${assignmentId} in section ${sectionId}: ${denom}`);
+
+            return denom;
+        } catch (err) {
+            Logger.error(`Failed finding denominator for assignment ${assignmentId} in section ${sectionId}`, err);
+            return null;
+        }
+    }
+
+    async function getSectionIdMap() {
+        let sections = await fetchApiJson(`users/${getUserId()}/sections`);
+        let sectionMap = {};
+        
+        for (let section of sections.section) {
+            sectionMap[section.course_title + " : " + section.section_title] = section.id;
+        }
+
+        return sectionMap;
+    }
+
+    // Indicate submitted assignments in Upcoming
+    async function getDenominators() {
+        let sectionMap = await getSectionIdMap();
+
+        for (let recentEvent of recentlyCompletedList.querySelectorAll(".recently-completed-event")) {
+            try {
+                let eventLink = recentEvent.querySelector("a[href]");
+                let assignmentId = getAssignmentId(eventLink.href);
+                let sectionId = sectionMap[recentEvent.querySelector(".realm-title-course-title .realm-main-titles").textContent.trim()];
+
+                if (sectionId && assignmentId) {
+                    Logger.debug(`Getting denominator for assignment ${assignmentId} in section ${sectionId}`);
+                    let denominator = await getAssignmentDenominatorAsync(sectionId, assignmentId);
+                    Logger.debug(`Got denominator for assignment ${assignmentId} in section ${sectionId}: ${denominator}`);
+
+                    if (denominator) {
+                        let prevElement = recentEvent.querySelector("span.infotip.grade-infotip span.recently-completed-grade");
+
+                        if (prevElement) {
+                            let denominatorElement = createElement("span", ["splus-recent-denominator"], { textContent: ` / ${denominator}` });
+                            prevElement.insertAdjacentElement("afterend", denominatorElement);
+                        } else {
+                            recentEvent.querySelector("span.recently-completed-grade").textContent += ` / ${denominator}`;
+                        }
+                    }
+                }
+            } catch (err) {
+                Logger.error(`Failed finding denominator for recent assignment '${recentEvent.querySelector(".infotip a[href]")?.href}' : `, err);
+            }
+        }
+    }
+
+    setTimeout(getDenominators, 1000);
 }
 
 Logger.debug("Finished loading all.js");
