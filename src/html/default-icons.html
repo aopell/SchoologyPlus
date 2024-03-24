@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="/lib/css/material-icons.css" />
+    <link type="text/css" rel="stylesheet" href="/lib/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/lib/css/roundslider.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/theme-editor.css" />
+    <link rel="shortcut icon" type="image/png" href="/imgs/icon@128.png" />
+
+    <style>
+        * {
+            --condensed-width: 75px;
+        }
+
+        img {
+            padding: 10px 10px !important;
+        }
+
+        code {
+            margin-top: 10px;
+            word-wrap: break-word;
+            overflow: hidden;
+            background-color: rgba(27, 31, 35, 0.1);
+            border-radius: 3px;
+            color: rgb(224, 68, 68);
+        }
+
+        .icon-preview a {
+            background-color: #888888;
+            color: white;
+            border-radius: 3px;
+            padding: 3px;
+        }
+
+        .icon-preview {
+            height: 35vh;
+            border: 1px dotted black;
+        }
+
+        .condensed .icon-preview {
+            height: var(--condensed-width) !important;
+            width: var(--condensed-width) !important;
+            padding: 0 !important;
+            border: none;
+        }
+
+        .condensed .icon-preview a,
+        .condensed .icon-preview code {
+            display: none;
+        }
+
+        .condensed .icon-preview img {
+            padding: 0 !important;
+            width: var(--condensed-width) !important;
+            height: var(--condensed-width) !important;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Default Course Icons - Schoology Plus</title>
+</head>
+
+<body>
+    <script src="/js/loader.js"></script>
+    <header>
+        <div class="navbar-fixed">
+            <nav class="splus-blue">
+                <div class="nav-wrapper">
+                    <ul id="nav-mobile" class="left">
+                        <li>
+                            <a class="waves-effect waves-light" href="theme-editor.html">
+                                <i class="material-icons left">arrow_back</i>
+                                BACK TO THEME EDITOR
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="brand-logo center truncate">
+                        Schoology Plus Default Course Icons
+                    </div>
+                    <ul id="nav-mobile" class="right">
+                        <li>
+                            <a class="waves-effect waves-light" id="toggle">
+                                CONDENSED MODE
+                                <i id="toggle-icon" class="material-icons right">toggle_off</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="container wide-container">
+        <div class="row content-box">
+            <div class="input-field col s12">
+                <input type="text" id="icon-test-text" placeholder="Type a class name here to view matching icons">
+            </div>
+            <div class="col s12 row" id="icons-container">
+            </div>
+            <div class="col s12 center">
+                All icons used under CC BY 3.0
+            </div>
+            <div class="col s12 center">
+                Click icon numbers to view sources
+            </div>
+            <div class="col s12 center">
+                List of authors in Contributors under Schoology Plus settings
+            </div>
+        </div>
+        </div>
+    </main>
+    <script src="/lib/js/materialize.min.js"></script>
+    <script src="/js/icons.js"></script>
+    <script src="/js/default-icons-page.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+{
+  "name": "schoology-plus",
+  "version": "10.0.0",
+  "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
+  "scripts": {
+    "watch": "rm -rf dist/* && webpack --watch --config webpack.config.js --mode=development",
+    "build": "rm -rf dist/* && webpack --config webpack.config.js --mode=production",
+    "clean": "rimraf dist",
+    "prettier": "prettier --write \"src/**/*.{ts,js}\""
+  },
+  "author": "Aaron Opell",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aopell/SchoologyPlus"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "@types/chrome": "0.0.212",
+    "@types/node": "^18.13.0",
+    "@types/webextension-polyfill": "^0.10.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "autoprefixer": "^10.4.7",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "glob": "^8.1.0",
+    "postcss": "^8.4.14",
+    "postcss-loader": "^7.0.0",
+    "prettier": "^2.8.4",
+    "rimraf": "^4.1.2",
+    "sass": "^1.58.0",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
+    "svg-inline-loader": "^0.8.2",
+    "ts-loader": "^9.4.2",
+    "typescript": "*",
+    "webextension-polyfill": "^0.10.0",
+    "webpack": "^5.61.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-merge": "^5.0.0"
+  }
+}

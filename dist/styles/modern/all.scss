@@ -593,8 +593,9 @@ variable-intellisense {
         border-radius: var(--border-radius);
     }
 
+    // Does not fix the left-pointing arrow, as that is a PNG
+
     .color-codes-box {
-        // Does not fix the left-pointing arrow, as that's a PNG
         background-color: var(--accent) !important;
     }
 
