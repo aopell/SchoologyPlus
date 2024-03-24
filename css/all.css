@@ -137,6 +137,11 @@ footer._2T2dA {
     margin-top: 0 !important;
 }
 
+/* March 2024 change to how custom logos are displayed */
+.use-custom-url div[data-sgy-sitenav="custom-header-logo"] {
+    visibility: hidden !important;
+}
+
 /* links inside the container for the added "Archived Courses" link within the Courses dropdown */
 
 .courses-mycourses-droppeddown-link-container .floating-contained-link {
