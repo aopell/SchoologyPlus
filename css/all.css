@@ -59,6 +59,10 @@ nav.nav-breadcrumb-nav-1251684582 span {
     color: var(--contrast-text-color) !important;
 }
 
+#splus-settings-navbar-button svg {
+    display: block;
+}
+
 /* Borders at the top of drop down cards (Courses and Groups) */
 
 ._2P7CY:focus,
