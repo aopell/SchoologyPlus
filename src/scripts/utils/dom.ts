@@ -1,4 +1,8 @@
 
+type DeepPartial<T> = {
+    [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K]
+}
+
 /**
  * Creates a DOM element
  * @returns {HTMLElement} A DOM element
@@ -7,7 +11,7 @@
  * @param {Object.<string,any>} properties - Properties to apply to the DOM element
  * @param {HTMLElement[]} children - Elements to append as children to the created element
  */
-export function createElement<K extends keyof HTMLElementTagNameMap>(tag: K, classList?: string[], properties?: Partial<HTMLElementTagNameMap[K]>, children?: HTMLElement[]): HTMLElementTagNameMap[K] {
+export function createElement<K extends keyof HTMLElementTagNameMap>(tag: K, classList?: string[], properties?: DeepPartial<HTMLElementTagNameMap[K]>, children?: HTMLElement[]): HTMLElementTagNameMap[K] {
     let element = document.createElement(tag);
 
     if (classList) {
