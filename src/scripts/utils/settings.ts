@@ -1,4 +1,4 @@
-import { createElement, setCSSVariable } from "./dom";
+import { createButton, createElement, getBrowser, setCSSVariable } from "./dom";
 import { trackEvent } from "./analytics";
 import browser from "webextension-polyfill";
 
@@ -12,13 +12,13 @@ export class Setting {
 
     onmodify?: (event: Event) => void;
     onsave: (setting: HTMLElementWithValue) => any;
-    onload: (value: any) => any;
+    onload: (value: any, element?: HTMLElementWithValue) => any;
     onshown?: () => any;
 
     static __settings: { [s: string]: Setting } = {};
     static __storage: { [s: string]: any } = {};
 
-    constructor(name: string, friendlyName: string, description: string, defaultValue: any, type: string, options: any, onload: (arg0: any, arg1: HTMLElementWithValue) => any, onmodify: ((arg0: Event) => void) | undefined, onsave: (arg0: HTMLElementWithValue) => any, onshown?: () => any) {
+    constructor(name: string, friendlyName: string, description: string, defaultValue: any, type: string, options: any, onload: (arg0: any, element?: HTMLElementWithValue) => any, onmodify: ((arg0: Event) => void) | undefined, onsave: (arg0: HTMLElementWithValue) => any, onshown?: () => any) {
         this.name = name;
         this.onmodify = onmodify;
         this.onsave = onsave;
@@ -94,8 +94,8 @@ export class Setting {
      * @param {()=>any} [callback=null] A function called after settings have been saved and updated
      * @param {boolean} [saveUiSettings=true] Whether or not to save modified settings from the UI as well as the passed dictionary.
      */
-    static saveModified(modifiedValues: { [s: string]: any; }, updateButtonText: boolean = true, callback?: () => any, saveUiSettings: boolean = true) {
-        let newValues = {};
+    static saveModified(modifiedValues?: { [s: string]: any; }, updateButtonText: boolean = true, callback?: () => any, saveUiSettings: boolean = true) {
+        let newValues: { [s: string]: any } = {};
         if (modifiedValues) {
             Object.assign(newValues, modifiedValues);
         }
@@ -136,7 +136,7 @@ export class Setting {
                 }
             }
 
-            updateSettings(callback);
+            updateSettings().then(callback);
         });
 
         if (updateButtonText) {
@@ -393,7 +393,7 @@ function getGradingScale(courseId: string | null) {
 /**
  * Updates the contents of the settings modal to reflect changes made by the user to all settings
  */
-async function updateSettings() {
+export async function updateSettings() {
     const storageContents = await browser.storage.sync.get(null);
     Setting.__storage = storageContents;
 
@@ -441,7 +441,7 @@ async function updateSettings() {
                             ...__defaultThemes.filter(
                                 t => LAUSD_THEMES.includes(t.name) ? isLAUSD() : true
                             ).map(t => { return { text: t.name, value: t.name } }),
-                            ...(__storage.themes || []).map(
+                            ...(Setting.__storage.themes || []).map(
                                 t => { return { text: t.name, value: t.name } }
                             )
                         ]
@@ -686,8 +686,8 @@ async function updateSettings() {
                         ]),
                     },
                     function (value, element) {
-                        let includeList = element.querySelector("#sidebar-included-sortable")!;
-                        let excludeList = element.querySelector("#sidebar-excluded-sortable")!;
+                        let includeList = element?.querySelector("#sidebar-included-sortable")!;
+                        let excludeList = element?.querySelector("#sidebar-excluded-sortable")!;
 
                         includeList.innerHTML = "";
                         excludeList.innerHTML = "";
@@ -795,7 +795,7 @@ async function updateSettings() {
                         setCSSVariable("weighted-gradebook-indicator-display", value == "enabled" ? "inline" : "none")
                         return value;
                     },
-                    function (event) { this.onload(event.target.value) },
+                    function (this: Setting, event) { this.onload((event.target as HTMLElementWithValue).value) },
                     element => element.value
                 ).control,
             ]),
