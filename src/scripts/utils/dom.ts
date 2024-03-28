@@ -7,8 +7,9 @@
  * @param {Object.<string,any>} properties - Properties to apply to the DOM element
  * @param {HTMLElement[]} children - Elements to append as children to the created element
  */
-export function createElement<K extends keyof HTMLElementTagNameMap>(tag: K, classList?: string[], properties?: { [s: string]: any; }, children?: HTMLElement[]): HTMLElementTagNameMap[K] {
+export function createElement<K extends keyof HTMLElementTagNameMap>(tag: K, classList?: string[], properties?: Partial<HTMLElementTagNameMap[K]>, children?: HTMLElement[]): HTMLElementTagNameMap[K] {
     let element = document.createElement(tag);
+
     if (classList) {
         for (let c of classList) {
             element.classList.add(c);
@@ -18,10 +19,10 @@ export function createElement<K extends keyof HTMLElementTagNameMap>(tag: K, cla
         for (let property in properties) {
             if (properties[property] instanceof Object && !(properties[property] instanceof Function)) {
                 for (let subproperty in properties[property]) {
-                    element[property][subproperty] = properties[property][subproperty];
+                    element[property][subproperty] = properties[property][subproperty] as any;
                 }
             } else if (property !== undefined && properties[property] !== undefined) {
-                element[property] = properties[property];
+                element[property] = properties[property] as any;
             }
         }
     }
