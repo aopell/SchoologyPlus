@@ -1,11 +1,14 @@
 import browser from "webextension-polyfill";
 
+import { DEFAULT_ICONS } from "./default-icons";
+import { DEFAULT_THEMES } from "./default-themes";
 import { setCSSVariable } from "./dom";
 import { Setting, isLAUSD } from "./settings";
 import {
     AnySchoolgyTheme,
     ModernColorDefinition,
     RainbowColorComponentAnimation,
+    SchoologyThemeV2,
 } from "./theme-model";
 import { InterfaceOf } from "./types";
 
@@ -37,7 +40,7 @@ export default class Theme {
 
     static profilePictureOverrides: ThemeProfilePictureOverride[] = [];
     static tempTheme: string | undefined = undefined;
-    static themes: Theme[] = [];
+    static themes: (Theme | null)[] = DEFAULT_THEMES.map(Theme.loadFromObject);
 
     constructor(name: string, onApply: () => void, onUpdate?: () => void) {
         this.name = name;
@@ -56,34 +59,24 @@ export default class Theme {
             }
         }
 
-        if (Setting.getValue("themes")) {
-            let t = Setting.getValue("themes").find(x => x.name === Theme.active.name);
-            if (t && t.icons && t.icons instanceof Array) {
-                let regexProp: string | number;
-                let urlProp: string | number;
+        let t = Setting.getValue<AnySchoolgyTheme[]>("themes", []).find(
+            x => x.name === Theme.active.name
+        );
+        if (t && t.icons && t.icons instanceof Array) {
+            for (let iconPattern of t.icons) {
+                let regex = Array.isArray(iconPattern)
+                    ? new RegExp(iconPattern[0], "i")
+                    : new RegExp(iconPattern.regex, "i");
 
-                switch (t.version) {
-                    case 2:
-                        regexProp = "regex";
-                        urlProp = "url";
-                        break;
-                    default:
-                        regexProp = 0;
-                        urlProp = 1;
-                        break;
-                }
-
-                for (let iconPattern of t.icons) {
-                    if (course.match(new RegExp(iconPattern[regexProp], "i"))) {
-                        return iconPattern[urlProp];
-                    }
+                if (course.match(regex)) {
+                    return Array.isArray(iconPattern) ? iconPattern[1] : iconPattern.url;
                 }
             }
         }
 
         // Default icons only if enabled
         if (Setting.getValue("useDefaultIconSet") === "enabled") {
-            for (let iconPattern of icons) {
+            for (let iconPattern of DEFAULT_ICONS) {
                 if (course.match(new RegExp(iconPattern.regex, "i"))) {
                     return iconPattern.url;
                 }
@@ -94,7 +87,7 @@ export default class Theme {
     }
 
     static hasBuiltInIcon(course?: string): boolean {
-        for (let iconPattern of icons) {
+        for (let iconPattern of DEFAULT_ICONS) {
             if (iconPattern.regex != "." && course?.match(new RegExp(iconPattern.regex, "i"))) {
                 return true;
             }
@@ -274,11 +267,11 @@ export default class Theme {
     static get active(): Theme {
         return Theme.tempTheme
             ? Theme.byName(Theme.tempTheme)
-            : Theme.byName(Setting.getValue("theme")) || Theme.byName("Schoology Plus");
+            : Theme.byName(Setting.getValue<string>("theme")) || Theme.byName("Schoology Plus");
     }
 
-    static byName(name: string): Theme {
-        return Theme.themes.find(x => x.name == name) || Theme.byName("Schoology Plus");
+    static byName(name?: string): Theme {
+        return Theme.themes.find(x => x?.name == name) || Theme.byName("Schoology Plus");
     }
 
     static setBackgroundColor(
@@ -470,7 +463,7 @@ export default class Theme {
             }
         }
 
-        let missingIconsLastCheck = Setting.getValue("missingIconsLastCheck");
+        let missingIconsLastCheck = Setting.getValue<number>("missingIconsLastCheck");
         let coursesMissingDefaultIcons = new Set<string | undefined>();
 
         for (let arrow of arrows) {

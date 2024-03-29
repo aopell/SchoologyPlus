@@ -15,7 +15,7 @@ export class CustomColorDefinition {
      * @param {string} border The border color of buttons and the border between the navigation bar and drop-down menus
      * @param {string} link The color of links and other interactive text
      */
-    constructor(primary: string, hover: string, background: string, border: string, link: string) {
+    constructor(primary: string, hover: string, background: string, border: string, link?: string) {
         this.primary = primary;
         this.hover = hover;
         this.background = background;
@@ -29,7 +29,7 @@ export class CustomColorDefinition {
      * @returns {CustomColorDefinition}
      */
     static loadFromObject(
-        o?: InterfaceOf<CustomColorDefinition>
+        o?: SchoologyThemeV2["color"]["custom"]
     ): CustomColorDefinition | undefined {
         return o
             ? new CustomColorDefinition(
@@ -72,7 +72,7 @@ export class RainbowColorComponentAnimation {
      * @returns {RainbowColorComponentAnimation}
      */
     static loadFromObject(
-        o?: InterfaceOf<RainbowColorComponentAnimation>
+        o?: SchoologyThemeV2RainbowColorComponent["animate"]
     ): RainbowColorComponentAnimation | undefined {
         return o
             ? new RainbowColorComponentAnimation(o.speed, o.offset, o.min, o.max, o.alternate)
@@ -100,7 +100,7 @@ export class RainbowColorComponentDefinition {
      * @returns {RainbowColorComponentDefinition}
      */
     static loadFromObject(
-        o?: InterfaceOf<RainbowColorComponentDefinition>
+        o?: SchoologyThemeV2RainbowColorComponent
     ): RainbowColorComponentDefinition | undefined {
         return o
             ? new RainbowColorComponentDefinition(
@@ -138,7 +138,7 @@ export class RainbowColorDefinition {
      * @returns {RainbowColorDefinition}
      */
     static loadFromObject(
-        o?: InterfaceOf<RainbowColorDefinition>
+        o?: SchoologyThemeV2["color"]["rainbow"]
     ): RainbowColorDefinition | undefined {
         return o
             ? new RainbowColorDefinition(
@@ -201,7 +201,7 @@ export class ModernInterfaceColorDefinition {
      * @returns {ModernInterfaceColorDefinition}
      */
     static loadFromObject(
-        o?: InterfaceOf<ModernInterfaceColorDefinition>
+        o?: SchoologyThemeV2ModernColorDefinition["interface"]
     ): ModernInterfaceColorDefinition | undefined {
         return o
             ? new ModernInterfaceColorDefinition(
@@ -242,7 +242,7 @@ export class ModernTextColorDefinition {
      * @returns {ModernTextColorDefinition}
      */
     static loadFromObject(
-        o?: InterfaceOf<ModernTextColorDefinition>
+        o?: SchoologyThemeV2ModernColorDefinition["text"]
     ): ModernTextColorDefinition | undefined {
         return o ? new ModernTextColorDefinition(o.primary, o.muted, o.contrast) : undefined;
     }
@@ -271,7 +271,7 @@ export class ModernOptionsDefinition {
      * @returns {ModernOptionsDefinition}
      */
     static loadFromObject(
-        o?: InterfaceOf<ModernOptionsDefinition>
+        o?: SchoologyThemeV2ModernColorDefinition["options"]
     ): ModernOptionsDefinition | undefined {
         return o ? new ModernOptionsDefinition(o.borderRadius, o.borderSize, o.padding) : undefined;
     }
@@ -312,7 +312,7 @@ export class ModernColorDefinition {
      * @returns {ModernColorDefinition}
      */
     static loadFromObject(
-        o?: InterfaceOf<ModernColorDefinition>
+        o?: SchoologyThemeV2["color"]["modern"]
     ): ModernColorDefinition | undefined {
         return o
             ? new ModernColorDefinition(
@@ -356,7 +356,7 @@ export class ThemeColor {
      * @param {*} o JSON representation of a `ThemeColor`
      * @returns {ThemeColor}
      */
-    static loadFromObject(o?: InterfaceOf<ThemeColor>): ThemeColor {
+    static loadFromObject(o?: SchoologyThemeV2["color"]): ThemeColor {
         return o
             ? new ThemeColor(
                   o.hue,
@@ -469,18 +469,78 @@ export interface SchoologyThemeV1 {
     color: undefined;
 }
 
+interface SchoologyThemeV2RainbowColorComponent {
+    animate?: {
+        speed: number;
+        offset: number;
+        min: number;
+        max: number;
+        alternate: boolean;
+    };
+    value?: number;
+}
+
+interface SchoologyThemeV2ModernColorDefinition {
+    dark?: boolean;
+    interface?: {
+        primary: string;
+        accent: string;
+        secondary: string;
+        input: string;
+        border: string;
+        highlight: string;
+        active: string;
+        grades: string;
+        error: string;
+    };
+    calendar?: string[];
+    text?: {
+        primary: string;
+        muted: string;
+        contrast: string;
+    };
+    options?: {
+        borderRadius: number;
+        borderSize: number;
+        padding: number;
+    };
+}
+
 export interface SchoologyThemeV2 {
     name: string;
     version: 2;
-    color: Pick<ThemeColor, keyof ThemeColor>;
-    logo?: Pick<ThemeLogo, keyof ThemeLogo>;
-    cursor?: Pick<ThemeCursor, keyof ThemeCursor>;
-    icons?: Pick<ThemeIcon, keyof ThemeIcon>[];
+    color: {
+        hue?: number;
+        custom?: {
+            primary: string;
+            hover: string;
+            background: string;
+            border: string;
+            link?: string;
+        };
+        rainbow?: {
+            hue: SchoologyThemeV2RainbowColorComponent;
+            saturation: SchoologyThemeV2RainbowColorComponent;
+            lightness: SchoologyThemeV2RainbowColorComponent;
+        };
+        modern?: SchoologyThemeV2ModernColorDefinition;
+    };
+    logo?: {
+        url?: string;
+        preset?: ThemeLogoPreset;
+    };
+    cursor?: {
+        primary: string;
+    };
+    icons?: {
+        regex: string;
+        url: string;
+    }[];
 }
 
 export type AnySchoolgyTheme = SchoologyThemeV1 | SchoologyThemeV2;
 
-export class SchoologyTheme implements SchoologyThemeV2 {
+export class SchoologyTheme {
     name: string;
     version: 2;
     color: ThemeColor;

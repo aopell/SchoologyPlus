@@ -1,7 +1,11 @@
 import browser from "webextension-polyfill";
 
 import { trackEvent } from "./analytics";
+import { DEFAULT_THEMES, LAUSD_THEMES } from "./default-themes";
 import { createButton, createElement, getBrowser, setCSSVariable } from "./dom";
+import Modal from "./modal";
+import Theme from "./theme";
+import { AnySchoolgyTheme } from "./theme-model";
 
 type HTMLElementWithValue = HTMLElement & { value: any };
 
@@ -11,7 +15,7 @@ export class Setting {
     default: any;
     control: HTMLDivElement;
 
-    onmodify?: (event: Event) => void;
+    onmodify?: (element: HTMLElementWithValue) => void;
     onsave: (setting: HTMLElementWithValue) => any;
     onload: (value: any, element?: HTMLElementWithValue) => any;
     onshown?: () => any;
@@ -27,7 +31,7 @@ export class Setting {
         type: string,
         options: any,
         onload: (arg0: any, element?: HTMLElementWithValue) => any,
-        onmodify: ((arg0: Event) => void) | undefined,
+        onmodify: ((arg0: HTMLElementWithValue) => void) | undefined,
         onsave: (arg0: HTMLElementWithValue) => any,
         onshown?: () => any
     ) {
@@ -62,8 +66,12 @@ export class Setting {
                         Object.assign({ type: type }, options)
                     );
                     title.appendChild(controlElement);
-                    if (type == "button") controlElement.onclick = Setting.onModify;
-                    else controlElement.oninput = Setting.onModify;
+                    if (type == "button")
+                        controlElement.onclick = event =>
+                            Setting.onModify(event.target as HTMLElementWithValue);
+                    else
+                        controlElement.oninput = event =>
+                            Setting.onModify(event.target as HTMLElementWithValue);
                     break;
                 case "select":
                     controlElement = createElement("select");
@@ -76,7 +84,8 @@ export class Setting {
                         );
                     }
                     title.appendChild(controlElement);
-                    controlElement.onchange = Setting.onModify;
+                    controlElement.onchange = event =>
+                        Setting.onModify(event.target as HTMLElementWithValue);
                     break;
                 case "custom":
                 default:
@@ -267,8 +276,7 @@ export class Setting {
      * Callback function called when any setting is changed in the settings menu
      * @param {Event | HTMLElement} event Contains a `target` setting element
      */
-    static onModify(event: Event | HTMLElement) {
-        let element = event instanceof Event ? (event.target as HTMLElement) : event;
+    static onModify(element: HTMLElementWithValue) {
         let parent = element.parentElement;
         if (parent && !parent.querySelector(".setting-modified")) {
             parent.appendChild(
@@ -280,8 +288,8 @@ export class Setting {
         }
         let setting = Setting.__settings[element.dataset.settingName!];
         setting.modified = true;
-        if (setting.onmodify && event instanceof Event) {
-            setting.onmodify(event);
+        if (setting.onmodify) {
+            setting.onmodify(element);
         }
     }
 
@@ -305,6 +313,9 @@ export class Setting {
         return false;
     }
 
+    static getValue<T>(name: string, defaultValue: T): T;
+    static getValue<T>(name: string): T | undefined;
+
     /**
      * Gets the value of a setting in the cached copy of the
      * extension's synced storage. If `name` is the name of a `Setting`
@@ -314,7 +325,7 @@ export class Setting {
      * @param {any} defaultValue The default value to return if no value is specifically set
      * @returns {any} The setting's cached value, default value, or `defaultValue`
      */
-    static getValue(name: string, defaultValue: any = undefined): any {
+    static getValue<T>(name: string, defaultValue?: T): T | undefined {
         if (Setting.__storage[name]) {
             return Setting.__storage[name];
         } else if (Setting.__settings[name] && !defaultValue) {
@@ -322,6 +333,9 @@ export class Setting {
         }
         return defaultValue;
     }
+
+    static getNestedValue<T>(parent: string, key: string, defaultValue: T): T;
+    static getNestedValue<T>(parent: string, key: string): T;
 
     /**
      * Gets the value of a nested property in the cached copy of the
@@ -331,7 +345,7 @@ export class Setting {
      * @param {any} defaultValue The default value to return if no value is found
      * @returns {any} The setting's cached value, default value, or `defaultValue`
      */
-    static getNestedValue(parent: string, key: string, defaultValue: any = undefined): any {
+    static getNestedValue<T>(parent: string, key: string, defaultValue?: T): T | undefined {
         if (Setting.__storage[parent] && key in Setting.__storage[parent]) {
             return Setting.__storage[parent][key];
         }
@@ -361,8 +375,8 @@ export class Setting {
      * @param {any} value The value to set
      * @param {()=>any} callback Function called after new value is saved
      */
-    static setNestedValue(parent: string, key: string, value: any, callback?: () => any) {
-        var currentValue = Setting.getValue(parent, {});
+    static setNestedValue<T>(parent: string, key: string, value: T, callback?: () => any) {
+        var currentValue = Setting.getValue<{ [x: string]: T }>(parent, {});
         currentValue[key] = value;
         Setting.saveModified({ [parent]: currentValue }, false, callback, false);
     }
@@ -451,7 +465,7 @@ export async function updateSettings() {
     if (firstLoad) {
         if (storageContents.themes) {
             for (let t of storageContents.themes) {
-                themes.push(Theme.loadFromObject(t));
+                Theme.themes.push(Theme.loadFromObject(t));
             }
         }
 
@@ -509,24 +523,24 @@ export async function updateSettings() {
                     "select",
                     {
                         options: [
-                            ...__defaultThemes
-                                .filter(t => (LAUSD_THEMES.includes(t.name) ? isLAUSD() : true))
-                                .map(t => {
-                                    return { text: t.name, value: t.name };
-                                }),
-                            ...(Setting.__storage.themes || []).map(t => {
+                            ...DEFAULT_THEMES.filter(t =>
+                                LAUSD_THEMES.includes(t.name) ? isLAUSD() : true
+                            ).map(t => {
+                                return { text: t.name, value: t.name };
+                            }),
+                            ...(Setting.__storage.themes || []).map((t: AnySchoolgyTheme) => {
                                 return { text: t.name, value: t.name };
                             }),
                         ],
                     },
                     value => {
-                        tempTheme = undefined;
+                        Theme.tempTheme = undefined;
                         Theme.apply(Theme.active);
                         return value;
                     },
-                    event => {
-                        tempTheme = event.target.value;
-                        Theme.apply(Theme.byName(event.target.value));
+                    el => {
+                        Theme.tempTheme = el.value;
+                        Theme.apply(Theme.byName(el.value));
                     },
                     element => element.value
                 ).control,
@@ -624,8 +638,8 @@ export async function updateSettings() {
                         document.documentElement.setAttribute("style-override", value);
                         return value;
                     },
-                    function (this: Setting, event) {
-                        this.onload((event.target as HTMLElementWithValue).value);
+                    function (this: Setting, element: HTMLElementWithValue) {
+                        this.onload(element.value);
                     },
                     element => element.value
                 ).control,
@@ -673,8 +687,8 @@ export async function updateSettings() {
                         setCSSVariable("power-school-logo-display", value);
                         return value;
                     },
-                    function (this: Setting, event) {
-                        this.onload((event.target as HTMLElementWithValue).value);
+                    function (this: Setting, element: HTMLElementWithValue) {
+                        this.onload(element.value);
                     },
                     element => element.value
                 ).control,
@@ -737,8 +751,8 @@ export async function updateSettings() {
                         }
                         return value;
                     },
-                    function (this: Setting, event) {
-                        this.onload((event.target as HTMLElementWithValue).value);
+                    function (this: Setting, element: HTMLElementWithValue) {
+                        this.onload(element.value);
                     },
                     element => element.value
                 ).control,
@@ -940,8 +954,8 @@ export async function updateSettings() {
                         );
                         return value;
                     },
-                    function (this: Setting, event) {
-                        this.onload((event.target as HTMLElementWithValue).value);
+                    function (this: Setting, element: HTMLElementWithValue) {
+                        this.onload(element.value);
                     },
                     element => element.value
                 ).control,
@@ -1065,7 +1079,7 @@ export async function updateSettings() {
                               createElement("a", [], {
                                   href: "#",
                                   textContent: "Anonymous Usage Statistics",
-                                  onclick: () => openModal("analytics-modal"),
+                                  onclick: () => Modal.openModal("analytics-modal"),
                                   style: { fontSize: "" },
                               }),
                           ]),
@@ -1082,7 +1096,7 @@ export async function updateSettings() {
             createElement("div", ["settings-actions-wrapper"], {}, [
                 createElement("a", [], {
                     textContent: "View Debug Info",
-                    onclick: () => openModal("debug-modal"),
+                    onclick: () => Modal.openModal("debug-modal"),
                     href: "#",
                 }),
                 createElement("a", [], {

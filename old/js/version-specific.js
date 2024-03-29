@@ -1,11 +1,3 @@
-(async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("version-specific", ["preload"]);
-})();
-
 /** Compares two version strings a and b.
  * @param {string} a A string representing a numerical version.
  * @param {string} b A string representing a numerical version.
@@ -54,7 +46,26 @@ function compareVersions(a, b) {
  * @param {string} color Progress bar color
  * @param {{theme:string,layout:number,buttons:[],timeout:number,position:string,options:{}}} options Options object (options object inside options is for additional options). Default values: `{ theme: "dark", layout: 1, timeout: 0, position: "topRight", iconUrl: chrome.runtime.getURL("/imgs/plus-icon.png") }`
  */
-function showToast(title, message, color, { theme = "dark", layout = 1, buttons = [], timeout = 0, position = "topRight", options = {}, iconUrl = chrome.runtime.getURL("/imgs/plus-icon.png") } = { theme: "dark", layout: 1, timeout: 0, position: "topRight", iconUrl: chrome.runtime.getURL("/imgs/plus-icon.png") }) {
+function showToast(
+    title,
+    message,
+    color,
+    {
+        theme = "dark",
+        layout = 1,
+        buttons = [],
+        timeout = 0,
+        position = "topRight",
+        options = {},
+        iconUrl = chrome.runtime.getURL("/imgs/plus-icon.png"),
+    } = {
+        theme: "dark",
+        layout: 1,
+        timeout: 0,
+        position: "topRight",
+        iconUrl: chrome.runtime.getURL("/imgs/plus-icon.png"),
+    }
+) {
     let toastOptions = {
         theme,
         iconUrl,
@@ -64,7 +75,7 @@ function showToast(title, message, color, { theme = "dark", layout = 1, buttons 
         layout,
         buttons,
         timeout,
-        position
+        position,
     };
     Object.assign(toastOptions, options);
     iziToast.show(toastOptions);
@@ -80,21 +91,28 @@ function showToast(title, message, color, { theme = "dark", layout = 1, buttons 
  * @returns {ToastButton}
  */
 function createToastButton(text, id, onClick, transition = "fadeOutRight") {
-    return [`<button>${text}</button>`, function (instance, toast) {
-        instance.hide({
-            transitionOut: transition,
-            onClosing: function (instance, toast, closedBy) {
-                trackEvent("button_click", {
-                    id: id || text,
-                    context: "Toast",
-                    legacyTarget: id || text,
-                    legacyAction: "click",
-                    legacyLabel: "Toast Button"
-                });
-                onClick(instance, toast, closedBy);
-            }
-        }, toast, id);
-    }];
+    return [
+        `<button>${text}</button>`,
+        function (instance, toast) {
+            instance.hide(
+                {
+                    transitionOut: transition,
+                    onClosing: function (instance, toast, closedBy) {
+                        trackEvent("button_click", {
+                            id: id || text,
+                            context: "Toast",
+                            legacyTarget: id || text,
+                            legacyAction: "click",
+                            legacyLabel: "Toast Button",
+                        });
+                        onClick(instance, toast, closedBy);
+                    },
+                },
+                toast,
+                id
+            );
+        },
+    ];
 }
 
 /**
@@ -124,7 +142,13 @@ function saveBroadcasts(broadcasts, callback = undefined) {
  * @returns {Broadcast}
  */
 function createBroadcast(id, title, message, timestamp = Date.now(), expires = undefined) {
-    return { id: String(id), title, message, timestamp: +timestamp, expires: expires !== undefined ? +expires : undefined };
+    return {
+        id: String(id),
+        title,
+        message,
+        timestamp: +timestamp,
+        expires: expires !== undefined ? +expires : undefined,
+    };
 }
 
 /**
@@ -135,7 +159,10 @@ function deleteBroadcasts(...ids) {
     for (let id of ids) {
         let unreadBroadcasts = Setting.getValue("unreadBroadcasts");
         if (!unreadBroadcasts) continue;
-        unreadBroadcasts.splice(unreadBroadcasts.findIndex(x => x.id == id), 1);
+        unreadBroadcasts.splice(
+            unreadBroadcasts.findIndex(x => x.id == id),
+            1
+        );
         Setting.setValue("unreadBroadcasts", unreadBroadcasts);
 
         let broadcastElement = document.getElementById(`broadcast${id}`);
@@ -146,13 +173,12 @@ function deleteBroadcasts(...ids) {
 }
 
 /*
-* Migrations to a given version from any versions before it.
-* Should be ordered in increasing version order.
-*/
+ * Migrations to a given version from any versions before it.
+ * Should be ordered in increasing version order.
+ */
 let migrationsTo = {
-    "4.2": function (currentVersion, previousVersion) {
-        chrome.storage.sync.get(["broadcasts", "themes"], (values) => {
-
+    4.2: function (currentVersion, previousVersion) {
+        chrome.storage.sync.get(["broadcasts", "themes"], values => {
             let oldFormatThemesExist = false;
             for (let t of values.themes || []) {
                 if (t.icons && !(t.icons instanceof Array)) {
@@ -165,7 +191,9 @@ let migrationsTo = {
                 }
             }
             if (oldFormatThemesExist) {
-                alert("Warning! One or more of your themes were created using an old and broken format for custom icons. If custom icons have not been working for you, please proceed to the theme editor to fix the issue.");
+                alert(
+                    "Warning! One or more of your themes were created using an old and broken format for custom icons. If custom icons have not been working for you, please proceed to the theme editor to fix the issue."
+                );
             }
 
             chrome.storage.sync.remove(["lastBroadcastId", "hideUpdateIndicator"]);
@@ -186,16 +214,22 @@ let migrationsTo = {
     "5.0": function (currentVersion, previousVersion) {
         chrome.storage.sync.get(["hue", "theme", "themes"], values => {
             if (values.hue) {
-                if (!values.theme || values.theme == "Custom Color" || values.theme == "Schoology Plus") {
-                    Logger.log(`Converting theme ${values.theme} with custom hue ${values.hue} to new theme`)
+                if (
+                    !values.theme ||
+                    values.theme == "Custom Color" ||
+                    values.theme == "Schoology Plus"
+                ) {
+                    Logger.log(
+                        `Converting theme ${values.theme} with custom hue ${values.hue} to new theme`
+                    );
                     let newTheme = {
                         name: "Custom Color",
-                        hue: values.hue
-                    }
+                        hue: values.hue,
+                    };
                     values.themes.push(newTheme);
                     chrome.storage.sync.set({
                         theme: "Custom Color",
-                        themes: values.themes
+                        themes: values.themes,
                     });
                     Logger.log("Theme 'Custom Color' created and set as selected theme");
                 }
@@ -204,20 +238,25 @@ let migrationsTo = {
             }
         });
     },
-    "5.1": function (currentVersion, previousVersion) {
+    5.1: function (currentVersion, previousVersion) {
         saveBroadcasts([
             createBroadcast(
                 510,
                 "Schoology Plus Discord Server",
-                "Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. <a href=\"https://discord.schoologypl.us\" id=\"announcement-discord-link\" class=\"splus-track-clicks\">Click here</a> to join!",
+                'Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. <a href="https://discord.schoologypl.us" id="announcement-discord-link" class="splus-track-clicks">Click here</a> to join!',
                 new Date(2019, 1 /* February - don't you just love JavaScript */, 14)
-            )
+            ),
         ]);
     },
-    "6.2": function (currentVersion, previousVersion) {
+    6.2: function (currentVersion, previousVersion) {
         if (getBrowser() !== "Firefox") {
             var modalExistsInterval = setInterval(function () {
-                if (document.readyState === "complete" && openModal && document.getElementById("analytics-modal") && !document.querySelector(".splus-modal-open")) {
+                if (
+                    document.readyState === "complete" &&
+                    openModal &&
+                    document.getElementById("analytics-modal") &&
+                    !document.querySelector(".splus-modal-open")
+                ) {
                     clearInterval(modalExistsInterval);
                     openModal("analytics-modal");
                 }
@@ -243,19 +282,24 @@ let migrationsTo = {
                     <img style="padding-top: 10px;" src="https://i.imgur.com/mrE2Iec.png"/>
                     `,
                     new Date(2020, 9 /* October */, 19)
-                )
+                ),
             ]);
         }
     },
-    "7.1": function (currentVersion, previousVersion) {
+    7.1: function (currentVersion, previousVersion) {
         var modalExistsInterval = setInterval(function () {
-            if (document.readyState === "complete" && openModal && document.getElementById("choose-theme-modal") && !document.querySelector(".splus-modal-open")) {
+            if (
+                document.readyState === "complete" &&
+                openModal &&
+                document.getElementById("choose-theme-modal") &&
+                !document.querySelector(".splus-modal-open")
+            ) {
                 clearInterval(modalExistsInterval);
                 openModal("choose-theme-modal");
             }
         }, 50);
     },
-    "7.5": function (currentVersion, previousVersion) {
+    7.5: function (currentVersion, previousVersion) {
         chrome.storage.sync.get(["themes"], values => {
             if (values.themes) {
                 let count = 0;
@@ -279,7 +323,7 @@ let migrationsTo = {
                 }
 
                 chrome.storage.sync.set({
-                    themes: values.themes
+                    themes: values.themes,
                 });
 
                 Logger.log(`Migrated ${count} themes to include new calendar colors`);
@@ -288,9 +332,13 @@ let migrationsTo = {
             }
         });
     },
-    "7.7": function (currentVersion, previousVersion) {
+    7.7: function (currentVersion, previousVersion) {
         var accessToAccountInterval = setInterval(function () {
-            if (document.readyState === "complete" && openModal && !document.querySelector(".splus-modal-open")) {
+            if (
+                document.readyState === "complete" &&
+                openModal &&
+                !document.querySelector(".splus-modal-open")
+            ) {
                 clearInterval(accessToAccountInterval);
                 if (!Setting.getValue("apistatus")) {
                     location.pathname = "/api";
@@ -317,21 +365,39 @@ let migrationsTo = {
                 `,
                 new Date(2023, 9 /* October */, 15),
                 new Date(2023, 11 /* December */, 1) // expiration date
-            )
+            ),
         ]);
 
         if (Date.now() < new Date(2023, 11 /* December */, 1)) {
-            showToast("Take the Schoology Plus Survey!", "Enter to win one of 20 Amazon gift cards!", "yellow", {
-                buttons: [
-                    createToastButton("Take Survey!", "toast-take-splus-survey-fall2023", (i, t, b) => window.open(`https://survey.schoologypl.us?source=ExtensionToast&domain=${location.hostname}`, "_blank"))
-                ]
-            });
+            showToast(
+                "Take the Schoology Plus Survey!",
+                "Enter to win one of 20 Amazon gift cards!",
+                "yellow",
+                {
+                    buttons: [
+                        createToastButton(
+                            "Take Survey!",
+                            "toast-take-splus-survey-fall2023",
+                            (i, t, b) =>
+                                window.open(
+                                    `https://survey.schoologypl.us?source=ExtensionToast&domain=${location.hostname}`,
+                                    "_blank"
+                                )
+                        ),
+                    ],
+                }
+            );
         }
-    }
+    },
 };
 
 async function versionSpecificFirstLaunch(currentVersion, previousVersion) {
-    Logger.log("[Updater] First launch after update, updating to ", currentVersion, " from ", previousVersion);
+    Logger.log(
+        "[Updater] First launch after update, updating to ",
+        currentVersion,
+        " from ",
+        previousVersion
+    );
 
     if (!previousVersion) {
         trackEvent("perform_action", {
@@ -340,7 +406,7 @@ async function versionSpecificFirstLaunch(currentVersion, previousVersion) {
             context: "Versions",
             legacyTarget: "Install",
             legacyAction: currentVersion,
-            legacyLabel: "Versions"
+            legacyLabel: "Versions",
         });
     } else {
         trackEvent("perform_action", {
@@ -350,7 +416,7 @@ async function versionSpecificFirstLaunch(currentVersion, previousVersion) {
             context: "Versions",
             legacyTarget: "Update",
             legacyAction: `${previousVersion} to ${currentVersion}`,
-            legacyLabel: "Versions"
+            legacyLabel: "Versions",
         });
     }
 
@@ -358,7 +424,10 @@ async function versionSpecificFirstLaunch(currentVersion, previousVersion) {
     for (let migrateTo in migrationsTo) {
         if (!previousVersion) {
             migrationsTo[migrateTo](currentVersion, previousVersion);
-        } else if (compareVersions(migrateTo, currentVersion) <= 0 && compareVersions(migrateTo, previousVersion) > 0) {
+        } else if (
+            compareVersions(migrateTo, currentVersion) <= 0 &&
+            compareVersions(migrateTo, previousVersion) > 0
+        ) {
             migrationsTo[migrateTo](currentVersion, previousVersion);
         }
     }

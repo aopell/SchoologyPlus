@@ -1,11 +1,3 @@
-(async function () {
-    // Wait for loader.js to finish running
-    while (!window.splusLoaded) {
-        await new Promise(resolve => setTimeout(resolve, 10));
-    }
-    await loadDependencies("all", ["preload"]);
-})();
-
 (function () {
     // Inform user about theme
     if (localStorage["splus-temp-generatedtheme"]) {
@@ -17,8 +9,12 @@
             "rgb(0,255,0)",
             {
                 buttons: [
-                    createToastButton("View Themes", "view-themes-button", () => location.href = chrome.runtime.getURL("/theme-editor.html"))
-                ]
+                    createToastButton(
+                        "View Themes",
+                        "view-themes-button",
+                        () => (location.href = chrome.runtime.getURL("/theme-editor.html"))
+                    ),
+                ],
             }
         );
     }
@@ -29,7 +25,10 @@
     let betaSection = null;
     if (betaCode in beta_tests) {
         // Beta Enabled Notice
-        let betaTag = createElement("span", ["splus-beta-tag", "splus-track-clicks"], { textContent: "β", id: "beta-tag" });
+        let betaTag = createElement("span", ["splus-beta-tag", "splus-track-clicks"], {
+            textContent: "β",
+            id: "beta-tag",
+        });
         betaTag.addEventListener("click", event => openModal("beta-modal"));
         let betaContainer = createElement("div", ["splus-beta-container"], {}, [betaTag]);
         document.body.append(betaContainer);
@@ -39,57 +38,96 @@
 
     function createBetaSection(name) {
         return createElement("div", ["splus-beta-section"], { id: `splus-beta-section-${name}` }, [
-            createElement("h3", [], { textContent: name })
+            createElement("h3", [], { textContent: name }),
         ]);
     }
 
     function createBetaToggleCheckbox(name, onchange, checked = false, nestingLevel = 1) {
-        return createElement("div", ["splus-beta-toggle"], { style: { paddingLeft: `${(nestingLevel - 1) * 10}px` } }, [
-            createElement("label", [], { textContent: name }),
-            createElement("input", [], { type: "checkbox", checked: checked, onchange: onchange })
-        ]);
+        return createElement(
+            "div",
+            ["splus-beta-toggle"],
+            { style: { paddingLeft: `${(nestingLevel - 1) * 10}px` } },
+            [
+                createElement("label", [], { textContent: name }),
+                createElement("input", [], {
+                    type: "checkbox",
+                    checked: checked,
+                    onchange: onchange,
+                }),
+            ]
+        );
     }
 })();
 
-
 // Check Schoology domain
 setTimeout(function () {
-    const DENYLISTED_DOMAINS = ["asset-cdn.schoology.com", "developer.schoology.com", "support.schoology.com", "info.schoology.com", "files-cdn.schoology.com", "status.schoology.com", "ui.schoology.com", "www.schoology.com", "api.schoology.com", "developers.schoology.com", "schoology.com", "error-page.schoology.com", "app-msft-teams.schoology.com", "lti-submission-google.app.schoology.com", "lti-submission-microsoft.app.schoology.com", "googledrive.app.schoology.com", "onedrive.app.schoology.com"];
+    const DENYLISTED_DOMAINS = [
+        "asset-cdn.schoology.com",
+        "developer.schoology.com",
+        "support.schoology.com",
+        "info.schoology.com",
+        "files-cdn.schoology.com",
+        "status.schoology.com",
+        "ui.schoology.com",
+        "www.schoology.com",
+        "api.schoology.com",
+        "developers.schoology.com",
+        "schoology.com",
+        "error-page.schoology.com",
+        "app-msft-teams.schoology.com",
+        "lti-submission-google.app.schoology.com",
+        "lti-submission-microsoft.app.schoology.com",
+        "googledrive.app.schoology.com",
+        "onedrive.app.schoology.com",
+    ];
     let dd = Setting.getValue("defaultDomain");
 
-    if (dd !== window.location.hostname && !DENYLISTED_DOMAINS.includes(window.location.hostname) && !window.location.hostname.match(/.*[-\.]app\.schoology\.com/)) {
+    if (
+        dd !== window.location.hostname &&
+        !DENYLISTED_DOMAINS.includes(window.location.hostname) &&
+        !window.location.hostname.match(/.*[-\.]app\.schoology\.com/)
+    ) {
         Setting.setValue("defaultDomain", window.location.hostname, function () {
             let bgColor = document.querySelector("#header header").style.backgroundColor;
 
-            if (bgColor && !["app.schoology.com", "lms.lausd.net"].includes(window.location.hostname)) {
+            if (
+                bgColor &&
+                !["app.schoology.com", "lms.lausd.net"].includes(window.location.hostname)
+            ) {
                 let t = {
-                    "name": `Auto Generated Theme for ${window.location.hostname}`,
-                    "version": 2,
-                    "color": {
-                        "custom": {
-                            "primary": bgColor,
-                            "hover": "rgb(2, 79, 125)",
-                            "background": "rgb(2, 79, 125)",
-                            "border": "rgb(2, 79, 125)"
-                        }
+                    name: `Auto Generated Theme for ${window.location.hostname}`,
+                    version: 2,
+                    color: {
+                        custom: {
+                            primary: bgColor,
+                            hover: "rgb(2, 79, 125)",
+                            background: "rgb(2, 79, 125)",
+                            border: "rgb(2, 79, 125)",
+                        },
                     },
-                    "logo": {
-                        "preset": "default"
-                    }
+                    logo: {
+                        preset: "default",
+                    },
                 };
 
                 localStorage["splus-temp-generatedtheme"] = true;
 
                 chrome.storage.sync.get({ themes: [] }, s => {
-                    let themes = s.themes.filter(x => x.name !== `Auto Generated Theme for ${window.location.hostname}`);
+                    let themes = s.themes.filter(
+                        x => x.name !== `Auto Generated Theme for ${window.location.hostname}`
+                    );
                     themes.push(t);
                     chrome.storage.sync.set({ themes: themes }, () => {
-                        Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.hostname}`);
+                        Logger.log(
+                            `Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.hostname}`
+                        );
                         location.reload();
                     });
                 });
             } else {
-                Logger.log(`Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.hostname}`);
+                Logger.log(
+                    `Schoology Plus has updated the domain on which it runs.\nPrevious: ${dd}\nNew: ${window.location.hostname}`
+                );
                 location.reload();
             }
         });
@@ -98,28 +136,45 @@ setTimeout(function () {
 
 // Page Modifications
 
-document.head.appendChild(createElement("meta", [], { name: "viewport", content: "width=device-width, initial-scale=1" }));
+document.head.appendChild(
+    createElement("meta", [], { name: "viewport", content: "width=device-width, initial-scale=1" })
+);
 let bottom = document.querySelector("span.Footer-copyright-2Vt6I");
-bottom.appendChild(createElement("span", ["footer-divider"], { textContent: "|" }, [
-    createElement("span", ["footer-text-enhanced-by"], { style: { cursor: "pointer" }, onclick: () => window.open("https://schoologypl.us/?utm_source=ext-enhanced-by-footer", "_blank"), textContent: "Enhanced by Schoology Plus" }),
-]));
+bottom.appendChild(
+    createElement("span", ["footer-divider"], { textContent: "|" }, [
+        createElement("span", ["footer-text-enhanced-by"], {
+            style: { cursor: "pointer" },
+            onclick: () =>
+                window.open("https://schoologypl.us/?utm_source=ext-enhanced-by-footer", "_blank"),
+            textContent: "Enhanced by Schoology Plus",
+        }),
+    ])
+);
 
 document.documentElement.style.setProperty("--default-visibility", "visible");
 
-let verboseModalFooterText = `&copy; Schoology Plus Contributors 2017-2023 | <a id="open-webstore" class="splus-track-clicks" href="https://schoologypl.us/?utm_source=ext-splus-settings-footer">Schoology Plus v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version}${getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? '' : ' dev'}</a> | <a href="https://discord.schoologypl.us" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://schoologypl.us/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
+let verboseModalFooterText = `&copy; Schoology Plus Contributors 2017-2023 | <a id="open-webstore" class="splus-track-clicks" href="https://schoologypl.us/?utm_source=ext-splus-settings-footer">Schoology Plus v${
+    chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version
+}${
+    getBrowser() != "Chrome" || chrome.runtime.getManifest().update_url ? "" : " dev"
+}</a> | <a href="https://discord.schoologypl.us" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://schoologypl.us/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
 let modalFooterText = "Schoology Plus &copy; Schoology Plus Contributors 2017-2023";
 
 let frame = document.createElement("iframe");
 frame.src = `https://schoologypl.us/changelog?version=${chrome.runtime.getManifest().version}`;
 
 function generateDebugInfo() {
-    return JSON.stringify({
-        version: chrome.runtime.getManifest().version,
-        getBrowser: getBrowser(),
-        url: location.href,
-        storageContents: __storage,
-        userAgent: navigator.userAgent
-    }, null, 2);
+    return JSON.stringify(
+        {
+            version: chrome.runtime.getManifest().version,
+            getBrowser: getBrowser(),
+            url: location.href,
+            storageContents: __storage,
+            userAgent: navigator.userAgent,
+        },
+        null,
+        2
+    );
 }
 
 let modals = [
@@ -142,15 +197,37 @@ let modals = [
         createElement("div", ["splus-modal-contents"], {}, [
             createElement("h2", ["setting-entry"], { textContent: "Anonymous Usage Statistics" }),
             createElement("p", ["setting-description"], { style: { fontSize: "14px" } }, [
-                createElement("span", [], { textContent: "Schoology Plus would like to collect anonymous usage statistics to better understand how people use this extension. Per our " }),
-                createElement("a", ["splus-track-clicks"], { id: "analytics-privacy-policy-link", href: "https://schoologypl.us/privacy", textContent: "privacy policy" }),
-                createElement("strong", [], { textContent: " we don't collect ANY personal information." }),
+                createElement("span", [], {
+                    textContent:
+                        "Schoology Plus would like to collect anonymous usage statistics to better understand how people use this extension. Per our ",
+                }),
+                createElement("a", ["splus-track-clicks"], {
+                    id: "analytics-privacy-policy-link",
+                    href: "https://schoologypl.us/privacy",
+                    textContent: "privacy policy",
+                }),
+                createElement("strong", [], {
+                    textContent: " we don't collect ANY personal information.",
+                }),
             ]),
-            createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px", paddingBottom: "10px" } }, [
-                createElement("strong", [], { textContent: "We encourage you to leave this enabled" }),
-                createElement("span", [], { textContent: " so we can better understand how people use Schoology Plus, and we promise to be transparent about what we collect by providing aggregated statistics periodically in our " }),
-                createElement("a", [], { href: "https://discord.schoologypl.us", textContent: "Discord server." })
-            ]),
+            createElement(
+                "p",
+                ["setting-description"],
+                { style: { fontSize: "14px", paddingTop: "10px", paddingBottom: "10px" } },
+                [
+                    createElement("strong", [], {
+                        textContent: "We encourage you to leave this enabled",
+                    }),
+                    createElement("span", [], {
+                        textContent:
+                            " so we can better understand how people use Schoology Plus, and we promise to be transparent about what we collect by providing aggregated statistics periodically in our ",
+                    }),
+                    createElement("a", [], {
+                        href: "https://discord.schoologypl.us",
+                        textContent: "Discord server.",
+                    }),
+                ]
+            ),
             new Setting(
                 "analytics",
                 "Anonymous Usage Statistics",
@@ -161,25 +238,28 @@ let modals = [
                     options: [
                         {
                             text: "Enabled",
-                            value: "enabled"
+                            value: "enabled",
                         },
                         {
                             text: "Disabled",
-                            value: "disabled"
-                        }
-                    ]
+                            value: "disabled",
+                        },
+                    ],
                 },
                 value => value,
                 undefined,
                 element => element.value
             ).control,
-            createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px" }, textContent: "You can change your choice at any point in Schoology Plus settings" }),
+            createElement("p", ["setting-description"], {
+                style: { fontSize: "14px", paddingTop: "10px" },
+                textContent: "You can change your choice at any point in Schoology Plus settings",
+            }),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
                 createButton("save-analytics-settings", "Save and Close", () => {
                     Setting.saveModified();
                     modalClose(document.getElementById("analytics-modal"));
-                })
-            ])
+                }),
+            ]),
         ]),
         modalFooterText
     ),
@@ -189,14 +269,29 @@ let modals = [
         createElement("div", ["splus-modal-contents"], {}, [
             createElement("h2", ["setting-entry"], { textContent: "Enable βeta Testing" }),
             createElement("p", ["setting-description"], { style: { fontSize: "14px" } }, [
-                createElement("span", [], { textContent: "If you have been given a Schoology Plus βeta code, you can enter it below to enable that beta test. If you don't know what this is, you should probably close this window, or you can " }),
-                createElement("a", ["splus-track-clicks"], { id: "beta-discord-link", href: "https://discord.schoologypl.us", textContent: "join our Discord server" }),
+                createElement("span", [], {
+                    textContent:
+                        "If you have been given a Schoology Plus βeta code, you can enter it below to enable that beta test. If you don't know what this is, you should probably close this window, or you can ",
+                }),
+                createElement("a", ["splus-track-clicks"], {
+                    id: "beta-discord-link",
+                    href: "https://discord.schoologypl.us",
+                    textContent: "join our Discord server",
+                }),
                 createElement("span", [], { textContent: " if you want to learn more." }),
             ]),
-            createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px", paddingBottom: "10px" } }, [
-                createElement("strong", [], { textContent: "You must" }),
-                createElement("span", [], { textContent: " have anonymous usage statistics enabled in order to participate in beta tests" })
-            ]),
+            createElement(
+                "p",
+                ["setting-description"],
+                { style: { fontSize: "14px", paddingTop: "10px", paddingBottom: "10px" } },
+                [
+                    createElement("strong", [], { textContent: "You must" }),
+                    createElement("span", [], {
+                        textContent:
+                            " have anonymous usage statistics enabled in order to participate in beta tests",
+                    }),
+                ]
+            ),
             new Setting(
                 "beta",
                 "Schoology Plus βeta Code",
@@ -204,13 +299,17 @@ let modals = [
                 "",
                 "text",
                 {
-                    enabled: Setting.getValue("analytics") === "enabled"
+                    enabled: Setting.getValue("analytics") === "enabled",
                 },
                 value => value,
                 undefined,
                 element => element.value
             ).control,
-            createElement("p", ["setting-description"], { style: { fontSize: "14px", paddingTop: "10px" }, textContent: "You can change this setting at any point to disable or change the beta test. Access this page by pressing Alt+B (Option+B on Mac)." }),
+            createElement("p", ["setting-description"], {
+                style: { fontSize: "14px", paddingTop: "10px" },
+                textContent:
+                    "You can change this setting at any point to disable or change the beta test. Access this page by pressing Alt+B (Option+B on Mac).",
+            }),
             createElement("div", ["settings-buttons-wrapper"], undefined, [
                 createButton("save-beta-settings", "Save", () => {
                     let new_test = document.getElementById("setting-input-beta").value;
@@ -218,7 +317,11 @@ let modals = [
                     let current_test = Setting.getValue("beta");
 
                     if (new_test === "" && current_test) {
-                        if (confirm(`Are you sure you want to disable the "${current_test}" beta test? This will reload the page.`)) {
+                        if (
+                            confirm(
+                                `Are you sure you want to disable the "${current_test}" beta test? This will reload the page.`
+                            )
+                        ) {
                             Setting.saveModified();
                             location.reload();
                         }
@@ -226,11 +329,19 @@ let modals = [
                         if (new_test === current_test) {
                             return;
                         } else if (current_test) {
-                            if (!confirm(`Are you sure you want to disable the "${current_test}" beta test and enable the "${new_test}" beta test? This will reload the page and open a document with information about how the new test works.`)) {
+                            if (
+                                !confirm(
+                                    `Are you sure you want to disable the "${current_test}" beta test and enable the "${new_test}" beta test? This will reload the page and open a document with information about how the new test works.`
+                                )
+                            ) {
                                 return;
                             }
                         } else {
-                            if (!confirm(`Are you sure you want to enable the "${new_test}" beta test? This will reload the page and open a document with information about how the test works.`)) {
+                            if (
+                                !confirm(
+                                    `Are you sure you want to enable the "${new_test}" beta test? This will reload the page and open a document with information about how the test works.`
+                                )
+                            ) {
                                 return;
                             }
                         }
@@ -240,8 +351,8 @@ let modals = [
                     } else {
                         alert("The βeta Code you entered was invalid");
                     }
-                })
-            ])
+                }),
+            ]),
         ]),
         modalFooterText
     ),
@@ -252,15 +363,23 @@ let modals = [
             createElement("h2", ["setting-entry"], { textContent: "Lead Developers" }),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/aopell", textContent: "Aaron Opell (@aopell)" })
+                    createElement("a", [], {
+                        href: "https://github.com/aopell",
+                        textContent: "Aaron Opell (@aopell)",
+                    }),
                 ]),
-                createElement("p", ["setting-description"], { textContent: "Extension creator; lead developer" })
+                createElement("p", ["setting-description"], {
+                    textContent: "Extension creator; lead developer",
+                }),
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], {}, [
-                    createElement("a", [], { href: "https://github.com/glen3b", textContent: "Glen Husman (@glen3b)" })
+                    createElement("a", [], {
+                        href: "https://github.com/glen3b",
+                        textContent: "Glen Husman (@glen3b)",
+                    }),
                 ]),
-                createElement("p", ["setting-description"], { textContent: "Lead developer" })
+                createElement("p", ["setting-description"], { textContent: "Lead developer" }),
             ]),
             createElement("h2", ["setting-entry"], { textContent: "Code Contributions" }),
             createElement("div", ["setting-entry"], {}, [
@@ -272,7 +391,7 @@ let modals = [
                             if (contribs[i].url) {
                                 retVal += `<li><a href="${contribs[i].url}" title="${contribs[i].name}">${contribs[i].name}</a></li>`;
                             } else {
-                                retVal += `<li><span>${contribs[i].name}</span></li>`
+                                retVal += `<li><span>${contribs[i].name}</span></li>`;
                             }
                         }
                         return retVal;
@@ -287,10 +406,12 @@ let modals = [
                         { name: "@dsnsgithub", url: "https://github.com/dsnsgithub" },
                         { name: "@senoj26", url: "https://github.com/senoj26" },
                         { name: "@TheThonos", url: "https://github.com/TheThonos" },
-                    ])
+                    ]),
                 }),
             ]),
-            createElement("h2", ["setting-entry"], { textContent: "Testing, Bug Reporting, and/or Discord Moderation" }),
+            createElement("h2", ["setting-entry"], {
+                textContent: "Testing, Bug Reporting, and/or Discord Moderation",
+            }),
             createElement("div", ["setting-entry"], {}, [
                 createElement("ul", ["contributor-list"], {
                     style: { listStyle: "inside" },
@@ -300,7 +421,7 @@ let modals = [
                             if (contribs[i].url) {
                                 retVal += `<li><a href="${contribs[i].url}" title="${contribs[i].name}">${contribs[i].name}</a></li>`;
                             } else {
-                                retVal += `<li><span>${contribs[i].name}</span></li>`
+                                retVal += `<li><span>${contribs[i].name}</span></li>`;
                             }
                         }
                         return retVal;
@@ -318,51 +439,89 @@ let modals = [
                         { name: "phool#0200" },
                         { name: "RVxBot#7862" },
                         { name: "TechFun#9234" },
-                    ])
+                    ]),
                 }),
             ]),
             createElement("h2", ["setting-entry"], { textContent: "Icons and Images" }),
             createElement("div", ["setting-entry"], {}, [
-
                 createElement("ul", ["contributor-list"], {
                     style: { listStyle: "inside" },
                     innerHTML: (function (contribs) {
                         let retVal = "";
                         for (let i = 0; i < contribs.length; i++) {
-                            retVal += `<li><a href="https://www.flaticon.com/authors/${contribs[i].replace(/[ _]/, "-").toLowerCase()}" title="${contribs[i]}">${contribs[i]}</a></li>`;
+                            retVal += `<li><a href="https://www.flaticon.com/authors/${contribs[i]
+                                .replace(/[ _]/, "-")
+                                .toLowerCase()}" title="${contribs[i]}">${contribs[i]}</a></li>`;
                         }
                         return retVal;
-                    })(["DinosoftLabs", "Eucalyp", "Flat Icons", "Freepik", "Maxim Basinski", "Pixel Buddha", "Smashicons", "Twitter", "Vectors Market", "Vitaly Gorbachev", "srip", "surang", "Pixelmeetup", "photo3idea_studio"])
+                    })([
+                        "DinosoftLabs",
+                        "Eucalyp",
+                        "Flat Icons",
+                        "Freepik",
+                        "Maxim Basinski",
+                        "Pixel Buddha",
+                        "Smashicons",
+                        "Twitter",
+                        "Vectors Market",
+                        "Vitaly Gorbachev",
+                        "srip",
+                        "surang",
+                        "Pixelmeetup",
+                        "photo3idea_studio",
+                    ]),
                 }),
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("p", ["setting-description"], {}, [
                     createElement("span", [], { textContent: "Many custom course icons (under " }),
-                    createElement("a", [], { href: "https://creativecommons.org/licenses/by/3.0/", title: "Creative Commons BY 3.0", target: "_blank", textContent: "CC BY 3.0" }),
+                    createElement("a", [], {
+                        href: "https://creativecommons.org/licenses/by/3.0/",
+                        title: "Creative Commons BY 3.0",
+                        target: "_blank",
+                        textContent: "CC BY 3.0",
+                    }),
                     createElement("span", [], { textContent: ") from " }),
-                    createElement("a", [], { href: "https://www.flaticon.com/", title: "flaticon", target: "_blank", textContent: "flaticon.com" }),
+                    createElement("a", [], {
+                        href: "https://www.flaticon.com/",
+                        title: "flaticon",
+                        target: "_blank",
+                        textContent: "flaticon.com",
+                    }),
                     createElement("p", [], { textContent: "Bundled:" }),
                     createElement("div", ["splus-indent-1"], {
                         innerHTML:
-                            '<ul style="list-style: inside;"><li>Exclamation mark (grades page modified indicator): By <a href="https://www.flaticon.com/authors/pixel-buddha" title="Pixel Buddha">Pixel Buddha</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a></li>'
-                            + '<li>Bookshelf (default course icon): <i>Modified</i>. Original by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a></li>'
-                            + '<li>Pencil (grade edit icon): From <a href="http://www.iconninja.com/edit-draw-pencile-write-icon-899685" title="IconNinja">iconninja.com</a></li>'
-                            + "</ul>"
-                    })
+                            '<ul style="list-style: inside;"><li>Exclamation mark (grades page modified indicator): By <a href="https://www.flaticon.com/authors/pixel-buddha" title="Pixel Buddha">Pixel Buddha</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a></li>' +
+                            '<li>Bookshelf (default course icon): <i>Modified</i>. Original by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a> under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC BY 3.0</a></li>' +
+                            '<li>Pencil (grade edit icon): From <a href="http://www.iconninja.com/edit-draw-pencile-write-icon-899685" title="IconNinja">iconninja.com</a></li>' +
+                            "</ul>",
+                    }),
                 ]),
             ]),
             createElement("div", ["setting-entry"], {}, [
-                createElement("h2", ["setting-title"], { textContent: "...and countless other people" }),
-                createElement("p", ["setting-description"], { textContent: "For various ideas and suggestions" })
+                createElement("h2", ["setting-title"], {
+                    textContent: "...and countless other people",
+                }),
+                createElement("p", ["setting-description"], {
+                    textContent: "For various ideas and suggestions",
+                }),
             ]),
             createElement("div", ["setting-entry"], {}, [
-                createElement("h2", ["setting-title"], { textContent: "Would you like to contribute?" }),
-                createElement("p", ["setting-description"], { innerHTML: 'Please see our <a href="https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md">contributing guidelines</a> for various ways you can help in the development of Schoology Plus. Thanks for your interest in contributing!' })
+                createElement("h2", ["setting-title"], {
+                    textContent: "Would you like to contribute?",
+                }),
+                createElement("p", ["setting-description"], {
+                    innerHTML:
+                        'Please see our <a href="https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md">contributing guidelines</a> for various ways you can help in the development of Schoology Plus. Thanks for your interest in contributing!',
+                }),
             ]),
             createElement("div", ["setting-entry"], {}, [
                 createElement("h3", ["setting-title"], { textContent: "Disclaimer" }),
-                createElement("p", ["setting-description"], { textContent: "Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners." })
-            ])
+                createElement("p", ["setting-description"], {
+                    textContent:
+                        "Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners.",
+                }),
+            ]),
         ]),
         modalFooterText
     ),
@@ -371,19 +530,47 @@ let modals = [
         "Schoology Plus Themes",
         createElement("div", ["splus-modal-contents"], {}, [
             createElement("h2", ["setting-entry"], { textContent: "Choose a New Theme!" }),
-            createElement("p", ["setting-description"], { textContent: "Schoology Plus has a bunch of new themes! Choose one from below, make your own, or keep your current theme. It's your choice! Click on each theme for a preview and then click the button to confirm your choice. You can change your theme at any time in Schoology Plus Settings.", style: { fontSize: "14px", paddingBottom: "10px" } }),
-            createElement("div", ["splus-button-tile-container"], {}, [
-                { text: "Modern Dark Theme", theme: "Schoology Plus Modern Dark", new: true },
-                { text: "Modern Light Theme", theme: "Schoology Plus Modern Light", new: true },
-                { text: "Modern Rainbow Theme", theme: "Rainbow Modern", new: true },
-                { text: "Schoology Plus Classic Theme", theme: "Schoology Plus", active: Theme.active.name === "Schoology Plus" },
-                { text: `Keep Current Theme: ${Theme.active.name}`, theme: Theme.active.name, active: Theme.active.name !== "Schoology Plus", hidden: Theme.active.name === "Schoology Plus" },
-                { text: "See More Themes or Make Your Own", theme: Theme.active.name, extraWide: Theme.active.name === "Schoology Plus" },
-            ].map(
-                obj => {
-                    return createElement("div", [...["splus-button-tile", "select-theme-tile"], ...(obj.active ? ["active"] : [])],
+            createElement("p", ["setting-description"], {
+                textContent:
+                    "Schoology Plus has a bunch of new themes! Choose one from below, make your own, or keep your current theme. It's your choice! Click on each theme for a preview and then click the button to confirm your choice. You can change your theme at any time in Schoology Plus Settings.",
+                style: { fontSize: "14px", paddingBottom: "10px" },
+            }),
+            createElement(
+                "div",
+                ["splus-button-tile-container"],
+                {},
+                [
+                    { text: "Modern Dark Theme", theme: "Schoology Plus Modern Dark", new: true },
+                    { text: "Modern Light Theme", theme: "Schoology Plus Modern Light", new: true },
+                    { text: "Modern Rainbow Theme", theme: "Rainbow Modern", new: true },
+                    {
+                        text: "Schoology Plus Classic Theme",
+                        theme: "Schoology Plus",
+                        active: Theme.active.name === "Schoology Plus",
+                    },
+                    {
+                        text: `Keep Current Theme: ${Theme.active.name}`,
+                        theme: Theme.active.name,
+                        active: Theme.active.name !== "Schoology Plus",
+                        hidden: Theme.active.name === "Schoology Plus",
+                    },
+                    {
+                        text: "See More Themes or Make Your Own",
+                        theme: Theme.active.name,
+                        extraWide: Theme.active.name === "Schoology Plus",
+                    },
+                ].map(obj => {
+                    return createElement(
+                        "div",
+                        [
+                            ...["splus-button-tile", "select-theme-tile"],
+                            ...(obj.active ? ["active"] : []),
+                        ],
                         {
-                            style: { display: obj.hidden ? "none" : "flex", gridColumnEnd: obj.extraWide ? "span 2" : "unset" },
+                            style: {
+                                display: obj.hidden ? "none" : "flex",
+                                gridColumnEnd: obj.extraWide ? "span 2" : "unset",
+                            },
                             dataset: { new: obj.new },
                             onclick: e => {
                                 for (let child of e.target.parentElement.children) {
@@ -397,45 +584,62 @@ let modals = [
                                     value: obj.text,
                                     legacyTarget: "selected tile",
                                     legacyAction: obj.text,
-                                    legacyLabel: "Choose Theme Popup"
+                                    legacyLabel: "Choose Theme Popup",
                                 });
 
                                 tempTheme = obj.theme;
                                 Theme.apply(Theme.byName(obj.theme));
 
-                                document.getElementById("theme-popup-select-button").value = `Select ${obj.text}`;
-                            }
+                                document.getElementById(
+                                    "theme-popup-select-button"
+                                ).value = `Select ${obj.text}`;
+                            },
                         },
                         [
-                            createElement("span", ["splus-button-tile-content"], { textContent: obj.text })
+                            createElement("span", ["splus-button-tile-content"], {
+                                textContent: obj.text,
+                            }),
                         ]
-                    )
-                }
-            )),
+                    );
+                })
+            ),
             (() => {
-                let btn = createButton("theme-popup-select-button", `Select Keep Current Theme: ${Theme.active.name}`, e => {
-                    localStorage.setItem("splus-temp-theme-chosen", true);
-                    let themeName = document.querySelector(".select-theme-tile.active .splus-button-tile-content").textContent;
+                let btn = createButton(
+                    "theme-popup-select-button",
+                    `Select Keep Current Theme: ${Theme.active.name}`,
+                    e => {
+                        localStorage.setItem("splus-temp-theme-chosen", true);
+                        let themeName = document.querySelector(
+                            ".select-theme-tile.active .splus-button-tile-content"
+                        ).textContent;
 
-                    trackEvent("button_click", {
-                        id: "apply-theme",
-                        context: "Choose Theme Popup",
-                        value: themeName,
-                        legacyTarget: "confirmed selection",
-                        legacyAction: themeName,
-                        legacyLabel: "Choose Theme Popup"
-                    });
+                        trackEvent("button_click", {
+                            id: "apply-theme",
+                            context: "Choose Theme Popup",
+                            value: themeName,
+                            legacyTarget: "confirmed selection",
+                            legacyAction: themeName,
+                            legacyLabel: "Choose Theme Popup",
+                        });
 
-                    modalClose(document.getElementById("choose-theme-modal"));
-                    Setting.setValue("theme", tempTheme);
-                    if (document.getElementById("choose-theme-modal").querySelector(".splus-button-tile-container .splus-button-tile:last-child").classList.contains("active")) {
-                        location.href = chrome.runtime.getURL("/theme-editor.html");
+                        modalClose(document.getElementById("choose-theme-modal"));
+                        Setting.setValue("theme", tempTheme);
+                        if (
+                            document
+                                .getElementById("choose-theme-modal")
+                                .querySelector(
+                                    ".splus-button-tile-container .splus-button-tile:last-child"
+                                )
+                                .classList.contains("active")
+                        ) {
+                            location.href = chrome.runtime.getURL("/theme-editor.html");
+                        }
                     }
-                });
+                );
                 btn.style.float = "right";
                 btn.style.margin = "20px 20px 0";
                 return btn;
-            })()
+            })(),
         ]),
         modalFooterText
     ),
@@ -444,16 +648,19 @@ let modals = [
         "Debug Info",
         createElement("div", ["splus-modal-contents"], {}, [
             createElement("div", ["setting-entry"], {}, [
-                createButton("debug-modal-clipboard-copy", "Copy to Clipboard", event => navigator.clipboard.writeText(generateDebugInfo())),
+                createButton("debug-modal-clipboard-copy", "Copy to Clipboard", event =>
+                    navigator.clipboard.writeText(generateDebugInfo())
+                ),
             ]),
             createElement("pre", [], {
                 id: "debug-modal-content",
-                textContent: "Loading..."
+                textContent: "Loading...",
             }),
         ]),
         modalFooterText,
-        (modal, x) => document.getElementById("debug-modal-content").textContent = generateDebugInfo()
-    )
+        (modal, x) =>
+            (document.getElementById("debug-modal-content").textContent = generateDebugInfo())
+    ),
 ];
 
 (async () => {
@@ -463,28 +670,43 @@ let modals = [
         let currentVersion = chrome.runtime.getManifest().version;
 
         if (Setting.getValue("defaultDomain") != window.location.hostname) {
-            Logger.log("[Updater] Domain isn't set as default, skipping migrations until domain is updated.");
+            Logger.log(
+                "[Updater] Domain isn't set as default, skipping migrations until domain is updated."
+            );
             return;
         }
 
         iziToast.show({
-            theme: 'dark',
+            theme: "dark",
             iconUrl: chrome.runtime.getURL("/imgs/plus-icon.png"),
             title: `Welcome to Schoology Plus version ${currentVersion}!`,
-            position: 'topRight',
+            position: "topRight",
             timeout: 0,
-            progressBarColor: 'hsl(190, 100%, 50%)',
+            progressBarColor: "hsl(190, 100%, 50%)",
             buttons: [
-                ['<button>View Changelog</button>', function (instance, toast) {
-                    instance.hide({
-                        transitionOut: 'fadeOutRight',
-                        onClosing: function (instance, toast, closedBy) {
-                            trackEvent("button_click", {id: "viewChangelogButton", context: "Toast", legacyTarget: "viewChangelogButton", legacyAction: "click", legacyLabel: "Toast Button"})
-                            openModal("changelog-modal");
-                        }
-                    }, toast, 'viewChangelogButton');
-                }]
-            ]
+                [
+                    "<button>View Changelog</button>",
+                    function (instance, toast) {
+                        instance.hide(
+                            {
+                                transitionOut: "fadeOutRight",
+                                onClosing: function (instance, toast, closedBy) {
+                                    trackEvent("button_click", {
+                                        id: "viewChangelogButton",
+                                        context: "Toast",
+                                        legacyTarget: "viewChangelogButton",
+                                        legacyAction: "click",
+                                        legacyLabel: "Toast Button",
+                                    });
+                                    openModal("changelog-modal");
+                                },
+                            },
+                            toast,
+                            "viewChangelogButton"
+                        );
+                    },
+                ],
+            ],
         });
 
         await versionSpecificFirstLaunch(currentVersion, newVersion);
@@ -508,12 +730,15 @@ let modals = [
 
     // from https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex/6969486#6969486
     function escapeRegExp(string) {
-        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
     }
 
     let overrides = await Promise.all(profilePicLoadTasks);
     for (let course of overrides) {
-        Theme.profilePictureOverrides.push({ regex: escapeRegExp(course.course_title) + " ?: " + escapeRegExp(course.section_title), url: course.profile_url });
+        Theme.profilePictureOverrides.push({
+            regex: escapeRegExp(course.course_title) + " ?: " + escapeRegExp(course.section_title),
+            url: course.profile_url,
+        });
     }
 
     if (profilePicLoadTasks.length > 0) {
@@ -521,20 +746,22 @@ let modals = [
     }
 })();
 
-let video = document.body.appendChild(createElement("video", ["easter-egg"], {
-    onended: function () {
-        this.style.visibility = "hidden";
-    }
-}));
+let video = document.body.appendChild(
+    createElement("video", ["easter-egg"], {
+        onended: function () {
+            this.style.visibility = "hidden";
+        },
+    })
+);
 
 let source = createElement("source", [], {
     src: "https://gist.github.com/aopell/0fe2408cffbab2b6fadb18ebaa28808f/raw/77853f137329c042c34bdb5be38c1930357c0531/cut.webm",
-    type: "video/webm"
+    type: "video/webm",
 });
 
 let sourceSet = false;
 
-document.body.onkeydown = (data) => {
+document.body.onkeydown = data => {
     if (data.altKey && data.code === "KeyC") {
         if (!sourceSet) {
             video.appendChild(source);
@@ -550,101 +777,159 @@ document.body.onkeydown = (data) => {
             value: "confetti",
             legacyTarget: "Easter Egg",
             legacyAction: "play",
-            legacyLabel: "Easter Egg"
+            legacyLabel: "Easter Egg",
         });
     } else if (data.altKey && data.code === "KeyB") {
         openModal("beta-modal");
-    }
-    else if (data.key === "Escape") {
+    } else if (data.key === "Escape") {
         video.style.visibility = "hidden";
         video.pause();
     }
     data.preventDefault = false;
 };
 
-document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(createElement("li", ["_24avl", "_3Rh90", "_349XD"], {}, [
-    createElement(
-        "button",
-        ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed", "splus-track-clicks"],
-        {
-            id: "darktheme-toggle-navbar-button",
-            title: "Toggle Theme\n\nUse this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
-            onclick: e => {
-                let newVal = document.documentElement.getAttribute("modern") == "false" ? "true" : "false";
-                if (newVal == "false") {
-                    tempTheme = "Schoology Plus";
-                } else {
-                    tempTheme = undefined;
-                }
-                Theme.apply(Theme.active);
-                document.documentElement.setAttribute("modern", newVal);
-                trackEvent("button_click", {
-                    id: "modern-theme-toggle",
-                    context: "Navbar",
-                    value: newVal,
-                    legacyTarget: "modern-theme-toggle",
-                    legacyAction: newVal,
-                    legacyLabel: "Navbar Button"
-                });
-            },
-            dataset: { popup: Setting.getNestedValue("popup", "modernThemeToggle", true) && (localStorage.getItem("popup.modernThemeToggle") !== "false") }
-        },
-        [
-            createElement("div", ["explanation-popup"], {}, [
-                createElement("span", [], { title: "", textContent: "Use this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly." }),
-                createElement("h3", [], {
-                    textContent: "OK",
-                    onclick: e => {
-                        e.stopPropagation();
-                        trackEvent("button_click", {
-                            id: "modern-theme-toggle-explanation-ok",
-                            context: "Explanation Popup",
-                            legacyTarget: "modern-theme-toggle",
-                            legacyAction: "ok",
-                            legacyLabel: "Explanation Popup"
-                        });
-                        Setting.setNestedValue("popup", "modernThemeToggle", false);
-                        localStorage.setItem("popup.modernThemeToggle", "false");
-                        document.getElementById("darktheme-toggle-navbar-button").dataset.popup = false;
+document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(
+    createElement("li", ["_24avl", "_3Rh90", "_349XD"], {}, [
+        createElement(
+            "button",
+            [
+                "_1SIMq",
+                "_2kpZl",
+                "_3OAXJ",
+                "_13cCs",
+                "_3_bfp",
+                "_2M5aC",
+                "_24avl",
+                "_3v0y7",
+                "_2s0LQ",
+                "_3ghFm",
+                "_3LeCL",
+                "_31GLY",
+                "_9GDcm",
+                "_1D8fw",
+                "util-height-six-3PHnk",
+                "util-line-height-six-3lFgd",
+                "util-text-decoration-none-1n0lI",
+                "Header-header-button-active-state-3AvBm",
+                "Header-header-button-1EE8Y",
+                "sExtlink-processed",
+                "splus-track-clicks",
+            ],
+            {
+                id: "darktheme-toggle-navbar-button",
+                title: "Toggle Theme\n\nUse this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
+                onclick: e => {
+                    let newVal =
+                        document.documentElement.getAttribute("modern") == "false"
+                            ? "true"
+                            : "false";
+                    if (newVal == "false") {
+                        tempTheme = "Schoology Plus";
+                    } else {
+                        tempTheme = undefined;
                     }
-                })
-            ]),
-            (function () {
-                let paintSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                paintSvg.setAttribute("viewBox", "-12 -20 500 500");
-                paintSvg.setAttribute("class", "_3ESp2 dlCBz _1I3mg fjQuT uQOmx");
+                    Theme.apply(Theme.active);
+                    document.documentElement.setAttribute("modern", newVal);
+                    trackEvent("button_click", {
+                        id: "modern-theme-toggle",
+                        context: "Navbar",
+                        value: newVal,
+                        legacyTarget: "modern-theme-toggle",
+                        legacyAction: newVal,
+                        legacyLabel: "Navbar Button",
+                    });
+                },
+                dataset: {
+                    popup:
+                        Setting.getNestedValue("popup", "modernThemeToggle", true) &&
+                        localStorage.getItem("popup.modernThemeToggle") !== "false",
+                },
+            },
+            [
+                createElement("div", ["explanation-popup"], {}, [
+                    createElement("span", [], {
+                        title: "",
+                        textContent:
+                            "Use this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
+                    }),
+                    createElement("h3", [], {
+                        textContent: "OK",
+                        onclick: e => {
+                            e.stopPropagation();
+                            trackEvent("button_click", {
+                                id: "modern-theme-toggle-explanation-ok",
+                                context: "Explanation Popup",
+                                legacyTarget: "modern-theme-toggle",
+                                legacyAction: "ok",
+                                legacyLabel: "Explanation Popup",
+                            });
+                            Setting.setNestedValue("popup", "modernThemeToggle", false);
+                            localStorage.setItem("popup.modernThemeToggle", "false");
+                            document.getElementById(
+                                "darktheme-toggle-navbar-button"
+                            ).dataset.popup = false;
+                        },
+                    }),
+                ]),
+                (function () {
+                    let paintSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                    paintSvg.setAttribute("viewBox", "-12 -20 500 500");
+                    paintSvg.setAttribute("class", "_3ESp2 dlCBz _1I3mg fjQuT uQOmx");
 
-                paintSvg.innerHTML = '<path d="m242 197v90c0 8.284 6.716 15 15 15h180c8.284 0 15-6.716 15-15v-90c0-8.284-6.716-15-15-15h-180c-8.284 0-15 6.716-15 15z"/><path d="m377 422h-60c-8.284 0-15 6.716-15 15v60c0 8.284 6.716 15 15 15h60c8.284 0 15-6.716 15-15v-60c0-8.284-6.716-15-15-15z"/><path d="m307.667 15c0-8.284-6.716-15-15-15h-45v60h60z"/><path d="m217.667 0h-202.667c-8.284 0-15 6.716-15 15v45h217.667z"/><path d="m307.667 347v-15h-50.667c-24.813 0-45-20.186-45-45v-90c0-24.814 20.187-45 45-45h50.667v-62h-307.667v257c0 8.284 6.716 15 15 15h277.667c8.284 0 15-6.716 15-15zm-155.698-46h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15z"/><path d="m482 229.58v87.42c0 8.272-6.728 15-15 15h-90c-24.814 0-45 20.186-45 45v15h30v-15c0-8.272 6.728-15 15-15h90c24.814 0 45-20.186 45-45v-45c0-19.555-12.541-36.227-30-42.42z"/>';
+                    paintSvg.innerHTML =
+                        '<path d="m242 197v90c0 8.284 6.716 15 15 15h180c8.284 0 15-6.716 15-15v-90c0-8.284-6.716-15-15-15h-180c-8.284 0-15 6.716-15 15z"/><path d="m377 422h-60c-8.284 0-15 6.716-15 15v60c0 8.284 6.716 15 15 15h60c8.284 0 15-6.716 15-15v-60c0-8.284-6.716-15-15-15z"/><path d="m307.667 15c0-8.284-6.716-15-15-15h-45v60h60z"/><path d="m217.667 0h-202.667c-8.284 0-15 6.716-15 15v45h217.667z"/><path d="m307.667 347v-15h-50.667c-24.813 0-45-20.186-45-45v-90c0-24.814 20.187-45 45-45h50.667v-62h-307.667v257c0 8.284 6.716 15 15 15h277.667c8.284 0 15-6.716 15-15zm-155.698-46h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15z"/><path d="m482 229.58v87.42c0 8.272-6.728 15-15 15h-90c-24.814 0-45 20.186-45 45v15h30v-15c0-8.272 6.728-15 15-15h90c24.814 0 45-20.186 45-45v-45c0-19.555-12.541-36.227-30-42.42z"/>';
 
-                return paintSvg;
-            })()
-        ]
-    )
-]));
+                    return paintSvg;
+                })(),
+            ]
+        ),
+    ])
+);
 
-document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(createElement("li", ["_24avl", "_3Rh90", "_349XD"], {}, [
-    createElement(
-        "button",
-        ["_1SIMq", "_2kpZl", "_3OAXJ", "_13cCs", "_3_bfp", "_2M5aC", "_24avl", "_3v0y7", "_2s0LQ", "_3ghFm", "_3LeCL", "_31GLY", "_9GDcm", "_1D8fw", "util-height-six-3PHnk", "util-line-height-six-3lFgd", "util-text-decoration-none-1n0lI", "Header-header-button-active-state-3AvBm", "Header-header-button-1EE8Y", "sExtlink-processed"],
-        {
-            id: "splus-settings-navbar-button",
-            title: "Schoology Plus Settings\n\nChange settings relating to Schoology Plus.",
-            onclick: () => {
-                openModal("settings-modal");
-                trackEvent("button_click", {
-                    id: "splus-settings",
-                    context: "Navbar",
-                    legacyTarget: "splus-settings",
-                    legacyAction: "open",
-                    legacyLabel: "Navbar Button"
-                });
-            }
-        },
-        [
-            createSvgLogo("_3ESp2", "dlCBz", "_1I3mg", "fjQuT", "uQOmx")
-        ]
-    )
-]));
+document.querySelector("#header > header > nav > ul:nth-child(2)").prepend(
+    createElement("li", ["_24avl", "_3Rh90", "_349XD"], {}, [
+        createElement(
+            "button",
+            [
+                "_1SIMq",
+                "_2kpZl",
+                "_3OAXJ",
+                "_13cCs",
+                "_3_bfp",
+                "_2M5aC",
+                "_24avl",
+                "_3v0y7",
+                "_2s0LQ",
+                "_3ghFm",
+                "_3LeCL",
+                "_31GLY",
+                "_9GDcm",
+                "_1D8fw",
+                "util-height-six-3PHnk",
+                "util-line-height-six-3lFgd",
+                "util-text-decoration-none-1n0lI",
+                "Header-header-button-active-state-3AvBm",
+                "Header-header-button-1EE8Y",
+                "sExtlink-processed",
+            ],
+            {
+                id: "splus-settings-navbar-button",
+                title: "Schoology Plus Settings\n\nChange settings relating to Schoology Plus.",
+                onclick: () => {
+                    openModal("settings-modal");
+                    trackEvent("button_click", {
+                        id: "splus-settings",
+                        context: "Navbar",
+                        legacyTarget: "splus-settings",
+                        legacyAction: "open",
+                        legacyLabel: "Navbar Button",
+                    });
+                },
+            },
+            [createSvgLogo("_3ESp2", "dlCBz", "_1I3mg", "fjQuT", "uQOmx")]
+        ),
+    ])
+);
 
 for (let e of document.querySelectorAll(".close")) {
     e.onclick = modalClose;
@@ -654,84 +939,24 @@ window.onclick = function (event) {
     if (modals.find(x => x.element == event.target)) {
         modalClose(event.target);
     }
-}
+};
 
 function openOptionsMenu(settingsModal) {
     settingsModal.body.innerHTML = "";
     updateSettings(() => {
         settingsModal.body.appendChild(getModalContents());
-        settingsModal.element.querySelector("#open-changelog").addEventListener("click", () => openModal("changelog-modal"), { once: true });
-        settingsModal.element.querySelector("#open-contributors").addEventListener("click", () => openModal("contributors-modal"), { once: true });
+        settingsModal.element
+            .querySelector("#open-changelog")
+            .addEventListener("click", () => openModal("changelog-modal"), { once: true });
+        settingsModal.element
+            .querySelector("#open-contributors")
+            .addEventListener("click", () => openModal("contributors-modal"), { once: true });
         Setting.onShown();
         $(".splus-settings-tabs").tabs({
             active: 0,
-            heightStyle: "fill"
+            heightStyle: "fill",
         });
     });
-}
-
-/**
- * Opens the modal with the given ID
- * @param {string} id The ID of the modal to open
- * @param {Object} [options] An optional options argument to be passed to the modal's open event
- */
-function openModal(id, options) {
-
-    for (let m of modals) {
-        modalClose(m.element);
-    }
-
-    trackEvent("perform_action", {
-        id: "open",
-        context: "Modal",
-        value: id,
-        legacyTarget: id,
-        legacyAction: "open",
-        legacyLabel: "Modal"
-    });
-
-    let mm = modals.find(m => m.id == id);
-    if (mm.onopen) mm.onopen(mm, options);
-    mm.element.style.display = "block";
-    document.documentElement.classList.add("splus-modal-open");
-}
-
-function modalClose(element) {
-    element = element.target ? document.getElementById(element.target.dataset.parent) : element;
-
-    if (element.id === "settings-modal" && element.style.display !== "none" && Setting.anyModified()) {
-        if (!confirm("You have unsaved settings.\nAre you sure you want to exit?")) return;
-        updateSettings();
-    } else if (element.id === "choose-theme-modal" && element.style.display === "block" && !localStorage.getItem("splus-temp-theme-chosen")) {
-        alert("Please use the 'Select' button to confirm your choice.");
-        return;
-    }
-
-    element.style.display = "none";
-    document.documentElement.classList.remove("splus-modal-open");
-}
-
-/**
- * Creates a Schoology Plus modal element
- * @param {string} id 
- * @param {string} title 
- * @param {HTMLElement} contentElement 
- * @param {string} footerHTML 
- * @param {(Modal,Object?)=>void} openCallback 
- */
-function Modal(id, title, contentElement, footerHTML, openCallback) {
-    let modalHTML = `<div id="${id}" class="splus-modal"><div class="splus-modal-content"><div class="splus-modal-header"><span class="close" data-parent="${id}">&times;</span>`
-        + `<p class="splus-modal-title">${title}</p></div><div class="splus-modal-body"></div><div class="splus-modal-footer"><p class="splus-modal-footer-text">`
-        + `${footerHTML}</p></div></div></div>`;
-
-    document.body.appendChild(document.createElement("div")).innerHTML = modalHTML;
-
-    this.id = id;
-    this.element = document.getElementById(id);
-    this.body = document.getElementById(id).querySelector(".splus-modal-body");
-    this.onopen = openCallback;
-
-    this.body.appendChild(contentElement);
 }
 
 function shouldProcessMutations(mutationList) {
@@ -740,7 +965,10 @@ function shouldProcessMutations(mutationList) {
     // ensure we're processing more than an addition of something this very handler added
     for (let mutation of mutationList) {
         for (let addedElem of mutation.addedNodes) {
-            if (addedElem.classList && !addedElem.classList.contains("splus-addedtodynamicdropdown")) {
+            if (
+                addedElem.classList &&
+                !addedElem.classList.contains("splus-addedtodynamicdropdown")
+            ) {
                 processThis = true;
                 break;
             }
@@ -756,7 +984,15 @@ function shouldProcessMutations(mutationList) {
 
 let siteNavigationTileHelpers = {
     createSpacerTile: function () {
-        return createElement("div", ["_3hM4e", "_3_a9F", "zJU7e", "util-width-zero-1OcAd", "_2oHes", "util-last-child-margin-right-zero-1DVn4", "splus-addedtodynamicdropdown"]);
+        return createElement("div", [
+            "_3hM4e",
+            "_3_a9F",
+            "zJU7e",
+            "util-width-zero-1OcAd",
+            "_2oHes",
+            "util-last-child-margin-right-zero-1DVn4",
+            "splus-addedtodynamicdropdown",
+        ]);
     },
     isSpacerTile: function (element) {
         return element.childElementCount == 0;
@@ -777,7 +1013,7 @@ let siteNavigationTileHelpers = {
     },
 
     // selector: (actual content container) (thing which just holds the inner body) (row of tiles)
-    rowSelector: "div[role=\"menu\"] ._3mp5E._24W2g._26UWf ._1tpub.Kluyr"
+    rowSelector: 'div[role="menu"] ._3mp5E._24W2g._26UWf ._1tpub.Kluyr',
 };
 
 // courses dropdown changes
@@ -793,19 +1029,38 @@ let siteNavigationTileHelpers = {
 
         if (Setting.getValue("archivedCoursesButton") === "show") {
             // aims to select the original "My Courses" link in the dropdown
-            let candidateLink = coursesDropdownContainer.querySelector(".CjR09._8a6xl._1tpub > a[href=\"/courses\"]._3ghFm");
+            let candidateLink = coursesDropdownContainer.querySelector(
+                '.CjR09._8a6xl._1tpub > a[href="/courses"]._3ghFm'
+            );
             if (candidateLink) {
                 // the obfuscated class name is the one Schoology uses to float these links right
-                let newContainer = createElement("div", ["courses-mycourses-droppeddown-link-container", "splus-addedtodynamicdropdown", "_3ghFm"], {}, [
-                    createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
-                        href: "/courses",
-                        textContent: "My Courses"
-                    }),
-                    createElement("a", ["floating-contained-link", "splus-addedtodynamicdropdown"], {
-                        href: "/courses/mycourses/past",
-                        textContent: "Past Courses"
-                    })
-                ]);
+                let newContainer = createElement(
+                    "div",
+                    [
+                        "courses-mycourses-droppeddown-link-container",
+                        "splus-addedtodynamicdropdown",
+                        "_3ghFm",
+                    ],
+                    {},
+                    [
+                        createElement(
+                            "a",
+                            ["floating-contained-link", "splus-addedtodynamicdropdown"],
+                            {
+                                href: "/courses",
+                                textContent: "My Courses",
+                            }
+                        ),
+                        createElement(
+                            "a",
+                            ["floating-contained-link", "splus-addedtodynamicdropdown"],
+                            {
+                                href: "/courses/mycourses/past",
+                                textContent: "Past Courses",
+                            }
+                        ),
+                    ]
+                );
 
                 candidateLink.replaceWith(newContainer);
             }
@@ -820,7 +1075,9 @@ let siteNavigationTileHelpers = {
 
         let needsReorganization = false;
 
-        for (let tilesRow of coursesDropdownContainer.querySelectorAll(siteNavigationTileHelpers.rowSelector)) {
+        for (let tilesRow of coursesDropdownContainer.querySelectorAll(
+            siteNavigationTileHelpers.rowSelector
+        )) {
             if (!rowContainer) {
                 rowContainer = tilesRow.parentElement;
             }
@@ -839,12 +1096,21 @@ let siteNavigationTileHelpers = {
 
         if (needsReorganization) {
             let nodeToDelete;
-            while (nodeToDelete = coursesDropdownContainer.querySelector(siteNavigationTileHelpers.rowSelector)) {
+            while (
+                (nodeToDelete = coursesDropdownContainer.querySelector(
+                    siteNavigationTileHelpers.rowSelector
+                ))
+            ) {
                 nodeToDelete.remove();
             }
 
             while (tiles.length > 0) {
-                rowContainer.appendChild(siteNavigationTileHelpers.createTilesRow(tiles.splice(0, targetRowWidth), targetRowWidth));
+                rowContainer.appendChild(
+                    siteNavigationTileHelpers.createTilesRow(
+                        tiles.splice(0, targetRowWidth),
+                        targetRowWidth
+                    )
+                );
             }
         }
 
@@ -858,7 +1124,11 @@ let siteNavigationTileHelpers = {
         // these need to be handled specially because it's not displayed as one contiguous block anymore
         for (let contentTile of contentTiles) {
             let cardData = contentTile.querySelector(".Card-card-data-17m6S");
-            if (!cardData || cardData.querySelector(".splus-coursesdropdown-nicknamed-dataset") || cardData.childElementCount > 1) {
+            if (
+                !cardData ||
+                cardData.querySelector(".splus-coursesdropdown-nicknamed-dataset") ||
+                cardData.childElementCount > 1
+            ) {
                 // not a course, or already handled
                 continue;
             }
@@ -887,17 +1157,67 @@ let siteNavigationTileHelpers = {
             // section title, in black, in middle (most emphasized, I think): div._1wP6w._23_WZ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB
             // school name, in smaller gray at bottom: div._2wOCj.xjR5v._2qcpH._17Z60._1Aph-.gs0RB
 
-            let origCourseTitle = cardData.firstElementChild.querySelector("div._3U8Br._2s0LQ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
-            let origSectionTitle = cardData.firstElementChild.querySelector("div._1wP6w._23_WZ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB");
-            let origSchoolTitle = cardData.firstElementChild.querySelector("div._2wOCj.xjR5v._2qcpH._17Z60._1Aph-.gs0RB");
+            let origCourseTitle = cardData.firstElementChild.querySelector(
+                "div._3U8Br._2s0LQ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB"
+            );
+            let origSectionTitle = cardData.firstElementChild.querySelector(
+                "div._1wP6w._23_WZ._2qcpH._3ghFm._17Z60._1Aph-.gs0RB"
+            );
+            let origSchoolTitle = cardData.firstElementChild.querySelector(
+                "div._2wOCj.xjR5v._2qcpH._17Z60._1Aph-.gs0RB"
+            );
 
             // stylistically equivalent to the other card data, in terms of our class list for the container element
             // FIXME: there's a stylistic incongruity between a nicknamed course in the dropdown and a non-nicknamed one
-            let newCardDataChild = createElement("div", ["_36sHx", "_3M0N7", "fjQuT", "_1EyV_", "splus-coursesdropdown-nicknamed-dataset", "splus-addedtodynamicdropdown"], {}, [
-                createElement("div", ["_3U8Br", "_1wP6w", "_23_WZ", "_2qcpH", "_3ghFm", "_17Z60", "_1Aph-", "gs0RB"], { textContent: courseAlias }), // stylized like section title
-                createElement("div", ["_2wOCj", "xjR5v", "_2qcpH", "_17Z60", "_1Aph-", "gs0RB", "splus-coursealiasing-exempt"], { textContent: origCourseTitle.textContent + ": " + origSectionTitle.textContent }), // original full title, stylized like school name
-                createElement("div", ["_2wOCj", "xjR5v", "_2qcpH", "_17Z60", "_1Aph-", "gs0RB"], { textContent: origSchoolTitle.textContent }) // school title, original styling and text
-            ]);
+            let newCardDataChild = createElement(
+                "div",
+                [
+                    "_36sHx",
+                    "_3M0N7",
+                    "fjQuT",
+                    "_1EyV_",
+                    "splus-coursesdropdown-nicknamed-dataset",
+                    "splus-addedtodynamicdropdown",
+                ],
+                {},
+                [
+                    createElement(
+                        "div",
+                        [
+                            "_3U8Br",
+                            "_1wP6w",
+                            "_23_WZ",
+                            "_2qcpH",
+                            "_3ghFm",
+                            "_17Z60",
+                            "_1Aph-",
+                            "gs0RB",
+                        ],
+                        { textContent: courseAlias }
+                    ), // stylized like section title
+                    createElement(
+                        "div",
+                        [
+                            "_2wOCj",
+                            "xjR5v",
+                            "_2qcpH",
+                            "_17Z60",
+                            "_1Aph-",
+                            "gs0RB",
+                            "splus-coursealiasing-exempt",
+                        ],
+                        {
+                            textContent:
+                                origCourseTitle.textContent + ": " + origSectionTitle.textContent,
+                        }
+                    ), // original full title, stylized like school name
+                    createElement(
+                        "div",
+                        ["_2wOCj", "xjR5v", "_2qcpH", "_17Z60", "_1Aph-", "gs0RB"],
+                        { textContent: origSchoolTitle.textContent }
+                    ), // school title, original styling and text
+                ]
+            );
             if (tileWidthCap) {
                 newCardDataChild.style.maxWidth = tileWidthCap;
             }
@@ -908,8 +1228,16 @@ let siteNavigationTileHelpers = {
         let coursesHeader = coursesDropdownContainer.querySelector(".CjR09._8a6xl._1tpub > h2");
         if (coursesHeader && !coursesHeader.querySelector(".splus-coursesdropdown-reorder-btn")) {
             // https://www.flaticon.com/free-icon/sort_159800
-            let newBtn = createElement("img", ["splus-coursesdropdown-reorder-btn", "splus-addedtodynamicdropdown"], { src: "https://cdn-icons-png.flaticon.com/512/690/690319.png", title: "Reorder Courses", alt: "Reorder Icon" });
-            newBtn.onclick = () => location.href = "/courses?reorder";
+            let newBtn = createElement(
+                "img",
+                ["splus-coursesdropdown-reorder-btn", "splus-addedtodynamicdropdown"],
+                {
+                    src: "https://cdn-icons-png.flaticon.com/512/690/690319.png",
+                    title: "Reorder Courses",
+                    alt: "Reorder Icon",
+                }
+            );
+            newBtn.onclick = () => (location.href = "/courses?reorder");
             coursesHeader.appendChild(newBtn);
         }
     });
@@ -953,7 +1281,9 @@ let siteNavigationTileHelpers = {
 
         let needsReorganization = false;
 
-        for (let tilesRow of groupsDropdownContainer.querySelectorAll(siteNavigationTileHelpers.rowSelector)) {
+        for (let tilesRow of groupsDropdownContainer.querySelectorAll(
+            siteNavigationTileHelpers.rowSelector
+        )) {
             if (!rowContainer) {
                 rowContainer = tilesRow.parentElement;
             }
@@ -969,12 +1299,21 @@ let siteNavigationTileHelpers = {
 
         if (needsReorganization) {
             let nodeToDelete;
-            while (nodeToDelete = groupsDropdownContainer.querySelector(siteNavigationTileHelpers.rowSelector)) {
+            while (
+                (nodeToDelete = groupsDropdownContainer.querySelector(
+                    siteNavigationTileHelpers.rowSelector
+                ))
+            ) {
                 nodeToDelete.remove();
             }
 
             while (tiles.length > 0) {
-                rowContainer.appendChild(siteNavigationTileHelpers.createTilesRow(tiles.splice(0, targetRowWidth), targetRowWidth));
+                rowContainer.appendChild(
+                    siteNavigationTileHelpers.createTilesRow(
+                        tiles.splice(0, targetRowWidth),
+                        targetRowWidth
+                    )
+                );
             }
         }
     });
@@ -1001,10 +1340,16 @@ let siteNavigationTileHelpers = {
 (function () {
     let navigationElementsContainer = document.querySelector("#header nav > ul:nth-child(1)");
 
-    let fixNavButtons = (function () {
-        let moreNavElement = navigationElementsContainer.querySelector("li > button[aria-label=\"More\"]");
-        let alreadyTweakedResourcesBtn = navigationElementsContainer.querySelector("li.splus-nav-resources-lowwidth");
-        let fakeGradesBtn = navigationElementsContainer.querySelector("li.splus-nav-grades-directlink-lowwidth");
+    let fixNavButtons = function () {
+        let moreNavElement = navigationElementsContainer.querySelector(
+            'li > button[aria-label="More"]'
+        );
+        let alreadyTweakedResourcesBtn = navigationElementsContainer.querySelector(
+            "li.splus-nav-resources-lowwidth"
+        );
+        let fakeGradesBtn = navigationElementsContainer.querySelector(
+            "li.splus-nav-grades-directlink-lowwidth"
+        );
         if (moreNavElement) {
             moreNavElement = moreNavElement.parentElement;
         } else {
@@ -1034,7 +1379,8 @@ let siteNavigationTileHelpers = {
             gradesBtn.classList.add("_24avl");
             gradesBtn.classList.add("_3Rh90");
             gradesBtn.classList.add("splus-nav-grades-directlink-lowwidth");
-            gradesBtn.innerHTML = '<a class="_1SIMq _2kpZl _3OAXJ _13cCs _3_bfp _2M5aC _24avl _3v0y7 _2s0LQ _3ghFm _3LeCL _31GLY _9GDcm _1D8fw util-height-six-3PHnk util-line-height-six-3lFgd util-text-decoration-none-1n0lI Header-header-button-active-state-3AvBm Header-header-button-1EE8Y sExtlink-processed" href="/grades/grades">Grades</a>';
+            gradesBtn.innerHTML =
+                '<a class="_1SIMq _2kpZl _3OAXJ _13cCs _3_bfp _2M5aC _24avl _3v0y7 _2s0LQ _3ghFm _3LeCL _31GLY _9GDcm _1D8fw util-height-six-3PHnk util-line-height-six-3lFgd util-text-decoration-none-1n0lI Header-header-button-active-state-3AvBm Header-header-button-1EE8Y sExtlink-processed" href="/grades/grades">Grades</a>';
             moreNavElement.insertAdjacentElement("beforebegin", gradesBtn);
         } else if (fakeGradesBtn) {
             if (alreadyTweakedResourcesBtn) {
@@ -1042,7 +1388,7 @@ let siteNavigationTileHelpers = {
             }
             fakeGradesBtn.style.display = "initial";
         }
-    });
+    };
 
     let navigationElementsObserver = new MutationObserver(function (mutationList) {
         if (!shouldProcessMutations(mutationList)) {
@@ -1054,15 +1400,22 @@ let siteNavigationTileHelpers = {
 
         // the More... menu itself
         (function () {
-            let moreMenuDropdownList = navigationElementsContainer.querySelector("li > div[role=\"menu\"] > ul.util-flex-shrink-zero-3HoBE:nth-child(1)");
-            if (!moreMenuDropdownList || moreMenuDropdownList.classList.contains("splus-moremenuentries-gradesprocessed")) {
+            let moreMenuDropdownList = navigationElementsContainer.querySelector(
+                'li > div[role="menu"] > ul.util-flex-shrink-zero-3HoBE:nth-child(1)'
+            );
+            if (
+                !moreMenuDropdownList ||
+                moreMenuDropdownList.classList.contains("splus-moremenuentries-gradesprocessed")
+            ) {
                 return;
             }
 
             moreMenuDropdownList.classList.add("splus-moremenuentries-gradesprocessed");
 
             // remove the grades optiony menu that's under "more"
-            moreMenuDropdownList.querySelector("button[data-submenu=\"grades\"]").parentElement.remove();
+            moreMenuDropdownList
+                .querySelector('button[data-submenu="grades"]')
+                .parentElement.remove();
 
             // first element child is the search bar
             // we want to insert directly after that
@@ -1070,29 +1423,39 @@ let siteNavigationTileHelpers = {
 
             let masteryLink = document.createElement("li");
             // use Schoology's convoluted class list, as presented in the original
-            masteryLink.innerHTML = '<a aria-label="Mastery Grades" href="/mastery" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Mastery Grades</a>';
+            masteryLink.innerHTML =
+                '<a aria-label="Mastery Grades" href="/mastery" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Mastery Grades</a>';
 
             insertAfter.insertAdjacentElement("afterend", masteryLink);
 
             let resourcesLink = document.createElement("li");
-            resourcesLink.innerHTML = '<a aria-label="Resources" href="/resources" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Resources</a>';
+            resourcesLink.innerHTML =
+                '<a aria-label="Resources" href="/resources" class="Header-header-button-active-state-3AvBm Header-header-drop-menu-3SaYV Header-header-drop-menu-item-3d3IZ _2JX1Q _1k0yk _1tpub _3_bfp _3ghFm xjR5v _3lLLU _2gJbx util-text-decoration-none-1n0lI">Resources</a>';
 
             insertAfter.insertAdjacentElement("afterend", resourcesLink);
         })();
     });
 
-    navigationElementsObserver.observe(navigationElementsContainer, { childList: true, subtree: true });
-
+    navigationElementsObserver.observe(navigationElementsContainer, {
+        childList: true,
+        subtree: true,
+    });
 
     // fix the nav buttons (for "fix" as defined above) immediately - this handles a page initially loading as low-width
 
-    if (document.readyState === "complete" ||
-        (document.readyState !== "loading" && !document.documentElement.doScroll)) {
+    if (
+        document.readyState === "complete" ||
+        (document.readyState !== "loading" && !document.documentElement.doScroll)
+    ) {
         fixNavButtons();
     } else {
-        document.addEventListener('DOMContentLoaded', function () {
-            fixNavButtons();
-        }, false);
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+                fixNavButtons();
+            },
+            false
+        );
     }
 })();
 
@@ -1104,13 +1467,17 @@ let siteNavigationTileHelpers = {
         }
 
         // make sure the reorder UI is visible; if not, don't try the expensive query
-        let reorderHeader = document.querySelector("header.LGaPf h1._3eD4l._3UytQ._3v0y7._16XsF._8a6xl");
+        let reorderHeader = document.querySelector(
+            "header.LGaPf h1._3eD4l._3UytQ._3v0y7._16XsF._8a6xl"
+        );
         if (!reorderHeader || reorderHeader.textContent != "Reorder Courses") {
             return;
         }
 
         // cards in the reorder UI
-        let reorderUiCards = document.querySelectorAll("div._1Z0RM._1tpub._2V6ED._3xHd3.L1I_b._9GENG._3LeCL._34eht._349XD.fjQuT.uQOmx._17X0S._36TKt._3qXK_._3WTX2.Mcjpm._4iu5i.jDhMt._3WDJD.CrxjQ[role=\"dialog\"][aria-labelledby*=\"reorder-ui\"] div._1Z0RM._3skcp._5jizS._1tpub._1SnLN._3LeCL._3lLLU._2gJbx.Card-card-2rORL");
+        let reorderUiCards = document.querySelectorAll(
+            'div._1Z0RM._1tpub._2V6ED._3xHd3.L1I_b._9GENG._3LeCL._34eht._349XD.fjQuT.uQOmx._17X0S._36TKt._3qXK_._3WTX2.Mcjpm._4iu5i.jDhMt._3WDJD.CrxjQ[role="dialog"][aria-labelledby*="reorder-ui"] div._1Z0RM._3skcp._5jizS._1tpub._1SnLN._3LeCL._3lLLU._2gJbx.Card-card-2rORL'
+        );
 
         let reprocessPictures = [];
 
@@ -1148,12 +1515,16 @@ async function createQuickAccess() {
             createSvgLogo("splus-logo-inline"),
             // createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
             createElement("span", [], { textContent: "Quick Access" }),
-            createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-splus-settings", textContent: "Customize Sidebar", href: "#splus-settings#setting-input-sidebarSectionOrder" })
+            createElement("a", ["quick-right-link", "splus-track-clicks"], {
+                id: "quick-access-splus-settings",
+                textContent: "Customize Sidebar",
+                href: "#splus-settings#setting-input-sidebarSectionOrder",
+            }),
         ]),
         createElement("div", ["date-header", "first"], {}, [
-            createElement("h4", [], { textContent: "Pages" })
+            createElement("h4", [], { textContent: "Pages" }),
         ]),
-        (linkWrap = createElement("div", ["quick-link-wrapper"]))
+        (linkWrap = createElement("div", ["quick-link-wrapper"])),
     ]);
 
     const PAGES = [
@@ -1165,7 +1536,9 @@ async function createQuickAccess() {
     ];
 
     for (let page of PAGES) {
-        let a = linkWrap.appendChild(createElement("a", ["quick-link", "splus-track-clicks"], page));
+        let a = linkWrap.appendChild(
+            createElement("a", ["quick-link", "splus-track-clicks"], page)
+        );
         a.dataset.splusTrackingContext = "Quick Access";
     }
 
@@ -1173,8 +1546,12 @@ async function createQuickAccess() {
         createElement("div", ["date-header"], {}, [
             createElement("h4", [], {}, [
                 createElement("span", [], { textContent: "Courses" }),
-                createElement("a", ["quick-right-link", "splus-track-clicks"], { id: "quick-access-reorder", textContent: "Reorder", href: "/courses?reorder" })
-            ])
+                createElement("a", ["quick-right-link", "splus-track-clicks"], {
+                    id: "quick-access-reorder",
+                    textContent: "Reorder",
+                    href: "/courses?reorder",
+                }),
+            ]),
         ])
     );
 
@@ -1182,41 +1559,100 @@ async function createQuickAccess() {
         let sectionsList = (await fetchApiJson(`users/${getUserId()}/sections`)).section;
 
         if (!sectionsList || sectionsList.length == 0) {
-            wrapper.appendChild(createElement("p", ["quick-access-no-courses"], { textContent: "No courses found" }));
+            wrapper.appendChild(
+                createElement("p", ["quick-access-no-courses"], { textContent: "No courses found" })
+            );
         } else {
             let courseOptionsButton;
             let iconImage;
             let courseIconsContainer;
             for (let section of sectionsList) {
-                wrapper.appendChild(createElement("div", ["quick-access-course"], {}, [
-                    (iconImage = createElement("div", ["splus-course-icon"], { dataset: { courseTitle: `${section.course_title}: ${section.section_title}` } })),
-                    createElement("a", ["splus-track-clicks", "quick-course-link"], { textContent: `${section.course_title}: ${section.section_title}`, href: `/course/${section.id}`, dataset: { splusTrackingId: "quick-access-course-link", splusTrackingContext: "Quick Access" } }),
-                    (courseIconsContainer = createElement("div", ["icons-container"], {}, [
-                        createElement("a", ["icon", "icon-grades", "splus-track-clicks"], { href: `/course/${section.id}/student_grades`, title: "Grades", dataset: { splusTrackingId: "quick-access-grades-link", splusTrackingContext: "Quick Access" } }),
-                        createElement("a", ["icon", "icon-mastery", "splus-track-clicks"], { href: `/course/${section.id}/student_mastery`, title: "Mastery", dataset: { splusTrackingId: "quick-access-mastery-link", splusTrackingContext: "Quick Access" } }),
-                        (courseOptionsButton = createElement("a", ["icon", "icon-settings", "splus-track-clicks"], { href: "#", dataset: { splusTrackingId: "quick-access-settings-link", splusTrackingContext: "Quick Access" } }))
-                    ]))
-                ]));
+                wrapper.appendChild(
+                    createElement("div", ["quick-access-course"], {}, [
+                        (iconImage = createElement("div", ["splus-course-icon"], {
+                            dataset: {
+                                courseTitle: `${section.course_title}: ${section.section_title}`,
+                            },
+                        })),
+                        createElement("a", ["splus-track-clicks", "quick-course-link"], {
+                            textContent: `${section.course_title}: ${section.section_title}`,
+                            href: `/course/${section.id}`,
+                            dataset: {
+                                splusTrackingId: "quick-access-course-link",
+                                splusTrackingContext: "Quick Access",
+                            },
+                        }),
+                        (courseIconsContainer = createElement("div", ["icons-container"], {}, [
+                            createElement("a", ["icon", "icon-grades", "splus-track-clicks"], {
+                                href: `/course/${section.id}/student_grades`,
+                                title: "Grades",
+                                dataset: {
+                                    splusTrackingId: "quick-access-grades-link",
+                                    splusTrackingContext: "Quick Access",
+                                },
+                            }),
+                            createElement("a", ["icon", "icon-mastery", "splus-track-clicks"], {
+                                href: `/course/${section.id}/student_mastery`,
+                                title: "Mastery",
+                                dataset: {
+                                    splusTrackingId: "quick-access-mastery-link",
+                                    splusTrackingContext: "Quick Access",
+                                },
+                            }),
+                            (courseOptionsButton = createElement(
+                                "a",
+                                ["icon", "icon-settings", "splus-track-clicks"],
+                                {
+                                    href: "#",
+                                    dataset: {
+                                        splusTrackingId: "quick-access-settings-link",
+                                        splusTrackingContext: "Quick Access",
+                                    },
+                                }
+                            )),
+                        ])),
+                    ])
+                );
 
                 let quickLink = Setting.getNestedValue("courseQuickLinks", section.id);
                 if (quickLink && quickLink !== "") {
-                    courseIconsContainer.prepend(createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], { href: quickLink, title: `Quick Link \n(${quickLink})`, dataset: { splusTrackingId: "quick-access-quicklink-link", splusTrackingContext: "Quick Access" } }))
+                    courseIconsContainer.prepend(
+                        createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], {
+                            href: quickLink,
+                            title: `Quick Link \n(${quickLink})`,
+                            dataset: {
+                                splusTrackingId: "quick-access-quicklink-link",
+                                splusTrackingContext: "Quick Access",
+                            },
+                        })
+                    );
                 }
 
-                iconImage.style.backgroundImage = `url(${chrome.runtime.getURL("imgs/fallback-course-icon.svg")})`;
+                iconImage.style.backgroundImage = `url(${chrome.runtime.getURL(
+                    "imgs/fallback-course-icon.svg"
+                )})`;
 
-                courseOptionsButton.addEventListener("click", () => openModal("course-settings-modal", {
-                    courseId: section.id,
-                    courseName: `${section.course_title}: ${section.section_title}`
-                }));
+                courseOptionsButton.addEventListener("click", () =>
+                    openModal("course-settings-modal", {
+                        courseId: section.id,
+                        courseName: `${section.course_title}: ${section.section_title}`,
+                    })
+                );
             }
         }
     } catch (err) {
         if (err === "noapikey") {
-            wrapper.appendChild(createElement("div", ["quick-access-no-api"], {}, [
-                createElement("p", [], { textContent: "Please grant access to your enrolled courses in order to use this feature." }),
-                createButton("quick-access-grant-access", "Grant Access", () => { location.pathname = "/api"; }),
-            ]));
+            wrapper.appendChild(
+                createElement("div", ["quick-access-no-api"], {}, [
+                    createElement("p", [], {
+                        textContent:
+                            "Please grant access to your enrolled courses in order to use this feature.",
+                    }),
+                    createButton("quick-access-grant-access", "Grant Access", () => {
+                        location.pathname = "/api";
+                    }),
+                ])
+            );
         } else {
             throw err;
         }
@@ -1238,7 +1674,7 @@ function getAssignmentId(url) {
         // External tools
         return url.match(/external_tool\/(\d+)/)[1];
     }
-    
+
     return null;
 }
 
@@ -1260,7 +1696,9 @@ function indicateSubmittedAssignments() {
 
             return !!(revisions && revisions.length && !revisions[revisions.length - 1].draft);
         } catch (err) {
-            Logger.warn(`Couldn't determine if assignment ${assignmentId} was complete. This is likely not a normal assignment.`);
+            Logger.warn(
+                `Couldn't determine if assignment ${assignmentId} was complete. This is likely not a normal assignment.`
+            );
             return false;
         }
     }
@@ -1292,7 +1730,10 @@ function indicateSubmittedAssignments() {
         elem.classList.add("splus-completed-check-indicator");
         elem.addEventListener("click", function () {
             // if we're "faux-complete" and clicked, unmark the forced state
-            if (eventElement.classList.contains(assignCompleteClass) && isAssignmentMarkedComplete(assignmentId)) {
+            if (
+                eventElement.classList.contains(assignCompleteClass) &&
+                isAssignmentMarkedComplete(assignmentId)
+            ) {
                 eventElement.classList.remove(assignCompleteClass);
                 setAssignmentCompleteOverride(assignmentId, false);
                 trackEvent("button_click", {
@@ -1301,7 +1742,7 @@ function indicateSubmittedAssignments() {
                     value: "uncheck",
                     legacyTarget: "splus-completed-check-indicator",
                     legacyAction: "uncheck",
-                    legacyLabel: "Checkmarks"
+                    legacyLabel: "Checkmarks",
                 });
                 // TODO handle async nicely
                 processAssignmentUpcomingAsync(eventElement);
@@ -1314,7 +1755,7 @@ function indicateSubmittedAssignments() {
                     value: "check",
                     legacyTarget: "splus-completed-check-indicator",
                     legacyAction: "check",
-                    legacyLabel: "Checkmarks"
+                    legacyLabel: "Checkmarks",
                 });
                 setAssignmentCompleteOverride(assignmentId, true);
                 // TODO handle async nicely
@@ -1334,8 +1775,10 @@ function indicateSubmittedAssignments() {
 
         // add a CSS class for both states, so we can distinguish 'loading' from known-(in)complete
         let isMarkedComplete = isAssignmentMarkedComplete(assignmentId);
-        if (isMarkedComplete || await isAssignmentCompleteAsync(assignmentId)) {
-            Logger.log(`Marking assignment ${assignmentId} as complete ✔ (is force-marked complete? ${isMarkedComplete})`);
+        if (isMarkedComplete || (await isAssignmentCompleteAsync(assignmentId))) {
+            Logger.log(
+                `Marking assignment ${assignmentId} as complete ✔ (is force-marked complete? ${isMarkedComplete})`
+            );
             eventElement.classList.add(assignCompleteClass);
         } else {
             eventElement.classList.add(assignIncompleteClass);
@@ -1343,7 +1786,10 @@ function indicateSubmittedAssignments() {
         }
 
         if (!eventElement.querySelector(".splus-completed-check-indicator")) {
-            infotipElement.insertAdjacentElement(infotipElement.classList.contains("singleday") ? "afterbegin" : "afterend", createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId));
+            infotipElement.insertAdjacentElement(
+                infotipElement.classList.contains("singleday") ? "afterbegin" : "afterend",
+                createAssignmentSubmittedCheckmarkIndicator(eventElement, assignmentId)
+            );
         }
 
         return assignmentId;
@@ -1369,14 +1815,20 @@ function indicateSubmittedAssignments() {
                     break;
             }
 
-            let upcomingEventElements = upcomingList.querySelectorAll(".upcoming-event:not(.upcoming-subevents-block)");
+            let upcomingEventElements = upcomingList.querySelectorAll(
+                ".upcoming-event:not(.upcoming-subevents-block)"
+            );
 
             for (let eventElement of upcomingEventElements) {
                 try {
                     idSet.add(await processAssignmentUpcomingAsync(eventElement));
-                }
-                catch (err) {
-                    Logger.error(`Failed checking assignment '${eventElement.querySelector(".infotip a[href]")?.href}' : `, err);
+                } catch (err) {
+                    Logger.error(
+                        `Failed checking assignment '${
+                            eventElement.querySelector(".infotip a[href]")?.href
+                        }' : `,
+                        err
+                    );
                 }
             }
         }
@@ -1384,18 +1836,33 @@ function indicateSubmittedAssignments() {
         // check if reload is present and visible on page
         let reloadButton = upcomingList.querySelector("button.button-reset.refresh-button");
         if (reloadButton && reloadButton.offsetParent !== null) {
-            reloadButton.addEventListener("click", () => setTimeout(() => {
-                indicateSubmitted();
+            reloadButton.addEventListener("click", () =>
+                setTimeout(() => {
+                    indicateSubmitted();
 
-                try {
-                    document.getElementById("todo")?.remove();
-                    let overdueHeading = document.querySelector(`${SIDEBAR_SECTIONS_MAP["Overdue"].selector} h4`);
-                    overdueHeading?.replaceWith(createElement("h3", [], {style: {textTransform: "capitalize"}, textContent: overdueHeading.textContent.toLowerCase()}));
-                    let upcomingHeading = document.querySelector(`${SIDEBAR_SECTIONS_MAP["Upcoming"].selector} h4`);
-                    upcomingHeading?.replaceWith(createElement("h3", [], {style: {textTransform: "capitalize"}, textContent: upcomingHeading.textContent.toLowerCase()}));
-                }
-                catch {}
-            }, 500));
+                    try {
+                        document.getElementById("todo")?.remove();
+                        let overdueHeading = document.querySelector(
+                            `${SIDEBAR_SECTIONS_MAP["Overdue"].selector} h4`
+                        );
+                        overdueHeading?.replaceWith(
+                            createElement("h3", [], {
+                                style: { textTransform: "capitalize" },
+                                textContent: overdueHeading.textContent.toLowerCase(),
+                            })
+                        );
+                        let upcomingHeading = document.querySelector(
+                            `${SIDEBAR_SECTIONS_MAP["Upcoming"].selector} h4`
+                        );
+                        upcomingHeading?.replaceWith(
+                            createElement("h3", [], {
+                                style: { textTransform: "capitalize" },
+                                textContent: upcomingHeading.textContent.toLowerCase(),
+                            })
+                        );
+                    } catch {}
+                }, 500)
+            );
         } else {
             // loaded properly
             // clear out old assignments from local cache which aren't relevant anymore
@@ -1417,14 +1884,15 @@ function indicateSubmittedAssignments() {
 }
 
 function getRecentlyCompletedDenominators() {
-    let recentlyCompletedList = document.querySelector(".recently-completed-wrapper .recently-completed-list");
+    let recentlyCompletedList = document.querySelector(
+        ".recently-completed-wrapper .recently-completed-list"
+    );
 
     async function getDirectAssignmentDenominatorAsync(assignmentId) {
         try {
             let json = await fetchApiJson(`sections/${sectionId}/assignments/${assignmentId}`);
             return json.max_points;
-        }
-        catch (err) {
+        } catch (err) {
             return null;
         }
     }
@@ -1436,7 +1904,9 @@ function getRecentlyCompletedDenominators() {
 
         let directDenominator = await getDirectAssignmentDenominatorAsync(assignmentId);
         if (directDenominator !== null && !Number.isNaN(directDenominator)) {
-            Logger.debug(`Found direct denominator for assignment ${assignmentId} in section ${sectionId}: ${directDenominator}`);
+            Logger.debug(
+                `Found direct denominator for assignment ${assignmentId} in section ${sectionId}: ${directDenominator}`
+            );
             return directDenominator;
         }
 
@@ -1447,15 +1917,25 @@ function getRecentlyCompletedDenominators() {
                 throw new Error("Assignment details could not be read");
             }
 
-            const assignments = json.section[0].period.reduce((prevVal, curVal) => prevVal.concat(curVal.assignment), []);//combines the assignment arrays from each period
-            
-            let denom = Number.parseFloat(assignments.filter(x => x.assignment_id == assignmentId)[0].max_points);
-            
-            Logger.debug(`Found indirect denominator for assignment ${assignmentId} in section ${sectionId}: ${denom}`);
+            const assignments = json.section[0].period.reduce(
+                (prevVal, curVal) => prevVal.concat(curVal.assignment),
+                []
+            ); //combines the assignment arrays from each period
+
+            let denom = Number.parseFloat(
+                assignments.filter(x => x.assignment_id == assignmentId)[0].max_points
+            );
+
+            Logger.debug(
+                `Found indirect denominator for assignment ${assignmentId} in section ${sectionId}: ${denom}`
+            );
 
             return denom;
         } catch (err) {
-            Logger.error(`Failed finding denominator for assignment ${assignmentId} in section ${sectionId}`, err);
+            Logger.error(
+                `Failed finding denominator for assignment ${assignmentId} in section ${sectionId}`,
+                err
+            );
             return null;
         }
     }
@@ -1463,7 +1943,7 @@ function getRecentlyCompletedDenominators() {
     async function getSectionIdMap() {
         let sections = await fetchApiJson(`users/${getUserId()}/sections`);
         let sectionMap = {};
-        
+
         for (let section of sections.section) {
             sectionMap[section.course_title + " : " + section.section_title] = section.id;
         }
@@ -1475,30 +1955,54 @@ function getRecentlyCompletedDenominators() {
     async function getDenominators() {
         let sectionMap = await getSectionIdMap();
 
-        for (let recentEvent of recentlyCompletedList.querySelectorAll(".recently-completed-event")) {
+        for (let recentEvent of recentlyCompletedList.querySelectorAll(
+            ".recently-completed-event"
+        )) {
             try {
                 let eventLink = recentEvent.querySelector("a[href]");
                 let assignmentId = getAssignmentId(eventLink.href);
-                let sectionId = sectionMap[recentEvent.querySelector(".realm-title-course-title .realm-main-titles").textContent.trim()];
+                let sectionId =
+                    sectionMap[
+                        recentEvent
+                            .querySelector(".realm-title-course-title .realm-main-titles")
+                            .textContent.trim()
+                    ];
 
                 if (sectionId && assignmentId) {
-                    Logger.debug(`Getting denominator for assignment ${assignmentId} in section ${sectionId}`);
+                    Logger.debug(
+                        `Getting denominator for assignment ${assignmentId} in section ${sectionId}`
+                    );
                     let denominator = await getAssignmentDenominatorAsync(sectionId, assignmentId);
-                    Logger.debug(`Got denominator for assignment ${assignmentId} in section ${sectionId}: ${denominator}`);
+                    Logger.debug(
+                        `Got denominator for assignment ${assignmentId} in section ${sectionId}: ${denominator}`
+                    );
 
                     if (denominator) {
-                        let prevElement = recentEvent.querySelector("span.infotip.grade-infotip span.recently-completed-grade");
+                        let prevElement = recentEvent.querySelector(
+                            "span.infotip.grade-infotip span.recently-completed-grade"
+                        );
 
                         if (prevElement) {
-                            let denominatorElement = createElement("span", ["splus-recent-denominator"], { textContent: ` / ${denominator}` });
+                            let denominatorElement = createElement(
+                                "span",
+                                ["splus-recent-denominator"],
+                                { textContent: ` / ${denominator}` }
+                            );
                             prevElement.insertAdjacentElement("afterend", denominatorElement);
                         } else {
-                            recentEvent.querySelector("span.recently-completed-grade").textContent += ` / ${denominator}`;
+                            recentEvent.querySelector(
+                                "span.recently-completed-grade"
+                            ).textContent += ` / ${denominator}`;
                         }
                     }
                 }
             } catch (err) {
-                Logger.error(`Failed finding denominator for recent assignment '${recentEvent.querySelector(".infotip a[href]")?.href}' : `, err);
+                Logger.error(
+                    `Failed finding denominator for recent assignment '${
+                        recentEvent.querySelector(".infotip a[href]")?.href
+                    }' : `,
+                    err
+                );
             }
         }
     }
