@@ -1,3 +1,4 @@
+import { InterfaceOf } from "./types";
 
 export class CustomColorDefinition {
     primary: string;
@@ -27,8 +28,18 @@ export class CustomColorDefinition {
      * @param {*} o JSON representation of a `CustomColorDefinition`
      * @returns {CustomColorDefinition}
      */
-    static loadFromObject(o?: Pick<CustomColorDefinition, keyof CustomColorDefinition>): CustomColorDefinition | undefined {
-        return o ? new CustomColorDefinition(o.primary, o.hover, o.background, o.border, o.link || o.hover) : undefined;
+    static loadFromObject(
+        o?: InterfaceOf<CustomColorDefinition>
+    ): CustomColorDefinition | undefined {
+        return o
+            ? new CustomColorDefinition(
+                  o.primary,
+                  o.hover,
+                  o.background,
+                  o.border,
+                  o.link || o.hover
+              )
+            : undefined;
     }
 }
 
@@ -60,8 +71,12 @@ export class RainbowColorComponentAnimation {
      * @param {*} o JSON representation of a `RainbowColorComponentAnimation`
      * @returns {RainbowColorComponentAnimation}
      */
-    static loadFromObject(o?: Pick<RainbowColorComponentAnimation, keyof RainbowColorComponentAnimation>): RainbowColorComponentAnimation | undefined {
-        return o ? new RainbowColorComponentAnimation(o.speed, o.offset, o.min, o.max, o.alternate) : undefined;
+    static loadFromObject(
+        o?: InterfaceOf<RainbowColorComponentAnimation>
+    ): RainbowColorComponentAnimation | undefined {
+        return o
+            ? new RainbowColorComponentAnimation(o.speed, o.offset, o.min, o.max, o.alternate)
+            : undefined;
     }
 }
 
@@ -84,8 +99,15 @@ export class RainbowColorComponentDefinition {
      * @param {*} o JSON representation of a `RainbowColorComponentDefinition`
      * @returns {RainbowColorComponentDefinition}
      */
-    static loadFromObject(o?: Pick<RainbowColorComponentDefinition, keyof RainbowColorComponentDefinition>): RainbowColorComponentDefinition | undefined {
-        return o ? new RainbowColorComponentDefinition(RainbowColorComponentAnimation.loadFromObject(o.animate), o.value) : undefined;
+    static loadFromObject(
+        o?: InterfaceOf<RainbowColorComponentDefinition>
+    ): RainbowColorComponentDefinition | undefined {
+        return o
+            ? new RainbowColorComponentDefinition(
+                  RainbowColorComponentAnimation.loadFromObject(o.animate),
+                  o.value
+              )
+            : undefined;
     }
 }
 
@@ -100,7 +122,11 @@ export class RainbowColorDefinition {
      * @param {RainbowColorComponentDefinition} saturation Defines behavior of the saturation component of the interface colors
      * @param {RainbowColorComponentDefinition} lightness Defines behavior of the lightness component of the interface colors
      */
-    constructor(hue?: RainbowColorComponentDefinition, saturation?: RainbowColorComponentDefinition, lightness?: RainbowColorComponentDefinition) {
+    constructor(
+        hue?: RainbowColorComponentDefinition,
+        saturation?: RainbowColorComponentDefinition,
+        lightness?: RainbowColorComponentDefinition
+    ) {
         this.hue = hue;
         this.saturation = saturation;
         this.lightness = lightness;
@@ -111,13 +137,15 @@ export class RainbowColorDefinition {
      * @param {*} o JSON representation of a `RainbowColorDefinition`
      * @returns {RainbowColorDefinition}
      */
-    static loadFromObject(o?: Pick<RainbowColorDefinition, keyof RainbowColorDefinition>): RainbowColorDefinition | undefined {
+    static loadFromObject(
+        o?: InterfaceOf<RainbowColorDefinition>
+    ): RainbowColorDefinition | undefined {
         return o
             ? new RainbowColorDefinition(
-                RainbowColorComponentDefinition.loadFromObject(o.hue),
-                RainbowColorComponentDefinition.loadFromObject(o.saturation),
-                RainbowColorComponentDefinition.loadFromObject(o.lightness)
-            )
+                  RainbowColorComponentDefinition.loadFromObject(o.hue),
+                  RainbowColorComponentDefinition.loadFromObject(o.saturation),
+                  RainbowColorComponentDefinition.loadFromObject(o.lightness)
+              )
             : undefined;
     }
 }
@@ -145,7 +173,17 @@ export class ModernInterfaceColorDefinition {
      * @param {string} grades Color for grades and scores
      * @param {string} error Color for error messages and icons
      */
-    constructor(primary: string, accent: string, secondary: string, input: string, border: string, highlight: string, active: string, grades: string, error: string) {
+    constructor(
+        primary: string,
+        accent: string,
+        secondary: string,
+        input: string,
+        border: string,
+        highlight: string,
+        active: string,
+        grades: string,
+        error: string
+    ) {
         this.primary = primary;
         this.accent = accent;
         this.secondary = secondary;
@@ -162,19 +200,21 @@ export class ModernInterfaceColorDefinition {
      * @param {*} o JSON representation of a `ModernInterfaceColorDefinition`
      * @returns {ModernInterfaceColorDefinition}
      */
-    static loadFromObject(o?: Pick<ModernInterfaceColorDefinition, keyof ModernInterfaceColorDefinition>): ModernInterfaceColorDefinition | undefined {
+    static loadFromObject(
+        o?: InterfaceOf<ModernInterfaceColorDefinition>
+    ): ModernInterfaceColorDefinition | undefined {
         return o
             ? new ModernInterfaceColorDefinition(
-                o.primary,
-                o.accent,
-                o.secondary,
-                o.input,
-                o.border,
-                o.highlight,
-                o.active,
-                o.grades,
-                o.error
-            )
+                  o.primary,
+                  o.accent,
+                  o.secondary,
+                  o.input,
+                  o.border,
+                  o.highlight,
+                  o.active,
+                  o.grades,
+                  o.error
+              )
             : undefined;
     }
 }
@@ -201,14 +241,10 @@ export class ModernTextColorDefinition {
      * @param {*} o JSON representation of a `ModernTextColorDefinition`
      * @returns {ModernTextColorDefinition}
      */
-    static loadFromObject(o?: Pick<ModernTextColorDefinition, keyof ModernTextColorDefinition>): ModernTextColorDefinition | undefined {
-        return o
-            ? new ModernTextColorDefinition(
-                o.primary,
-                o.muted,
-                o.contrast
-            )
-            : undefined;
+    static loadFromObject(
+        o?: InterfaceOf<ModernTextColorDefinition>
+    ): ModernTextColorDefinition | undefined {
+        return o ? new ModernTextColorDefinition(o.primary, o.muted, o.contrast) : undefined;
     }
 }
 
@@ -234,14 +270,10 @@ export class ModernOptionsDefinition {
      * @param {*} o JSON representation of a `ModernOptionsDefinition`
      * @returns {ModernOptionsDefinition}
      */
-    static loadFromObject(o?: Pick<ModernOptionsDefinition, keyof ModernOptionsDefinition>): ModernOptionsDefinition | undefined {
-        return o
-            ? new ModernOptionsDefinition(
-                o.borderRadius,
-                o.borderSize,
-                o.padding
-            )
-            : undefined;
+    static loadFromObject(
+        o?: InterfaceOf<ModernOptionsDefinition>
+    ): ModernOptionsDefinition | undefined {
+        return o ? new ModernOptionsDefinition(o.borderRadius, o.borderSize, o.padding) : undefined;
     }
 }
 
@@ -260,7 +292,13 @@ export class ModernColorDefinition {
      * @param {ModernTextColorDefinition} text Colors for text elements
      * @param {ModernOptionsDefinition} options Style options for the interface
      */
-    constructor(dark?: boolean, interfaceColors?: ModernInterfaceColorDefinition, calendar?: string[], text?: ModernTextColorDefinition, options?: ModernOptionsDefinition) {
+    constructor(
+        dark?: boolean,
+        interfaceColors?: ModernInterfaceColorDefinition,
+        calendar?: string[],
+        text?: ModernTextColorDefinition,
+        options?: ModernOptionsDefinition
+    ) {
         this.dark = dark;
         this.interface = interfaceColors;
         this.calendar = calendar;
@@ -273,15 +311,17 @@ export class ModernColorDefinition {
      * @param {*} o JSON representation of a `ModernColorDefinition`
      * @returns {ModernColorDefinition}
      */
-    static loadFromObject(o?: Pick<ModernColorDefinition, keyof ModernColorDefinition>): ModernColorDefinition | undefined {
+    static loadFromObject(
+        o?: InterfaceOf<ModernColorDefinition>
+    ): ModernColorDefinition | undefined {
         return o
             ? new ModernColorDefinition(
-                o.dark,
-                ModernInterfaceColorDefinition.loadFromObject(o.interface),
-                o.calendar,
-                ModernTextColorDefinition.loadFromObject(o.text),
-                ModernOptionsDefinition.loadFromObject(o.options)
-            )
+                  o.dark,
+                  ModernInterfaceColorDefinition.loadFromObject(o.interface),
+                  o.calendar,
+                  ModernTextColorDefinition.loadFromObject(o.text),
+                  ModernOptionsDefinition.loadFromObject(o.options)
+              )
             : undefined;
     }
 }
@@ -297,9 +337,14 @@ export class ThemeColor {
      * @param {number} hue The theme's HSL color hue, used to color the interface by modifying the saturation and lightness values
      * @param {CustomColorDefinition} custom Allows fine control over individual colors in the interface
      * @param {RainbowColorDefinition} rainbow Allows for animations of hue, saturation, and lightness of interface colors
-     * @param {ModernColorDefinition} modern Utilizes the modern theme engine to control significantly more of the interface's colors 
+     * @param {ModernColorDefinition} modern Utilizes the modern theme engine to control significantly more of the interface's colors
      */
-    constructor(hue?: number, custom?: CustomColorDefinition, rainbow?: RainbowColorDefinition, modern?: ModernColorDefinition) {
+    constructor(
+        hue?: number,
+        custom?: CustomColorDefinition,
+        rainbow?: RainbowColorDefinition,
+        modern?: ModernColorDefinition
+    ) {
         this.hue = hue;
         this.custom = custom;
         this.rainbow = rainbow;
@@ -311,12 +356,25 @@ export class ThemeColor {
      * @param {*} o JSON representation of a `ThemeColor`
      * @returns {ThemeColor}
      */
-    static loadFromObject(o?: Pick<ThemeColor, keyof ThemeColor>): ThemeColor {
-        return o ? new ThemeColor(o.hue, CustomColorDefinition.loadFromObject(o.custom), RainbowColorDefinition.loadFromObject(o.rainbow), ModernColorDefinition.loadFromObject(o.modern)) : new ThemeColor(210);
+    static loadFromObject(o?: InterfaceOf<ThemeColor>): ThemeColor {
+        return o
+            ? new ThemeColor(
+                  o.hue,
+                  CustomColorDefinition.loadFromObject(o.custom),
+                  RainbowColorDefinition.loadFromObject(o.rainbow),
+                  ModernColorDefinition.loadFromObject(o.modern)
+              )
+            : new ThemeColor(210);
     }
 }
 
-type ThemeLogoPreset = "schoology_plus" | "schoology_logo" | "lausd_legacy" | "lausd_2019" | "lausd_2022" | "default";
+type ThemeLogoPreset =
+    | "schoology_plus"
+    | "schoology_logo"
+    | "lausd_legacy"
+    | "lausd_2019"
+    | "lausd_2022"
+    | "default";
 
 export class ThemeLogo {
     url?: string;
@@ -327,7 +385,16 @@ export class ThemeLogo {
      * @param {string} url Link to an image
      * @param {"schoology_plus"|"schoology_logo"|"lausd_legacy"|"lausd_2019"|"lausd_2022"|"default"} preset Built-in image
      */
-    constructor(url?: string, preset?: "schoology_plus" | "schoology_logo" | "lausd_legacy" | "lausd_2019" | "lausd_2022" | "default") {
+    constructor(
+        url?: string,
+        preset?:
+            | "schoology_plus"
+            | "schoology_logo"
+            | "lausd_legacy"
+            | "lausd_2019"
+            | "lausd_2022"
+            | "default"
+    ) {
         this.url = url;
         this.preset = preset;
     }
@@ -337,7 +404,7 @@ export class ThemeLogo {
      * @param {*} o JSON representation of a `ThemeLogo`
      * @returns {ThemeLogo}
      */
-    static loadFromObject(o?: Pick<ThemeLogo, keyof ThemeLogo>): ThemeLogo {
+    static loadFromObject(o?: InterfaceOf<ThemeLogo>): ThemeLogo {
         return o ? new ThemeLogo(o.url, o.preset) : new ThemeLogo(undefined, "schoology_plus");
     }
 }
@@ -347,7 +414,7 @@ export class ThemeCursor {
 
     /**
      * Defines a cursor image
-     * @param {string} primary Link to an image 
+     * @param {string} primary Link to an image
      */
     constructor(primary: string) {
         this.primary = primary;
@@ -358,7 +425,7 @@ export class ThemeCursor {
      * @param {*} o JSON representation of a `ThemeCursor`
      * @returns {ThemeCursor}
      */
-    static loadFromObject(o?: Pick<ThemeCursor, keyof ThemeCursor>): ThemeCursor | undefined {
+    static loadFromObject(o?: InterfaceOf<ThemeCursor>): ThemeCursor | undefined {
         return o ? new ThemeCursor(o.primary) : undefined;
     }
 }
@@ -382,23 +449,40 @@ export class ThemeIcon {
      * @param {[]} array JSON representation of a `ThemeIcon[]`
      * @returns {ThemeIcon[]}
      */
-    static loadArrayFromObject(array?: Pick<ThemeIcon, keyof ThemeIcon>[]): ThemeIcon[] | undefined {
+    static loadArrayFromObject(array?: InterfaceOf<ThemeIcon>[]): ThemeIcon[] | undefined {
         return array ? array.map(x => new ThemeIcon(x.regex, x.url)) : undefined;
     }
 }
 
-interface ISchoologyTheme {
+/**
+ * @deprecated V1 themes are no longer supported. Use `ISchoologyThemeV2` instead.
+ */
+export interface SchoologyThemeV1 {
     name: string;
-    version: number;
+    colors?: string[];
+    hue?: number;
+    cursor?: string;
+    logo?: string;
+    icons?: string[][]; // [regex, url]
+
+    version: undefined;
+    color: undefined;
+}
+
+export interface SchoologyThemeV2 {
+    name: string;
+    version: 2;
     color: Pick<ThemeColor, keyof ThemeColor>;
     logo?: Pick<ThemeLogo, keyof ThemeLogo>;
     cursor?: Pick<ThemeCursor, keyof ThemeCursor>;
     icons?: Pick<ThemeIcon, keyof ThemeIcon>[];
 }
 
-export class SchoologyTheme implements ISchoologyTheme {
+export type AnySchoolgyTheme = SchoologyThemeV1 | SchoologyThemeV2;
+
+export class SchoologyTheme implements SchoologyThemeV2 {
     name: string;
-    version: number;
+    version: 2;
     color: ThemeColor;
     logo?: ThemeLogo;
     cursor?: ThemeCursor;
@@ -413,7 +497,14 @@ export class SchoologyTheme implements ISchoologyTheme {
      * @param {ThemeCursor} cursor Cursor image
      * @param {ThemeIcon[]} icons Custom course icons
      */
-    constructor(name: string, version: number, color: ThemeColor, logo?: ThemeLogo, cursor?: ThemeCursor, icons?: ThemeIcon[]) {
+    constructor(
+        name: string,
+        version: 2,
+        color: ThemeColor,
+        logo?: ThemeLogo,
+        cursor?: ThemeCursor,
+        icons?: ThemeIcon[]
+    ) {
         if (!name) {
             throw new Error("Theme must have a name");
         }
@@ -438,7 +529,7 @@ export class SchoologyTheme implements ISchoologyTheme {
      * @param {*} o JSON representation of a `SchoologyTheme`
      * @returns {SchoologyTheme}
      */
-    static loadFromObject(o?: ISchoologyTheme): SchoologyTheme {
+    static loadFromObject(o?: SchoologyThemeV2): SchoologyTheme {
         if (o && o.version === SchoologyTheme.CURRENT_VERSION) {
             return new SchoologyTheme(
                 o.name,
@@ -450,6 +541,8 @@ export class SchoologyTheme implements ISchoologyTheme {
             );
         }
 
-        throw new Error(`Invalid theme object provided. Make sure the provided JSON is a valid version ${SchoologyTheme.CURRENT_VERSION} theme.`);
+        throw new Error(
+            `Invalid theme object provided. Make sure the provided JSON is a valid version ${SchoologyTheme.CURRENT_VERSION} theme.`
+        );
     }
 }

@@ -1,9 +1,10 @@
 {
   "plugins": [],
   "arrowParens": "avoid",
-  "semi": false,
-  "singleQuote": true,
-  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": false,
+  "tabWidth": 4,
+  "useTabs": false,
   "bracketSameLine": false,
   "printWidth": 100,
   "importOrder": [
@@ -14,5 +15,5 @@
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
-  "trailingComma": "none"
+  "trailingComma": "es5"
 }

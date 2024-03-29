@@ -1,7 +1,6 @@
-
 type DeepPartial<T> = {
-    [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K]
-}
+    [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
+};
 
 /**
  * Creates a DOM element
@@ -11,7 +10,12 @@ type DeepPartial<T> = {
  * @param {Object.<string,any>} properties - Properties to apply to the DOM element
  * @param {HTMLElement[]} children - Elements to append as children to the created element
  */
-export function createElement<K extends keyof HTMLElementTagNameMap>(tag: K, classList?: string[], properties?: DeepPartial<HTMLElementTagNameMap[K]>, children?: HTMLElement[]): HTMLElementTagNameMap[K] {
+export function createElement<K extends keyof HTMLElementTagNameMap>(
+    tag: K,
+    classList?: string[],
+    properties?: DeepPartial<HTMLElementTagNameMap[K]>,
+    children?: HTMLElement[]
+): HTMLElementTagNameMap[K] {
     let element = document.createElement(tag);
 
     if (classList) {
@@ -21,7 +25,10 @@ export function createElement<K extends keyof HTMLElementTagNameMap>(tag: K, cla
     }
     if (properties) {
         for (let property in properties) {
-            if (properties[property] instanceof Object && !(properties[property] instanceof Function)) {
+            if (
+                properties[property] instanceof Object &&
+                !(properties[property] instanceof Function)
+            ) {
                 for (let subproperty in properties[property]) {
                     element[property][subproperty] = properties[property][subproperty] as any;
                 }
@@ -45,7 +52,19 @@ export function createElement<K extends keyof HTMLElementTagNameMap>(tag: K, cla
  * @param {(e: Event)=>void} callback A function to be called when the button is clicked
  */
 export function createButton(id: string, text: string, callback: (e: Event) => void) {
-    return createElement("span", ["submit-span-wrapper", "splus-modal-button"], { onclick: callback }, [createElement("input", ["form-submit", "splus-track-clicks"], { type: "button", value: text, id: id, dataset: { splusTrackingContext: "S+ Button" } })]);
+    return createElement(
+        "span",
+        ["submit-span-wrapper", "splus-modal-button"],
+        { onclick: callback },
+        [
+            createElement("input", ["form-submit", "splus-track-clicks"], {
+                type: "button",
+                value: text,
+                id: id,
+                dataset: { splusTrackingContext: "S+ Button" },
+            }),
+        ]
+    );
 }
 
 /**
@@ -77,7 +96,7 @@ export function isVisible(elem: HTMLElement): boolean {
 /**
  * Returns all parent elements matching the provided selector.
  * Essentially works like a reverse `document.querySelectorAll`.
- * @param {HTMLElement} elem The target element 
+ * @param {HTMLElement} elem The target element
  * @param {string} selector A CSS selector
  * @returns {HTMLElement[]} An array of matching parent elements
  */
@@ -89,17 +108,17 @@ export function getParents(elem: HTMLElement, selector: string): HTMLElement[] {
     }
     for (; elem && elem !== document.documentElement; elem = elem.parentNode as HTMLElement) {
         if (selector) {
-            if (firstChar === '.') {
+            if (firstChar === ".") {
                 if (elem.classList.contains(selector.substr(1))) {
                     parents.push(elem);
                 }
             }
-            if (firstChar === '#') {
+            if (firstChar === "#") {
                 if (elem.id === selector.substr(1)) {
                     parents.push(elem);
                 }
             }
-            if (firstChar === '[') {
+            if (firstChar === "[") {
                 if (elem.hasAttribute(selector.substr(1, selector.length - 1))) {
                     parents.push(elem);
                 }
@@ -110,19 +129,18 @@ export function getParents(elem: HTMLElement, selector: string): HTMLElement[] {
         } else {
             parents.push(elem);
         }
-
     }
 
     return parents;
-};
+}
 
 /**
  * Sets the value of a CSS variable on the document
- * @param {string} name Variable name 
+ * @param {string} name Variable name
  * @param {string} val New variable value
  */
-export function setCSSVariable(name: string, val: string) {
-    document.documentElement.style.setProperty(`--${name}`, val);
+export function setCSSVariable(name: string, val?: string | null) {
+    document.documentElement.style.setProperty(`--${name}`, val ?? null);
 }
 
 export function createSvgLogo(...classes: string[]) {

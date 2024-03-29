@@ -1,8 +1,9 @@
-import { createButton, createElement, getBrowser, setCSSVariable } from "./dom";
-import { trackEvent } from "./analytics";
 import browser from "webextension-polyfill";
 
-type HTMLElementWithValue = (HTMLElement & { value: any });
+import { trackEvent } from "./analytics";
+import { createButton, createElement, getBrowser, setCSSVariable } from "./dom";
+
+type HTMLElementWithValue = HTMLElement & { value: any };
 
 export class Setting {
     name: string;
@@ -18,7 +19,18 @@ export class Setting {
     static __settings: { [s: string]: Setting } = {};
     static __storage: { [s: string]: any } = {};
 
-    constructor(name: string, friendlyName: string, description: string, defaultValue: any, type: string, options: any, onload: (arg0: any, element?: HTMLElementWithValue) => any, onmodify: ((arg0: Event) => void) | undefined, onsave: (arg0: HTMLElementWithValue) => any, onshown?: () => any) {
+    constructor(
+        name: string,
+        friendlyName: string,
+        description: string,
+        defaultValue: any,
+        type: string,
+        options: any,
+        onload: (arg0: any, element?: HTMLElementWithValue) => any,
+        onmodify: ((arg0: Event) => void) | undefined,
+        onsave: (arg0: HTMLElementWithValue) => any,
+        onshown?: () => any
+    ) {
         this.name = name;
         this.onmodify = onmodify;
         this.onsave = onsave;
@@ -33,7 +45,9 @@ export class Setting {
          */
         this.control = (() => {
             let setting = createElement("div", ["setting-entry"]);
-            let title = createElement("h2", ["setting-title"], { textContent: friendlyName + ": " });
+            let title = createElement("h2", ["setting-title"], {
+                textContent: friendlyName + ": ",
+            });
             let helpText = createElement("p", ["setting-description"], { innerHTML: description });
 
             let controlElement: (HTMLElement & { value: any }) | null = null;
@@ -42,7 +56,11 @@ export class Setting {
                 case "number":
                 case "text":
                 case "button":
-                    controlElement = createElement("input", undefined, Object.assign({ type: type }, options));
+                    controlElement = createElement(
+                        "input",
+                        undefined,
+                        Object.assign({ type: type }, options)
+                    );
                     title.appendChild(controlElement);
                     if (type == "button") controlElement.onclick = Setting.onModify;
                     else controlElement.oninput = Setting.onModify;
@@ -50,14 +68,19 @@ export class Setting {
                 case "select":
                     controlElement = createElement("select");
                     for (let option of options.options) {
-                        controlElement.appendChild(createElement("option", undefined, { textContent: option.text, value: option.value }));
+                        controlElement.appendChild(
+                            createElement("option", undefined, {
+                                textContent: option.text,
+                                value: option.value,
+                            })
+                        );
                     }
                     title.appendChild(controlElement);
                     controlElement.onchange = Setting.onModify;
                     break;
                 case "custom":
                 default:
-                    controlElement = options.element as (HTMLElement & { value: any });
+                    controlElement = options.element as HTMLElement & { value: any };
                     title.appendChild(controlElement);
                     break;
             }
@@ -66,14 +89,15 @@ export class Setting {
             setting.appendChild(helpText);
 
             controlElement.dataset.settingName = name;
-            controlElement.id = `setting-input-${name}`
+            controlElement.id = `setting-input-${name}`;
 
             if (!Setting.__storage[name]) {
                 Setting.__storage[name] = defaultValue;
             }
 
             if (this.onload) {
-                controlElement.value = this.onload(Setting.__storage[name], controlElement) || this.default;
+                controlElement.value =
+                    this.onload(Setting.__storage[name], controlElement) || this.default;
             } else {
                 controlElement.value = Setting.__storage[name] || this.default;
             }
@@ -94,7 +118,12 @@ export class Setting {
      * @param {()=>any} [callback=null] A function called after settings have been saved and updated
      * @param {boolean} [saveUiSettings=true] Whether or not to save modified settings from the UI as well as the passed dictionary.
      */
-    static saveModified(modifiedValues?: { [s: string]: any; }, updateButtonText: boolean = true, callback?: () => any, saveUiSettings: boolean = true) {
+    static saveModified(
+        modifiedValues?: { [s: string]: any },
+        updateButtonText: boolean = true,
+        callback?: () => any,
+        saveUiSettings: boolean = true
+    ) {
         let newValues: { [s: string]: any } = {};
         if (modifiedValues) {
             Object.assign(newValues, modifiedValues);
@@ -124,13 +153,15 @@ export class Setting {
                     value: newValues[settingName],
                     legacyTarget: settingName,
                     legacyAction: `set value: ${newValues[settingName]}`,
-                    legacyLabel: "Setting"
+                    legacyLabel: "Setting",
                 });
 
                 if (!setting.getElement()) {
                     continue;
                 }
-                let settingModifiedIndicator = setting.getElement().parentElement!.querySelector(".setting-modified");
+                let settingModifiedIndicator = setting
+                    .getElement()
+                    .parentElement!.querySelector(".setting-modified");
                 if (settingModifiedIndicator) {
                     settingModifiedIndicator.remove();
                 }
@@ -157,12 +188,15 @@ export class Setting {
                 context: "Settings",
                 legacyTarget: "restore-defaults",
                 legacyAction: "restore default values",
-                legacyLabel: "Setting"
+                legacyLabel: "Setting",
             });
             for (let setting in Setting.__settings) {
                 delete Setting.__storage[setting];
                 browser.storage.sync.remove(setting);
-                Setting.__settings[setting].onload(undefined, Setting.__settings[setting].getElement());
+                Setting.__settings[setting].onload(
+                    undefined,
+                    Setting.__settings[setting].getElement()
+                );
             }
             location.reload();
         }
@@ -177,10 +211,11 @@ export class Setting {
             context: "Settings",
             legacyTarget: "export-settings",
             legacyAction: "export settings",
-            legacyLabel: "Setting"
+            legacyLabel: "Setting",
         });
 
-        navigator.clipboard.writeText(JSON.stringify(Setting.__storage, null, 2))
+        navigator.clipboard
+            .writeText(JSON.stringify(Setting.__storage, null, 2))
             .then(() => alert("Copied settings to clipboard!"))
             .catch(err => alert("Exporting settings failed!"));
     }
@@ -194,9 +229,13 @@ export class Setting {
             context: "Settings",
             legacyTarget: "import-settings",
             legacyAction: "attempt import settings",
-            legacyLabel: "Setting"
+            legacyLabel: "Setting",
         });
-        if (confirm("Are you sure you want to import settings? Importing invalid or malformed settings will most likely break Schoology Plus.")) {
+        if (
+            confirm(
+                "Are you sure you want to import settings? Importing invalid or malformed settings will most likely break Schoology Plus."
+            )
+        ) {
             let importedSettings = prompt("Please paste settings to import below:");
 
             try {
@@ -208,28 +247,36 @@ export class Setting {
                         context: "Settings",
                         legacyTarget: "import-settings",
                         legacyAction: "successfully imported settings",
-                        legacyLabel: "Setting"
+                        legacyLabel: "Setting",
                     });
-                    alert("Successfully imported settings. If Schoology Plus breaks, please restore defaults or reinstall. Reloading page.")
+                    alert(
+                        "Successfully imported settings. If Schoology Plus breaks, please restore defaults or reinstall. Reloading page."
+                    );
                     location.reload();
                 });
             } catch (err) {
-                alert("Failed to import settings! They were probably malformed. Make sure the settings are valid JSON.");
+                alert(
+                    "Failed to import settings! They were probably malformed. Make sure the settings are valid JSON."
+                );
                 return;
             }
         }
     }
-
 
     /**
      * Callback function called when any setting is changed in the settings menu
      * @param {Event | HTMLElement} event Contains a `target` setting element
      */
     static onModify(event: Event | HTMLElement) {
-        let element = (event instanceof Event) ? event.target as HTMLElement : event;
+        let element = event instanceof Event ? (event.target as HTMLElement) : event;
         let parent = element.parentElement;
         if (parent && !parent.querySelector(".setting-modified")) {
-            parent.appendChild(createElement("span", ["setting-modified"], { textContent: " *", title: "This setting has been modified from its saved value" }));
+            parent.appendChild(
+                createElement("span", ["setting-modified"], {
+                    textContent: " *",
+                    title: "This setting has been modified from its saved value",
+                })
+            );
         }
         let setting = Setting.__settings[element.dataset.settingName!];
         setting.modified = true;
@@ -327,7 +374,7 @@ export class Setting {
      * @param {Object.<string,any>} dictionary Dictionary of setting names to values
      * @param {()=>any} callback Function called after new values are saved
      */
-    static setValues(dictionary: { [s: string]: any; }, callback?: () => any) {
+    static setValues(dictionary: { [s: string]: any }, callback?: () => any) {
         Setting.saveModified(dictionary, false, callback, false);
     }
 }
@@ -335,27 +382,27 @@ export class Setting {
 var SIDEBAR_SECTIONS = [
     {
         name: "Quick Access",
-        selector: "#right-column-inner div.quick-access-wrapper"
+        selector: "#right-column-inner div.quick-access-wrapper",
     },
     {
         name: "Reminders",
-        selector: "#right-column-inner div.reminders-wrapper"
+        selector: "#right-column-inner div.reminders-wrapper",
     },
     {
         name: "Overdue",
-        selector: "#right-column-inner div#overdue-submissions.overdue-submissions-wrapper"
+        selector: "#right-column-inner div#overdue-submissions.overdue-submissions-wrapper",
     },
     {
         name: "Upcoming",
-        selector: "#right-column-inner div.upcoming-submissions-wrapper"
+        selector: "#right-column-inner div.upcoming-submissions-wrapper",
     },
     {
         name: "Upcoming Events",
-        selector: "#right-column-inner div#upcoming-events.upcoming-events-wrapper"
+        selector: "#right-column-inner div#upcoming-events.upcoming-events-wrapper",
     },
     {
         name: "Recently Completed",
-        selector: "#right-column-inner div.recently-completed-wrapper"
+        selector: "#right-column-inner div.recently-completed-wrapper",
     },
 ];
 
@@ -372,7 +419,7 @@ function getModalContents() {
  * Returns `true` if current domain is `lms.lausd.net`
  * @returns {boolean}
  */
-function isLAUSD(): boolean {
+export function isLAUSD(): boolean {
     return Setting.getValue("defaultDomain") === "lms.lausd.net";
 }
 
@@ -383,7 +430,11 @@ function getGradingScale(courseId: string | null) {
         defaultGradingScale = Setting.__storage.defaultGradingScale;
     }
 
-    if (courseId !== null && Setting.__storage.gradingScales && Setting.__storage.gradingScales[courseId]) {
+    if (
+        courseId !== null &&
+        Setting.__storage.gradingScales &&
+        Setting.__storage.gradingScales[courseId]
+    ) {
         return Setting.__storage.gradingScales[courseId];
     }
 
@@ -413,10 +464,30 @@ export async function updateSettings() {
     modalContents = createElement("div", [], undefined, [
         createElement("div", ["splus-modal-contents", "splus-settings-tabs"], {}, [
             createElement("ul", [], {}, [
-                createElement("li", [], {}, [createElement("a", [], { href: "#splus-settings-section-appearance", textContent: "Appearance" })]),
-                createElement("li", [], {}, [createElement("a", [], { href: "#splus-settings-section-sidebar", textContent: "Homepage/Sidebar" })]),
-                createElement("li", [], {}, [createElement("a", [], { href: "#splus-settings-section-grades", textContent: "Grades" })]),
-                createElement("li", [], {}, [createElement("a", [], { href: "#splus-settings-section-utilities", textContent: "Utilities" })]),
+                createElement("li", [], {}, [
+                    createElement("a", [], {
+                        href: "#splus-settings-section-appearance",
+                        textContent: "Appearance",
+                    }),
+                ]),
+                createElement("li", [], {}, [
+                    createElement("a", [], {
+                        href: "#splus-settings-section-sidebar",
+                        textContent: "Homepage/Sidebar",
+                    }),
+                ]),
+                createElement("li", [], {}, [
+                    createElement("a", [], {
+                        href: "#splus-settings-section-grades",
+                        textContent: "Grades",
+                    }),
+                ]),
+                createElement("li", [], {}, [
+                    createElement("a", [], {
+                        href: "#splus-settings-section-utilities",
+                        textContent: "Utilities",
+                    }),
+                ]),
             ]),
             createElement("div", [], { id: "splus-settings-section-appearance" }, [
                 new Setting(
@@ -427,7 +498,7 @@ export async function updateSettings() {
                     "button",
                     {},
                     value => "Theme Editor",
-                    event => location.href = browser.runtime.getURL("/theme-editor.html"),
+                    event => (location.href = browser.runtime.getURL("/theme-editor.html")),
                     element => undefined
                 ).control,
                 new Setting(
@@ -438,13 +509,15 @@ export async function updateSettings() {
                     "select",
                     {
                         options: [
-                            ...__defaultThemes.filter(
-                                t => LAUSD_THEMES.includes(t.name) ? isLAUSD() : true
-                            ).map(t => { return { text: t.name, value: t.name } }),
-                            ...(Setting.__storage.themes || []).map(
-                                t => { return { text: t.name, value: t.name } }
-                            )
-                        ]
+                            ...__defaultThemes
+                                .filter(t => (LAUSD_THEMES.includes(t.name) ? isLAUSD() : true))
+                                .map(t => {
+                                    return { text: t.name, value: t.name };
+                                }),
+                            ...(Setting.__storage.themes || []).map(t => {
+                                return { text: t.name, value: t.name };
+                            }),
+                        ],
                     },
                     value => {
                         tempTheme = undefined;
@@ -467,7 +540,7 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "All Icons",
-                                value: "enabled"
+                                value: "enabled",
                             },
                             {
                                 text: "Default Icons Only",
@@ -475,9 +548,9 @@ export async function updateSettings() {
                             },
                             {
                                 text: "Disabled",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -486,20 +559,22 @@ export async function updateSettings() {
                 new Setting(
                     "useDefaultIconSet",
                     "Use Built-In Icon Set",
-                    `[Refresh required] Use Schoology Plus's <a href="${chrome.runtime.getURL("/default-icons.html")}" target="_blank">default course icons</a> as a fallback when a custom icon has not been specified. NOTE: these icons were meant for schools in Los Angeles Unified School District and may not work correctly for other schools.`,
+                    `[Refresh required] Use Schoology Plus's <a href="${chrome.runtime.getURL(
+                        "/default-icons.html"
+                    )}" target="_blank">default course icons</a> as a fallback when a custom icon has not been specified. NOTE: these icons were meant for schools in Los Angeles Unified School District and may not work correctly for other schools.`,
                     isLAUSD() ? "enabled" : "disabled",
                     "select",
                     {
                         options: [
                             {
                                 text: "Enabled",
-                                value: "enabled"
+                                value: "enabled",
                             },
                             {
                                 text: "Disabled",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -515,13 +590,13 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Enabled",
-                                value: "enabled"
+                                value: "enabled",
                             },
                             {
                                 text: "Disabled",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -537,38 +612,40 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Enabled",
-                                value: "true"
+                                value: "true",
                             },
                             {
                                 text: "Disabled",
-                                value: "false"
-                            }
-                        ]
+                                value: "false",
+                            },
+                        ],
                     },
                     value => {
                         document.documentElement.setAttribute("style-override", value);
                         return value;
                     },
-                    function (this: Setting, event) { this.onload((event.target as HTMLElementWithValue).value) },
+                    function (this: Setting, event) {
+                        this.onload((event.target as HTMLElementWithValue).value);
+                    },
                     element => element.value
                 ).control,
                 new Setting(
                     "archivedCoursesButton",
                     "Archived Courses Button",
-                    'Adds a link to see past/archived courses in the courses dropdown',
+                    "Adds a link to see past/archived courses in the courses dropdown",
                     "show",
                     "select",
                     {
                         options: [
                             {
                                 text: "Show",
-                                value: "show"
+                                value: "show",
                             },
                             {
                                 text: "Hide",
-                                value: "hide"
-                            }
-                        ]
+                                value: "hide",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -584,19 +661,21 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Show",
-                                value: "block"
+                                value: "block",
                             },
                             {
                                 text: "Hide",
-                                value: "none"
-                            }
-                        ]
+                                value: "none",
+                            },
+                        ],
                     },
                     value => {
                         setCSSVariable("power-school-logo-display", value);
                         return value;
                     },
-                    function (this: Setting, event) { this.onload((event.target as HTMLElementWithValue).value) },
+                    function (this: Setting, event) {
+                        this.onload((event.target as HTMLElementWithValue).value);
+                    },
                     element => element.value
                 ).control,
             ]),
@@ -611,21 +690,21 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Show Check Mark ✔ (Enables manual checklist)",
-                                value: "check"
+                                value: "check",
                             },
                             {
                                 text: "Show Strikethrough (Doesn't allow manual checklist)",
-                                value: "strikethrough"
+                                value: "strikethrough",
                             },
                             {
                                 text: "Hide Assignment (Not recommended)",
-                                value: "hide"
+                                value: "hide",
                             },
                             {
                                 text: "Do Nothing",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -641,13 +720,13 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Show Icons",
-                                value: "visible"
+                                value: "visible",
                             },
                             {
                                 text: "Hide Icons",
-                                value: "hidden"
-                            }
-                        ]
+                                value: "hidden",
+                            },
+                        ],
                     },
                     value => {
                         setCSSVariable("to-do-list-icons-display", "block");
@@ -658,7 +737,9 @@ export async function updateSettings() {
                         }
                         return value;
                     },
-                    function (this: Setting, event) { this.onload((event.target as HTMLElementWithValue).value) },
+                    function (this: Setting, event) {
+                        this.onload((event.target as HTMLElementWithValue).value);
+                    },
                     element => element.value
                 ).control,
                 new Setting(
@@ -667,22 +748,46 @@ export async function updateSettings() {
                     "",
                     {
                         include: [],
-                        exclude: []
+                        exclude: [],
                     },
                     "custom",
                     {
                         element: createElement("div", [], {}, [
-                            createElement("p", [], { style: { fontWeight: "normal" }, textContent: "Drag items between the sections to control which sections of the sidebar are visible and the order in which they are shown." }),
+                            createElement("p", [], {
+                                style: { fontWeight: "normal" },
+                                textContent:
+                                    "Drag items between the sections to control which sections of the sidebar are visible and the order in which they are shown.",
+                            }),
                             createElement("div", ["sortable-container"], {}, [
                                 createElement("div", ["sortable-list"], {}, [
-                                    createElement("h3", ["splus-underline-heading"], { textContent: "Sections to Hide" }),
-                                    createElement("ul", ["sidebar-sortable", "splus-modern-border-radius", "splus-modern-padding"], { id: "sidebar-excluded-sortable" })
+                                    createElement("h3", ["splus-underline-heading"], {
+                                        textContent: "Sections to Hide",
+                                    }),
+                                    createElement(
+                                        "ul",
+                                        [
+                                            "sidebar-sortable",
+                                            "splus-modern-border-radius",
+                                            "splus-modern-padding",
+                                        ],
+                                        { id: "sidebar-excluded-sortable" }
+                                    ),
                                 ]),
                                 createElement("div", ["sortable-list"], {}, [
-                                    createElement("h3", ["splus-underline-heading"], { textContent: "Sections to Show" }),
-                                    createElement("ul", ["sidebar-sortable", "splus-modern-border-radius", "splus-modern-padding"], { id: "sidebar-included-sortable" })
+                                    createElement("h3", ["splus-underline-heading"], {
+                                        textContent: "Sections to Show",
+                                    }),
+                                    createElement(
+                                        "ul",
+                                        [
+                                            "sidebar-sortable",
+                                            "splus-modern-border-radius",
+                                            "splus-modern-padding",
+                                        ],
+                                        { id: "sidebar-included-sortable" }
+                                    ),
                                 ]),
-                            ])
+                            ]),
                         ]),
                     },
                     function (value, element) {
@@ -697,34 +802,71 @@ export async function updateSettings() {
                         }
 
                         for (let section of value.include) {
-                            includeList.appendChild(createElement("p", ["sortable-item", "splus-modern-border-radius", "splus-modern-padding"], { textContent: section }))
+                            includeList.appendChild(
+                                createElement(
+                                    "p",
+                                    [
+                                        "sortable-item",
+                                        "splus-modern-border-radius",
+                                        "splus-modern-padding",
+                                    ],
+                                    { textContent: section }
+                                )
+                            );
                         }
 
                         for (let section of value.exclude) {
-                            excludeList.appendChild(createElement("p", ["sortable-item", "splus-modern-border-radius", "splus-modern-padding"], { textContent: section }))
+                            excludeList.appendChild(
+                                createElement(
+                                    "p",
+                                    [
+                                        "sortable-item",
+                                        "splus-modern-border-radius",
+                                        "splus-modern-padding",
+                                    ],
+                                    { textContent: section }
+                                )
+                            );
                         }
 
                         for (let section of SIDEBAR_SECTIONS) {
-                            if (!value.include.includes(section.name) && !value.exclude.includes(section.name)) {
-                                includeList.appendChild(createElement("p", ["sortable-item", "splus-modern-border-radius", "splus-modern-padding"], { textContent: section.name }))
+                            if (
+                                !value.include.includes(section.name) &&
+                                !value.exclude.includes(section.name)
+                            ) {
+                                includeList.appendChild(
+                                    createElement(
+                                        "p",
+                                        [
+                                            "sortable-item",
+                                            "splus-modern-border-radius",
+                                            "splus-modern-padding",
+                                        ],
+                                        { textContent: section.name }
+                                    )
+                                );
                             }
                         }
                     },
-                    function (event) { console.log(event); },
+                    function (event) {
+                        console.log(event);
+                    },
                     element => {
                         let includeList = element.querySelector("#sidebar-included-sortable")!;
                         let excludeList = element.querySelector("#sidebar-excluded-sortable")!;
 
                         return {
                             include: Array.from(includeList.children).map(e => e.textContent),
-                            exclude: Array.from(excludeList.children).map(e => e.textContent)
-                        }
+                            exclude: Array.from(excludeList.children).map(e => e.textContent),
+                        };
                     },
                     function (this: Setting) {
-                        $(".sidebar-sortable").sortable({
-                            connectWith: ".sidebar-sortable",
-                            stop: () => Setting.onModify(this.getElement())
-                        }).disableSelection();
+                        $(".sidebar-sortable")
+                            .sortable({
+                                connectWith: ".sidebar-sortable",
+                                stop: () => Setting.onModify(this.getElement()),
+                            })
+                            .disableSelection();
                     }
                 ).control,
             ]),
@@ -739,13 +881,13 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Enabled",
-                                value: "enabled"
+                                value: "enabled",
                             },
                             {
                                 text: "Disabled",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -761,13 +903,13 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "By Period",
-                                value: "period"
+                                value: "period",
                             },
                             {
                                 text: "Alphabetically",
-                                value: "alpha"
-                            }
-                        ]
+                                value: "alpha",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -783,19 +925,24 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Show",
-                                value: "enabled"
+                                value: "enabled",
                             },
                             {
                                 text: "Hide",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => {
-                        setCSSVariable("weighted-gradebook-indicator-display", value == "enabled" ? "inline" : "none")
+                        setCSSVariable(
+                            "weighted-gradebook-indicator-display",
+                            value == "enabled" ? "inline" : "none"
+                        );
                         return value;
                     },
-                    function (this: Setting, event) { this.onload((event.target as HTMLElementWithValue).value) },
+                    function (this: Setting, event) {
+                        this.onload((event.target as HTMLElementWithValue).value);
+                    },
                     element => element.value
                 ).control,
             ]),
@@ -810,21 +957,21 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Enable All Notifications",
-                                value: "enabled"
+                                value: "enabled",
                             },
                             {
                                 text: "Number Badge Only (No Pop-Ups)",
-                                value: "badge"
+                                value: "badge",
                             },
                             {
                                 text: "Pop-Ups Only (No Badge)",
-                                value: "popup"
+                                value: "popup",
                             },
                             {
                                 text: "Disable All Notifications",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -840,13 +987,13 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Enable Announcements",
-                                value: "enabled"
+                                value: "enabled",
                             },
                             {
                                 text: "Disable Announcements",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -862,13 +1009,13 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Enabled",
-                                value: "enabled"
+                                value: "enabled",
                             },
                             {
                                 text: "Disabled",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -884,13 +1031,13 @@ export async function updateSettings() {
                         options: [
                             {
                                 text: "Enabled",
-                                value: "enabled"
+                                value: "enabled",
                             },
                             {
                                 text: "Disabled",
-                                value: "disabled"
-                            }
-                        ]
+                                value: "disabled",
+                            },
+                        ],
                     },
                     value => value,
                     undefined,
@@ -898,26 +1045,62 @@ export async function updateSettings() {
                 ).control,
                 createElement("div", ["setting-entry"], {}, [
                     createElement("h2", ["setting-title"], {}, [
-                        createElement("a", [], { href: "#", textContent: "Change Schoology Account Access", onclick: () => { location.pathname = "/api"; }, style: { fontSize: "" } })
+                        createElement("a", [], {
+                            href: "#",
+                            textContent: "Change Schoology Account Access",
+                            onclick: () => {
+                                location.pathname = "/api";
+                            },
+                            style: { fontSize: "" },
+                        }),
                     ]),
-                    createElement("p", ["setting-description"], { textContent: "Grant Schoology Plus access to your Schoology API Key so many features can function, or revoke that access." })
+                    createElement("p", ["setting-description"], {
+                        textContent:
+                            "Grant Schoology Plus access to your Schoology API Key so many features can function, or revoke that access.",
+                    }),
                 ]),
-                getBrowser() !== "Firefox" ? createElement("div", ["setting-entry"], {}, [
-                    createElement("h2", ["setting-title"], {}, [
-                        createElement("a", [], { href: "#", textContent: "Anonymous Usage Statistics", onclick: () => openModal("analytics-modal"), style: { fontSize: "" } })
-                    ]),
-                    createElement("p", ["setting-description"], { textContent: "[Reload required] Allow Schoology Plus to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy." })
-                ]) : noControl,
+                getBrowser() !== "Firefox"
+                    ? createElement("div", ["setting-entry"], {}, [
+                          createElement("h2", ["setting-title"], {}, [
+                              createElement("a", [], {
+                                  href: "#",
+                                  textContent: "Anonymous Usage Statistics",
+                                  onclick: () => openModal("analytics-modal"),
+                                  style: { fontSize: "" },
+                              }),
+                          ]),
+                          createElement("p", ["setting-description"], {
+                              textContent:
+                                  "[Reload required] Allow Schoology Plus to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy.",
+                          }),
+                      ])
+                    : noControl,
             ]),
         ]),
         createElement("div", ["settings-buttons-wrapper"], undefined, [
             createButton("save-settings", "Save Settings", () => Setting.saveModified()),
             createElement("div", ["settings-actions-wrapper"], {}, [
-                createElement("a", [], { textContent: "View Debug Info", onclick: () => openModal("debug-modal"), href: "#" }),
-                createElement("a", [], { textContent: "Export Settings", onclick: Setting.export, href: "#" }),
-                createElement("a", [], { textContent: "Import Settings", onclick: Setting.import, href: "#" }),
-                createElement("a", ["restore-defaults"], { textContent: "Restore Defaults", onclick: Setting.restoreDefaults, href: "#" })
+                createElement("a", [], {
+                    textContent: "View Debug Info",
+                    onclick: () => openModal("debug-modal"),
+                    href: "#",
+                }),
+                createElement("a", [], {
+                    textContent: "Export Settings",
+                    onclick: Setting.export,
+                    href: "#",
+                }),
+                createElement("a", [], {
+                    textContent: "Import Settings",
+                    onclick: Setting.import,
+                    href: "#",
+                }),
+                createElement("a", ["restore-defaults"], {
+                    textContent: "Restore Defaults",
+                    onclick: Setting.restoreDefaults,
+                    href: "#",
+                }),
             ]),
-        ])
+        ]),
     ]);
 }

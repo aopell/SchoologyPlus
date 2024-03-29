@@ -1,4 +1,3 @@
-
 type LoggerFunction = (...args: any[]) => void;
 
 interface Logger {
@@ -17,7 +16,7 @@ export const Logger: Logger = {
     warn: (() => console.warn.bind(window.console, `%c+`, createLogPrefix("#FDFD96")))(),
     trace: (() => console.trace.bind(window.console, `%c+`, createLogPrefix("orange")))(),
     debug: (() => console.debug.bind(window.console, `%c+`, createLogPrefix("lightgreen")))(),
-}
+};
 
 function createLogPrefix(color: string): string {
     return `color:${color};border:1px solid #2A2A2A;border-radius:100%;font-size:14px;font-weight:bold;padding: 0 4px 0 4px;background-color:#2A2A2A`;

@@ -1,5 +1,6 @@
-import { getBrowser } from "./dom";
 import browser from "webextension-polyfill";
+
+import { getBrowser } from "./dom";
 
 declare global {
     interface Window {
@@ -23,16 +24,19 @@ interface AnalyticsEventProps {
  * Tracks an event using Google Analytics if the user did not opt out
  * NOTE: The Firefox version of the extension has no support for Google Analytics
  */
-export var trackEvent = function (eventName: string, {
-    legacyTarget,
-    legacyAction,
-    legacyLabel = undefined,
-    legacyValue = undefined,
-    id,
-    context,
-    value,
-    ...extraProps
-}: AnalyticsEventProps = {}): void {
+export var trackEvent = function (
+    eventName: string,
+    {
+        legacyTarget,
+        legacyAction,
+        legacyLabel = undefined,
+        legacyValue = undefined,
+        id,
+        context,
+        value,
+        ...extraProps
+    }: AnalyticsEventProps = {}
+): void {
     console.debug("[S+] Tracking disabled by user", arguments);
 };
 
@@ -41,7 +45,7 @@ export async function initializeAnalytics() {
         // E.g. 8 * 32 = 256 bits token
         var randomPool = new Uint8Array(32);
         crypto.getRandomValues(randomPool);
-        var hex = '';
+        var hex = "";
         for (var i = 0; i < randomPool.length; ++i) {
             hex += randomPool[i].toString(16);
         }
@@ -49,7 +53,12 @@ export async function initializeAnalytics() {
         return hex;
     }
 
-    let s = await browser.storage.sync.get({ analytics: getBrowser() === "Firefox" ? "disabled" : "enabled", theme: "<unset>", beta: "<unset>", newVersion: "<unset>" });
+    let s = await browser.storage.sync.get({
+        analytics: getBrowser() === "Firefox" ? "disabled" : "enabled",
+        theme: "<unset>",
+        beta: "<unset>",
+        newVersion: "<unset>",
+    });
 
     if (s.analytics === "enabled") {
         let l = await browser.storage.local.get({ randomUserId: null });
@@ -63,7 +72,12 @@ export async function initializeAnalytics() {
         }
     }
 
-    function enableAnalytics(selectedTheme: string, beta: string, newVersion: string, randomUserId: string) {
+    function enableAnalytics(
+        selectedTheme: string,
+        beta: string,
+        newVersion: string,
+        randomUserId: string
+    ) {
         // Google Analytics v4
 
         window.dataLayer = window.dataLayer || [];
@@ -72,9 +86,9 @@ export async function initializeAnalytics() {
             window.dataLayer?.push(args);
         }
 
-        gtag('js', new Date());
+        gtag("js", new Date());
 
-        gtag('config', 'G-YM6B00RDYC', {
+        gtag("config", "G-YM6B00RDYC", {
             page_location: location.href.replace(/\/\d{3,}\b/g, "/*"),
             page_path: location.pathname.replace(/\/\d{3,}\b/g, "/*"),
             page_title: null,
@@ -86,24 +100,27 @@ export async function initializeAnalytics() {
                 modernTheme: document.documentElement.getAttribute("modern"),
                 activeBeta: beta,
                 lastEnabledVersion: newVersion,
-            }
+            },
         });
 
-        trackEvent = function (eventName, {
-            legacyTarget,
-            legacyAction,
-            legacyLabel = undefined,
-            legacyValue = undefined,
-            id,
-            context,
-            value,
-            ...extraProps
-        } = {}) {
-            let eventData = {
+        trackEvent = function (
+            eventName,
+            {
+                legacyTarget,
+                legacyAction,
+                legacyLabel = undefined,
+                legacyValue = undefined,
                 id,
                 context,
                 value,
                 ...extraProps
+            } = {}
+        ) {
+            let eventData = {
+                id,
+                context,
+                value,
+                ...extraProps,
             };
             console.debug(`[S+] Tracked event:`, eventName, eventData);
             gtag("event", eventName, eventData);
@@ -146,7 +163,7 @@ export async function initializeAnalytics() {
         function init() {
             observer.observe(document.body, {
                 childList: true,
-                subtree: true
+                subtree: true,
             });
 
             for (let elem of document.querySelectorAll(".splus-track-clicks")) {
