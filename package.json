@@ -15,11 +15,17 @@
     "url": "https://github.com/aopell/SchoologyPlus"
   },
   "dependencies": {
-    "izitoast": "1.4.0"
+    "izitoast": "1.4.0",
+    "jquery": "3.3.1",
+    "jquery-migrate": "3.0.1",
+    "jquery-ui": "1.12.1",
+    "jquery.tipsy": "1.0.3"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/chrome": "0.0.212",
+    "@types/jquery": "3.3.1",
+    "@types/jqueryui": "1.12.1",
     "@types/node": "^18.13.0",
     "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",

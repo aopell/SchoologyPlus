@@ -1,3 +1,5 @@
+import $ from "jquery";
+import "jquery-ui/ui/widgets/sortable";
 import browser from "webextension-polyfill";
 
 import { trackEvent } from "./analytics";
@@ -124,13 +126,11 @@ export class Setting {
      * Saves modified settings to the Chrome Sync Storage
      * @param {Object.<string,any>} modifiedValues An object containing modified setting keys and values
      * @param {boolean} [updateButtonText=true] Change the value of the "Save Settings" button to "Saved!" temporarily
-     * @param {()=>any} [callback=null] A function called after settings have been saved and updated
      * @param {boolean} [saveUiSettings=true] Whether or not to save modified settings from the UI as well as the passed dictionary.
      */
-    static saveModified(
+    static async saveModified(
         modifiedValues?: { [s: string]: any },
         updateButtonText: boolean = true,
-        callback?: () => any,
         saveUiSettings: boolean = true
     ) {
         let newValues: { [s: string]: any } = {};
@@ -149,35 +149,36 @@ export class Setting {
                 }
             }
         }
-        browser.storage.sync.set(newValues).then(() => {
-            for (let settingName in newValues) {
-                let setting = Setting.__settings[settingName];
-                if (!setting) {
-                    continue;
-                }
 
-                trackEvent("update_setting", {
-                    id: settingName,
-                    context: "Settings",
-                    value: newValues[settingName],
-                    legacyTarget: settingName,
-                    legacyAction: `set value: ${newValues[settingName]}`,
-                    legacyLabel: "Setting",
-                });
+        await browser.storage.sync.set(newValues);
 
-                if (!setting.getElement()) {
-                    continue;
-                }
-                let settingModifiedIndicator = setting
-                    .getElement()
-                    .parentElement!.querySelector(".setting-modified");
-                if (settingModifiedIndicator) {
-                    settingModifiedIndicator.remove();
-                }
+        for (let settingName in newValues) {
+            let setting = Setting.__settings[settingName];
+            if (!setting) {
+                continue;
             }
 
-            updateSettings().then(callback);
-        });
+            trackEvent("update_setting", {
+                id: settingName,
+                context: "Settings",
+                value: newValues[settingName],
+                legacyTarget: settingName,
+                legacyAction: `set value: ${newValues[settingName]}`,
+                legacyLabel: "Setting",
+            });
+
+            if (!setting.getElement()) {
+                continue;
+            }
+            let settingModifiedIndicator = setting
+                .getElement()
+                .parentElement!.querySelector(".setting-modified");
+            if (settingModifiedIndicator) {
+                settingModifiedIndicator.remove();
+            }
+        }
+
+        await updateSettings();
 
         if (updateButtonText) {
             let settingsSaved = document.getElementById("save-settings") as HTMLElementWithValue;
@@ -191,7 +192,7 @@ export class Setting {
     /**
      * Deletes all settings from Chrome Sync Storage and the local `storage` object and reloads the page
      */
-    static restoreDefaults() {
+    static async restoreDefaults() {
         if (confirm("Are you sure you want to delete all settings?\nTHIS CANNOT BE UNDONE")) {
             trackEvent("reset_settings", {
                 context: "Settings",
@@ -201,7 +202,7 @@ export class Setting {
             });
             for (let setting in Setting.__settings) {
                 delete Setting.__storage[setting];
-                browser.storage.sync.remove(setting);
+                await browser.storage.sync.remove(setting);
                 Setting.__settings[setting].onload(
                     undefined,
                     Setting.__settings[setting].getElement()
@@ -250,7 +251,7 @@ export class Setting {
             try {
                 let importedSettingsObj = JSON.parse(importedSettings!);
 
-                Setting.setValues(importedSettingsObj, () => {
+                Setting.setValues(importedSettingsObj).then(() => {
                     trackEvent("button_click", {
                         id: "import-settings-success",
                         context: "Settings",
@@ -358,10 +359,9 @@ export class Setting {
      * function will NOT be called.
      * @param {string} name The name of the setting to set the value of
      * @param {any} value The value to set
-     * @param {()=>any} callback Function called after new value is saved
      */
-    static setValue(name: string, value: any, callback?: () => any) {
-        Setting.saveModified({ [name]: value }, false, callback, false);
+    static async setValue(name: string, value: any) {
+        await Setting.saveModified({ [name]: value }, false, false);
 
         if (name === "defaultDomain") {
             browser.runtime.sendMessage({ type: "updateDefaultDomain", domain: value });
@@ -373,12 +373,11 @@ export class Setting {
      * @param {string} parent The name of the object in which to place `key`
      * @param {string} key The key within `parent` in which to store the value
      * @param {any} value The value to set
-     * @param {()=>any} callback Function called after new value is saved
      */
-    static setNestedValue<T>(parent: string, key: string, value: T, callback?: () => any) {
+    static async setNestedValue<T>(parent: string, key: string, value: T) {
         var currentValue = Setting.getValue<{ [x: string]: T }>(parent, {});
         currentValue[key] = value;
-        Setting.saveModified({ [parent]: currentValue }, false, callback, false);
+        await Setting.saveModified({ [parent]: currentValue }, false, false);
     }
 
     /**
@@ -388,8 +387,8 @@ export class Setting {
      * @param {Object.<string,any>} dictionary Dictionary of setting names to values
      * @param {()=>any} callback Function called after new values are saved
      */
-    static setValues(dictionary: { [s: string]: any }, callback?: () => any) {
-        Setting.saveModified(dictionary, false, callback, false);
+    static async setValues(dictionary: { [s: string]: any }) {
+        await Setting.saveModified(dictionary, false, false);
     }
 }
 

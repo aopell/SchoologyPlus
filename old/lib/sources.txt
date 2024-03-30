@@ -5,20 +5,20 @@ https://github.com/soundar24/roundSlider/blob/v1.4.1/dist/roundslider.min.css
 findAndReplaceDOMText v0.4.6
 https://github.com/padolsey/findAndReplaceDOMText/blob/0.4.6/src/findAndReplaceDOMText.js
 
-iziToast v1.4.0
+iziToast v1.4.0 [DONE]
 https://github.com/marcelodolza/iziToast/blob/v1.4.0/dist/js/iziToast.min.js
 https://github.com/marcelodolza/iziToast/blob/v1.4.0/dist/css/iziToast.css
 
-jquery v3.3.1
+jquery v3.3.1 [DONE]
 https://github.com/jquery/jquery/blob/3.3.1/dist/jquery.min.js
 
-jquery-migrate v3.0.1
+jquery-migrate v3.0.1 [DONE]
 https://code.jquery.com/jquery-migrate-3.0.1.js
 
-jquery-ui v1.12.1
+jquery-ui v1.12.1 [DONE]
 https://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
 
-jquery.tipsy v1.0.3
+jquery.tipsy v1.0.3 [DONE]
 https://github.com/MartinMartimeo/tipsy/blob/1.0.3/src/jquery.tipsy.js
 
 materialize v1.0.0

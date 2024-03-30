@@ -10,6 +10,7 @@ import {
     RainbowColorComponentAnimation,
     SchoologyThemeV2,
 } from "./theme-model";
+import { createToastButton, showToast } from "./toast";
 import { InterfaceOf } from "./types";
 
 interface ThemeProfilePictureOverride {
