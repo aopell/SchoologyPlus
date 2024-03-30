@@ -378,7 +378,7 @@ export default class Theme {
         }
     }
 
-    static setProfilePictures(candidateImages?: NodeListOf<HTMLImageElement>) {
+    static setProfilePictures(candidateImages?: HTMLCollectionOf<HTMLImageElement>) {
         if (Setting.getValue("courseIcons") === "disabled") return;
         // whether or not to skip setting themed icons where the teacher has already set one
         let skipOverriddenIcons = Setting.getValue("courseIcons") === "defaultOnly";

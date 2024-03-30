@@ -148,7 +148,7 @@ export function fetchApi(path: string): Promise<Response> {
  * @param {boolean} [useRateLimit=true] Whether or not to use the internal Schoology API rate limit tracker. Defaults to true.
  * @param {string} [bodyReadType="json"] The method with which the body should be read.
  */
-async function fetchWithApiAuthentication(
+export async function fetchWithApiAuthentication(
     url: string,
     baseObj?: { [s: string]: string },
     useRateLimit: boolean = true,
@@ -168,7 +168,7 @@ async function fetchWithApiAuthentication(
  * @returns {Promise<object>} The parsed response from the Schoology API.
  * @param {string} path The API path, e.g. "/sections/12345/assignments/12"
  */
-export async function fetchApiJson(path: string): Promise<object> {
+export async function fetchApiJson(path: string): Promise<Record<string, any>> {
     let response;
     try {
         response = await fetchApi(path);
@@ -208,7 +208,7 @@ async function getApiKeysInternal(): Promise<string[]> {
 /**
  * Gets the current user's ID.
  */
-function getUserId(): number {
+export function getUserId(): number {
     try {
         const trackerFrame = document.querySelector<HTMLIFrameElement>(
             "iframe[src*=session-tracker]"

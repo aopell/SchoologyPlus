@@ -1,3 +1,5 @@
+import browser from "webextension-polyfill";
+
 import { SchoologyThemeV2 } from "./theme-model";
 
 export const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue", "LAUSD 2019"];
@@ -270,7 +272,7 @@ export const DEFAULT_THEMES: SchoologyThemeV2[] = [
             preset: "schoology_plus",
         },
         cursor: {
-            primary: chrome.runtime.getURL("/imgs/toy-mode.png"),
+            primary: browser.runtime.getURL("/imgs/toy-mode.png"),
         },
     },
     {

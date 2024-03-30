@@ -25,7 +25,7 @@ type ToastButton = [
  * @param {string} title Toast title
  * @param {string} message Toast message
  * @param {string} color Progress bar color
- * @param {{theme:string,layout:number,buttons:[],timeout:number,position:string,options:{}}} options Options object (options object inside options is for additional options). Default values: `{ theme: "dark", layout: 1, timeout: 0, position: "topRight", iconUrl: chrome.runtime.getURL("/imgs/plus-icon.png") }`
+ * @param {{theme:string,layout:number,buttons:[],timeout:number,position:string,options:{}}} options Options object (options object inside options is for additional options)
  */
 export function showToast(
     title: string,

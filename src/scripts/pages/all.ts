@@ -4,7 +4,7 @@ import { getBrowser } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import { Setting, updateSettings } from "../utils/settings";
 
-async function load() {
+export async function load() {
     Logger.log(
         `Loaded Schoology Plus version ${browser.runtime.getManifest().version}${
             getBrowser() != "Chrome" || (browser.runtime.getManifest() as any).update_url

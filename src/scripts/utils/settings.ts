@@ -22,8 +22,8 @@ export class Setting {
     onload: (value: any, element?: HTMLElementWithValue) => any;
     onshown?: () => any;
 
-    static __settings: { [s: string]: Setting } = {};
-    static __storage: { [s: string]: any } = {};
+    static settings: { [s: string]: Setting } = {};
+    static raw_storage: { [s: string]: any } = {};
 
     constructor(
         name: string,
@@ -102,20 +102,20 @@ export class Setting {
             controlElement.dataset.settingName = name;
             controlElement.id = `setting-input-${name}`;
 
-            if (!Setting.__storage[name]) {
-                Setting.__storage[name] = defaultValue;
+            if (!Setting.raw_storage[name]) {
+                Setting.raw_storage[name] = defaultValue;
             }
 
             if (this.onload) {
                 controlElement.value =
-                    this.onload(Setting.__storage[name], controlElement) || this.default;
+                    this.onload(Setting.raw_storage[name], controlElement) || this.default;
             } else {
-                controlElement.value = Setting.__storage[name] || this.default;
+                controlElement.value = Setting.raw_storage[name] || this.default;
             }
 
             return setting;
         })();
-        Setting.__settings[name] = this;
+        Setting.settings[name] = this;
     }
 
     getElement() {
@@ -138,12 +138,12 @@ export class Setting {
             Object.assign(newValues, modifiedValues);
         }
         if (saveUiSettings) {
-            for (let setting in Setting.__settings) {
-                let v = Setting.__settings[setting];
+            for (let setting in Setting.settings) {
+                let v = Setting.settings[setting];
                 if (v.modified) {
                     let value = v.onsave(v.getElement());
                     newValues[setting] = value;
-                    Setting.__storage[setting] = value;
+                    Setting.raw_storage[setting] = value;
                     v.onload(value, v.getElement());
                     v.modified = false;
                 }
@@ -153,7 +153,7 @@ export class Setting {
         await browser.storage.sync.set(newValues);
 
         for (let settingName in newValues) {
-            let setting = Setting.__settings[settingName];
+            let setting = Setting.settings[settingName];
             if (!setting) {
                 continue;
             }
@@ -200,13 +200,10 @@ export class Setting {
                 legacyAction: "restore default values",
                 legacyLabel: "Setting",
             });
-            for (let setting in Setting.__settings) {
-                delete Setting.__storage[setting];
+            for (let setting in Setting.settings) {
+                delete Setting.raw_storage[setting];
                 await browser.storage.sync.remove(setting);
-                Setting.__settings[setting].onload(
-                    undefined,
-                    Setting.__settings[setting].getElement()
-                );
+                Setting.settings[setting].onload(undefined, Setting.settings[setting].getElement());
             }
             location.reload();
         }
@@ -225,7 +222,7 @@ export class Setting {
         });
 
         navigator.clipboard
-            .writeText(JSON.stringify(Setting.__storage, null, 2))
+            .writeText(JSON.stringify(Setting.raw_storage, null, 2))
             .then(() => alert("Copied settings to clipboard!"))
             .catch(err => alert("Exporting settings failed!"));
     }
@@ -287,7 +284,7 @@ export class Setting {
                 })
             );
         }
-        let setting = Setting.__settings[element.dataset.settingName!];
+        let setting = Setting.settings[element.dataset.settingName!];
         setting.modified = true;
         if (setting.onmodify) {
             setting.onmodify(element);
@@ -295,9 +292,9 @@ export class Setting {
     }
 
     static onShown() {
-        for (let setting in Setting.__settings) {
-            if (Setting.__settings[setting].onshown) {
-                Setting.__settings[setting].onshown!();
+        for (let setting in Setting.settings) {
+            if (Setting.settings[setting].onshown) {
+                Setting.settings[setting].onshown!();
             }
         }
     }
@@ -306,8 +303,8 @@ export class Setting {
      * @returns {boolean} `true` if any setting has been modified
      */
     static anyModified(): boolean {
-        for (let setting in Setting.__settings) {
-            if (Setting.__settings[setting].modified) {
+        for (let setting in Setting.settings) {
+            if (Setting.settings[setting].modified) {
                 return true;
             }
         }
@@ -327,10 +324,10 @@ export class Setting {
      * @returns {any} The setting's cached value, default value, or `defaultValue`
      */
     static getValue<T>(name: string, defaultValue?: T): T | undefined {
-        if (Setting.__storage[name]) {
-            return Setting.__storage[name];
-        } else if (Setting.__settings[name] && !defaultValue) {
-            return Setting.__settings[name].default;
+        if (Setting.raw_storage[name]) {
+            return Setting.raw_storage[name];
+        } else if (Setting.settings[name] && !defaultValue) {
+            return Setting.settings[name].default;
         }
         return defaultValue;
     }
@@ -347,8 +344,8 @@ export class Setting {
      * @returns {any} The setting's cached value, default value, or `defaultValue`
      */
     static getNestedValue<T>(parent: string, key: string, defaultValue?: T): T | undefined {
-        if (Setting.__storage[parent] && key in Setting.__storage[parent]) {
-            return Setting.__storage[parent][key];
+        if (Setting.raw_storage[parent] && key in Setting.raw_storage[parent]) {
+            return Setting.raw_storage[parent][key];
         }
         return defaultValue;
     }
@@ -421,10 +418,14 @@ var SIDEBAR_SECTIONS = [
 
 var SIDEBAR_SECTIONS_MAP = Object.fromEntries(SIDEBAR_SECTIONS.map(s => [s.name, s]));
 
+export const BETA_TESTS: Record<string, string | undefined> = {
+    test: "https://schoologypl.us",
+};
+
 var firstLoad = true;
 var modalContents: HTMLDivElement | undefined = undefined;
 
-function getModalContents() {
+export function getModalContents() {
     return modalContents || createElement("p", [], { textContent: "Error loading settings" });
 }
 
@@ -436,19 +437,33 @@ export function isLAUSD(): boolean {
     return Setting.getValue("defaultDomain") === "lms.lausd.net";
 }
 
+export function generateDebugInfo() {
+    return JSON.stringify(
+        {
+            version: chrome.runtime.getManifest().version,
+            getBrowser: getBrowser(),
+            url: location.href,
+            storageContents: Setting.raw_storage,
+            userAgent: navigator.userAgent,
+        },
+        null,
+        2
+    );
+}
+
 function getGradingScale(courseId: string | null) {
     let defaultGradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
 
-    if (Setting.__storage.defaultGradingScale) {
-        defaultGradingScale = Setting.__storage.defaultGradingScale;
+    if (Setting.raw_storage.defaultGradingScale) {
+        defaultGradingScale = Setting.raw_storage.defaultGradingScale;
     }
 
     if (
         courseId !== null &&
-        Setting.__storage.gradingScales &&
-        Setting.__storage.gradingScales[courseId]
+        Setting.raw_storage.gradingScales &&
+        Setting.raw_storage.gradingScales[courseId]
     ) {
-        return Setting.__storage.gradingScales[courseId];
+        return Setting.raw_storage.gradingScales[courseId];
     }
 
     return defaultGradingScale;
@@ -459,7 +474,7 @@ function getGradingScale(courseId: string | null) {
  */
 export async function updateSettings() {
     const storageContents = await browser.storage.sync.get(null);
-    Setting.__storage = storageContents;
+    Setting.raw_storage = storageContents;
 
     if (firstLoad) {
         if (storageContents.themes) {
@@ -527,7 +542,7 @@ export async function updateSettings() {
                             ).map(t => {
                                 return { text: t.name, value: t.name };
                             }),
-                            ...(Setting.__storage.themes || []).map((t: AnySchoolgyTheme) => {
+                            ...(Setting.raw_storage.themes || []).map((t: AnySchoolgyTheme) => {
                                 return { text: t.name, value: t.name };
                             }),
                         ],
@@ -572,7 +587,7 @@ export async function updateSettings() {
                 new Setting(
                     "useDefaultIconSet",
                     "Use Built-In Icon Set",
-                    `[Refresh required] Use Schoology Plus's <a href="${chrome.runtime.getURL(
+                    `[Refresh required] Use Schoology Plus's <a href="${browser.runtime.getURL(
                         "/default-icons.html"
                     )}" target="_blank">default course icons</a> as a fallback when a custom icon has not been specified. NOTE: these icons were meant for schools in Los Angeles Unified School District and may not work correctly for other schools.`,
                     isLAUSD() ? "enabled" : "disabled",
