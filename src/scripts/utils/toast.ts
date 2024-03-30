@@ -4,6 +4,7 @@ import iziToast, {
     IziToastSettings,
     IziToastTransitionOut,
 } from "izitoast";
+import browser from "webextension-polyfill";
 
 import { trackEvent } from "./analytics";
 
@@ -37,7 +38,7 @@ export function showToast(
         timeout = 0,
         position = "topRight",
         options = {},
-        iconUrl = chrome.runtime.getURL("/imgs/plus-icon.png"),
+        iconUrl = browser.runtime.getURL("/imgs/plus-icon.png"),
     }: {
         theme?: string;
         layout?: number;
@@ -51,7 +52,7 @@ export function showToast(
         layout: 1,
         timeout: 0,
         position: "topRight",
-        iconUrl: chrome.runtime.getURL("/imgs/plus-icon.png"),
+        iconUrl: browser.runtime.getURL("/imgs/plus-icon.png"),
     }
 ) {
     let toastOptions = {
