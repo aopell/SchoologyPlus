@@ -51,7 +51,7 @@ export function createElement<K extends keyof HTMLElementTagNameMap>(
  * @param {string} text The text to show on the button
  * @param {(e: Event)=>void} callback A function to be called when the button is clicked
  */
-export function createButton(id: string, text: string, callback: (e: Event) => void) {
+export function createButton(id: string, text: string, callback?: (e: Event) => void) {
     return createElement(
         "span",
         ["submit-span-wrapper", "splus-modal-button"],

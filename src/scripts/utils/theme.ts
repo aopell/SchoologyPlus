@@ -25,7 +25,7 @@ let themeIconLoadElementContainer = document.createElement("div");
 themeIconLoadElementContainer.style.display = "none";
 
 let shownMissingIconsNotification = false;
-const ICON_REQUEST_URL =
+export const ICON_REQUEST_URL =
     "https://docs.google.com/forms/d/e/1FAIpQLSe-v0vRE4Obwkx6iL37aztz3kmpqYBBVxKEsdVxu8CZqk1OCQ/viewform?entry.50164059=";
 
 setInterval(() => {
@@ -53,7 +53,9 @@ export default class Theme {
         document.documentElement.setAttribute("modern", enabled.toString());
     }
 
-    static getIcon(course: string): string | null {
+    static getIcon(course?: string | null): string | null {
+        if (!course) return null;
+
         for (let overridePattern of Theme.profilePictureOverrides) {
             if (course.match(new RegExp(overridePattern.regex, "i"))) {
                 return overridePattern.url;

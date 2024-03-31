@@ -303,6 +303,13 @@
   resolved "https://registry.yarnpkg.com/@types/har-format/-/har-format-1.2.15.tgz#f352493638c2f89d706438a19a9eb300b493b506"
   integrity sha512-RpQH4rXLuvTXKR0zqHq3go0RVXYv/YVqv4TnPH95VbwUxZdQlK1EtcMvQvMpDngHbt13Csh9Z4qT9AbkiQH5BA==
 
+"@types/jquery.contextmenu@^1.7.38":
+  version "1.7.38"
+  resolved "https://registry.yarnpkg.com/@types/jquery.contextmenu/-/jquery.contextmenu-1.7.38.tgz#71d235920126efab21c45cba437be3bd6e1d8ce1"
+  integrity sha512-UJnILf0CmTDABuUglPQ6hVwOKxXNqWK9toErwAwtWa14ipPSsRI3hIVHftKB+kNZ2G3MadQJoroc+p5TU8CN5g==
+  dependencies:
+    "@types/jquery" "*"
+
 "@types/jquery@*":
   version "3.5.29"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.29.tgz#3c06a1f519cd5fc3a7a108971436c00685b5dcea"
@@ -2004,6 +2011,13 @@ jiti@^1.20.0:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.0.tgz#7c97f8fe045724e136a397f7340475244156105d"
   integrity sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==
 
+jquery-contextmenu@2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/jquery-contextmenu/-/jquery-contextmenu-2.9.2.tgz#f9dc362e45871dda2e50fa45de2243e917446ced"
+  integrity sha512-6S6sH/08owDStC/7zNwcN366yR0ydX6PmMB0RnjLRQOp7Nc/rqwEHglshfHrrw2kdTev97GXwRXrayDUmToIOw==
+  dependencies:
+    jquery "^3.5.0"
+
 jquery-migrate@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/jquery-migrate/-/jquery-migrate-3.0.1.tgz#141de3abfe6d301baaa4130b0ec7b9a839845e72"
@@ -2021,7 +2035,7 @@ jquery.tipsy@1.0.3:
   dependencies:
     jquery "*"
 
-jquery@*:
+jquery@*, jquery@^3.5.0:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
   integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==

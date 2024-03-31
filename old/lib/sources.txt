@@ -35,7 +35,7 @@ spectrum v1.8.0
 https://github.com/bgrins/spectrum/blob/1.8.0/spectrum.js
 https://github.com/bgrins/spectrum/blob/1.8.0/spectrum.css
 
-contextmenu v2.9.2
+contextmenu v2.9.2 [DONE]
 https://github.com/swisnl/jQuery-contextMenu/blob/2.9.2/dist/jquery.contextMenu.min.css
 https://github.com/swisnl/jQuery-contextMenu/blob/2.9.2/dist/jquery.contextMenu.min.js
 
