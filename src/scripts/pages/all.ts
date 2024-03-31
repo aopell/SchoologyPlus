@@ -1,11 +1,16 @@
+import iziToast, { IziToast, IziToastSettings } from "izitoast";
 import browser from "webextension-polyfill";
 
-import { createElement, getBrowser } from "../utils/dom";
+import { trackEvent } from "../utils/analytics";
+import { fetchApiJson } from "../utils/api";
+import { createElement, createSvgLogo, getBrowser } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
 import { BETA_TESTS, Setting, updateSettings } from "../utils/settings";
+import Theme from "../utils/theme";
 import { SchoologyTheme } from "../utils/theme-model";
 import { createToastButton, showToast } from "../utils/toast";
+import { versionSpecificFirstLaunch } from "../utils/version";
 
 export async function load() {
     await preload();
@@ -14,6 +19,11 @@ export async function load() {
     handleBetaFeatures();
     updateDefaultDomainSetting();
     pageModifications();
+    handleNewVersion();
+    loadCourseIcons();
+    activateEasterEgg();
+    addDarkThemeToggleButton();
+    addSplusSettingsButton();
 }
 
 async function preload() {
@@ -215,4 +225,284 @@ function pageModifications() {
     );
 
     document.documentElement.style.setProperty("--default-visibility", "visible");
+}
+
+async function handleNewVersion() {
+    // Run when new version installed
+    let newVersion = Setting.getValue<string>("newVersion");
+    if (!newVersion || newVersion != browser.runtime.getManifest().version) {
+        let currentVersion = browser.runtime.getManifest().version;
+
+        if (Setting.getValue<string>("defaultDomain") != window.location.hostname) {
+            Logger.log(
+                "[Updater] Domain isn't set as default, skipping migrations until domain is updated."
+            );
+            return;
+        }
+
+        iziToast.show({
+            theme: "dark",
+            iconUrl: browser.runtime.getURL("/imgs/plus-icon.png"),
+            title: `Welcome to Schoology Plus version ${currentVersion}!`,
+            position: "topRight",
+            timeout: 0,
+            progressBarColor: "hsl(190, 100%, 50%)",
+            buttons: [
+                [
+                    "<button>View Changelog</button>",
+                    function (instance: IziToast, toast: HTMLDivElement) {
+                        instance.hide(
+                            {
+                                transitionOut: "fadeOutRight",
+                                onClosing: function () {
+                                    trackEvent("button_click", {
+                                        id: "viewChangelogButton",
+                                        context: "Toast",
+                                        legacyTarget: "viewChangelogButton",
+                                        legacyAction: "click",
+                                        legacyLabel: "Toast Button",
+                                    });
+                                    Modal.openModal("changelog-modal");
+                                },
+                            },
+                            toast,
+                            "viewChangelogButton"
+                        );
+                    },
+                    true,
+                ],
+            ],
+        } as IziToastSettings);
+
+        await versionSpecificFirstLaunch(currentVersion, newVersion);
+        Setting.setValue("newVersion", chrome.runtime.getManifest().version);
+    }
+}
+
+async function loadCourseIcons() {
+    Theme.profilePictureOverrides = [];
+    let courseProfilePicOverrides =
+        Setting.getValue<Record<string, string>>("forceDefaultCourseIcons") || {};
+
+    let profilePicLoadTasks = [];
+
+    for (let courseId in courseProfilePicOverrides) {
+        if (courseProfilePicOverrides[courseId] == "enabled") {
+            profilePicLoadTasks.push(fetchApiJson("/sections/" + courseId));
+        }
+    }
+
+    Logger.log("Forcing Schoology-default icons for " + profilePicLoadTasks.length + " courses");
+
+    // from https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex/6969486#6969486
+    function escapeRegExp(string: string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+    }
+
+    let overrides = await Promise.all(profilePicLoadTasks);
+    for (let course of overrides) {
+        Theme.profilePictureOverrides.push({
+            regex: escapeRegExp(course.course_title) + " ?: " + escapeRegExp(course.section_title),
+            url: course.profile_url,
+        });
+    }
+
+    if (profilePicLoadTasks.length > 0) {
+        Theme.setProfilePictures();
+    }
+}
+
+function activateEasterEgg() {
+    let video = document.body.appendChild(
+        createElement("video", ["easter-egg"], {
+            onended: () => {
+                video.style.visibility = "hidden";
+            },
+        })
+    );
+
+    let source = createElement("source", [], {
+        src: "https://gist.github.com/aopell/0fe2408cffbab2b6fadb18ebaa28808f/raw/77853f137329c042c34bdb5be38c1930357c0531/cut.webm",
+        type: "video/webm",
+    });
+
+    let sourceSet = false;
+
+    document.body.addEventListener("keydown", data => {
+        if (data.altKey && data.code === "KeyC") {
+            if (!sourceSet) {
+                video.appendChild(source);
+                sourceSet = true;
+            }
+            video.style.visibility = "visible";
+            video.currentTime = 0;
+            video.play();
+
+            trackEvent("perform_action", {
+                id: "activate",
+                context: "Easter Egg",
+                value: "confetti",
+                legacyTarget: "Easter Egg",
+                legacyAction: "play",
+                legacyLabel: "Easter Egg",
+            });
+        } else if (data.altKey && data.code === "KeyB") {
+            Modal.openModal("beta-modal");
+        } else if (data.key === "Escape") {
+            video.style.visibility = "hidden";
+            video.pause();
+        }
+    });
+}
+
+function addDarkThemeToggleButton() {
+    document.querySelector<HTMLUListElement>("#header > header > nav > ul:nth-child(2)")?.prepend(
+        createElement("li", ["_24avl", "_3Rh90", "_349XD"], {}, [
+            createElement(
+                "button",
+                [
+                    "_1SIMq",
+                    "_2kpZl",
+                    "_3OAXJ",
+                    "_13cCs",
+                    "_3_bfp",
+                    "_2M5aC",
+                    "_24avl",
+                    "_3v0y7",
+                    "_2s0LQ",
+                    "_3ghFm",
+                    "_3LeCL",
+                    "_31GLY",
+                    "_9GDcm",
+                    "_1D8fw",
+                    "util-height-six-3PHnk",
+                    "util-line-height-six-3lFgd",
+                    "util-text-decoration-none-1n0lI",
+                    "Header-header-button-active-state-3AvBm",
+                    "Header-header-button-1EE8Y",
+                    "sExtlink-processed",
+                    "splus-track-clicks",
+                ],
+                {
+                    id: "darktheme-toggle-navbar-button",
+                    title: "Toggle Theme\n\nUse this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
+                    onclick: e => {
+                        let newVal =
+                            document.documentElement.getAttribute("modern") == "false"
+                                ? "true"
+                                : "false";
+                        if (newVal == "false") {
+                            Theme.tempTheme = "Schoology Plus";
+                        } else {
+                            Theme.tempTheme = undefined;
+                        }
+                        Theme.apply(Theme.active);
+                        document.documentElement.setAttribute("modern", newVal);
+                        trackEvent("button_click", {
+                            id: "modern-theme-toggle",
+                            context: "Navbar",
+                            value: newVal,
+                            legacyTarget: "modern-theme-toggle",
+                            legacyAction: newVal,
+                            legacyLabel: "Navbar Button",
+                        });
+                    },
+                    dataset: {
+                        popup: (
+                            Setting.getNestedValue("popup", "modernThemeToggle", true) &&
+                            localStorage.getItem("popup.modernThemeToggle") !== "false"
+                        ).toString(),
+                    },
+                },
+                [
+                    createElement("div", ["explanation-popup"], {}, [
+                        createElement("span", [], {
+                            title: "",
+                            textContent:
+                                "Use this button to temporarily disable your Schoology Plus theme if something isn't displaying correctly.",
+                        }),
+                        createElement("h3", [], {
+                            textContent: "OK",
+                            onclick: e => {
+                                e.stopPropagation();
+                                trackEvent("button_click", {
+                                    id: "modern-theme-toggle-explanation-ok",
+                                    context: "Explanation Popup",
+                                    legacyTarget: "modern-theme-toggle",
+                                    legacyAction: "ok",
+                                    legacyLabel: "Explanation Popup",
+                                });
+                                Setting.setNestedValue("popup", "modernThemeToggle", false);
+                                localStorage.setItem("popup.modernThemeToggle", "false");
+                                document.getElementById(
+                                    "darktheme-toggle-navbar-button"
+                                )!.dataset.popup = "false";
+                            },
+                        }),
+                    ]),
+
+                    (function () {
+                        let paintSvg = document.createElementNS(
+                            "http://www.w3.org/2000/svg",
+                            "svg"
+                        );
+                        paintSvg.setAttribute("viewBox", "-12 -20 500 500");
+                        paintSvg.setAttribute("class", "_3ESp2 dlCBz _1I3mg fjQuT uQOmx");
+
+                        paintSvg.innerHTML =
+                            '<path d="m242 197v90c0 8.284 6.716 15 15 15h180c8.284 0 15-6.716 15-15v-90c0-8.284-6.716-15-15-15h-180c-8.284 0-15 6.716-15 15z"/><path d="m377 422h-60c-8.284 0-15 6.716-15 15v60c0 8.284 6.716 15 15 15h60c8.284 0 15-6.716 15-15v-60c0-8.284-6.716-15-15-15z"/><path d="m307.667 15c0-8.284-6.716-15-15-15h-45v60h60z"/><path d="m217.667 0h-202.667c-8.284 0-15 6.716-15 15v45h217.667z"/><path d="m307.667 347v-15h-50.667c-24.813 0-45-20.186-45-45v-90c0-24.814 20.187-45 45-45h50.667v-62h-307.667v257c0 8.284 6.716 15 15 15h277.667c8.284 0 15-6.716 15-15zm-155.698-46h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15zm0-60h-91.969c-8.284 0-15-6.716-15-15s6.716-15 15-15h91.969c8.284 0 15 6.716 15 15s-6.716 15-15 15z"/><path d="m482 229.58v87.42c0 8.272-6.728 15-15 15h-90c-24.814 0-45 20.186-45 45v15h30v-15c0-8.272 6.728-15 15-15h90c24.814 0 45-20.186 45-45v-45c0-19.555-12.541-36.227-30-42.42z"/>';
+
+                        return paintSvg;
+                    })(),
+                ]
+            ),
+        ])
+    );
+}
+
+function addSplusSettingsButton() {
+    document.querySelector("#header > header > nav > ul:nth-child(2)")?.prepend(
+        createElement("li", ["_24avl", "_3Rh90", "_349XD"], {}, [
+            createElement(
+                "button",
+                [
+                    "_1SIMq",
+                    "_2kpZl",
+                    "_3OAXJ",
+                    "_13cCs",
+                    "_3_bfp",
+                    "_2M5aC",
+                    "_24avl",
+                    "_3v0y7",
+                    "_2s0LQ",
+                    "_3ghFm",
+                    "_3LeCL",
+                    "_31GLY",
+                    "_9GDcm",
+                    "_1D8fw",
+                    "util-height-six-3PHnk",
+                    "util-line-height-six-3lFgd",
+                    "util-text-decoration-none-1n0lI",
+                    "Header-header-button-active-state-3AvBm",
+                    "Header-header-button-1EE8Y",
+                    "sExtlink-processed",
+                ],
+                {
+                    id: "splus-settings-navbar-button",
+                    title: "Schoology Plus Settings\n\nChange settings relating to Schoology Plus.",
+                    onclick: () => {
+                        Modal.openModal("settings-modal");
+                        trackEvent("button_click", {
+                            id: "splus-settings",
+                            context: "Navbar",
+                            legacyTarget: "splus-settings",
+                            legacyAction: "open",
+                            legacyLabel: "Navbar Button",
+                        });
+                    },
+                },
+                [createSvgLogo("_3ESp2", "dlCBz", "_1I3mg", "fjQuT", "uQOmx")]
+            ),
+        ])
+    );
 }

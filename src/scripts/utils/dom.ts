@@ -14,7 +14,7 @@ export function createElement<K extends keyof HTMLElementTagNameMap>(
     tag: K,
     classList?: string[],
     properties?: DeepPartial<HTMLElementTagNameMap[K]>,
-    children?: HTMLElement[]
+    children?: Element[]
 ): HTMLElementTagNameMap[K] {
     let element = document.createElement(tag);
 

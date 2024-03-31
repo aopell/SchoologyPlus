@@ -52,7 +52,7 @@ export function compareVersions(verA: string, verB: string): -1 | 1 | 0 {
  * Should be ordered in increasing version order.
  */
 const migrationsTo: {
-    [k: number | string]: (currentVersion: string, previousVersion: string) => void;
+    [k: number | string]: (currentVersion: string, previousVersion?: string) => void;
 } = {
     7.0: function (currentVersion, previousVersion) {
         saveBroadcasts([
@@ -105,7 +105,7 @@ const migrationsTo: {
     8.0: function (currentVersion, previousVersion) {},
 };
 
-export async function versionSpecificFirstLaunch(currentVersion: string, previousVersion: string) {
+export async function versionSpecificFirstLaunch(currentVersion: string, previousVersion?: string) {
     Logger.log(
         "[Updater] First launch after update, updating to ",
         currentVersion,
