@@ -305,6 +305,11 @@
   resolved "https://registry.yarnpkg.com/@types/filewriter/-/filewriter-0.0.33.tgz#d9d611db9d9cd99ae4e458de420eeb64ad604ea8"
   integrity sha512-xFU8ZXTw4gd358lb2jw25nxY9QAgqn2+bKKjKOYfNCzN4DKCFetK7sPtrlpg66Ywe3vWY9FNxprZawAh9wfJ3g==
 
+"@types/findandreplacedomtext@0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@types/findandreplacedomtext/-/findandreplacedomtext-0.4.4.tgz#33947b90b378d6709b4ba3de4e5607030d33e93e"
+  integrity sha512-L/dEeDPuJp/aeLEwVYxZKKEyZvUmsj90Y6rSsAWmCBKmZ+be8afRNJ1/kxut8eaLpmeg0HscmAleV9DS9TAl5Q==
+
 "@types/har-format@*":
   version "1.2.15"
   resolved "https://registry.yarnpkg.com/@types/har-format/-/har-format-1.2.15.tgz#f352493638c2f89d706438a19a9eb300b493b506"
@@ -1542,6 +1547,11 @@ find-up@^5.0.0:
   dependencies:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
+
+findandreplacedomtext@0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/findandreplacedomtext/-/findandreplacedomtext-0.4.6.tgz#aafec3049adba195e7e93c050c2abb7823a5835f"
+  integrity sha512-CVRIKbEwfWoKTSnLrmyX26WjMY7o0aUUTm0RXN47fF/eHINJa8C+YHZxGagC7gMWVaAEBFwH7uVXuhwZcylWOQ==
 
 flat-cache@^3.0.4:
   version "3.2.0"

@@ -18,7 +18,7 @@ interface ThemeProfilePictureOverride {
     url: string;
 }
 
-var defaultCourseIconUrlRegex =
+export const defaultCourseIconUrlRegex =
     /\/sites\/[a-zA-Z0-9_-]+\/themes\/[%a-zA-Z0-9_-]+\/images\/course-default.(?:svg|png|jpe?g|gif)(\?[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?(&[a-zA-Z0-9_%-]+(=[a-zA-Z0-9_%-]+)?)*)?$/;
 
 let themeIconLoadElementContainer = document.createElement("div");

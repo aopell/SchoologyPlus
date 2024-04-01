@@ -2,7 +2,7 @@ roundSlider v1.4.1
 https://github.com/soundar24/roundSlider/blob/v1.4.1/dist/roundslider.min.js
 https://github.com/soundar24/roundSlider/blob/v1.4.1/dist/roundslider.min.css
 
-findAndReplaceDOMText v0.4.6
+findAndReplaceDOMText v0.4.6 [DONE]
 https://github.com/padolsey/findAndReplaceDOMText/blob/0.4.6/src/findAndReplaceDOMText.js
 
 iziToast v1.4.0 [DONE]
