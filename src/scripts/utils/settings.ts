@@ -333,7 +333,7 @@ export class Setting {
     }
 
     static getNestedValue<T>(parent: string, key: string, defaultValue: T): T;
-    static getNestedValue<T>(parent: string, key: string): T;
+    static getNestedValue<T>(parent: string, key: string): T | undefined;
 
     /**
      * Gets the value of a nested property in the cached copy of the
