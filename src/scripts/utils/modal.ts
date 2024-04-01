@@ -52,9 +52,7 @@ export default class Modal {
     }
 
     static openModal(id: string, options?: any) {
-        for (let m of Modal.modals) {
-            Modal.modalClose(m.element);
-        }
+        Modal.closeAllModals();
 
         trackEvent("perform_action", {
             id: "open",
@@ -73,9 +71,13 @@ export default class Modal {
         }
     }
 
-    static modalClose(element: HTMLElement) {
-        // element = element.target ? document.getElementById(element.target.dataset.parent) : element;
+    static closeAllModals() {
+        for (let m of Modal.modals) {
+            Modal.modalClose(m.element);
+        }
+    }
 
+    private static modalClose(element: HTMLElement) {
         if (
             element.id === "settings-modal" &&
             element.style.display !== "none" &&
@@ -179,7 +181,7 @@ export default class Modal {
                 createElement("div", ["settings-buttons-wrapper"], undefined, [
                     createButton("save-analytics-settings", "Save and Close", () => {
                         Setting.saveModified();
-                        Modal.modalClose(document.getElementById("analytics-modal")!);
+                        Modal.closeAllModals();
                     }),
                 ]),
             ]),
@@ -570,7 +572,7 @@ export default class Modal {
                             });
 
                             let chooseThemeModal = document.getElementById("choose-theme-modal")!;
-                            Modal.modalClose(chooseThemeModal);
+                            Modal.closeAllModals();
                             Setting.setValue("theme", Theme.tempTheme);
                             if (
                                 chooseThemeModal

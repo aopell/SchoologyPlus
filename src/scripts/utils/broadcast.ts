@@ -2,12 +2,13 @@ import browser from "webextension-polyfill";
 
 import { Setting } from "./settings";
 
-type Broadcast = {
+export type Broadcast = {
     id: string;
     title: string;
     message: string;
     timestamp?: number;
     expires?: number;
+    version?: string;
 };
 
 /**

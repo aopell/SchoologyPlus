@@ -16,7 +16,7 @@ export async function load() {
 
     document
         .querySelector("#course-settings-modal .close")
-        ?.addEventListener("click", event => Modal.modalClose(event.target as HTMLElement));
+        ?.addEventListener("click", Modal.closeAllModals);
 
     gradingScale = getGradingScale(null);
 

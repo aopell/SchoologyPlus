@@ -28,7 +28,7 @@ https://github.com/Dogfalo/materialize/blob/1.0.0/dist/css/materialize.min.css
 Material Icons Font
 https://fonts.googleapis.com/icon?family=Material+Icons
 
-DOMPurify v2.1.1
+DOMPurify v2.1.1 [DONE]
 https://github.com/cure53/DOMPurify/blob/2.1.1/dist/purify.min.js
 
 spectrum v1.8.0

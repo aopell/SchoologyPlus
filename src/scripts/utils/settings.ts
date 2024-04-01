@@ -389,7 +389,7 @@ export class Setting {
     }
 }
 
-var SIDEBAR_SECTIONS = [
+export const SIDEBAR_SECTIONS = [
     {
         name: "Quick Access",
         selector: "#right-column-inner div.quick-access-wrapper",
@@ -416,7 +416,7 @@ var SIDEBAR_SECTIONS = [
     },
 ];
 
-var SIDEBAR_SECTIONS_MAP = Object.fromEntries(SIDEBAR_SECTIONS.map(s => [s.name, s]));
+export const SIDEBAR_SECTIONS_MAP = Object.fromEntries(SIDEBAR_SECTIONS.map(s => [s.name, s]));
 
 export const BETA_TESTS: Record<string, string | undefined> = {
     test: "https://schoologypl.us",

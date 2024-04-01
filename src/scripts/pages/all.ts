@@ -24,6 +24,7 @@ export async function load() {
     activateEasterEgg();
     addDarkThemeToggleButton();
     addSplusSettingsButton();
+    setupModalCloseEvents();
 }
 
 async function preload() {
@@ -505,4 +506,40 @@ function addSplusSettingsButton() {
             ),
         ])
     );
+}
+
+function setupModalCloseEvents() {
+    for (let e of document.querySelectorAll(".close")) {
+        e.addEventListener("click", Modal.closeAllModals);
+    }
+
+    window.addEventListener("click", event => {
+        if (Modal.modals.find(x => x.element == event.target)) {
+            Modal.closeAllModals();
+        }
+    });
+}
+
+function shouldProcessMutations(mutationList: MutationRecord[]) {
+    let processThis = false;
+
+    // ensure we're processing more than an addition of something this very handler added
+    for (let mutation of mutationList) {
+        for (let addedElem of mutation.addedNodes) {
+            if (
+                addedElem instanceof HTMLElement &&
+                addedElem.classList &&
+                !addedElem.classList.contains("splus-addedtodynamicdropdown")
+            ) {
+                processThis = true;
+                break;
+            }
+        }
+
+        if (processThis) {
+            break;
+        }
+    }
+
+    return processThis;
 }
