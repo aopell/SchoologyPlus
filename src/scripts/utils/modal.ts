@@ -1,5 +1,3 @@
-import browser from "webextension-polyfill";
-
 import { trackEvent } from "./analytics.js";
 import { createButton, createElement, getBrowser } from "./dom.js";
 import {
@@ -12,15 +10,15 @@ import {
 import Theme from "./theme";
 
 const verboseModalFooterText = `&copy; Schoology Plus Contributors 2017-2023 | <a id="open-webstore" class="splus-track-clicks" href="https://schoologypl.us/?utm_source=ext-splus-settings-footer">Schoology Plus v${
-    browser.runtime.getManifest().version_name || browser.runtime.getManifest().version
+    chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version
 }${
-    getBrowser() != "Chrome" || (browser.runtime.getManifest() as any).update_url ? "" : " dev"
+    getBrowser() != "Chrome" || (chrome.runtime.getManifest() as any).update_url ? "" : " dev"
 }</a> | <a href="https://discord.schoologypl.us" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://schoologypl.us/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
 export const modalFooterText = "Schoology Plus &copy; Schoology Plus Contributors 2017-2023";
 
 const changelogIFrame = document.createElement("iframe");
 changelogIFrame.src = `https://schoologypl.us/changelog?version=${
-    browser.runtime.getManifest().version
+    chrome.runtime.getManifest().version
 }`;
 
 export default class Modal {
@@ -581,7 +579,7 @@ export default class Modal {
                                     )!
                                     .classList.contains("active")
                             ) {
-                                location.href = browser.runtime.getURL("/theme-editor.html");
+                                location.href = chrome.runtime.getURL("/theme-editor.html");
                             }
                         }
                     );

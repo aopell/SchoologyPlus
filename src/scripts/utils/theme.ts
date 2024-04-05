@@ -1,5 +1,3 @@
-import browser from "webextension-polyfill";
-
 import { DEFAULT_ICONS } from "./default-icons";
 import { DEFAULT_THEMES } from "./default-themes";
 import { setCSSVariable } from "./dom";
@@ -130,7 +128,7 @@ export default class Theme {
                             switch (theme.logo.preset) {
                                 case "schoology_plus":
                                     Theme.setLogoUrl(
-                                        browser.runtime.getURL("/imgs/schoology-plus-wide.svg")
+                                        chrome.runtime.getURL("/imgs/schoology-plus-wide.svg")
                                     );
                                     break;
                                 case "schoology_logo":
@@ -138,18 +136,14 @@ export default class Theme {
                                     break;
                                 case "lausd_legacy":
                                     Theme.setLogoUrl(
-                                        browser.runtime.getURL("/imgs/lausd-legacy.png")
+                                        chrome.runtime.getURL("/imgs/lausd-legacy.png")
                                     );
                                     break;
                                 case "lausd_2022":
-                                    Theme.setLogoUrl(
-                                        browser.runtime.getURL("/imgs/lausd-2022.png")
-                                    );
+                                    Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-2022.png"));
                                     break;
                                 case "lausd_2019":
-                                    Theme.setLogoUrl(
-                                        browser.runtime.getURL("/imgs/lausd-2019.png")
-                                    );
+                                    Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-2019.png"));
                                     break;
                                 case "default":
                                     Theme.setDefaultLogoVisibility(true);
@@ -178,10 +172,10 @@ export default class Theme {
                                 Theme.setLogoUrl();
                                 break;
                             case "lausd":
-                                Theme.setLogoUrl(browser.runtime.getURL("/imgs/lausd-legacy.png"));
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-legacy.png"));
                                 break;
                             case "lausd_new":
-                                Theme.setLogoUrl(browser.runtime.getURL("/imgs/lausd-2019.png"));
+                                Theme.setLogoUrl(chrome.runtime.getURL("/imgs/lausd-2019.png"));
                                 break;
                             default:
                                 Theme.setLogoUrl(theme.logo);
@@ -476,7 +470,7 @@ export default class Theme {
             let sourceUrl = Theme.getIcon(
                 arrow.dataset.courseTitle || arrow.parentElement!.textContent!
             );
-            let fallbackUrl = browser.runtime.getURL("imgs/fallback-course-icon.svg");
+            let fallbackUrl = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
             let matches = sourceUrl && sourceUrl.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
             let domain = matches && matches[1];
 
@@ -574,7 +568,7 @@ export default class Theme {
             img.onerror = function () {
                 // avoid infinite recursion
                 img.onerror = null;
-                img.src = browser.runtime.getURL("imgs/fallback-course-icon.svg");
+                img.src = chrome.runtime.getURL("imgs/fallback-course-icon.svg");
                 img.classList.add("splus-loaderror");
             };
             let customSrc = Theme.getIcon(img.alt);
@@ -593,7 +587,7 @@ export default class Theme {
                 favicon.rel = "icon";
                 favicon.type =
                     !customSrc || customSrc.endsWith(".svg") ? "image/svg+xml" : "image/png";
-                favicon.href = customSrc || browser.runtime.getURL("imgs/fallback-course-icon.svg");
+                favicon.href = customSrc || chrome.runtime.getURL("imgs/fallback-course-icon.svg");
                 document.head.appendChild(favicon);
             }
         }

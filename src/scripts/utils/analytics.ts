@@ -1,5 +1,3 @@
-import browser from "webextension-polyfill";
-
 import { getBrowser } from "./dom";
 
 declare global {
@@ -53,7 +51,7 @@ export async function initializeAnalytics() {
         return hex;
     }
 
-    let s = await browser.storage.sync.get({
+    let s = await chrome.storage.sync.get({
         analytics: getBrowser() === "Firefox" ? "disabled" : "enabled",
         theme: "<unset>",
         beta: "<unset>",
@@ -61,11 +59,11 @@ export async function initializeAnalytics() {
     });
 
     if (s.analytics === "enabled") {
-        let l = await browser.storage.local.get({ randomUserId: null });
+        let l = await chrome.storage.local.get({ randomUserId: null });
 
         if (!l.randomUserId) {
             let randomToken = getRandomToken();
-            await browser.storage.local.set({ randomUserId: randomToken });
+            await chrome.storage.local.set({ randomUserId: randomToken });
             enableAnalytics(s.theme, s.beta, s.newVersion, randomToken);
         } else {
             enableAnalytics(s.theme, s.beta, s.newVersion, l.randomUserId);
@@ -94,7 +92,7 @@ export async function initializeAnalytics() {
             page_title: null,
             user_id: randomUserId,
             user_properties: {
-                extensionVersion: browser.runtime.getManifest().version,
+                extensionVersion: chrome.runtime.getManifest().version,
                 domain: location.host,
                 theme: selectedTheme,
                 modernTheme: document.documentElement.getAttribute("modern"),

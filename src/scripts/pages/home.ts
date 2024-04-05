@@ -1,5 +1,4 @@
 import DOMPurify from "dompurify";
-import browser from "webextension-polyfill";
 
 import { trackEvent } from "../utils/analytics";
 import { fetchApiJson, getUserId } from "../utils/api";
@@ -71,7 +70,7 @@ function loadBroadcasts() {
                         (!broadcast.expires || broadcast.expires > Date.now()) &&
                         (!broadcast.version ||
                             compareVersions(
-                                browser.runtime.getManifest().version,
+                                chrome.runtime.getManifest().version,
                                 broadcast.version
                             ) >= 0)
                     ) {
@@ -126,9 +125,7 @@ function postFromBroadcast(broadcast: Broadcast) {
                                                 "img",
                                                 ["imagecache", "imagecache-profile_sm"],
                                                 {
-                                                    src: browser.runtime.getURL(
-                                                        "imgs/icon@128.png"
-                                                    ),
+                                                    src: chrome.runtime.getURL("imgs/icon@128.png"),
                                                     alt: "Schoology Plus Logo",
                                                 }
                                             ),

@@ -1,5 +1,3 @@
-import browser from "webextension-polyfill";
-
 import { Setting } from "./settings";
 
 export type Broadcast = {
@@ -15,7 +13,7 @@ export type Broadcast = {
  * @param {Broadcast[]} broadcasts Broadcasts to save
  */
 export async function saveBroadcasts(broadcasts: Broadcast[]) {
-    let values = await browser.storage.sync.get(["unreadBroadcasts"]);
+    let values = await chrome.storage.sync.get(["unreadBroadcasts"]);
     let b: Broadcast[] = values.unreadBroadcasts || [];
     let ids = b.map(x => x.id);
     for (let br of broadcasts) {
@@ -23,7 +21,7 @@ export async function saveBroadcasts(broadcasts: Broadcast[]) {
             b.push(br);
         }
     }
-    await browser.storage.sync.set({ unreadBroadcasts: b });
+    await chrome.storage.sync.set({ unreadBroadcasts: b });
 }
 
 /**

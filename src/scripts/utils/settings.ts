@@ -1,6 +1,5 @@
 import $ from "jquery";
 import "jquery-ui/ui/widgets/sortable";
-import browser from "webextension-polyfill";
 
 import { trackEvent } from "./analytics";
 import { DEFAULT_THEMES, LAUSD_THEMES } from "./default-themes";
@@ -150,7 +149,7 @@ export class Setting {
             }
         }
 
-        await browser.storage.sync.set(newValues);
+        await chrome.storage.sync.set(newValues);
 
         for (let settingName in newValues) {
             let setting = Setting.settings[settingName];
@@ -202,7 +201,7 @@ export class Setting {
             });
             for (let setting in Setting.settings) {
                 delete Setting.raw_storage[setting];
-                await browser.storage.sync.remove(setting);
+                await chrome.storage.sync.remove(setting);
                 Setting.settings[setting].onload(undefined, Setting.settings[setting].getElement());
             }
             location.reload();
@@ -361,7 +360,7 @@ export class Setting {
         await Setting.saveModified({ [name]: value }, false, false);
 
         if (name === "defaultDomain") {
-            browser.runtime.sendMessage({ type: "updateDefaultDomain", domain: value });
+            chrome.runtime.sendMessage({ type: "updateDefaultDomain", domain: value });
         }
     }
 
@@ -473,7 +472,7 @@ export function getGradingScale(courseId: string | null) {
  * Updates the contents of the settings modal to reflect changes made by the user to all settings
  */
 export async function updateSettings() {
-    const storageContents = await browser.storage.sync.get(null);
+    const storageContents = await chrome.storage.sync.get(null);
     Setting.raw_storage = storageContents;
 
     if (firstLoad) {
@@ -526,7 +525,7 @@ export async function updateSettings() {
                     "button",
                     {},
                     value => "Theme Editor",
-                    event => (location.href = browser.runtime.getURL("/theme-editor.html")),
+                    event => (location.href = chrome.runtime.getURL("/theme-editor.html")),
                     element => undefined
                 ).control,
                 new Setting(
@@ -587,7 +586,7 @@ export async function updateSettings() {
                 new Setting(
                     "useDefaultIconSet",
                     "Use Built-In Icon Set",
-                    `[Refresh required] Use Schoology Plus's <a href="${browser.runtime.getURL(
+                    `[Refresh required] Use Schoology Plus's <a href="${chrome.runtime.getURL(
                         "/default-icons.html"
                     )}" target="_blank">default course icons</a> as a fallback when a custom icon has not been specified. NOTE: these icons were meant for schools in Los Angeles Unified School District and may not work correctly for other schools.`,
                     isLAUSD() ? "enabled" : "disabled",

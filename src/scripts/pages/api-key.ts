@@ -1,5 +1,3 @@
-import browser from "webextension-polyfill";
-
 import { trackEvent } from "../utils/analytics";
 import { getUserId } from "../utils/api";
 import { createButton, createElement } from "../utils/dom";
@@ -58,7 +56,7 @@ function createRequestPermissionScreen(
             createElement("div", ["splus-permissions-box"], {}, [
                 createElement("div", ["splus-permissions-icon-wrapper"], {}, [
                     createElement("img", ["splus-permissions-icon"], {
-                        src: browser.runtime.getURL("/imgs/logo-full.png"),
+                        src: chrome.runtime.getURL("/imgs/logo-full.png"),
                     }),
                 ]),
                 createElement("div", ["splus-permissions-header"], {}, [

@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
-    "@types/chrome": "0.0.212",
+    "@types/chrome": "^0.0.263",
     "@types/dompurify": "^2.1.0",
     "@types/findandreplacedomtext": "0.4.4",
     "@types/jquery": "3.3.1",
@@ -56,7 +56,6 @@
     "svg-inline-loader": "^0.8.2",
     "ts-loader": "^9.4.2",
     "typescript": "*",
-    "webextension-polyfill": "^0.10.0",
     "webpack": "^5.61.0",
     "webpack-cli": "^5.0.1",
     "webpack-merge": "^5.0.0"

@@ -1,5 +1,3 @@
-import browser from "webextension-polyfill";
-
 import { Logger } from "./logger";
 import { Setting } from "./settings";
 
@@ -9,7 +7,7 @@ async function backgroundPageFetch(
     bodyReadType: "json" | "text"
 ) {
     try {
-        let response = await browser.runtime.sendMessage({
+        let response = await chrome.runtime.sendMessage({
             type: "fetch",
             url: url,
             params: init,
@@ -20,10 +18,10 @@ async function backgroundPageFetch(
             Logger.error(
                 "[backgroundPageFetch] Response is undefined or null",
                 response,
-                browser.runtime.lastError
+                chrome.runtime.lastError
             );
             throw new Error(
-                "Response is undefined or null. Last error: " + browser.runtime.lastError
+                "Response is undefined or null. Last error: " + chrome.runtime.lastError
             );
         }
 
