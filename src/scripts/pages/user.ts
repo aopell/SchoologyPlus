@@ -53,7 +53,7 @@ async function processEnrollment(
 ) {
     let enrollments: Record<string, any> | null = initialEnrollments;
     do {
-        if (enrollments.enrollment.some(x => x.uid == otherUserId)) {
+        if (enrollments.enrollment.some((x: Record<string, string>) => x.uid == otherUserId)) {
             commonList.push(owner);
             break;
         } else if (enrollments.links.next) {
@@ -95,7 +95,7 @@ function populateCourseList(
         .then(coursesInCommon => {
             clearNodeChildren(listElem);
 
-            let aliases = Setting.getValue("courseAliases") || {};
+            let aliases = Setting.getValue<Record<string, string>>("courseAliases", {});
 
             if (coursesInCommon.length == 0) {
                 listElem.appendChild(

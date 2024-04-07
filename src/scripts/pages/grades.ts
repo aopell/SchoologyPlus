@@ -5,7 +5,7 @@ import { fetchApi, fetchApiJson, getUserId } from "../utils/api";
 import { createElement, createSvgLogo } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
-import { Setting, getGradingScale } from "../utils/settings";
+import { Setting, getGradingScale, isLAUSD } from "../utils/settings";
 
 const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
 const BUG_REPORT_FORM_LINK =
@@ -367,7 +367,7 @@ async function activateGradesPage() {
                                     ); //combines the assignment arrays from each period
                                     let pts = Number.parseFloat(
                                         assignments.filter(
-                                            x => x.assignment_id == assignment.dataset.id?.substr(2)
+                                            (x: any) => x.assignment_id == assignment.dataset.id?.substr(2)
                                         )[0].max_points
                                     );
                                     if (!assignment.classList.contains("dropped")) {
@@ -532,7 +532,7 @@ async function activateGradesPage() {
                             for (let assignment of assignments) {
                                 try {
                                     await processAssignment(assignment);
-                                } catch (err) {
+                                } catch (err: any) {
                                     if (err === "noapikey") {
                                         addEditDisableReason(
                                             {
@@ -1465,7 +1465,7 @@ async function activateGradesPage() {
 
                             calcMinFor.calculateMinGradeForCustom = {
                                 name: "For Custom Value",
-                                callback: function (key, opt) {
+                                callback: function (this: HTMLElement[], key: any, opt: any) {
                                     trackEvent("context_menu_click", {
                                         id: "Calculate Minimum Grade For Custom Value",
                                         context: "What-If Grades",
@@ -1839,8 +1839,10 @@ async function activateGradesPage() {
                     if (json && json.section.length > 0) {
                         // success case
                         let jsonAssignment = json.section[0].period
-                            .flatMap(p => p.assignment)
-                            .filter(x => x.assignment_id == Number.parseInt(domAssignId!))[0];
+                            .flatMap((p: any) => p.assignment)
+                            .filter(
+                                (x: any) => x.assignment_id == Number.parseInt(domAssignId!)
+                            )[0];
 
                         if (letterGradeOnly && jsonAssignment.grade !== undefined) {
                             let numericGradeValueSpan = createElement(
@@ -2144,7 +2146,11 @@ async function activateGradesPage() {
         }
     }
 
-    function parseAssignmentNumerator(numString: string, denomFloat: number, courseId: string) {
+    function parseAssignmentNumerator(
+        numString: string,
+        denomFloat: number,
+        courseId: string
+    ): number {
         if (Number.isNaN(denomFloat)) {
             return Number.NaN;
         }
@@ -2313,8 +2319,8 @@ async function activateGradesPage() {
                     return true;
                 }
 
-                let userScore;
-                let userMax;
+                let userScore: number;
+                let userMax: number;
                 if (noGrade) {
                     // regex capture and check
                     if (maxGrade) {
@@ -2365,16 +2371,16 @@ async function activateGradesPage() {
                     }
                     let awardedGrade = createElement("span", ["awarded-grade"]);
                     score = createElement("span", ["rounded-grade"], {
-                        title: userScore,
-                        textContent: userScore,
+                        title: userScore.toString(),
+                        textContent: userScore.toString(),
                     });
                     awardedGrade.appendChild(score);
                     gradeColContentWrap.prepend(score);
                     noGrade.remove();
                 } else if (score && maxGrade) {
                     // we already have our DOM elements
-                    score.title = userScore;
-                    score.textContent = userScore;
+                    score.title = userScore.toString();
+                    score.textContent = userScore.toString();
                     // will not have changed but still
                     maxGrade.textContent = " / " + userMax;
                     score.contentEditable = "false";
@@ -2428,7 +2434,7 @@ async function activateGradesPage() {
                 editElem?.removeEventListener("blur", blurFunc);
                 editElem?.removeEventListener("keydown", keyFunc);
             };
-            let keyFunc = function (event) {
+            let keyFunc = function (event: KeyboardEvent) {
                 if (event.which == 13 || event.keyCode == 13) {
                     editElem?.blur();
                     return false;

@@ -2,12 +2,12 @@ import { trackEvent } from "../utils/analytics";
 import { createButton, createElement, createSvgLogo } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal, { modalFooterText } from "../utils/modal";
-import { Setting, getGradingScale } from "../utils/settings";
+import { Setting, getGradingScale, isLAUSD } from "../utils/settings";
 import Theme, { ICON_REQUEST_URL } from "../utils/theme";
 
-var courseIdNumber;
-var courseSettingsCourseName;
-var gradingScale;
+var courseIdNumber: string;
+var courseSettingsCourseName: string;
+var gradingScale: Record<string, string>;
 
 export async function load() {
     addCourseSettingsButtonToSidebar();
@@ -170,7 +170,7 @@ function createRow(percentage?: string, symbol?: string) {
 }
 
 function getCreatedGradingScale() {
-    let scale = {};
+    let scale: Record<string, string> = {};
     for (let r of document.querySelectorAll(".grade-symbol-row")) {
         let inputBoxes = r.querySelectorAll("input");
         if (inputBoxes[0].value && inputBoxes[1].value) {
@@ -185,7 +185,10 @@ function getCreatedGradingScale() {
 }
 
 async function saveCourseSettings(skipSavingGradingScale = false) {
-    let currentValue = Setting.getValue("gradingScales", {});
+    let currentValue: Record<string, Record<string, string>> = Setting.getValue(
+        "gradingScales",
+        {}
+    );
 
     if (!skipSavingGradingScale) {
         let scale = getCreatedGradingScale();
@@ -195,7 +198,7 @@ async function saveCourseSettings(skipSavingGradingScale = false) {
             return;
         }
 
-        const shallowCompare = (obj1, obj2) =>
+        const shallowCompare = (obj1: Record<string, string>, obj2: Record<string, string>) =>
             Object.keys(obj1).length === Object.keys(obj2).length &&
             Object.keys(obj1).every(key => obj2.hasOwnProperty(key) && obj1[key] === obj2[key]);
 
@@ -212,7 +215,7 @@ async function saveCourseSettings(skipSavingGradingScale = false) {
         currentValue[courseIdNumber] = scale;
     }
 
-    let currentAliasesValue = Setting.getValue("courseAliases", {});
+    let currentAliasesValue: Record<string, string> = Setting.getValue("courseAliases", {});
     let newAliasValue = (document.getElementById("setting-input-course-alias") as HTMLInputElement)
         .value;
     if (newAliasValue !== currentAliasesValue[courseIdNumber]) {
@@ -241,7 +244,10 @@ async function saveCourseSettings(skipSavingGradingScale = false) {
     }
     Setting.setNestedValue("courseQuickLinks", courseIdNumber, newQuickLinkValue);
 
-    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons", {});
+    let courseIconOverride: Record<string, string> = Setting.getValue(
+        "forceDefaultCourseIcons",
+        {}
+    );
     let iconOverrideSelect = document.getElementById(
         "force-default-icon-splus-courseopt-select"
     ) as HTMLSelectElement;
@@ -296,16 +302,22 @@ async function restoreCourseDefaults() {
         legacyAction: "restore default values",
         legacyLabel: "Course Settings",
     });
-    let currentValue = Setting.getValue("gradingScales", {});
+    let currentValue: Record<string, Record<string, string>> = Setting.getValue(
+        "gradingScales",
+        {}
+    );
     delete currentValue[courseIdNumber];
 
-    let currentAliasesValue = Setting.getValue("courseAliases", {});
+    let currentAliasesValue: Record<string, string> = Setting.getValue("courseAliases", {});
     delete currentAliasesValue[courseIdNumber];
 
-    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons", {});
+    let courseIconOverride: Record<string, string> = Setting.getValue(
+        "forceDefaultCourseIcons",
+        {}
+    );
     delete courseIconOverride[courseIdNumber];
 
-    let courseQuickLinks = Setting.getValue("courseQuickLinks", {});
+    let courseQuickLinks: Record<string, string> = Setting.getValue("courseQuickLinks", {});
     delete courseQuickLinks[courseIdNumber];
 
     if (
@@ -325,7 +337,7 @@ async function restoreCourseDefaults() {
     }
 }
 
-function setCourseOptionsContent(modal, options) {
+function setCourseOptionsContent(modal: Modal, options: Record<string, string>) {
     const courseOptionsCourseName = document.getElementById(
         "course-options-course-name"
     ) as HTMLHeadingElement;
@@ -357,10 +369,8 @@ function setCourseOptionsContent(modal, options) {
     ) as HTMLInputElement;
     quickLinkInput.value = Setting.getNestedValue("courseQuickLinks", courseIdNumber, "");
 
-    let courseIconOverride = Setting.getValue("forceDefaultCourseIcons");
-    if (courseIconOverride) {
-        courseIconOverride = courseIconOverride[courseIdNumber];
-    }
+    let courseIconOverride =
+        Setting.getValue<Record<string, string>>("forceDefaultCourseIcons")?.[courseIdNumber];
     if (courseIconOverride) {
         const forceDefaultIconSelect = document.getElementById(
             "force-default-icon-splus-courseopt-select"
@@ -379,7 +389,7 @@ function setCourseOptionsContent(modal, options) {
 
     if (isLAUSD()) {
         let iconExists = Theme.hasBuiltInIcon(options.courseName);
-        modal.element.querySelector(".splus-modal-contents").appendChild(
+        modal.element.querySelector(".splus-modal-contents")?.appendChild(
             createElement("div", ["setting-entry"], { id: "request-course-icon-wrapper" }, [
                 createElement(
                     "h2",

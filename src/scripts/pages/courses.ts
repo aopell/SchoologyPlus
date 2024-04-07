@@ -36,7 +36,7 @@ export async function load() {
         items: {
             options: {
                 name: "Course Options",
-                callback: function (key, opt) {
+                callback: function (this: HTMLElement[], key: any, opt: any) {
                     trackEvent("context_menu_click", {
                         id: "Course Options",
                         context: "Courses Page",
@@ -45,9 +45,9 @@ export async function load() {
                         legacyLabel: "Courses Context Menu",
                     });
                     Modal.openModal("course-settings-modal", {
-                        courseId: this[0].querySelector(".section-item").id.match(/\d+/)[0],
-                        courseName: `${this[0].querySelector(".course-title").textContent}: ${
-                            this[0].querySelector(".section-item").textContent
+                        courseId: this[0].querySelector(".section-item")!.id.match(/\d+/)![0],
+                        courseName: `${this[0].querySelector(".course-title")!.textContent}: ${
+                            this[0].querySelector(".section-item")!.textContent
                         }`,
                     });
                 },
@@ -55,7 +55,7 @@ export async function load() {
             separator: "-----",
             materials: {
                 name: "Materials",
-                callback: function (key, opt) {
+                callback: function (this: HTMLElement[], key: any, opt: any) {
                     trackEvent("context_menu_click", {
                         id: "Materials",
                         context: "Courses Page",
@@ -65,7 +65,7 @@ export async function load() {
                     });
                     window.open(
                         `https://${Setting.getValue("defaultDomain")}/course/${
-                            this[0].querySelector(".section-item").id.match(/\d+/)[0]
+                            this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/materials`,
                         "_blank"
                     );
@@ -73,7 +73,7 @@ export async function load() {
             },
             updates: {
                 name: "Updates",
-                callback: function (key, opt) {
+                callback: function (this: HTMLElement[], key: any, opt: any) {
                     trackEvent("context_menu_click", {
                         id: "Updates",
                         context: "Courses Page",
@@ -83,7 +83,7 @@ export async function load() {
                     });
                     window.open(
                         `https://${Setting.getValue("defaultDomain")}/course/${
-                            this[0].querySelector(".section-item").id.match(/\d+/)[0]
+                            this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/updates`,
                         "_blank"
                     );
@@ -91,7 +91,7 @@ export async function load() {
             },
             student_grades: {
                 name: "Grades",
-                callback: function (key, opt) {
+                callback: function (this: HTMLElement[], key: any, opt: any) {
                     trackEvent("context_menu_click", {
                         id: "Grades",
                         context: "Courses Page",
@@ -101,7 +101,7 @@ export async function load() {
                     });
                     window.open(
                         `https://${Setting.getValue("defaultDomain")}/course/${
-                            this[0].querySelector(".section-item").id.match(/\d+/)[0]
+                            this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/student_grades`,
                         "_blank"
                     );
@@ -109,7 +109,7 @@ export async function load() {
             },
             mastery: {
                 name: "Mastery",
-                callback: function (key, opt) {
+                callback: function (this: HTMLElement[], key: any, opt: any) {
                     trackEvent("context_menu_click", {
                         id: "Mastery",
                         context: "Courses Page",
@@ -119,7 +119,7 @@ export async function load() {
                     });
                     window.open(
                         `https://${Setting.getValue("defaultDomain")}/course/${
-                            this[0].querySelector(".section-item").id.match(/\d+/)[0]
+                            this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/mastery`,
                         "_blank"
                     );
@@ -127,7 +127,7 @@ export async function load() {
             },
             members: {
                 name: "Members",
-                callback: function (key, opt) {
+                callback: function (this: HTMLElement[], key: any, opt: any) {
                     trackEvent("context_menu_click", {
                         id: "Members",
                         context: "Courses Page",
@@ -137,7 +137,7 @@ export async function load() {
                     });
                     window.open(
                         `https://${Setting.getValue("defaultDomain")}/course/${
-                            this[0].querySelector(".section-item").id.match(/\d+/)[0]
+                            this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/members`,
                         "_blank"
                     );

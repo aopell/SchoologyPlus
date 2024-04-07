@@ -27,7 +27,7 @@ export async function load() {
     link.href = processIframeSrc(link.href);
 }
 
-function processIframeSrc(rawLink) {
+function processIframeSrc(rawLink: string | URL) {
     let link = new URL(rawLink);
     // Google docs/sheets/slides
     if (link.host.match(/(docs|drive)\.google\.com/g)) {
