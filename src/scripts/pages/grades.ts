@@ -1,10 +1,11 @@
 import $ from "jquery";
 
 import { trackEvent } from "../utils/analytics";
-import { createElement } from "../utils/dom";
+import { fetchApi, fetchApiJson, getUserId } from "../utils/api";
+import { createElement, createSvgLogo } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
-import { Setting } from "../utils/settings";
+import { Setting, getGradingScale } from "../utils/settings";
 
 const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
 const BUG_REPORT_FORM_LINK =
@@ -32,7 +33,7 @@ export async function load() {
 }
 
 function addEditDisableReason(
-    err = "Unknown Error",
+    err: any = "Unknown Error",
     causedBy403 = false,
     causedByNoApiKey = false
 ) {
@@ -202,10 +203,10 @@ async function activateGradesPage() {
     for (let course of courses) {
         courseLoadTasks.push(
             (async function () {
-                let title = course.querySelector(".gradebook-course-title");
-                let summary = course.querySelector(".summary-course");
-                let courseId = title.parentElement.id.match(/\d+/)[0];
-                let courseGrade;
+                let title = course.querySelector<HTMLAnchorElement>(".gradebook-course-title")!;
+                let summary = course.querySelector(".summary-course")!;
+                let courseId = title.parentElement!.id.match(/\d+/)![0];
+                let courseGrade: HTMLElement | null = null;
                 if (summary) {
                     courseGrade = summary.querySelector(".awarded-grade");
                 } else {
@@ -222,13 +223,15 @@ async function activateGradesPage() {
                         courseGrade = null;
                     }
                 }
-                let table = course.querySelector(".gradebook-course-grades").firstElementChild;
-                let grades = table.firstElementChild;
-                let categories = Array.from(grades.getElementsByClassName("category-row"));
-                let rows = Array.from(grades.children);
+                let table = course.querySelector(".gradebook-course-grades")!.firstElementChild!;
+                let grades = table.firstElementChild!;
+                let categories = Array.from(
+                    grades.getElementsByClassName("category-row")
+                ) as HTMLElement[];
+                let rows = Array.from(grades.children) as HTMLElement[];
                 let periods = Array.from(course.getElementsByClassName("period-row")).filter(
-                    x => !x.textContent.includes("(no grading period)")
-                );
+                    x => !x.textContent!.includes("(no grading period)")
+                ) as HTMLElement[];
 
                 let classPoints = 0;
                 let classTotal = 0;
@@ -238,9 +241,9 @@ async function activateGradesPage() {
                 // OR is lazy, so the ++ won't trigger unnecessarily; upperPeriodSortBound is our array key, and we use it to give a unique index (after all course) to periodless courses
                 coursesByPeriod[
                     Number.parseInt(
-                        (title.textContent.match(/\b[Pp][Ee]?[Rr]?[Ii]?[Oo]?[Dd]?\s*(\d+)/) || [
+                        (title.textContent?.match(/\b[Pp][Ee]?[Rr]?[Ii]?[Oo]?[Dd]?\s*(\d+)/) || [
                             null,
-                            upperPeriodSortBound++,
+                            (upperPeriodSortBound++).toString(),
                         ])[1]
                     )
                 ] = course;
@@ -288,7 +291,7 @@ async function activateGradesPage() {
                             );
                             let sum = 0;
                             let max = 0;
-                            let processAssignment = async function (assignment) {
+                            let processAssignment = async function (assignment: HTMLElement) {
                                 let maxGrade = assignment.querySelector(".max-grade");
                                 let score =
                                     assignment.querySelector(".rounded-grade") ||
@@ -298,17 +301,17 @@ async function activateGradesPage() {
                                     // some schoology assignments don't display a grade, so we need to create a placeholder
                                     assignment
                                         .querySelector(".grade-column > .td-content-wrapper")
-                                        .prepend(
+                                        ?.prepend(
                                             createElement("span", ["no-grade"], {
                                                 textContent: "—",
                                             })
                                         );
                                 }
 
-                                if (score) {
-                                    let assignmentScore = Number.parseFloat(score.textContent);
+                                if (score && maxGrade) {
+                                    let assignmentScore = Number.parseFloat(score.textContent!);
                                     let assignmentMax = Number.parseFloat(
-                                        maxGrade.textContent.substring(3)
+                                        maxGrade.textContent!.substring(3)
                                     );
 
                                     if (!assignment.classList.contains("dropped")) {
@@ -324,10 +327,10 @@ async function activateGradesPage() {
                                     );
 
                                     // td-content-wrapper
-                                    maxGrade.parentElement.appendChild(
+                                    maxGrade.parentElement!.appendChild(
                                         document.createElement("br")
                                     );
-                                    maxGrade.parentElement.appendChild(newGrade);
+                                    maxGrade.parentElement!.appendChild(newGrade);
                                 } else {
                                     queueNonenteredAssignment(
                                         assignment,
@@ -340,11 +343,11 @@ async function activateGradesPage() {
                                     // get denominator for missing assignment
                                     let p = assignment.querySelector(
                                         ".injected-assignment-percent"
-                                    );
+                                    ) as HTMLElement;
                                     p.textContent = "0%";
                                     p.title = "Assignment missing";
                                     Logger.log(
-                                        `Fetching max points for assignment ${assignment.dataset.id.substr(
+                                        `Fetching max points for assignment ${assignment.dataset.id?.substr(
                                             2
                                         )}`
                                     );
@@ -358,18 +361,19 @@ async function activateGradesPage() {
                                     }
 
                                     const assignments = json.section[0].period.reduce(
-                                        (prevVal, curVal) => prevVal.concat(curVal.assignment),
+                                        (prevVal: any[], curVal: any) =>
+                                            prevVal.concat(curVal.assignment),
                                         []
                                     ); //combines the assignment arrays from each period
                                     let pts = Number.parseFloat(
                                         assignments.filter(
-                                            x => x.assignment_id == assignment.dataset.id.substr(2)
+                                            x => x.assignment_id == assignment.dataset.id?.substr(2)
                                         )[0].max_points
                                     );
                                     if (!assignment.classList.contains("dropped")) {
                                         max += pts;
                                         Logger.log(
-                                            `Max points for assignment ${assignment.dataset.id.substr(
+                                            `Max points for assignment ${assignment.dataset.id?.substr(
                                                 2
                                             )} is ${pts}`
                                         );
@@ -379,8 +383,9 @@ async function activateGradesPage() {
                                 //assignment.style.textAlign = "center";
 
                                 // kabob menu
-                                let commentsContentWrapper =
-                                    assignment.querySelector(".comment-column").firstElementChild;
+                                let commentsContentWrapper = assignment.querySelector(
+                                    ".comment-column"
+                                )!.firstElementChild as HTMLElement;
                                 let kabobMenuButton = createElement("span", ["kabob-menu"], {
                                     textContent: "⠇",
                                     onclick: function (event) {
@@ -392,7 +397,9 @@ async function activateGradesPage() {
                                 });
                                 kabobMenuButton.dataset.parentId = assignment.dataset.parentId;
 
-                                let editEnableCheckbox = document.getElementById("enable-modify");
+                                let editEnableCheckbox = document.getElementById(
+                                    "enable-modify"
+                                ) as HTMLInputElement;
 
                                 // not created yet and thus editing disabled, or created the toggle but editing disabled
                                 if (!editEnableCheckbox || !editEnableCheckbox.checked) {
@@ -427,10 +434,14 @@ async function activateGradesPage() {
                                 };
 
                                 // add UI for grade virtual editing
-                                let gradeWrapper = assignment.querySelector(".grade-wrapper");
+                                let gradeWrapper = assignment.querySelector(
+                                    ".grade-wrapper"
+                                ) as HTMLElement;
 
-                                let checkbox = document.getElementById("enable-modify");
-                                let gradeAddEditHandler = null;
+                                let checkbox = document.getElementById(
+                                    "enable-modify"
+                                ) as HTMLInputElement;
+                                let gradeAddEditHandler: (() => Promise<void>) | null = null;
                                 let editGradeImg = createElement("img", ["grade-edit-indicator"], {
                                     src: chrome.runtime.getURL("imgs/edit-pencil.svg"),
                                     width: 12,
@@ -460,17 +471,17 @@ async function activateGradesPage() {
                                             legacyLabel: "What-If Grades",
                                         });
 
-                                        let assignmentTitle =
-                                            assignment.getElementsByClassName("title")[0]
-                                                .firstElementChild;
+                                        let assignmentTitle = assignment.getElementsByClassName(
+                                            "title"
+                                        )[0].firstElementChild! as HTMLElement;
                                         assignmentTitle.textContent =
                                             "Added Assignment (Click to Rename)";
                                         assignmentTitle.classList.add("editable-assignment-name");
                                         assignmentTitle.contentEditable = "true";
                                         assignmentTitle.addEventListener("keydown", event => {
                                             if (event.which === 13) {
-                                                event.target.blur();
-                                                window.getSelection().removeAllRanges();
+                                                (event.target as HTMLElement).blur();
+                                                window.getSelection()?.removeAllRanges();
                                             }
                                         });
 
@@ -486,7 +497,7 @@ async function activateGradesPage() {
                                     "click",
                                     createEditListener(
                                         assignment,
-                                        gradeWrapper.parentElement,
+                                        gradeWrapper.parentElement!,
                                         category,
                                         period,
                                         gradeAddEditHandler
@@ -497,11 +508,11 @@ async function activateGradesPage() {
                                 const gradeText =
                                     assignment.querySelector(".awarded-grade") ||
                                     assignment.querySelector(".no-grade");
-                                gradeText.addEventListener(
+                                gradeText?.addEventListener(
                                     "click",
                                     createEditListener(
                                         assignment,
-                                        gradeWrapper.parentElement,
+                                        gradeWrapper.parentElement!,
                                         category,
                                         period,
                                         gradeAddEditHandler
@@ -545,7 +556,7 @@ async function activateGradesPage() {
                                         ) {
                                             // consequential failure: our denominator is invalid
                                             invalidateCatTotal = true;
-                                            invalidCategories.push(category.dataset.id);
+                                            invalidCategories.push(category.dataset.id!);
 
                                             if ("status" in err && err.status === 403) {
                                                 addEditDisableReason(
@@ -592,7 +603,7 @@ async function activateGradesPage() {
                             if (assignments.length === 0) {
                                 category
                                     .querySelector(".grade-column")
-                                    .classList.add("grade-column-center");
+                                    ?.classList.add("grade-column-center");
 
                                 let createAddAssignmentUi = async function () {
                                     let addAssignmentThing = createAddAssignmentElement(category);
@@ -615,7 +626,7 @@ async function activateGradesPage() {
                                 );
                                 category
                                     .querySelector("th .td-content-wrapper")
-                                    .prepend(categoryArrow);
+                                    ?.prepend(categoryArrow);
 
                                 if (!category.classList.contains("hidden")) {
                                     await createAddAssignmentUi();
@@ -623,15 +634,15 @@ async function activateGradesPage() {
                             }
 
                             let gradeText =
-                                category.querySelector(".awarded-grade") ||
-                                category.querySelector(".no-grade");
+                                category.querySelector<HTMLElement>(".awarded-grade") ||
+                                category.querySelector<HTMLElement>(".no-grade");
                             if (!gradeText) {
                                 gradeText = createElement("span", ["awarded-grade"], {
                                     textContent: "—",
                                 });
                                 category
                                     .querySelector(".grade-column .td-content-wrapper")
-                                    .appendChild(gradeText);
+                                    ?.appendChild(gradeText);
                                 setGradeText(gradeText, sum, max, category);
                                 recalculateCategoryScore(category, 0, 0, false, courseId);
                             } else {
@@ -642,10 +653,10 @@ async function activateGradesPage() {
                             gradeText.classList.add("awarded-grade");
 
                             if (invalidateCatTotal) {
-                                let catMaxElem = gradeText.parentElement.querySelector(
+                                let catMaxElem = gradeText.parentElement!.querySelector(
                                     ".grade-column-center .max-grade"
                                 );
-                                catMaxElem.classList.add("max-grade-show-error");
+                                catMaxElem?.classList.add("max-grade-show-error");
                                 invalidatePerTotal = true;
                             }
 
@@ -684,12 +695,13 @@ async function activateGradesPage() {
                     }
 
                     let gradeText =
-                        period.querySelector(".awarded-grade") || period.querySelector(".no-grade");
+                        period.querySelector<HTMLElement>(".awarded-grade") ||
+                        period.querySelector<HTMLElement>(".no-grade");
                     if (!gradeText) {
                         gradeText = createElement("span", ["awarded-grade"], { textContent: "—" });
                         period
                             .querySelector(".grade-column .td-content-wrapper")
-                            .appendChild(gradeText);
+                            ?.appendChild(gradeText);
                         setGradeText(
                             gradeText,
                             periodPoints,
@@ -724,10 +736,10 @@ async function activateGradesPage() {
                     }
 
                     if (invalidatePerTotal && classTotal !== 0) {
-                        let perMaxElem = gradeText.parentElement.querySelector(
+                        let perMaxElem = gradeText.parentElement!.querySelector(
                             ".grade-column-center .max-grade"
                         );
-                        perMaxElem.classList.add("max-grade-show-error");
+                        perMaxElem?.classList.add("max-grade-show-error");
                     }
                 }
 
@@ -742,7 +754,8 @@ async function activateGradesPage() {
                 (function () {
                     for (let i = 0; i < 4; i++) {
                         if (gradebookCourseContainerDiv != null) {
-                            gradebookCourseContainerDiv = gradebookCourseContainerDiv.parentElement;
+                            gradebookCourseContainerDiv =
+                                gradebookCourseContainerDiv.parentElement!;
                         }
                     }
                 })();
@@ -757,12 +770,12 @@ async function activateGradesPage() {
                         ".gradebook-course-grades .summary-course"
                     );
 
-                    let gradeScale = Setting.getValue("getGradingScale")(courseId);
+                    let gradeScale = getGradingScale(courseId);
                     let myPercentage = (classPoints / classTotal) * 100;
 
                     if (summaryPointsContainer) {
                         let gradeScaleSorted = Object.keys(gradeScale)
-                            .sort((a, b) => b - a)
+                            .sort((a, b) => Number.parseFloat(b) - Number.parseFloat(a))
                             .map(function (p) {
                                 return { symbol: gradeScale[p], minGrade: +p };
                             });
@@ -797,7 +810,7 @@ async function activateGradesPage() {
                                         textContent: "Points Needed:",
                                     }),
                                     createElement("span", ["total-points-awarded"], {
-                                        textContent: neededPts,
+                                        textContent: neededPts.toString(),
                                     }),
                                     createElement("span", ["total-points-possible"], {
                                         textContent: " for " + targetGrade.symbol,
@@ -819,7 +832,7 @@ async function activateGradesPage() {
                                         textContent: "Point Buffer:",
                                     }),
                                     createElement("span", ["total-points-awarded"], {
-                                        textContent: bufferPts,
+                                        textContent: bufferPts.toString(),
                                     }),
                                     createElement("span", ["total-points-possible"], {
                                         textContent: " from " + targetGrade.symbol,
@@ -1226,7 +1239,9 @@ async function activateGradesPage() {
                             }
 
                             prepareScoredAssignmentGrade(
-                                element.querySelector(".injected-assignment-percent"),
+                                element.querySelector(
+                                    ".injected-assignment-percent"
+                                ) as HTMLElement,
                                 finalGrade,
                                 maxVal
                             );
@@ -1338,36 +1353,33 @@ async function activateGradesPage() {
                                     // TODO refactor grade extraction
                                     // get course letter grade
                                     let catId = this[0].dataset.parentId;
-                                    let catRow = Array.prototype.find.call(
-                                        this[0].parentElement.getElementsByTagName("tr"),
-                                        e => e.dataset.id == catId
-                                    );
+                                    let catRow = Array.from(
+                                        this[0].parentElement!.getElementsByTagName("tr")
+                                    ).find(e => e.dataset.id == catId)!;
                                     let perId = catRow.dataset.parentId;
-                                    let perRow = Array.prototype.find.call(
-                                        this[0].parentElement.getElementsByTagName("tr"),
-                                        e => e.dataset.id == perId
-                                    );
+                                    let perRow = Array.from(
+                                        this[0].parentElement!.getElementsByTagName("tr")
+                                    ).find(e => e.dataset.id == perId)!;
 
                                     // TODO refactor
                                     // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
                                     let courseId = Number.parseInt(
                                         /course-(\d+)$/.exec(
-                                            this[0].parentElement.parentElement.parentElement
-                                                .parentElement.id
-                                        )[1]
-                                    );
+                                            this[0].parentElement!.parentElement!.parentElement!
+                                                .parentElement!.id
+                                        )![1]
+                                    ).toString();
 
-                                    let gradingScale =
-                                        Setting.getValue("getGradingScale")(courseId);
+                                    let gradingScale = getGradingScale(courseId);
 
                                     let courseGrade = getLetterGrade(
                                         gradingScale,
                                         Number.parseFloat(
                                             /\d+(\.\d+)%/
                                                 .exec(
-                                                    perRow.querySelector(".grade-column-right")
-                                                        .firstElementChild.textContent
-                                                )[0]
+                                                    perRow.querySelector(".grade-column-right")!
+                                                        .firstElementChild!.textContent!
+                                                )![0]
                                                 .slice(0, -1)
                                         )
                                     );
@@ -1404,8 +1416,8 @@ async function activateGradesPage() {
                         for (let courseElement of document.getElementsByClassName(
                             "gradebook-course"
                         )) {
-                            let baseContextMenuObject = {};
-                            let calcMinFor = {};
+                            let baseContextMenuObject: Partial<JQueryContextMenuOptions> = {};
+                            let calcMinFor: Record<string, any> = {};
                             baseContextMenuObject.items = {};
                             Object.assign(
                                 baseContextMenuObject.items,
@@ -1420,18 +1432,18 @@ async function activateGradesPage() {
 
                             baseContextMenuObject.selector = "#" + courseElement.id + " ";
 
-                            let courseId = /\d+$/.exec(courseElement.id)[0];
+                            let courseId = /\d+$/.exec(courseElement.id)![0];
 
                             // TODO if grade scale is updated while this page is loaded (i.e. after this code runs) what to do
-                            let gradingScale = Setting.getValue("getGradingScale")(courseId);
+                            let gradingScale = getGradingScale(courseId);
 
                             for (let gradeValue of Object.keys(gradingScale).sort(
-                                (a, b) => b - a
+                                (a, b) => Number.parseFloat(b) - Number.parseFloat(a)
                             )) {
                                 let letterGrade = gradingScale[gradeValue];
                                 calcMinFor["calculateMinGradeFor" + gradeValue] = {
                                     name: "For " + letterGrade + " (" + gradeValue + "%)",
-                                    callback: function (key, opt) {
+                                    callback: function (this: HTMLElement[], key: any, opt: any) {
                                         trackEvent("context_menu_click", {
                                             id: "Calculate Minimum Grade For...",
                                             context: "What-If Grades",
@@ -1468,6 +1480,7 @@ async function activateGradesPage() {
                                     );
 
                                     if (
+                                        value !== null &&
                                         !Number.isNaN(value) &&
                                         !Number.isNaN(Number.parseFloat(value))
                                     ) {
@@ -1498,7 +1511,7 @@ async function activateGradesPage() {
                                         legacyAction: "change-boundaries",
                                         legacyLabel: "What-If Grades",
                                     });
-                                    openModal("course-settings-modal", {
+                                    Modal.openModal("course-settings-modal", {
                                         courseId: courseElem.id.match(/\d+/)[0],
                                         courseName: titleElem.querySelector("a span:nth-child(3)")
                                             ? titleElem.querySelector("a span:nth-child(2)")
@@ -1520,8 +1533,8 @@ async function activateGradesPage() {
                             );
                             addedContextMenuObject.items.drop = undroppedAssignItemSet.delete;
 
-                            $.contextMenu(normalContextMenuObject);
-                            $.contextMenu(addedContextMenuObject);
+                            $.contextMenu(normalContextMenuObject as JQueryContextMenuOptions);
+                            $.contextMenu(addedContextMenuObject as JQueryContextMenuOptions);
                         }
 
                         $.contextMenu({
@@ -1529,7 +1542,7 @@ async function activateGradesPage() {
                             items: {
                                 undrop: {
                                     name: "Undrop",
-                                    callback: function (key, opt) {
+                                    callback: function (this: HTMLElement[], key: any, opt: any) {
                                         trackEvent("context_menu_click", {
                                             id: "Undrop",
                                             context: "What-If Grades",
@@ -1540,7 +1553,7 @@ async function activateGradesPage() {
                                         this[0].classList.remove("dropped");
                                         // alter grade
                                         let gradeColContentWrap =
-                                            this[0].querySelector(".grade-wrapper").parentElement;
+                                            this[0].querySelector(".grade-wrapper")!.parentElement!;
                                         removeExceptionState(this[0], gradeColContentWrap);
                                         // TODO refactor the grade extraction
                                         let score =
@@ -1554,14 +1567,15 @@ async function activateGradesPage() {
                                         let maxVal = 0;
 
                                         if (score && maxGrade) {
-                                            scoreVal = Number.parseFloat(score.textContent);
+                                            scoreVal = Number.parseFloat(score.textContent!);
                                             maxVal = Number.parseFloat(
-                                                maxGrade.textContent.substring(3)
+                                                maxGrade.textContent!.substring(3)
                                             );
                                         } else if (
+                                            maxGrade &&
                                             this[0].querySelector(".exception-icon.missing")
                                         ) {
-                                            let scoreValues = maxGrade.textContent.split("/");
+                                            let scoreValues = maxGrade.textContent!.split("/");
                                             scoreVal = Number.parseFloat(scoreValues[0]);
                                             maxVal = Number.parseFloat(scoreValues[1]);
                                         }
@@ -1579,16 +1593,14 @@ async function activateGradesPage() {
                                         }
 
                                         let catId = this[0].dataset.parentId;
-                                        let catRow = Array.prototype.find.call(
-                                            this[0].parentElement.getElementsByTagName("tr"),
-                                            e => e.dataset.id == catId
-                                        );
+                                        let catRow = Array.from(
+                                            this[0].parentElement!.getElementsByTagName("tr")
+                                        ).find((e: HTMLElement) => e.dataset.id == catId)!;
 
                                         let perId = catRow.dataset.parentId;
-                                        let perRow = Array.prototype.find.call(
-                                            this[0].parentElement.getElementsByTagName("tr"),
-                                            e => e.dataset.id == perId
-                                        );
+                                        let perRow = Array.from(
+                                            this[0].parentElement!.getElementsByTagName("tr")
+                                        ).find((e: HTMLElement) => e.dataset.id == perId)!;
 
                                         let courseId = perRow.dataset.parentId;
 
@@ -1611,23 +1623,29 @@ async function activateGradesPage() {
                             },
                         });
 
-                        for (let kabob of document.getElementsByClassName("kabob-menu")) {
-                            if (invalidCategories.includes(kabob.dataset.parentId)) continue;
+                        for (let kabob of document.getElementsByClassName(
+                            "kabob-menu"
+                        ) as HTMLCollectionOf<HTMLElement>) {
+                            if (invalidCategories.includes(kabob.dataset.parentId!)) continue;
 
                             kabob.classList.remove("hidden");
                         }
                         // uncheck the grades modify box without having modified grades
                     } else if (!gradesModified) {
-                        for (let edit of document.getElementsByClassName("grade-edit-indicator")) {
+                        for (let edit of document.getElementsByClassName(
+                            "grade-edit-indicator"
+                        ) as HTMLCollectionOf<HTMLElement>) {
                             edit.style.display = "none";
                         }
-                        for (let edit of document.getElementsByClassName("grade-add-indicator")) {
+                        for (let edit of document.getElementsByClassName(
+                            "grade-add-indicator"
+                        ) as HTMLCollectionOf<HTMLElement>) {
                             edit.style.display = "none";
                             if (
-                                edit.previousElementSibling.classList.contains("item-row") &&
-                                !edit.previousElementSibling.classList.contains("last-row-of-tier")
+                                edit.previousElementSibling!.classList.contains("item-row") &&
+                                !edit.previousElementSibling!.classList.contains("last-row-of-tier")
                             ) {
-                                edit.previousElementSibling.classList.add("last-row-of-tier");
+                                edit.previousElementSibling!.classList.add("last-row-of-tier");
                             }
                         }
                         for (let kabob of document.getElementsByClassName("kabob-menu")) {
@@ -1647,7 +1665,7 @@ async function activateGradesPage() {
                         }
                         for (let arrow of document.getElementsByClassName(
                             "injected-empty-category-expand-icon"
-                        )) {
+                        ) as HTMLCollectionOf<HTMLElement>) {
                             arrow.style.visibility = "hidden";
                         }
                         $.contextMenu("destroy", droppedAssignRClickSelector);
@@ -1661,14 +1679,15 @@ async function activateGradesPage() {
                         document.location.reload();
                         // attempted to disable grade editing but backed out of confirmation prompt
                     } else {
-                        document.getElementById("enable-modify").checked = true;
+                        (document.getElementById("enable-modify") as HTMLInputElement).checked =
+                            true;
                     }
                 },
             })
         );
 
         if (!gradeModifLabelFirst) {
-            timeRow.appendChild(timeRowLabel);
+            timeRow?.appendChild(timeRowLabel);
         }
     }
 
@@ -1678,19 +1697,21 @@ async function activateGradesPage() {
 
     if (
         !document.location.search.includes("past") ||
-        document.location.search.split("past=")[1] != 1
+        document.location.search.split("past=")[1] != "1"
     ) {
         if (Setting.getValue("orderClasses") == "period") {
             for (let course of coursesByPeriod) {
                 if (course) {
-                    course.parentElement.appendChild(course);
+                    course.parentElement!.appendChild(course);
                 }
             }
         }
     }
 
-    function getLetterGrade(gradingScale, percentage) {
-        let sorted = Object.keys(gradingScale).sort((a, b) => b - a);
+    function getLetterGrade(gradingScale: Record<string, string>, percentage: number): string {
+        let sorted = Object.keys(gradingScale).sort(
+            (a, b) => Number.parseFloat(b) - Number.parseFloat(a)
+        );
         for (let s of sorted) {
             if (percentage >= Number.parseInt(s)) {
                 return gradingScale[s];
@@ -1699,8 +1720,15 @@ async function activateGradesPage() {
         return "?";
     }
 
-    function queueNonenteredAssignment(assignment, courseId, period, category) {
-        let noGrade = assignment.getElementsByClassName("no-grade")[0];
+    function queueNonenteredAssignment(
+        assignment: HTMLElement,
+        courseId: string,
+        period: HTMLElement,
+        category: HTMLElement
+    ) {
+        let noGrade: HTMLElement | null = assignment.getElementsByClassName(
+            "no-grade"
+        )[0] as HTMLElement;
 
         // awarded grade present for assignments with letter-grade-only scores (numeric value hidden)
         let awardedGrade = assignment.getElementsByClassName("awarded-grade")[0];
@@ -1708,7 +1736,7 @@ async function activateGradesPage() {
 
         if (!noGrade && awardedGrade) {
             Logger.log(
-                `Found assignment (ID ${assignment.dataset.id.substr(
+                `Found assignment (ID ${assignment.dataset.id?.substr(
                     2
                 )}) with only letter-grade showing`
             );
@@ -1723,24 +1751,24 @@ async function activateGradesPage() {
 
         if (!noGrade) {
             Logger.log(
-                `Error loading potentially nonentered assignment with ID ${assignment.dataset.id.substr(
+                `Error loading potentially nonentered assignment with ID ${assignment.dataset.id?.substr(
                     2
                 )}`
             );
             return;
         }
 
-        if (noGrade.parentElement.classList.contains("exception-grade-wrapper")) {
+        if (noGrade.parentElement?.classList.contains("exception-grade-wrapper")) {
             noGrade.remove();
             assignment.classList.add("contains-exception");
             // an exception case
             // now we just have to be careful to avoid double-counting
-            noGrade = assignment.querySelector(".exception .exception-icon");
+            noGrade = assignment.querySelector<HTMLElement>(".exception .exception-icon");
             if (noGrade) {
                 // the text gets in the way
                 let exceptionDesc = assignment.querySelector(".exception .exception-text");
-                noGrade.title = exceptionDesc.textContent;
-                exceptionDesc.remove();
+                noGrade.title = exceptionDesc?.textContent ?? "<ERR>";
+                exceptionDesc?.remove();
             }
         }
 
@@ -1755,11 +1783,11 @@ async function activateGradesPage() {
             noGrade.insertAdjacentElement("afterend", maxGrade);
 
             let f = async () => {
-                let domAssignId = assignment.dataset.id.substr(2);
+                let domAssignId = assignment.dataset.id?.substr(2);
                 Logger.log(`Fetching max points for (nonentered) assignment ${domAssignId}`);
 
-                let response = null;
-                let firstTryError = null;
+                let response: Response | null = null;
+                let firstTryError: any = null;
 
                 try {
                     response = await fetchApi(`sections/${courseId}/assignments/${domAssignId}`);
@@ -1812,7 +1840,7 @@ async function activateGradesPage() {
                         // success case
                         let jsonAssignment = json.section[0].period
                             .flatMap(p => p.assignment)
-                            .filter(x => x.assignment_id == Number.parseInt(domAssignId))[0];
+                            .filter(x => x.assignment_id == Number.parseInt(domAssignId!))[0];
 
                         if (letterGradeOnly && jsonAssignment.grade !== undefined) {
                             let numericGradeValueSpan = createElement(
@@ -1827,7 +1855,7 @@ async function activateGradesPage() {
                                 ]
                             );
                             awardedGrade.insertAdjacentElement("beforeend", numericGradeValueSpan);
-                            noGrade.outerHTML = "";
+                            if (noGrade) noGrade.outerHTML = "";
 
                             recalculateCategoryScore(
                                 category,
@@ -1857,7 +1885,7 @@ async function activateGradesPage() {
                                 true,
                                 false
                             );
-                            invalidCategories.push(category.dataset.id);
+                            invalidCategories.push(category.dataset.id!);
                         }
 
                         throw "List search failed to obtain meaningful response";
@@ -1870,16 +1898,16 @@ async function activateGradesPage() {
         }
 
         // td-content-wrapper
-        noGrade.parentElement.appendChild(document.createElement("br"));
+        noGrade?.parentElement?.appendChild(document.createElement("br"));
         let injectedPercent = createElement(
             "span",
             ["percentage-grade", "injected-assignment-percent"],
             { textContent: "N/A" }
         );
-        noGrade.parentElement.appendChild(injectedPercent);
+        noGrade?.parentElement?.appendChild(injectedPercent);
     }
 
-    function prepareScoredAssignmentGrade(spanPercent, score, max) {
+    function prepareScoredAssignmentGrade(spanPercent: HTMLElement, score: number, max: number) {
         spanPercent.textContent = max === 0 ? "EC" : `${Math.round((score * 100) / max)}%`;
         spanPercent.title = max === 0 ? "Extra Credit" : `${(score * 100) / max}%`;
         if (!spanPercent.classList.contains("max-grade")) {
@@ -1890,58 +1918,63 @@ async function activateGradesPage() {
         }
     }
 
-    function setGradeText(gradeElement, sum, max, row, doNotDisplay) {
-        if (gradeElement) {
-            let courseId = row.parentElement.firstElementChild.dataset.id;
-            // currently there exists a letter grade here, we want to put a point score here and move the letter grade
-            let text = gradeElement.parentElement.textContent;
-            let textContent = gradeElement.parentElement.textContent;
-            gradeElement.parentElement.classList.add("grade-column-center");
-            //gradeElement.parentElement.style.textAlign = "center";
-            //gradeElement.parentElement.style.paddingRight = "30px";
-            gradeElement.innerHTML = "";
-            // create the elements for our point score
-            gradeElement.appendChild(
-                createElement("span", ["rounded-grade"], {
-                    textContent: doNotDisplay ? "" : Math.round(sum * 100) / 100,
-                })
-            );
-            gradeElement.appendChild(
-                createElement("span", ["max-grade"], {
-                    textContent: doNotDisplay ? "" : ` / ${Math.round(max * 100) / 100}`,
-                })
-            );
-            // move the letter grade over to the right
-            span = row.querySelector(".comment-column").firstChild;
-            span.textContent = text;
+    function setGradeText(
+        gradeElement: HTMLElement | null,
+        sum: number,
+        max: number,
+        row: HTMLElement,
+        doNotDisplay: boolean = false
+    ) {
+        if (!gradeElement) return;
 
-            addLetterGrade(span, courseId);
+        let courseId = (row.parentElement!.firstElementChild as HTMLElement).dataset.id!;
+        // currently there exists a letter grade here, we want to put a point score here and move the letter grade
+        let text = gradeElement.parentElement!.textContent!;
+        gradeElement.parentElement!.classList.add("grade-column-center");
+        //gradeElement.parentElement.style.textAlign = "center";
+        //gradeElement.parentElement.style.paddingRight = "30px";
+        gradeElement.innerHTML = "";
+        // create the elements for our point score
+        gradeElement.appendChild(
+            createElement("span", ["rounded-grade"], {
+                textContent: doNotDisplay ? "" : (Math.round(sum * 100) / 100).toString(),
+            })
+        );
+        gradeElement.appendChild(
+            createElement("span", ["max-grade"], {
+                textContent: doNotDisplay ? "" : ` / ${Math.round(max * 100) / 100}`,
+            })
+        );
+        // move the letter grade over to the right
+        let span = row.querySelector<HTMLElement>(".comment-column")!.firstChild!;
+        span.textContent = text;
 
-            // restyle the right hand side
-            span.parentElement.classList.remove("comment-column");
-            span.parentElement.classList.add("grade-column");
-            span.parentElement.classList.add("grade-column-right");
-            //span.style.cssFloat = "right"; //maybe remove
-            //span.style.color = "#3aa406";
-            //span.style.fontWeight = "bold";
-        }
+        addLetterGrade(span as HTMLElement, courseId);
+
+        // restyle the right hand side
+        span.parentElement?.classList.remove("comment-column");
+        span.parentElement?.classList.add("grade-column");
+        span.parentElement?.classList.add("grade-column-right");
+        //span.style.cssFloat = "right"; //maybe remove
+        //span.style.color = "#3aa406";
+        //span.style.fontWeight = "bold";
     }
 
-    function addLetterGrade(elem, courseId) {
-        let gradingScale = Setting.getValue("getGradingScale")(courseId);
+    function addLetterGrade(elem: HTMLElement, courseId: string) {
+        let gradingScale = getGradingScale(courseId);
         if (
             Setting.getValue("customScales") != "disabled" &&
-            elem.textContent.match(/^\d+\.?\d*%/) !== null
+            elem.textContent!.match(/^\d+\.?\d*%/) !== null
         ) {
             let percent = Number.parseFloat(
-                elem.textContent.substr(0, elem.textContent.length - 1)
+                elem.textContent!.substr(0, elem.textContent!.length - 1)
             );
             let letterGrade = getLetterGrade(gradingScale, percent);
             elem.textContent = `${letterGrade} (${percent}%)`;
             elem.title = `Letter grade calculated by Schoology Plus using the following grading scale:\n${Object.keys(
                 gradingScale
             )
-                .sort((a, b) => a - b)
+                .sort((a, b) => Number.parseFloat(a) - Number.parseFloat(b))
                 .reverse()
                 .map(x => `${gradingScale[x]}: ${x}%`)
                 .join(
@@ -1966,12 +1999,12 @@ async function activateGradesPage() {
     ) {
         // category always has a numeric score, unlike period
         // awarded grade in our constructed element contains both rounded and max
-        let awardedCategoryPoints = catRow.querySelector(".rounded-grade").parentNode;
-        let catScoreElem = awardedCategoryPoints.querySelector(".rounded-grade");
-        let catMaxElem = awardedCategoryPoints.querySelector(".max-grade");
-        let newCatScore = Number.parseFloat(catScoreElem.textContent) + deltaPoints;
-        let newCatMax = Number.parseFloat(catMaxElem.textContent.substring(3)) + deltaMax;
-        catScoreElem.textContent = roundDecimal(newCatScore, 2);
+        let awardedCategoryPoints = catRow.querySelector(".rounded-grade")!.parentNode!;
+        let catScoreElem = awardedCategoryPoints.querySelector(".rounded-grade")!;
+        let catMaxElem = awardedCategoryPoints.querySelector(".max-grade")!;
+        let newCatScore = Number.parseFloat(catScoreElem.textContent!) + deltaPoints;
+        let newCatMax = Number.parseFloat(catMaxElem.textContent!.substring(3)) + deltaMax;
+        catScoreElem.textContent = roundDecimal(newCatScore, 2).toString();
         catMaxElem.textContent = " / " + roundDecimal(newCatMax, 2);
         if (warn && !awardedCategoryPoints.querySelector(".modified-score-percent-warning")) {
             awardedCategoryPoints.appendChild(generateScoreModifyWarning());
@@ -1979,22 +2012,22 @@ async function activateGradesPage() {
         // category percentage
         // need to recalculate
         // content wrapper in right grade col
-        let awardedCategoryPercentContainer =
-            catRow.querySelector(".grade-column-right").firstElementChild;
+        let awardedCategoryPercentContainer = catRow.querySelector(".grade-column-right")!
+            .firstElementChild as HTMLElement;
         let awardedCategoryPercent = awardedCategoryPercentContainer;
         // clear existing percentage indicator
         while (awardedCategoryPercent.firstChild) {
             awardedCategoryPercent.firstChild.remove();
         }
         awardedCategoryPercent.appendChild(document.createElement("span"));
-        awardedCategoryPercent = awardedCategoryPercent.firstElementChild;
+        awardedCategoryPercent = awardedCategoryPercent.firstElementChild as HTMLElement;
         awardedCategoryPercent.classList.add("awarded-grade");
         awardedCategoryPercent.appendChild(document.createElement("span"));
-        awardedCategoryPercent = awardedCategoryPercent.firstElementChild;
+        awardedCategoryPercent = awardedCategoryPercent.firstElementChild as HTMLElement;
         awardedCategoryPercent.classList.add("numeric-grade");
         awardedCategoryPercent.classList.add("primary-grade");
         awardedCategoryPercent.appendChild(document.createElement("span"));
-        awardedCategoryPercent = awardedCategoryPercent.firstElementChild;
+        awardedCategoryPercent = awardedCategoryPercent.firstElementChild as HTMLElement;
         awardedCategoryPercent.classList.add("rounded-grade");
 
         let newCatPercent = (newCatScore / newCatMax) * 100;
@@ -2019,35 +2052,35 @@ async function activateGradesPage() {
         warn = true,
         courseId?: string
     ) {
-        let awardedPeriodPercentContainer =
-            perRow.querySelector(".grade-column-right").firstElementChild;
+        let awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right")!
+            .firstElementChild as HTMLElement;
         let awardedPeriodPercent = awardedPeriodPercentContainer;
         // clear existing percentage indicator
         while (awardedPeriodPercent.firstChild) {
             awardedPeriodPercent.firstChild.remove();
         }
         awardedPeriodPercent.appendChild(document.createElement("span"));
-        awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
+        awardedPeriodPercent = awardedPeriodPercent.firstElementChild as HTMLElement;
         awardedPeriodPercent.classList.add("awarded-grade");
         awardedPeriodPercent.appendChild(document.createElement("span"));
-        awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
+        awardedPeriodPercent = awardedPeriodPercent.firstElementChild as HTMLElement;
         awardedPeriodPercent.classList.add("numeric-grade");
         awardedPeriodPercent.classList.add("primary-grade");
         awardedPeriodPercentContainer = awardedPeriodPercent;
         awardedPeriodPercent.appendChild(document.createElement("span"));
-        awardedPeriodPercent = awardedPeriodPercent.firstElementChild;
+        awardedPeriodPercent = awardedPeriodPercent.firstElementChild as HTMLElement;
         awardedPeriodPercent.classList.add("rounded-grade");
 
         // now period (semester)
         // might have a numeric score (weighting => no numeric, meaning we can assume unweighted if present)
         let awardedPeriodPoints = perRow.querySelector(".grade-column-center");
-        if (awardedPeriodPoints && awardedPeriodPoints.textContent.trim().length !== 0) {
+        if (awardedPeriodPoints && awardedPeriodPoints.textContent!.trim().length !== 0) {
             // awarded grade in our constructed element contains both rounded and max
-            let perScoreElem = awardedPeriodPoints.querySelector(".rounded-grade");
-            let perMaxElem = awardedPeriodPoints.querySelector(".max-grade");
-            let newPerScore = Number.parseFloat(perScoreElem.textContent) + deltaPoints;
-            let newPerMax = Number.parseFloat(perMaxElem.textContent.substring(3)) + deltaMax;
-            perScoreElem.textContent = roundDecimal(newPerScore, 2);
+            let perScoreElem = awardedPeriodPoints.querySelector(".rounded-grade")!;
+            let perMaxElem = awardedPeriodPoints.querySelector(".max-grade")!;
+            let newPerScore = Number.parseFloat(perScoreElem.textContent!) + deltaPoints;
+            let newPerMax = Number.parseFloat(perMaxElem.textContent!.substring(3)) + deltaMax;
+            perScoreElem.textContent = roundDecimal(newPerScore, 2).toString();
             perMaxElem.textContent = " / " + roundDecimal(newPerMax, 2);
             if (warn && !awardedPeriodPoints.querySelector(".modified-score-percent-warning")) {
                 awardedPeriodPoints.appendChild(generateScoreModifyWarning());
@@ -2060,20 +2093,21 @@ async function activateGradesPage() {
         } else {
             let total = 0;
             let totalPercentWeight = 0;
-            for (let category of perRow.parentElement.querySelectorAll(
+            for (let category of perRow.parentElement!.querySelectorAll(
                 `.category-row[data-parent-id="${perRow.dataset.id}"]`
             )) {
                 let weightPercentElement = category.getElementsByClassName("percentage-contrib")[0];
                 if (!weightPercentElement) {
                     continue;
                 }
-                let weightPercent = weightPercentElement.textContent;
+                let weightPercent = weightPercentElement.textContent!;
                 let col = category.getElementsByClassName("grade-column-right")[0];
-                let colMatch = col ? col.textContent.match(/(\d+\.?\d*)%/) : null;
+                let colMatch = col ? col.textContent!.match(/(\d+\.?\d*)%/) : null;
                 if (colMatch) {
                     let scorePercent = Number.parseFloat(colMatch[1]);
                     if (!Number.isNaN(scorePercent)) {
-                        total += (weightPercent.slice(1, -2) / 100) * scorePercent;
+                        total +=
+                            (Number.parseFloat(weightPercent.slice(1, -2)) / 100) * scorePercent;
                         totalPercentWeight += Number.parseFloat(weightPercent.slice(1, -2));
                     }
                 }
@@ -2100,8 +2134,8 @@ async function activateGradesPage() {
             addLetterGrade(awardedPeriodPercent, courseId);
         }
 
-        awardedPeriodPercentContainer =
-            perRow.querySelector(".grade-column-right").firstElementChild;
+        awardedPeriodPercentContainer = perRow.querySelector(".grade-column-right")!
+            .firstElementChild as HTMLElement;
         if (
             warn &&
             !awardedPeriodPercentContainer.querySelector(".modified-score-percent-warning")
@@ -2110,7 +2144,7 @@ async function activateGradesPage() {
         }
     }
 
-    function parseAssignmentNumerator(numString, denomFloat, courseId) {
+    function parseAssignmentNumerator(numString: string, denomFloat: number, courseId: string) {
         if (Number.isNaN(denomFloat)) {
             return Number.NaN;
         }
@@ -2133,11 +2167,11 @@ async function activateGradesPage() {
         }
 
         if (Number.isFinite(denomFloat) && courseId) {
-            let gradingScale = Setting.getValue("getGradingScale")(courseId);
+            let gradingScale = getGradingScale(courseId);
             for (let gradeScalePercent in gradingScale) {
                 let letterSymbol = gradingScale[gradeScalePercent];
                 if (numString == letterSymbol) {
-                    numFloat = (gradeScalePercent / 100) * denomFloat;
+                    numFloat = (Number.parseFloat(gradeScalePercent) / 100) * denomFloat;
                     break;
                 }
             }
@@ -2154,53 +2188,54 @@ async function activateGradesPage() {
         maxGrade?: HTMLElement
     ) {
         if (!gradeColContentWrap) {
-            gradeColContentWrap = assignment.querySelector(".grade-column .td-content-wrapper");
+            gradeColContentWrap = assignment.querySelector(
+                ".grade-column .td-content-wrapper"
+            ) as HTMLElement;
         }
 
         let gradeWrapper = gradeColContentWrap.querySelector(".grade-wrapper");
 
         if (!exceptionIcon) {
-            exceptionIcon = gradeColContentWrap.querySelector(".exception-icon");
+            exceptionIcon = gradeColContentWrap.querySelector(".exception-icon") as HTMLElement;
             if (!exceptionIcon) {
                 return {};
             }
         }
 
         if (!score) {
-            score =
-                gradeColContentWrap.querySelector(".rounded-grade") ||
-                gradeColContentWrap.querySelector(".rubric-grade-value");
+            score = (gradeColContentWrap.querySelector(".rounded-grade") ||
+                gradeColContentWrap.querySelector(".rubric-grade-value")) as HTMLElement;
         }
 
         if (!maxGrade) {
-            maxGrade = gradeColContentWrap.querySelector(".max-grade");
+            maxGrade = gradeColContentWrap.querySelector(".max-grade") as HTMLElement;
         }
 
-        let retVars = {};
+        // let retVars = {};
 
         // the only exception which counts against the user is "missing"
         let missing = exceptionIcon.classList.contains("missing");
         let scoreElem = createElement("span", [missing ? "rounded-grade" : "no-grade"], {
             textContent: missing ? "0" : "—",
         });
-        retVars.editElem = scoreElem;
-        retVars.initPts = 0;
+        // retVars.editElem = scoreElem;
+        // retVars.initPts = 0;
         if (missing) {
-            retVars.score = scoreElem;
-            scoreElem = createElement("span", ["awarded-grade"], {}, [retVars.score, maxGrade]);
-            retVars.initMax = Number.parseFloat(maxGrade.textContent.substring(3));
+            // retVars.score = scoreElem;
+            scoreElem = createElement("span", ["awarded-grade"], {}, [scoreElem, maxGrade]);
+            // retVars.initMax = Number.parseFloat(maxGrade.textContent.substring(3));
         } else {
-            retVars.initMax = 0;
-            retVars.noGrade = scoreElem;
+            // retVars.initMax = 0;
+            // retVars.noGrade = scoreElem;
         }
         // reorganize
-        let elemToRemove = exceptionIcon.parentElement.parentElement;
+        let elemToRemove = exceptionIcon.parentElement?.parentElement;
         let nodesToMoveHolder = exceptionIcon.parentElement;
 
         exceptionIcon.insertAdjacentElement("afterend", scoreElem);
         exceptionIcon.remove();
 
-        let nodesToMove = Array.from(nodesToMoveHolder.childNodes);
+        let nodesToMove = Array.from(nodesToMoveHolder?.childNodes ?? []) as HTMLElement[];
         let nodesAfterMove = nodesToMove.splice(nodesToMove.findIndex(x => x.tagName == "BR"));
         nodesToMove.reverse();
         nodesAfterMove.reverse();
@@ -2208,14 +2243,20 @@ async function activateGradesPage() {
             gradeColContentWrap.insertAdjacentElement("afterbegin", nodesToMove[i]);
         }
         for (let i = 0; i < nodesAfterMove.length; i++) {
-            gradeWrapper.insertAdjacentElement("afterend", nodesAfterMove[i]);
+            gradeWrapper?.insertAdjacentElement("afterend", nodesAfterMove[i]);
         }
-        elemToRemove.remove();
+        elemToRemove?.remove();
 
         assignment.classList.remove("contains-exception");
     }
 
-    function createEditListener(assignment, gradeColContentWrap, catRow, perRow, finishedCallback) {
+    function createEditListener(
+        assignment: HTMLElement,
+        gradeColContentWrap: HTMLElement,
+        catRow: HTMLElement,
+        perRow: HTMLElement,
+        finishedCallback?: CallableFunction | null
+    ) {
         return function () {
             trackEvent("button_click", {
                 id: "change-assignment-grade",
@@ -2226,15 +2267,15 @@ async function activateGradesPage() {
             });
             removeExceptionState(assignment, gradeColContentWrap);
 
-            let noGrade = gradeColContentWrap.querySelector(".no-grade");
+            let noGrade = gradeColContentWrap.querySelector<HTMLElement>(".no-grade");
             let score =
-                gradeColContentWrap.querySelector(".rounded-grade") ||
-                gradeColContentWrap.querySelector(".rubric-grade-value");
+                gradeColContentWrap.querySelector<HTMLElement>(".rounded-grade") ||
+                gradeColContentWrap.querySelector<HTMLElement>(".rubric-grade-value");
             // note that this will always return (for our injected percentage element)
-            let maxGrade = gradeColContentWrap.querySelector(".max-grade");
-            let editElem;
-            let initPts;
-            let initMax;
+            let maxGrade = gradeColContentWrap.querySelector<HTMLElement>(".max-grade");
+            let editElem: HTMLElement | null = null;
+            let initPts: number;
+            let initMax: number;
             if (noGrade) {
                 editElem = noGrade;
                 initPts = 0;
@@ -2246,8 +2287,8 @@ async function activateGradesPage() {
             }
             if (score && maxGrade) {
                 editElem = score;
-                initPts = Number.parseFloat(score.textContent);
-                initMax = Number.parseFloat(maxGrade.textContent.substring(3));
+                initPts = Number.parseFloat(score.textContent!);
+                initMax = Number.parseFloat(maxGrade.textContent!.substring(3));
             }
 
             if (!editElem || editElem.classList.contains("student-editable")) {
@@ -2255,19 +2296,19 @@ async function activateGradesPage() {
             }
 
             editElem.classList.add("student-editable");
-            editElem.contentEditable = true;
+            editElem.contentEditable = "true";
 
             // TODO refactor
             // (this) tr -> tbody -> table -> div.gradebook-course-grades -> relevant div
             let courseId = Number.parseInt(
                 /course-(\d+)$/.exec(
-                    perRow.parentElement.parentElement.parentElement.parentElement.id
-                )[1]
-            );
+                    perRow.parentElement!.parentElement!.parentElement!.parentElement!.id
+                )![1]
+            ).toString();
 
             // TODO blur v focusout
             let submitFunc = function () {
-                if (!editElem.classList.contains("student-editable")) {
+                if (!editElem?.classList.contains("student-editable")) {
                     // we've already processed this event, ignore and return for cleanup
                     return true;
                 }
@@ -2279,15 +2320,15 @@ async function activateGradesPage() {
                     if (maxGrade) {
                         // noGrade+maxGrade = inserted maxGrade from an API call
                         // initDenom = 0; newDenom = whatever is in that textfield
-                        userMax = Number.parseFloat(maxGrade.textContent.substring(3));
+                        userMax = Number.parseFloat(maxGrade.textContent!.substring(3));
                         userScore = parseAssignmentNumerator(
-                            noGrade.textContent,
+                            noGrade.textContent!,
                             userMax,
                             courseId
                         );
                     } else {
                         let regexResult = /^(-?\d+(\.\d+)?)\s*\/\s*(-?\d+(\.\d+)?)$/.exec(
-                            editElem.textContent
+                            editElem.textContent!
                         );
                         if (!regexResult) {
                             return false;
@@ -2300,7 +2341,7 @@ async function activateGradesPage() {
                     }
                 } else if (score) {
                     // user entered number must be a numeric
-                    userScore = parseAssignmentNumerator(score.textContent, initMax, courseId);
+                    userScore = parseAssignmentNumerator(score.textContent!, initMax, courseId);
                     userMax = initMax;
                     if (Number.isNaN(userScore)) {
                         return false;
@@ -2330,13 +2371,13 @@ async function activateGradesPage() {
                     awardedGrade.appendChild(score);
                     gradeColContentWrap.prepend(score);
                     noGrade.remove();
-                } else {
+                } else if (score && maxGrade) {
                     // we already have our DOM elements
                     score.title = userScore;
                     score.textContent = userScore;
                     // will not have changed but still
                     maxGrade.textContent = " / " + userMax;
-                    score.contentEditable = false;
+                    score.contentEditable = "false";
                     score.classList.remove("student-editable");
 
                     // if there's a letter grade, remove it - it might be inaccurate
@@ -2345,7 +2386,7 @@ async function activateGradesPage() {
                         score.parentElement.parentElement &&
                         score.parentElement.parentElement.tagName.toUpperCase() === "SPAN" &&
                         score.parentElement.parentElement.classList.contains("awarded-grade") &&
-                        /^[A-DF] /.test(score.parentElement.parentElement.textContent)
+                        /^[A-DF] /.test(score.parentElement!.parentElement!.textContent!)
                     ) {
                         // note use of childNodes, it's not its own element
                         score.parentElement.parentElement.childNodes[0].remove();
@@ -2353,7 +2394,9 @@ async function activateGradesPage() {
                 }
                 // update the assignment percentage
                 prepareScoredAssignmentGrade(
-                    gradeColContentWrap.querySelector(".injected-assignment-percent"),
+                    gradeColContentWrap.querySelector(
+                        ".injected-assignment-percent"
+                    ) as HTMLElement,
                     userScore,
                     userMax
                 );
@@ -2382,20 +2425,20 @@ async function activateGradesPage() {
                 return true;
             };
             let cleanupFunc = function () {
-                editElem.removeEventListener("blur", blurFunc);
-                editElem.removeEventListener("keydown", keyFunc);
+                editElem?.removeEventListener("blur", blurFunc);
+                editElem?.removeEventListener("keydown", keyFunc);
             };
             let keyFunc = function (event) {
                 if (event.which == 13 || event.keyCode == 13) {
-                    editElem.blur();
+                    editElem?.blur();
                     return false;
                 }
                 return true;
             };
-            let blurFunc = function (event) {
+            let blurFunc = function () {
                 if (submitFunc()) {
                     cleanupFunc();
-                    var sel = window.getSelection ? window.getSelection() : document.selection;
+                    var sel = window.getSelection ? window.getSelection() : document.getSelection();
                     if (sel) {
                         if (sel.removeAllRanges) {
                             sel.removeAllRanges();
@@ -2404,14 +2447,14 @@ async function activateGradesPage() {
                         }
                     }
                 } else {
-                    editElem.focus();
+                    editElem?.focus();
                 }
                 return false;
             };
             editElem.addEventListener("blur", blurFunc);
             editElem.addEventListener("keydown", keyFunc);
             editElem.focus();
-            document.execCommand("selectAll", false, null);
+            document.execCommand("selectAll", false, null as any);
         };
     }
 }
@@ -2437,7 +2480,7 @@ function createAddAssignmentElement(category: HTMLElement) {
                     .querySelector<HTMLAnchorElement>("img.grade-edit-indicator")
                     ?.click();
             } else {
-                document.execCommand("selectall", null as any, false as any);
+                document.execCommand("selectall", false, null as any);
             }
         });
     return addAssignmentThing;
