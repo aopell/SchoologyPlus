@@ -23,7 +23,8 @@
     "jquery-migrate": "3.0.1",
     "jquery-ui": "1.12.1",
     "jquery.tipsy": "1.0.3",
-    "webext-dynamic-content-scripts": "^10.0.1"
+    "webext-dynamic-content-scripts": "^10.0.1",
+    "webext-permission-toggle": "^5.0.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",

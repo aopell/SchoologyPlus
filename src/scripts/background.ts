@@ -1,4 +1,5 @@
 import "webext-dynamic-content-scripts";
+import addDomainPermissionToggle from "webext-permission-toggle";
 
 import { trackEvent } from "./utils/analytics";
 import { getBrowser } from "./utils/dom";
@@ -10,6 +11,8 @@ var defaultDomain = "app.schoology.com";
 const OFFSCREEN_DOCUMENT_PATH = "/offscreen.html";
 
 async function load() {
+    addDomainPermissionToggle();
+
     chrome.runtime.onInstalled.addListener(onInstalled);
     chrome.alarms.onAlarm.addListener(onAlarm);
 
