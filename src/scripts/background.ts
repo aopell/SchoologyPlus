@@ -1,3 +1,5 @@
+import "webext-dynamic-content-scripts";
+
 import { trackEvent } from "./utils/analytics";
 import { getBrowser } from "./utils/dom";
 import { Logger } from "./utils/logger";

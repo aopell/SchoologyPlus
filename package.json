@@ -22,7 +22,8 @@
     "jquery-contextmenu": "2.9.2",
     "jquery-migrate": "3.0.1",
     "jquery-ui": "1.12.1",
-    "jquery.tipsy": "1.0.3"
+    "jquery.tipsy": "1.0.3",
+    "webext-dynamic-content-scripts": "^10.0.1"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
