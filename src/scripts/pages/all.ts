@@ -6,10 +6,11 @@ import { fetchApi, fetchApiJson, getUserId } from "../utils/api";
 import { createElement, createSvgLogo, getBrowser } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
-import { BETA_TESTS, Setting, updateSettings } from "../utils/settings";
+import { BETA_TESTS, Setting } from "../utils/settings";
 import Theme, { defaultCourseIconUrlRegex } from "../utils/theme";
 import { SchoologyTheme } from "../utils/theme-model";
 import { createToastButton, showToast } from "../utils/toast";
+import { updateSettings } from "../utils/update-settings";
 import { versionSpecificFirstLaunch } from "../utils/version";
 
 const targetRowWidth = 6;

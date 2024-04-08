@@ -1,5 +1,3 @@
-import "../styles/all.scss";
-import "../styles/modern/all.scss";
 import * as pages from "./pages";
 import { initializeAnalytics } from "./utils/analytics";
 

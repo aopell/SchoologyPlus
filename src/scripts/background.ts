@@ -151,7 +151,7 @@ function onContextMenuClicked(info: chrome.contextMenus.OnClickData, tab?: chrom
     }
 }
 
-async function onMessage(
+function onMessage(
     request: any,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void
@@ -204,11 +204,19 @@ async function onMessage(
     } else if (request.type == "updateDefaultDomain" && request.domain !== undefined) {
         defaultDomain = request.domain;
         assignmentNotificationUrl = `https://${defaultDomain}/home/notifications?filter=all`;
+        sendResponse({ success: true });
+        return true;
     } else if (request.type == "setBadgeText" && request.text !== undefined) {
         chrome.browserAction.setBadgeText({ text: request.text });
+        sendResponse({ success: true });
+        return true;
     } else if (request.type == "notification") {
-        await updateLastTime(request.timeModified, request.lastTime);
-        await sendNotification(request.notification, request.name, request.count);
+        updateLastTime(request.timeModified, request.lastTime).then(() => {
+            sendNotification(request.notification, request.name, request.count).then(() => {
+                sendResponse({ success: true });
+            });
+        });
+        return true;
     }
 }
 
