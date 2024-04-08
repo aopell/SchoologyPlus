@@ -65,27 +65,25 @@ const migrationsTo: {
         ]);
 
         if (getBrowser() !== "Firefox") {
-            var modalExistsInterval = setInterval(function () {
+            let analyticsModalExistsInterval = setInterval(function () {
                 if (
                     document.readyState === "complete" &&
-                    Modal.openModal &&
                     document.getElementById("analytics-modal") &&
                     !document.querySelector(".splus-modal-open")
                 ) {
-                    clearInterval(modalExistsInterval);
+                    clearInterval(analyticsModalExistsInterval);
                     Modal.openModal("analytics-modal");
                 }
             }, 50);
         }
 
-        var modalExistsInterval = setInterval(function () {
+        let chooseThemeModalExistsInterval = setInterval(function () {
             if (
                 document.readyState === "complete" &&
-                Modal.openModal &&
                 document.getElementById("choose-theme-modal") &&
                 !document.querySelector(".splus-modal-open")
             ) {
-                clearInterval(modalExistsInterval);
+                clearInterval(chooseThemeModalExistsInterval);
                 Modal.openModal("choose-theme-modal");
             }
         }, 50);

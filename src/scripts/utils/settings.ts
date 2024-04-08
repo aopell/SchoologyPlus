@@ -174,8 +174,8 @@ export class Setting {
 
         await Setting.updateSettingsFunction();
 
-        if (updateButtonText) {
-            let settingsSaved = document.getElementById("save-settings") as HTMLElementWithValue;
+        let settingsSaved = document.getElementById("save-settings") as HTMLElementWithValue;
+        if (updateButtonText && settingsSaved) {
             settingsSaved.value = "Saved!";
             setTimeout(() => {
                 settingsSaved.value = "Save Settings";
