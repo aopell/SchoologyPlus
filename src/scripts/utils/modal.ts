@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 import { trackEvent } from "./analytics";
 import { createButton, createElement, getBrowser } from "./dom";
 import { BETA_TESTS, Setting, generateDebugInfo } from "./settings";

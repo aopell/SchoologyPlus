@@ -84,6 +84,7 @@
         "*://lti-submission-google.app.schoology.com/*"
       ],
       "js": [
+        "google-analytics.js",
         "content.js"
       ],
       "run_at": "document_end"

@@ -437,12 +437,11 @@ export async function updateSettings() {
                         };
                     },
                     function (this: Setting) {
-                        $(".sidebar-sortable")
-                            .sortable({
-                                connectWith: ".sidebar-sortable",
-                                stop: () => Setting.onModify(this.getElement()),
-                            })
-                            .disableSelection();
+                        $(".sidebar-sortable").sortable({
+                            connectWith: ".sidebar-sortable",
+                            stop: () => Setting.onModify(this.getElement()),
+                        });
+                        // .disableSelection();
                     }
                 ).control,
             ]),
