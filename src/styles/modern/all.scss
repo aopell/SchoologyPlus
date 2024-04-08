@@ -1,16 +1,16 @@
 variable-intellisense {
-    --primary: #36393F;
-    --accent: #2F3136;
+    --primary: #36393f;
+    --accent: #2f3136;
     --secondary: #202225;
-    --text: #DCDDDE;
-    --contrast-text: #EEEEEE;
-    --muted-text: #72767D;
-    --contrast-border: #DCDDDE;
-    --input: #40444B;
-    --error: #F44336;
+    --text: #dcddde;
+    --contrast-text: #eeeeee;
+    --muted-text: #72767d;
+    --contrast-border: #dcddde;
+    --input: #40444b;
+    --error: #f44336;
     --highlight: rgba(184, 134, 11, 0.2);
     --active: rgba(0, 255, 255, 0.1);
-    --grades: #8BC34A;
+    --grades: #8bc34a;
     --border-radius: 5px;
     --border-size: 1px;
     --padding: 10px;
@@ -27,10 +27,10 @@ variable-intellisense {
     --cal10: #683131;
     --cal11: #770a0a;
     --cal12: #a72413;
-    --cal13: #E0024C;
-    --cal14: #188C16;
+    --cal13: #e0024c;
+    --cal14: #188c16;
     --cal15: #bd7304;
-    --cal16: #80168C;
+    --cal16: #80168c;
     --cal17: #164152;
     --cal18: #00543f;
     --cal19: #633e11;
@@ -47,7 +47,7 @@ variable-intellisense {
     --cal30: #4d5557;
 }
 
-:root[modern=true] {
+:root[modern="true"] {
     --modern-border: var(--border-size) solid var(--contrast-border);
 
     // General
@@ -83,7 +83,7 @@ variable-intellisense {
     textarea,
     select,
     optgroup,
-    input[type=text] {
+    input[type="text"] {
         background-color: var(--input) !important;
         color: var(--text) !important;
         border: none !important;
@@ -91,14 +91,13 @@ variable-intellisense {
     }
 
     // All user-styled elements -- should be for override user styles only
-    &[style-override=true] {
+    &[style-override="true"] {
         .s-edge-feed .edge-item *[style] {
             color: var(--text) !important;
             background: none !important;
         }
 
         .discussion-view {
-
             .discussion-prompt *[style],
             .comment-body-wrapper *[style] {
                 color: var(--text) !important;
@@ -170,7 +169,7 @@ variable-intellisense {
         background-color: var(--primary) !important;
     }
 
-    iframe:not([id^=firefox-screenshots-]) {
+    iframe:not([id^="firefox-screenshots-"]) {
         // iframe must be white, because we can't change styles within it
         background-color: white !important;
     }
@@ -184,14 +183,14 @@ variable-intellisense {
     }
 
     #right-column-inner {
-        >div:not(:empty) {
+        > div:not(:empty) {
             background-color: var(--secondary) !important;
             border: none !important;
             border-radius: var(--border-radius) !important;
             padding: var(--padding) !important;
         }
 
-        >div[id^=sgyReactRenders_comp_] {
+        > div[id^="sgyReactRenders_comp_"] {
             display: none;
         }
     }
@@ -208,7 +207,6 @@ variable-intellisense {
     }
 
     body {
-
         a.link-btn,
         button.link-btn {
             box-shadow: none !important;
@@ -251,7 +249,6 @@ variable-intellisense {
     }
 
     #main .s-notifications-mini {
-
         .edge-time,
         .created {
             color: var(--muted-text) !important;
@@ -260,7 +257,8 @@ variable-intellisense {
 
     // Hover over Links in Schoology's Native Notifications
     .drGks a {
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
             background-color: var(--highlight);
         }
     }
@@ -273,7 +271,6 @@ variable-intellisense {
         color: var(--contrast-text) !important;
 
         input {
-
             &[type="button"],
             &[type="submit"] {
                 color: var(--contrast-text) !important;
@@ -281,8 +278,7 @@ variable-intellisense {
         }
     }
 
-    :not(.submit-span-wrapper)>input {
-
+    :not(.submit-span-wrapper) > input {
         &[type="button"],
         &[type="submit"] {
             color: var(--contrast-text) !important;
@@ -305,9 +301,9 @@ variable-intellisense {
     div.courses-left-menu,
     .portfolio-list a.btn,
     a._3_bfp,
-    #header>header nav li a.util-menu-row-link-2dTZi,
-    #header>header nav li a._1Z0RM,
-    #header>header nav li button._1Z0RM {
+    #header > header nav li a.util-menu-row-link-2dTZi,
+    #header > header nav li a._1Z0RM,
+    #header > header nav li button._1Z0RM {
         color: var(--contrast-text) !important;
     }
 
@@ -361,7 +357,7 @@ variable-intellisense {
         border-radius: var(--border-radius) !important;
     }
 
-    &[dark=false] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
+    &[dark="false"] .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text {
         background-color: var(--secondary) !important;
         color: var(--text) !important;
     }
@@ -371,15 +367,14 @@ variable-intellisense {
         background-color: var(--muted-text) !important;
     }
 
-    &[dark=false] {
-
+    &[dark="false"] {
         .action-links-wrapper-expanded .action-links-unfold .action-links-unfold-text:hover,
         .action-links-unfold:hover {
             background-color: var(--muted-text) !important;
         }
     }
 
-    &[dark=true] #header > header li svg.util-v2-icon-height-2N1T4 {
+    &[dark="true"] #header > header li svg.util-v2-icon-height-2N1T4 {
         filter: Hue-Rotate(200deg) Invert(1) Saturate(2);
     }
 
@@ -445,7 +440,7 @@ variable-intellisense {
         background-color: var(--accent) !important;
     }
 
-    .pendo-mock-flexbox-element:nth-child(2)>button {
+    .pendo-mock-flexbox-element:nth-child(2) > button {
         background-color: var(--primary) !important;
         border-color: var(--contrast-border) !important;
         color: var(--text) !important;
@@ -471,8 +466,8 @@ variable-intellisense {
 
     // Courses and Groups Dropdown
 
-    .splus-courses-navbar-button div[role=menu],
-    .splus-groups-navbar-button div[role=menu] {
+    .splus-courses-navbar-button div[role="menu"],
+    .splus-groups-navbar-button div[role="menu"] {
         background-color: var(--accent) !important;
     }
 
@@ -534,7 +529,7 @@ variable-intellisense {
     }
 
     #darktheme-toggle-navbar-button {
-        &[data-popup=true] {
+        &[data-popup="true"] {
             position: relative;
             background-color: var(--highlight) !important;
 
@@ -570,7 +565,7 @@ variable-intellisense {
         }
     }
 
-    #header>header div.Je0RK button._1SIMq {
+    #header > header div.Je0RK button._1SIMq {
         background-color: var(--secondary) !important;
         color: var(--text) !important;
         border-radius: var(--border-radius) !important;
@@ -832,7 +827,8 @@ variable-intellisense {
 
     // Navbar menus
 
-    div.les2-, #header > header ul.util-width-thirty-nine-1B-gb {
+    div.les2-,
+    #header > header ul.util-width-thirty-nine-1B-gb {
         background-color: var(--secondary) !important;
 
         ._3skcp {
@@ -877,7 +873,6 @@ variable-intellisense {
     }
 
     .is-home {
-
         #right-column-inner div,
         #home-feed-container {
             background-color: var(--accent) !important;
@@ -906,7 +901,7 @@ variable-intellisense {
     }
 
     .comment-body-wrapper {
-        color: var(--text) !important; 
+        color: var(--text) !important;
     }
 
     .s-polls-poll-option,
@@ -995,7 +990,7 @@ variable-intellisense {
 
     .userlist_input input,
     .userlist_input_shadow,
-    .userlist_input input[type=text] {
+    .userlist_input input[type="text"] {
         background-color: var(--input) !important;
         border-radius: var(--border-radius) !important;
         color: white;
@@ -1007,20 +1002,19 @@ variable-intellisense {
         filter: Invert(var(--theme-is-dark)) !important;
         background-position-y: -577px !important;
         background-position-x: right !important;
-        background-image: url('/sites/all/themes/schoology_theme/images/btn-sprite.png?2f89e2e4127348b5') !important;
+        background-image: url("/sites/all/themes/schoology_theme/images/btn-sprite.png?2f89e2e4127348b5") !important;
     }
 
-    &[dark=false] #edge-filters-btn {
+    &[dark="false"] #edge-filters-btn {
         background-color: var(--secondary) !important;
         color: var(--text) !important;
         filter: none !important;
-        background-image: url('/sites/all/themes/schoology_theme/images/btn-sprite.png?5f89e2e4127348b5') !important;
+        background-image: url("/sites/all/themes/schoology_theme/images/btn-sprite.png?5f89e2e4127348b5") !important;
     }
 
     // Immersive reader button
 
     .immersive-reader-button-container {
-        
         span svg path {
             fill: var(--text);
         }
@@ -1030,7 +1024,8 @@ variable-intellisense {
             color: var(--text);
             border: var(--modern-border);
 
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
                 background-color: var(--active);
             }
         }
@@ -1039,7 +1034,6 @@ variable-intellisense {
     // Grades Page
 
     .gradebook-course.hierarchical-grading-report {
-
         .period-row .grade-column,
         .category-row .grade-column,
         .item-row .grade-column {
@@ -1104,7 +1098,12 @@ variable-intellisense {
         .childrenCollapsed .title-column {
             &:hover .expandable-icon-grading-report {
                 position: absolute !important;
-                clip: rect(calc(15px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), 0) !important;
+                clip: rect(
+                    calc(15px - (15px * var(--theme-is-dark))),
+                    calc(30px - (15px * var(--theme-is-dark))),
+                    calc(30px - (15px * var(--theme-is-dark))),
+                    0
+                ) !important;
                 top: calc(0px + (16px * var(--theme-is-dark))) !important;
                 left: -20px !important;
                 opacity: 1 !important;
@@ -1112,7 +1111,12 @@ variable-intellisense {
 
             .expandable-icon-grading-report {
                 position: absolute !important;
-                clip: rect(calc(15px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), calc(30px - (15px * var(--theme-is-dark))), 0) !important;
+                clip: rect(
+                    calc(15px - (15px * var(--theme-is-dark))),
+                    calc(30px - (15px * var(--theme-is-dark))),
+                    calc(30px - (15px * var(--theme-is-dark))),
+                    0
+                ) !important;
                 top: calc(0px + (16px * var(--theme-is-dark))) !important;
                 left: -20px !important;
                 opacity: 0.8 !important;
@@ -1122,7 +1126,12 @@ variable-intellisense {
         .title-column {
             .expandable-icon-grading-report {
                 position: absolute !important;
-                clip: rect(calc(46px - (11px * var(--theme-is-dark))), calc(60px - (45px * var(--theme-is-dark))), calc(80px - (30px * var(--theme-is-dark))), 0) !important;
+                clip: rect(
+                    calc(46px - (11px * var(--theme-is-dark))),
+                    calc(60px - (45px * var(--theme-is-dark))),
+                    calc(80px - (30px * var(--theme-is-dark))),
+                    0
+                ) !important;
                 top: calc(-32px + (16px * var(--theme-is-dark))) !important;
                 left: -20px !important;
                 opacity: 0.8 !important;
@@ -1130,7 +1139,12 @@ variable-intellisense {
 
             &:hover .expandable-icon-grading-report {
                 position: absolute !important;
-                clip: rect(calc(46px - (11px * var(--theme-is-dark))), calc(60px - (45px * var(--theme-is-dark))), calc(80px - (30px * var(--theme-is-dark))), 0) !important;
+                clip: rect(
+                    calc(46px - (11px * var(--theme-is-dark))),
+                    calc(60px - (45px * var(--theme-is-dark))),
+                    calc(80px - (30px * var(--theme-is-dark))),
+                    0
+                ) !important;
                 top: calc(-32px + (16px * var(--theme-is-dark))) !important;
                 left: -20px !important;
                 opacity: 1 !important;
@@ -1184,7 +1198,6 @@ variable-intellisense {
     }
 
     .attendance-course-attendance table {
-
         th,
         td {
             border: var(--modern-border) !important;
@@ -1201,11 +1214,11 @@ variable-intellisense {
         border-top: var(--modern-border) !important;
     }
 
-    .highcharts-container>svg>rect {
+    .highcharts-container > svg > rect {
         fill: var(--primary);
     }
 
-    .highcharts-axis-labels>text {
+    .highcharts-axis-labels > text {
         color: var(--text) !important;
         fill: var(--text) !important;
     }
@@ -1228,7 +1241,7 @@ variable-intellisense {
     }
 
     body {
-        >div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ>div>div {
+        > div._1f1I3._35u4I.IaH_B.RuZ14.VSOiH._3brnw.S42JQ > div > div {
             background-color: var(--primary) !important;
 
             button {
@@ -1253,7 +1266,6 @@ variable-intellisense {
         }
 
         #right-column-inner {
-
             button.link-btn,
             a.link-btn {
                 background-color: var(--primary) !important;
@@ -1305,7 +1317,6 @@ variable-intellisense {
     }
 
     .sgy-react-select {
-
         .Select-control,
         .Select-menu-outer {
             color: var(--text) !important;
@@ -1345,7 +1356,6 @@ variable-intellisense {
     }
 
     body {
-
         .enrollment-filters span.active,
         .grading-groups-list .grading-group.active {
             background-color: var(--active) !important;
@@ -1362,14 +1372,12 @@ variable-intellisense {
         background-color: var(--accent) !important;
 
         li {
-
             a,
             span {
                 color: var(--text) !important;
             }
         }
     }
-
 
     // Resources Page
 
@@ -1451,7 +1459,7 @@ variable-intellisense {
         }
     }
 
-    .action-links>li>span {
+    .action-links > li > span {
         color: var(--text) !important;
     }
 
@@ -1536,24 +1544,24 @@ variable-intellisense {
     #ui-datepicker-div {
         background-color: var(--input) !important;
     }
-        
+
     .ui-datepicker-days-cell a {
         background-color: var(--primary) !important;
         border-color: var(--border-color) !important;
     }
-    
+
     .ui-datepicker-unselectable {
         background-color: var(--accent) !important;
     }
-    
+
     .ui-datepicker-days-cell.ui-datepicker-current-day a {
         background-color: var(--active) !important;
     }
-    
+
     .ui-datepicker-days-cell-over a {
         background-color: var(--hover-color) !important;
     }
-    
+
     .ui-datepicker-links {
         > div {
             > a {
@@ -1606,7 +1614,6 @@ variable-intellisense {
     }
 
     .action-links-wrapper-gearless .action-links-unfold {
-
         &.active,
         &:active {
             color: var(--text) !important;
@@ -1631,7 +1638,7 @@ variable-intellisense {
     }
 
     .s-edge-feed {
-        >li {
+        > li {
             border-top: var(--modern-border) !important;
         }
 
@@ -1735,7 +1742,6 @@ variable-intellisense {
         }
 
         .ui-datepicker-links > div {
-            
             &:hover > a {
                 background-color: var(--hover-color);
             }
@@ -1838,7 +1844,6 @@ variable-intellisense {
     }
 
     .ac-row {
-
         .ac-bot,
         .ac-school {
             color: var(--muted-text) !important;
@@ -1896,7 +1901,11 @@ variable-intellisense {
     }
 
     .discussion-view .discussion-content .comment #comment-reply-form-wrapper #s-comment-reply-form,
-    .discussion-view .s-comments-post-form-new .comment #comment-reply-form-wrapper #s-comment-reply-form {
+    .discussion-view
+        .s-comments-post-form-new
+        .comment
+        #comment-reply-form-wrapper
+        #s-comment-reply-form {
         background: var(--accent) !important;
     }
 
@@ -1918,7 +1927,6 @@ variable-intellisense {
     }
 
     .discussion-view .sticky-wrapper {
-
         .s-comments-post-form,
         .s-comments-post-form-new {
             background: var(--primary) !important;
@@ -1942,7 +1950,6 @@ variable-intellisense {
         }
 
         #content-wrapper {
-
             .discussion-content div#s_comments .s_comments_level .s_comments_level,
             .s-comments-post-form-new div#s_comments .s_comments_level .s_comments_level {
                 background: var(--accent) !important;
@@ -2001,7 +2008,6 @@ variable-intellisense {
     // User Page
 
     .info-tab {
-
         th,
         td {
             color: var(--muted-text) !important;
@@ -2010,7 +2016,6 @@ variable-intellisense {
     }
 
     .enrollment-view-wrapper {
-
         td,
         th {
             color: var(--muted-text) !important;
@@ -2050,11 +2055,11 @@ variable-intellisense {
         .portfolio-view__add-new-bg {
             border-bottom: var(--modern-border) !important;
         }
-        
+
         .btn:hover {
             background-color: var(--hover-color) !important;
         }
-        
+
         .dropdown-menu {
             background-color: var(--primary) !important;
         }
@@ -2078,11 +2083,10 @@ variable-intellisense {
     .item-card {
         background: var(--primary) !important;
     }
-    
+
     // Portfolio
 
     .tw-bs {
-
         .portfolio-card__item-count-num {
             color: var(--contrast-text) !important;
         }
@@ -2095,13 +2099,14 @@ variable-intellisense {
         }
 
         .item-form__title-inline .sgy-autosave-input .form-group:hover label {
-            &, & span {
+            &,
+            & span {
                 color: var(--muted-text) !important;
             }
         }
 
-        .portfolio-list__list-view>.ui-state-highlight,
-        .portfolio-item-list>.ui-state-highlight {
+        .portfolio-list__list-view > .ui-state-highlight,
+        .portfolio-item-list > .ui-state-highlight {
             background: var(--primary) !important;
             border-radius: var(--border-radius) !important;
         }
@@ -2115,7 +2120,7 @@ variable-intellisense {
             border: var(--modern-border) !important;
             border-radius: var(--border-radius) !important;
             color: var(--contrast-text) !important;
-            
+
             &:hover {
                 background-color: var(--hover-color) !important;
             }
@@ -2278,7 +2283,6 @@ variable-intellisense {
     }
 
     ul.primary li {
-
         a,
         .link-wrapper a {
             background: unset !important;
@@ -2287,7 +2291,6 @@ variable-intellisense {
         }
 
         &.active {
-
             a,
             .link-wrapper a {
                 background-color: var(--accent) !important;
@@ -2418,7 +2421,6 @@ variable-intellisense {
     }
 
     .fc-agenda-slots {
-
         td,
         th {
             border-color: var(--contrast-border) !important;
@@ -2461,7 +2463,6 @@ variable-intellisense {
     }
 
     #dropbox-viewer-wrapper {
-
         .dropbox-viewer-submission-activity,
         .dropbox-viewer-submission-activity-inner {
             background-color: var(--primary) !important;
@@ -2475,7 +2476,7 @@ variable-intellisense {
         height: 16px !important;
     }
 
-    ul#attachment-selector li:hover>a {
+    ul#attachment-selector li:hover > a {
         background-color: var(--accent);
     }
 
@@ -2496,7 +2497,7 @@ variable-intellisense {
         border-color: var(--contrast-border) !important;
     }
 
-    .discussion-card>.s_comments_level {
+    .discussion-card > .s_comments_level {
         background: var(--secondary) !important;
         border: none !important;
         border-radius: var(--border-radius) !important;
@@ -2527,7 +2528,6 @@ variable-intellisense {
     }
 
     .view-only .rubric-table .rubric-row-rating {
-
         span.input-top,
         .input-bottom {
             color: var(--text);
@@ -2571,7 +2571,7 @@ variable-intellisense {
         color: var(--text);
     }
 
-    .StudentTable-table-wrapper-classname-2qr2_>div {
+    .StudentTable-table-wrapper-classname-2qr2_ > div {
         background-color: var(--primary) !important;
         color: var(--text);
     }
@@ -2582,7 +2582,7 @@ variable-intellisense {
 
     // Blog Page
 
-    .active-trail>div>a {
+    .active-trail > div > a {
         background-color: var(--accent) !important;
     }
 
@@ -2632,7 +2632,6 @@ variable-intellisense {
     }
 
     .lrn_widget {
-
         .lrn_valid,
         .lrn_selected {
             background-color: var(--highlight) !important;
@@ -2648,7 +2647,6 @@ variable-intellisense {
         }
 
         .incorrect span.option-span {
-
             &.legacy-true-false-question,
             &.legacy-multiple-choice-question {
                 background-color: var(--highlight) !important;
@@ -2659,8 +2657,8 @@ variable-intellisense {
 
     // Common Assesment (New Schoology Assessments)
 
-    &[dark=true] #assessment-darktheme-warning-message {
-        &[data-popup=true] {
+    &[dark="true"] #assessment-darktheme-warning-message {
+        &[data-popup="true"] {
             display: block !important;
             text-align: center;
             width: 50%;
@@ -2698,7 +2696,7 @@ variable-intellisense {
     }
 
     .ca-assessment-delivery-take-assessment,
-    .lrn-assess>div {
+    .lrn-assess > div {
         background-color: var(--primary) !important;
     }
 
@@ -2708,8 +2706,7 @@ variable-intellisense {
             color: var(--text) !important;
         }
 
-        .pagination>li> {
-
+        .pagination > li > {
             a,
             span {
                 background-color: var(--input) !important;
@@ -2725,7 +2722,6 @@ variable-intellisense {
         &.lrn-assess {
             .lrn-horizontal-toc {
                 .pagination .lrn-assess-btn {
-
                     &:focus,
                     &:hover {
                         background: var(--input) !important;
@@ -2734,7 +2730,6 @@ variable-intellisense {
                 }
 
                 .lrn-assess-pagination .lrn-assess-btn {
-
                     &:focus,
                     &:hover {
                         background: var(--input) !important;
@@ -2773,9 +2768,8 @@ variable-intellisense {
             }
 
             .lrn-right-region .right-wrapper {
-
                 .lrn_btn.lrn_active,
-                .lrn_widget.lrn_feature>button.lrn_active,
+                .lrn_widget.lrn_feature > button.lrn_active,
                 .lrn_btn.lrn_btn_blue.lrn_active {
                     border: var(--border-size) solid var(--text) !important;
                     border: var(--modern-border) !important;
@@ -2814,9 +2808,8 @@ variable-intellisense {
         }
 
         .lrn-right-region .right-wrapper {
-
             .lrn_btn,
-            .lrn_widget.lrn_feature>button,
+            .lrn_widget.lrn_feature > button,
             .lrn_btn.lrn_btn_blue {
                 background-color: var(--accent) !important;
                 border: none !important;
@@ -2827,7 +2820,6 @@ variable-intellisense {
             }
 
             .lrn_btn {
-
                 &:before,
                 .btn-label {
                     color: var(--text) !important;
@@ -2836,8 +2828,7 @@ variable-intellisense {
                 }
             }
 
-            .lrn_widget.lrn_feature>button {
-
+            .lrn_widget.lrn_feature > button {
                 &:before,
                 .btn-label {
                     color: var(--text) !important;
@@ -2847,7 +2838,6 @@ variable-intellisense {
             }
 
             .lrn_btn.lrn_btn_blue {
-
                 &:before,
                 .btn-label {
                     color: var(--text) !important;
@@ -2868,7 +2858,7 @@ variable-intellisense {
         }
     }
 
-    .menumask> ::-webkit-scrollbar-track-piece {
+    .menumask > ::-webkit-scrollbar-track-piece {
         background: white !important;
     }
 
@@ -2898,7 +2888,7 @@ variable-intellisense {
     .lrn-assess {
         background: var(--primary) !important;
 
-        >div ::-webkit-scrollbar-thumb {
+        > div ::-webkit-scrollbar-thumb {
             background: var(--primary) !important;
             box-shadow: inset 1px 1px 2px black;
         }
@@ -2912,7 +2902,6 @@ variable-intellisense {
         }
 
         &.lrn-assess {
-
             .lrn-region:not(.lrn-items-region) .lrn_btn,
             .dialogs .lrn_btn {
                 background-color: var(--accent) !important;
@@ -2943,7 +2932,6 @@ variable-intellisense {
     }
 
     .lrn {
-
         .lrn_possibilityList,
         .lrn_possibilityListContainer {
             // Drag Blank
@@ -3009,7 +2997,7 @@ variable-intellisense {
         }
     }
 
-    .lrn_calc_column>.lrn_btn_grid {
+    .lrn_calc_column > .lrn_btn_grid {
         background: var(--primary) !important;
     }
 
@@ -3111,7 +3099,6 @@ variable-intellisense {
     }
 
     .lrn_icon {
-
         &.lrn-icon-bold,
         &.lrn-icon-italic,
         &.lrn-icon-underline,
@@ -3203,7 +3190,6 @@ variable-intellisense {
     // Assesment Review
 
     .lrn_widget {
-
         .lrn_valid,
         .lrn_selected {
             background-color: var(--input) !important;
@@ -3222,7 +3208,8 @@ variable-intellisense {
         background-color: var(--accent) !important;
     }
 
-    .lrn_assoc_col2.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_incorrect_marker.lrn_response_container>.lrn_btn_drag.lrn_draggable.lrn_incorrect {
+    .lrn_assoc_col2.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_incorrect_marker.lrn_response_container
+        > .lrn_btn_drag.lrn_draggable.lrn_incorrect {
         background-color: var(--highlight) !important;
     }
 
@@ -3236,7 +3223,7 @@ variable-intellisense {
             color: var(--text) !important;
         }
 
-        .lrn_correctAnswerList>li {
+        .lrn_correctAnswerList > li {
             background-color: var(--input) !important;
         }
     }
@@ -3253,7 +3240,8 @@ variable-intellisense {
         background-color: var(--input) !important;
     }
 
-    .lrn_assoc_col2.lrn_correct_marker.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_response_container>.lrn_btn_drag.lrn_draggable.lrn_correct {
+    .lrn_assoc_col2.lrn_correct_marker.lrn_disabled.lrn_dragdrop.lrn_dropzone.lrn_response_container
+        > .lrn_btn_drag.lrn_draggable.lrn_correct {
         background-color: var(--active) !important;
     }
 
@@ -3265,15 +3253,17 @@ variable-intellisense {
         background: var(--accent) !important;
     }
 
-    .lrn_suggested_answer_item.lrn_clearfix>.lrn_suggested.lrn_btn_sort.lrn_btn_no_handle.lrn_disabled.lrn_sort_block.lrn_button {
+    .lrn_suggested_answer_item.lrn_clearfix
+        > .lrn_suggested.lrn_btn_sort.lrn_btn_no_handle.lrn_disabled.lrn_sort_block.lrn_button {
         background-color: var(--active) !important;
     }
 
-    .lrn_response.lrn_clearfix.lrn_style_button>.lrn-response-validate-wrapper.lrn_response_input.lrn_incorrect {
+    .lrn_response.lrn_clearfix.lrn_style_button
+        > .lrn-response-validate-wrapper.lrn_response_input.lrn_incorrect {
         background-color: var(--accent) !important;
     }
 
-    .lrn-response-validation-wrapper>.lrn_correctAnswers {
+    .lrn-response-validation-wrapper > .lrn_correctAnswers {
         background-color: var(--active) !important;
     }
 
@@ -3350,7 +3340,7 @@ variable-intellisense {
         padding: var(--padding) !important;
     }
 
-    .discussion-card>.s_comments_level {
+    .discussion-card > .s_comments_level {
         background: var(--input) !important;
     }
 
@@ -3390,7 +3380,6 @@ variable-intellisense {
         background-color: var(--active) !important;
     }
 
-
     // Discussion Edit Icon Fix
 
     .discussion-view .action-links-wrapper-junior .action-links-unfold,
@@ -3401,7 +3390,9 @@ variable-intellisense {
         /* Makes Icon Visble */
     }
 
-    .s-js-comment-action-links.sActionLinksVisible>.action-links-wrapper.action-links-wrapper-junior.aligned-right>.action-links-unfold {
+    .s-js-comment-action-links.sActionLinksVisible
+        > .action-links-wrapper.action-links-wrapper-junior.aligned-right
+        > .action-links-unfold {
         /* Changes Color When Hovered Over */
         background-color: var(--accent) !important;
     }
@@ -3413,18 +3404,18 @@ variable-intellisense {
 
     //
     // Teacher Areas
-    //              
-    //  Test Setup  
+    //
+    //  Test Setup
     .settings-label {
-      color: var(--text);
+        color: var(--text);
     }
-    
-    // Buttons 
+
+    // Buttons
     .s-grade-item-assignment-submission-app {
-      background-color: var(--primary);
-      color: var(--text);
+        background-color: var(--primary);
+        color: var(--text);
     }
-    
+
     // Button Hover
     ._2mytC:hover a,
     ._2mytC:focus a,
@@ -3438,390 +3429,413 @@ variable-intellisense {
     #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding:focus,
     .sort-handle:hover,
     .sort-handle:focus {
-      background-color: var(--hover-color);
+        background-color: var(--hover-color);
     }
-    
-    // Active Buttons 
+
+    // Active Buttons
     .Oq4U1:active {
-      background-color: var(--active);
+        background-color: var(--active);
     }
-    
+
     .s-share-checkbox-form-wrapper .checkboxes-wrapper {
-    background-color: var(--primary);
-  }
-  
-  #attachment-selector #toggle-copy:hover {
-    background-color: var(--hover-color);
-  }
-  
-  
-  .comments-list .comment {
-    background: var(--primary);
-    border: var(--modern-border);
-    border-color: var(--border-color);
-    color: var(--text);
-  }
-  
-  .comment-date {
-    color: var(--muted-text);
-  }
-  
-    
-  
-  //                       //
-  // Course Materials Page //
-  //                       //
-  .unpublished,
-  #folder-contents-table .unpublished .folder-contents-cell {
-    background-color: var(--primary);
-  }
-  
-  .masquerade-box {
-    background-color: var(--secondary);
-    border: var(--modern-border);
-  }
-  
-  div.grade-assignment-popup .description, #sEditGradeTable tr th {
-    color: var(--text);
-    background-color: var(--primary);
-  }
-  
-  //                             //
-  //  Badges & Attendance Pages  //
-  //                             //
-  #badges-fullscreen-btn {
-    background-color: var(--primary);
-    border: var(--modern-border);
-    border-radius: var(--border-radius);
-  }
-  
-  .even .badge-course-table-cell,
-  #s-attendance-edit-form tbody td,
-  #s-attendance-edit-form tbody td div,
-  #s-attendance-edit-form tbody th {
-    background-color: var(--primary);
-  }
-  
-  th.badge-course-table-cell,
-  #s-badge-table-main .sticky-header th,
-  #s-attendance-edit-form thead th {
-    background: var(--secondary);
-  }
-  
-  th.badge-course-table-cell .action-links-unfold {
-    background-color: var(--input) !important;
-  }
-  
-  th.badge-course-table-cell .action-links-unfold span,
-  .date-chooser a.prev span,
-  .date-chooser a.next span {
-    filter: contrast(5%);
-  }
-  
-  #s-attendance-taken-row .attendance-taken-label {
-    color: var(--text);
-  }
-  
-  #s-attendance-taken-row.odd td,
-  #s-attendance-taken-row.even td {
-    background-color: var(--accent);
-  }
-  
-  #s-attendance-edit-form tbody tr:hover th,
-  #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:hover,
-  #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:focus {
-    background-color: var(--hover-color);
-  }
-  
-  #s-attendance-edit-form #s-attendance-taken-row .edited {
-    background-color: var(--highlight);
-  }
-  
-  #attendance-comment-field {
-    background-color: var(--accent);
-    border: var(--modern-border);
-  }
-  
-  .comment-status-label {
-    color: var(--text);
-  }
-  
-  #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status--start {
-    background-color: var(--active);
-    border-color: var(--contrast-border);
-  }
-  
-  .footer-buttons .date-chooser-calendar,
-  .header-buttons .date-chooser-calendar,
-  .footer-buttons .infotip,
-  .header-buttons .infotip {
-    background: var(--primary);
-    border: var(--modern-border);
-    border-radius: var(--border-radius);
-  }
-  
-  a.prev:hover,
-  a.prev:focus,
-  a.next:hover,
-  a.next:focus {
-    background: var(--hover-color);
-  }
-  
-  a.prev,
-  a.next {
-    background: var(--primary);
-  }
-  
-  a.prev {
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
-  }
-  
-  a.next {
-    border-radius: 0 var(--border-radius) var(--border-radius) 0;
-  }
-  
-  
-  //                    //
-  //  Grade Setup Page  //
-  //                    //
-  .scale-level-scale {
-    background-color: var(--highlight);
-    border: var(--modern-border);
-  }
-  
-  #s-grading-category-add-form .form-item,
-  #s-grading-category-add-form fieldset {
-    background-color: var(--primary);
-  }
-  
-  #grading-rubric-edit-slider .right-column {
-    border-color: var(--border-color);
-  }
-  
-  #grading-rubric-edit-slider .large-submit-buttons {
-    background-color: var(--secondary);
-    border-color: var(--border-color);
-  }
-  
-  #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding {
-    background-color: var(--primary);
-    box-shadow: 0px 2px 0px var(--highlight);
-  }
-  
-  .sort-handle {
-    background-color: var(--accent);
-  }
-  
-  #grading-rubric-edit-slider .ui-sortable-helper,
-  #district-mastery-grading-rubric-edit-slider .ui-sortable-helper,
-  #grading-rubric-edit-slider .ui-sortable-helper td,
-  #district-mastery-grading-rubric-edit-slider .ui-sortable-helper td {
-    background-color: var(--active) !important;
-  }
-  
-  .rubric-editor-add-criteria,
-  .rubric-editor-add-objectives {
-    color: text;
-  }
-  
-  #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope {
-    color: var(--muted-text);
-  }
-  
-  #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:hover,
-  #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:focus {
-    color: var(--text);
-  }
-  
-  .alignment-form-container .header {
-    background-color: var(--secondary);
-  }
-  
-  .guid-item:active,
-  .alignment-form-container .header .search-tab.active, 
-  .alignment-form-container li.active,
-  .alignment-form-container div.active {
-    background-color: var(--active);
-  }
-  
-  .alignment-breadcrumbs .breadcrumb-item:first-child,
-  .alignment-breadcrumbs .breadcrumb-item,
-  .alignment-form-container li,
-  .selected-container .selected-item {
-    color: var(--link-color);
-    border-color: var(--contrast-border);
-  }
-  
-  .alignment-form-container li .gray,
-  .alignment-form-container div .gray {
-    color: var(--text) !important;
-  }
-  
-  .empty {
-    color: var(--muted-text);
-  }
-  
-  .add-criteria-text {
-    color: var(--text);
-  }
-  
-  
-  
-  //                //
-  //  MEMBERS PAGE  //
-  //                //
-  .parent-names-list.description {
-    color: var(--muted-text);
-  }
-  
-  .s-enrollment-invite-form .metadata-wrapper,
-  #grading-group-create {
-    color: var(--text);
-  }
-  
-  .s-enrollment-invite-form .user-invite-wrapper {
-    background-color: var(--accent);
-    color: var(--text);
-  }
-  
-  .s-enrollment-invite-form .user-name-wrapper,
-  .people-filters .selected-users,
-  .people-filters .show-all-users {
-    color: var(--link-color);
-  }
-  
-  .people-filters .selected-users.active,
-  .people-filters .show-all-users.active {
-    color: var(--contrast-text);
-    background-color: var(--active);
-  }
-  
-  .term-item-tag,
-  .locked-question .tag-item {
-    color: var(--text);
-    background-color: var(--secondary);
-    border-color: var(--border-color);
-  }
-  
-  .link-btn {
-    background: var(--secondary);
-    color: var(--text);
-    border: var(--modern-border);
-    border-radius: var(--border-radius);
-    border-color: var(--border-color);
-  }
-  
-  .s-enrollment-invite-form .s-enrollment-invite-list-wrapper,
-  .s-enrollment-invite-form #network-selected {
-    background-color: var(--primary);
-    border-color: var(--border-color);
-  }
-  
-  .submit-btn {
-    background: var(--primary);
-    color: var(--contrast-text);
-    border-radius: var(--border-radius);
-  }
-  
-  .cancel-btn {
-    background: var(--accent) !important;
-    color: var(--muted-text) !important;
-    border-radius: var(--border-radius);
-  }
-  
-  .submit-btn:hover,
-  .submit-btn:focus,
-  .cancel-btn:hover,
-  .cancel-btn:focus {
-    background: var(--hover-color) !important;
-    color: var(--text) !important;
-  }
-  
-  
-  
-  
-  //                //
-  // Gradebook Page //
-  //                //
-  .s-js-grid-loading-cover {
-    background-color: var(--primary);
-  }
-  
-  .grader-grid-table-header-wrapper .grader-grid-header-cell,
-  .grader-grid-table-header-wrapper .grader-grid-header-cell.hidden-grade .gradebook__major-period-title,
-  .grader-grid-table-header-wrapper .grader-grid-header-cell.showing-unpublished .gradebook__major-period-title {
-    background-color: var(--secondary);
-    color: var(--text);
-  }
-  
-  .enhanced-gb-body .grid-table-col-header-static-content .select2-container:not(.select2-dropdown-open) .select2-choice > .select2-chosen,
-  .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container:not(.select2-dropdown-open) .select2-choice > .select2-chosen {
-    color: var(--text) !important;
-  }
-  
-  .grader-grid--crosshair-line-column,
-  .grader-grid--crosshair-line-row,
-  .grader-grid--crosshair-center {
-    background-color: var(--hover-color) !important;
-  }
-  
-  .gradebook__grade-custom-override + .grader-grid-col-header-gp,
-  .gradebook__grade-custom-override + .grader-grid-col-header-overall {
-    background-color: var(--primary);
-  }
-  
-  .grader-grid-cell:not(.gradebook__grade-custom-override) .grader-grid-cell-block:not(.updated) .grade-value,
-  .grader-grid-cell:not(.gradebook__grade-custom-override) .grader-grid-cell-block:not(.updated) .s-js-grader-grid-cell-display,
-  .grader-grid-table-header-wrapper .gradebook__major-grade-period-header .gradebook__subperiod-element-calculated,
-  .grader-grid-table-header-wrapper .gradebook__major-grade-period-header .grading-period-override-column {
-    color: var(--text);
-  }
-  
-  .gradebook__subperiod-element-calculated.has-override-column,
-  .grading-period-override-column {
-    background-color: var(--accent);
-  }
-  
-  .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container.select2-dropdown-open.select2-container-active span {
-    color: var(--link-color);
-  }
-  
-  .enhanced-gb-body .s-js-grades-gradebook-options-bar .select2-container.select2-dropdown-open.select2-container-active {
-    background-color: var(--primary);
-    border-radius: var(--border-radius);
-  }
-  
-  #autocomplete.grading-scale-ac-popup ul li,
-  .enhanced-gb-body #main-content-wrapper .action-links a,
-  .enhanced-gb-body #main-content-wrapper .action-links button,
-  .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label,
-  .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label {
-    background-color: var(--secondary);
-    color: var(--text);
-  }
-  
-  #autocomplete.grading-scale-ac-popup ul li:hover,
-  .enhanced-gb-body #main-content-wrapper .action-links a:hover,
-  .enhanced-gb-body #main-content-wrapper .action-links button:hover,
-  .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:hover,
-  .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label:hover,
-  #autocomplete.grading-scale-ac-popup ul li:focus,
-  .enhanced-gb-body #main-content-wrapper .action-links a:focus,
-  .enhanced-gb-body #main-content-wrapper .action-links button:focus,
-  .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:focus,
-  .enhanced-gb-body .s-grades-grader-filters-dropdown.select2-toggle.select2-drop .select2-result-label:focus {
-    background-color: var(--hover-color);
-  }
-  
-  #grade-comment-field {
-    background-color: var(--primary);
-  }
+        background-color: var(--primary);
+    }
 
-  .splus-modern-border-radius {
-    border-radius: var(--border-radius);
-  }
+    #attachment-selector #toggle-copy:hover {
+        background-color: var(--hover-color);
+    }
 
-  .splus-modern-padding {
-    padding: var(--padding);
-  }
+    .comments-list .comment {
+        background: var(--primary);
+        border: var(--modern-border);
+        border-color: var(--border-color);
+        color: var(--text);
+    }
+
+    .comment-date {
+        color: var(--muted-text);
+    }
+
+    //                       //
+    // Course Materials Page //
+    //                       //
+    .unpublished,
+    #folder-contents-table .unpublished .folder-contents-cell {
+        background-color: var(--primary);
+    }
+
+    .masquerade-box {
+        background-color: var(--secondary);
+        border: var(--modern-border);
+    }
+
+    div.grade-assignment-popup .description,
+    #sEditGradeTable tr th {
+        color: var(--text);
+        background-color: var(--primary);
+    }
+
+    //                             //
+    //  Badges & Attendance Pages  //
+    //                             //
+    #badges-fullscreen-btn {
+        background-color: var(--primary);
+        border: var(--modern-border);
+        border-radius: var(--border-radius);
+    }
+
+    .even .badge-course-table-cell,
+    #s-attendance-edit-form tbody td,
+    #s-attendance-edit-form tbody td div,
+    #s-attendance-edit-form tbody th {
+        background-color: var(--primary);
+    }
+
+    th.badge-course-table-cell,
+    #s-badge-table-main .sticky-header th,
+    #s-attendance-edit-form thead th {
+        background: var(--secondary);
+    }
+
+    th.badge-course-table-cell .action-links-unfold {
+        background-color: var(--input) !important;
+    }
+
+    th.badge-course-table-cell .action-links-unfold span,
+    .date-chooser a.prev span,
+    .date-chooser a.next span {
+        filter: contrast(5%);
+    }
+
+    #s-attendance-taken-row .attendance-taken-label {
+        color: var(--text);
+    }
+
+    #s-attendance-taken-row.odd td,
+    #s-attendance-taken-row.even td {
+        background-color: var(--accent);
+    }
+
+    #s-attendance-edit-form tbody tr:hover th,
+    #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:hover,
+    #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status:focus {
+        background-color: var(--hover-color);
+    }
+
+    #s-attendance-edit-form #s-attendance-taken-row .edited {
+        background-color: var(--highlight);
+    }
+
+    #attendance-comment-field {
+        background-color: var(--accent);
+        border: var(--modern-border);
+    }
+
+    .comment-status-label {
+        color: var(--text);
+    }
+
+    #s-attendance-edit-form #s-attendance-taken-row .attendance-taken-status--start {
+        background-color: var(--active);
+        border-color: var(--contrast-border);
+    }
+
+    .footer-buttons .date-chooser-calendar,
+    .header-buttons .date-chooser-calendar,
+    .footer-buttons .infotip,
+    .header-buttons .infotip {
+        background: var(--primary);
+        border: var(--modern-border);
+        border-radius: var(--border-radius);
+    }
+
+    a.prev:hover,
+    a.prev:focus,
+    a.next:hover,
+    a.next:focus {
+        background: var(--hover-color);
+    }
+
+    a.prev,
+    a.next {
+        background: var(--primary);
+    }
+
+    a.prev {
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
+    }
+
+    a.next {
+        border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+
+    //                    //
+    //  Grade Setup Page  //
+    //                    //
+    .scale-level-scale {
+        background-color: var(--highlight);
+        border: var(--modern-border);
+    }
+
+    #s-grading-category-add-form .form-item,
+    #s-grading-category-add-form fieldset {
+        background-color: var(--primary);
+    }
+
+    #grading-rubric-edit-slider .right-column {
+        border-color: var(--border-color);
+    }
+
+    #grading-rubric-edit-slider .large-submit-buttons {
+        background-color: var(--secondary);
+        border-color: var(--border-color);
+    }
+
+    #grading-rubric-edit-slider .large-submit-buttons button.btn.submit.ng-binding {
+        background-color: var(--primary);
+        box-shadow: 0px 2px 0px var(--highlight);
+    }
+
+    .sort-handle {
+        background-color: var(--accent);
+    }
+
+    #grading-rubric-edit-slider .ui-sortable-helper,
+    #district-mastery-grading-rubric-edit-slider .ui-sortable-helper,
+    #grading-rubric-edit-slider .ui-sortable-helper td,
+    #district-mastery-grading-rubric-edit-slider .ui-sortable-helper td {
+        background-color: var(--active) !important;
+    }
+
+    .rubric-editor-add-criteria,
+    .rubric-editor-add-objectives {
+        color: text;
+    }
+
+    #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope {
+        color: var(--muted-text);
+    }
+
+    #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:hover,
+    #grading-rubric-edit-slider .large-submit-buttons .btn.cancel.ng-scope:focus {
+        color: var(--text);
+    }
+
+    .alignment-form-container .header {
+        background-color: var(--secondary);
+    }
+
+    .guid-item:active,
+    .alignment-form-container .header .search-tab.active,
+    .alignment-form-container li.active,
+    .alignment-form-container div.active {
+        background-color: var(--active);
+    }
+
+    .alignment-breadcrumbs .breadcrumb-item:first-child,
+    .alignment-breadcrumbs .breadcrumb-item,
+    .alignment-form-container li,
+    .selected-container .selected-item {
+        color: var(--link-color);
+        border-color: var(--contrast-border);
+    }
+
+    .alignment-form-container li .gray,
+    .alignment-form-container div .gray {
+        color: var(--text) !important;
+    }
+
+    .empty {
+        color: var(--muted-text);
+    }
+
+    .add-criteria-text {
+        color: var(--text);
+    }
+
+    //                //
+    //  MEMBERS PAGE  //
+    //                //
+    .parent-names-list.description {
+        color: var(--muted-text);
+    }
+
+    .s-enrollment-invite-form .metadata-wrapper,
+    #grading-group-create {
+        color: var(--text);
+    }
+
+    .s-enrollment-invite-form .user-invite-wrapper {
+        background-color: var(--accent);
+        color: var(--text);
+    }
+
+    .s-enrollment-invite-form .user-name-wrapper,
+    .people-filters .selected-users,
+    .people-filters .show-all-users {
+        color: var(--link-color);
+    }
+
+    .people-filters .selected-users.active,
+    .people-filters .show-all-users.active {
+        color: var(--contrast-text);
+        background-color: var(--active);
+    }
+
+    .term-item-tag,
+    .locked-question .tag-item {
+        color: var(--text);
+        background-color: var(--secondary);
+        border-color: var(--border-color);
+    }
+
+    .link-btn {
+        background: var(--secondary);
+        color: var(--text);
+        border: var(--modern-border);
+        border-radius: var(--border-radius);
+        border-color: var(--border-color);
+    }
+
+    .s-enrollment-invite-form .s-enrollment-invite-list-wrapper,
+    .s-enrollment-invite-form #network-selected {
+        background-color: var(--primary);
+        border-color: var(--border-color);
+    }
+
+    .submit-btn {
+        background: var(--primary);
+        color: var(--contrast-text);
+        border-radius: var(--border-radius);
+    }
+
+    .cancel-btn {
+        background: var(--accent) !important;
+        color: var(--muted-text) !important;
+        border-radius: var(--border-radius);
+    }
+
+    .submit-btn:hover,
+    .submit-btn:focus,
+    .cancel-btn:hover,
+    .cancel-btn:focus {
+        background: var(--hover-color) !important;
+        color: var(--text) !important;
+    }
+
+    //                //
+    // Gradebook Page //
+    //                //
+    .s-js-grid-loading-cover {
+        background-color: var(--primary);
+    }
+
+    .grader-grid-table-header-wrapper .grader-grid-header-cell,
+    .grader-grid-table-header-wrapper
+        .grader-grid-header-cell.hidden-grade
+        .gradebook__major-period-title,
+    .grader-grid-table-header-wrapper
+        .grader-grid-header-cell.showing-unpublished
+        .gradebook__major-period-title {
+        background-color: var(--secondary);
+        color: var(--text);
+    }
+
+    .enhanced-gb-body
+        .grid-table-col-header-static-content
+        .select2-container:not(.select2-dropdown-open)
+        .select2-choice
+        > .select2-chosen,
+    .enhanced-gb-body
+        .s-js-grades-gradebook-options-bar
+        .select2-container:not(.select2-dropdown-open)
+        .select2-choice
+        > .select2-chosen {
+        color: var(--text) !important;
+    }
+
+    .grader-grid--crosshair-line-column,
+    .grader-grid--crosshair-line-row,
+    .grader-grid--crosshair-center {
+        background-color: var(--hover-color) !important;
+    }
+
+    .gradebook__grade-custom-override + .grader-grid-col-header-gp,
+    .gradebook__grade-custom-override + .grader-grid-col-header-overall {
+        background-color: var(--primary);
+    }
+
+    .grader-grid-cell:not(.gradebook__grade-custom-override)
+        .grader-grid-cell-block:not(.updated)
+        .grade-value,
+    .grader-grid-cell:not(.gradebook__grade-custom-override)
+        .grader-grid-cell-block:not(.updated)
+        .s-js-grader-grid-cell-display,
+    .grader-grid-table-header-wrapper
+        .gradebook__major-grade-period-header
+        .gradebook__subperiod-element-calculated,
+    .grader-grid-table-header-wrapper
+        .gradebook__major-grade-period-header
+        .grading-period-override-column {
+        color: var(--text);
+    }
+
+    .gradebook__subperiod-element-calculated.has-override-column,
+    .grading-period-override-column {
+        background-color: var(--accent);
+    }
+
+    .enhanced-gb-body
+        .s-js-grades-gradebook-options-bar
+        .select2-container.select2-dropdown-open.select2-container-active
+        span {
+        color: var(--link-color);
+    }
+
+    .enhanced-gb-body
+        .s-js-grades-gradebook-options-bar
+        .select2-container.select2-dropdown-open.select2-container-active {
+        background-color: var(--primary);
+        border-radius: var(--border-radius);
+    }
+
+    #autocomplete.grading-scale-ac-popup ul li,
+    .enhanced-gb-body #main-content-wrapper .action-links a,
+    .enhanced-gb-body #main-content-wrapper .action-links button,
+    .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label,
+    .enhanced-gb-body
+        .s-grades-grader-filters-dropdown.select2-toggle.select2-drop
+        .select2-result-label {
+        background-color: var(--secondary);
+        color: var(--text);
+    }
+
+    #autocomplete.grading-scale-ac-popup ul li:hover,
+    .enhanced-gb-body #main-content-wrapper .action-links a:hover,
+    .enhanced-gb-body #main-content-wrapper .action-links button:hover,
+    .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:hover,
+    .enhanced-gb-body
+        .s-grades-grader-filters-dropdown.select2-toggle.select2-drop
+        .select2-result-label:hover,
+    #autocomplete.grading-scale-ac-popup ul li:focus,
+    .enhanced-gb-body #main-content-wrapper .action-links a:focus,
+    .enhanced-gb-body #main-content-wrapper .action-links button:focus,
+    .enhanced-gb-body .s-course-csm-toggler.select2-toggle.select2-drop .select2-result-label:focus,
+    .enhanced-gb-body
+        .s-grades-grader-filters-dropdown.select2-toggle.select2-drop
+        .select2-result-label:focus {
+        background-color: var(--hover-color);
+    }
+
+    #grade-comment-field {
+        background-color: var(--primary);
+    }
+
+    .splus-modern-border-radius {
+        border-radius: var(--border-radius);
+    }
+
+    .splus-modern-padding {
+        padding: var(--padding);
+    }
 }

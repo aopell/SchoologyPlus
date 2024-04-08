@@ -1,16 +1,12 @@
 {
   "manifest_version": 3,
-
   "name": "[BETA] Schoology Plus",
   "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
   "version": "10.0.0",
-
   "homepage_url": "https://schoologypl.us?utm_source=ext-homepage-link",
-
   "options_ui": {
     "page": "options.html"
   },
-
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -22,14 +18,12 @@
     },
     "default_title": "[BETA] Schoology Plus"
   },
-
   "browser_specific_settings": {
     "gecko": {
-        "id": "schoology.plus@aopell.me",
-        "update_url": "https://schoologypl.us/firefox_updates.json"
+      "id": "schoology.plus@aopell.me",
+      "update_url": "https://schoologypl.us/firefox_updates.json"
     }
   },
-
   "icons": {
     "16": "imgs/icon@16.png",
     "32": "imgs/icon@32.png",
@@ -37,18 +31,37 @@
     "64": "imgs/icon@64.png",
     "128": "imgs/icon@128.png"
   },
-
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "matches": [
+        "https://lms.lausd.net/*",
+        "https://*.schoology.com/*"
+      ],
+      "exclude_matches": [
+        "https://*.schoology.com/login*",
+        "https://*.schoology.com/register*",
+        "*://asset-cdn.schoology.com/*",
+        "*://developer.schoology.com/*",
+        "*://support.schoology.com/*",
+        "*://info.schoology.com/*",
+        "*://files-cdn.schoology.com/*",
+        "*://status.schoology.com/*",
+        "*://ui.schoology.com/*",
+        "*://www.schoology.com/*",
+        "*://api.schoology.com/*",
+        "*://developers.schoology.com/*",
+        "*://schoology.com/*",
+        "*://lti-submission-google.app.schoology.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_end"
     }
   ],
-
   "background": {
     "service_worker": "background.js"
   },
-
   "permissions": [
     "storage",
     "alarms",
@@ -56,18 +69,16 @@
     "cookies",
     "contextMenus",
     "activeTab",
-    "scripting"
+    "scripting",
+    "offscreen"
   ],
-
   "host_permissions": [
     "*://*.schoology.com/*",
     "*://lms.lausd.net/*"
   ],
-
   "optional_host_permissions": [
     "*://*/*"
   ],
-
   "web_accessible_resources": [
     {
       "resources": [
@@ -75,7 +86,9 @@
         "theme-editor.html",
         "default-icons.html"
       ],
-      "matches": ["<all_urls>"]
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }

@@ -72,8 +72,8 @@ export function createButton(id: string, text: string, callback?: (e: Event) => 
  * @returns {"Chrome"|"Firefox"|"Other"} Name of the current browser
  */
 export function getBrowser(): "Chrome" | "Firefox" | "Other" {
-    if (typeof (window as any).chrome !== "undefined") {
-        if (typeof (window as any).browser !== "undefined") {
+    if (typeof (globalThis as any).chrome !== "undefined") {
+        if (typeof (globalThis as any).browser !== "undefined") {
             return "Firefox";
         } else {
             // Likely captures all Chromium-based browsers

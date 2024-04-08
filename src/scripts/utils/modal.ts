@@ -1,12 +1,12 @@
-import { trackEvent } from "./analytics.js";
-import { createButton, createElement, getBrowser } from "./dom.js";
+import { trackEvent } from "./analytics";
+import { createButton, createElement, getBrowser } from "./dom";
 import {
     BETA_TESTS,
     Setting,
     generateDebugInfo,
     getModalContents,
     updateSettings,
-} from "./settings.js";
+} from "./settings";
 import Theme from "./theme";
 
 const verboseModalFooterText = `&copy; Schoology Plus Contributors 2017-2023 | <a id="open-webstore" class="splus-track-clicks" href="https://schoologypl.us/?utm_source=ext-splus-settings-footer">Schoology Plus v${

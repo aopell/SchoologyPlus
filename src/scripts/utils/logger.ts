@@ -10,12 +10,12 @@ interface Logger {
 }
 
 export const Logger: Logger = {
-    log: (() => console.log.bind(window.console, `%c+`, createLogPrefix("#81D4FA")))(),
-    error: (() => console.error.bind(window.console, `%c+`, createLogPrefix("#FF6961")))(),
-    info: (() => console.info.bind(window.console, `%c+`, createLogPrefix("white")))(),
-    warn: (() => console.warn.bind(window.console, `%c+`, createLogPrefix("#FDFD96")))(),
-    trace: (() => console.trace.bind(window.console, `%c+`, createLogPrefix("orange")))(),
-    debug: (() => console.debug.bind(window.console, `%c+`, createLogPrefix("lightgreen")))(),
+    log: (() => console.log.bind(globalThis.console, `%c+`, createLogPrefix("#81D4FA")))(),
+    error: (() => console.error.bind(globalThis.console, `%c+`, createLogPrefix("#FF6961")))(),
+    info: (() => console.info.bind(globalThis.console, `%c+`, createLogPrefix("white")))(),
+    warn: (() => console.warn.bind(globalThis.console, `%c+`, createLogPrefix("#FDFD96")))(),
+    trace: (() => console.trace.bind(globalThis.console, `%c+`, createLogPrefix("orange")))(),
+    debug: (() => console.debug.bind(globalThis.console, `%c+`, createLogPrefix("lightgreen")))(),
 };
 
 function createLogPrefix(color: string): string {

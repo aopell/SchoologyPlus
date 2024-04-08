@@ -19,8 +19,19 @@ async function handleMessages(
 
     // Dispatch the message to an appropriate handler.
     switch (message.type) {
-        case "notifications":
-            loadAssignmentNotifications(message.data.url);
+        case "offscreen-notifications":
+            let { notification, name, count, lastTime, timeModified } =
+                await loadAssignmentNotifications(message.data.url, message.data.lastTime);
+            chrome.runtime.sendMessage({
+                type: "notification",
+                data: {
+                    notification,
+                    name,
+                    count,
+                    lastTime,
+                    timeModified,
+                },
+            });
             break;
         default:
             console.warn(`Unexpected message type received: '${message.type}'.`);

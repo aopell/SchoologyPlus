@@ -24,6 +24,8 @@ var invalidCategories: string[] = [];
 var fetchQueue: [x: () => Promise<void>, y: number][] = [];
 
 export async function load() {
+    document.documentElement.classList.add("splus-is-grades-page");
+
     loadContextMenu();
 
     await activateGradesPage();
@@ -367,7 +369,8 @@ async function activateGradesPage() {
                                     ); //combines the assignment arrays from each period
                                     let pts = Number.parseFloat(
                                         assignments.filter(
-                                            (x: any) => x.assignment_id == assignment.dataset.id?.substr(2)
+                                            (x: any) =>
+                                                x.assignment_id == assignment.dataset.id?.substr(2)
                                         )[0].max_points
                                     );
                                     if (!assignment.classList.contains("dropped")) {

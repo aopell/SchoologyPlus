@@ -4,9 +4,10 @@ import { trackEvent } from "./analytics";
 import { getBrowser } from "./dom";
 import { Logger } from "./logger";
 
-export async function loadAssignmentNotifications(assignmentNotificationUrl: string) {
-    let storageContent = await chrome.storage.sync.get(null);
-
+export async function loadAssignmentNotifications(
+    assignmentNotificationUrl: string,
+    lastTime: number
+) {
     let response = await fetch(assignmentNotificationUrl, {
         credentials: "same-origin",
     });
@@ -15,8 +16,8 @@ export async function loadAssignmentNotifications(assignmentNotificationUrl: str
 
     let responseJson = await response.json();
 
-    Logger.log("Last new grade: " + new Date(storageContent.lastTime).toString());
-    let time = storageContent.lastTime;
+    Logger.log("Last new grade: " + new Date(lastTime).toString());
+    let time = lastTime;
     let timeModified = false;
     if (!time) {
         time = Date.now();
@@ -68,8 +69,10 @@ export async function loadAssignmentNotifications(assignmentNotificationUrl: str
         }
     }
 
+    let n: chrome.notifications.NotificationOptions<true> | null = null;
+
     if (totalAssignments > 0) {
-        let n: chrome.notifications.NotificationOptions<true> = {
+        n = {
             type: "basic",
             iconUrl: "imgs/icon@128.png",
             title: "New grade posted",
@@ -79,14 +82,21 @@ export async function loadAssignmentNotifications(assignmentNotificationUrl: str
             eventTime: Date.now(),
             isClickable: true,
         };
-
-        sendNotification(n, "assignment", totalAssignments);
     }
 
+    return {
+        notification: n,
+        name: "assignment",
+        count: totalAssignments,
+        lastTime: time,
+        timeModified,
+    };
+}
+
+export async function updateLastTime(timeModified: boolean, time: number) {
     if (timeModified) {
-        chrome.storage.sync.set({ lastTime: time }, () => {
-            Logger.log("Set new time " + new Date(time));
-        });
+        await chrome.storage.sync.set({ lastTime: time });
+        Logger.log("Set new time " + new Date(time));
     } else {
         Logger.log("No new notifications");
     }
@@ -98,47 +108,48 @@ export async function loadAssignmentNotifications(assignmentNotificationUrl: str
  * @param {string} name The name of the notification
  * @param {number} [count=1] The number to add to the browser action badge
  */
-function sendNotification(
-    notification: chrome.notifications.NotificationOptions<true>,
+export async function sendNotification(
+    notification: chrome.notifications.NotificationOptions<true> | null,
     name: string,
     count: number
 ) {
-    chrome.storage.sync.get(null, function (storageContent) {
-        count = count || count == 0 ? count : 1;
-        if (getBrowser() == "Firefox") {
-            delete notification.requireInteraction;
-        }
-        Logger.log("New notification!", notification);
+    if (!notification) return;
 
-        if (
-            count > 0 &&
-            (!storageContent.notifications ||
-                storageContent.notifications == "enabled" ||
-                storageContent.notifications == "badge")
-        ) {
-            chrome.action.getBadgeText({}, x => {
-                let num = Number.parseInt(x);
-                chrome.action.setBadgeText({ text: (num ? num + count : count).toString() });
-            });
-        } else {
-            Logger.log("Number badge is disabled");
-        }
-        if (
-            !storageContent.notifications ||
+    let storageContent = await chrome.storage.sync.get(null);
+
+    count = count || count == 0 ? count : 1;
+    if (getBrowser() == "Firefox") {
+        delete notification.requireInteraction;
+    }
+    Logger.log("New notification!", notification);
+
+    if (
+        count > 0 &&
+        (!storageContent.notifications ||
             storageContent.notifications == "enabled" ||
-            storageContent.notifications == "popup"
-        ) {
-            chrome.notifications.create(name, notification);
-            trackEvent("perform_action", {
-                id: "shown",
-                context: "Notifications",
-                value: name,
-                legacyTarget: name,
-                legacyAction: "shown",
-                legacyLabel: "Notifications",
-            });
-        } else {
-            Logger.log("Popup notifications are disabled");
-        }
-    });
+            storageContent.notifications == "badge")
+    ) {
+        let x = await chrome.action.getBadgeText({});
+        let num = Number.parseInt(x);
+        chrome.action.setBadgeText({ text: (num ? num + count : count).toString() });
+    } else {
+        Logger.log("Number badge is disabled");
+    }
+    if (
+        !storageContent.notifications ||
+        storageContent.notifications == "enabled" ||
+        storageContent.notifications == "popup"
+    ) {
+        chrome.notifications.create(name, notification);
+        trackEvent("perform_action", {
+            id: "shown",
+            context: "Notifications",
+            value: name,
+            legacyTarget: name,
+            legacyAction: "shown",
+            legacyLabel: "Notifications",
+        });
+    } else {
+        Logger.log("Popup notifications are disabled");
+    }
 }

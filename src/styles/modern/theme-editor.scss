@@ -1,16 +1,16 @@
 variable-intellisense {
-    --modern-primary: #36393F;
-    --modern-accent: #2F3136;
+    --modern-primary: #36393f;
+    --modern-accent: #2f3136;
     --modern-secondary: #202225;
-    --modern-text: #DCDDDE;
-    --modern-contrast-text: #EEEEEE;
-    --modern-muted-text: #72767D;
-    --modern-contrast-border: #DCDDDE;
-    --modern-input: #40444B;
-    --modern-error: #F44336;
+    --modern-text: #dcddde;
+    --modern-contrast-text: #eeeeee;
+    --modern-muted-text: #72767d;
+    --modern-contrast-border: #dcddde;
+    --modern-input: #40444b;
+    --modern-error: #f44336;
     --modern-highlight: rgba(184, 134, 11, 0.2);
     --modern-active: rgba(0, 255, 255, 0.1);
-    --modern-grades: #8BC34A;
+    --modern-grades: #8bc34a;
     --modern-border-radius: 5px;
     --modern-border-size: 1px;
     --modern-padding: 10px;
@@ -27,10 +27,10 @@ variable-intellisense {
     --modern-cal10: #683131;
     --modern-cal11: #770a0a;
     --modern-cal12: #a72413;
-    --modern-cal13: #E0024C;
-    --modern-cal14: #188C16;
+    --modern-cal13: #e0024c;
+    --modern-cal14: #188c16;
     --modern-cal15: #bd7304;
-    --modern-cal16: #80168C;
+    --modern-cal16: #80168c;
     --modern-cal17: #164152;
     --modern-cal18: #00543f;
     --modern-cal19: #633e11;
@@ -47,8 +47,8 @@ variable-intellisense {
     --modern-cal30: #4d5557;
 }
 
-:root[modern=true] {
-    &[dark=true] {
+:root[modern="true"] {
+    &[dark="true"] {
         // anything dark specific? maybe an inverting icon example?
     }
 
@@ -150,7 +150,6 @@ variable-intellisense {
     }
 
     #preview-section {
-
         svg,
         svg * {
             color: var(--modern-contrast-text) !important;
@@ -211,21 +210,21 @@ variable-intellisense {
         }
     }
 
-    input[type=range] {
+    input[type="range"] {
         border: var(--modern-border-size) solid var(--modern-contrast-border);
     }
 
     .action-button:hover {
-        transition: .3s ease-out !important;
+        transition: 0.3s ease-out !important;
         color: var(--modern-contrast-text) !important;
 
         i.material-icons {
-            transition: .3s ease-out !important;
+            transition: 0.3s ease-out !important;
             color: var(--modern-contrast-text) !important;
         }
     }
 
-    #create-preset-dropdown>li:hover {
+    #create-preset-dropdown > li:hover {
         background-color: var(--modern-active);
     }
 }

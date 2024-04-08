@@ -62,6 +62,9 @@ export async function load() {
     addSplusSettingsButton();
     setupModalCloseEvents();
 
+    // wait 500 ms for the courses dropdown and other dynamic elements to load
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     courseDropdownModifications();
     groupsDropdownModifications();
     moreMenuModifications();

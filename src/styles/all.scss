@@ -18,23 +18,23 @@
     background-color: var(--primary-color) !important;
 }
 
-#header>header,
-#header>header nav,
-#header>header nav li button._1Z0RM,
-#header>header nav li a._1Z0RM {
+#header > header,
+#header > header nav,
+#header > header nav li button._1Z0RM,
+#header > header nav li a._1Z0RM {
     background-color: var(--primary-color) !important;
 }
 
-#header>header {
+#header > header {
     border-top-color: var(--border-color) !important;
 }
 
-#header>header nav button._1wP6w,
-#header>header nav a._1Z0RM {
+#header > header nav button._1wP6w,
+#header > header nav a._1Z0RM {
     color: var(--contrast-text-color) !important;
 }
 
-#header>header nav button svg.KebabIcon-kebab-icon-2-N7X {
+#header > header nav button svg.KebabIcon-kebab-icon-2-N7X {
     filter: Invert(1) !important;
 }
 
@@ -43,10 +43,10 @@
 div.nav-breadcrumb-container-1732584003,
 ._2W23R:active,
 ._3OAXJ:hover:not(:active),
-#header>header nav li button._1Z0RM:hover:not(:active),
-#header>header nav li button._1Z0RM:focus:not(:active),
-#header>header nav li a._1Z0RM:hover:not(:active),
-#header>header nav li a._1Z0RM:focus:not(:active) {
+#header > header nav li button._1Z0RM:hover:not(:active),
+#header > header nav li button._1Z0RM:focus:not(:active),
+#header > header nav li a._1Z0RM:hover:not(:active),
+#header > header nav li a._1Z0RM:focus:not(:active) {
     background-color: var(--hover-color) !important;
 }
 
@@ -96,7 +96,10 @@ a.HeaderDropMenu-menu-border-3vo5S:hover,
     background-color: var(--background-color) !important;
 }
 
-._1k0yk:hover:not(:active), ._3hqpj, ._3JcU2:active, ._3VHSs:focus:not(:active) {
+._1k0yk:hover:not(:active),
+._3hqpj,
+._3JcU2:active,
+._3VHSs:focus:not(:active) {
     background-color: var(--background-color) !important;
 }
 
@@ -117,12 +120,12 @@ footer._2T2dA {
 
 /* Logo */
 
-[data-sgy-sitenav=header-logo]:hover {
+[data-sgy-sitenav="header-logo"]:hover {
     background-color: var(--primary-color) !important;
 }
 
 /* This version is used for the old header style (pre 23/24 school year) */
-.use-custom-url #header>header nav>ul>li>a._2JX1Q:not(:has(> div._3UYz2)) {
+.use-custom-url #header > header nav > ul > li > a._2JX1Q:not(:has(> div._3UYz2)) {
     background: var(--background-url) no-repeat !important;
     background-image: var(--background-url) !important;
     background-size: 160px !important;
@@ -132,7 +135,7 @@ footer._2T2dA {
 }
 
 /* This version is used for the new header style (23/24 school year) */
-.use-custom-url #header>header nav>ul>li>a._2JX1Q div._3UYz2 {
+.use-custom-url #header > header nav > ul > li > a._2JX1Q div._3UYz2 {
     background: var(--background-url) no-repeat !important;
     background-image: var(--background-url) !important;
     background-size: 160px !important;
@@ -186,7 +189,7 @@ video.easter-egg {
 }
 
 .schoology-plus-icon:hover {
-    --image-opacity: 1.0 !important;
+    --image-opacity: 1 !important;
 }
 
 .schoology-plus-icon .icon-unread-requests {
@@ -269,36 +272,36 @@ video.easter-egg {
 @-webkit-keyframes animatetop {
     from {
         top: -300px;
-        opacity: 0
+        opacity: 0;
     }
 
     to {
         top: 0;
-        opacity: 1
+        opacity: 1;
     }
 }
 
 @keyframes animatetop {
     from {
         top: -300px;
-        opacity: 0
+        opacity: 0;
     }
 
     to {
         top: 0;
-        opacity: 1
+        opacity: 1;
     }
 }
 
 @keyframes rotation {
     from {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
 
     to {
-      transform: rotate(359deg);
+        transform: rotate(359deg);
     }
-  }
+}
 
 .close {
     color: rgba(255, 255, 255, 0.8);
@@ -343,7 +346,7 @@ video.easter-egg {
 }
 
 .setting-modified {
-    color: red
+    color: red;
 }
 
 .splus-modal-button {
@@ -351,8 +354,8 @@ video.easter-egg {
     margin-top: 8px;
 }
 
-.splus-modal-body input[type=text],
-.splus-modal-body input[type=number] {
+.splus-modal-body input[type="text"],
+.splus-modal-body input[type="number"] {
     color: #333;
     border: 1px solid #c7c7c7;
     font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
@@ -401,7 +404,7 @@ textarea.setting-item {
     resize: both;
 }
 
-input[type=text].setting-item {
+input[type="text"].setting-item {
     width: 300px;
 }
 
@@ -513,28 +516,29 @@ section.sgy-card .sgy-card-lens img.injected-course-icon {
     height: 150px;
 }
 
-*:not(.submit-span-wrapper)>input[type=button],
-*:not(.submit-span-wrapper)>input[type=submit] {
+*:not(.submit-span-wrapper) > input[type="button"],
+*:not(.submit-span-wrapper) > input[type="submit"] {
     height: 32px !important;
     vertical-align: middle !important;
     border: 2px solid var(--border-color) !important;
     background-color: var(--primary-color) !important;
 }
 
-*:not(.submit-span-wrapper)>input[type=button]:hover,
-*:not(.submit-span-wrapper)>input[type=submit]:hover {
+*:not(.submit-span-wrapper) > input[type="button"]:hover,
+*:not(.submit-span-wrapper) > input[type="submit"]:hover {
     background-color: var(--hover-color) !important;
 }
 
-.submit-span-wrapper input[type=button],
-.submit-span-wrapper input[type=submit] {
+.submit-span-wrapper input[type="button"],
+.submit-span-wrapper input[type="submit"] {
     height: 25px !important;
     vertical-align: middle !important;
     color: var(--contrast-text-color) !important;
     padding: 4px 8px !important;
 }
 
-.submit-span-wrapper, .submit-span-wrapper[style] {
+.submit-span-wrapper,
+.submit-span-wrapper[style] {
     border: 2px solid var(--border-color) !important;
     background: var(--primary-color) !important;
 }
@@ -567,7 +571,8 @@ h1.setting-title {
 }
 
 .popups-body .no-answer-provided {
-    background: url('https://app.schoology.com/sites/all/themes/schoology_theme/images/error_404.png') no-repeat 0 0;
+    background: url("https://app.schoology.com/sites/all/themes/schoology_theme/images/error_404.png")
+        no-repeat 0 0;
     padding: 0 0 0 25px;
     font-weight: bold;
 }
@@ -577,7 +582,7 @@ h1.setting-title {
 }
 
 .footer-divider,
-.footer-divider>span {
+.footer-divider > span {
     margin-left: 15px;
 }
 
@@ -779,7 +784,7 @@ body .popups-tab,
 body .enrollment-filters span,
 body .grading-groups-list .grading-group,
 body #grading-group- span.ajax-post-comment,
-span[role=button],
+span[role="button"],
 .period-row .title,
 .category-row .title,
 ._2mWUT a,
@@ -820,7 +825,7 @@ footer li a,
 footer div button,
 #copyright,
 footer li.Footer-vertical-divider-3-9qQ::after,
-#header>header>ul>li>a,
+#header > header > ul > li > a,
 .splus-modal-footer-text a,
 body a.link-btn.active,
 div.courses-left-menu,
@@ -886,13 +891,13 @@ a._3_bfp {
     padding-top: 5px;
 }
 
-.splus-beta-container div input[type=checkbox] {
+.splus-beta-container div input[type="checkbox"] {
     vertical-align: middle;
     float: left;
     margin-right: 10px;
 }
 
-.iziToast-body>img.iziToast-icon {
+.iziToast-body > img.iziToast-icon {
     max-width: 24px !important;
     display: block !important;
 }
@@ -954,11 +959,19 @@ a._3_bfp {
 
 /* "loading" state to avoid vertical scrolling when transitioning from 'forced completed' to 'query state' */
 /* animated spin. default center,center rotate origin appears to be slightly off, but not likely to be noticeable for <1s load times. */
-.splus-mark-completed-check .upcoming-event:not(.upcoming-subevents-block):not(.splus-assignment-complete):not(.splus-assignment-notcomplete) .splus-completed-check-indicator {
+.splus-mark-completed-check
+    .upcoming-event:not(.upcoming-subevents-block):not(.splus-assignment-complete):not(
+        .splus-assignment-notcomplete
+    )
+    .splus-completed-check-indicator {
     animation: rotation 0.8s infinite linear;
 }
 
-.splus-mark-completed-check .upcoming-event:not(.upcoming-subevents-block):not(.splus-assignment-complete):not(.splus-assignment-notcomplete) .splus-completed-check-indicator::after {
+.splus-mark-completed-check
+    .upcoming-event:not(.upcoming-subevents-block):not(.splus-assignment-complete):not(
+        .splus-assignment-notcomplete
+    )
+    .splus-completed-check-indicator::after {
     color: var(--muted-text) !important;
     content: "⚆";
 }
@@ -980,20 +993,20 @@ a._3_bfp {
     stroke: white;
 } */
 
-:root[modern=false] #darktheme-toggle-navbar-button {
+:root[modern="false"] #darktheme-toggle-navbar-button {
     display: none;
     padding: 0 14px;
 }
 
-:root[modern=true] #darktheme-toggle-navbar-button {
+:root[modern="true"] #darktheme-toggle-navbar-button {
     fill: currentColor;
     stroke: none;
     padding: 0 14px;
 }
 
-:root[modern=false][dark] #darktheme-toggle-navbar-button {
+:root[modern="false"][dark] #darktheme-toggle-navbar-button {
     display: inline-block;
-    stroke:currentColor;
+    stroke: currentColor;
     stroke-width: 20pt;
     fill: transparent;
 }
@@ -1007,7 +1020,7 @@ a._3_bfp {
     height: 33px;
 }
 
-:root[modern=true] #darktheme-toggle-navbar-button svg {
+:root[modern="true"] #darktheme-toggle-navbar-button svg {
     width: 27px;
     height: 30px;
 }
@@ -1050,7 +1063,7 @@ a._3_bfp {
     font-weight: bold;
 }
 
-.select-theme-tile[data-new=true] .splus-button-tile-content::before {
+.select-theme-tile[data-new="true"] .splus-button-tile-content::before {
     content: "NEW!";
     margin-right: 5px;
     padding: 2px 5px;
@@ -1175,4 +1188,347 @@ a._3_bfp {
     top: 5%;
     font-size: xx-large;
     cursor: pointer;
+}
+
+/* Grade tooltip CSS, as used on materials page */
+.schoologyplus-tooltip .tooltip-footer {
+    color: #aaaaaa;
+    font-size: 9px;
+}
+
+.schoologyplus-tooltip .tooltip-footer .tooltip-horiz-divider {
+    color: #808080;
+}
+
+.schoologyplus-tooltip .error-message {
+    color: #cc6666;
+}
+
+.assignment-tooltip .exception-excused {
+    color: #8fdb8f;
+}
+
+.assignment-tooltip .exception-incomplete {
+    color: #f7c438;
+}
+
+.assignment-tooltip .exception-missing {
+    color: #f7c438;
+}
+
+.assignment-tooltip .exception-max-pts-info {
+    color: #aaaaaa;
+    font-size: 10px;
+}
+
+.assignment-tooltip .tooltip-dropped-indicator {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+/*
+.assignment-tooltip .tooltip-dropped-gradeinfo {
+    text-decoration: line-through;
+}
+*/
+
+.assignment-tooltip .tooltip-dropped-gradeinfo::before {
+    content: "[";
+    color: #aa42c4;
+}
+
+.assignment-tooltip .tooltip-dropped-gradeinfo::after {
+    content: "]";
+    color: #aa42c4;
+}
+
+.assignment-tooltip .tooltip-grade-info {
+    color: #94cfff;
+}
+
+.assignment-tooltip .tooltip-grade-info .tooltip-horiz-divider {
+    color: #6f99bb;
+}
+
+.document-tooltip .preview-canvas {
+    border: 1px solid black;
+}
+
+.schoologyplus-master-canvas {
+    display: none;
+}
+
+/*
+Used to pass data between script contents
+Should not be shown
+*/
+#schoologyplus-material-tooltip-data-container {
+    display: none;
+}
+
+.common-realm-list li {
+    font-size: 16px;
+    align-items: center;
+    display: flex;
+}
+
+.common-realm-list li img {
+    width: 32px;
+    height: 32px;
+    padding-right: 6px;
+}
+.mimic-profile-header {
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.course-in-common-container {
+    padding-top: 10px !important;
+}
+
+.splus-is-grades-page {
+    .gradebook-course-title span.injected-title-grade {
+        float: right;
+        font-weight: bold;
+        font-size: 14px;
+        padding-right: 20px;
+    }
+
+    tr.item-row td.grade-column div.td-content-wrapper {
+        padding: 7px 10px 5px !important;
+        text-align: center;
+    }
+
+    div.tier-injected-score {
+        text-align: center;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .gradebook-course.hierarchical-grading-report .grade-column-right .td-content-wrapper {
+        padding: 15px 0px !important;
+        text-align: right;
+    }
+
+    .gradebook-course.hierarchical-grading-report .gradebook-course-grades .td-content-wrapper {
+        display: block !important;
+    }
+
+    .grade-column-center {
+        text-align: center !important;
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+    }
+
+    .gradebook-course-grades table {
+        table-layout: fixed;
+    }
+
+    col.assignment-colum {
+        width: 50%;
+    }
+
+    col.points-column {
+        width: 20%;
+    }
+
+    col.comments-column {
+        width: 30%;
+    }
+
+    .grade-edit-indicator {
+        vertical-align: top;
+        position: absolute;
+        bottom: 0px;
+        display: none;
+    }
+
+    .grade-add-indicator {
+        display: none;
+    }
+
+    .grade-add-indicator span.title {
+        font-style: italic;
+    }
+
+    .grade-add-indicator img.add-assignment-icon {
+        width: 12px;
+    }
+
+    /* to allow "absolute" position of edit icon" */
+
+    .item-row .grade-column .grade-wrapper {
+        position: relative;
+    }
+
+    .grade-column .student-editable,
+    .editable-assignment-name:focus {
+        padding: 1px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #767676;
+        outline: 0px solid transparent;
+    }
+
+    /* to compensate for the added edit icon */
+
+    /*
+.injected-assignment-percent {
+    padding-right: 6px;
+}
+*/
+
+    .modified-score-percent-warning {
+        vertical-align: middle;
+        position: absolute;
+        margin-left: 2px;
+        margin-right: 2px;
+    }
+
+    .item-row img.modified-score-percent-warning,
+    .grade-column-center img.modified-score-percent-warning {
+        width: 12px;
+        margin-top: 2px;
+    }
+
+    .category-row img.modified-score-percent-warning {
+        width: 12px;
+        height: 12px;
+    }
+
+    .period-row img.modified-score-percent-warning {
+        margin-bottom: 1px;
+        width: 15px;
+        height: 15px;
+    }
+
+    .relative-span-contain {
+        position: relative;
+    }
+
+    .grade-column-right .modified-score-percent-warning {
+        position: static;
+        padding-right: 2px;
+        padding-bottom: 1px;
+    }
+
+    .grade-column-center .modified-score-percent-warning {
+        padding-top: 1px;
+    }
+
+    input#enable-modify {
+        float: right;
+        margin: 8px 5px;
+    }
+
+    .splus-grade-help-btn .icon-help {
+        background-image: url("https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/images/notification-icon-sprite.png");
+        background-repeat: no-repeat;
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        background-position: 0px -127px;
+        background-size: 36px 140px;
+    }
+
+    .splus-grade-help-btn {
+        padding-left: 4px;
+        padding-bottom: 0px;
+        /* Experimentally determined */
+        line-height: 9px;
+    }
+
+    .modify-label {
+        float: right;
+        padding: 8px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .splus-gradeedit-checkbox-holder-wrapper > * {
+        display: inline-flex;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .grade-add-indicator.hidden,
+    .report-row.item-row.hidden {
+        display: none !important;
+    }
+
+    .gradebook-course.hierarchical-grading-report .grade-column .percentage-grade {
+        color: #767676;
+        font-size: 12px;
+        font-weight: normal;
+    }
+
+    .kabob-menu {
+        margin-left: 10px;
+        font-size: 16px;
+        font-weight: normal;
+        float: right;
+        cursor: pointer;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .grade-add-indicator .kabob-menu {
+        display: none;
+    }
+
+    .grades-kabob-menu {
+        font-size: 20px;
+        vertical-align: sub;
+        padding-left: 10px;
+        cursor: pointer;
+    }
+
+    /* undo exception's .no-grade styling for unknown .max-grade elements */
+    .exception-grade-wrapper .max-grade.no-grade {
+        width: unset !important;
+        text-align: unset !important;
+        display: unset !important;
+    }
+
+    .max-grade-show-error {
+        visibility: hidden;
+        word-spacing: -999px;
+        letter-spacing: -999px;
+    }
+
+    .max-grade-show-error::after {
+        content: " / <ERR>";
+        visibility: visible;
+        word-spacing: normal;
+        letter-spacing: normal;
+    }
+
+    svg.splus-coursegradebox-taint {
+        width: 1.2em;
+        height: 1.2em;
+        vertical-align: middle;
+        padding-right: 0.2em;
+    }
+
+    .splus-weighted-gradebook-indicator {
+        font-size: 12px;
+        font-weight: normal;
+        margin-left: 15px;
+        color: #ee00ce;
+    }
+
+    .item-row.added-fake-assignment {
+        background-color: lightyellow !important;
+    }
+
+    .splus-weighted-gradebook-indicator {
+        display: var(--weighted-gradebook-indicator-display) !important;
+    }
+
+    .injected-empty-category-expand-icon {
+        visibility: hidden;
+    }
 }

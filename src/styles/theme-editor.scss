@@ -25,14 +25,22 @@ label {
     font-family: Muli;
     font-style: normal;
     font-weight: 200;
-    src: local("Muli ExtraLight"), local("Muli-ExtraLight"), url(https://ui.schoology.com/design-system/assets/muli-latin-200.4387a458edb3bec4e81602c6329a207f.woff2) format("woff2"), url(https://ui.schoology.com/design-system/assets/muli-latin-200.3ae45760f8b0b342216bd55f131a68ec.woff) format("woff")
+    src: local("Muli ExtraLight"), local("Muli-ExtraLight"),
+        url(https://ui.schoology.com/design-system/assets/muli-latin-200.4387a458edb3bec4e81602c6329a207f.woff2)
+            format("woff2"),
+        url(https://ui.schoology.com/design-system/assets/muli-latin-200.3ae45760f8b0b342216bd55f131a68ec.woff)
+            format("woff");
 }
 
 @font-face {
     font-family: Muli;
     font-style: normal;
     font-weight: 700;
-    src: local("Muli Bold"), local("Muli-Bold"), url(https://ui.schoology.com/design-system/assets/muli-latin-700.8f65fa68cfb5d8cc4f4fa728a470332b.woff2) format("woff2"), url(https://ui.schoology.com/design-system/assets/muli-latin-700.1e6aab148ffeb8fe3470c15ef33c90bf.woff) format("woff")
+    src: local("Muli Bold"), local("Muli-Bold"),
+        url(https://ui.schoology.com/design-system/assets/muli-latin-700.8f65fa68cfb5d8cc4f4fa728a470332b.woff2)
+            format("woff2"),
+        url(https://ui.schoology.com/design-system/assets/muli-latin-700.1e6aab148ffeb8fe3470c15ef33c90bf.woff)
+            format("woff");
 }
 
 .no-margin {
@@ -44,7 +52,7 @@ label {
     padding-bottom: 20px;
 }
 
-.nav-wrapper li>a {
+.nav-wrapper li > a {
     font-weight: bold;
 }
 
@@ -53,17 +61,18 @@ label {
     font-weight: 500;
 }
 
-.card-action>a {
+.card-action > a {
     font-weight: 500;
 }
 
 * {
-    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen-Sans, Ubuntu,
+        Cantarell, "Helvetica Neue", sans-serif;
 }
 
-.card.small .card-image+.card-content,
-.card.medium .card-image+.card-content,
-.card.large .card-image+.card-content {
+.card.small .card-image + .card-content,
+.card.medium .card-image + .card-content,
+.card.large .card-image + .card-content {
     max-height: 80%;
 }
 
@@ -162,7 +171,8 @@ label {
     width: 220px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .12);
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 3px 1px -2px rgba(0, 0, 0, 0.12);
 }
 
 #preview-settings-menu:not(:hover) #preview-name-drop-down {
@@ -215,7 +225,8 @@ label {
     top: 60px;
     left: 0;
     color: black;
-    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .12);
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 3px 1px -2px rgba(0, 0, 0, 0.12);
     margin-top: -4px;
 }
 
@@ -510,7 +521,7 @@ h2.center {
 }
 
 .setting-modified {
-    color: red
+    color: red;
 }
 
 .setting-description {
@@ -524,8 +535,8 @@ h2.center {
     margin-top: 8px;
 }
 
-.splus-modal-body input[type=text],
-.splus-modal-body input[type=number] {
+.splus-modal-body input[type="text"],
+.splus-modal-body input[type="number"] {
     color: #333;
     border: 1px solid #c7c7c7;
     font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
@@ -588,8 +599,8 @@ body #primary-settings .unfold:hover {
     color: white !important;
 }
 
-input[type=submit],
-input[type=button] {
+input[type="submit"],
+input[type="button"] {
     margin: 0;
     cursor: pointer;
     background: 0;
@@ -617,15 +628,15 @@ input[type=button] {
     background-color: var(--hover-color);
 }
 
-.tabs>li>a.active {
+.tabs > li > a.active {
     color: var(--link-color) !important;
 }
 
-.tabs>li>a {
+.tabs > li > a {
     color: var(--primary-color) !important;
 }
 
-.tabs>li>a:hover:not(.active) {
+.tabs > li > a:hover:not(.active) {
     color: var(--link-color) !important;
 }
 
@@ -687,7 +698,7 @@ input[type=button] {
     line-height: 40px;
 }
 
-[contentEditable=true]:empty:before {
+[contentEditable="true"]:empty:before {
     content: attr(data-text);
     color: grey;
 }
@@ -729,7 +740,20 @@ textarea#json-output[readonly] {
 #theme-hue,
 #color-rainbow-hue-value.hue-slider {
     height: 24px !important;
-    background: linear-gradient(to right, hsl(0, 50%, 50%), hsl(36, 50%, 50%), hsl(72, 50%, 50%), hsl(108, 50%, 50%), hsl(144, 50%, 50%), hsl(180, 50%, 50%), hsl(216, 50%, 50%), hsl(252, 50%, 50%), hsl(288, 50%, 50%), hsl(324, 50%, 50%), hsl(359, 50%, 50%));
+    background: linear-gradient(
+        to right,
+        hsl(0, 50%, 50%),
+        hsl(36, 50%, 50%),
+        hsl(72, 50%, 50%),
+        hsl(108, 50%, 50%),
+        hsl(144, 50%, 50%),
+        hsl(180, 50%, 50%),
+        hsl(216, 50%, 50%),
+        hsl(252, 50%, 50%),
+        hsl(288, 50%, 50%),
+        hsl(324, 50%, 50%),
+        hsl(359, 50%, 50%)
+    );
 }
 
 #theme-hue .ui-slider-handle,
@@ -744,7 +768,7 @@ textarea#json-output[readonly] {
     padding-bottom: 32px;
 }
 
-#theme-color-rainbow-wrapper :not(.hue-slider)>.ui-slider-handle {
+#theme-color-rainbow-wrapper :not(.hue-slider) > .ui-slider-handle {
     background-color: #26a69a !important;
     border: none !important;
     border-radius: 50% !important;
@@ -756,7 +780,7 @@ textarea#json-output[readonly] {
 #theme-color-rainbow-wrapper :not(.hue-slider).ui-slider-horizontal {
     height: 3px;
     border: none;
-    background-color: #C2C0C2;
+    background-color: #c2c0c2;
     margin: 15px 0;
 }
 
@@ -792,7 +816,7 @@ textarea#json-output[readonly] {
 }
 
 a[href].link-color {
-    color: var(--link-color) !important
+    color: var(--link-color) !important;
 }
 
 .show-lausd {

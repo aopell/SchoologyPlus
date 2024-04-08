@@ -4,7 +4,11 @@ import addDomainPermissionToggle from "webext-permission-toggle";
 import { trackEvent } from "./utils/analytics";
 import { getBrowser } from "./utils/dom";
 import { Logger } from "./utils/logger";
-import { loadAssignmentNotifications } from "./utils/notifications";
+import {
+    loadAssignmentNotifications,
+    sendNotification,
+    updateLastTime,
+} from "./utils/notifications";
 
 var assignmentNotificationUrl = "https://app.schoology.com/home/notifications?filter=all";
 var defaultDomain = "app.schoology.com";
@@ -42,6 +46,8 @@ async function load() {
 
     chrome.action.onClicked.addListener(onActionClicked);
     chrome.runtime.onMessage.addListener(onMessage);
+
+    chrome.contextMenus.onClicked.addListener(onContextMenuClicked);
 }
 
 async function onActionClicked() {
@@ -113,30 +119,45 @@ function onInstalled(details: chrome.runtime.InstalledDetails) {
     });
 
     chrome.contextMenus.create({
+        id: "splus-theme-editor",
         title: "Theme Editor",
-        contexts: ["browser_action"],
-        onclick: () => chrome.tabs.create({ url: chrome.runtime.getURL("/theme-editor.html") }),
+        contexts: ["action"],
     });
 
     chrome.contextMenus.create({
+        id: "splus-discord",
         title: "Discord Support Server",
-        contexts: ["browser_action"],
-        onclick: () => chrome.tabs.create({ url: "https://discord.schoologypl.us" }),
+        contexts: ["action"],
     });
 
     chrome.contextMenus.create({
+        id: "splus-website",
         title: "Schoology Plus Website",
-        contexts: ["browser_action"],
-        onclick: () =>
-            chrome.tabs.create({ url: "https://schoologypl.us?utm_source=ext-context-menu" }),
+        contexts: ["action"],
     });
 }
 
-function onMessage(
+function onContextMenuClicked(info: chrome.contextMenus.OnClickData, tab?: chrome.tabs.Tab) {
+    switch (info.menuItemId) {
+        case "splus-theme-editor":
+            chrome.tabs.create({ url: chrome.runtime.getURL("/theme-editor.html") });
+            break;
+        case "splus-discord":
+            chrome.tabs.create({ url: "https://discord.schoologypl.us" });
+            break;
+        case "splus-website":
+            chrome.tabs.create({ url: "https://schoologypl.us?utm_source=ext-context-menu" });
+            break;
+    }
+}
+
+async function onMessage(
     request: any,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void
 ) {
+    Logger.log("Received background page message", request);
+
     if (request.type == "fetch" && request.url !== undefined) {
         Logger.debug("Received fetch request for " + request.url);
 
@@ -185,14 +206,25 @@ function onMessage(
         assignmentNotificationUrl = `https://${defaultDomain}/home/notifications?filter=all`;
     } else if (request.type == "setBadgeText" && request.text !== undefined) {
         chrome.browserAction.setBadgeText({ text: request.text });
+    } else if (request.type == "notification") {
+        await updateLastTime(request.timeModified, request.lastTime);
+        await sendNotification(request.notification, request.name, request.count);
     }
 }
 
 async function checkForNotifications() {
+    let storageContents = await chrome.storage.sync.get(null);
+
     if (getBrowser() === "Firefox") {
         // Firefox doesn't support service workers so it doesn't need offscreen documents
         // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/background#background_pages
-        loadAssignmentNotifications(assignmentNotificationUrl);
+        let { notification, name, count, lastTime, timeModified } =
+            await loadAssignmentNotifications(
+                assignmentNotificationUrl,
+                storageContents.lastTime ?? 0
+            );
+        await updateLastTime(timeModified, lastTime);
+        await sendNotification(notification, name, count);
         return;
     }
 
@@ -209,17 +241,17 @@ async function checkForNotifications() {
     // Now that we have an offscreen document, we can dispatch the
     // message.
     chrome.runtime.sendMessage({
-        type: "notifications",
+        type: "offscreen-notifications",
         target: "offscreen",
-        data: { url: assignmentNotificationUrl },
+        data: { url: assignmentNotificationUrl, lastTime: storageContents.lastTime ?? 0 },
     });
 }
 
-declare var clients: { matchAll: () => { url: string }[] };
+declare var clients: { matchAll: () => Promise<{ url: string }[]> };
 
 async function hasOffscreenDocument() {
     // Check all windows controlled by the service worker if one of them is the offscreen document
-    const matchedClients = clients.matchAll();
+    const matchedClients = await clients.matchAll();
     for (const client of matchedClients) {
         if (client.url.endsWith(OFFSCREEN_DOCUMENT_PATH)) {
             return true;

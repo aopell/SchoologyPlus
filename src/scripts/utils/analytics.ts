@@ -1,11 +1,5 @@
 import { getBrowser } from "./dom";
 
-declare global {
-    interface Window {
-        dataLayer?: any[];
-    }
-}
-
 interface AnalyticsEventProps {
     legacyTarget?: string;
     legacyAction?: string;
@@ -78,10 +72,10 @@ export async function initializeAnalytics() {
     ) {
         // Google Analytics v4
 
-        window.dataLayer = window.dataLayer || [];
+        (globalThis as any).dataLayer = (globalThis as any).dataLayer || [];
 
         function gtag(...args: any[]) {
-            window.dataLayer?.push(args);
+            (globalThis as any).dataLayer?.push(args);
         }
 
         gtag("js", new Date());
