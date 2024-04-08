@@ -1,4 +1,5 @@
 import $ from "jquery";
+import "jquery-ui/ui/widgets/tabs";
 
 import { trackEvent } from "./analytics";
 import { createButton, createElement, getBrowser } from "./dom";
