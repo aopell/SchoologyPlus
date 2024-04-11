@@ -1,5 +1,7 @@
 import { getBrowser } from "./dom";
 
+// TODO: https://developer.chrome.com/docs/extensions/how-to/integrate/google-analytics-4#toc-tracking-pageviews
+
 interface AnalyticsEventProps {
     legacyTarget?: string;
     legacyAction?: string;
@@ -75,7 +77,7 @@ export async function initializeAnalytics() {
         (globalThis as any).dataLayer = (globalThis as any).dataLayer || [];
 
         function gtag(...args: any[]) {
-            (globalThis as any).dataLayer?.push(args);
+            (globalThis as any).dataLayer?.push(arguments);
         }
 
         gtag("js", new Date());

@@ -1,5 +1,7 @@
 import findAndReplaceDOMText from "findandreplacedomtext";
 import iziToast, { IziToast, IziToastSettings } from "izitoast";
+import $ from "jquery";
+import "jquery-ui/ui/widgets/tabs";
 
 import { trackEvent } from "../utils/analytics";
 import { fetchApi, fetchApiJson, getUserId } from "../utils/api";

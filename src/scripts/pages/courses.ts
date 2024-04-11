@@ -1,5 +1,4 @@
 import $ from "jquery";
-import "jquery-contextmenu";
 
 import { trackEvent } from "../utils/analytics";
 import { createElement } from "../utils/dom";

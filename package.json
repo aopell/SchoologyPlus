@@ -3,8 +3,8 @@
   "version": "10.0.0",
   "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
   "scripts": {
-    "watch": "rm -rf dist/* && webpack --watch --config webpack.config.js --mode=development",
-    "build": "rm -rf dist/* && webpack --config webpack.config.js --mode=production",
+    "build": "rm -rf dist/* && webpack --config webpack.config.js --mode=development",
+    "prod": "rm -rf dist/* && webpack --config webpack.config.js --mode=production",
     "clean": "rimraf dist",
     "prettier": "prettier --write \"src/**/*.{ts,js}\""
   },

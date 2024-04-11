@@ -1,5 +1,26 @@
 import * as pages from "./pages";
 import { initializeAnalytics } from "./utils/analytics";
+import * as Api from "./utils/api";
+import Modal from "./utils/modal";
+import { Setting, generateDebugInfo } from "./utils/settings";
+
+declare global {
+    var SchoologyPlus: {
+        Setting: typeof Setting;
+        Modal: typeof Modal;
+        Api: typeof Api;
+        Pages: typeof pages;
+        Debug: any;
+    };
+}
+
+globalThis.SchoologyPlus = {
+    Setting,
+    Modal,
+    Api,
+    Pages: pages,
+    Debug: JSON.parse(generateDebugInfo()),
+};
 
 // In case you want to import an SVG file, you can do it like this:
 // import svgIcon from '../static/icons/icon.svg'
@@ -87,6 +108,7 @@ async function load() {
             /^\/courses/ // matches /courses(...)
         )
     ) {
+        await pages.course.load();
         await pages.courses.load();
     }
 }

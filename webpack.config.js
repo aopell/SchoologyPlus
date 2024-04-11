@@ -31,6 +31,9 @@ const commonConfig = {
         filename: "[name].js",
         path: path.join(__dirname, "./dist"),
     },
+    externals: {
+        jquery: "jQuery",
+    },
     module: {
         rules: [
             {
