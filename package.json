@@ -23,6 +23,8 @@
     "jquery-migrate": "3.0.1",
     "jquery-ui": "1.12.1",
     "jquery.tipsy": "1.0.3",
+    "materialize-css": "1.0.0",
+    "spectrum-colorpicker": "1.8.1",
     "webext-dynamic-content-scripts": "^10.0.1",
     "webext-permission-toggle": "^5.0.0"
   },
@@ -34,6 +36,7 @@
     "@types/jquery": "3.3.1",
     "@types/jquery.contextmenu": "^1.7.38",
     "@types/jqueryui": "1.12.1",
+    "@types/materialize-css": "1.0.14",
     "@types/node": "^18.13.0",
     "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",

@@ -56,9 +56,9 @@
       "css": [
         "styles/all.css",
         "styles/modern/all.css",
-        "styles/lib/contextmenu.css",
-        "styles/lib/izitoast.css",
-        "styles/lib/jquery-ui.css"
+        "lib/contextmenu.css",
+        "lib/izitoast.css",
+        "lib/jquery-ui.css"
       ],
       "run_at": "document_start"
     },
@@ -84,9 +84,9 @@
         "*://lti-submission-google.app.schoology.com/*"
       ],
       "js": [
-        "google-analytics.js",
-        "jquery.js",
-        "contextmenu.js",
+        "lib/google-analytics.js",
+        "lib/jquery.js",
+        "lib/contextmenu.js",
         "content.js"
       ],
       "run_at": "document_end"

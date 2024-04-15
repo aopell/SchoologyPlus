@@ -580,9 +580,7 @@ export class SchoologyTheme {
         return JSON.stringify(this);
     }
 
-    static get CURRENT_VERSION() {
-        return 2;
-    }
+    static CURRENT_VERSION: 2 = 2;
 
     /**
      * Creates and returns a `SchoologyTheme` given a valid JSON object
