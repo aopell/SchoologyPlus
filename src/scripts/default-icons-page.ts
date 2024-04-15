@@ -1,14 +1,26 @@
+import M from "materialize-css";
+
+import { DEFAULT_ICONS } from "./utils/default-icons";
+
 const MAX_CHARS = 40;
 
-let container = document.getElementById("icons-container");
-let textbox = document.getElementById("icon-test-text");
-textbox.addEventListener("input", e => displayFilteredIcons(e.target.value));
-textbox.addEventListener("dblclick", e => (e.target.value = "") || displayFilteredIcons());
-let toggle = document.getElementById("toggle");
+let container = document.getElementById("icons-container") as HTMLElement;
+let textbox = document.getElementById("icon-test-text") as HTMLInputElement;
+textbox.addEventListener("input", e => displayFilteredIcons((e.target as HTMLInputElement).value));
+textbox.addEventListener(
+    "dblclick",
+    e => ((e.target as HTMLInputElement).value = "") || displayFilteredIcons()
+);
+let toggle = document.getElementById("toggle") as HTMLAnchorElement;
 toggle.addEventListener("click", e => toggleCondensed());
-let toggleIcon = document.getElementById("toggle-icon");
+let toggleIcon = document.getElementById("toggle-icon") as HTMLElement;
 displayFilteredIcons();
-M.Tooltip.init(document.querySelectorAll('.tooltipped'), { outDuration: 0, inDuration: 300, enterDelay: 0, exitDelay: 10, transition: 10 });
+M.Tooltip.init(document.querySelectorAll<HTMLElement>(".tooltipped"), {
+    outDuration: 0,
+    inDuration: 300,
+    enterDelay: 0,
+    exitDelay: 10,
+});
 
 function toggleCondensed() {
     if (document.body.classList.contains("condensed")) {
@@ -19,12 +31,12 @@ function toggleCondensed() {
     document.body.classList.toggle("condensed");
 }
 
-function createIconPreview(icon, i) {
+function createIconPreview(icon: { regex: string; source: string; url: string }, i: number) {
     let div = document.createElement("div");
     div.classList.add("icon-preview", "col", "s6", "m3", "l2", "xl1", "center");
     div.title = `#${i}\n${icon.regex}`;
     let img = document.createElement("img");
-    img.dataset.index = i;
+    img.dataset.index = i.toString();
     img.classList.add("col", "s12");
     img.src = icon.url;
     img.addEventListener("click", iconClick);
@@ -49,23 +61,24 @@ function createIconPreview(icon, i) {
 function displayFilteredIcons(text = "") {
     container.innerHTML = "";
 
-    let m = text.match(/#(\d+)/);
-    m = m ? m[1] : false;
-    if (m && m <= icons.length) {
-        container.appendChild(createIconPreview(icons[m - 1], m));
+    let matchResult = text.match(/#(\d+)/);
+    let m = matchResult ? Number.parseFloat(matchResult[1]) : false;
+
+    if (m && m <= DEFAULT_ICONS.length) {
+        container.appendChild(createIconPreview(DEFAULT_ICONS[m - 1], m));
         return;
     }
 
     let i = 0;
-    for (let icon of icons) {
+    for (let icon of DEFAULT_ICONS) {
         i++;
         if (text !== "" && !text.match(new RegExp(icon.regex, "i"))) continue;
         container.appendChild(createIconPreview(icon, i));
     }
 }
 
-function iconClick(e) {
-    let indx = +e.target.dataset.index;
+function iconClick(e: Event) {
+    let indx = +(e.target as HTMLElement).dataset.index!;
     textbox.value = `#${indx}`;
     displayFilteredIcons(textbox.value);
     if (document.body.classList.contains("condensed")) {

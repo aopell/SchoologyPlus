@@ -9,8 +9,7 @@
     "outDir": "dist/js",
     "noEmitOnError": true,
     "typeRoots": [
-      "node_modules/@types",
-      "src/scripts/types.d.ts"
+      "node_modules/@types"
     ],
   },
   "exclude": [

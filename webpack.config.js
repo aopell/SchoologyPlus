@@ -14,6 +14,7 @@ const commonConfig = {
         content: path.join(srcDir, "scripts/content.ts"),
         offscreen: path.join(srcDir, "scripts/offscreen.ts"),
         "theme-editor": path.join(srcDir, "scripts/theme-editor.ts"),
+        "default-icons-page": path.join(srcDir, "scripts/default-icons-page.ts"),
 
         // CSS Entry Points
         "styles/all": path.join(srcDir, "styles/all.scss"),
