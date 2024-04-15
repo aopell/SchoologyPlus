@@ -1400,9 +1400,8 @@ function displayGradesInNotificationDropdown() {
         chrome.runtime.sendMessage({ type: "setBadgeText", text: "" });
 
         let coll =
-            notifsMenuContainer?.querySelectorAll<HTMLAnchorElement>(
-                'div[role="menu"] ._2awxe._3skcp._1tpub a[href^="/assignment/"]'
-            ) ?? [];
+            notifsMenuContainer?.querySelectorAll<HTMLAnchorElement>('a[href^="/assignment/"]') ??
+            [];
 
         if (coll.length > 0) {
             Logger.log("NotifsDropdown observation has links to process - processing now");

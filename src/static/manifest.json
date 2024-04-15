@@ -93,7 +93,10 @@
     }
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "scripts": [
+      "background.js"
+    ]
   },
   "permissions": [
     "storage",
@@ -104,6 +107,9 @@
     "activeTab",
     "scripting",
     "offscreen"
+  ],
+  "optional_permissions": [
+    "<all_urls>"
   ],
   "host_permissions": [
     "*://*.schoology.com/*",
