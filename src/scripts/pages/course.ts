@@ -389,7 +389,7 @@ function setCourseOptionsContent(modal: Modal, options: Record<string, string>) 
 
     if (isLAUSD()) {
         let iconExists = Theme.hasBuiltInIcon(options.courseName);
-        modal.element.querySelector(".splus-modal-contents")?.appendChild(
+        modal.element!.querySelector(".splus-modal-contents")?.appendChild(
             createElement("div", ["setting-entry"], { id: "request-course-icon-wrapper" }, [
                 createElement(
                     "h2",

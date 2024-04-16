@@ -21,9 +21,11 @@ changelogIFrame.src = `https://schoologypl.us/changelog?version=${
 
 export default class Modal {
     id: string;
-    element: HTMLElement;
-    body: HTMLElement;
+    elementOnPage: boolean = false;
     onopen?: (modal: Modal, options?: any) => void;
+
+    private containerElement: HTMLElement = document.createElement("div");
+    private bodyElement: HTMLElement;
 
     constructor(
         id: string,
@@ -37,14 +39,19 @@ export default class Modal {
             `<p class="splus-modal-title">${title}</p></div><div class="splus-modal-body"></div><div class="splus-modal-footer"><p class="splus-modal-footer-text">` +
             `${footerHTML}</p></div></div></div>`;
 
-        document.body.appendChild(document.createElement("div")).innerHTML = modalHTML;
-
         this.id = id;
-        this.element = document.getElementById(id)!;
-        this.body = this.element.querySelector(".splus-modal-body")!;
         this.onopen = openCallback;
 
-        this.body.appendChild(contentElement);
+        this.containerElement.innerHTML = modalHTML;
+        this.bodyElement = contentElement;
+    }
+
+    get element() {
+        return document.getElementById(this.id);
+    }
+
+    get body() {
+        return this.element?.querySelector(".splus-modal-body");
     }
 
     static openModal(id: string, options?: any) {
@@ -61,15 +68,24 @@ export default class Modal {
 
         let mm = Modal.modals.find(m => m.id == id);
         if (mm) {
+            if (!mm.elementOnPage) {
+                document.body.appendChild(mm.containerElement);
+                mm.body!.appendChild(mm.bodyElement);
+                mm.element
+                    ?.querySelector(".close")
+                    ?.addEventListener("click", Modal.closeAllModals);
+                mm.elementOnPage = true;
+            }
+
             if (mm.onopen) mm.onopen(mm, options);
-            mm.element.style.display = "block";
+            mm.element!.style.display = "block";
             document.documentElement.classList.add("splus-modal-open");
         }
     }
 
     static closeAllModals() {
         for (let m of Modal.modals) {
-            Modal.modalClose(m.element);
+            if (m.element) Modal.modalClose(m.element);
         }
     }
 
@@ -610,16 +626,16 @@ export default class Modal {
 }
 
 async function openOptionsMenu(settingsModal: Modal) {
-    settingsModal.body.innerHTML = "";
+    settingsModal.body!.innerHTML = "";
 
     await updateSettings();
 
-    settingsModal.body.appendChild(getModalContents());
-    settingsModal.element
-        .querySelector("#open-changelog")
+    settingsModal.body!.appendChild(getModalContents());
+    settingsModal
+        .element!.querySelector("#open-changelog")
         ?.addEventListener("click", () => Modal.openModal("changelog-modal"), { once: true });
-    settingsModal.element
-        .querySelector("#open-contributors")
+    settingsModal
+        .element!.querySelector("#open-contributors")
         ?.addEventListener("click", () => Modal.openModal("contributors-modal"), { once: true });
     Setting.onShown();
     $(".splus-settings-tabs").tabs({

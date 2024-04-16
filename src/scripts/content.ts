@@ -30,8 +30,21 @@ function matchPage(...patterns: RegExp[]) {
     return patterns.some(pattern => pattern.test(globalThis.location.pathname));
 }
 
+// function that returns a promise that resolves when the document is ready
+function ready() {
+    return new Promise<void>(resolve => {
+        if (document.readyState != "loading") {
+            resolve();
+        } else {
+            document.addEventListener("DOMContentLoaded", () => resolve());
+        }
+    });
+}
+
 async function load() {
     await initializeAnalytics();
+    await pages.all.preload();
+    await ready();
     await pages.all.load();
 
     if (
