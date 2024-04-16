@@ -125,7 +125,13 @@ footer._2T2dA {
 }
 
 /* This version is used for the old header style (pre 23/24 school year) */
-.use-custom-url #header > header nav > ul > li > a._2JX1Q:not(:has(> div._3UYz2)) {
+.use-custom-url:not(:has(div[data-sgy-sitenav="custom-header-logo"]))
+    #header
+    > header
+    nav
+    > ul
+    > li
+    > a._2JX1Q:not(:has(> div._3UYz2)) {
     background: var(--background-url) no-repeat !important;
     background-image: var(--background-url) !important;
     background-size: 160px !important;
@@ -135,7 +141,14 @@ footer._2T2dA {
 }
 
 /* This version is used for the new header style (23/24 school year) */
-.use-custom-url #header > header nav > ul > li > a._2JX1Q div._3UYz2 {
+.use-custom-url:not(:has(div[data-sgy-sitenav="custom-header-logo"]))
+    #header
+    > header
+    nav
+    > ul
+    > li
+    > a._2JX1Q
+    div._3UYz2 {
     background: var(--background-url) no-repeat !important;
     background-image: var(--background-url) !important;
     background-size: 160px !important;
@@ -146,7 +159,16 @@ footer._2T2dA {
 
 /* March 2024 change to how custom logos are displayed */
 .use-custom-url div[data-sgy-sitenav="custom-header-logo"] {
-    visibility: hidden !important;
+    background: var(--background-url) no-repeat !important;
+    background-image: var(--background-url) !important;
+    background-size: 160px !important;
+    background-position: center center !important;
+    height: 60px !important;
+    margin-top: 0 !important;
+
+    img {
+        visibility: hidden;
+    }
 }
 
 /* links inside the container for the added "Archived Courses" link within the Courses dropdown */
