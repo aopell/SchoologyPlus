@@ -2,8 +2,9 @@ import $ from "jquery";
 import "jquery-ui/ui/widgets/tabs";
 
 import { trackEvent } from "./analytics";
+import { BETA_TESTS, FORCED_BETA_TEST } from "./beta";
 import { createButton, createElement, getBrowser } from "./dom";
-import { BETA_TESTS, Setting, generateDebugInfo } from "./settings";
+import { Setting, generateDebugInfo } from "./settings";
 import Theme from "./theme";
 import { getModalContents, updateSettings } from "./update-settings";
 
@@ -235,7 +236,11 @@ export default class Modal {
                     "",
                     "text",
                     {
-                        enabled: Setting.getValue("analytics") === "enabled",
+                        disabled:
+                            FORCED_BETA_TEST || Setting.getValue("analytics") !== "enabled"
+                                ? true
+                                : undefined,
+                        placeholder: FORCED_BETA_TEST ? FORCED_BETA_TEST : "",
                     },
                     value => value,
                     undefined,
@@ -284,7 +289,7 @@ export default class Modal {
                                 }
                             }
                             Setting.saveModified();
-                            window.open(test_link, "_blank");
+                            window.open(test_link.url, "_blank");
                             location.reload();
                         } else {
                             alert("The βeta Code you entered was invalid");

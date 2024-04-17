@@ -876,16 +876,21 @@ a._3_bfp {
     padding: 5px 8px;
     width: 10px;
     height: 20px;
-}
 
-.splus-beta-container:hover {
-    width: unset;
-    height: unset;
-}
+    &:hover {
+        width: unset;
+        height: unset;
+        max-width: 500px;
+    }
 
-.splus-beta-container h3 {
-    color: var(--contrast-text-color) !important;
-    border-bottom: 1px solid var(--contrast-text-color) !important;
+    h3 {
+        color: var(--contrast-text-color) !important;
+        border-bottom: 1px solid var(--contrast-text-color) !important;
+    }
+
+    a {
+        color: var(--contrast-text-color) !important;
+    }
 }
 
 .splus-beta-tag {

@@ -412,10 +412,6 @@ export const SIDEBAR_SECTIONS = [
 
 export const SIDEBAR_SECTIONS_MAP = Object.fromEntries(SIDEBAR_SECTIONS.map(s => [s.name, s]));
 
-export const BETA_TESTS: Record<string, string | undefined> = {
-    test: "https://schoologypl.us",
-};
-
 /**
  * Returns `true` if current domain is `lms.lausd.net`
  * @returns {boolean}
