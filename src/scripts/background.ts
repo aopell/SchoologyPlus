@@ -212,10 +212,12 @@ function onMessage(
         sendResponse({ success: true });
         return true;
     } else if (request.type == "notification") {
-        updateLastTime(request.timeModified, request.lastTime).then(() => {
-            sendNotification(request.notification, request.name, request.count).then(() => {
-                sendResponse({ success: true });
-            });
+        updateLastTime(request.data.timeModified, request.data.lastTime).then(() => {
+            sendNotification(request.data.notification, request.data.name, request.data.count).then(
+                () => {
+                    sendResponse({ success: true });
+                }
+            );
         });
         return true;
     }
