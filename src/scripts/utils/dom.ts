@@ -173,3 +173,15 @@ export function createSvgLogo(...classes: string[]) {
 
     return svg;
 }
+
+export function waitForElement(selector: string, check_interval = 50): Promise<HTMLElement> {
+    return new Promise(resolve => {
+        let interval = setInterval(() => {
+            let elem = document.querySelector(selector);
+            if (elem) {
+                clearInterval(interval);
+                resolve(elem as HTMLElement);
+            }
+        }, check_interval);
+    });
+}

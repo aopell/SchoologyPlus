@@ -63,48 +63,48 @@ const migrationsTo: {
                 `${EXTENSION_NAME} has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other ${EXTENSION_NAME} users. <a href="${DISCORD_URL}" id="announcement-discord-link" class="splus-track-clicks">Click here</a> to join!`,
                 new Date(2019, 1 /* February - don't you just love JavaScript */, 14)
             ),
-        ]);
+        ]).then(() => {
+            if (getBrowser() !== "Firefox") {
+                let analyticsModalExistsInterval = setInterval(function () {
+                    if (
+                        document.readyState === "complete" &&
+                        document.getElementById("analytics-modal") &&
+                        !document.querySelector(".splus-modal-open")
+                    ) {
+                        clearInterval(analyticsModalExistsInterval);
+                        Modal.openModal("analytics-modal");
+                    }
+                }, 50);
+            }
 
-        if (getBrowser() !== "Firefox") {
-            let analyticsModalExistsInterval = setInterval(function () {
+            let chooseThemeModalExistsInterval = setInterval(function () {
                 if (
                     document.readyState === "complete" &&
-                    document.getElementById("analytics-modal") &&
+                    document.getElementById("choose-theme-modal") &&
                     !document.querySelector(".splus-modal-open")
                 ) {
-                    clearInterval(analyticsModalExistsInterval);
-                    Modal.openModal("analytics-modal");
+                    clearInterval(chooseThemeModalExistsInterval);
+                    Modal.openModal("choose-theme-modal");
                 }
             }, 50);
-        }
 
-        let chooseThemeModalExistsInterval = setInterval(function () {
-            if (
-                document.readyState === "complete" &&
-                document.getElementById("choose-theme-modal") &&
-                !document.querySelector(".splus-modal-open")
-            ) {
-                clearInterval(chooseThemeModalExistsInterval);
-                Modal.openModal("choose-theme-modal");
-            }
-        }, 50);
-
-        var accessToAccountInterval = setInterval(function () {
-            if (
-                document.readyState === "complete" &&
-                !document.querySelector(".splus-modal-open")
-            ) {
-                clearInterval(accessToAccountInterval);
-                if (!Setting.getValue("apistatus")) {
-                    location.pathname = "/api";
+            var accessToAccountInterval = setInterval(function () {
+                if (
+                    document.readyState === "complete" &&
+                    !document.querySelector(".splus-modal-open")
+                ) {
+                    clearInterval(accessToAccountInterval);
+                    if (!Setting.getValue("apistatus")) {
+                        location.pathname = "/api";
+                    }
                 }
-            }
-        }, 50);
+            }, 50);
+        });
     },
     8.0: function (currentVersion, previousVersion) {},
 };
 
-export async function versionSpecificFirstLaunch(currentVersion: string, previousVersion?: string) {
+export function versionSpecificFirstLaunch(currentVersion: string, previousVersion?: string) {
     Logger.log(
         "[Updater] First launch after update, updating to ",
         currentVersion,

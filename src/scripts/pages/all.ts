@@ -58,7 +58,7 @@ export async function load() {
     loadBetaFeatures();
     updateDefaultDomainSetting();
     pageModifications();
-    handleNewVersion();
+    await handleNewVersion();
     loadCourseIcons();
     activateEasterEgg();
     addDarkThemeToggleButton();
@@ -304,8 +304,8 @@ async function handleNewVersion() {
             ],
         } as IziToastSettings);
 
-        await versionSpecificFirstLaunch(currentVersion, newVersion);
-        Setting.setValue("newVersion", chrome.runtime.getManifest().version);
+        versionSpecificFirstLaunch(currentVersion, newVersion);
+        await Setting.setValue("newVersion", chrome.runtime.getManifest().version);
     }
 }
 

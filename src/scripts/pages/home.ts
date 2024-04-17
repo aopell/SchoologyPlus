@@ -4,7 +4,7 @@ import { trackEvent } from "../utils/analytics";
 import { fetchApiJson, getUserId } from "../utils/api";
 import { Broadcast } from "../utils/broadcast";
 import { EXTENSION_NAME, EXTENSION_WEBSITE } from "../utils/constants";
-import { createButton, createElement, createSvgLogo } from "../utils/dom";
+import { createButton, createElement, createSvgLogo, waitForElement } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
 import { SIDEBAR_SECTIONS, SIDEBAR_SECTIONS_MAP, Setting } from "../utils/settings";
@@ -30,67 +30,51 @@ function loadBroadcasts() {
 
     if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
         (async function () {
-            let observer = new MutationObserver(async function (mutations) {
-                if (mutations.length == 0) {
-                    return;
+            await waitForElement("#home-feed-container #edge-filters");
+
+            // we Should only be observing changes to style on homeFeedContainer
+            // style is set on homeFeedContainer whenever Schoology decides to unhide it (static CSS sets display: none), i.e. when it's finished loading
+            // once this happens, we can do our thing
+
+            let unreadBroadcasts: Broadcast[] = Setting.getValue("unreadBroadcasts") || [];
+            let onlineBroadcasts: Broadcast[] = [];
+
+            try {
+                onlineBroadcasts = await (await fetch(`${EXTENSION_WEBSITE}/alert.json`)).json();
+
+                let readBroadcasts = localStorage.getItem("splus-readBroadcasts");
+                let parsedReadBroadcasts: string[] =
+                    readBroadcasts === null ? [] : JSON.parse(readBroadcasts);
+
+                onlineBroadcasts = onlineBroadcasts.filter(
+                    b =>
+                        !parsedReadBroadcasts.includes(b.id) &&
+                        !unreadBroadcasts.map(u => u.id).includes(b.id)
+                );
+
+                for (let onlineBroadcast of onlineBroadcasts) {
+                    onlineBroadcast.title = DOMPurify.sanitize(onlineBroadcast.title);
+                    onlineBroadcast.message = DOMPurify.sanitize(onlineBroadcast.message);
                 }
+            } catch (err) {
+                // Ignore
+            }
 
-                // we Should only be observing changes to style on homeFeedContainer
-                // style is set on homeFeedContainer whenever Schoology decides to unhide it (static CSS sets display: none), i.e. when it's finished loading
-                // once this happens, we can do our thing
-
-                let unreadBroadcasts: Broadcast[] = Setting.getValue("unreadBroadcasts") || [];
-                let onlineBroadcasts: Broadcast[] = [];
-
-                try {
-                    onlineBroadcasts = await (
-                        await fetch(`${EXTENSION_WEBSITE}/alert.json`)
-                    ).json();
-
-                    let readBroadcasts = localStorage.getItem("splus-readBroadcasts");
-                    let parsedReadBroadcasts: string[] =
-                        readBroadcasts === null ? [] : JSON.parse(readBroadcasts);
-
-                    onlineBroadcasts = onlineBroadcasts.filter(
-                        b =>
-                            !parsedReadBroadcasts.includes(b.id) &&
-                            !unreadBroadcasts.map(u => u.id).includes(b.id)
-                    );
-
-                    for (let onlineBroadcast of onlineBroadcasts) {
-                        onlineBroadcast.title = DOMPurify.sanitize(onlineBroadcast.title);
-                        onlineBroadcast.message = DOMPurify.sanitize(onlineBroadcast.message);
-                    }
-                } catch (err) {
-                    // Ignore
+            let unexpiredBroadcasts: Broadcast[] = [];
+            for (let broadcast of [...unreadBroadcasts, ...onlineBroadcasts]) {
+                if (
+                    (!broadcast.expires || broadcast.expires > Date.now()) &&
+                    (!broadcast.version ||
+                        compareVersions(chrome.runtime.getManifest().version, broadcast.version) >=
+                            0)
+                ) {
+                    feed?.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
+                    unexpiredBroadcasts.push(broadcast);
                 }
+            }
 
-                let unexpiredBroadcasts: Broadcast[] = [];
-                for (let broadcast of [...unreadBroadcasts, ...onlineBroadcasts]) {
-                    if (
-                        (!broadcast.expires || broadcast.expires > Date.now()) &&
-                        (!broadcast.version ||
-                            compareVersions(
-                                chrome.runtime.getManifest().version,
-                                broadcast.version
-                            ) >= 0)
-                    ) {
-                        feed?.insertAdjacentElement("afterbegin", postFromBroadcast(broadcast));
-                        unexpiredBroadcasts.push(broadcast);
-                    }
-                }
-
-                // remove expired broadcasts
-                Setting.setValue("unreadBroadcasts", unexpiredBroadcasts);
-
-                // then disconnect
-                observer.disconnect();
-            });
-
-            observer.observe(homeFeedContainer, {
-                attributes: true,
-                attributeFilter: ["style"],
-            });
+            // remove expired broadcasts
+            Setting.setValue("unreadBroadcasts", unexpiredBroadcasts);
         })();
     }
 }
