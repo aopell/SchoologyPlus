@@ -1,5 +1,6 @@
 import { trackEvent } from "../utils/analytics";
 import { getUserId } from "../utils/api";
+import { DISCORD_URL, EXTENSION_NAME, EXTENSION_WEBSITE } from "../utils/constants";
 import { createButton, createElement } from "../utils/dom";
 import { Setting } from "../utils/settings";
 
@@ -61,12 +62,11 @@ function createRequestPermissionScreen(
                 ]),
                 createElement("div", ["splus-permissions-header"], {}, [
                     createElement("h2", ["splus-permissions-title"], {
-                        textContent: "Schoology Plus Needs Access to Your Account",
+                        textContent: `${EXTENSION_NAME} Needs Access to Your Account`,
                     }),
                     createElement("p", ["splus-permissions-description"], {}, [
                         createElement("span", [], {
-                            textContent:
-                                "Due to a new security feature, Schoology Plus needs access to your Schoology API Key for the following features to work correctly:",
+                            textContent: `Due to a new security feature, ${EXTENSION_NAME} needs access to your Schoology API Key for the following features to work correctly:`,
                         }),
                         createElement("div", ["splus-permissions-section"], {}, [
                             createElement("ul", ["splus-permissions-features-list"], {}, [
@@ -77,12 +77,11 @@ function createRequestPermissionScreen(
                             ]),
                         ]),
                         createElement("span", [], {
-                            textContent:
-                                "By providing access to your API key, Schoology Plus can view extra details about the courses you're enrolled in.",
+                            textContent: `By providing access to your API key, ${EXTENSION_NAME} can view extra details about the courses you're enrolled in.`,
                         }),
                         createElement("div", ["splus-permissions-section"], {}, [
                             createElement("strong", [], {
-                                textContent: "Schoology Plus will never:",
+                                textContent: `${EXTENSION_NAME} will never:`,
                             }),
                             createElement("ul", ["splus-permissions-never-list"], {}, [
                                 createElement("li", [], {
@@ -108,11 +107,10 @@ function createRequestPermissionScreen(
                             }),
                             createElement("a", [], {
                                 textContent: " contact us on Discord",
-                                href: "https://discord.schoologypl.us",
+                                href: DISCORD_URL,
                             }),
                             createElement("span", [], {
-                                textContent:
-                                    ". You can change this setting at any time in the Schoology Plus settings menu.",
+                                textContent: `. You can change this setting at any time in the ${EXTENSION_NAME} settings menu.`,
                             }),
                         ]),
                     ]),
@@ -176,7 +174,7 @@ function createRequestPermissionScreen(
 
 async function denyApiAccess() {
     alert(
-        "API key access was denied. Please keep in mind many Schoology Plus features will not work correctly with this disabled. You can change this at any time from the Schoology Plus settings menu."
+        `API key access was denied. Please keep in mind many ${EXTENSION_NAME} features will not work correctly with this disabled. You can change this at any time from the ${EXTENSION_NAME} settings menu.`
     );
     trackEvent("update_setting", {
         id: "apistatus",
@@ -204,13 +202,12 @@ function handleMissingApiPermissions() {
             },
             [
                 createElement("span", [], {
-                    textContent:
-                        "It looks like your school or district has disabled API Key generation. Unfortunately, this means the above features will not work. The rest of Schoology Plus' features will still work, though!",
+                    textContent: `It looks like your school or district has disabled API Key generation. Unfortunately, this means the above features will not work. The rest of ${EXTENSION_NAME}' features will still work, though!`,
                 }),
 
                 createElement("div", ["splus-permissions-section"], {}, [
                     createElement("a", ["splus-permissions-link", "splus-track-clicks"], {
-                        href: "https://schoologypl.us/docs/faq/api",
+                        href: `${EXTENSION_WEBSITE}/docs/faq/api`,
                         textContent: "Click Here to Read More",
                         id: "api-key-disabled-read-more",
                     }),

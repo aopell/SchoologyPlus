@@ -2,6 +2,7 @@ export * as analytics from "./analytics";
 export * as api from "./api";
 export * as beta from "./beta";
 export * as broadcast from "./broadcast";
+export * as constants from "./constants";
 export * as defaultIcons from "./default-icons";
 export * as defaultThemes from "./default-themes";
 export * as dom from "./dom";

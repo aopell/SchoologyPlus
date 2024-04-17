@@ -1,4 +1,5 @@
 import { trackEvent } from "../utils/analytics";
+import { EXTENSION_NAME } from "../utils/constants";
 import { createButton, createElement, createSvgLogo } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal, { modalFooterText } from "../utils/modal";
@@ -123,8 +124,7 @@ function createCourseSettingsModal() {
                             ]
                         ),
                         createElement("p", ["setting-description"], {
-                            textContent:
-                                "Use Schoology's icon for this course instead of the Schoology Plus themed icon regardless of the global Schoology Plus setting",
+                            textContent: `Use Schoology's icon for this course instead of the ${EXTENSION_NAME} themed icon regardless of the global ${EXTENSION_NAME} setting`,
                         }),
                     ]),
                 ]),
@@ -410,8 +410,8 @@ function setCourseOptionsContent(modal: Modal, options: Record<string, string>) 
                 ),
                 createElement("p", ["setting-description"], {
                     textContent: iconExists
-                        ? "Request that Schoology Plus change the built-in course icon for this course"
-                        : "Request that Schoology Plus adds a built-in course icon for this course",
+                        ? `Request that ${EXTENSION_NAME} change the built-in course icon for this course`
+                        : `Request that ${EXTENSION_NAME} adds a built-in course icon for this course`,
                 }),
             ])
         );

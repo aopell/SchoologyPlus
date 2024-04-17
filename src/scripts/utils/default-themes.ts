@@ -1,3 +1,4 @@
+import { DEFAULT_THEME_NAME } from "./constants";
 import { SchoologyThemeV2 } from "./theme-model";
 
 export const LAUSD_THEMES = ["LAUSD Orange", "LAUSD Dark Blue", "LAUSD 2019"];
@@ -225,7 +226,7 @@ export const DEFAULT_THEMES: SchoologyThemeV2[] = [
         },
     },
     {
-        name: "Schoology Plus",
+        name: DEFAULT_THEME_NAME,
         version: 2,
         color: {
             hue: 210,

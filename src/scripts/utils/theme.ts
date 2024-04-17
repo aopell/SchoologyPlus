@@ -1,3 +1,4 @@
+import { DEFAULT_THEME_NAME, EXTENSION_NAME } from "./constants";
 import { DEFAULT_ICONS } from "./default-icons";
 import { DEFAULT_THEMES } from "./default-themes";
 import { setCSSVariable } from "./dom";
@@ -264,11 +265,11 @@ export default class Theme {
     static get active(): Theme {
         return Theme.tempTheme
             ? Theme.byName(Theme.tempTheme)
-            : Theme.byName(Setting.getValue<string>("theme")) || Theme.byName("Schoology Plus");
+            : Theme.byName(Setting.getValue<string>("theme")) || Theme.byName(DEFAULT_THEME_NAME);
     }
 
     static byName(name?: string): Theme {
-        return Theme.themes.find(x => x?.name == name) || Theme.byName("Schoology Plus");
+        return Theme.themes.find(x => x?.name == name) || Theme.byName(DEFAULT_THEME_NAME);
     }
 
     static setBackgroundColor(
@@ -605,8 +606,8 @@ export default class Theme {
                 "Request New Course Icons?",
                 `${coursesMissingDefaultIcons.size} ${
                     coursesMissingDefaultIcons.size == 1
-                        ? "course is missing a Schoology Plus course icon. Would you like to request that an icon be added for this course?"
-                        : "courses are missing Schoology Plus course icons. Would you like to request that icons be added for these courses?"
+                        ? `course is missing a ${EXTENSION_NAME} course icon. Would you like to request that an icon be added for this course?`
+                        : `courses are missing ${EXTENSION_NAME} course icons. Would you like to request that icons be added for these courses?`
                 }`,
                 "yellow",
                 {

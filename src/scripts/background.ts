@@ -2,6 +2,7 @@ import "webext-dynamic-content-scripts";
 import addDomainPermissionToggle from "webext-permission-toggle";
 
 import { trackEvent } from "./utils/analytics";
+import { DISCORD_URL, EXTENSION_NAME, EXTENSION_WEBSITE } from "./utils/constants";
 import { getBrowser } from "./utils/dom";
 import { Logger } from "./utils/logger";
 import {
@@ -132,7 +133,7 @@ function onInstalled(details: chrome.runtime.InstalledDetails) {
 
     chrome.contextMenus.create({
         id: "splus-website",
-        title: "Schoology Plus Website",
+        title: `${EXTENSION_NAME} Website`,
         contexts: ["action"],
     });
 }
@@ -143,10 +144,10 @@ function onContextMenuClicked(info: chrome.contextMenus.OnClickData, tab?: chrom
             chrome.tabs.create({ url: chrome.runtime.getURL("/theme-editor.html") });
             break;
         case "splus-discord":
-            chrome.tabs.create({ url: "https://discord.schoologypl.us" });
+            chrome.tabs.create({ url: DISCORD_URL });
             break;
         case "splus-website":
-            chrome.tabs.create({ url: "https://schoologypl.us?utm_source=ext-context-menu" });
+            chrome.tabs.create({ url: `${EXTENSION_WEBSITE}/?utm_source=ext-context-menu` });
             break;
     }
 }

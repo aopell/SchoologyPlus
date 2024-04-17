@@ -3,6 +3,7 @@ import M from "materialize-css";
 import "spectrum-colorpicker";
 
 import { initializeAnalytics, trackEvent } from "./utils/analytics";
+import { DEFAULT_THEME_NAME } from "./utils/constants";
 import { DEFAULT_ICONS } from "./utils/default-icons";
 import { CLASSIC_THEMES, DEFAULT_THEMES, LAUSD_THEMES } from "./utils/default-themes";
 import { DeepPartial, createElement, setCSSVariable } from "./utils/dom";
@@ -140,7 +141,7 @@ async function load() {
 
     chrome.storage.sync.get(["theme", "themes"], s => {
         // default theme is "Schoology Plus"
-        s.theme = s.theme || "Schoology Plus";
+        s.theme = s.theme || DEFAULT_THEME_NAME;
 
         for (let t of s.themes || []) {
             allThemes[t.name] = t;

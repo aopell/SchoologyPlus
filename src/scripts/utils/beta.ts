@@ -1,3 +1,4 @@
+import { DISCORD_URL, EXTENSION_NAME } from "./constants";
 import { createElement } from "./dom";
 
 interface BetaTest {
@@ -9,17 +10,15 @@ interface BetaTest {
 }
 
 export const BETA_TESTS: Record<string, BetaTest> = {
-    // test: "https://schoologypl.us",
     mv3: {
         name: "Manifest v3",
-        description:
-            "Schoology Plus is currently being rewritten to use the new Manifest v3 API. The extension has been modified substantially to accommodate this change. Please test as many features as possible and report any issues you encounter.",
-        url: "https://discord.schoologypl.us",
+        description: `${EXTENSION_NAME} is currently being rewritten to use the new Manifest v3 API. The extension has been modified substantially to accommodate this change. Please test as many features as possible and report any issues you encounter.`,
+        url: DISCORD_URL,
         controls: () => {
             return createElement("div", [], {}, [
                 createElement("a", [], {
                     textContent: "Report an Issue on Discord",
-                    href: "https://discord.schoologypl.us",
+                    href: DISCORD_URL,
                 }),
             ]);
         },

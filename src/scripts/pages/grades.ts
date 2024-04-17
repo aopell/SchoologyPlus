@@ -2,6 +2,7 @@ import $ from "jquery";
 
 import { trackEvent } from "../utils/analytics";
 import { fetchApi, fetchApiJson, getUserId } from "../utils/api";
+import { EXTENSION_NAME, EXTENSION_WEBSITE } from "../utils/constants";
 import { createElement, createSvgLogo } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
@@ -189,7 +190,7 @@ function loadContextMenu() {
 }
 
 async function activateGradesPage() {
-    Logger.log("Running Schoology Plus grades page improvement script");
+    Logger.log(`Running ${EXTENSION_NAME} grades page improvement script`);
 
     let inner = document.getElementById("main-inner") || document.getElementById("content-wrapper");
     let courses = Array.from(
@@ -900,7 +901,7 @@ async function activateGradesPage() {
                     "a",
                     ["splus-grade-help-btn"],
                     {
-                        href: "https://schoologypl.us/docs/grades",
+                        href: `${EXTENSION_WEBSITE}/docs/grades`,
                         target: "_blank",
                     },
                     [createElement("span", ["icon-help"])]
@@ -984,7 +985,7 @@ async function activateGradesPage() {
 
                         if (
                             confirm(
-                                "Grade editing has been disabled due to an error. If you are trying to use What If Grades on the grade report page, try going to an individual class gradebook instead. If you are consistently getting this error, please reach out to the Schoology Plus Discord server."
+                                `Grade editing has been disabled due to an error. If you are trying to use What If Grades on the grade report page, try going to an individual class gradebook instead. If you are consistently getting this error, please reach out to the ${EXTENSION_NAME} Discord server.`
                             )
                         ) {
                             // window.open(`${BUG_REPORT_FORM_LINK}${encodeURIComponent(JSON.stringify(editDisableReason))}`, "_blank");
@@ -1976,7 +1977,7 @@ async function activateGradesPage() {
             );
             let letterGrade = getLetterGrade(gradingScale, percent);
             elem.textContent = `${letterGrade} (${percent}%)`;
-            elem.title = `Letter grade calculated by Schoology Plus using the following grading scale:\n${Object.keys(
+            elem.title = `Letter grade calculated by ${EXTENSION_NAME} using the following grading scale:\n${Object.keys(
                 gradingScale
             )
                 .sort((a, b) => Number.parseFloat(a) - Number.parseFloat(b))

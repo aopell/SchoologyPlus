@@ -1,6 +1,7 @@
 import $ from "jquery";
 import "jquery-ui/ui/widgets/sortable";
 
+import { DEFAULT_THEME_NAME, EXTENSION_NAME } from "./constants";
 import { DEFAULT_THEMES, LAUSD_THEMES } from "./default-themes";
 import { createButton, createElement, getBrowser, setCSSVariable } from "./dom";
 import Modal from "./modal";
@@ -80,8 +81,8 @@ export async function updateSettings() {
                 new Setting(
                     "theme",
                     "Theme",
-                    "Change the theme of Schoology Plus",
-                    "Schoology Plus",
+                    `Change the theme of ${EXTENSION_NAME}`,
+                    DEFAULT_THEME_NAME,
                     "select",
                     {
                         options: [
@@ -135,7 +136,7 @@ export async function updateSettings() {
                 new Setting(
                     "useDefaultIconSet",
                     "Use Built-In Icon Set",
-                    `[Refresh required] Use Schoology Plus's <a href="${chrome.runtime.getURL(
+                    `[Refresh required] Use ${EXTENSION_NAME}'s <a href="${chrome.runtime.getURL(
                         "/default-icons.html"
                     )}" target="_blank">default course icons</a> as a fallback when a custom icon has not been specified. NOTE: these icons were meant for schools in Los Angeles Unified School District and may not work correctly for other schools.`,
                     isLAUSD() ? "enabled" : "disabled",
@@ -555,7 +556,7 @@ export async function updateSettings() {
                 new Setting(
                     "broadcasts",
                     "Announcement Notifications",
-                    "Displays news feed posts for announcements sent to all Schoology Plus users",
+                    `Displays news feed posts for announcements sent to all ${EXTENSION_NAME} users`,
                     "enabled",
                     "select",
                     {
@@ -630,8 +631,7 @@ export async function updateSettings() {
                         }),
                     ]),
                     createElement("p", ["setting-description"], {
-                        textContent:
-                            "Grant Schoology Plus access to your Schoology API Key so many features can function, or revoke that access.",
+                        textContent: `Grant ${EXTENSION_NAME} access to your Schoology API Key so many features can function, or revoke that access.`,
                     }),
                 ]),
                 getBrowser() !== "Firefox"
@@ -645,8 +645,7 @@ export async function updateSettings() {
                               }),
                           ]),
                           createElement("p", ["setting-description"], {
-                              textContent:
-                                  "[Reload required] Allow Schoology Plus to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy.",
+                              textContent: `[Reload required] Allow ${EXTENSION_NAME} to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy.`,
                           }),
                       ])
                     : noControl,

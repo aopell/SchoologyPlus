@@ -1,5 +1,6 @@
 import { trackEvent } from "./analytics";
 import { createBroadcast, saveBroadcasts } from "./broadcast";
+import { DISCORD_URL, EXTENSION_NAME } from "./constants";
 import { getBrowser } from "./dom";
 import { Logger } from "./logger";
 import Modal from "./modal";
@@ -58,8 +59,8 @@ const migrationsTo: {
         saveBroadcasts([
             createBroadcast(
                 510,
-                "Schoology Plus Discord Server",
-                'Schoology Plus has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other Schoology Plus users. <a href="https://discord.schoologypl.us" id="announcement-discord-link" class="splus-track-clicks">Click here</a> to join!',
+                `${EXTENSION_NAME} Discord Server`,
+                `${EXTENSION_NAME} has a Discord server where you can offer feature suggestions, report bugs, get support, or just talk with other ${EXTENSION_NAME} users. <a href="${DISCORD_URL}" id="announcement-discord-link" class="splus-track-clicks">Click here</a> to join!`,
                 new Date(2019, 1 /* February - don't you just love JavaScript */, 14)
             ),
         ]);

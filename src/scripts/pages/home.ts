@@ -3,6 +3,7 @@ import DOMPurify from "dompurify";
 import { trackEvent } from "../utils/analytics";
 import { fetchApiJson, getUserId } from "../utils/api";
 import { Broadcast } from "../utils/broadcast";
+import { EXTENSION_NAME, EXTENSION_WEBSITE } from "../utils/constants";
 import { createButton, createElement, createSvgLogo } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
@@ -43,7 +44,7 @@ function loadBroadcasts() {
 
                 try {
                     onlineBroadcasts = await (
-                        await fetch("https://schoologypl.us/alert.json")
+                        await fetch(`${EXTENSION_WEBSITE}/alert.json`)
                     ).json();
 
                     let readBroadcasts = localStorage.getItem("splus-readBroadcasts");
@@ -117,7 +118,7 @@ function postFromBroadcast(broadcast: Broadcast) {
                             createElement(
                                 "a",
                                 ["sExtlink-processed"],
-                                { href: "", title: "Schoology Plus Broadcast" },
+                                { href: "", title: `${EXTENSION_NAME} Broadcast` },
                                 [
                                     createElement("div", ["profile-picture-wrapper"], {}, [
                                         createElement("div", ["profile-picture"], {}, [
@@ -126,7 +127,7 @@ function postFromBroadcast(broadcast: Broadcast) {
                                                 ["imagecache", "imagecache-profile_sm"],
                                                 {
                                                     src: chrome.runtime.getURL("imgs/icon@128.png"),
-                                                    alt: "Schoology Plus Logo",
+                                                    alt: `${EXTENSION_NAME} Logo`,
                                                 }
                                             ),
                                         ]),
@@ -139,7 +140,7 @@ function postFromBroadcast(broadcast: Broadcast) {
                         createElement("span", ["edge-sentence"], {}, [
                             createElement("div", ["update-sentence-inner"], {}, [
                                 createElement("a", ["sExtlink-processed"], {
-                                    textContent: "SCHOOLOGY PLUS",
+                                    textContent: EXTENSION_NAME.toUpperCase(),
                                 }),
                                 createElement("span", ["blue-arrow-right"], {}, [
                                     createElement("span", ["visually-hidden"], {
@@ -147,7 +148,7 @@ function postFromBroadcast(broadcast: Broadcast) {
                                     }),
                                 ]),
                                 createElement("a", ["sExtlink-processed"], {
-                                    textContent: "Schoology Plus Announcements",
+                                    textContent: `${EXTENSION_NAME} Announcements`,
                                 }),
                                 createElement("span", ["splus-broadcast-close"], {
                                     textContent: "×",
@@ -300,9 +301,8 @@ async function createQuickAccess() {
     let linkWrap;
 
     let wrapper = createElement("div", ["quick-access-wrapper"], {}, [
-        createElement("h3", ["h3-med"], { title: "Added by Schoology Plus" }, [
+        createElement("h3", ["h3-med"], { title: `Added by ${EXTENSION_NAME}` }, [
             createSvgLogo("splus-logo-inline"),
-            // createElement("img", ["splus-logo-inline"], { src: chrome.runtime.getURL("imgs/plus-icon.png"), title: "Provided by Schoology Plus" }),
             createElement("span", [], { textContent: "Quick Access" }),
             createElement("a", ["quick-right-link", "splus-track-clicks"], {
                 id: "quick-access-splus-settings",

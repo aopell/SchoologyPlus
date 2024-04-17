@@ -1,4 +1,5 @@
 import { trackEvent } from "./analytics";
+import { EXTENSION_NAME } from "./constants";
 import { createElement, getBrowser } from "./dom";
 
 export type HTMLElementWithValue = HTMLElement & { value: any };
@@ -234,7 +235,7 @@ export class Setting {
         });
         if (
             confirm(
-                "Are you sure you want to import settings? Importing invalid or malformed settings will most likely break Schoology Plus."
+                `Are you sure you want to import settings? Importing invalid or malformed settings will most likely break ${EXTENSION_NAME}.`
             )
         ) {
             let importedSettings = prompt("Please paste settings to import below:");
@@ -251,7 +252,7 @@ export class Setting {
                         legacyLabel: "Setting",
                     });
                     alert(
-                        "Successfully imported settings. If Schoology Plus breaks, please restore defaults or reinstall. Reloading page."
+                        `Successfully imported settings. If ${EXTENSION_NAME} breaks, please restore defaults or reinstall. Reloading page.`
                     );
                     location.reload();
                 });

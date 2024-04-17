@@ -3,20 +3,21 @@ import "jquery-ui/ui/widgets/tabs";
 
 import { trackEvent } from "./analytics";
 import { BETA_TESTS, FORCED_BETA_TEST } from "./beta";
+import { DEFAULT_THEME_NAME, DISCORD_URL, EXTENSION_NAME, EXTENSION_WEBSITE } from "./constants";
 import { createButton, createElement, getBrowser } from "./dom";
 import { Setting, generateDebugInfo } from "./settings";
 import Theme from "./theme";
 import { getModalContents, updateSettings } from "./update-settings";
 
-const verboseModalFooterText = `&copy; Schoology Plus Contributors 2017-2023 | <a id="open-webstore" class="splus-track-clicks" href="https://schoologypl.us/?utm_source=ext-splus-settings-footer">Schoology Plus v${
+const verboseModalFooterText = `&copy; ${EXTENSION_NAME} Contributors 2017-2023 | <a id="open-webstore" class="splus-track-clicks" href="${EXTENSION_WEBSITE}/?utm_source=ext-splus-settings-footer">${EXTENSION_NAME} v${
     chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version
 }${
     getBrowser() != "Chrome" || (chrome.runtime.getManifest() as any).update_url ? "" : " dev"
-}</a> | <a href="https://discord.schoologypl.us" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the Schoology Plus community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="https://schoologypl.us/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
-export const modalFooterText = "Schoology Plus &copy; Schoology Plus Contributors 2017-2023";
+}</a> | <a href="${DISCORD_URL}" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the ${EXTENSION_NAME} community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="${EXTENSION_WEBSITE}/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
+export const modalFooterText = `${EXTENSION_NAME} &copy; ${EXTENSION_NAME} Contributors 2017-2023`;
 
 const changelogIFrame = document.createElement("iframe");
-changelogIFrame.src = `https://schoologypl.us/changelog?version=${
+changelogIFrame.src = `${EXTENSION_WEBSITE}/changelog?version=${
     chrome.runtime.getManifest().version
 }`;
 
@@ -114,32 +115,31 @@ export default class Modal {
     static modals: Modal[] = [
         new Modal(
             "settings-modal",
-            "Schoology Plus Settings",
+            `${EXTENSION_NAME} Settings`,
             getModalContents(),
             verboseModalFooterText,
             openOptionsMenu
         ),
         new Modal(
             "changelog-modal",
-            "Schoology Plus Changelog",
+            `${EXTENSION_NAME} Changelog`,
             createElement("div", ["splus-modal-contents"], {}, [changelogIFrame]),
             modalFooterText
         ),
         new Modal(
             "analytics-modal",
-            "Schoology Plus",
+            EXTENSION_NAME,
             createElement("div", ["splus-modal-contents"], {}, [
                 createElement("h2", ["setting-entry"], {
                     textContent: "Anonymous Usage Statistics",
                 }),
                 createElement("p", ["setting-description"], { style: { fontSize: "14px" } }, [
                     createElement("span", [], {
-                        textContent:
-                            "Schoology Plus would like to collect anonymous usage statistics to better understand how people use this extension. Per our ",
+                        textContent: `${EXTENSION_NAME} would like to collect anonymous usage statistics to better understand how people use this extension. Per our `,
                     }),
                     createElement("a", ["splus-track-clicks"], {
                         id: "analytics-privacy-policy-link",
-                        href: "https://schoologypl.us/privacy",
+                        href: `${EXTENSION_WEBSITE}/privacy`,
                         textContent: "privacy policy",
                     }),
                     createElement("strong", [], {
@@ -155,11 +155,10 @@ export default class Modal {
                             textContent: "We encourage you to leave this enabled",
                         }),
                         createElement("span", [], {
-                            textContent:
-                                " so we can better understand how people use Schoology Plus, and we promise to be transparent about what we collect by providing aggregated statistics periodically in our ",
+                            textContent: ` so we can better understand how people use ${EXTENSION_NAME}, and we promise to be transparent about what we collect by providing aggregated statistics periodically in our `,
                         }),
                         createElement("a", [], {
-                            href: "https://discord.schoologypl.us",
+                            href: DISCORD_URL,
                             textContent: "Discord server.",
                         }),
                     ]
@@ -167,7 +166,7 @@ export default class Modal {
                 new Setting(
                     "analytics",
                     "Anonymous Usage Statistics",
-                    "[Reload required] Allow Schoology Plus to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy.",
+                    `[Reload required] Allow ${EXTENSION_NAME} to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy.`,
                     getBrowser() === "Firefox" ? "disabled" : "enabled",
                     "select",
                     {
@@ -188,8 +187,7 @@ export default class Modal {
                 ).control,
                 createElement("p", ["setting-description"], {
                     style: { fontSize: "14px", paddingTop: "10px" },
-                    textContent:
-                        "You can change your choice at any point in Schoology Plus settings",
+                    textContent: `You can change your choice at any point in ${EXTENSION_NAME} settings`,
                 }),
                 createElement("div", ["settings-buttons-wrapper"], undefined, [
                     createButton("save-analytics-settings", "Save and Close", () => {
@@ -202,17 +200,16 @@ export default class Modal {
         ),
         new Modal(
             "beta-modal",
-            "Schoology Plus βeta",
+            `${EXTENSION_NAME} βeta`,
             createElement("div", ["splus-modal-contents"], {}, [
                 createElement("h2", ["setting-entry"], { textContent: "Enable βeta Testing" }),
                 createElement("p", ["setting-description"], { style: { fontSize: "14px" } }, [
                     createElement("span", [], {
-                        textContent:
-                            "If you have been given a Schoology Plus βeta code, you can enter it below to enable that beta test. If you don't know what this is, you should probably close this window, or you can ",
+                        textContent: `If you have been given a ${EXTENSION_NAME} βeta code, you can enter it below to enable that beta test. If you don't know what this is, you should probably close this window, or you can `,
                     }),
                     createElement("a", ["splus-track-clicks"], {
                         id: "beta-discord-link",
-                        href: "https://discord.schoologypl.us",
+                        href: DISCORD_URL,
                         textContent: "join our Discord server",
                     }),
                     createElement("span", [], { textContent: " if you want to learn more." }),
@@ -231,8 +228,8 @@ export default class Modal {
                 ),
                 new Setting(
                     "beta",
-                    "Schoology Plus βeta Code",
-                    "[Reload required] Enables a beta test of a new Schoology Plus feature if you enter a valid code",
+                    `${EXTENSION_NAME} βeta Code`,
+                    `[Reload required] Enables a beta test of a new ${EXTENSION_NAME} feature if you enter a valid code`,
                     "",
                     "text",
                     {
@@ -301,7 +298,7 @@ export default class Modal {
         ),
         new Modal(
             "contributors-modal",
-            "Schoology Plus Contributors",
+            `${EXTENSION_NAME} Contributors`,
             createElement("div", ["splus-modal-contents"], undefined, [
                 createElement("h2", ["setting-entry"], { textContent: "Lead Developers" }),
                 createElement("div", ["setting-entry"], {}, [
@@ -322,7 +319,9 @@ export default class Modal {
                             textContent: "Glen Husman (@glen3b)",
                         }),
                     ]),
-                    createElement("p", ["setting-description"], { textContent: "Lead developer" }),
+                    createElement("p", ["setting-description"], {
+                        textContent: "Developer emeritus",
+                    }),
                 ]),
                 createElement("h2", ["setting-entry"], { textContent: "Code Contributions" }),
                 createElement("div", ["setting-entry"], {}, [
@@ -466,15 +465,13 @@ export default class Modal {
                         textContent: "Would you like to contribute?",
                     }),
                     createElement("p", ["setting-description"], {
-                        innerHTML:
-                            'Please see our <a href="https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md">contributing guidelines</a> for various ways you can help in the development of Schoology Plus. Thanks for your interest in contributing!',
+                        innerHTML: `Please see our <a href="https://github.com/aopell/SchoologyPlus/blob/develop/CONTRIBUTING.md">contributing guidelines</a> for various ways you can help in the development of ${EXTENSION_NAME}. Thanks for your interest in contributing!`,
                     }),
                 ]),
                 createElement("div", ["setting-entry"], {}, [
                     createElement("h3", ["setting-title"], { textContent: "Disclaimer" }),
                     createElement("p", ["setting-description"], {
-                        textContent:
-                            "Schoology Plus is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners.",
+                        textContent: `${EXTENSION_NAME} is not affiliated with Schoology Inc. or the Los Angeles Unified School District. Schoology, the SCHOOLOGY® wordmark, and the S logo are registered and unregistered trademarks of Schoology, Inc. in the United States. All product names, logos, and brands are property of their respective owners.`,
                     }),
                 ]),
             ]),
@@ -482,12 +479,11 @@ export default class Modal {
         ),
         new Modal(
             "choose-theme-modal",
-            "Schoology Plus Themes",
+            `${EXTENSION_NAME} Themes`,
             createElement("div", ["splus-modal-contents"], {}, [
                 createElement("h2", ["setting-entry"], { textContent: "Choose a New Theme!" }),
                 createElement("p", ["setting-description"], {
-                    textContent:
-                        "Schoology Plus has a bunch of new themes! Choose one from below, make your own, or keep your current theme. It's your choice! Click on each theme for a preview and then click the button to confirm your choice. You can change your theme at any time in Schoology Plus Settings.",
+                    textContent: `${EXTENSION_NAME} has a bunch of new themes! Choose one from below, make your own, or keep your current theme. It's your choice! Click on each theme for a preview and then click the button to confirm your choice. You can change your theme at any time in ${EXTENSION_NAME} Settings.`,
                     style: { fontSize: "14px", paddingBottom: "10px" },
                 }),
                 createElement(
@@ -507,20 +503,20 @@ export default class Modal {
                         },
                         { text: "Modern Rainbow Theme", theme: "Rainbow Modern", new: true },
                         {
-                            text: "Schoology Plus Classic Theme",
-                            theme: "Schoology Plus",
-                            active: Theme.active.name === "Schoology Plus",
+                            text: `${EXTENSION_NAME} Classic Theme`,
+                            theme: DEFAULT_THEME_NAME,
+                            active: Theme.active.name === DEFAULT_THEME_NAME,
                         },
                         {
                             text: `Keep Current Theme: ${Theme.active.name}`,
                             theme: Theme.active.name,
-                            active: Theme.active.name !== "Schoology Plus",
-                            hidden: Theme.active.name === "Schoology Plus",
+                            active: Theme.active.name !== DEFAULT_THEME_NAME,
+                            hidden: Theme.active.name === DEFAULT_THEME_NAME,
                         },
                         {
                             text: "See More Themes or Make Your Own",
                             theme: Theme.active.name,
-                            extraWide: Theme.active.name === "Schoology Plus",
+                            extraWide: Theme.active.name === DEFAULT_THEME_NAME,
                         },
                     ].map(obj => {
                         return createElement(
