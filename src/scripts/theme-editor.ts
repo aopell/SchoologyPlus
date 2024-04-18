@@ -2,11 +2,11 @@ import $ from "jquery";
 import M from "materialize-css";
 import "spectrum-colorpicker";
 
-import { initializeAnalytics, trackEvent } from "./utils/analytics";
+import { getAnalyticsUserId, initializeAnalytics, trackEvent } from "./utils/analytics";
 import { DEFAULT_THEME_NAME } from "./utils/constants";
 import { DEFAULT_ICONS } from "./utils/default-icons";
 import { CLASSIC_THEMES, DEFAULT_THEMES, LAUSD_THEMES } from "./utils/default-themes";
-import { DeepPartial, createElement, setCSSVariable } from "./utils/dom";
+import { DeepPartial, createElement, getBrowser, setCSSVariable } from "./utils/dom";
 import { Logger } from "./utils/logger";
 import {
     CustomColorDefinition,
@@ -49,9 +49,19 @@ declare global {
 }
 
 async function load() {
-    initializeAnalytics();
-
     __storage = await chrome.storage.sync.get(null);
+
+    await initializeAnalytics({
+        documentContext: true,
+        isAnalyticsEnabled: getBrowser() !== "Firefox" && __storage.analytics !== "disabled",
+        selectedTheme: __storage.theme ?? "<unset>",
+        selectedBeta: __storage.beta ?? "<unset>",
+        currentVersion: chrome.runtime.getManifest().version,
+        newVersion: __storage.newVersion ?? "<unset>",
+        randomUserId: await getAnalyticsUserId(),
+        themeIsModern: document.documentElement.getAttribute("modern") ?? "false",
+    });
+
     defaultDomain = __storage.defaultDomain || "app.schoology.com";
 
     if (isLAUSD()) {

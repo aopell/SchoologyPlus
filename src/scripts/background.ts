@@ -1,7 +1,7 @@
 import "webext-dynamic-content-scripts";
 import addDomainPermissionToggle from "webext-permission-toggle";
 
-import { trackEvent } from "./utils/analytics";
+import { getAnalyticsUserId } from "./utils/analytics";
 import { DISCORD_URL, EXTENSION_NAME, EXTENSION_WEBSITE } from "./utils/constants";
 import { getBrowser } from "./utils/dom";
 import { Logger } from "./utils/logger";
@@ -56,7 +56,7 @@ async function onActionClicked() {
     let badgeText = await chrome.action.getBadgeText({});
     let n = Number.parseInt(badgeText);
 
-    trackEvent("button_click", {
+    trackAnalyticsEvent("button_click", {
         id: "main-browser-action-button",
         context: "Browser Action",
         value: String(n || 0),
@@ -73,7 +73,7 @@ async function onActionClicked() {
 
 function onNotificationClicked(id: string) {
     Logger.log("Notification clicked");
-    trackEvent("perform_action", {
+    trackAnalyticsEvent("perform_action", {
         id: "click",
         context: "Notifications",
         value: id,
@@ -110,7 +110,7 @@ async function onAlarm(alarm: chrome.alarms.Alarm) {
 }
 
 function onInstalled(details: chrome.runtime.InstalledDetails) {
-    trackEvent("perform_action", {
+    trackAnalyticsEvent("perform_action", {
         id: "runtime_oninstalled",
         value: details.reason,
         context: "Versions",
@@ -242,13 +242,7 @@ async function checkForNotifications() {
     // Do below only in Chrome
 
     // Create an offscreen document if one doesn't exist yet
-    if (!(await hasOffscreenDocument())) {
-        await chrome.offscreen.createDocument({
-            url: OFFSCREEN_DOCUMENT_PATH,
-            reasons: [chrome.offscreen.Reason.DOM_PARSER],
-            justification: "Parse Schoology notifications, which are returned from the API as HTML",
-        });
-    }
+    await createOffscreenDocument();
     // Now that we have an offscreen document, we can dispatch the
     // message.
     chrome.runtime.sendMessage({
@@ -260,6 +254,21 @@ async function checkForNotifications() {
 
 declare var clients: { matchAll: () => Promise<{ url: string }[]> };
 
+async function createOffscreenDocument() {
+    try {
+        if (!(await hasOffscreenDocument())) {
+            await chrome.offscreen.createDocument({
+                url: OFFSCREEN_DOCUMENT_PATH,
+                reasons: [chrome.offscreen.Reason.DOM_PARSER],
+                justification:
+                    "Parse Schoology notifications, which are returned from the API as HTML",
+            });
+        }
+    } catch (e) {
+        Logger.warn("Error creating offscreen document, it probably already exists", e);
+    }
+}
+
 async function hasOffscreenDocument() {
     // Check all windows controlled by the service worker if one of them is the offscreen document
     const matchedClients = await clients.matchAll();
@@ -269,6 +278,27 @@ async function hasOffscreenDocument() {
         }
     }
     return false;
+}
+
+async function trackAnalyticsEvent(name: string, props: any) {
+    await createOffscreenDocument();
+    let storageContents = await chrome.storage.sync.get(null);
+    chrome.runtime.sendMessage({
+        type: "offscreen-analytics",
+        target: "offscreen",
+        data: {
+            name,
+            props,
+            settings: {
+                analytics: storageContents.analytics,
+                theme: storageContents.theme,
+                beta: storageContents.beta,
+                version: chrome.runtime.getManifest().version,
+                newVersion: storageContents.newVersion,
+                randomUserId: getAnalyticsUserId(),
+            },
+        },
+    });
 }
 
 load();

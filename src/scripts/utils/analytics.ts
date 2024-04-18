@@ -34,7 +34,7 @@ export var trackEvent = function (
     console.debug("[S+] Tracking disabled by user", arguments);
 };
 
-export async function initializeAnalytics() {
+export async function getAnalyticsUserId() {
     function getRandomToken() {
         // E.g. 8 * 32 = 256 bits token
         var randomPool = new Uint8Array(32);
@@ -47,31 +47,41 @@ export async function initializeAnalytics() {
         return hex;
     }
 
-    let s = await chrome.storage.sync.get({
-        analytics: getBrowser() === "Firefox" ? "disabled" : "enabled",
-        theme: "<unset>",
-        beta: "<unset>",
-        newVersion: "<unset>",
-    });
+    let l: { randomUserId?: string } = await chrome.storage.local.get({ randomUserId: null });
 
-    if (s.analytics === "enabled") {
-        let l = await chrome.storage.local.get({ randomUserId: null });
-
-        if (!l.randomUserId) {
-            let randomToken = getRandomToken();
-            await chrome.storage.local.set({ randomUserId: randomToken });
-            enableAnalytics(s.theme, s.beta, s.newVersion, randomToken);
-        } else {
-            enableAnalytics(s.theme, s.beta, s.newVersion, l.randomUserId);
-        }
+    if (!l.randomUserId) {
+        let randomUserId = getRandomToken();
+        await chrome.storage.local.set({ randomUserId });
+        return randomUserId;
     }
 
-    function enableAnalytics(
-        selectedTheme: string,
-        beta: string,
-        newVersion: string,
-        randomUserId: string
-    ) {
+    return l.randomUserId;
+}
+
+export async function initializeAnalytics({
+    documentContext,
+    isAnalyticsEnabled,
+    selectedTheme,
+    selectedBeta,
+    currentVersion,
+    newVersion,
+    randomUserId,
+    themeIsModern,
+}: {
+    documentContext: boolean;
+    isAnalyticsEnabled: boolean;
+    selectedTheme: string | null;
+    selectedBeta: string | null;
+    currentVersion: string;
+    newVersion: string;
+    randomUserId: string;
+    themeIsModern: string;
+}) {
+    if (isAnalyticsEnabled) {
+        enableAnalytics();
+    }
+
+    function enableAnalytics() {
         // Google Analytics v4
 
         (globalThis as any).dataLayer = (globalThis as any).dataLayer || [];
@@ -82,20 +92,22 @@ export async function initializeAnalytics() {
 
         gtag("js", new Date());
 
-        gtag("config", "G-YM6B00RDYC", {
+        const gtagConfig = {
             page_location: location.href.replace(/\/\d{3,}\b/g, "/*"),
             page_path: location.pathname.replace(/\/\d{3,}\b/g, "/*"),
             page_title: null,
             user_id: randomUserId,
             user_properties: {
-                extensionVersion: chrome.runtime.getManifest().version,
-                domain: location.host,
                 theme: selectedTheme,
-                modernTheme: document.documentElement.getAttribute("modern"),
-                activeBeta: beta,
+                activeBeta: selectedBeta,
                 lastEnabledVersion: newVersion,
+                extensionVersion: currentVersion,
+                domain: location.host,
+                modernTheme: themeIsModern,
             },
-        });
+        };
+
+        gtag("config", "G-YM6B00RDYC", gtagConfig);
 
         trackEvent = function (
             eventName,
@@ -135,37 +147,41 @@ export async function initializeAnalytics() {
             });
         }
 
-        let trackedElements = new Set();
-        let observer = new MutationObserver((mutations, mutationObserver) => {
-            for (let elem of document.querySelectorAll(".splus-track-clicks:not(.splus-tracked)")) {
-                if (!trackedElements.has(elem)) {
-                    elem.addEventListener("click", trackClick);
-                    elem.addEventListener("auxclick", trackClick);
-                    elem.classList.add("splus-tracked");
-                    trackedElements.add(elem);
+        if (documentContext) {
+            let trackedElements = new Set();
+            let observer = new MutationObserver((mutations, mutationObserver) => {
+                for (let elem of document.querySelectorAll(
+                    ".splus-track-clicks:not(.splus-tracked)"
+                )) {
+                    if (!trackedElements.has(elem)) {
+                        elem.addEventListener("click", trackClick);
+                        elem.addEventListener("auxclick", trackClick);
+                        elem.classList.add("splus-tracked");
+                        trackedElements.add(elem);
+                    }
                 }
-            }
-        });
-
-        var readyStateCheckInterval = setInterval(function () {
-            if (document.readyState === "complete") {
-                clearInterval(readyStateCheckInterval);
-                init();
-            }
-        }, 10);
-
-        function init() {
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true,
             });
 
-            for (let elem of document.querySelectorAll(".splus-track-clicks")) {
-                if (!trackedElements.has(elem)) {
-                    elem.addEventListener("click", trackClick);
-                    elem.addEventListener("auxclick", trackClick);
-                    elem.classList.add("splus-tracked");
-                    trackedElements.add(elem);
+            var readyStateCheckInterval = setInterval(function () {
+                if (document.readyState === "complete") {
+                    clearInterval(readyStateCheckInterval);
+                    init();
+                }
+            }, 10);
+
+            function init() {
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                });
+
+                for (let elem of document.querySelectorAll(".splus-track-clicks")) {
+                    if (!trackedElements.has(elem)) {
+                        elem.addEventListener("click", trackClick);
+                        elem.addEventListener("auxclick", trackClick);
+                        elem.classList.add("splus-tracked");
+                        trackedElements.add(elem);
+                    }
                 }
             }
         }

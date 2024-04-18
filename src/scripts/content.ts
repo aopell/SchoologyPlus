@@ -1,6 +1,7 @@
 import * as pages from "./pages";
 import * as utils from "./utils";
-import { initializeAnalytics } from "./utils/analytics";
+import { getAnalyticsUserId, initializeAnalytics } from "./utils/analytics";
+import { getBrowser } from "./utils/dom";
 import { Setting, generateDebugInfo } from "./utils/settings";
 
 declare global {
@@ -31,8 +32,20 @@ function ready() {
 }
 
 async function load() {
-    await initializeAnalytics();
     await pages.all.preload();
+
+    await initializeAnalytics({
+        documentContext: true,
+        isAnalyticsEnabled:
+            getBrowser() !== "Firefox" && Setting.getValue<string>("analytics") === "enabled",
+        selectedTheme: Setting.getValue<string>("theme", "<unset>"),
+        selectedBeta: Setting.getValue<string>("beta", "<unset>"),
+        currentVersion: chrome.runtime.getManifest().version,
+        newVersion: Setting.getValue<string>("newVersion", "<unset>"),
+        randomUserId: await getAnalyticsUserId(),
+        themeIsModern: document.documentElement.getAttribute("modern") ?? "false",
+    });
+
     await ready();
     await pages.all.load();
 
