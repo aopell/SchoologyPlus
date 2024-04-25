@@ -49,12 +49,12 @@ async function load() {
     await ready();
     await pages.all.load();
 
-    if (
-        matchPage(
-            /^\/grades\/grades$/, // matches /grades/grades
-            /^\/course\/\d+\/student_grades$/ // matches /course/1234/student_grades
-        )
-    ) {
+    const isGradesPage = matchPage(
+        /^\/grades\/grades$/, // matches /grades/grades
+        /^\/course\/\d+\/student_grades$/ // matches /course/1234/student_grades
+    );
+
+    if (isGradesPage) {
         await pages.grades.load();
         await pages.course.load();
     }
@@ -79,6 +79,7 @@ async function load() {
     }
 
     if (
+        !isGradesPage &&
         matchPage(
             /^\/course\/\d+/ // matches /course/1234(...)
         )
