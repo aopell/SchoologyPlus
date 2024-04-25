@@ -74,8 +74,8 @@ async function load() {
             /^\/home\/(recent-activity|course-dashboard)$/ // matches /home/recent-activity and /home/course-dashboard
         )
     ) {
-        await pages.course.load();
         await pages.home.load();
+        await pages.course.load();
     }
 
     if (
