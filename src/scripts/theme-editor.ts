@@ -550,13 +550,14 @@ class PromptModal {
         title: string,
         placeholder: string,
         buttons: string[],
-        callback: (button: string | null, text: string) => void
+        callback: (button: string | null, text: string) => void,
+        className?: string
     ) {
         let content = htmlToElement(`
         <div>
             <h4>${title}</h4>
             <div class="input-field">
-                <textarea id="prompt-modal-textarea" class="materialize-textarea"></textarea>
+                <textarea id="prompt-modal-textarea" class="materialize-textarea ${className}"></textarea>
                 <label for="prompt-modal-textarea">${placeholder}</label>
             </div>
         </div>
@@ -622,7 +623,7 @@ class SettingsModal {
     }
 }
 
-var origThemeName: string;
+var origThemeName: string | undefined = undefined;
 let warnings: string[] = [];
 let errors: string[] = [];
 let theme: SchoologyTheme | null = null;
@@ -666,6 +667,7 @@ function generateErrors(j: SchoologyThemeV2) {
     switch (j.version) {
         case 2:
             if (!j.name) w.push("Theme must have a name");
+            if (!j.color) w.push("Theme must have a color object");
             break;
     }
     return w;
@@ -696,6 +698,9 @@ function migrateTheme(t: SchoologyThemeV2): SchoologyThemeV2 {
     switch (t.version) {
         case 2:
             break;
+        default:
+            errors.push("The theme version is not supported");
+            throw new Error("The theme version is not supported");
     }
     return t.version == CURRENT_VERSION ? t : migrateTheme(t);
 }
@@ -1462,10 +1467,10 @@ function trySaveTheme(apply = false) {
  * If the querystring parameter `theme` exists, it will rename the theme with that value
  * @param {boolean} [apply=false] If true, applies the theme and returns to defaultDomain
  */
-function saveTheme(apply = false, imported = false) {
+function saveTheme(apply = false, imported = false, rawTheme?: SchoologyThemeV2) {
     if (errors.length > 0)
         throw new Error("Please fix all errors before saving the theme:\n" + errors.join("\n"));
-    let t = JSON.parse(output.value);
+    let t: SchoologyThemeV2 = rawTheme ?? JSON.parse(output.value);
     if (origThemeName && t.name != origThemeName) {
         ConfirmModal.open(
             "Rename Theme?",
@@ -1486,9 +1491,9 @@ function saveTheme(apply = false, imported = false) {
         trackEvent("perform_action", {
             id: "logo_type",
             context: "New Theme Created",
-            value: t.logo.preset || "custom",
+            value: t?.logo?.preset || "custom",
             legacyTarget: "logo_type",
-            legacyAction: t.logo.preset || "custom",
+            legacyAction: t?.logo?.preset || "custom",
             legacyLabel: "New Theme Created",
         });
 
@@ -1693,9 +1698,23 @@ function importTheme() {
         (button, text) => {
             if (button === "Import") {
                 try {
-                    let j = JSON.parse(text);
-                    importAndRender(j);
-                    saveTheme(false, true);
+                    let j: SchoologyThemeV2 = JSON.parse(text);
+
+                    errors = [];
+                    warnings = [];
+
+                    let importedTheme = importThemeFromObject(j);
+                    if (!importedTheme) {
+                        throw new Error("Invalid theme object");
+                    }
+                    if (allThemes[importedTheme.name]) {
+                        errors.push(
+                            `A theme with the name "${importedTheme.name}" already exists. Please select a different name.`
+                        );
+                        throw new Error("Theme with name already exists");
+                    }
+                    origThemeName = undefined;
+                    saveTheme(false, true, j);
                 } catch {
                     ConfirmModal.open(
                         "Error Importing Theme",
@@ -1704,7 +1723,8 @@ function importTheme() {
                     );
                 }
             }
-        }
+        },
+        "import-theme"
     );
 }
 

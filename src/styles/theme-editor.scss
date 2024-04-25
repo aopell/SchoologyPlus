@@ -732,6 +732,10 @@ textarea#json-output[readonly] {
     border-bottom: none;
 }
 
+textarea.import-theme {
+    font-family: "Cascadia Code", "Consolas", "Courier New", Courier, monospace;
+}
+
 .show-editor-controls .class-name,
 .show-editor-controls .icon-url {
     box-shadow: inset 0px 0px 4px #666;
