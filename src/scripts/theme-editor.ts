@@ -687,6 +687,7 @@ function importThemeFromOutput() {
 function importAndRender(object: Object | false) {
     errors = [];
     warnings = [];
+    origThemeName = undefined;
     renderTheme(importThemeFromObject(object));
 }
 
@@ -1698,23 +1699,9 @@ function importTheme() {
         (button, text) => {
             if (button === "Import") {
                 try {
-                    let j: SchoologyThemeV2 = JSON.parse(text);
-
-                    errors = [];
-                    warnings = [];
-
-                    let importedTheme = importThemeFromObject(j);
-                    if (!importedTheme) {
-                        throw new Error("Invalid theme object");
-                    }
-                    if (allThemes[importedTheme.name]) {
-                        errors.push(
-                            `A theme with the name "${importedTheme.name}" already exists. Please select a different name.`
-                        );
-                        throw new Error("Theme with name already exists");
-                    }
-                    origThemeName = undefined;
-                    saveTheme(false, true, j);
+                    let j = JSON.parse(text);
+                    importAndRender(j);
+                    saveTheme(false, true);
                 } catch {
                     ConfirmModal.open(
                         "Error Importing Theme",
