@@ -68,7 +68,6 @@ const migrationsTo: {
                 let analyticsModalExistsInterval = setInterval(function () {
                     if (
                         document.readyState === "complete" &&
-                        document.getElementById("analytics-modal") &&
                         !document.querySelector(".splus-modal-open")
                     ) {
                         clearInterval(analyticsModalExistsInterval);
@@ -80,7 +79,6 @@ const migrationsTo: {
             let chooseThemeModalExistsInterval = setInterval(function () {
                 if (
                     document.readyState === "complete" &&
-                    document.getElementById("choose-theme-modal") &&
                     !document.querySelector(".splus-modal-open")
                 ) {
                     clearInterval(chooseThemeModalExistsInterval);
@@ -98,7 +96,7 @@ const migrationsTo: {
                         location.pathname = "/api";
                     }
                 }
-            }, 50);
+            }, 500);
         });
     },
     8.0: function (currentVersion, previousVersion) {},
