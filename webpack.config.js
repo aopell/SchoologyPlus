@@ -98,7 +98,7 @@ const commonConfig = {
 
 const productionConfig = {
     mode: "production",
-    devtool: "source-map",
+    devtool: "inline-source-map",
 };
 
 const developmentConfig = {

@@ -147,7 +147,11 @@ function onContextMenuClicked(info: chrome.contextMenus.OnClickData, tab?: chrom
             chrome.tabs.create({ url: DISCORD_URL });
             break;
         case "splus-website":
-            chrome.tabs.create({ url: `${EXTENSION_WEBSITE}/?utm_source=ext-context-menu` });
+            chrome.tabs.create({
+                url: `${EXTENSION_WEBSITE}/?utm_source=ext-context-menu&utm_content=${
+                    chrome.runtime.getManifest().version
+                }`,
+            });
             break;
     }
 }

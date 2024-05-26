@@ -99,7 +99,18 @@ const migrationsTo: {
             }, 500);
         });
     },
-    8.0: function (currentVersion, previousVersion) {},
+    10.0: function (currentVersion, previousVersion) {
+        if (previousVersion) {
+            saveBroadcasts([
+                createBroadcast(
+                    "update_10",
+                    `New Major Update for ${EXTENSION_NAME}`,
+                    `${EXTENSION_NAME} has been updated to be compatible with Google Chrome's new "Manifest v3" API for browser extensions. All browser extensions are required to use this new API by June of this year, and Schoology Plus has been substantially rewritten in order to support it. <br><br> The update has been tested, but since so much of the extension's code has changed there will likely be some bugs. <br><br> If you notice that anything is not working correctly, please report it to the <a href="${DISCORD_URL}" id="announcement-ver-10-discord-link" class="splus-track-clicks">${EXTENSION_NAME} Discord server</a>. <br><br> <strong>Thanks for using Schoology Plus!</strong>`,
+                    new Date(2024, 4 /* May - don't you just love JavaScript */, 25)
+                ),
+            ]);
+        }
+    },
 };
 
 export function versionSpecificFirstLaunch(currentVersion: string, previousVersion?: string) {

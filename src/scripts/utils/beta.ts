@@ -10,23 +10,23 @@ interface BetaTest {
 }
 
 export const BETA_TESTS: Record<string, BetaTest> = {
-    mv3: {
-        name: "Manifest v3",
-        description: `${EXTENSION_NAME} is currently being rewritten to use the new Manifest v3 API. The extension has been modified substantially to accommodate this change. Please test as many features as possible and report any issues you encounter.`,
-        url: DISCORD_URL,
-        controls: () => {
-            return createElement("div", [], {}, [
-                createElement("a", [], {
-                    textContent: "Report an Issue on Discord",
-                    href: DISCORD_URL,
-                }),
-            ]);
-        },
-        activate: () => {},
-    },
+    // mv3: {
+    //     name: "Manifest v3",
+    //     description: `${EXTENSION_NAME} is currently being rewritten to use the new Manifest v3 API. The extension has been modified substantially to accommodate this change. Please test as many features as possible and report any issues you encounter.`,
+    //     url: DISCORD_URL,
+    //     controls: () => {
+    //         return createElement("div", [], {}, [
+    //             createElement("a", [], {
+    //                 textContent: "Report an Issue on Discord",
+    //                 href: DISCORD_URL,
+    //             }),
+    //         ]);
+    //     },
+    //     activate: () => {},
+    // },
 };
 
-export const FORCED_BETA_TEST: string | undefined = "mv3";
+export const FORCED_BETA_TEST: string | undefined = undefined;
 
 export function createBetaSection(name: string) {
     return createElement("div", ["splus-beta-section"], { id: `splus-beta-section-${name}` }, [

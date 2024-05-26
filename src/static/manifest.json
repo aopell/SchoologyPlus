@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "[BETA] Schoology Plus",
+  "name": "Schoology Plus",
   "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
   "version": "10.0.0",
   "homepage_url": "https://schoologypl.us?utm_source=ext-homepage-link",
@@ -12,7 +12,7 @@
       "64": "imgs/icon@64.png",
       "128": "imgs/icon@128.png"
     },
-    "default_title": "[BETA] Schoology Plus"
+    "default_title": "Schoology Plus"
   },
   "browser_specific_settings": {
     "gecko": {
