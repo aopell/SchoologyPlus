@@ -59,6 +59,7 @@
       "js": [
         "lib/google-analytics.js",
         "lib/jquery.js",
+        "lib/jquery-migrate.js",
         "lib/contextmenu.js",
         "content.js"
       ],

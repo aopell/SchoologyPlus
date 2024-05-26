@@ -90,7 +90,7 @@ async function production() {
         // Zip the temp folder
         console.log(`Zipping build/${nodePackage.version}/${browser}`);
         await execAsync(
-            `zip -r build/${nodePackage.version}/SchoologyPlus-v${nodePackage.version}-${browser}.zip build/${nodePackage.version}/${browser}`
+            `cd build/${nodePackage.version}/${browser} && zip -r ../SchoologyPlus-v${nodePackage.version}-${browser}.zip .`
         );
 
         // Remove the temp folder
