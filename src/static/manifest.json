@@ -1,0 +1,107 @@
+{
+  "manifest_version": 3,
+  "name": "Schoology Plus",
+  "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
+  "version": "10.0.0",
+  "homepage_url": "https://schoologypl.us?utm_source=ext-homepage-link",
+  "action": {
+    "default_icon": {
+      "16": "imgs/icon@16.png",
+      "32": "imgs/icon@32.png",
+      "48": "imgs/icon@48.png",
+      "64": "imgs/icon@64.png",
+      "128": "imgs/icon@128.png"
+    },
+    "default_title": "Schoology Plus"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "schoology.plus@aopell.me",
+      "update_url": "https://schoologypl.us/firefox_updates.json"
+    }
+  },
+  "icons": {
+    "16": "imgs/icon@16.png",
+    "32": "imgs/icon@32.png",
+    "48": "imgs/icon@48.png",
+    "64": "imgs/icon@64.png",
+    "128": "imgs/icon@128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://lms.lausd.net/*",
+        "https://*.schoology.com/*"
+      ],
+      "exclude_matches": [
+        "https://*.schoology.com/login*",
+        "https://*.schoology.com/register*",
+        "*://asset-cdn.schoology.com/*",
+        "*://developer.schoology.com/*",
+        "*://support.schoology.com/*",
+        "*://info.schoology.com/*",
+        "*://files-cdn.schoology.com/*",
+        "*://status.schoology.com/*",
+        "*://ui.schoology.com/*",
+        "*://www.schoology.com/*",
+        "*://api.schoology.com/*",
+        "*://developers.schoology.com/*",
+        "*://schoology.com/*",
+        "*://lti-submission-google.app.schoology.com/*"
+      ],
+      "css": [
+        "styles/all.css",
+        "styles/modern/all.css",
+        "lib/contextmenu.css",
+        "lib/izitoast.css",
+        "lib/jquery-ui.css"
+      ],
+      "js": [
+        "lib/google-analytics.js",
+        "lib/jquery.js",
+        "lib/jquery-migrate.js",
+        "lib/contextmenu.js",
+        "content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications",
+    "cookies",
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "offscreen"
+  ],
+  "optional_permissions": [
+    "<all_urls>"
+  ],
+  "host_permissions": [
+    "*://*.schoology.com/*",
+    "*://lms.lausd.net/*"
+  ],
+  "optional_host_permissions": [
+    "*://*/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "imgs/*",
+        "theme-editor.html",
+        "default-icons.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

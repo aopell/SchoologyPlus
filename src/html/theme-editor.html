@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="/lib/material-icons.css" />
+    <link type="text/css" rel="stylesheet" href="/lib/materialize.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/lib/jquery-ui.css" />
+    <link type="text/css" rel="stylesheet" href="/lib/roundslider.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/spectrum.css">
+    <link type="text/css" rel="stylesheet" href="/styles/theme-editor.css" />
+    <link type="text/css" rel="stylesheet" href="/styles/modern/theme-editor.css" />
+    <link rel="shortcut icon" type="image/png" href="/imgs/icon@128.png" />
+
+    <script src="/lib/jquery.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Theme Editor - Schoology Plus</title>
+
+</head>
+
+<body>
+    <header>
+        <div class="navbar-fixed">
+            <nav class="splus-blue">
+                <div class="nav-wrapper">
+                    <ul id="nav-mobile" class="left">
+                        <li>
+                            <a id="close-button" class="waves-effect waves-light modern-contrast-text" href="#!">
+                                <i class="material-icons left modern-contrast-text">home</i>
+                                SCHOOLOGY HOME
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="brand-logo center truncate modern-contrast-text">
+                        Schoology Plus Theme Editor
+                    </div>
+                    <ul id="nav-mobile" class="right">
+                        <li>
+                            <a id="settings-button" class="waves-effect waves-light modern-contrast-text" href="#!">
+                                <i class="material-icons left modern-contrast-text">settings</i>
+                                SETTINGS
+                            </a>
+                        </li>
+                        <li>
+                            <a class="waves-effect waves-light splus-track-clicks modern-contrast-text"
+                                href="https://schoologypl.us/docs/themes" data-splus-tracking-context="Theme Editor"
+                                id="help-navbar" target="_blank">
+                                <i class="material-icons left modern-contrast-text">help</i>
+                                HELP & DOCUMENTATION
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="container wide-container">
+        <div class="row content-box">
+            <div id="themes-list-section" class="col s12 l4">
+                <div class="section row">
+                    <h5 id="themes-header">
+                        Themes
+                        <a id="create-button" data-splus-tracking-context="Theme Editor"
+                            data-target="create-preset-dropdown"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks dropdown-trigger"><i
+                                class="material-icons" style="vertical-align: sub;">add</i> Create</a>
+                        <a id="import-button" data-splus-tracking-context="Theme Editor"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
+                                class="material-icons" style="vertical-align: sub;">save_alt</i> Import</a>
+
+                        <ul id="create-preset-dropdown" class="dropdown-content modern-accent modern-text">
+                            <li style="pointer-events: none;"><span class="dropdown-header">Choose Preset</span></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a id="create-preset-dark-theme" class="splus-track-clicks"
+                                    data-splus-tracking-context="Theme Editor"><i
+                                        class="material-icons">dark_mode</i>Modern Dark Theme</a></li>
+                            <li><a id="create-preset-light-theme" class="splus-track-clicks"
+                                    data-splus-tracking-context="Theme Editor"><i
+                                        class="material-icons">light_mode</i>Modern Light Theme</a></li>
+                            <li><a id="create-preset-rainbow-theme" class="splus-track-clicks"
+                                    data-splus-tracking-context="Theme Editor"><i class="material-icons">looks</i>Modern
+                                    Rainbow Theme</a></li>
+                            <li><a id="create-preset-classic-theme" class="splus-track-clicks"
+                                    data-splus-tracking-context="Theme Editor"><i
+                                        class="material-icons">palette</i>Classic Theme</a></li>
+                        </ul>
+                    </h5>
+                    <div class="section">
+                        <div id="themes-list" class="collection modern-primary modern-border modern-border-radius">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="theme-editor-section" class="col s12 l4 hidden">
+                <div class="section row">
+                    <h5>Properties
+                        <a id="in-editor-help" data-splus-tracking-context="Theme Editor"
+                            href="https://schoologypl.us/docs/themes" target="_blank"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
+                                class="material-icons" style="vertical-align: sub;">help</i> Help</a>
+                    </h5>
+                    <div class="input-field col s12">
+                        <input id="theme-name" type="text" class="validate splus-track-clicks"
+                            data-splus-tracking-context="Theme Editor">
+                        <label for="theme-name">Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <h5>Color</h5>
+                    <p>
+                        <label>
+                            <input id="theme-color-hue" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="color-group" type="radio" checked />
+                            <span>Color Hue</span>
+                        </label>
+                    <div class="col s12" id="theme-hue-wrapper" style="width: 90%; padding-left: 7.5%;">
+                        <label for="theme-hue">Color Hue<span id="color-hue-value" class="right"></span></label>
+                        <div id="theme-hue" data-display="color-hue-value"></div>
+                    </div>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-color-custom" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="color-group" type="radio" />
+                            <span>Custom Colors</span>
+                        </label>
+                    <div id="theme-color-custom-wrapper" class="hidden" style="width: 90%; padding-left: 5%;">
+                        <div class="input-field col s12 m6">
+                            <input id="theme-primary-color">
+                            <label for="theme-primary-color" class="active">Primary Color</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <input id="theme-secondary-color">
+                            <label for="theme-secondary-color" class="active">Hover Color</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <input id="theme-background-color">
+                            <label for="theme-background-color" class="active">Background Color</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <input id="theme-border-color">
+                            <label for="theme-border-color" class="active">Border Color</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="theme-link-color">
+                            <label for="theme-link-color" class="active">Link Color</label>
+                        </div>
+                    </div>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-color-rainbow" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="color-group" type="radio" />
+                            <span>Rainbow</span>
+                        </label>
+                    <div id="theme-color-rainbow-wrapper" style="width: 85%; padding-left: 7.5%;">
+                        <div class="card-panel yellow darken-3 black-text" style="padding: 15px;">
+                            <h6 class="modern-black" style="line-height: 24px; vertical-align: middle;"><i
+                                    class="material-icons left modern-black"
+                                    style="margin-right: 5px;">warning</i>Warning</h6>
+                            <p class="modern-black">
+                                This section contains advanced features. Please consult <a
+                                    style="color: black !important; text-decoration: underline" target="_blank"
+                                    data-splus-tracking-context="Theme Editor" id="help-documentation-rainbow"
+                                    class="splus-track-clicks"
+                                    href="https://schoologypl.us/docs/themes/create#rainbow">the
+                                    documentation</a> for how to use rainbow colors in your theme.
+                            </p>
+                        </div>
+                        <div>
+                            <h6>Hue</h6>
+                            <div style="width: 90%; padding-left: 5%;">
+                                <label>
+                                    <input id="color-rainbow-hue-animate" class="filled-in" type="checkbox" />
+                                    <span>Animate</span>
+                                </label>
+                                <div id="color-rainbow-hue-animate-wrapper">
+                                    <label for="color-rainbow-hue-speed">
+                                        Animation Speed
+                                        <span id="color-rainbow-hue-speed-display" class="right">100</span>
+                                        <div class="range-field">
+                                            <input id="color-rainbow-hue-speed" min="0" max="100" type="range"
+                                                data-label="color-rainbow-hue-speed-display" />
+                                        </div>
+                                    </label>
+                                    <label for="color-rainbow-hue-range">
+                                        Hue Range
+                                        <div id="color-rainbow-hue-range"></div>
+                                    </label>
+                                    <div style="margin-top: 10px;">
+                                        <label>
+                                            <input id="color-rainbow-hue-alternate" class="filled-in" type="checkbox" />
+                                            <span>Alternate</span>
+                                        </label>
+                                    </div>
+                                    <label>
+                                        <span>Hue Range Preview (Left to Right)</span>
+                                        <div id="color-rainbow-hue-preview"></div>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label for="color-rainbow-hue-value">
+                                        <span>Hue Value</span>
+                                        <span class="right" id="color-rainbow-hue-display">100</span>
+                                        <div id="color-rainbow-hue-value" class="hue-slider"
+                                            data-display="color-rainbow-hue-display"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h6>Saturation</h6>
+                            <div style="width: 90%; padding-left: 5%;">
+                                <label>
+                                    <input id="color-rainbow-saturation-animate" class="filled-in" type="checkbox" />
+                                    <span>Animate</span>
+                                </label>
+                                <div id="color-rainbow-saturation-animate-wrapper">
+                                    <label for="color-rainbow-saturation-speed">
+                                        Animation Speed
+                                        <span class="right" id="color-rainbow-saturation-speed-display">100</span>
+                                        <div class="range-field">
+                                            <input id="color-rainbow-saturation-speed" min="0" max="100" type="range"
+                                                data-label="color-rainbow-saturation-speed-display" />
+                                        </div>
+                                    </label>
+                                    <label for="color-rainbow-saturation-range">
+                                        Saturation Range
+                                        <span id="color-rainbow-saturation-range-display" class="right">0 -
+                                            100</span>
+                                        <div id="color-rainbow-saturation-range"></div>
+                                    </label>
+                                    <label>
+                                        <input id="color-rainbow-saturation-alternate" class="filled-in"
+                                            type="checkbox" />
+                                        <span>Alternate</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label for="color-rainbow-saturation-value">
+                                        <span>Saturation Value</span>
+                                        <span class="right" id="color-rainbow-saturation-display">100</span>
+                                        <div class="range-field">
+                                            <input id="color-rainbow-saturation-value" min="0" max="100" type="range"
+                                                data-label="color-rainbow-saturation-display" />
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h6>Lightness</h6>
+                            <div style="width: 90%; padding-left: 5%;">
+                                <label>
+                                    <input id="color-rainbow-lightness-animate" class="filled-in" type="checkbox" />
+                                    <span>Animate</span>
+                                </label>
+                                <div id="color-rainbow-lightness-animate-wrapper">
+                                    <label for="color-rainbow-lightness-speed">
+                                        Animation Speed
+                                        <span class="right" id="color-rainbow-lightness-speed-display">100</span>
+                                        <div class="range-field">
+                                            <input id="color-rainbow-lightness-speed" min="0" max="100" type="range"
+                                                data-label="color-rainbow-lightness-speed-display" />
+                                        </div>
+                                    </label>
+                                    <label for="color-rainbow-lightness-range">
+                                        Lightness Range
+                                        <span id="color-rainbow-lightness-range-display" class="right">0 -
+                                            100</span>
+                                        <div id="color-rainbow-lightness-range"></div>
+                                    </label>
+                                    <label>
+                                        <input id="color-rainbow-lightness-alternate" class="filled-in"
+                                            type="checkbox" />
+                                        <span>Alternate</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label for="color-rainbow-lightness-value">
+                                        <span>Lightness Value</span>
+                                        <span class="right" id="color-rainbow-lightness-display">100</span>
+                                        <div class="range-field">
+                                            <input id="color-rainbow-lightness-value" min="0" max="100" type="range"
+                                                data-label="color-rainbow-lightness-display" />
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </p>
+                </div>
+                <div class="row">
+                    <h5>Logo</h5>
+                    <p>
+                        <label>
+                            <input id="theme-schoology-plus-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="logo-group" type="radio" checked />
+                            <span>Schoology Plus Logo</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-schoology-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="logo-group" type="radio" />
+                            <span>Schoology Logo</span>
+                        </label>
+                    </p>
+                    <p class="show-lausd">
+                        <label>
+                            <input id="theme-lausd-logo-2022" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="logo-group" type="radio" />
+                            <span>New LAUSD Logo (2022)</span>
+                        </label>
+                    </p>
+                    <p class="show-lausd">
+                        <label>
+                            <input id="theme-new-lausd-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="logo-group" type="radio" />
+                            <span>LAUSD Logo (2019 - 2022)</span>
+                        </label>
+                    </p>
+                    <p class="show-lausd">
+                        <label>
+                            <input id="theme-lausd-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="logo-group" type="radio" />
+                            <span>Legacy LAUSD Logo (Before 2019)</span>
+                        </label>
+                    </p>
+                    <p class="hide-lausd">
+                        <label>
+                            <input id="theme-default-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="logo-group" type="radio" />
+                            <span>Your School's Default Logo</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-custom-logo" class="with-gap splus-track-clicks"
+                                data-splus-tracking-context="Theme Editor" name="logo-group" type="radio" />
+                            <span>Custom Image</span>
+                        </label>
+                    <div id="theme-logo-wrapper" class="input-field col s12 hidden"
+                        style="width: 90%; margin-left: 5%; margin-top: 0;">
+                        <input id="theme-logo" type="url" class="validate splus-track-clicks"
+                            data-splus-tracking-context="Theme Editor"
+                            placeholder="Direct image URL or paste/drop image here">
+                        <label for="theme-logo">Logo Image URL</label>
+                    </div>
+                    </p>
+                </div>
+                <div class="row">
+                    <h5>Cursor</h5>
+                    <div class="input-field col s12">
+                        <input id="theme-cursor" type="url" class="validate splus-track-clicks"
+                            data-splus-tracking-context="Theme Editor"
+                            placeholder="Direct image URL or paste/drop image here">
+                        <label for="theme-cursor">Cursor Image URL</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <h5>Modern Engine Options</h5>
+                    <p>The Schoology Plus Modern Theme Engine gives you more control over the appearance of Schoology,
+                        however it's slightly more complex to use. Additionally, <strong>the modern engine does not work
+                            everywhere and may cause certain content to be displayed incorrectly.</strong> Use at your
+                        own risk, but please <a id="modern-engine-bug-report-link"
+                            data-splus-tracking-context="Theme Editor" class="link-color tooltipped splus-track-clicks"
+                            data-tooltip="Join our Discord Server!" href="https://discord.schoologypl.us">use our
+                            Discord server to report
+                            bugs if you find them!</a></strong></p>
+                    <div class="switch" style="margin-left: -15px;">
+                        <label style="font-size: 16px;">
+                            <input id="modern-enable" type="checkbox" />
+                            <span class="lever"></span>
+                            Enable Modern Engine
+                        </label>
+                    </div>
+                    <div id="modern-wrapper" style="padding-left: 10px;">
+                        <div class="row" style="width: 90%; padding-left: 5%;">
+                            <h6>Interface Colors</h6>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-primary">
+                                <label for="modern-color-primary" class="active">Primary Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-accent">
+                                <label for="modern-color-accent" class="active">Accent Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-secondary">
+                                <label for="modern-color-secondary" class="active">Secondary Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-input">
+                                <label for="modern-color-input" class="active">Input Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-border">
+                                <label for="modern-color-border" class="active">Border Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-highlight">
+                                <label for="modern-color-highlight" class="active">Highlight Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-active">
+                                <label for="modern-color-active" class="active">Active Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-grades">
+                                <label for="modern-color-grades" class="active">Grades Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-error">
+                                <label for="modern-color-error" class="active">Error Color</label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="width: 90%; padding-left: 5%;">
+                            <h6>Text Colors</h6>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-text-primary">
+                                <label for="modern-color-text-primary" class="active">Primary Text Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-text-muted">
+                                <label for="modern-color-text-muted" class="active">Muted Text Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-color-text-contrast">
+                                <label for="modern-color-text-contrast" class="active">Contrast Text Color</label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="width: 90%; padding-left: 5%;">
+                            <h6>Calendar Colors</h6>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-1">
+                                <label for="modern-cal-1" class="active">Calendar 1</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-2">
+                                <label for="modern-cal-2" class="active">Calendar 2</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-3">
+                                <label for="modern-cal-3" class="active">Calendar 3</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-4">
+                                <label for="modern-cal-4" class="active">Calendar 4</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-5">
+                                <label for="modern-cal-5" class="active">Calendar 5</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-6">
+                                <label for="modern-cal-6" class="active">Calendar 6</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-7">
+                                <label for="modern-cal-7" class="active">Calendar 7</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-8">
+                                <label for="modern-cal-8" class="active">Calendar 8</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-9">
+                                <label for="modern-cal-9" class="active">Calendar 9</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-10">
+                                <label for="modern-cal-10" class="active">Calendar 10</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-11">
+                                <label for="modern-cal-11" class="active">Calendar 11</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-12">
+                                <label for="modern-cal-12" class="active">Calendar 12</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-13">
+                                <label for="modern-cal-13" class="active">Calendar 13</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-14">
+                                <label for="modern-cal-14" class="active">Calendar 14</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-15">
+                                <label for="modern-cal-15" class="active">Calendar 15</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-16">
+                                <label for="modern-cal-16" class="active">Calendar 16</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-17">
+                                <label for="modern-cal-17" class="active">Calendar 17</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-18">
+                                <label for="modern-cal-18" class="active">Calendar 18</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-19">
+                                <label for="modern-cal-19" class="active">Calendar 19</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-20">
+                                <label for="modern-cal-20" class="active">Calendar 20</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-21">
+                                <label for="modern-cal-21" class="active">Calendar 21</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-22">
+                                <label for="modern-cal-22" class="active">Calendar 22</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-23">
+                                <label for="modern-cal-23" class="active">Calendar 23</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-24">
+                                <label for="modern-cal-24" class="active">Calendar 24</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-25">
+                                <label for="modern-cal-25" class="active">Calendar 25</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-26">
+                                <label for="modern-cal-26" class="active">Calendar 26</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-27">
+                                <label for="modern-cal-27" class="active">Calendar 27</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-28">
+                                <label for="modern-cal-28" class="active">Calendar 28</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-29">
+                                <label for="modern-cal-29" class="active">Calendar 29</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="modern-cal-30">
+                                <label for="modern-cal-30" class="active">Calendar 30</label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="width: 90%; padding-left: 5%;">
+                            <h6>Options</h6>
+                            <label for="modern-border-radius-value">
+                                <span>Border Radius</span>
+                                <span class="right">px</span><span class="right"
+                                    id="modern-border-radius-display">5</span>
+                                <div class="range-field">
+                                    <input id="modern-border-radius-value" value="5" min="0" max="50" type="range"
+                                        data-label="modern-border-radius-display" />
+                                </div>
+                            </label>
+                            <label for="modern-border-size-value">
+                                <span>Border Size</span>
+                                <span class="right">px</span><span class="right"
+                                    id="modern-border-size-display">1</span>
+                                <div class="range-field">
+                                    <input id="modern-border-size-value" value="1" min="0" max="10" type="range"
+                                        data-label="modern-border-size-display" />
+                                </div>
+                            </label>
+                            <label for="modern-padding-value">
+                                <span>Element Padding</span>
+                                <span class="right">px</span><span class="right" id="modern-padding-display">10</span>
+                                <div class="range-field">
+                                    <input id="modern-padding-value" value="10" min="0" max="50" type="range"
+                                        data-label="modern-padding-display" />
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l8 xl7 push-xl1">
+                <div id="preview-section" class="section fixed-on-large-and-up">
+                    <h5>
+                        Preview
+                        <a id="save-close-button" data-splus-tracking-context="Theme Editor"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
+                                class="material-icons" style="vertical-align: sub;">done</i> Save & Apply</a>
+                        <a id="save-button" data-splus-tracking-context="Theme Editor"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
+                                class="material-icons" style="vertical-align: sub;">save</i> Save</a>
+                        <a id="discard-button" data-splus-tracking-context="Theme Editor"
+                            class="waves-effect waves-light btn-flat right action-button splus-track-clicks"><i
+                                class="material-icons" style="vertical-align: sub;">settings_backup_restore</i>
+                            Discard</a>
+                    </h5>
+                    <div id="error-card" class="col s12" style="display:none;">
+                        <div class="card red darken-2 modern-error">
+                            <div class="card-content white-text">
+                                <span class="card-title valign-wrapper modern-contrast-text">
+                                    <i class="material-icons inline-icon modern-contrast-text">error</i> Error</span>
+                                <p id="error-content" class="modern-contrast-text"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="warning-card" class="col s12" style="display:none;">
+                        <div class="card yellow darken-3">
+                            <div class="card-content black-text">
+                                <span class="card-title valign-wrapper">
+                                    <i class="material-icons inline-icon">warning</i> Warning</span>
+                                <p id="warning-content"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <ul class="tabs modern-secondary">
+                                <li class="tab col s4">
+                                    <a href="#tab-preview">Theme Preview</a>
+                                </li>
+                                <li class="tab col s4">
+                                    <a href="#tab-icons">Theme Icons</a>
+                                </li>
+                                <li class="tab col s4">
+                                    <a href="#tab-json">Theme JSON</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="tab-preview" class="col s12">
+                            <div class="col s12">
+                                <div id="preview" data-splus-tracking-context="Theme Editor"
+                                    class="card-panel modern-primary modern-border-radius splus-track-clicks">
+                                    <div class="row">
+                                        <nav id="preview-navbar">
+                                            <div class="nav-wrapper">
+                                                <div id="preview-logo" class="hide-background-image brand-logo"></div>
+                                                <ul id="preview-left-nav" class="navbar-links hide-on-med-and-down">
+                                                    <li id="preview-courses-link">
+                                                        <a class="modern-contrast-text">COURSES</a>
+                                                        <div id="preview-courses-drop-down" class="modern-accent"
+                                                            style="z-index: 999;">
+                                                            <h1>Courses</h1>
+                                                            <div
+                                                                class="preview-course modern-primary modern-margin modern-border-radius">
+                                                                <div>
+                                                                    <p class="preview-course-class">MY CLASS</p>
+                                                                    <p class="preview-course-section">MY SECTION</p>
+                                                                    <p class="preview-course-school">My School</p>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="preview-course modern-primary modern-margin modern-border-radius">
+                                                                <div>
+                                                                    <p class="preview-course-class">MY CLASS</p>
+                                                                    <p class="preview-course-section">MY SECTION</p>
+                                                                    <p class="preview-course-school">My School</p>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="preview-course modern-primary modern-margin modern-border-radius">
+                                                                <div>
+                                                                    <p class="preview-course-class">MY CLASS</p>
+                                                                    <p class="preview-course-section">MY SECTION</p>
+                                                                    <p class="preview-course-school">My School</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="hide-below-1300-px">
+                                                        <a class="modern-contrast-text">RESOURCES</a>
+                                                    </li>
+                                                </ul>
+                                                <ul id="preview-right-nav" class="right">
+                                                    <li>
+                                                        <a id="preview-splus-button">
+                                                            <svg style="width: 22px; vertical-align: middle;"
+                                                                viewBox="0 0 500 500"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <circle stroke="currentColor"
+                                                                    style="fill: none; stroke-width: 35px;" cx="250"
+                                                                    cy="250" r="230"></circle>
+                                                                <line stroke="currentColor"
+                                                                    style="stroke-linecap: round; stroke-width: 35px;"
+                                                                    x1="250" y1="125" x2="250" y2="375"></line>
+                                                                <line stroke="currentColor"
+                                                                    style="stroke-linecap: round; stroke-width: 35px;"
+                                                                    x1="125" y1="250" x2="375" y2="250"></line>
+                                                            </svg>
+                                                        </a>
+                                                    </li>
+                                                    <li id="preview-settings-menu">
+                                                        <a id="preview-name-container">
+                                                            <img src="https://asset-cdn.schoology.com/system/files/imagecache/profile_tiny/sites/all/themes/schoology_theme/images/user-default.gif"
+                                                                alt="Your Name" id="preview-profile-pic">
+                                                            <span class="modern-contrast-text">YOUR NAME</span>
+                                                            <svg id="preview-down-arrow" viewBox="0 0 15 10"
+                                                                id="icon-small-caret-white" width="100%" height="100%">
+                                                                <path
+                                                                    d="M12.78.443L9.756 3.952 8.294 5.65l-.761.884-.033.03-.032-.03-.762-.884-1.463-1.698L2.221.442C1.06-.902-.79 1.126.365 2.468L5.722 8.7c.4.465.795 1.071 1.387 1.249.136.04.266.056.391.051.125.005.255-.01.39-.051.593-.178.988-.784 1.388-1.249l5.357-6.232c1.154-1.342-.696-3.37-1.856-2.024"
+                                                                    fill="currentColor" fill-rule="evenodd"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <ul id="preview-name-drop-down" style="z-index: 999;">
+                                                            <li><a class="modern-contrast-text">Your Profile</a></li>
+                                                            <li><a class="modern-contrast-text">Your School</a></li>
+                                                            <li><a class="modern-contrast-text">Settings</a></li>
+                                                            <hr />
+                                                            <li><a class="modern-contrast-text">Logout</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </nav>
+                                    </div>
+                                    <div id="preview-modal" class="splus-modal hidden">
+                                        <div class="splus-modal-content">
+                                            <div class="splus-modal-header">
+                                                <span id="splus-modal-close" class="close modern-contrast-text"
+                                                    data-parent="peview-modal">&times;</span>
+                                                <p class="splus-modal-title modern-contrast-text">Schoology Plus Theme
+                                                    Editor</p>
+                                            </div>
+                                            <div class="splus-modal-body modern-primary">
+                                                <div class="splus-modal-contents">
+                                                    <h2 class="setting-entry">Title</h2>
+                                                    <div class="setting-entry">
+                                                        <h3 class="setting-title">Subtitle</h3>
+                                                        <p class="setting-description">Some text</p>
+                                                    </div>
+                                                    <div class="setting-entry">
+                                                        <a class="setting-link" href="#">
+                                                            <h3 class="setting-title">Clickable Link</h3>
+                                                        </a>
+                                                        <p class="setting-description">Some text</p>
+                                                    </div>
+                                                    <div class="setting-entry">
+                                                        <a class="setting-link" href="#">
+                                                            <h3 class="setting-title">Clickable Link</h3>
+                                                        </a>
+                                                        <p class="setting-description">Some text</p>
+                                                    </div>
+                                                    <span class="submit-span-wrapper splus-modal-button">
+                                                        <input class="form-submit modern-contrast-text" type="button"
+                                                            value="Click Me">
+                                                    </span>
+                                                    <span
+                                                        style="color: red; font-size: 12px; vertical-align: bottom; cursor: pointer; padding-top: 10px;"
+                                                        class="right modern-error-text">Reset to Defaults</span>
+                                                </div>
+                                            </div>
+                                            <div class="splus-modal-footer">
+                                                <p class="splus-modal-footer-text modern-contrast-text">&copy; Schoology
+                                                    Plus Contributors
+                                                    2017-2023
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="preview-page" class="row">
+                                        <div class="col s12 m8">
+                                            <div class="modern-accent modern-border-radius modern-margin">
+                                                <p style="font-size: 20px; margin-bottom: 0;">Schoology Plus Theme
+                                                    Editor</p>
+                                                <p>You can click the <span
+                                                        style="border: 1px solid currentColor; padding: 0 5px; border-radius: 50%;">+</span>
+                                                    button on the navigation bar to switch between previews of different
+                                                    screens.
+                                                </p>
+                                                <hr style="border: 1px solid black; border-bottom: 0px !important;"
+                                                    class="modern-border" />
+                                                <p>
+                                                    You can <a class="link-color splus-track-clicks"
+                                                        id="preview-theme-docs-link" style="font-weight: bold;"
+                                                        data-splus-tracking-context="Theme Editor" target="_blank"
+                                                        href="https://schoologypl.us/docs/themes">click on this link</a>
+                                                    to be taken to the Schoology Plus theme creation help page.
+                                                </p>
+                                                <hr style="border: 1px solid black; border-bottom: 0px !important;"
+                                                    class="modern-border" />
+                                                <p style="padding-top: 0; margin-bottom: 5px;">These are examples of
+                                                    grades:</p>
+                                                <div style="padding-left: 20px;">
+                                                    <strong style="color: green;" class="modern-grades">A+
+                                                        100</strong>/100<br>
+                                                    <strong style="color: green;" class="modern-grades">B
+                                                        8.5</strong>/10<br>
+                                                    <strong style="color: green;" class="modern-grades">A
+                                                        46</strong>/50<br>
+                                                </div>
+                                                <p class="modern-muted-text"
+                                                    style="color: gray; padding-top: 0; margin-top: 5px; margin-bottom: 5px;">
+                                                    This is an example of muted text.</p>
+                                                <hr style="border: 1px solid black; border-bottom: 0px !important;"
+                                                    class="modern-border" />
+                                                <p style="padding: 0; margin: 0 10px;">This is a textbox:</p>
+                                                <div style="padding: 0 10px;">
+                                                    <input style="border: 1px solid black; width: 100%; padding: 5px;"
+                                                        class="browser-default modern-input modern-border modern-border-radius"
+                                                        type="text" value="You can type in here" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s12 m4">
+                                            <div class="modern-accent modern-border-radius modern-margin">
+                                                <p>This tile has an accent color background.</p>
+
+                                                <div id="preview-dropdown-list">
+                                                    <div class="modern-secondary modern-border modern-border-radius"
+                                                        tabindex="9999">Dropdown<span class="right">&#x25BC;</span>
+                                                    </div>
+                                                    <ul class="modern-secondary modern-border modern-border-radius">
+                                                        <li>One</li>
+                                                        <li>Two</li>
+                                                        <li>Three</li>
+                                                        <li><a class="link-color" href="#">Link</a></li>
+                                                    </ul>
+                                                </div>
+
+                                                <div style="margin: 10px; padding: 10px; background: red; color: white;"
+                                                    class="modern-error modern-border-radius modern-margin modern-contrast-text modern-padding">
+                                                    &times; This is an error
+                                                </div>
+                                            </div>
+                                            <div class="modern-secondary modern-border-radius modern-margin larger">
+                                                <p>This tile has a secondary color background.</p>
+                                                <div class="modern-accent modern-margin modern-border-radius modern-padding"
+                                                    style="background-color: #f2f2f2; margin: 10px; padding: 10px; height: 170px;">
+                                                    Accent Color
+                                                    <div class="modern-primary modern-margin modern-border-radius modern-padding"
+                                                        style="background-color: #faf9f7; margin: 10px; padding: 10px; height: 50px;">
+                                                        Primary Color
+                                                    </div>
+                                                    <div class="modern-highlight modern-margin modern-border-radius modern-padding"
+                                                        style="background-color: lightyellow; margin: 10px; padding: 10px; height: 50px;">
+                                                        Highlight Color
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-icons" class="col s12">
+                            <div class="row">
+                                <div class="col s3 m2 l1 center" style="margin-top: 16px;">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/164/164949.png" alt="Test Icon"
+                                        height="49" id="test-icon">
+                                </div>
+                                <div class="input-field col s9 m10 l11">
+                                    <input type="text" id="icon-test-text"
+                                        placeholder="Type a class name here to preview its icon">
+                                </div>
+                                <div class="col s12 card-panel yellow darken-3 black-text" style="padding: 15px;">
+                                    <h6 class="modern-black" style="line-height: 24px; vertical-align: middle;"><i
+                                            class="material-icons left modern-black"
+                                            style="margin-right: 5px;">warning</i>Warning
+                                    </h6>
+                                    <p class="modern-black">
+                                        This section contains advanced features. Please consult <a
+                                            style="color: black !important; text-decoration: underline" target="_blank"
+                                            id="help-documentation-icons" class="splus-track-clicks"
+                                            data-splus-tracking-context="Theme Editor"
+                                            href="https://schoologypl.us/docs/themes/create#icons">the
+                                            documentation</a> for how to use custom icons in your theme.
+                                    </p>
+                                </div>
+                                <table id="icon-list-table">
+                                    <colgroup>
+                                        <col span="1" style="width: 15%" />
+                                        <col span="1" style="width: 35%" />
+                                        <col span="1" style="width: 30%" />
+                                        <col span="1" style="width: 10%" />
+                                        <col span="1" style="width: 10%" />
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                <span style="vertical-align: middle;">Class Name Regular
+                                                    Expression</span>
+                                                <a target="_blank"
+                                                    href="https://www.regular-expressions.info/quickstart.html"><i
+                                                        class="material-icons tooltipped splus-track-clicks"
+                                                        id="help-regex" data-splus-tracking-context="Theme Editor"
+                                                        data-tooltip="Regular expressions are a special way to check if text matches a pattern. Click for more info."
+                                                        style="vertical-align: middle; color: black;">help</i></a>
+                                            </th>
+                                            <th>
+                                                <span style="vertical-align: middle;">Icon URL or paste/drop
+                                                    image here</span>
+                                                <i class="material-icons tooltipped"
+                                                    data-tooltip="Provide an icon by any of the following methods:&lt;br>- Enter a direct image link&lt;br>- Paste an image directly&lt;br>- Drag and drop an image file into the text box&lt;br>&lt;br>Using the paste or drag-and-drop methods will upload your image to Imgur."
+                                                    style="vertical-align: middle; color: black; cursor: help;">help</i>
+                                            </th>
+                                            <th>Icon</th>
+                                            <th>
+                                                <a class="waves-effect waves-light btn-floating action-button tooltipped right"
+                                                    data-tooltip="Add New" id="new-icon">
+                                                    <i class="material-icons modern-error">add</i>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="icon-list"
+                                        data-text="This theme has no icons - in edit mode, press the + button above to add a new icon">
+                                        <!-- <tr>
+                                            <td style="text-align: center">
+                                                <a class="tooltipped action-button arrow-button move-down" data-tooltip="Move Down">
+                                                    <i class="material-icons">arrow_downward</i>
+                                                </a>
+                                                <a class="tooltipped action-button arrow-button move-up" data-tooltip="Move Up">
+                                                    <i class="material-icons">arrow_upward</i>
+                                                </a>
+                                            </td>
+                                            <td data-text="Class Name Pattern" class="class-name"></td>
+                                            <td data-text="Icon URL" class="icon-url"></td>
+                                            <td>
+                                                <a class="waves-effect waves-light btn-flat right action-button tooltipped delete-icon-button" data-tooltip="Delete">
+                                                    <i class="material-icons">delete</i>
+                                                </a>
+                                            </td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                                <p style="text-align: center; color: grey; padding-top: 20px;">
+                                    Schoology Plus will attempt to match a class name to one of the
+                                    regular expressions above first (from top to bottom), but if it
+                                    doesn't find a match it will use <a href="default-icons.html" class="link-color">the
+                                        default icon
+                                        set</a> (if enabled).
+                                    To avoid this behavior, create a default icon for your theme by
+                                    adding an icon with pattern "." (a single period) as the last
+                                    icon in your list.
+                                </p>
+                            </div>
+                        </div>
+                        <div id="tab-json" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="json-output" class="materialize-textarea" readonly wrap="off"
+                                        style="overflow-x:auto;"></textarea>
+                                    <label for="json-output">JSON</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="modal" class="modal">
+            <div id="modal-content" class="modal-content modern-primary"></div>
+            <div id="modal-buttons" class="modal-footer modern-secondary"></div>
+        </div>
+    </main>
+    <script src="/lib/materialize.js"></script>
+    <script src="/lib/google-analytics.js"></script>
+    <script src="/lib/jquery-ui.js"></script>
+    <script src="/lib/roundslider.js"></script>
+    <script src="/theme-editor.js"></script>
+</body>
+
+</html>
