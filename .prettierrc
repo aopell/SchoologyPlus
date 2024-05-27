@@ -1,0 +1,19 @@
+{
+  "plugins": [],
+  "arrowParens": "avoid",
+  "semi": true,
+  "singleQuote": false,
+  "tabWidth": 4,
+  "useTabs": false,
+  "bracketSameLine": false,
+  "printWidth": 100,
+  "importOrder": [
+    "^@core/(.*)$",
+    "^@server/(.*)$",
+    "^@ui/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "trailingComma": "es5"
+}

@@ -1,0 +1,43 @@
+roundSlider v1.4.1
+https://github.com/soundar24/roundSlider/blob/v1.4.1/dist/roundslider.min.js
+https://github.com/soundar24/roundSlider/blob/v1.4.1/dist/roundslider.min.css
+
+findAndReplaceDOMText v0.4.6 [DONE]
+https://github.com/padolsey/findAndReplaceDOMText/blob/0.4.6/src/findAndReplaceDOMText.js
+
+iziToast v1.4.0 [DONE]
+https://github.com/marcelodolza/iziToast/blob/v1.4.0/dist/js/iziToast.min.js
+https://github.com/marcelodolza/iziToast/blob/v1.4.0/dist/css/iziToast.css
+
+jquery v3.3.1 [DONE]
+https://github.com/jquery/jquery/blob/3.3.1/dist/jquery.min.js
+
+jquery-migrate v3.0.1 [DONE]
+https://code.jquery.com/jquery-migrate-3.0.1.js
+
+jquery-ui v1.12.1 [DONE]
+https://jqueryui.com/resources/download/jquery-ui-1.12.1.zip
+
+jquery.tipsy v1.0.3 [DONE]
+https://github.com/MartinMartimeo/tipsy/blob/1.0.3/src/jquery.tipsy.js
+
+materialize v1.0.0
+https://github.com/Dogfalo/materialize/blob/1.0.0/dist/js/materialize.min.js
+https://github.com/Dogfalo/materialize/blob/1.0.0/dist/css/materialize.min.css
+
+Material Icons Font
+https://fonts.googleapis.com/icon?family=Material+Icons
+
+DOMPurify v2.1.1 [DONE]
+https://github.com/cure53/DOMPurify/blob/2.1.1/dist/purify.min.js
+
+spectrum v1.8.0
+https://github.com/bgrins/spectrum/blob/1.8.0/spectrum.js
+https://github.com/bgrins/spectrum/blob/1.8.0/spectrum.css
+
+contextmenu v2.9.2 [DONE]
+https://github.com/swisnl/jQuery-contextMenu/blob/2.9.2/dist/jquery.contextMenu.min.css
+https://github.com/swisnl/jQuery-contextMenu/blob/2.9.2/dist/jquery.contextMenu.min.js
+
+pdfjs v2.3.200 [DONE]
+https://github.com/mozilla/pdf.js/releases/download/v2.3.200/pdfjs-2.3.200-dist.zip
