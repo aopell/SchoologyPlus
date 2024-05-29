@@ -2,18 +2,12 @@ import * as pages from "./pages";
 import * as utils from "./utils";
 import { getAnalyticsUserId, initializeAnalytics } from "./utils/analytics";
 import { getBrowser } from "./utils/dom";
+import { Logger } from "./utils/logger";
 import { Setting, generateDebugInfo } from "./utils/settings";
 
 declare global {
     var SchoologyPlus: any;
 }
-
-globalThis.SchoologyPlus = {
-    Setting,
-    utils,
-    pages,
-    debug: JSON.parse(generateDebugInfo()),
-};
 
 // checks to see if the current page matches the given path pattern
 function matchPage(...patterns: RegExp[]) {
@@ -32,6 +26,17 @@ function ready() {
 }
 
 async function load() {
+    Logger.debug(`Current value of SchoologyPlus variable:`, globalThis.SchoologyPlus);
+
+    if (globalThis.SchoologyPlus) {
+        Logger.warn(
+            `SchoologyPlus is already loaded. Aborting content script load to prevent conflicts.`
+        );
+        return;
+    }
+
+    globalThis.SchoologyPlus = {};
+
     await pages.all.preload();
 
     await initializeAnalytics({
@@ -127,6 +132,13 @@ async function load() {
         await pages.course.load();
         await pages.courses.load();
     }
+
+    globalThis.SchoologyPlus = {
+        Setting,
+        utils,
+        pages,
+        debug: JSON.parse(generateDebugInfo()),
+    };
 }
 
 load();

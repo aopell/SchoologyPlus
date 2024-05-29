@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Schoology Plus",
   "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "homepage_url": "https://schoologypl.us?utm_source=ext-homepage-link",
   "action": {
     "default_icon": {
