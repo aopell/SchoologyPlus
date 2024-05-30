@@ -9,12 +9,12 @@ import { Setting, generateDebugInfo } from "./settings";
 import Theme from "./theme";
 import { getModalContents, updateSettings } from "./update-settings";
 
-const verboseModalFooterText = `&copy; ${EXTENSION_NAME} Contributors 2017-2023 | <a id="open-webstore" class="splus-track-clicks" href="${EXTENSION_WEBSITE}/?utm_source=ext-splus-settings-footer">${EXTENSION_NAME} v${
+const verboseModalFooterText = `&copy; ${EXTENSION_NAME} Contributors 2017-2024 | <a id="open-webstore" class="splus-track-clicks" href="${EXTENSION_WEBSITE}/?utm_source=ext-splus-settings-footer">${EXTENSION_NAME} v${
     chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version
 }${
     getBrowser() != "Chrome" || (chrome.runtime.getManifest() as any).update_url ? "" : " dev"
 }</a> | <a href="${DISCORD_URL}" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the ${EXTENSION_NAME} community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="${EXTENSION_WEBSITE}/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
-export const modalFooterText = `${EXTENSION_NAME} &copy; ${EXTENSION_NAME} Contributors 2017-2023`;
+export const modalFooterText = `${EXTENSION_NAME} v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version} &copy; ${EXTENSION_NAME} Contributors 2017-2024`;
 
 const changelogIFrame = document.createElement("iframe");
 changelogIFrame.src = `${EXTENSION_WEBSITE}/changelog?version=${
