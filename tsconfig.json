@@ -8,6 +8,7 @@
     "rootDir": "src",
     "outDir": "dist/js",
     "noEmitOnError": true,
+    "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"
     ],

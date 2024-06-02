@@ -1,11 +1,12 @@
 import { Logger } from "./logger";
+import * as secrets from "./secrets.json";
 import { Setting } from "./settings";
 
 async function backgroundPageFetch(
     url: RequestInfo,
     init: RequestInit,
     bodyReadType: "json" | "text"
-) {
+): Promise<any> {
     try {
         let response = await chrome.runtime.sendMessage({
             type: "fetch",
@@ -155,7 +156,10 @@ export async function fetchWithApiAuthentication(
     return await (useRateLimit ? preload_schoologyPlusApiRateLimitedFetch : backgroundPageFetch)(
         url,
         {
-            headers: createApiAuthenticationHeaders(await getApiKeysInternal(), baseObj),
+            headers:
+                Setting.getValue("apistatus") === "blocked"
+                    ? await createThreeLeggedApiAuthenticationHeaders(baseObj)
+                    : createApiAuthenticationHeaders(await getApiKeysInternal(), baseObj),
         },
         bodyReadType
     );
@@ -278,6 +282,154 @@ function createApiAuthenticationHeaders(
     )}",oauth_nonce="${
         Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
     }",oauth_version="1.0",oauth_signature="${userAPISecret}%26"`;
+
+    if (!retObj["Content-Type"]) {
+        retObj["Content-Type"] = "application/json";
+    }
+
+    return retObj;
+}
+
+var OAUTH_REQUEST_TOKEN_URL = "https://api.schoology.com/v1/oauth/request_token";
+
+export async function generateThreeLeggedRequestToken() {
+    const params = new URLSearchParams({
+        oauth_consumer_key: secrets.oauth_consumer_key,
+        oauth_nonce: Math.random().toString(36).substring(2),
+        oauth_signature_method: "PLAINTEXT",
+        oauth_timestamp: Math.floor(Date.now() / 1000).toString(),
+        oauth_version: "1.0",
+    });
+
+    const signature = `${secrets.oauth_consumer_secret}&`;
+
+    const authorizationHeader = `OAuth realm="Schoology API", oauth_consumer_key="${
+        secrets.oauth_consumer_key
+    }", oauth_nonce="${params.get(
+        "oauth_nonce"
+    )}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${params.get(
+        "oauth_timestamp"
+    )}", oauth_version="1.0"`;
+
+    const response: Response = await backgroundPageFetch(
+        OAUTH_REQUEST_TOKEN_URL,
+        {
+            headers: {
+                Authorization: authorizationHeader,
+            },
+        },
+        "text"
+    );
+
+    const tokenParams = new URLSearchParams(await response.text());
+
+    if (!tokenParams.has("oauth_token") || !tokenParams.has("oauth_token_secret")) {
+        throw new Error("Failed to generate request token");
+    }
+
+    return {
+        requestToken: tokenParams.get("oauth_token")!,
+        requestTokenSecret: tokenParams.get("oauth_token_secret")!,
+    };
+}
+
+export async function requestThreeLeggedUserAccess() {
+    const { requestToken, requestTokenSecret } = await generateThreeLeggedRequestToken();
+
+    const callbackUrl = `https://${Setting.getValue("defaultDomain")}`;
+
+    const requestTokenUrl = `https://${Setting.getValue(
+        "defaultDomain"
+    )}/oauth/authorize?oauth_token=${requestToken}&oauth_callback=${encodeURIComponent(
+        callbackUrl
+    )}`;
+
+    localStorage.setItem("schoologyPlusRequestToken", requestToken);
+    localStorage.setItem("schoologyPlusRequestTokenSecret", requestTokenSecret);
+
+    location.href = requestTokenUrl;
+}
+
+export async function generateThreeLeggedAccessToken() {
+    const requestToken = localStorage.getItem("schoologyPlusRequestToken");
+    const requestTokenSecret = localStorage.getItem("schoologyPlusRequestTokenSecret");
+
+    if (!requestToken || !requestTokenSecret) {
+        throw new Error("nooauth: request token not found in local storage");
+    }
+
+    const params = new URLSearchParams({
+        oauth_consumer_key: secrets.oauth_consumer_key,
+        oauth_nonce: Math.random().toString(36).substring(2),
+        oauth_signature_method: "PLAINTEXT",
+        oauth_timestamp: Math.floor(Date.now() / 1000).toString(),
+        oauth_token: requestToken,
+        oauth_version: "1.0",
+    });
+
+    const signature = `${secrets.oauth_consumer_secret}&${requestTokenSecret}`;
+
+    const authorizationHeader = `OAuth realm="Schoology API", oauth_consumer_key="${
+        secrets.oauth_consumer_key
+    }", oauth_nonce="${params.get(
+        "oauth_nonce"
+    )}", oauth_signature="${signature}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${params.get(
+        "oauth_timestamp"
+    )}", oauth_token="${requestToken}", oauth_version="1.0"`;
+
+    const response: Response = await backgroundPageFetch(
+        "https://api.schoology.com/v1/oauth/access_token",
+        {
+            headers: {
+                Authorization: authorizationHeader,
+            },
+        },
+        "text"
+    );
+
+    const tokenParams = new URLSearchParams(await response.text());
+
+    if (!tokenParams.has("oauth_token") || !tokenParams.has("oauth_token_secret")) {
+        throw new Error("Failed to generate access token");
+    }
+
+    Logger.debug("OAuth access token generated: ", tokenParams.get("oauth_token"));
+
+    return {
+        accessToken: tokenParams.get("oauth_token")!,
+        accessTokenSecret: tokenParams.get("oauth_token_secret")!,
+    };
+}
+
+export async function createThreeLeggedApiAuthenticationHeaders(baseObj?: {
+    [s: string]: any;
+}): Promise<{ [s: string]: string }> {
+    let accessToken = localStorage.getItem("schoologyPlusAccessToken");
+    let accessTokenSecret = localStorage.getItem("schoologyPlusAccessTokenSecret");
+
+    if (!accessToken || !accessTokenSecret) {
+        Logger.debug("OAuth access token expired or not found, generating new token");
+        let tokens = await generateThreeLeggedAccessToken();
+        accessToken = tokens.accessToken;
+        accessTokenSecret = tokens.accessTokenSecret;
+        localStorage.setItem("schoologyPlusAccessToken", accessToken);
+        localStorage.setItem("schoologyPlusAccessTokenSecret", accessTokenSecret);
+    }
+
+    let retObj: { [s: string]: string } = {};
+    if (baseObj) {
+        Object.assign(retObj, baseObj);
+    }
+
+    retObj["Authorization"] = `OAuth realm="Schoology API",oauth_consumer_key="${
+        secrets.oauth_consumer_key
+    }",oauth_token="${accessToken}",oauth_signature_method="PLAINTEXT",oauth_timestamp="${Math.floor(
+        Date.now() / 1000
+    )}",oauth_nonce="${Math.random()
+        .toString(36)
+        .substring(2)}",oauth_version="1.0",oauth_signature="${
+        secrets.oauth_consumer_secret
+    }%26${accessTokenSecret}"`;
 
     if (!retObj["Content-Type"]) {
         retObj["Content-Type"] = "application/json";
