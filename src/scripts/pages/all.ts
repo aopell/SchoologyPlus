@@ -547,6 +547,7 @@ function fixNavbarSvgIconColors() {
                 let paths = symbol.querySelectorAll("path");
                 for (let path of paths) {
                     if (path.getAttribute("fill")?.trim() === "#333") {
+                        icon.parentElement?.classList.add("splus-svg-icon-processed");
                         path.setAttribute("fill", "currentColor");
                     }
                 }
