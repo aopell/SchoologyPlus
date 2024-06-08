@@ -156,7 +156,7 @@ function onContextMenuClicked(info: chrome.contextMenus.OnClickData, tab?: chrom
     }
 }
 
-async function onMessage(
+function onMessage(
     request: any,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void
@@ -226,15 +226,18 @@ async function onMessage(
         return true;
     } else if (request.type == "declarativeNetRequestRuleset") {
         if (request.action === "enable") {
-            await chrome.declarativeNetRequest.updateEnabledRulesets({
-                enableRulesetIds: [request.rulesetId],
-            });
+            chrome.declarativeNetRequest
+                .updateEnabledRulesets({
+                    enableRulesetIds: [request.rulesetId],
+                })
+                .then(() => sendResponse({ success: true }));
         } else if (request.action === "disable") {
-            await chrome.declarativeNetRequest.updateEnabledRulesets({
-                disableRulesetIds: [request.rulesetId],
-            });
+            chrome.declarativeNetRequest
+                .updateEnabledRulesets({
+                    disableRulesetIds: [request.rulesetId],
+                })
+                .then(() => sendResponse({ success: true }));
         }
-        sendResponse({ success: true });
     }
 }
 
