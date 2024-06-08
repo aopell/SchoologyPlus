@@ -72,6 +72,15 @@
       "background.js"
     ]
   },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "pdf_preview_ruleset",
+        "enabled": false,
+        "path": "rules/pdf-preview.json"
+      }
+    ]
+  },
   "permissions": [
     "storage",
     "alarms",
@@ -80,7 +89,8 @@
     "contextMenus",
     "activeTab",
     "scripting",
-    "offscreen"
+    "offscreen",
+    "declarativeNetRequestWithHostAccess"
   ],
   "optional_permissions": [
     "<all_urls>"

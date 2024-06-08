@@ -74,6 +74,14 @@ async function load() {
 
     if (
         matchPage(
+            /^\/course\/\d+\/materials\// // matches /course/1234/materials/(...)
+        )
+    ) {
+        await pages.material.load();
+    }
+
+    if (
+        matchPage(
             /^\/$/, // matches /
             /^\/home$/, // matches /home
             /^\/home\/(recent-activity|course-dashboard)$/ // matches /home/recent-activity and /home/course-dashboard
