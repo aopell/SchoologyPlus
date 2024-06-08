@@ -63,6 +63,7 @@ export async function load() {
     activateEasterEgg();
     addDarkThemeToggleButton();
     addSplusSettingsButton();
+    fixNavbarSvgIconColors();
     setupModalCloseEvents();
 
     // wait 500 ms for the courses dropdown and other dynamic elements to load
@@ -534,6 +535,24 @@ function addSplusSettingsButton() {
             ),
         ])
     );
+}
+
+function fixNavbarSvgIconColors() {
+    let svgIcons = document.querySelectorAll("#header header nav ul svg use");
+    for (let icon of svgIcons) {
+        let href = icon.getAttribute("xlink:href");
+        if (href) {
+            let symbol = document.querySelector(href);
+            if (symbol) {
+                let paths = symbol.querySelectorAll("path");
+                for (let path of paths) {
+                    if (path.getAttribute("fill")?.trim() === "#333") {
+                        path.setAttribute("fill", "currentColor");
+                    }
+                }
+            }
+        }
+    }
 }
 
 function setupModalCloseEvents() {
