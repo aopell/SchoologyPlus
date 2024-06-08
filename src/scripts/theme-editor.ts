@@ -687,7 +687,6 @@ function importThemeFromOutput() {
 function importAndRender(object: Object | false) {
     errors = [];
     warnings = [];
-    origThemeName = undefined;
     renderTheme(importThemeFromObject(object));
 }
 
