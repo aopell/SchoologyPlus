@@ -4,19 +4,21 @@ import { createElement, getBrowser } from "./dom";
 
 export type HTMLElementWithValue = HTMLElement & { value: any };
 
-export class Setting {
+export class LegacySetting {
     name: string;
     modified: boolean;
     default: any;
     control: HTMLDivElement;
+    storageLocation: "local" | "sync" = "sync";
 
     onmodify?: (element: HTMLElementWithValue) => void;
     onsave: (setting: HTMLElementWithValue) => any;
     onload: (value: any, element?: HTMLElementWithValue) => any;
     onshown?: () => any;
 
-    static settings: { [s: string]: Setting } = {};
-    static raw_storage: { [s: string]: any } = {};
+    static settings: { [s: string]: LegacySetting } = {};
+    static rawSyncStorage: { [s: string]: any } = {};
+    static rawLocalStorage: { [s: string]: any } = {};
 
     public static updateSettingsFunction: () => Promise<void> = () => Promise.resolve();
 
@@ -30,7 +32,8 @@ export class Setting {
         onload: (arg0: any, element?: HTMLElementWithValue) => any,
         onmodify: ((arg0: HTMLElementWithValue) => void) | undefined,
         onsave: (arg0: HTMLElementWithValue) => any,
-        onshown?: () => any
+        onshown?: () => any,
+        storageLocation: "local" | "sync" = "sync"
     ) {
         this.name = name;
         this.onmodify = onmodify;
@@ -39,6 +42,7 @@ export class Setting {
         this.onshown = onshown;
         this.modified = false;
         this.default = defaultValue;
+        this.storageLocation = storageLocation;
 
         /**
          * Returns the element control to be used to edit the setting's value by the user
@@ -65,10 +69,10 @@ export class Setting {
                     title.appendChild(controlElement);
                     if (type == "button")
                         controlElement.onclick = event =>
-                            Setting.onModify(event.target as HTMLElementWithValue);
+                            LegacySetting.onModify(event.target as HTMLElementWithValue);
                     else
                         controlElement.oninput = event =>
-                            Setting.onModify(event.target as HTMLElementWithValue);
+                            LegacySetting.onModify(event.target as HTMLElementWithValue);
                     break;
                 case "select":
                     controlElement = createElement("select");
@@ -82,11 +86,13 @@ export class Setting {
                     }
                     title.appendChild(controlElement);
                     controlElement.onchange = event =>
-                        Setting.onModify(event.target as HTMLElementWithValue);
+                        LegacySetting.onModify(event.target as HTMLElementWithValue);
                     break;
                 case "custom":
                 default:
-                    controlElement = options.element as HTMLElement & { value: any };
+                    controlElement = createElement("div") as any as HTMLElement & {
+                        value: any;
+                    };
                     title.appendChild(controlElement);
                     break;
             }
@@ -97,20 +103,31 @@ export class Setting {
             controlElement.dataset.settingName = name;
             controlElement.id = `setting-input-${name}`;
 
-            if (!Setting.raw_storage[name]) {
-                Setting.raw_storage[name] = defaultValue;
+            if (storageLocation === "local" && LegacySetting.rawLocalStorage[name] === undefined) {
+                LegacySetting.rawLocalStorage[name] = defaultValue;
+            } else if (
+                storageLocation === "sync" &&
+                LegacySetting.rawSyncStorage[name] === undefined
+            ) {
+                LegacySetting.rawSyncStorage[name] = defaultValue;
             }
 
             if (this.onload) {
                 controlElement.value =
-                    this.onload(Setting.raw_storage[name], controlElement) || this.default;
+                    this.onload(this.getRawValue(), controlElement) || this.default;
             } else {
-                controlElement.value = Setting.raw_storage[name] || this.default;
+                controlElement.value = this.getRawValue() || this.default;
             }
 
             return setting;
         })();
-        Setting.settings[name] = this;
+        LegacySetting.settings[name] = this;
+    }
+
+    getRawValue() {
+        return this.storageLocation === "sync"
+            ? LegacySetting.rawSyncStorage[this.name]
+            : LegacySetting.rawLocalStorage[this.name];
     }
 
     getElement() {
@@ -124,31 +141,44 @@ export class Setting {
      * @param {boolean} [saveUiSettings=true] Whether or not to save modified settings from the UI as well as the passed dictionary.
      */
     static async saveModified(
-        modifiedValues?: { [s: string]: any },
+        modifiedValuesSync?: { [s: string]: any },
+        modifiedValuesLocal?: { [s: string]: any },
         updateButtonText: boolean = true,
         saveUiSettings: boolean = true
     ) {
-        let newValues: { [s: string]: any } = {};
-        if (modifiedValues) {
-            Object.assign(newValues, modifiedValues);
+        let newValuesSync: { [s: string]: any } = {};
+        let newValuesLocal: { [s: string]: any } = {};
+        if (modifiedValuesSync) {
+            Object.assign(newValuesSync, modifiedValuesSync);
+        }
+        if (modifiedValuesLocal) {
+            Object.assign(newValuesLocal, modifiedValuesLocal);
         }
         if (saveUiSettings) {
-            for (let setting in Setting.settings) {
-                let v = Setting.settings[setting];
+            for (let setting in LegacySetting.settings) {
+                let v = LegacySetting.settings[setting];
                 if (v.modified) {
                     let value = v.onsave(v.getElement());
-                    newValues[setting] = value;
-                    Setting.raw_storage[setting] = value;
+                    if (v.storageLocation === "sync") {
+                        newValuesSync[setting] = value;
+                        LegacySetting.rawSyncStorage[setting] = value;
+                    } else {
+                        newValuesLocal[setting] = value;
+                        LegacySetting.rawLocalStorage[setting] = value;
+                    }
                     v.onload(value, v.getElement());
                     v.modified = false;
                 }
             }
         }
 
-        await chrome.storage.sync.set(newValues);
+        await chrome.storage.sync.set(newValuesSync);
+        await chrome.storage.local.set(newValuesLocal);
 
-        for (let settingName in newValues) {
-            let setting = Setting.settings[settingName];
+        let newValuesAll = { ...newValuesSync, ...newValuesLocal };
+
+        for (let settingName in newValuesAll) {
+            let setting = LegacySetting.settings[settingName];
             if (!setting) {
                 continue;
             }
@@ -156,9 +186,9 @@ export class Setting {
             trackEvent("update_setting", {
                 id: settingName,
                 context: "Settings",
-                value: newValues[settingName],
+                value: newValuesAll[settingName],
                 legacyTarget: settingName,
-                legacyAction: `set value: ${newValues[settingName]}`,
+                legacyAction: `set value: ${newValuesAll[settingName]}`,
                 legacyLabel: "Setting",
             });
 
@@ -173,7 +203,7 @@ export class Setting {
             }
         }
 
-        await Setting.updateSettingsFunction();
+        await LegacySetting.updateSettingsFunction();
 
         let settingsSaved = document.getElementById("save-settings") as HTMLElementWithValue;
         if (updateButtonText && settingsSaved) {
@@ -195,10 +225,19 @@ export class Setting {
                 legacyAction: "restore default values",
                 legacyLabel: "Setting",
             });
-            for (let setting in Setting.settings) {
-                delete Setting.raw_storage[setting];
-                await chrome.storage.sync.remove(setting);
-                Setting.settings[setting].onload(undefined, Setting.settings[setting].getElement());
+            for (let setting in LegacySetting.settings) {
+                let storageLocation = LegacySetting.settings[setting].storageLocation;
+                if (storageLocation === "sync") {
+                    await chrome.storage.sync.remove(setting);
+                    delete LegacySetting.rawSyncStorage[setting];
+                } else {
+                    await chrome.storage.local.remove(setting);
+                    delete LegacySetting.rawLocalStorage[setting];
+                }
+                LegacySetting.settings[setting].onload(
+                    undefined,
+                    LegacySetting.settings[setting].getElement()
+                );
             }
             location.reload();
         }
@@ -217,7 +256,13 @@ export class Setting {
         });
 
         navigator.clipboard
-            .writeText(JSON.stringify(Setting.raw_storage, null, 2))
+            .writeText(
+                JSON.stringify(
+                    { sync: LegacySetting.rawSyncStorage, local: LegacySetting.rawLocalStorage },
+                    null,
+                    2
+                )
+            )
             .then(() => alert("Copied settings to clipboard!"))
             .catch(err => alert("Exporting settings failed!"));
     }
@@ -243,22 +288,24 @@ export class Setting {
             try {
                 let importedSettingsObj = JSON.parse(importedSettings!);
 
-                Setting.setValues(importedSettingsObj).then(() => {
-                    trackEvent("button_click", {
-                        id: "import-settings-success",
-                        context: "Settings",
-                        legacyTarget: "import-settings",
-                        legacyAction: "successfully imported settings",
-                        legacyLabel: "Setting",
-                    });
-                    alert(
-                        `Successfully imported settings. If ${EXTENSION_NAME} breaks, please restore defaults or reinstall. Reloading page.`
-                    );
-                    location.reload();
-                });
+                LegacySetting.setValues(importedSettingsObj.sync, importedSettingsObj.local).then(
+                    () => {
+                        trackEvent("button_click", {
+                            id: "import-settings-success",
+                            context: "Settings",
+                            legacyTarget: "import-settings",
+                            legacyAction: "successfully imported settings",
+                            legacyLabel: "Setting",
+                        });
+                        alert(
+                            `Successfully imported settings. If ${EXTENSION_NAME} breaks, please restore defaults or reinstall. Reloading page.`
+                        );
+                        location.reload();
+                    }
+                );
             } catch (err) {
                 alert(
-                    "Failed to import settings! They were probably malformed. Make sure the settings are valid JSON."
+                    "Failed to import settings! They were probably malformed. Make sure the settings are valid JSON. The top level object should have a 'sync' and 'local' key."
                 );
                 return;
             }
@@ -279,7 +326,7 @@ export class Setting {
                 })
             );
         }
-        let setting = Setting.settings[element.dataset.settingName!];
+        let setting = LegacySetting.settings[element.dataset.settingName!];
         setting.modified = true;
         if (setting.onmodify) {
             setting.onmodify(element);
@@ -287,9 +334,9 @@ export class Setting {
     }
 
     static onShown() {
-        for (let setting in Setting.settings) {
-            if (Setting.settings[setting].onshown) {
-                Setting.settings[setting].onshown!();
+        for (let setting in LegacySetting.settings) {
+            if (LegacySetting.settings[setting].onshown) {
+                LegacySetting.settings[setting].onshown!();
             }
         }
     }
@@ -298,16 +345,16 @@ export class Setting {
      * @returns {boolean} `true` if any setting has been modified
      */
     static anyModified(): boolean {
-        for (let setting in Setting.settings) {
-            if (Setting.settings[setting].modified) {
+        for (let setting in LegacySetting.settings) {
+            if (LegacySetting.settings[setting].modified) {
                 return true;
             }
         }
         return false;
     }
 
-    static getValue<T>(name: string, defaultValue: T): T;
-    static getValue<T>(name: string): T | undefined;
+    static getValue<T>(name: string, location: "sync" | "local", defaultValue: T): T;
+    static getValue<T>(name: string, location: "sync" | "local"): T | undefined;
 
     /**
      * Gets the value of a setting in the cached copy of the
@@ -318,17 +365,28 @@ export class Setting {
      * @param {any} defaultValue The default value to return if no value is specifically set
      * @returns {any} The setting's cached value, default value, or `defaultValue`
      */
-    static getValue<T>(name: string, defaultValue?: T): T | undefined {
-        if (Setting.raw_storage[name]) {
-            return Setting.raw_storage[name];
-        } else if (Setting.settings[name] && !defaultValue) {
-            return Setting.settings[name].default;
+    static getValue<T>(name: string, location: "sync" | "local", defaultValue?: T): T | undefined {
+        if (location === "sync" && LegacySetting.rawSyncStorage[name] !== undefined) {
+            return LegacySetting.rawSyncStorage[name];
+        } else if (location === "local" && LegacySetting.rawLocalStorage[name] !== undefined) {
+            return LegacySetting.rawLocalStorage[name];
+        } else if (LegacySetting.settings[name] && !defaultValue) {
+            return LegacySetting.settings[name].default;
         }
         return defaultValue;
     }
 
-    static getNestedValue<T>(parent: string, key: string, defaultValue: T): T;
-    static getNestedValue<T>(parent: string, key: string): T | undefined;
+    static getNestedValue<T>(
+        parent: string,
+        key: string,
+        location: "sync" | "local",
+        defaultValue: T
+    ): T;
+    static getNestedValue<T>(
+        parent: string,
+        key: string,
+        location: "sync" | "local"
+    ): T | undefined;
 
     /**
      * Gets the value of a nested property in the cached copy of the
@@ -338,9 +396,24 @@ export class Setting {
      * @param {any} defaultValue The default value to return if no value is found
      * @returns {any} The setting's cached value, default value, or `defaultValue`
      */
-    static getNestedValue<T>(parent: string, key: string, defaultValue?: T): T | undefined {
-        if (Setting.raw_storage[parent] && key in Setting.raw_storage[parent]) {
-            return Setting.raw_storage[parent][key];
+    static getNestedValue<T>(
+        parent: string,
+        key: string,
+        location: "sync" | "local",
+        defaultValue?: T
+    ): T | undefined {
+        if (
+            location === "sync" &&
+            LegacySetting.rawSyncStorage[parent] &&
+            key in LegacySetting.rawSyncStorage[parent]
+        ) {
+            return LegacySetting.rawSyncStorage[parent][key];
+        } else if (
+            location === "local" &&
+            LegacySetting.rawLocalStorage[parent] &&
+            key in LegacySetting.rawLocalStorage[parent]
+        ) {
+            return LegacySetting.rawLocalStorage[parent][key];
         }
         return defaultValue;
     }
@@ -352,8 +425,12 @@ export class Setting {
      * @param {string} name The name of the setting to set the value of
      * @param {any} value The value to set
      */
-    static async setValue(name: string, value: any) {
-        await Setting.saveModified({ [name]: value }, false, false);
+    static async setValue(name: string, value: any, location: "local" | "sync") {
+        if (location === "sync") {
+            await LegacySetting.saveModified({ [name]: value }, {}, false, false);
+        } else {
+            await LegacySetting.saveModified({}, { [name]: value }, false, false);
+        }
 
         if (name === "defaultDomain") {
             chrome.runtime.sendMessage({ type: "updateDefaultDomain", domain: value });
@@ -366,21 +443,33 @@ export class Setting {
      * @param {string} key The key within `parent` in which to store the value
      * @param {any} value The value to set
      */
-    static async setNestedValue<T>(parent: string, key: string, value: T) {
-        var currentValue = Setting.getValue<{ [x: string]: T }>(parent, {});
+    static async setNestedValue<T>(
+        parent: string,
+        key: string,
+        value: T,
+        location: "local" | "sync"
+    ) {
+        var currentValue = LegacySetting.getValue<{ [x: string]: T }>(parent, location, {});
         currentValue[key] = value;
-        await Setting.saveModified({ [parent]: currentValue }, false, false);
+        if (location === "sync") {
+            await LegacySetting.saveModified({ [parent]: currentValue }, {}, false, false);
+        } else {
+            await LegacySetting.saveModified({}, { [parent]: currentValue }, false, false);
+        }
     }
 
     /**
      * Sets the value of multiple settings in the extension's synced storage
      * Even if a dictionary key is the name of a `Setting`, that `Setting`'s `onmodify`
      * function will NOT be called.
-     * @param {Object.<string,any>} dictionary Dictionary of setting names to values
+     * @param {Object.<string,any>} syncSettings Dictionary of setting names to values
      * @param {()=>any} callback Function called after new values are saved
      */
-    static async setValues(dictionary: { [s: string]: any }) {
-        await Setting.saveModified(dictionary, false, false);
+    static async setValues(
+        syncSettings: { [s: string]: any },
+        localSettings: { [s: string]: any }
+    ) {
+        await LegacySetting.saveModified(syncSettings, localSettings, false, false);
     }
 }
 
@@ -418,7 +507,7 @@ export const SIDEBAR_SECTIONS_MAP = Object.fromEntries(SIDEBAR_SECTIONS.map(s =>
  * @returns {boolean}
  */
 export function isLAUSD(): boolean {
-    return Setting.getValue("defaultDomain") === "lms.lausd.net";
+    return LegacySetting.getValue("defaultDomain", "sync") === "lms.lausd.net";
 }
 
 export function generateDebugInfo() {
@@ -427,7 +516,10 @@ export function generateDebugInfo() {
             version: chrome.runtime.getManifest().version,
             getBrowser: getBrowser(),
             url: location.href,
-            storageContents: Setting.raw_storage,
+            storageContents: {
+                sync: LegacySetting.rawSyncStorage,
+                local: LegacySetting.rawLocalStorage,
+            },
             userAgent: navigator.userAgent,
         },
         null,
@@ -438,16 +530,16 @@ export function generateDebugInfo() {
 export function getGradingScale(courseId: string | null): Record<string, string> {
     let defaultGradingScale = { "90": "A", "80": "B", "70": "C", "60": "D", "0": "F" };
 
-    if (Setting.raw_storage.defaultGradingScale) {
-        defaultGradingScale = Setting.raw_storage.defaultGradingScale;
+    if (LegacySetting.rawSyncStorage.defaultGradingScale) {
+        defaultGradingScale = LegacySetting.rawSyncStorage.defaultGradingScale;
     }
 
     if (
         courseId !== null &&
-        Setting.raw_storage.gradingScales &&
-        Setting.raw_storage.gradingScales[courseId]
+        LegacySetting.rawSyncStorage.gradingScales &&
+        LegacySetting.rawSyncStorage.gradingScales[courseId]
     ) {
-        return Setting.raw_storage.gradingScales[courseId];
+        return LegacySetting.rawSyncStorage.gradingScales[courseId];
     }
 
     return defaultGradingScale;

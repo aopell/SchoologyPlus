@@ -6,7 +6,8 @@ import { EXTENSION_NAME, EXTENSION_WEBSITE } from "../utils/constants";
 import { createElement, createSvgLogo } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
-import { Setting, getGradingScale, isLAUSD } from "../utils/settings";
+import { getGradingScale, isLAUSD } from "../utils/settings";
+import { Settings } from "../utils/splus-settings";
 
 const timeout = (ms: number) => new Promise(res => setTimeout(res, ms));
 const BUG_REPORT_FORM_LINK =
@@ -106,7 +107,7 @@ function loadContextMenu() {
                         legacyLabel: "Grades Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].parentElement.id.match(/\d+/)[0]
                         }/materials`,
                         "_blank"
@@ -124,7 +125,7 @@ function loadContextMenu() {
                         legacyLabel: "Grades Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].parentElement.id.match(/\d+/)[0]
                         }/updates`,
                         "_blank"
@@ -142,7 +143,7 @@ function loadContextMenu() {
                         legacyLabel: "Grades Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].parentElement.id.match(/\d+/)[0]
                         }/student_grades`,
                         "_blank"
@@ -160,7 +161,7 @@ function loadContextMenu() {
                         legacyLabel: "Grades Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].parentElement.id.match(/\d+/)[0]
                         }/mastery`,
                         "_blank"
@@ -178,7 +179,7 @@ function loadContextMenu() {
                         legacyLabel: "Grades Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].parentElement.id.match(/\d+/)[0]
                         }/members`,
                         "_blank"
@@ -928,7 +929,7 @@ async function activateGradesPage() {
                     let droppedAssignRClickSelector = ".item-row.dropped:not(.grade-add-indicator)";
 
                     // any state change when editing has been disabled
-                    if (Setting.getValue("apistatus") === "denied") {
+                    if (Settings.ApiStatus.value === "denied") {
                         if (
                             confirm(
                                 "This feature requires access to your Schoology API Key, which you have denied. Would you like to enable access?"
@@ -953,7 +954,7 @@ async function activateGradesPage() {
                                 legacyLabel: "What-If Grades",
                             });
                         }
-                    } else if (Setting.getValue("apistatus") === "blocked") {
+                    } else if (Settings.ApiStatus.value === "blocked") {
                         if (
                             confirm(
                                 "This feature requires access to your Schoology API Key, which has unfortunately been blocked by your school. If you think this might not be right, you can click OK to try and enable access again."
@@ -1703,7 +1704,7 @@ async function activateGradesPage() {
         !document.location.search.includes("past") ||
         document.location.search.split("past=")[1] != "1"
     ) {
-        if (Setting.getValue("orderClasses") == "period") {
+        if (Settings.CourseOrderMethod.value == "period") {
             for (let course of coursesByPeriod) {
                 if (course) {
                     course.parentElement!.appendChild(course);
@@ -1969,7 +1970,7 @@ async function activateGradesPage() {
     function addLetterGrade(elem: HTMLElement, courseId: string) {
         let gradingScale = getGradingScale(courseId);
         if (
-            Setting.getValue("customScales") != "disabled" &&
+            Settings.CustomGradingScales.value != "disabled" &&
             elem.textContent!.match(/^\d+\.?\d*%/) !== null
         ) {
             let percent = Number.parseFloat(

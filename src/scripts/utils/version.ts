@@ -4,7 +4,8 @@ import { DISCORD_URL, EXTENSION_NAME } from "./constants";
 import { getBrowser } from "./dom";
 import { Logger } from "./logger";
 import Modal from "./modal";
-import { Setting } from "./settings";
+import { LegacySetting } from "./settings";
+import { Settings } from "./splus-settings";
 import { createToastButton, showToast } from "./toast";
 
 /** Compares two version strings a and b.
@@ -92,7 +93,7 @@ const migrationsTo: {
                     !document.querySelector(".splus-modal-open")
                 ) {
                     clearInterval(accessToAccountInterval);
-                    if (!Setting.getValue("apistatus")) {
+                    if (!Settings.ApiStatus.value) {
                         location.pathname = "/api";
                     }
                 }
@@ -110,6 +111,17 @@ const migrationsTo: {
                 ),
             ]);
         }
+    },
+    10.1: function (currentVersion, previousVersion) {
+        Settings.UnreadBroadcasts.setValue(
+            LegacySetting.rawSyncStorage[Settings.UnreadBroadcasts.name] || []
+        );
+        chrome.storage.sync.remove(Settings.UnreadBroadcasts.name);
+
+        Settings.AssignmentCompletionOverrides.setValue(
+            LegacySetting.rawSyncStorage[Settings.AssignmentCompletionOverrides.name] || {}
+        );
+        chrome.storage.sync.remove(Settings.UnreadBroadcasts.name);
     },
 };
 

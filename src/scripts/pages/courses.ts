@@ -4,7 +4,7 @@ import { trackEvent } from "../utils/analytics";
 import { createElement } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
-import { Setting } from "../utils/settings";
+import { Settings } from "../utils/splus-settings";
 import Theme from "../utils/theme";
 
 export async function load() {
@@ -63,7 +63,7 @@ export async function load() {
                         legacyLabel: "Courses Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/materials`,
                         "_blank"
@@ -81,7 +81,7 @@ export async function load() {
                         legacyLabel: "Courses Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/updates`,
                         "_blank"
@@ -99,7 +99,7 @@ export async function load() {
                         legacyLabel: "Courses Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/student_grades`,
                         "_blank"
@@ -117,7 +117,7 @@ export async function load() {
                         legacyLabel: "Courses Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/mastery`,
                         "_blank"
@@ -135,7 +135,7 @@ export async function load() {
                         legacyLabel: "Courses Context Menu",
                     });
                     window.open(
-                        `https://${Setting.getValue("defaultDomain")}/course/${
+                        `https://${Settings.DefaultDomain.value}/course/${
                             this[0].querySelector(".section-item")!.id.match(/\d+/)![0]
                         }/members`,
                         "_blank"

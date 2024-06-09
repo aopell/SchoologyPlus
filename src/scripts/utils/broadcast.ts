@@ -1,4 +1,4 @@
-import { Setting } from "./settings";
+import { Settings } from "./splus-settings";
 
 export type Broadcast = {
     id: string;
@@ -54,14 +54,14 @@ export function createBroadcast(
  */
 export async function deleteBroadcasts(...ids: string[]) {
     for (let id of ids) {
-        let unreadBroadcasts: Broadcast[] = Setting.getValue("unreadBroadcasts", []);
+        let unreadBroadcasts: Broadcast[] = Settings.UnreadBroadcasts.value;
         if (!unreadBroadcasts) continue;
         unreadBroadcasts.splice(
             unreadBroadcasts.findIndex(x => x.id == id),
             1
         );
 
-        await Setting.setValue("unreadBroadcasts", unreadBroadcasts);
+        await Settings.UnreadBroadcasts.setValue(unreadBroadcasts);
 
         let broadcastElement = document.getElementById(`broadcast${id}`);
         if (broadcastElement) {

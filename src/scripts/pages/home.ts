@@ -7,7 +7,8 @@ import { EXTENSION_NAME, EXTENSION_WEBSITE } from "../utils/constants";
 import { createButton, createElement, createSvgLogo, waitForElement } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal from "../utils/modal";
-import { SIDEBAR_SECTIONS, SIDEBAR_SECTIONS_MAP, Setting } from "../utils/settings";
+import { SIDEBAR_SECTIONS, SIDEBAR_SECTIONS_MAP } from "../utils/settings";
+import { Settings } from "../utils/splus-settings";
 import { compareVersions } from "../utils/version";
 
 export async function load() {
@@ -28,7 +29,7 @@ function loadBroadcasts() {
         homeFeedContainer &&
         homeFeedContainer.querySelector<HTMLElement>(".feed .item-list .s-edge-feed");
 
-    if (homeFeedContainer && Setting.getValue("broadcasts") !== "disabled") {
+    if (homeFeedContainer && Settings.Broadcasts.value !== "disabled") {
         (async function () {
             await waitForElement("#home-feed-container #edge-filters");
 
@@ -36,7 +37,7 @@ function loadBroadcasts() {
             // style is set on homeFeedContainer whenever Schoology decides to unhide it (static CSS sets display: none), i.e. when it's finished loading
             // once this happens, we can do our thing
 
-            let unreadBroadcasts: Broadcast[] = Setting.getValue("unreadBroadcasts") || [];
+            let unreadBroadcasts: Broadcast[] = Settings.UnreadBroadcasts.value;
             let onlineBroadcasts: Broadcast[] = [];
 
             try {
@@ -74,7 +75,7 @@ function loadBroadcasts() {
             }
 
             // remove expired broadcasts
-            Setting.setValue("unreadBroadcasts", unexpiredBroadcasts);
+            Settings.UnreadBroadcasts.setValue(unexpiredBroadcasts);
         })();
     }
 }
@@ -195,12 +196,12 @@ function dismissNotification(event: Event) {
 
     if (!id) return;
 
-    let unreadBroadcasts = Setting.getValue<Broadcast[]>("unreadBroadcasts", []);
+    let unreadBroadcasts = Settings.UnreadBroadcasts.value;
     unreadBroadcasts.splice(
         unreadBroadcasts.findIndex(x => x.id == id),
         1
     );
-    Setting.setValue("unreadBroadcasts", unreadBroadcasts);
+    Settings.UnreadBroadcasts.setValue(unreadBroadcasts);
 
     let readBroadcasts = localStorage.getItem("splus-readBroadcasts");
     let parsedReadBroadcasts: string[] = readBroadcasts === null ? [] : JSON.parse(readBroadcasts);
@@ -220,9 +221,7 @@ function formatDateAsString(date: Date) {
 
 function reorderSidebar() {
     let sidebar = document.getElementById("right-column-inner");
-    let sidebarOrder = Setting.getValue<{ include: string[]; exclude: string[] }>(
-        "sidebarSectionOrder"
-    );
+    let sidebarOrder = Settings.SidebarSectionOrder.value;
     let excluded = sidebarOrder?.exclude || [];
     let included = Array.from(sidebarOrder?.include || []).reverse();
 
@@ -387,7 +386,7 @@ async function createQuickAccess() {
                     ])
                 );
 
-                let quickLink = Setting.getNestedValue<string>("courseQuickLinks", section.id);
+                let quickLink = Settings.CourseQuickLinks.nestedValue(section.id);
                 if (quickLink && quickLink !== "") {
                     courseIconsContainer.prepend(
                         createElement("a", ["icon", "icon-quicklink", "splus-track-clicks"], {
@@ -478,11 +477,11 @@ function indicateSubmittedAssignments() {
 
     // checks user override for assignment completion
     function isAssignmentMarkedComplete(assignmentId: string) {
-        return !!Setting.getNestedValue(completionOverridesSetting, assignmentId);
+        return !!Settings.AssignmentCompletionOverrides.nestedValue(assignmentId);
     }
 
     function setAssignmentCompleteOverride(assignmentId: string, isComplete: boolean) {
-        let overrides = Setting.getValue<Record<string, boolean>>(completionOverridesSetting);
+        let overrides = Settings.AssignmentCompletionOverrides.value;
 
         if (!overrides && !isComplete) return;
         else if (!overrides) overrides = {};
@@ -493,7 +492,7 @@ function indicateSubmittedAssignments() {
             overrides[assignmentId] = isComplete;
         }
 
-        Setting.setValue(completionOverridesSetting, overrides);
+        Settings.AssignmentCompletionOverrides.setValue(overrides);
     }
 
     function createAssignmentSubmittedCheckmarkIndicator(
@@ -577,7 +576,7 @@ function indicateSubmittedAssignments() {
         Logger.log("Checking to see if upcoming assignments are submitted");
         let idSet: Set<string> = new Set();
         for (let upcomingList of document.querySelectorAll(".upcoming-list")) {
-            switch (Setting.getValue("indicateSubmission")) {
+            switch (Settings.IndicateSubmittedAssignments.value) {
                 case "disabled":
                     break;
                 case "strikethrough":
@@ -647,7 +646,7 @@ function indicateSubmittedAssignments() {
         } else {
             // loaded properly
             // clear out old assignments from local cache which aren't relevant anymore
-            let overrides = Setting.getValue<Record<string, any>>(completionOverridesSetting);
+            let overrides = Settings.AssignmentCompletionOverrides.value;
 
             if (overrides) {
                 for (var key in overrides) {
@@ -655,7 +654,7 @@ function indicateSubmittedAssignments() {
                         delete overrides[key];
                     }
                 }
-                Setting.setValue(completionOverridesSetting, overrides);
+                Settings.AssignmentCompletionOverrides.setValue(overrides);
                 Logger.info("Done clearing old overrides");
             }
         }

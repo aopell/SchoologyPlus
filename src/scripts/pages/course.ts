@@ -3,7 +3,8 @@ import { EXTENSION_NAME } from "../utils/constants";
 import { createButton, createElement, createSvgLogo } from "../utils/dom";
 import { Logger } from "../utils/logger";
 import Modal, { modalFooterText } from "../utils/modal";
-import { Setting, getGradingScale, isLAUSD } from "../utils/settings";
+import { getGradingScale, isLAUSD } from "../utils/settings";
+import { Settings } from "../utils/splus-settings";
 import Theme, { ICON_REQUEST_URL } from "../utils/theme";
 
 var courseIdNumber: string;
@@ -185,10 +186,7 @@ function getCreatedGradingScale() {
 }
 
 async function saveCourseSettings(skipSavingGradingScale = false) {
-    let currentValue: Record<string, Record<string, string>> = Setting.getValue(
-        "gradingScales",
-        {}
-    );
+    let currentValue = Settings.CourseGradingScales.value;
 
     if (!skipSavingGradingScale) {
         let scale = getCreatedGradingScale();
@@ -215,7 +213,7 @@ async function saveCourseSettings(skipSavingGradingScale = false) {
         currentValue[courseIdNumber] = scale;
     }
 
-    let currentAliasesValue: Record<string, string> = Setting.getValue("courseAliases", {});
+    let currentAliasesValue: Record<string, string> = Settings.CourseNicknames.value;
     let newAliasValue = (document.getElementById("setting-input-course-alias") as HTMLInputElement)
         .value;
     if (newAliasValue !== currentAliasesValue[courseIdNumber]) {
@@ -229,7 +227,7 @@ async function saveCourseSettings(skipSavingGradingScale = false) {
     }
     currentAliasesValue[courseIdNumber] = newAliasValue;
 
-    let currentQuickLinkValue = Setting.getNestedValue("courseQuickLinks", courseIdNumber);
+    let currentQuickLinkValue = Settings.CourseQuickLinks.nestedValue(courseIdNumber);
     let newQuickLinkValue = (
         document.getElementById("setting-input-course-quicklink") as HTMLInputElement
     ).value;
@@ -242,12 +240,9 @@ async function saveCourseSettings(skipSavingGradingScale = false) {
             legacyLabel: "Course Settings",
         });
     }
-    Setting.setNestedValue("courseQuickLinks", courseIdNumber, newQuickLinkValue);
+    Settings.CourseQuickLinks.setNestedValue(courseIdNumber, newQuickLinkValue);
 
-    let courseIconOverride: Record<string, string> = Setting.getValue(
-        "forceDefaultCourseIcons",
-        {}
-    );
+    let courseIconOverride = Settings.ForceDefaultCourseIcons.value;
     let iconOverrideSelect = document.getElementById(
         "force-default-icon-splus-courseopt-select"
     ) as HTMLSelectElement;
@@ -262,13 +257,11 @@ async function saveCourseSettings(skipSavingGradingScale = false) {
             legacyLabel: "Course Settings",
         });
     }
-    courseIconOverride[courseIdNumber] = overrideValue;
+    courseIconOverride[courseIdNumber] = overrideValue as "enabled" | "disabled";
 
-    await Setting.setValues({
-        gradingScales: currentValue,
-        courseAliases: currentAliasesValue,
-        forceDefaultCourseIcons: courseIconOverride,
-    });
+    await Settings.CourseGradingScales.setValue(currentValue);
+    await Settings.CourseNicknames.setValue(currentAliasesValue);
+    await Settings.ForceDefaultCourseIcons.setValue(courseIconOverride);
 
     let settingsSaved = document.getElementById("save-course-settings") as HTMLButtonElement;
     settingsSaved.value = "Saved!";
@@ -290,7 +283,7 @@ async function setDefaultScale() {
             "Are you sure you want to set this as your default grading scale?\n\nThis will replace the grading scale for all courses except for those where you have already defined custom grading scales.\n\nThis will also save your course settings and reload the page."
         )
     ) {
-        await Setting.setValue("defaultGradingScale", scale);
+        await Settings.DefaultGradingScale.setValue(scale);
         await saveCourseSettings(true);
     }
 }
@@ -302,22 +295,17 @@ async function restoreCourseDefaults() {
         legacyAction: "restore default values",
         legacyLabel: "Course Settings",
     });
-    let currentValue: Record<string, Record<string, string>> = Setting.getValue(
-        "gradingScales",
-        {}
-    );
+    let currentValue = Settings.CourseGradingScales.value;
     delete currentValue[courseIdNumber];
 
-    let currentAliasesValue: Record<string, string> = Setting.getValue("courseAliases", {});
+    let currentAliasesValue = Settings.CourseNicknames.value;
     delete currentAliasesValue[courseIdNumber];
 
-    let courseIconOverride: Record<string, string> = Setting.getValue(
-        "forceDefaultCourseIcons",
-        {}
-    );
+    let courseIconOverride = Settings.ForceDefaultCourseIcons.value;
+
     delete courseIconOverride[courseIdNumber];
 
-    let courseQuickLinks: Record<string, string> = Setting.getValue("courseQuickLinks", {});
+    let courseQuickLinks = Settings.CourseQuickLinks.value;
     delete courseQuickLinks[courseIdNumber];
 
     if (
@@ -325,12 +313,10 @@ async function restoreCourseDefaults() {
             `Are you sure you want to reset all options for the course "${courseSettingsCourseName}" to their default values? This action is irreversible.`
         )
     ) {
-        await Setting.setValues({
-            gradingScales: currentValue,
-            courseAliases: currentAliasesValue,
-            forceDefaultCourseIcons: courseIconOverride,
-            courseQuickLinks: courseQuickLinks,
-        });
+        await Settings.CourseGradingScales.setValue(currentValue);
+        await Settings.CourseNicknames.setValue(currentAliasesValue);
+        await Settings.ForceDefaultCourseIcons.setValue(courseIconOverride);
+        await Settings.CourseQuickLinks.setValue(courseQuickLinks);
 
         alert("Settings restored. Reloading.");
         location.reload();
@@ -348,7 +334,7 @@ function setCourseOptionsContent(modal: Modal, options: Record<string, string>) 
     for (let e of document.querySelectorAll(".grade-symbol-row")) {
         e.parentElement?.removeChild(e);
     }
-    gradingScale = Setting.getNestedValue("gradingScales", courseIdNumber, gradingScale);
+    gradingScale = Settings.CourseGradingScales.nestedValue(courseIdNumber, gradingScale);
 
     for (let p of Object.keys(gradingScale)
         .sort((a, b) => Number.parseFloat(a) - Number.parseFloat(b))
@@ -357,7 +343,7 @@ function setCourseOptionsContent(modal: Modal, options: Record<string, string>) 
     }
 
     let aliasInput = document.getElementById("setting-input-course-alias") as HTMLInputElement;
-    let alias = Setting.getNestedValue<string>("courseAliases", courseIdNumber);
+    let alias = Settings.CourseNicknames.nestedValue(courseIdNumber);
     if (alias) {
         aliasInput.value = alias;
     } else {
@@ -367,10 +353,9 @@ function setCourseOptionsContent(modal: Modal, options: Record<string, string>) 
     let quickLinkInput = document.getElementById(
         "setting-input-course-quicklink"
     ) as HTMLInputElement;
-    quickLinkInput.value = Setting.getNestedValue("courseQuickLinks", courseIdNumber, "");
+    quickLinkInput.value = Settings.CourseQuickLinks.nestedValue(courseIdNumber, "");
 
-    let courseIconOverride =
-        Setting.getValue<Record<string, string>>("forceDefaultCourseIcons")?.[courseIdNumber];
+    let courseIconOverride = Settings.ForceDefaultCourseIcons.nestedValue(courseIdNumber);
     if (courseIconOverride) {
         const forceDefaultIconSelect = document.getElementById(
             "force-default-icon-splus-courseopt-select"

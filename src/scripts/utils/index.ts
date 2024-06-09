@@ -10,6 +10,7 @@ export * as logger from "./logger";
 export * as modal from "./modal";
 export * as notifications from "./notifications";
 export * as settings from "./settings";
+export * as splusSettings from "./splus-settings";
 export * as themeModel from "./theme-model";
 export * as theme from "./theme";
 export * as toast from "./toast";

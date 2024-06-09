@@ -5,7 +5,8 @@ import { trackEvent } from "./analytics";
 import { BETA_TESTS, FORCED_BETA_TEST } from "./beta";
 import { DEFAULT_THEME_NAME, DISCORD_URL, EXTENSION_NAME, EXTENSION_WEBSITE } from "./constants";
 import { createButton, createElement, getBrowser } from "./dom";
-import { Setting, generateDebugInfo } from "./settings";
+import { LegacySetting, generateDebugInfo } from "./settings";
+import { Settings } from "./splus-settings";
 import Theme from "./theme";
 import { getModalContents, updateSettings } from "./update-settings";
 
@@ -14,7 +15,9 @@ const verboseModalFooterText = `&copy; ${EXTENSION_NAME} Contributors 2017-2024 
 }${
     getBrowser() != "Chrome" || (chrome.runtime.getManifest() as any).update_url ? "" : " dev"
 }</a> | <a href="${DISCORD_URL}" id="open-discord" class="splus-track-clicks" title="Get support, report bugs, suggest features, and chat with the ${EXTENSION_NAME} community">Discord Server</a> | <a href="https://github.com/aopell/SchoologyPlus" id="open-github" class="splus-track-clicks">GitHub</a> | <a href="#" id="open-contributors" class="splus-track-clicks">Contributors</a> | <a target="_blank" href="${EXTENSION_WEBSITE}/privacy" id="open-privacy-policy" class="splus-track-clicks">Privacy Policy</a> | <a href="#" id="open-changelog" class="splus-track-clicks"> Changelog</a>`;
-export const modalFooterText = `${EXTENSION_NAME} v${chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version} &copy; ${EXTENSION_NAME} Contributors 2017-2024`;
+export const modalFooterText = `${EXTENSION_NAME} v${
+    chrome.runtime.getManifest().version_name || chrome.runtime.getManifest().version
+} &copy; ${EXTENSION_NAME} Contributors 2017-2024`;
 
 const changelogIFrame = document.createElement("iframe");
 changelogIFrame.src = `${EXTENSION_WEBSITE}/changelog?version=${
@@ -95,7 +98,7 @@ export default class Modal {
         if (
             element.id === "settings-modal" &&
             element.style.display !== "none" &&
-            Setting.anyModified()
+            LegacySetting.anyModified()
         ) {
             if (!confirm("You have unsaved settings.\nAre you sure you want to exit?")) return;
             updateSettings();
@@ -163,35 +166,14 @@ export default class Modal {
                         }),
                     ]
                 ),
-                new Setting(
-                    "analytics",
-                    "Anonymous Usage Statistics",
-                    `[Reload required] Allow ${EXTENSION_NAME} to collect anonymous information about how you use the extension. We don't collect any personal information per our privacy policy.`,
-                    getBrowser() === "Firefox" ? "disabled" : "enabled",
-                    "select",
-                    {
-                        options: [
-                            {
-                                text: "Enabled",
-                                value: "enabled",
-                            },
-                            {
-                                text: "Disabled",
-                                value: "disabled",
-                            },
-                        ],
-                    },
-                    value => value,
-                    undefined,
-                    element => element.value
-                ).control,
+                Settings.Analytics.settingsMenuElement,
                 createElement("p", ["setting-description"], {
                     style: { fontSize: "14px", paddingTop: "10px" },
                     textContent: `You can change your choice at any point in ${EXTENSION_NAME} settings`,
                 }),
                 createElement("div", ["settings-buttons-wrapper"], undefined, [
                     createButton("save-analytics-settings", "Save and Close", () => {
-                        Setting.saveModified();
+                        LegacySetting.saveModified();
                         Modal.closeAllModals();
                     }),
                 ]),
@@ -226,23 +208,7 @@ export default class Modal {
                         }),
                     ]
                 ),
-                new Setting(
-                    "beta",
-                    `${EXTENSION_NAME} βeta Code`,
-                    `[Reload required] Enables a beta test of a new ${EXTENSION_NAME} feature if you enter a valid code`,
-                    "",
-                    "text",
-                    {
-                        disabled:
-                            FORCED_BETA_TEST || Setting.getValue("analytics") !== "enabled"
-                                ? true
-                                : undefined,
-                        placeholder: FORCED_BETA_TEST ? FORCED_BETA_TEST : "",
-                    },
-                    value => value,
-                    undefined,
-                    element => element.value
-                ).control,
+                Settings.BetaCode.settingsMenuElement,
                 createElement("p", ["setting-description"], {
                     style: { fontSize: "14px", paddingTop: "10px" },
                     textContent:
@@ -254,7 +220,7 @@ export default class Modal {
                             document.getElementById("setting-input-beta") as HTMLInputElement
                         ).value;
                         let test_link = BETA_TESTS[new_test];
-                        let current_test = Setting.getValue("beta");
+                        let current_test = Settings.BetaCode.value;
 
                         if (new_test === "" && current_test) {
                             if (
@@ -262,7 +228,7 @@ export default class Modal {
                                     `Are you sure you want to disable the "${current_test}" beta test? This will reload the page.`
                                 )
                             ) {
-                                Setting.saveModified();
+                                LegacySetting.saveModified();
                                 location.reload();
                             }
                         } else if (test_link) {
@@ -285,7 +251,7 @@ export default class Modal {
                                     return;
                                 }
                             }
-                            Setting.saveModified();
+                            LegacySetting.saveModified();
                             window.open(test_link.url, "_blank");
                             location.reload();
                         } else {
@@ -586,7 +552,7 @@ export default class Modal {
 
                             let chooseThemeModal = document.getElementById("choose-theme-modal")!;
                             Modal.closeAllModals();
-                            Setting.setValue("theme", Theme.tempTheme);
+                            Settings.Theme.setValue(Theme.tempTheme);
                             if (
                                 chooseThemeModal
                                     .querySelector(
@@ -638,7 +604,7 @@ async function openOptionsMenu(settingsModal: Modal) {
     settingsModal
         .element!.querySelector("#open-contributors")
         ?.addEventListener("click", () => Modal.openModal("contributors-modal"), { once: true });
-    Setting.onShown();
+    LegacySetting.onShown();
     $(".splus-settings-tabs").tabs({
         active: 0,
         heightStyle: "fill",

@@ -3,7 +3,8 @@ import * as utils from "./utils";
 import { getAnalyticsUserId, initializeAnalytics } from "./utils/analytics";
 import { getBrowser } from "./utils/dom";
 import { Logger } from "./utils/logger";
-import { Setting, generateDebugInfo } from "./utils/settings";
+import { generateDebugInfo } from "./utils/settings";
+import { Settings } from "./utils/splus-settings";
 
 declare global {
     var SchoologyPlus: any;
@@ -41,12 +42,11 @@ async function load() {
 
     await initializeAnalytics({
         documentContext: true,
-        isAnalyticsEnabled:
-            getBrowser() !== "Firefox" && Setting.getValue<string>("analytics") === "enabled",
-        selectedTheme: Setting.getValue<string>("theme", "<unset>"),
-        selectedBeta: Setting.getValue<string>("beta", "<unset>"),
+        isAnalyticsEnabled: getBrowser() !== "Firefox" && Settings.Analytics.value === "enabled",
+        selectedTheme: Settings.Theme.valueOrDefault("<unset>"),
+        selectedBeta: Settings.BetaCode.valueOrDefault("<unset>"),
         currentVersion: chrome.runtime.getManifest().version,
-        newVersion: Setting.getValue<string>("newVersion", "<unset>"),
+        newVersion: Settings.LastLoadedVersion.value,
         randomUserId: await getAnalyticsUserId(),
         themeIsModern: document.documentElement.getAttribute("modern") ?? "false",
     });
@@ -142,7 +142,9 @@ async function load() {
     }
 
     globalThis.SchoologyPlus = {
-        Setting,
+        Settings,
+        fetchApi: utils.api.fetchApi,
+        fetchApiJson: utils.api.fetchApiJson,
         utils,
         pages,
         debug: JSON.parse(generateDebugInfo()),

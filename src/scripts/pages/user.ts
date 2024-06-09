@@ -1,7 +1,7 @@
 import { fetchApiJson, fetchWithApiAuthentication, getUserId } from "../utils/api";
 import { createElement } from "../utils/dom";
 import { Logger } from "../utils/logger";
-import { Setting } from "../utils/settings";
+import { Settings } from "../utils/splus-settings";
 import Theme from "../utils/theme";
 
 export async function load() {
@@ -95,7 +95,7 @@ function populateCourseList(
         .then(coursesInCommon => {
             clearNodeChildren(listElem);
 
-            let aliases = Setting.getValue<Record<string, string>>("courseAliases", {});
+            let aliases = Settings.CourseNicknames.value;
 
             if (coursesInCommon.length == 0) {
                 listElem.appendChild(
@@ -110,9 +110,7 @@ function populateCourseList(
                                 alt: `Profile picture for ${section.course_title}: ${section.section_title}`,
                             }),
                             createElement("a", [], {
-                                href: `https://${Setting.getValue("defaultDomain")}/course/${
-                                    section.id
-                                }`,
+                                href: `https://${Settings.DefaultDomain.value}/course/${section.id}`,
                                 textContent:
                                     aliases[section.id] ||
                                     `${section.course_title}: ${section.section_title}`,
