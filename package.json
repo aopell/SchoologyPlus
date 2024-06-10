@@ -1,6 +1,6 @@
 {
   "name": "schoology-plus",
-  "version": "10.0.1",
+  "version": "10.1.0",
   "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
   "scripts": {
     "build": "rm -rf dist/* && webpack --config webpack.config.js --mode=development",
