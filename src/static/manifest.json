@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Schoology Plus",
   "description": "Schoology Plus enhances your Schoology experience with numerous interface improvements",
-  "version": "10.0.1",
+  "version": "10.1.0",
   "homepage_url": "https://schoologypl.us?utm_source=ext-homepage-link",
   "action": {
     "default_icon": {
@@ -72,6 +72,15 @@
       "background.js"
     ]
   },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "pdf_preview_ruleset",
+        "enabled": false,
+        "path": "rules/pdf-preview.json"
+      }
+    ]
+  },
   "permissions": [
     "storage",
     "alarms",
@@ -80,7 +89,8 @@
     "contextMenus",
     "activeTab",
     "scripting",
-    "offscreen"
+    "offscreen",
+    "declarativeNetRequestWithHostAccess"
   ],
   "optional_permissions": [
     "<all_urls>"

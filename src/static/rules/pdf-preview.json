@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "responseHeaders": [
+                {
+                    "header": "content-disposition",
+                    "operation": "set",
+                    "value": "inline"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "https://files-cdn.schoology.com/*pdf*",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 2,
+        "priority": 2,
+        "action": {
+            "type": "modifyHeaders",
+            "responseHeaders": [
+                {
+                    "header": "content-disposition",
+                    "operation": "set",
+                    "value": "inline"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "https://*/attachment/*.pdf",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    }
+]

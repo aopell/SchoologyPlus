@@ -1,5 +1,5 @@
 import { Logger } from "./logger";
-import { Setting } from "./settings";
+import { Settings } from "./splus-settings";
 
 async function backgroundPageFetch(
     url: RequestInfo,
@@ -233,11 +233,11 @@ export function getUserId(): number {
  * Gets the user's API credentials from the Schoology API key webpage, bypassing the cache.
  */
 async function getApiKeysDirect() {
-    let apiKey = Setting.getValue("apikey");
-    let apiSecret = Setting.getValue("apisecret");
-    let apiUserId = Setting.getValue("apiuser");
+    let apiKey = Settings.ApiKey.value;
+    let apiSecret = Settings.ApiSecret.value;
+    let apiUserId = Settings.ApiUser.value;
     let currentUser = getUserId();
-    let apiStatus = Setting.getValue("apistatus");
+    let apiStatus = Settings.ApiStatus.value;
 
     if (apiStatus === "denied" && apiUserId === currentUser) {
         throw "apidenied";

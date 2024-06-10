@@ -374,7 +374,11 @@ variable-intellisense {
         }
     }
 
-    &[dark="true"] #header > header li svg.util-v2-icon-height-2N1T4 {
+    &[dark="true"]
+        #header
+        > header
+        li
+        svg.util-v2-icon-height-2N1T4:not(.splus-svg-icon-processed) {
         filter: Hue-Rotate(200deg) Invert(1) Saturate(2);
     }
 

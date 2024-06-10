@@ -2,7 +2,7 @@ import { trackEvent } from "../utils/analytics";
 import { getUserId } from "../utils/api";
 import { DISCORD_URL, EXTENSION_NAME, EXTENSION_WEBSITE } from "../utils/constants";
 import { createButton, createElement } from "../utils/dom";
-import { Setting } from "../utils/settings";
+import { Settings } from "../utils/splus-settings";
 
 export async function load() {
     let currentKey = document.getElementById("edit-current-key") as HTMLInputElement;
@@ -36,10 +36,11 @@ async function handleGeneratedApiKey(
             legacyLabel: "API Key",
         });
 
-        await Setting.setValue("apikey", key);
-        await Setting.setValue("apisecret", secret);
-        await Setting.setValue("apiuser", getUserId());
-        await Setting.setValue("apistatus", "allowed");
+        await Settings.ApiKey.setValue(key);
+        await Settings.ApiSecret.setValue(secret);
+        await Settings.ApiUser.setValue(getUserId());
+        await Settings.ApiStatus.setValue("allowed");
+
         location.pathname = "/";
     }
 }
@@ -184,8 +185,9 @@ async function denyApiAccess() {
         legacyAction: "denied",
         legacyLabel: "API Key",
     });
-    await Setting.setValue("apiuser", getUserId());
-    await Setting.setValue("apistatus", "denied");
+
+    await Settings.ApiUser.setValue(getUserId());
+    await Settings.ApiStatus.setValue("denied");
     location.pathname = "/";
 }
 
@@ -216,10 +218,7 @@ function handleMissingApiPermissions() {
         )
     );
 
-    if (
-        Setting.getValue("apistatus") !== "allowed" &&
-        Setting.getValue("apistatus") !== "blocked"
-    ) {
+    if (Settings.ApiStatus.value !== "blocked" && Settings.ApiStatus.value !== "allowed") {
         trackEvent("update_setting", {
             id: "apistatus",
             context: "API Key Page",
@@ -228,7 +227,7 @@ function handleMissingApiPermissions() {
             legacyAction: "blocked",
             legacyLabel: "API Key",
         });
-        Setting.setValue("apistatus", "blocked");
+        Settings.ApiStatus.setValue("blocked");
     }
 
     permElement.appendChild(

@@ -2,7 +2,8 @@ import { DEFAULT_THEME_NAME, EXTENSION_NAME } from "./constants";
 import { DEFAULT_ICONS } from "./default-icons";
 import { DEFAULT_THEMES } from "./default-themes";
 import { setCSSVariable } from "./dom";
-import { Setting, isLAUSD } from "./settings";
+import { isLAUSD } from "./settings";
+import { Settings } from "./splus-settings";
 import {
     AnySchoolgyTheme,
     ModernColorDefinition,
@@ -61,9 +62,7 @@ export default class Theme {
             }
         }
 
-        let t = Setting.getValue<AnySchoolgyTheme[]>("themes", []).find(
-            x => x.name === Theme.active.name
-        );
+        let t = Settings.Themes.value.find(x => x.name === Theme.active.name);
         if (t && t.icons && t.icons instanceof Array) {
             for (let iconPattern of t.icons) {
                 let regex = Array.isArray(iconPattern)
@@ -77,7 +76,7 @@ export default class Theme {
         }
 
         // Default icons only if enabled
-        if (Setting.getValue("useDefaultIconSet") === "enabled") {
+        if (Settings.UseDefaultIcons.value === "enabled") {
             for (let iconPattern of DEFAULT_ICONS) {
                 if (course.match(new RegExp(iconPattern.regex, "i"))) {
                     return iconPattern.url;
@@ -265,7 +264,7 @@ export default class Theme {
     static get active(): Theme {
         return Theme.tempTheme
             ? Theme.byName(Theme.tempTheme)
-            : Theme.byName(Setting.getValue<string>("theme")) || Theme.byName(DEFAULT_THEME_NAME);
+            : Theme.byName(Settings.Theme.value) || Theme.byName(DEFAULT_THEME_NAME);
     }
 
     static byName(name?: string): Theme {
@@ -376,9 +375,9 @@ export default class Theme {
     }
 
     static setProfilePictures(candidateImages?: Iterable<HTMLImageElement>) {
-        if (Setting.getValue("courseIcons") === "disabled") return;
+        if (Settings.OverrideCourseIcons.value === "disabled") return;
         // whether or not to skip setting themed icons where the teacher has already set one
-        let skipOverriddenIcons = Setting.getValue("courseIcons") === "defaultOnly";
+        let skipOverriddenIcons = Settings.OverrideCourseIcons.value === "defaultOnly";
         let pictures: HTMLImageElement[] = [];
         if (candidateImages) {
             if (!skipOverriddenIcons) {
@@ -461,7 +460,7 @@ export default class Theme {
             }
         }
 
-        let missingIconsLastCheck = Setting.getValue<number>("missingIconsLastCheck");
+        let missingIconsLastCheck = Settings.MissingIconsLastCheck.value;
         let coursesMissingDefaultIcons = new Set<string | undefined>();
 
         for (let arrow of arrows) {
@@ -579,7 +578,7 @@ export default class Theme {
             img.classList.add("injected-course-icon");
 
             if (
-                Setting.getValue("courseIconFavicons") !== "disabled" &&
+                Settings.CourseIconFavicons.value !== "disabled" &&
                 img == bigCourseIcon &&
                 !document.querySelector("head > link[rel='icon'][type='image/svg+xml']")
             ) {
@@ -627,7 +626,7 @@ export default class Theme {
                 }
             );
             shownMissingIconsNotification = true;
-            Setting.setValue("missingIconsLastCheck", new Date().valueOf());
+            Settings.MissingIconsLastCheck.setValue(Date.now());
         }
     }
 

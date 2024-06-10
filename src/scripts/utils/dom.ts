@@ -67,6 +67,25 @@ export function createButton(id: string, text: string, callback?: (e: Event) => 
     );
 }
 
+export function createButtonWithLogo(id: string, text: string, callback?: (e: Event) => void) {
+    let button = createButton(id, text, callback);
+    let img = createSvgLogo();
+    Object.assign(img.style, {
+        verticalAlign: "middle",
+        paddingLeft: "4px",
+        width: "18px",
+    });
+    button.prepend(img);
+    button.style.setProperty("height", "36px", "important");
+
+    let buttonInput = button.querySelector("input")!;
+    buttonInput.style.paddingLeft = "4px";
+    buttonInput.style.setProperty("height", "36px", "important");
+    button.style.cursor = "pointer";
+
+    return button;
+}
+
 /**
  * Returns the name of the current browser
  * @returns {"Chrome"|"Firefox"|"Other"} Name of the current browser

@@ -3,7 +3,7 @@ import "jquery.tipsy";
 
 import { fetchApi, fetchApiJson, fetchWithApiAuthentication, getUserId } from "../utils/api";
 import { Logger } from "../utils/logger";
-import { Setting } from "../utils/settings";
+import { Settings } from "../utils/splus-settings";
 
 export async function load() {
     try {
@@ -453,7 +453,7 @@ async function showMaterialTooltips() {
     // grade drops
     // unfortunately it doesn't look like the API returns grade drop status, so we have to scrape it from the gradebook
     let ourGradebookHtml = await (
-        await fetch(`https://${Setting.getValue("defaultDomain")}/course/${classId}/student_grades`)
+        await fetch(`https://${Settings.DefaultDomain.value}/course/${classId}/student_grades`)
     ).text();
     let ourGradebookParser = new DOMParser();
     let ourGradebookDoc = ourGradebookParser.parseFromString(ourGradebookHtml, "text/html");

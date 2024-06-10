@@ -224,6 +224,20 @@ function onMessage(
             );
         });
         return true;
+    } else if (request.type == "declarativeNetRequestRuleset") {
+        if (request.action === "enable") {
+            chrome.declarativeNetRequest
+                .updateEnabledRulesets({
+                    enableRulesetIds: [request.rulesetId],
+                })
+                .then(() => sendResponse({ success: true }));
+        } else if (request.action === "disable") {
+            chrome.declarativeNetRequest
+                .updateEnabledRulesets({
+                    disableRulesetIds: [request.rulesetId],
+                })
+                .then(() => sendResponse({ success: true }));
+        }
     }
 }
 
