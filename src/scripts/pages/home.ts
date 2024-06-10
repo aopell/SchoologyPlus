@@ -126,6 +126,7 @@ function postFromBroadcast(broadcast: Broadcast) {
                             createElement("div", ["update-sentence-inner"], {}, [
                                 createElement("a", ["sExtlink-processed"], {
                                     textContent: EXTENSION_NAME.toUpperCase(),
+                                    href: EXTENSION_WEBSITE,
                                 }),
                                 createElement("span", ["blue-arrow-right"], {}, [
                                     createElement("span", ["visually-hidden"], {

@@ -77,7 +77,6 @@ export async function load() {
     attemptDisplayCourseAliases();
     displayGradesInNotificationDropdown();
     preventScrollingWhenModalOpen();
-    autoBypassLinkRedirects();
     displayAssessmentDarkThemeWarningMessage();
     createSettingsHashListener();
 }
@@ -93,6 +92,8 @@ export async function preload() {
     document.documentElement.setAttribute("page", location.pathname);
 
     await updateSettings();
+
+    autoBypassLinkRedirects();
 
     Logger.debug("Finished loading preload.js");
 }
@@ -1526,7 +1527,10 @@ function preventScrollingWhenModalOpen() {
 
 function autoBypassLinkRedirects() {
     if (location.pathname.startsWith("/link") && Settings.BypassLinkRedirects.value === "enabled") {
-        document.querySelector<HTMLAnchorElement>("a.s-extlink-direct[href]")?.click();
+        let path = new URLSearchParams(location.search).get("path");
+        if (path) {
+            location.href = path;
+        }
     }
 }
 
