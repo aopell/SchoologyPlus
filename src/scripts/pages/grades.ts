@@ -1,6 +1,7 @@
 import $ from "jquery";
 
-import { activateGradesPage } from "../features/what-if-grades";
+import { activateGradesPage } from "../features/old-what-if-grades";
+import { loadWhatIfGrades } from "../features/what-if-grades";
 import { trackEvent } from "../utils/analytics";
 import { createElement } from "../utils/dom";
 import { Logger } from "../utils/logger";
@@ -27,6 +28,12 @@ export async function load() {
     document.documentElement.classList.add("splus-is-grades-page");
 
     loadContextMenu();
+
+    try {
+        loadWhatIfGrades();
+    } catch (err) {
+        Logger.error("Error loading what-if grades", err);
+    }
 
     await activateGradesPage();
 

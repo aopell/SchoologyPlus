@@ -204,3 +204,17 @@ export function waitForElement(selector: string, check_interval = 50): Promise<H
         }, check_interval);
     });
 }
+
+export function getTextNodeContent(element: HTMLElement): string;
+export function getTextNodeContent(element?: HTMLElement): string | undefined;
+export function getTextNodeContent(element?: HTMLElement) {
+    if (!element) {
+        return undefined;
+    }
+
+    // return the text just from the text nodes, not the text from child elements
+    return Array.from(element.childNodes)
+        .filter(node => node.nodeType === Node.TEXT_NODE)
+        .map(node => node.textContent)
+        .join("");
+}
