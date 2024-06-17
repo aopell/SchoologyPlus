@@ -83,12 +83,12 @@ export class SchoologyGradebookCategory {
         this.name = getTextNodeContent(
             this.element.querySelector<HTMLAnchorElement>(".title-column .title")!
         );
-        this.weight =
-            Number.parseFloat(
-                this.element
-                    .querySelector(".title-column .percentage-contrib")!
-                    .textContent!.match(/\d+/)![0]
-            ) / 100;
+
+        let weightedElement = this.element.querySelector(".title-column .percentage-contrib");
+
+        if (weightedElement) {
+            this.weight = Number.parseFloat(weightedElement.textContent!.match(/\d+/)![0]) / 100;
+        }
     }
 
     public get course() {
