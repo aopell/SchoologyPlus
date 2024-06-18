@@ -30,12 +30,12 @@ export async function load() {
     loadContextMenu();
 
     try {
-        loadWhatIfGrades();
+        globalThis.SchoologyPlus.gradebook = loadWhatIfGrades();
     } catch (err) {
         Logger.error("Error loading what-if grades", err);
     }
 
-    await activateGradesPage();
+    // await activateGradesPage();
 
     Logger.log("Retrieving (" + fetchQueue.length + ") nonentered assignments info...");
     processNonenteredAssignments();

@@ -34,6 +34,54 @@ export class SchoologyCourse {
             period.load();
         }
     }
+
+    public get isLoading() {
+        return this.periods.some(period => period.isLoading);
+    }
+
+    public get failedToLoad() {
+        return this.periods.some(period => period.failedToLoad);
+    }
+
+    public get gradePercent() {
+        let weightedPoints = this.periods.reduce((acc, period) => {
+            if (period.weight === undefined) return acc;
+
+            return acc + period.points * period.weight;
+        }, 0);
+
+        let weightedMaxPoints = this.periods.reduce((acc, period) => {
+            if (period.weight === undefined) return acc;
+
+            return acc + period.maxPoints * period.weight;
+        }, 0);
+
+        if (weightedPoints === 0 && weightedMaxPoints === 0) return undefined;
+        if (weightedMaxPoints === 0) return Number.POSITIVE_INFINITY;
+        if (weightedPoints === 0) return 0;
+
+        return (weightedPoints * 100) / weightedMaxPoints;
+    }
+
+    public get gradePercentageString() {
+        if (this.isLoading) return "LOADING";
+        if (this.failedToLoad) return "ERR";
+        if (this.gradePercent === undefined) return "—";
+        if (this.gradePercent === Number.POSITIVE_INFINITY) return "EC";
+        return `${Math.round(this.gradePercent)}%`;
+    }
+
+    public get gradePercentageDetailsString() {
+        if (this.isLoading) return "Loading grade percentage...";
+        if (this.failedToLoad) return "Failed to load grade percentage";
+        if (this.gradePercent === undefined) return undefined;
+        if (this.gradePercent === Number.POSITIVE_INFINITY) return "Extra Credit";
+        return `${this.gradePercent.toFixed(2)}%`;
+    }
+
+    public toString() {
+        return `${this.name} (${this.id}) - ${this.gradePercentageString}`;
+    }
 }
 
 export class SchoologyGradebookPeriod {
@@ -55,10 +103,6 @@ export class SchoologyGradebookPeriod {
             ) / 100;
     }
 
-    public get categoriesAreWeighted() {
-        return this.categories.some(category => category.weight !== undefined);
-    }
-
     public load() {
         let categoryElements = Array.from(
             this.course.gradebookTable.querySelectorAll<HTMLTableRowElement>("tr.category-row")
@@ -69,6 +113,85 @@ export class SchoologyGradebookPeriod {
             this.categories.push(category);
             category.load();
         }
+    }
+
+    public get categoriesAreWeighted() {
+        return this.categories.some(category => category.weight !== undefined);
+    }
+
+    public get isLoading() {
+        return this.categories.some(category => category.isLoading);
+    }
+
+    public get failedToLoad() {
+        return this.categories.some(category => category.failedToLoad);
+    }
+
+    public get points(): number {
+        if (this.categoriesAreWeighted) return this.gradePercent ?? 0;
+
+        return this.categories.reduce((acc, category) => {
+            if (category.weight === undefined) return acc + category.points;
+
+            return acc + category.points * category.weight;
+        }, 0);
+    }
+
+    public get maxPoints() {
+        if (this.categoriesAreWeighted) return 100;
+
+        return this.categories.reduce((acc, category) => {
+            if (category.weight === undefined) return acc + category.maxPoints;
+
+            return acc + category.maxPoints * category.weight;
+        }, 0);
+    }
+
+    public get gradePercent() {
+        if (this.categoriesAreWeighted) {
+            let weightedPoints = this.categories.reduce((acc, category) => {
+                if (category.weight === undefined) return acc;
+
+                return acc + category.points * category.weight;
+            }, 0);
+
+            let weightedMaxPoints = this.categories.reduce((acc, category) => {
+                if (category.weight === undefined) return acc;
+
+                return acc + category.maxPoints * category.weight;
+            }, 0);
+
+            if (weightedPoints === 0 && weightedMaxPoints === 0) return undefined;
+            if (weightedMaxPoints === 0) return Number.POSITIVE_INFINITY;
+            if (weightedPoints === 0) return 0;
+
+            return (weightedPoints * 100) / weightedMaxPoints;
+        }
+        if (this.maxPoints === 0 && this.points === 0) return undefined;
+        if (this.maxPoints === 0) return Number.POSITIVE_INFINITY;
+        if (this.points === 0) return 0;
+
+        return (this.points * 100) / this.maxPoints;
+    }
+
+    public get gradePercentageString() {
+        if (this.isLoading) return "LOADING";
+        if (this.failedToLoad) return "ERR";
+        if (this.gradePercent === undefined) return "—";
+        if (this.gradePercent === Number.POSITIVE_INFINITY) return "EC";
+        return `${Math.round(this.gradePercent)}%`;
+    }
+
+    public get gradePercentageDetailsString() {
+        if (this.isLoading) return "Loading grade percentage...";
+        if (this.failedToLoad) return "Failed to load grade percentage";
+        if (this.gradePercent === undefined) return undefined;
+        if (this.gradePercent === Number.POSITIVE_INFINITY) return "Extra Credit";
+        return `${this.gradePercent.toFixed(2)}%`;
+    }
+
+    public toString() {
+        return `${this.name} (${this.id}) - ${this.points}/${this.maxPoints} - ${this.gradePercentageString}`;
     }
 }
 
@@ -106,23 +229,57 @@ export class SchoologyGradebookCategory {
         }
     }
 
+    public get isLoading() {
+        return this.assignments.some(assignment => assignment.isLoading);
+    }
+
+    public get failedToLoad() {
+        return this.assignments.some(assignment => assignment.failedToLoad);
+    }
+
+    public get points() {
+        return this.assignments.reduce((acc, assignment) => {
+            if (assignment.ignoreInCalculations) return acc;
+
+            return acc + (assignment.points ?? 0);
+        }, 0);
+    }
+
+    public get maxPoints() {
+        return this.assignments.reduce((acc, assignment) => {
+            if (assignment.ignoreInCalculations) return acc;
+
+            return acc + (assignment.maxPoints ?? 0);
+        }, 0);
+    }
+
     public get gradePercent() {
-        if (this.assignments.length === 0) return undefined;
+        if (this.maxPoints === 0 && this.points === 0) return undefined;
+        if (this.maxPoints === 0) return Number.POSITIVE_INFINITY;
+        if (this.points === 0) return 0;
 
-        let totalPoints = 0;
-        let totalMaxPoints = 0;
+        return (this.points * 100) / this.maxPoints;
+    }
 
-        for (let assignment of this.assignments) {
-            if (assignment.ignoreInCalculations) continue;
-            if (assignment.points === undefined) continue;
+    public get gradePercentageString() {
+        if (this.isLoading) return "LOADING";
+        if (this.failedToLoad) return "ERR";
+        if (this.gradePercent === undefined) return "—";
+        if (this.gradePercent === Number.POSITIVE_INFINITY) return "EC";
+        return `${Math.round(this.gradePercent)}%`;
+    }
 
-            totalPoints += assignment.points;
-            totalMaxPoints += assignment.maxPoints ?? 0;
-        }
+    public get gradePercentageDetailsString() {
+        if (this.isLoading) return "Loading grade percentage...";
+        if (this.failedToLoad) return "Failed to load grade percentage";
+        if (this.gradePercent === undefined) return undefined;
+        if (this.gradePercent === Number.POSITIVE_INFINITY)
+            return `${this.points} points of Extra Credit`;
+        return `${this.gradePercent.toFixed(2)}%`;
+    }
 
-        return totalMaxPoints === 0
-            ? Number.POSITIVE_INFINITY
-            : (totalPoints * 100) / totalMaxPoints;
+    public toString() {
+        return `${this.name} (${this.id}) - ${this.points}/${this.maxPoints} - ${this.gradePercentageString}`;
     }
 }
 
@@ -137,6 +294,8 @@ export class SchoologyAssignment {
     public isMissing: boolean = false;
     public failedToLoad: boolean = false;
 
+    private _cachedListSearch: any = undefined;
+
     constructor(public category: SchoologyGradebookCategory, public element: HTMLElement) {
         this.id = this.element.dataset.id!.substring(2);
         this.name = getTextNodeContent(
@@ -149,7 +308,10 @@ export class SchoologyAssignment {
                 this.element.querySelector(".rubric-grade-value");
 
             this.points = scoreElement ? Number.parseFloat(scoreElement!.textContent!) : undefined;
+
+            if (Number.isNaN(this.points)) throw "NaN";
         } catch (err) {
+            this.points = undefined;
             Logger.warn("Error parsing points for assignment", this, err);
         }
 
@@ -157,9 +319,12 @@ export class SchoologyAssignment {
             let maxPointsElement = this.element.querySelector(".max-grade");
 
             this.maxPoints = maxPointsElement
-                ? Number.parseFloat(maxPointsElement.textContent!)
+                ? Number.parseFloat(maxPointsElement.textContent!.match(/\d+/)![0])
                 : undefined;
+
+            if (Number.isNaN(this.maxPoints)) throw "NaN";
         } catch (err) {
+            this.maxPoints = undefined;
             Logger.warn("Error parsing max points for assignment", this, err);
         }
 
@@ -167,7 +332,9 @@ export class SchoologyAssignment {
         this.exception =
             element.querySelector(".exception .exception-text")?.textContent ?? undefined;
 
-        this.ignoreInCalculations = this.exception !== undefined;
+        this.ignoreInCalculations =
+            this.exception !== undefined ||
+            (this.points === undefined && this.maxPoints === undefined);
 
         if (this.element.querySelector(".exception-icon.missing")) {
             this.ignoreInCalculations = false;
@@ -184,77 +351,101 @@ export class SchoologyAssignment {
     }
 
     public get isLoading() {
-        return (this.points === undefined || this.maxPoints === undefined) && !this.failedToLoad;
+        return (
+            (this.points === undefined || this.maxPoints === undefined) &&
+            !this.ignoreInCalculations &&
+            !this.failedToLoad
+        );
     }
 
     private async loadPointsFromApi() {
-        Logger.log(`Fetching max points for (nonentered) assignment ${this.id}`);
+        Logger.debug(`Fetching max points for (nonentered) assignment ${this.id}`);
 
-        if (this.points !== undefined && this.maxPoints !== undefined) return;
+        let needToLoadPoints = () => {
+            return this.points === undefined && !this.ignoreInCalculations && !this.exception;
+        };
+
+        let needToLoadMaxPoints = () => {
+            return this.maxPoints === undefined && !this.ignoreInCalculations;
+        };
+
+        if (!needToLoadPoints() && !needToLoadMaxPoints()) return;
 
         let response: Response | null = null;
         let firstTryError: any = null;
+        let listSearchError: any = null;
 
         try {
-            response = await fetchApi(`sections/${this.course.id}/assignments/${this.id}`);
+            if (this._cachedListSearch === undefined) {
+                response = await fetchApi(
+                    `users/${getUserId()}/grades?section_id=${this.course.id}`
+                );
+                if (!response.ok) {
+                    throw { status: response.status, error: response.statusText };
+                }
+                this._cachedListSearch = await response.json();
+            }
+
+            if (this._cachedListSearch && this._cachedListSearch.section.length > 0) {
+                // success case
+                let jsonAssignment = this._cachedListSearch.section[0].period
+                    .flatMap((p: any) => p.assignment)
+                    .filter((x: any) => x.assignment_id == Number.parseInt(this.id!))[0];
+
+                if (
+                    needToLoadPoints() &&
+                    jsonAssignment.grade !== undefined &&
+                    jsonAssignment.grade !== null
+                ) {
+                    this.points = Number.parseFloat(jsonAssignment.grade);
+                }
+
+                if (
+                    needToLoadMaxPoints() &&
+                    jsonAssignment.max_points !== undefined &&
+                    jsonAssignment.max_points !== null
+                ) {
+                    this.maxPoints = Number.parseFloat(jsonAssignment.max_points);
+                }
+            }
+
+            if (needToLoadPoints() || needToLoadMaxPoints()) {
+                throw `Failed to load points from API: ${this._cachedListSearch}`;
+            }
+
+            return;
         } catch (err) {
-            firstTryError = err;
+            listSearchError = err;
         }
 
-        if (response && !response.ok) {
-            firstTryError = { status: response.status, error: response.statusText };
-        } else if (response) {
+        if (!needToLoadPoints()) {
             try {
-                let json = await response.json();
+                response = await fetchApi(`sections/${this.course.id}/assignments/${this.id}`);
 
-                if (json && json.max_points !== undefined) {
-                    this.maxPoints = json.max_points;
-                } else {
-                    firstTryError = "JSON returned without max points";
+                if (response && !response.ok) {
+                    firstTryError = { status: response.status, error: response.statusText };
+                } else if (response) {
+                    let json = await response.json();
+
+                    if (json && json.max_points !== undefined && json.max_points !== null) {
+                        this.maxPoints = Number.parseFloat(json.max_points);
+                        return;
+                    } else {
+                        firstTryError = "JSON returned without max points";
+                    }
+                } else if (!firstTryError) {
+                    firstTryError = "Unknown error fetching API response";
                 }
             } catch (err) {
                 firstTryError = err;
             }
-        } else if (!firstTryError) {
-            firstTryError = "Unknown error fetching API response";
         }
 
-        if (!firstTryError && this.points !== undefined) return;
-
-        if (firstTryError) {
-            Logger.log(
-                `Error directly fetching max points for assignment ${this.id}, reverting to list-search`
-            );
-        }
-        if (this.points === undefined) {
-            Logger.log(
-                `Finding grade for letter-grade-only assignment ${this.id} from list-search`
-            );
-        }
-
-        try {
-            response = await fetchApi(`users/${getUserId()}/grades?section_id=${this.course.id}`);
-            if (!response.ok) {
-                throw { status: response.status, error: response.statusText };
-            }
-            let json = await response.json();
-
-            if (json && json.section.length > 0) {
-                // success case
-                let jsonAssignment = json.section[0].period
-                    .flatMap((p: any) => p.assignment)
-                    .filter((x: any) => x.assignment_id == Number.parseInt(this.id!))[0];
-
-                if (this.points === undefined && jsonAssignment.grade !== undefined) {
-                    this.points = jsonAssignment.grade;
-                }
-            } else {
-                throw "List search failed to obtain meaningful response";
-            }
-        } catch (err) {
-            this.failedToLoad = true;
-            throw { listSearchErr: err, firstTryError: firstTryError };
-        }
+        this.failedToLoad = true;
+        Logger.error(
+            `Failed to load points for assignment "${this.name}" (${this.id}) from category "${this.category.name}" from period "${this.category.period.name}" from course "${this.category.period.course.name}" (${this.category.period.course.id})`,
+            { firstTryError, listSearchError }
+        );
     }
 
     public async waitForPoints(timeout: number = 30000) {
@@ -289,7 +480,7 @@ export class SchoologyAssignment {
     }
 
     public get gradePercentageString() {
-        if (this.isLoading) return "...";
+        if (this.isLoading) return "LOADING";
         if (this.failedToLoad) return "ERR";
         if (this.gradePercent === undefined) return "—";
         if (this.gradePercent === Number.POSITIVE_INFINITY) return "EC";
@@ -304,11 +495,20 @@ export class SchoologyAssignment {
             return `${this.points} points of Extra Credit`;
         return `${this.gradePercent.toFixed(2)}%`;
     }
+
+    public toString() {
+        return `${this.name} (${this.id}) - ${this.points}/${this.maxPoints} - ${this.gradePercentageString} - ${this.comment} - ${this.exception}`;
+    }
 }
 
 export function loadWhatIfGrades() {
     let courses = loadCourses();
     Logger.log("Loaded courses:", courses);
+
+    for (let course of courses) {
+        Logger.log(courseToString(course));
+    }
+
     return courses;
 }
 
@@ -324,4 +524,20 @@ export function loadCourses() {
     }
 
     return courses;
+}
+
+export function courseToString(course: SchoologyCourse) {
+    let courseString = [];
+    courseString.push(course.toString());
+    for (let period of course.periods) {
+        courseString.push(`  ${period.toString()}`);
+        for (let category of period.categories) {
+            courseString.push(`    ${category.toString()}`);
+            for (let assignment of category.assignments) {
+                courseString.push(`      ${assignment.toString()}`);
+            }
+        }
+    }
+
+    return courseString.join("\n");
 }
