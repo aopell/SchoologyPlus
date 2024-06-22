@@ -1,6 +1,9 @@
 import { fetchApi, getUserId } from "../utils/api";
-import { getTextNodeContent } from "../utils/dom";
+import { EXTENSION_NAME } from "../utils/constants";
+import { createElement, getTextNodeContent } from "../utils/dom";
 import { Logger } from "../utils/logger";
+import { getGradingScale } from "../utils/settings";
+import { Settings } from "../utils/splus-settings";
 
 /*
     Basic idea of what to do:
@@ -14,6 +17,8 @@ export class SchoologyCourse {
     public name: string;
     public gradebookTable: HTMLTableElement;
 
+    private _cachedListSearch: any = undefined;
+
     constructor(public element: HTMLElement) {
         this.id = this.element.id.match(/\d+/)![0];
         this.name = getTextNodeContent(
@@ -24,14 +29,74 @@ export class SchoologyCourse {
         )!;
     }
 
-    public load() {
+    public async load() {
         let periodElements =
             this.gradebookTable.querySelectorAll<HTMLTableRowElement>("tr.period-row");
+
+        await this.cacheListSearch();
+
+        this.initElements();
 
         for (let periodElement of periodElements) {
             let period = new SchoologyGradebookPeriod(this, periodElement);
             this.periods.push(period);
             period.load();
+        }
+
+        this.render();
+    }
+
+    private _elem_title: HTMLAnchorElement | null = null;
+    private _elem_summary: HTMLElement | null = null;
+    private _elem_courseGrade: HTMLElement | null = null;
+    private _elem_gradeText: HTMLElement | null = null;
+
+    private initElements() {
+        this._elem_title =
+            this.element.querySelector<HTMLAnchorElement>(".gradebook-course-title")!;
+        this._elem_summary = this.element.querySelector(".summary-course")!;
+        let awardedGrade = this.element.querySelector<HTMLElement>(".awarded-grade");
+        if (awardedGrade) {
+            this._elem_courseGrade = awardedGrade;
+        } else {
+            this._elem_courseGrade = createElement("span", [], {
+                textContent: `${this.apiCourseAssignments.section[0].final_grade
+                    .at(-1)
+                    .grade.toString()}%`,
+            });
+        }
+        this._elem_gradeText = createElement(
+            "span",
+            [
+                "awarded-grade",
+                "injected-title-grade",
+                this._elem_courseGrade ? "grade-active-color" : "grade-none-color",
+            ],
+            { textContent: "LOADING" }
+        );
+        this._elem_title.appendChild(this._elem_gradeText);
+    }
+
+    public async render() {
+        if (!this.isLoading) {
+            this.addLetterGrade(this._elem_gradeText!);
+        }
+    }
+
+    private addLetterGrade(elem: HTMLElement) {
+        let gradingScale = getGradingScale(this.id);
+        if (Settings.CustomGradingScales.value != "disabled") {
+            let letterGrade = getLetterGrade(gradingScale, this.gradePercent);
+            elem.textContent = `${letterGrade} (${this.gradePercentageString})`;
+            elem.title = `Letter grade calculated by ${EXTENSION_NAME} using the following grading scale:\n${Object.keys(
+                gradingScale
+            )
+                .sort((a, b) => Number.parseFloat(a) - Number.parseFloat(b))
+                .reverse()
+                .map(x => `${gradingScale[x]}: ${x}%`)
+                .join(
+                    "\n"
+                )}\nTo change this grading scale, find 'Course Options' on the page for this course`;
         }
     }
 
@@ -82,6 +147,42 @@ export class SchoologyCourse {
     public toString() {
         return `${this.name} (${this.id}) - ${this.gradePercentageString}`;
     }
+
+    public toDetailedString() {
+        let courseString = [];
+        courseString.push(this.toString());
+        for (let period of this.periods) {
+            courseString.push(`  ${period.toString()}`);
+            for (let category of period.categories) {
+                courseString.push(`    ${category.toString()}`);
+                for (let assignment of category.assignments) {
+                    courseString.push(`      ${assignment.toString()}`);
+                }
+            }
+        }
+
+        return courseString.join("\n");
+    }
+
+    private async cacheListSearch() {
+        try {
+            if (this._cachedListSearch === undefined) {
+                let response = await fetchApi(`users/${getUserId()}/grades?section_id=${this.id}`);
+                if (!response.ok) {
+                    throw { status: response.status, error: response.statusText };
+                }
+                this._cachedListSearch = await response.json();
+                Logger.debug(`Successfully cached list search for course ${this.id}`);
+            }
+        } catch (err) {
+            Logger.error("Failed to cache list search", err);
+            this._cachedListSearch = null;
+        }
+    }
+
+    public get apiCourseAssignments() {
+        return this._cachedListSearch;
+    }
 }
 
 export class SchoologyGradebookPeriod {
@@ -113,6 +214,12 @@ export class SchoologyGradebookPeriod {
             this.categories.push(category);
             category.load();
         }
+
+        this.render();
+    }
+
+    public async render() {
+        this.course.render();
     }
 
     public get categoriesAreWeighted() {
@@ -227,6 +334,12 @@ export class SchoologyGradebookCategory {
             let assignment = new SchoologyAssignment(this, assignmentElement);
             this.assignments.push(assignment);
         }
+
+        this.render();
+    }
+
+    public async render() {
+        this.period.render();
     }
 
     public get isLoading() {
@@ -294,8 +407,6 @@ export class SchoologyAssignment {
     public isMissing: boolean = false;
     public failedToLoad: boolean = false;
 
-    private _cachedListSearch: any = undefined;
-
     constructor(public category: SchoologyGradebookCategory, public element: HTMLElement) {
         this.id = this.element.dataset.id!.substring(2);
         this.name = getTextNodeContent(
@@ -343,7 +454,11 @@ export class SchoologyAssignment {
             this.isMissing = true;
         }
 
-        this.loadPointsFromApi();
+        this.loadPointsFromApi().then(() => this.render());
+    }
+
+    public async render() {
+        this.category.render();
     }
 
     public get course() {
@@ -376,19 +491,10 @@ export class SchoologyAssignment {
         let listSearchError: any = null;
 
         try {
-            if (this._cachedListSearch === undefined) {
-                response = await fetchApi(
-                    `users/${getUserId()}/grades?section_id=${this.course.id}`
-                );
-                if (!response.ok) {
-                    throw { status: response.status, error: response.statusText };
-                }
-                this._cachedListSearch = await response.json();
-            }
-
-            if (this._cachedListSearch && this._cachedListSearch.section.length > 0) {
+            let listSearch = this.course.apiCourseAssignments;
+            if (listSearch && listSearch.section.length > 0) {
                 // success case
-                let jsonAssignment = this._cachedListSearch.section[0].period
+                let jsonAssignment = listSearch.section[0].period
                     .flatMap((p: any) => p.assignment)
                     .filter((x: any) => x.assignment_id == Number.parseInt(this.id!))[0];
 
@@ -410,8 +516,10 @@ export class SchoologyAssignment {
             }
 
             if (needToLoadPoints() || needToLoadMaxPoints()) {
-                throw `Failed to load points from API: ${this._cachedListSearch}`;
+                throw `Failed to load points from list search for assignment ${this.id}`;
             }
+
+            Logger.debug(`Successfully loaded points for assignment ${this.id} from list search`);
 
             return;
         } catch (err) {
@@ -429,6 +537,9 @@ export class SchoologyAssignment {
 
                     if (json && json.max_points !== undefined && json.max_points !== null) {
                         this.maxPoints = Number.parseFloat(json.max_points);
+                        Logger.debug(
+                            `Successfully loaded max points for assignment ${this.id} from API`
+                        );
                         return;
                     } else {
                         firstTryError = "JSON returned without max points";
@@ -506,7 +617,7 @@ export function loadWhatIfGrades() {
     Logger.log("Loaded courses:", courses);
 
     for (let course of courses) {
-        Logger.log(courseToString(course));
+        Logger.log(course.toDetailedString());
     }
 
     return courses;
@@ -526,18 +637,16 @@ export function loadCourses() {
     return courses;
 }
 
-export function courseToString(course: SchoologyCourse) {
-    let courseString = [];
-    courseString.push(course.toString());
-    for (let period of course.periods) {
-        courseString.push(`  ${period.toString()}`);
-        for (let category of period.categories) {
-            courseString.push(`    ${category.toString()}`);
-            for (let assignment of category.assignments) {
-                courseString.push(`      ${assignment.toString()}`);
-            }
+function getLetterGrade(gradingScale: Record<string, string>, percentage?: number): string {
+    if (percentage === undefined) return "?";
+
+    let sorted = Object.keys(gradingScale).sort(
+        (a, b) => Number.parseFloat(b) - Number.parseFloat(a)
+    );
+    for (let s of sorted) {
+        if (percentage >= Number.parseInt(s)) {
+            return gradingScale[s];
         }
     }
-
-    return courseString.join("\n");
+    return "?";
 }
