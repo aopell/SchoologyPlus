@@ -55,7 +55,7 @@ export const DEFAULT_ICONS = [
         source: "telescope_124553",
     },
     {
-        regex: "PRE ?CALC",
+        regex: "PRE( |-)?CALC",
         url: "https://cdn-icons-png.flaticon.com/512/1074/1074140.png",
         source: "parabola_1074140",
     },
@@ -225,7 +225,7 @@ export const DEFAULT_ICONS = [
         source: "cooking_1142696",
     },
     {
-        regex: "\\bGOVT\\b|YOU ADM JUS|JUSTICE",
+        regex: "\\bGOVT?\\b|YOU ADM JUS|JUSTICE|\\bPOL",
         url: "https://cdn-icons-png.flaticon.com/512/167/167718.png",
         source: "university_167718",
     },
@@ -355,7 +355,7 @@ export const DEFAULT_ICONS = [
         source: "government_1534091",
     },
     {
-        regex: "SERVICE|T\\.A\\.|PEER COUNSELING|TUTOR|AVID|ETHNIC|ETHN STUDIES|INTERACTIONS|ANTHRO|SOCI|DECATHLON|PENTATHLON|AFRO-AM",
+        regex: "SERVICE|T\\.A\\.|PEER COUNSELING|TUTOR|AIDE|AVID|ETHNIC|ETHN STUDIES|INTERACTIONS|ANTHRO|SOCI|DECATHLON|PENTATHLON|AFRO-AM",
         url: "https://cdn-icons-png.flaticon.com/512/4337/4337288.png",
         source: "idea_4337288",
     },
