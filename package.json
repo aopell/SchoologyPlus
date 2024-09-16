@@ -15,7 +15,7 @@
     "url": "https://github.com/aopell/SchoologyPlus"
   },
   "dependencies": {
-    "dompurify": "2.1.1",
+    "dompurify": "2.5.4",
     "findandreplacedomtext": "0.4.6",
     "izitoast": "1.4.0",
     "jquery": "3.3.1",
