@@ -1314,6 +1314,16 @@ Should not be shown
     padding-top: 10px !important;
 }
 
+/*
+Centers menu icons in the Schoology resource submission modal.
+*/
+#resources-left-menu-wrapper a {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-items: center !important;
+    align-items: center !important;
+}
+
 .splus-is-grades-page {
     .gradebook-course-title span.injected-title-grade {
         float: right;
